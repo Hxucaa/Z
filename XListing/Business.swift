@@ -21,35 +21,47 @@ class Business : PFObject, PFSubclassing {
 //    }
     
     // Whether business has been claimed by a business owner
-    @NSManaged private(set) var is_claimed: Bool
+    @NSManaged var is_claimed: Bool
     
     // Whether business has been (permanently) closed
-    @NSManaged private(set) var is_closed: Bool
+    @NSManaged var is_closed: Bool
     
     // Name of this business
-    @NSManaged private(set) var name: String
+    @NSManaged var name: String
     
     // URL of photo for this business
-    @NSManaged private(set) var image_url: String
+    @NSManaged var image_url: String
     
     // URL for business page on Yelp
-    @NSManaged private(set) var url_: String
+    @NSManaged var url: String
     
     // URL for mobile business page on Yelp
-    @NSManaged private(set) var mobile_url: String
+    @NSManaged var mobile_url: String
     
-    // Phone number for this business
-    // TODO: implement standard formatting
-    @NSManaged private(set) var phone_: String
+    // Phone number for this business with international dialing code (e.g. +442079460000)
+    @NSManaged var phone: String
+    
+    // Phone number for this business formatted for display
+    @NSManaged var display_phone: String
     
     // Number of reviews for this business
-    @NSManaged private(set) var review_count: String
+    @NSManaged var review_count: String
     
     // Distance that business is from search location in meters, if a latitude/longitude is specified.
-    @NSManaged private(set) var distance_: Double
+    @NSManaged var distance: Double
     
     // Rating for this business (value ranges from 1, 1.5, ... 4.5, 5)
-    @NSManaged private(set) var rating_: Double
+    @NSManaged var rating: Double
+    
+    // Location
+    @NSManaged var location: Location
+    
+    /*!
+    Provides a list of category name, alias pairs that this business is associated with. For example,
+    [["Local Flavor", "localflavor"], ["Active Life", "active"], ["Mass Media", "massmedia"]]
+    The alias is provided so you can search with the category_filter.
+    */
+    @NSManaged var categories: [String]
     
     // Class Name
     class func parseClassName() -> String! {
