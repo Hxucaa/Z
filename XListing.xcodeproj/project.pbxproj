@@ -36,6 +36,8 @@
 		B4F416C11AA544A8001060BC /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F416C01AA544A8001060BC /* libsqlite3.dylib */; };
 		B4F416C51AA544D7001060BC /* ParseImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = B4F416C41AA544D7001060BC /* ParseImporter.m */; };
 		B4F416C61AA544D7001060BC /* ParseImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = B4F416C41AA544D7001060BC /* ParseImporter.m */; };
+		B4F416CA1AA57289001060BC /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F416C91AA57289001060BC /* Business.swift */; };
+		B4F416CB1AA57289001060BC /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F416C91AA57289001060BC /* Business.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +80,7 @@
 		B4F416C21AA544D7001060BC /* XListing-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "XListing-Bridging-Header.h"; path = "../XListing-Bridging-Header.h"; sourceTree = "<group>"; };
 		B4F416C31AA544D7001060BC /* XListingTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "XListingTests-Bridging-Header.h"; path = "../XListingTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		B4F416C41AA544D7001060BC /* ParseImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseImporter.m; sourceTree = "<group>"; };
+		B4F416C91AA57289001060BC /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +153,7 @@
 		B4F416781AA542C2001060BC /* XListing */ = {
 			isa = PBXGroup;
 			children = (
+				B4F416C81AA57269001060BC /* Model */,
 				B4F4167B1AA542C2001060BC /* AppDelegate.swift */,
 				B4F4167D1AA542C2001060BC /* ViewController.swift */,
 				B4F4167F1AA542C2001060BC /* Main.storyboard */,
@@ -208,6 +212,14 @@
 				B4F416A11AA543EA001060BC /* ParseUI.framework */,
 			);
 			path = "parse-library-1.6.3";
+			sourceTree = "<group>";
+		};
+		B4F416C81AA57269001060BC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B4F416C91AA57289001060BC /* Business.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4F4167E1AA542C2001060BC /* ViewController.swift in Sources */,
+				B4F416CA1AA57289001060BC /* Business.swift in Sources */,
 				B4F4167C1AA542C2001060BC /* AppDelegate.swift in Sources */,
 				B4F416C51AA544D7001060BC /* ParseImporter.m in Sources */,
 			);
@@ -321,6 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4F416CB1AA57289001060BC /* Business.swift in Sources */,
 				B4F416921AA542C2001060BC /* XListingTests.swift in Sources */,
 				B4F416C61AA544D7001060BC /* ParseImporter.m in Sources */,
 			);
