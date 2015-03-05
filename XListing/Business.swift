@@ -10,51 +10,114 @@ import Foundation
 
 class Business : PFObject, PFSubclassing {
 
-//    // Properties
-//    var displayName: String {
-//        get {
-//            return objectForKey("displayName") as String
-//        }
-//        set {
-//            setObject(newValue, forKey: "displayName")
-//        }
-//    }
     
     // Whether business has been claimed by a business owner
-    @NSManaged var is_claimed: Bool
+    var isClaimed: Bool {
+        get {
+            return objectForKey("is_claimed") as Bool
+        }
+        set {
+            setObject(newValue, forKey: "is_claimed")
+        }
+    }
     
     // Whether business has been (permanently) closed
-    @NSManaged var is_closed: Bool
+    var isClosed: Bool {
+        get {
+            return objectForKey("is_closed") as Bool
+        }
+        set {
+            setObject(newValue, forKey: "is_closed")
+        }
+    }
     
     // Name of this business
-    @NSManaged var name: String
+    var name: String {
+        get {
+            return objectForKey("name") as String
+        }
+        set {
+            setObject(newValue, forKey: "name")
+        }
+    }
     
     // URL of photo for this business
-    @NSManaged var image_url: String
+    var imageUrl: String {
+        get {
+            return objectForKey("image_url") as String
+        }
+        set {
+            setObject(newValue, forKey: "image_url")
+        }
+    }
     
-    // URL for business page on Yelp
-    @NSManaged var url: String
+    // URL for business page
+    var url: String {
+        get {
+            return objectForKey("url") as String
+        }
+        set {
+            setObject(newValue, forKey: "url")
+        }
+    }
     
-    // URL for mobile business page on Yelp
-    @NSManaged var mobile_url: String
+    // URL for mobile business page
+    var mobileUrl: String {
+        get {
+            return objectForKey("mobile_url") as String
+        }
+        set {
+            setObject(newValue, forKey: "mobile_url")
+        }
+    }
     
     // Phone number for this business with international dialing code (e.g. +442079460000)
-    @NSManaged var phone: String
+    var phone: String {
+        get {
+            return objectForKey("phone") as String
+        }
+        set {
+            setObject(newValue, forKey: "phone")
+        }
+    }
     
     // Phone number for this business formatted for display
-    @NSManaged var display_phone: String
+    var displayPhone: String {
+        get {
+            return objectForKey("display_phone") as String
+        }
+    }
     
     // Number of reviews for this business
-    @NSManaged var review_count: String
+    var reviewCount: Int {
+        get {
+            return objectForKey("review_count") as Int
+        }
+    }
     
     // Distance that business is from search location in meters, if a latitude/longitude is specified.
-    @NSManaged var distance: Double
+    var distance: Double {
+        get {
+            return objectForKey("distance") as Double
+        }
+    }
     
     // Rating for this business (value ranges from 1, 1.5, ... 4.5, 5)
-    @NSManaged var rating: Double
+    var rating: Double {
+        get {
+            return objectForKey("rating") as Double
+        }
+    }
     
     // Location
-    @NSManaged var location: Location
+    var location: Location {
+        get {
+            return objectForKey("location").fetchIfNeeded() as Location
+        }
+        set {
+            setObject(newValue, forKey: "location")
+        }
+    }
     
     /*!
     Provides a list of category name, alias pairs that this business is associated with. For example,

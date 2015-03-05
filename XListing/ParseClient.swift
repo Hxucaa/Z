@@ -1,0 +1,54 @@
+//
+//  ParseClient.swift
+//  XListing
+//
+//  Created by Lance Zhu on 2015-03-05.
+//  Copyright (c) 2015 ZenChat. All rights reserved.
+//
+
+import Foundation
+
+/** ParseClient Class
+
+*/
+class ParseClient {
+    
+    class var sharedInstance : ParseClient {
+        struct Static {
+            static var onceToken : dispatch_once_t = 0
+            static var instance : ParseClient? = nil
+        }
+        dispatch_once(&Static.onceToken) {
+            Static.instance = ParseClient()
+        }
+        return Static.instance!
+    }
+    
+    func initialize() {
+        var id: String = ""
+        var key: String = ""
+        
+        let env = NSProcessInfo.processInfo().environment
+        if let mode = env["exec_mode"] as? String {
+            println("We are in \(mode.uppercaseString) mode!")
+            
+            let path = NSBundle.mainBundle().pathForResource("Environment", ofType: "plist")
+            let dict: AnyObject = NSDictionary(contentsOfFile: path!)!
+            
+            if let modeDict: AnyObject = dict.objectForKey(mode) {
+                id = modeDict.objectForKey("id") as String
+                key = modeDict.objectForKey("key") as String
+            }
+            
+        } else {
+            // If exec_mode is not present in environment variables, then possibly the app is released in app store. In that case environment variables may not be passed to the app. This requires further investigation
+            // TODO: investigate passing environment variables in app release
+            // TODO: fill in release id and key if needed
+            id = "";
+            key = "";
+        }
+        
+        //test
+        Parse.setApplicationId(id, clientKey: key)
+    }
+}

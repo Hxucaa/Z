@@ -11,28 +11,81 @@ import Foundation
 class Location : PFObject, PFSubclassing {
     
     // Address for this business. Only includes address fields.
-    @NSManaged var address: [String]
+    var address: [String] {
+        get {
+            return objectForKey("address") as [String]
+        }
+        set {
+            setObject(newValue, forKey: "address")
+        }
+    }
     
     // Address for this business formatted for display. Includes all address fields, cross streets and city, state_code, etc.
-    @NSManaged var display_address: [String]
+    var displayAddress: [String] {
+        get {
+            return objectForKey("display_address") as [String]
+        }
+    }
     
     // City for this business
-    @NSManaged var city: String
+    var city: String {
+        get {
+            return objectForKey("city") as String
+        }
+        set {
+            setObject(newValue, forKey: "city")
+        }
+    }
     
     // ISO 3166-2 state code for this business
-    @NSManaged var state_code: String
+    var stateCode: String {
+        get {
+            return objectForKey("state_code") as String
+        }
+        set {
+            setObject(newValue, forKey: "state_code")
+        }
+    }
     
     // Postal code for this business
-    @NSManaged var postal_code: String
+    var postalCode: String {
+        get {
+            return objectForKey("postal_code") as String
+        }
+        set {
+            setObject(newValue, forKey: "postal_code")
+        }
+    }
     
     // ISO 3166-1 country code for this business
-    @NSManaged var country_code: String
+    var countryCode: String {
+        get {
+            return objectForKey("country_code") as String
+        }
+        set {
+            setObject(newValue, forKey: "country_code")
+        }
+    }
     
     // Cross streets for this business
-    @NSManaged var cross_streets: String
+    var crossStreets: String {
+        get {
+            return objectForKey("cross_streets") as String
+        }
+        set {
+            setObject(newValue, forKey: "cross_streets")
+        }
+    }
     
     // List that provides neighborhood(s) information for business
-    @NSManaged var neighborhoods: [String]
+    var neighborhoods: [String] {
+        get {
+            return objectForKey("neighborhoods") as [String]
+        }
+        set {
+            setObject(newValue, forKey: "neighborhoods")
+        }
+    }
     
     
     // Class Name

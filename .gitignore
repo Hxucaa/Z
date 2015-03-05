@@ -32,8 +32,11 @@ DerivedData
 
 Carthage/Build
 
-JetBrain IDEs
+#JetBrain IDEs
 .idea/
 
-Mac temporary file
+#Mac temporary file
 .DS_Store
+
+#Settings
+XListing/Environment.plist
