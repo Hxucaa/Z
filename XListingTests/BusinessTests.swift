@@ -33,7 +33,7 @@ class BusinessTests: XCTestCase {
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-//        business.delete()
+        business.delete()
         super.tearDown()
     }
     
@@ -53,6 +53,7 @@ class BusinessTests: XCTestCase {
         let objectSaved = expectationWithDescription("Business object is saved")
         let query = Business.query()
         query.whereKey("objectId", equalTo: business.objectId)
+        query.includeKey("location")
         query.findObjectsInBackgroundWithBlock({(objects: [AnyObject]!, error: NSError!) -> Void in
             objectSaved.fulfill()
             XCTAssertNil(error, "No error message")

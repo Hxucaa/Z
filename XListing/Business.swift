@@ -112,7 +112,7 @@ class Business : PFObject, PFSubclassing {
     // Location
     var location: Location {
         get {
-            return objectForKey("location").fetchIfNeeded() as Location
+            return objectForKey("location") as Location
         }
         set {
             setObject(newValue, forKey: "location")
