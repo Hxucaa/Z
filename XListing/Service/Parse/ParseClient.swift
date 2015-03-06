@@ -32,7 +32,7 @@ class ParseClient {
         if let mode = env["exec_mode"] as? String {
             println("We are in \(mode.uppercaseString) mode!")
             
-            let path = NSBundle.mainBundle().pathForResource("Environment", ofType: "plist")
+            let path = NSBundle.mainBundle().pathForResource("Parse", ofType: "plist")
             let dict: AnyObject = NSDictionary(contentsOfFile: path!)!
             
             if let modeDict: AnyObject = dict.objectForKey(mode) {

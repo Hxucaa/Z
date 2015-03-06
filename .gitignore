@@ -39,4 +39,4 @@ Carthage/Build
 .DS_Store
 
 #Settings
-XListing/Environment.plist
+XListing/Parse.plist
