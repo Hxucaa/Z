@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B4E3F22B1AAA45D200A147E5 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E3F22A1AAA45D200A147E5 /* Nimble.framework */; };
+		B4E3F22D1AAA45D900A147E5 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E3F22C1AAA45D900A147E5 /* Quick.framework */; };
 		B4F4167C1AA542C2001060BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4167B1AA542C2001060BC /* AppDelegate.swift */; };
 		B4F4167E1AA542C2001060BC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4167D1AA542C2001060BC /* ViewController.swift */; };
 		B4F416811AA542C2001060BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F4167F1AA542C2001060BC /* Main.storyboard */; };
@@ -56,6 +58,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B4E3F22A1AAA45D200A147E5 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = "Vendor/Nimble/build/Debug-iphoneos/Nimble.framework"; sourceTree = "<group>"; };
+		B4E3F22C1AAA45D900A147E5 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = "../../Library/Developer/Xcode/DerivedData/XListing-aebbxanfcvmixqfcatiqiamjrdfj/Build/Products/Debug/Quick.framework"; sourceTree = "<group>"; };
 		B4F416761AA542C2001060BC /* XListing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XListing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4F4167A1AA542C2001060BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B4F4167B1AA542C2001060BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +123,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4E3F22D1AAA45D900A147E5 /* Quick.framework in Frameworks */,
+				B4E3F22B1AAA45D200A147E5 /* Nimble.framework in Frameworks */,
 				B4F416A51AA543EA001060BC /* Parse.framework in Frameworks */,
 				B4F416A71AA543EA001060BC /* ParseCrashReporting.framework in Frameworks */,
 				B4F416AB1AA543EA001060BC /* ParseUI.framework in Frameworks */,
@@ -133,6 +139,8 @@
 		B4F4166D1AA542C2001060BC = {
 			isa = PBXGroup;
 			children = (
+				B4E3F22C1AAA45D900A147E5 /* Quick.framework */,
+				B4E3F22A1AAA45D200A147E5 /* Nimble.framework */,
 				B4F416BC1AA54499001060BC /* SystemConfiguration.framework */,
 				B4F416BA1AA54490001060BC /* StoreKit.framework */,
 				B4F416B81AA54484001060BC /* Security.framework */,
@@ -547,6 +555,8 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/parse-library-1.6.3",
+					"$(PROJECT_DIR)/Vendor/Nimble/build/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/XListing-aebbxanfcvmixqfcatiqiamjrdfj/Build/Products/Debug",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -570,6 +580,8 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/parse-library-1.6.3",
+					"$(PROJECT_DIR)/Vendor/Nimble/build/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/XListing-aebbxanfcvmixqfcatiqiamjrdfj/Build/Products/Debug",
 				);
 				INFOPLIST_FILE = XListingTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
