@@ -18,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         var backendClient = ParseClient()
         backendClient.initialize()
+        
+//        PopulateParse.Populate()
+
         return true
     }
 

@@ -12,6 +12,14 @@
 		B4E3F22F1AAA499700A147E5 /* BusinessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E3F22E1AAA499700A147E5 /* BusinessTests.swift */; };
 		B4E3F2311AAA4DE400A147E5 /* BusinessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E3F2301AAA4DE400A147E5 /* BusinessSpec.swift */; };
 		B4E3F24E1AAA6D4800A147E5 /* Parse.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4E3F24D1AAA6D4800A147E5 /* Parse.plist */; };
+		B4E3F2541AAAC13700A147E5 /* Featured.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E3F2531AAAC13700A147E5 /* Featured.swift */; };
+		B4E3F2551AAAC13700A147E5 /* Featured.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E3F2531AAAC13700A147E5 /* Featured.swift */; };
+		B4E3F25E1AAB70B100A147E5 /* PopulateParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E3F25D1AAB70B100A147E5 /* PopulateParse.swift */; };
+		B4E3F25F1AAB70B100A147E5 /* PopulateParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E3F25D1AAB70B100A147E5 /* PopulateParse.swift */; };
+		B4E3F2611AAB747F00A147E5 /* BusinessPop.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4E3F2601AAB747F00A147E5 /* BusinessPop.plist */; };
+		B4E3F2621AAB747F00A147E5 /* BusinessPop.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4E3F2601AAB747F00A147E5 /* BusinessPop.plist */; };
+		B4E3F2651AAB7B4D00A147E5 /* FeaturedPop.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4E3F2641AAB7B4D00A147E5 /* FeaturedPop.plist */; };
+		B4E3F2661AAB7B4D00A147E5 /* FeaturedPop.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4E3F2641AAB7B4D00A147E5 /* FeaturedPop.plist */; };
 		B4F4167C1AA542C2001060BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4167B1AA542C2001060BC /* AppDelegate.swift */; };
 		B4F4167E1AA542C2001060BC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4167D1AA542C2001060BC /* ViewController.swift */; };
 		B4F416811AA542C2001060BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F4167F1AA542C2001060BC /* Main.storyboard */; };
@@ -64,6 +72,10 @@
 		B4E3F22E1AAA499700A147E5 /* BusinessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusinessTests.swift; path = Integration/Model/BusinessTests.swift; sourceTree = "<group>"; };
 		B4E3F2301AAA4DE400A147E5 /* BusinessSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusinessSpec.swift; path = Integration/Model/BusinessSpec.swift; sourceTree = "<group>"; };
 		B4E3F24D1AAA6D4800A147E5 /* Parse.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Parse.plist; sourceTree = "<group>"; };
+		B4E3F2531AAAC13700A147E5 /* Featured.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Featured.swift; sourceTree = "<group>"; };
+		B4E3F25D1AAB70B100A147E5 /* PopulateParse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopulateParse.swift; sourceTree = "<group>"; };
+		B4E3F2601AAB747F00A147E5 /* BusinessPop.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BusinessPop.plist; sourceTree = "<group>"; };
+		B4E3F2641AAB7B4D00A147E5 /* FeaturedPop.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FeaturedPop.plist; sourceTree = "<group>"; };
 		B4F416761AA542C2001060BC /* XListing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XListing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4F4167A1AA542C2001060BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B4F4167B1AA542C2001060BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -138,6 +150,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B4E3F2631AAB7AF000A147E5 /* Population */ = {
+			isa = PBXGroup;
+			children = (
+				B4E3F2601AAB747F00A147E5 /* BusinessPop.plist */,
+				B4E3F2641AAB7B4D00A147E5 /* FeaturedPop.plist */,
+			);
+			path = Population;
+			sourceTree = "<group>";
+		};
 		B4F4166D1AA542C2001060BC = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +200,7 @@
 				B4F416821AA542C2001060BC /* Images.xcassets */,
 				B4F416841AA542C2001060BC /* LaunchScreen.xib */,
 				B4F416791AA542C2001060BC /* Supporting Files */,
+				B4E3F2631AAB7AF000A147E5 /* Population */,
 			);
 			path = XListing;
 			sourceTree = "<group>";
@@ -239,6 +261,7 @@
 			children = (
 				B4F416C91AA57289001060BC /* Business.swift */,
 				B4F416CF1AA59B43001060BC /* Location.swift */,
+				B4E3F2531AAAC13700A147E5 /* Featured.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -264,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				B4F416DC1AA8E336001060BC /* ParseClient.swift */,
+				B4E3F25D1AAB70B100A147E5 /* PopulateParse.swift */,
 			);
 			name = Parse;
 			path = Service/Parse;
@@ -360,8 +384,10 @@
 			files = (
 				B4E3F24E1AAA6D4800A147E5 /* Parse.plist in Resources */,
 				B4F416811AA542C2001060BC /* Main.storyboard in Resources */,
+				B4E3F2651AAB7B4D00A147E5 /* FeaturedPop.plist in Resources */,
 				B4F416861AA542C2001060BC /* LaunchScreen.xib in Resources */,
 				B4F416831AA542C2001060BC /* Images.xcassets in Resources */,
+				B4E3F2611AAB747F00A147E5 /* BusinessPop.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +395,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4E3F2661AAB7B4D00A147E5 /* FeaturedPop.plist in Resources */,
+				B4E3F2621AAB747F00A147E5 /* BusinessPop.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,7 +408,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4F416DD1AA8E336001060BC /* ParseClient.swift in Sources */,
+				B4E3F2541AAAC13700A147E5 /* Featured.swift in Sources */,
 				B4F4167E1AA542C2001060BC /* ViewController.swift in Sources */,
+				B4E3F25E1AAB70B100A147E5 /* PopulateParse.swift in Sources */,
 				B4F416CA1AA57289001060BC /* Business.swift in Sources */,
 				B4F416D01AA59B43001060BC /* Location.swift in Sources */,
 				B4F4167C1AA542C2001060BC /* AppDelegate.swift in Sources */,
@@ -393,7 +423,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4E3F2311AAA4DE400A147E5 /* BusinessSpec.swift in Sources */,
+				B4E3F2551AAAC13700A147E5 /* Featured.swift in Sources */,
 				B4F416DE1AA8E336001060BC /* ParseClient.swift in Sources */,
+				B4E3F25F1AAB70B100A147E5 /* PopulateParse.swift in Sources */,
 				B4F416CB1AA57289001060BC /* Business.swift in Sources */,
 				B4E3F22F1AAA499700A147E5 /* BusinessTests.swift in Sources */,
 				B4F416D11AA59B43001060BC /* Location.swift in Sources */,

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>isClaimed</key>
+		<true/>
+		<key>isClosed</key>
+		<false/>
+		<key>name</key>
+		<string>im business 1</string>
+		<key>imageUrl</key>
+		<string>placeholder</string>
+		<key>url</key>
+		<string>placeholder</string>
+		<key>mobileUrl</key>
+		<string>placeholder</string>
+		<key>phone</key>
+		<string>6047293817</string>
+		<key>rating</key>
+		<real>4.5</real>
+		<key>location</key>
+		<dict>
+			<key>address</key>
+			<array>
+				<string>6876 Cambie St.</string>
+			</array>
+			<key>city</key>
+			<string>Vancouver</string>
+			<key>stateCode</key>
+			<string>BC</string>
+			<key>postalCode</key>
+			<string>V3A9U1</string>
+			<key>countryCode</key>
+			<string>CA</string>
+			<key>crossStreets</key>
+			<string></string>
+			<key>neighborhoods</key>
+			<array/>
+		</dict>
+	</dict>
+	<dict>
+		<key>isClaimed</key>
+		<true/>
+		<key>isClosed</key>
+		<false/>
+		<key>name</key>
+		<string>im business 2</string>
+		<key>imageUrl</key>
+		<string>placeholder</string>
+		<key>url</key>
+		<string>placeholder</string>
+		<key>mobileUrl</key>
+		<string>placeholder</string>
+		<key>phone</key>
+		<string>6044827169</string>
+		<key>rating</key>
+		<real>4.5</real>
+		<key>location</key>
+		<dict>
+			<key>address</key>
+			<array>
+				<string>3928 Granville St.</string>
+			</array>
+			<key>city</key>
+			<string>Vancouver</string>
+			<key>stateCode</key>
+			<string>BC</string>
+			<key>postalCode</key>
+			<string>A3A2X3</string>
+			<key>countryCode</key>
+			<string>CA</string>
+			<key>crossStreets</key>
+			<string></string>
+			<key>neighborhoods</key>
+			<array/>
+		</dict>
+	</dict>
+	<dict>
+		<key>isClaimed</key>
+		<true/>
+		<key>isClosed</key>
+		<false/>
+		<key>name</key>
+		<string>im business 3</string>
+		<key>imageUrl</key>
+		<string>placeholder</string>
+		<key>url</key>
+		<string>placeholder</string>
+		<key>mobileUrl</key>
+		<string>placeholder</string>
+		<key>phone</key>
+		<string>6045954327</string>
+		<key>rating</key>
+		<real>3.5</real>
+		<key>location</key>
+		<dict>
+			<key>address</key>
+			<array>
+				<string>132 Main St.</string>
+			</array>
+			<key>city</key>
+			<string>Vancouver</string>
+			<key>stateCode</key>
+			<string>BC</string>
+			<key>postalCode</key>
+			<string>V2U3Y2</string>
+			<key>countryCode</key>
+			<string>CA</string>
+			<key>crossStreets</key>
+			<string></string>
+			<key>neighborhoods</key>
+			<array/>
+		</dict>
+	</dict>
+</array>
+</plist>
