@@ -34,10 +34,10 @@ class Featured : PFObject, PFSubclassing {
     // Business
     var business: Business {
         get {
-            return objectForKey("business") as Business
+            return self["business"] as Business
         }
         set {
-            setObject(newValue, forKey: "business")
+            self["business"] = newValue
         }
     }
     

@@ -14,111 +14,111 @@ class Business : PFObject, PFSubclassing {
     // Whether business has been claimed by a business owner
     var isClaimed: Bool {
         get {
-            return objectForKey("is_claimed") as Bool
+            return self["is_claimed"] as Bool
         }
         set {
-            setObject(newValue, forKey: "is_claimed")
+            self["is_claimed"] = newValue
         }
     }
     
     // Whether business has been (permanently) closed
     var isClosed: Bool {
         get {
-            return objectForKey("is_closed") as Bool
+            return self["is_closed"] as Bool
         }
         set {
-            setObject(newValue, forKey: "is_closed")
+            self["is_closed"] = newValue
         }
     }
     
     // Name of this business
     var name: String {
         get {
-            return objectForKey("name") as String
+            return self["name"] as String
         }
         set {
-            setObject(newValue, forKey: "name")
+            self["name"] = newValue
         }
     }
     
     // URL of photo for this business
     var imageUrl: String {
         get {
-            return objectForKey("image_url") as String
+            return self["image_url"] as String
         }
         set {
-            setObject(newValue, forKey: "image_url")
+            self["image_url"] = newValue
         }
     }
     
     // URL for business page
     var url: String {
         get {
-            return objectForKey("url") as String
+            return self["url"] as String
         }
         set {
-            setObject(newValue, forKey: "url")
+            self["url"] = newValue
         }
     }
     
     // URL for mobile business page
     var mobileUrl: String {
         get {
-            return objectForKey("mobile_url") as String
+            return self["mobile_url"] as String
         }
         set {
-            setObject(newValue, forKey: "mobile_url")
+            self["mobile_url"] = newValue
         }
     }
     
     // Phone number for this business with international dialing code (e.g. +442079460000)
     var phone: String {
         get {
-            return objectForKey("phone") as String
+            return self["phone"] as String
         }
         set {
-            setObject(newValue, forKey: "phone")
+            self["phone"] = newValue
         }
     }
     
     // Phone number for this business formatted for display
     var displayPhone: String {
         get {
-            return objectForKey("display_phone") as String
+            return self["display_phone"] as String
         }
     }
     
     // Number of reviews for this business
     var reviewCount: Int {
         get {
-            return objectForKey("review_count") as Int
+            return self["review_count"] as Int
         }
     }
     
     // Distance that business is from search location in meters, if a latitude/longitude is specified.
     var distance: Double {
         get {
-            return objectForKey("distance") as Double
+            return self["distance"] as Double
         }
     }
     
     // Rating for this business (value ranges from 1, 1.5, ... 4.5, 5)
     var rating: Double {
         get {
-            return objectForKey("rating") as Double
+            return self["rating"] as Double
         }
         set {
-            setObject(newValue, forKey: "rating")
+            self["rating"] = newValue
         }
     }
     
     // Location
     var location: Location {
         get {
-            return objectForKey("location") as Location
+            return self["location"] as Location
         }
         set {
-            setObject(newValue, forKey: "location")
+            self["location"] = newValue
         }
     }
     
@@ -127,7 +127,14 @@ class Business : PFObject, PFSubclassing {
     [["Local Flavor", "localflavor"], ["Active Life", "active"], ["Mass Media", "massmedia"]]
     The alias is provided so you can search with the category_filter.
     */
-    @NSManaged var categories: [String]
+    var categories: [String] {
+        get {
+            return self["categories"] as [String]
+        }
+        set {
+            self["categories"] = newValue
+        }
+    }
     
     // Class Name
     class func parseClassName() -> String! {

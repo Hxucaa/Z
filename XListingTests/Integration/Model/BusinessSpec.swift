@@ -54,6 +54,7 @@ class BusinessSpec: QuickSpec {
                     query.findObjectsInBackgroundWithBlock({(objects: [AnyObject]!, error: NSError!) -> Void in
                         expect(error).to(beNil())
                         expect(objects.count).to(equal(1))
+                        
                         let obj = objects.first as Business
                         
                         expect(obj.name).to(equal(business.name))

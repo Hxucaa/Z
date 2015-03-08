@@ -58,21 +58,21 @@ class BusinessTests: XCTestCase {
             objectSaved.fulfill()
             XCTAssertNil(error, "No error message")
             XCTAssertEqual(objects.count, 1, "size is 1")
-            if let objects = objects as? [Business] {
-                for obj in objects {
-                    XCTAssertEqual(obj.name, self.business.name, "Same name")
-                    XCTAssertEqual(obj.isClaimed, self.business.isClaimed, "Same")
-                    XCTAssertEqual(obj.isClosed, self.business.isClosed, "Same")
-                    XCTAssertEqual(obj.imageUrl, self.business.imageUrl, "Same")
-                    XCTAssertEqual(obj.url, self.business.url, "Same")
-                    XCTAssertEqual(obj.mobileUrl, self.business.mobileUrl, "Same")
-                    XCTAssertEqual(obj.phone, self.business.phone, "Same")
-                    XCTAssertEqual(obj.location.address, self.business.location.address, "Same")
-                    XCTAssertEqual(obj.location.city, self.business.location.city, "Same")
-                    XCTAssertEqual(obj.location.countryCode, self.business.location.countryCode, "Same")
-                    XCTAssertEqual(obj.location.stateCode, self.business.location.stateCode, "Same")
-                }
-            }
+            
+            let obj = objects.first as Business
+            
+            XCTAssertEqual(obj.name, self.business.name, "Same name")
+            XCTAssertEqual(obj.isClaimed, self.business.isClaimed, "Same")
+            XCTAssertEqual(obj.isClosed, self.business.isClosed, "Same")
+            XCTAssertEqual(obj.imageUrl, self.business.imageUrl, "Same")
+            XCTAssertEqual(obj.url, self.business.url, "Same")
+            XCTAssertEqual(obj.mobileUrl, self.business.mobileUrl, "Same")
+            XCTAssertEqual(obj.phone, self.business.phone, "Same")
+            XCTAssertEqual(obj.location.address, self.business.location.address, "Same")
+            XCTAssertEqual(obj.location.city, self.business.location.city, "Same")
+            XCTAssertEqual(obj.location.countryCode, self.business.location.countryCode, "Same")
+            XCTAssertEqual(obj.location.stateCode, self.business.location.stateCode, "Same")
+
         })
         
         waitForExpectationsWithTimeout(5, handler: {(error) in

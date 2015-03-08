@@ -12,19 +12,13 @@ import Foundation
 
 */
 class ParseClient {
-    
-    class var sharedInstance : ParseClient {
-        struct Static {
-            static var onceToken : dispatch_once_t = 0
-            static var instance : ParseClient? = nil
-        }
-        dispatch_once(&Static.onceToken) {
-            Static.instance = ParseClient()
-        }
-        return Static.instance!
+    class func registerSubclasses() {
+        Featured.initialize()
+        Business.initialize()
+        Location.initialize()
     }
     
-    func initialize() {
+    class func initializeClient() {
         var id: String?
         var key: String?
         

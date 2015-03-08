@@ -13,77 +13,77 @@ class Location : PFObject, PFSubclassing {
     // Address for this business. Only includes address fields.
     var address: [String] {
         get {
-            return objectForKey("address") as [String]
+            return self["address"] as [String]
         }
         set {
-            setObject(newValue, forKey: "address")
+            self["address"] = newValue
         }
     }
     
     // Address for this business formatted for display. Includes all address fields, cross streets and city, state_code, etc.
     var displayAddress: [String] {
         get {
-            return objectForKey("display_address") as [String]
+            return self["display_address"] as [String]
         }
     }
     
     // City for this business
     var city: String {
         get {
-            return objectForKey("city") as String
+            return self["city"] as String
         }
         set {
-            setObject(newValue, forKey: "city")
+            self["city"] = newValue
         }
     }
     
     // ISO 3166-2 state code for this business
     var stateCode: String {
         get {
-            return objectForKey("state_code") as String
+            return self["state_code"] as String
         }
         set {
-            setObject(newValue, forKey: "state_code")
+            self["state_code"] = newValue
         }
     }
     
     // Postal code for this business
     var postalCode: String {
         get {
-            return objectForKey("postal_code") as String
+            return self["postal_code"] as String
         }
         set {
-            setObject(newValue, forKey: "postal_code")
+            self["postal_code"] = newValue
         }
     }
     
     // ISO 3166-1 country code for this business
     var countryCode: String {
         get {
-            return objectForKey("country_code") as String
+            return self["country_code"] as String
         }
         set {
-            setObject(newValue, forKey: "country_code")
+            self["country_code"] = newValue
         }
     }
     
     // Cross streets for this business
     var crossStreets: String {
         get {
-            return objectForKey("cross_streets") as String
+            return self["cross_streets"] as String
         }
         set {
-            setObject(newValue, forKey: "cross_streets")
+            self["cross_streets"] = newValue
         }
     }
     
     // List that provides neighborhood(s) information for business
     var neighborhoods: [String] {
         get {
-            return objectForKey("neighborhoods") as [String]
+            return self["neighborhoods"] as [String]
         }
         set {
-            setObject(newValue, forKey: "neighborhoods")
+            self["neighborhoods"] = newValue
         }
     }
     
