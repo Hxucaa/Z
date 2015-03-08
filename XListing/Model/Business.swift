@@ -107,6 +107,9 @@ class Business : PFObject, PFSubclassing {
         get {
             return objectForKey("rating") as Double
         }
+        set {
+            setObject(newValue, forKey: "rating")
+        }
     }
     
     // Location
