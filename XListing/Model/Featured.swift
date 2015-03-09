@@ -12,9 +12,9 @@ class Featured : PFObject, PFSubclassing {
     
     
     // Starting time of featured business
-    var timeStart: NSDate {
+    var timeStart: NSDate? {
         get {
-            return objectForKey("time_start") as NSDate
+            return objectForKey("time_start") as? NSDate
         }
         set {
             setObject(newValue, forKey: "time_start")
@@ -22,9 +22,9 @@ class Featured : PFObject, PFSubclassing {
     }
     
     // Ending time of featured business
-    var timeEnd: NSDate {
+    var timeEnd: NSDate? {
         get {
-            return objectForKey("time_end") as NSDate
+            return objectForKey("time_end") as? NSDate
         }
         set {
             setObject(newValue, forKey: "time_end")
@@ -32,9 +32,9 @@ class Featured : PFObject, PFSubclassing {
     }
     
     // Business
-    var business: Business {
+    var business: Business? {
         get {
-            return self["business"] as Business
+            return self["business"] as? Business
         }
         set {
             self["business"] = newValue

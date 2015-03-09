@@ -11,9 +11,9 @@ import Foundation
 class Location : PFObject, PFSubclassing {
     
     // Address for this business. Only includes address fields.
-    var address: [String] {
+    var address: [String]? {
         get {
-            return self["address"] as [String]
+            return self["address"] as? [String]
         }
         set {
             self["address"] = newValue
@@ -21,16 +21,16 @@ class Location : PFObject, PFSubclassing {
     }
     
     // Address for this business formatted for display. Includes all address fields, cross streets and city, state_code, etc.
-    var displayAddress: [String] {
+    var displayAddress: [String]? {
         get {
-            return self["display_address"] as [String]
+            return self["display_address"] as? [String]
         }
     }
     
     // City for this business
-    var city: String {
+    var city: String? {
         get {
-            return self["city"] as String
+            return self["city"] as? String
         }
         set {
             self["city"] = newValue
@@ -38,9 +38,9 @@ class Location : PFObject, PFSubclassing {
     }
     
     // ISO 3166-2 state code for this business
-    var stateCode: String {
+    var stateCode: String? {
         get {
-            return self["state_code"] as String
+            return self["state_code"] as? String
         }
         set {
             self["state_code"] = newValue
@@ -48,9 +48,9 @@ class Location : PFObject, PFSubclassing {
     }
     
     // Postal code for this business
-    var postalCode: String {
+    var postalCode: String? {
         get {
-            return self["postal_code"] as String
+            return self["postal_code"] as? String
         }
         set {
             self["postal_code"] = newValue
@@ -58,9 +58,9 @@ class Location : PFObject, PFSubclassing {
     }
     
     // ISO 3166-1 country code for this business
-    var countryCode: String {
+    var countryCode: String? {
         get {
-            return self["country_code"] as String
+            return self["country_code"] as? String
         }
         set {
             self["country_code"] = newValue
@@ -68,9 +68,9 @@ class Location : PFObject, PFSubclassing {
     }
     
     // Cross streets for this business
-    var crossStreets: String {
+    var crossStreets: String? {
         get {
-            return self["cross_streets"] as String
+            return self["cross_streets"] as? String
         }
         set {
             self["cross_streets"] = newValue
@@ -78,9 +78,9 @@ class Location : PFObject, PFSubclassing {
     }
     
     // List that provides neighborhood(s) information for business
-    var neighborhoods: [String] {
+    var neighborhoods: [String]? {
         get {
-            return self["neighborhoods"] as [String]
+            return self["neighborhoods"] as? [String]
         }
         set {
             self["neighborhoods"] = newValue

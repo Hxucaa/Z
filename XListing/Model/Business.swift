@@ -12,9 +12,9 @@ class Business : PFObject, PFSubclassing {
 
     
     // Whether business has been claimed by a business owner
-    var isClaimed: Bool {
+    var isClaimed: Bool? {
         get {
-            return self["is_claimed"] as Bool
+            return self["is_claimed"] as? Bool
         }
         set {
             self["is_claimed"] = newValue
@@ -22,9 +22,9 @@ class Business : PFObject, PFSubclassing {
     }
     
     // Whether business has been (permanently) closed
-    var isClosed: Bool {
+    var isClosed: Bool? {
         get {
-            return self["is_closed"] as Bool
+            return self["is_closed"] as? Bool
         }
         set {
             self["is_closed"] = newValue
@@ -32,9 +32,9 @@ class Business : PFObject, PFSubclassing {
     }
     
     // Name of this business
-    var name: String {
+    var name: String? {
         get {
-            return self["name"] as String
+            return self["name"] as? String
         }
         set {
             self["name"] = newValue
@@ -42,9 +42,9 @@ class Business : PFObject, PFSubclassing {
     }
     
     // URL of photo for this business
-    var imageUrl: String {
+    var imageUrl: String? {
         get {
-            return self["image_url"] as String
+            return self["image_url"] as? String
         }
         set {
             self["image_url"] = newValue
@@ -52,9 +52,9 @@ class Business : PFObject, PFSubclassing {
     }
     
     // URL for business page
-    var url: String {
+    var url: String? {
         get {
-            return self["url"] as String
+            return self["url"] as? String
         }
         set {
             self["url"] = newValue
@@ -62,9 +62,9 @@ class Business : PFObject, PFSubclassing {
     }
     
     // URL for mobile business page
-    var mobileUrl: String {
+    var mobileUrl: String? {
         get {
-            return self["mobile_url"] as String
+            return self["mobile_url"] as? String
         }
         set {
             self["mobile_url"] = newValue
@@ -72,9 +72,9 @@ class Business : PFObject, PFSubclassing {
     }
     
     // Phone number for this business with international dialing code (e.g. +442079460000)
-    var phone: String {
+    var phone: String? {
         get {
-            return self["phone"] as String
+            return self["phone"] as? String
         }
         set {
             self["phone"] = newValue
@@ -82,30 +82,30 @@ class Business : PFObject, PFSubclassing {
     }
     
     // Phone number for this business formatted for display
-    var displayPhone: String {
+    var displayPhone: String? {
         get {
-            return self["display_phone"] as String
+            return self["display_phone"] as? String
         }
     }
     
     // Number of reviews for this business
-    var reviewCount: Int {
+    var reviewCount: Int? {
         get {
-            return self["review_count"] as Int
+            return self["review_count"] as? Int
         }
     }
     
     // Distance that business is from search location in meters, if a latitude/longitude is specified.
-    var distance: Double {
+    var distance: Double? {
         get {
-            return self["distance"] as Double
+            return self["distance"] as? Double
         }
     }
     
     // Rating for this business (value ranges from 1, 1.5, ... 4.5, 5)
-    var rating: Double {
+    var rating: Double? {
         get {
-            return self["rating"] as Double
+            return self["rating"] as? Double
         }
         set {
             self["rating"] = newValue
@@ -113,9 +113,9 @@ class Business : PFObject, PFSubclassing {
     }
     
     // Location
-    var location: Location {
+    var location: Location? {
         get {
-            return self["location"] as Location
+            return self["location"] as? Location
         }
         set {
             self["location"] = newValue
