@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B43180D01AAE5D7B00716029 /* FeaturedListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43180CF1AAE5D7B00716029 /* FeaturedListPresenter.swift */; };
+		B43180D11AAE5D7B00716029 /* FeaturedListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43180CF1AAE5D7B00716029 /* FeaturedListPresenter.swift */; };
+		B43180D31AAE79A100716029 /* FeaturedListDisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43180D21AAE79A100716029 /* FeaturedListDisplayData.swift */; };
+		B43180D41AAE79A100716029 /* FeaturedListDisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43180D21AAE79A100716029 /* FeaturedListDisplayData.swift */; };
+		B43ED3D41AAD28E60015C25F /* ListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43ED3D31AAD28E60015C25F /* ListManager.swift */; };
+		B43ED3D51AAD28E60015C25F /* ListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43ED3D31AAD28E60015C25F /* ListManager.swift */; };
+		B43ED3D71AAD291D0015C25F /* FeaturedListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43ED3D61AAD291D0015C25F /* FeaturedListInteractor.swift */; };
+		B43ED3D81AAD291D0015C25F /* FeaturedListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43ED3D61AAD291D0015C25F /* FeaturedListInteractor.swift */; };
+		B43ED3DD1AAD2FD80015C25F /* BusinessDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43ED3DC1AAD2FD80015C25F /* BusinessDomain.swift */; };
+		B43ED3DE1AAD2FD80015C25F /* BusinessDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43ED3DC1AAD2FD80015C25F /* BusinessDomain.swift */; };
 		B4E3F22B1AAA45D200A147E5 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E3F22A1AAA45D200A147E5 /* Nimble.framework */; };
 		B4E3F22D1AAA45D900A147E5 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E3F22C1AAA45D900A147E5 /* Quick.framework */; };
 		B4E3F22F1AAA499700A147E5 /* BusinessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E3F22E1AAA499700A147E5 /* BusinessTests.swift */; };
@@ -67,6 +77,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B43180CF1AAE5D7B00716029 /* FeaturedListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListPresenter.swift; sourceTree = "<group>"; };
+		B43180D21AAE79A100716029 /* FeaturedListDisplayData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListDisplayData.swift; sourceTree = "<group>"; };
+		B43ED3D31AAD28E60015C25F /* ListManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListManager.swift; sourceTree = "<group>"; };
+		B43ED3D61AAD291D0015C25F /* FeaturedListInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListInteractor.swift; sourceTree = "<group>"; };
+		B43ED3DC1AAD2FD80015C25F /* BusinessDomain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessDomain.swift; sourceTree = "<group>"; };
 		B4E3F22A1AAA45D200A147E5 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = "Vendor/Nimble/build/Debug-iphoneos/Nimble.framework"; sourceTree = "<group>"; };
 		B4E3F22C1AAA45D900A147E5 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = "../../Library/Developer/Xcode/DerivedData/XListing-aebbxanfcvmixqfcatiqiamjrdfj/Build/Products/Debug/Quick.framework"; sourceTree = "<group>"; };
 		B4E3F22E1AAA499700A147E5 /* BusinessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusinessTests.swift; path = Integration/Model/BusinessTests.swift; sourceTree = "<group>"; };
@@ -150,6 +165,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B43180CB1AAE5D1100716029 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				B43180CF1AAE5D7B00716029 /* FeaturedListPresenter.swift */,
+				B43180D21AAE79A100716029 /* FeaturedListDisplayData.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		B43ED3CB1AAD1F470015C25F /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				B43ED3DC1AAD2FD80015C25F /* BusinessDomain.swift */,
+				B43ED3D61AAD291D0015C25F /* FeaturedListInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		B43ED3CF1AAD28400015C25F /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				B43ED3D31AAD28E60015C25F /* ListManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		B4E3F2631AAB7AF000A147E5 /* Population */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,6 +233,9 @@
 		B4F416781AA542C2001060BC /* XListing */ = {
 			isa = PBXGroup;
 			children = (
+				B43180CB1AAE5D1100716029 /* Presenter */,
+				B43ED3CF1AAD28400015C25F /* Manager */,
+				B43ED3CB1AAD1F470015C25F /* Interactor */,
 				B4F416DA1AA8E2DD001060BC /* Service */,
 				B4F416C81AA57269001060BC /* Model */,
 				B4F4167B1AA542C2001060BC /* AppDelegate.swift */,
@@ -407,14 +451,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B43180D31AAE79A100716029 /* FeaturedListDisplayData.swift in Sources */,
+				B43180D01AAE5D7B00716029 /* FeaturedListPresenter.swift in Sources */,
 				B4F416DD1AA8E336001060BC /* ParseClient.swift in Sources */,
 				B4E3F2541AAAC13700A147E5 /* Featured.swift in Sources */,
 				B4F4167E1AA542C2001060BC /* ViewController.swift in Sources */,
+				B43ED3DD1AAD2FD80015C25F /* BusinessDomain.swift in Sources */,
 				B4E3F25E1AAB70B100A147E5 /* PopulateParse.swift in Sources */,
 				B4F416CA1AA57289001060BC /* Business.swift in Sources */,
 				B4F416D01AA59B43001060BC /* Location.swift in Sources */,
+				B43ED3D71AAD291D0015C25F /* FeaturedListInteractor.swift in Sources */,
 				B4F4167C1AA542C2001060BC /* AppDelegate.swift in Sources */,
 				B4F416C51AA544D7001060BC /* ParseImporter.m in Sources */,
+				B43ED3D41AAD28E60015C25F /* ListManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,14 +471,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B43180D41AAE79A100716029 /* FeaturedListDisplayData.swift in Sources */,
+				B43180D11AAE5D7B00716029 /* FeaturedListPresenter.swift in Sources */,
 				B4E3F2311AAA4DE400A147E5 /* BusinessSpec.swift in Sources */,
 				B4E3F2551AAAC13700A147E5 /* Featured.swift in Sources */,
 				B4F416DE1AA8E336001060BC /* ParseClient.swift in Sources */,
+				B43ED3DE1AAD2FD80015C25F /* BusinessDomain.swift in Sources */,
 				B4E3F25F1AAB70B100A147E5 /* PopulateParse.swift in Sources */,
 				B4F416CB1AA57289001060BC /* Business.swift in Sources */,
 				B4E3F22F1AAA499700A147E5 /* BusinessTests.swift in Sources */,
+				B43ED3D81AAD291D0015C25F /* FeaturedListInteractor.swift in Sources */,
 				B4F416D11AA59B43001060BC /* Location.swift in Sources */,
 				B4F416C61AA544D7001060BC /* ParseImporter.m in Sources */,
+				B43ED3D51AAD28E60015C25F /* ListManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
