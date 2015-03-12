@@ -10,12 +10,12 @@ import XCTest
 import XListing
 
 class BusinessTests: XCTestCase {
-    var business: Business = Business()
+    var business: BusinessEntity = BusinessEntity()
     
     override func setUp() {
         super.setUp()
         
-        var location = Location()
+        var location = LocationEntity()
         location.address = ["3289 Alberta st."]
         location.city = "Vancouver"
         location.countryCode = "CA"
@@ -51,7 +51,7 @@ class BusinessTests: XCTestCase {
         
         
         let objectSaved = expectationWithDescription("Business object is saved")
-        let query = Business.query()
+        let query = BusinessEntity.query()
         query.whereKey("objectId", equalTo: business.objectId)
         query.includeKey("location")
         query.findObjectsInBackgroundWithBlock({(objects: [AnyObject]!, error: NSError!) -> Void in
@@ -59,7 +59,7 @@ class BusinessTests: XCTestCase {
             XCTAssertNil(error, "No error message")
             XCTAssertEqual(objects.count, 1, "size is 1")
             
-            let obj = objects.first as Business
+            let obj = objects.first as BusinessEntity
             
             XCTAssertEqual(obj.name!, self.business.name!, "Same name")
             XCTAssertEqual(obj.isClaimed!, self.business.isClaimed!, "Same")

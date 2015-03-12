@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Location : PFObject, PFSubclassing {
+class LocationEntity: PFObject, PFSubclassing {
     
     // Address for this business. Only includes address fields.
     var address: [String]? {

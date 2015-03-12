@@ -24,13 +24,13 @@ class PopulateParse {
         println("############ Populating Completed ############")
     }
     
-    private class func loadBusiness(filename: String) -> [Business] {
-        var businesses = [Business]()
+    private class func loadBusiness(filename: String) -> [BusinessEntity] {
+        var businesses = [BusinessEntity]()
         
         let businessArray = loadFromPlist(filename)
         for business in businessArray {
             let busDict = business as NSDictionary
-            var newBus = Business()
+            var newBus = BusinessEntity()
             newBus.isClaimed = busDict["isClaimed"] as? Bool
             newBus.isClosed = busDict["isClosed"] as? Bool
             newBus.name = busDict["name"] as? String
@@ -41,7 +41,7 @@ class PopulateParse {
             newBus.rating = busDict["rating"] as? Double
             
             let locDict = busDict["location"] as NSDictionary
-            var loc = Location()
+            var loc = LocationEntity()
             loc.address = locDict["address"] as? [String]
             loc.city = locDict["city"] as? String
             loc.stateCode = locDict["stateCode"] as? String
@@ -58,13 +58,13 @@ class PopulateParse {
     }
     
     
-    private class func loadFeatured(filename: String) -> [Featured] {
-        var featureds = [Featured]()
+    private class func loadFeatured(filename: String) -> [FeaturedEntity] {
+        var featureds = [FeaturedEntity]()
         
         let featuredArray = loadFromPlist(filename)
         for featured in featuredArray {
             let feaDict = featured as NSDictionary
-            var newFea = Featured()
+            var newFea = FeaturedEntity()
             newFea.timeStart = feaDict["timeStart"] as? NSDate
             newFea.timeEnd = feaDict["timeEnd"] as? NSDate
             

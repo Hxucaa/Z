@@ -29,7 +29,7 @@ struct BusinessDomain : Printable {
     var crossStreets: String?
     var neighborhoods: [String]?
     
-    init(business: Business) {
+    init(business: BusinessEntity) {
         isClaimed = business.isClaimed
         isClosed = business.isClosed
         name = business.name

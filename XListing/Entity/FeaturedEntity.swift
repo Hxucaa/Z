@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Featured : PFObject, PFSubclassing {
+class FeaturedEntity: PFObject, PFSubclassing {
     
     
     // Starting time of featured business
@@ -32,9 +32,9 @@ class Featured : PFObject, PFSubclassing {
     }
     
     // Business
-    var business: Business? {
+    var business: BusinessEntity? {
         get {
-            return self["business"] as? Business
+            return self["business"] as? BusinessEntity
         }
         set {
             self["business"] = newValue

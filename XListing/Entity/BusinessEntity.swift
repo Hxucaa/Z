@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Business : PFObject, PFSubclassing {
+class BusinessEntity: PFObject, PFSubclassing {
 
     
     // Whether business has been claimed by a business owner
@@ -113,9 +113,9 @@ class Business : PFObject, PFSubclassing {
     }
     
     // Location
-    var location: Location? {
+    var location: LocationEntity? {
         get {
-            return self["location"] as? Location
+            return self["location"] as? LocationEntity
         }
         set {
             self["location"] = newValue

@@ -13,12 +13,12 @@ import XListing
 class BusinessSpec: QuickSpec {
     override func spec() {
         describe("Save") {
-            var business: Business!
+            var business: BusinessEntity!
             
             beforeEach {
-                business = Business()
+                business = BusinessEntity()
                 
-                var location = Location()
+                var location = LocationEntity()
                 location.address = ["3289 Alberta st."]
                 location.city = "Vancouver"
                 location.countryCode = "CA"
@@ -46,7 +46,7 @@ class BusinessSpec: QuickSpec {
                     })
                 }
                 
-                let query = Business.query()
+                let query = BusinessEntity.query()
                 query.whereKey("objectId", equalTo: business.objectId)
                 query.includeKey("location")
                 
@@ -55,7 +55,7 @@ class BusinessSpec: QuickSpec {
                         expect(error).to(beNil())
                         expect(objects.count).to(equal(1))
                         
-                        let obj = objects.first as Business
+                        let obj = objects.first as BusinessEntity
                         
                         expect(obj.name!).to(equal(business.name!))
                         expect(obj.isClaimed!).to(equal(business.isClaimed!))

@@ -9,16 +9,16 @@
 import Foundation
 
 class ListManager {
-    func findAListOfFeaturedBusinesses(callback: ([Business]) -> Void) {
-        var query = Featured.query()
+    func findAListOfFeaturedBusinesses(callback: ([BusinessEntity]) -> Void) {
+        var query = FeaturedEntity.query()
         query.includeKey("business")
         query.includeKey("business.location")
         
         query.findObjectsInBackgroundWithBlock {(objects: [AnyObject]!, error: NSError!) -> Void in
             //TODO: handle NSError
-            var featureds = objects as [Featured]
+            var featureds = objects as [FeaturedEntity]
 //            var businesses = featureds.map( {$0.business!} )
-            var businesses = [Business]()
+            var businesses = [BusinessEntity]()
             for item in featureds {
                 if let b = item.business {
                     businesses.append(b)
