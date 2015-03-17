@@ -31,7 +31,21 @@
 		7EF371591AB8C9C5009AA3B9 /* BusinessEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371311AB8C1E8009AA3B9 /* BusinessEntity.swift */; };
 		7EF3715A1AB8C9C9009AA3B9 /* FeaturedEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371321AB8C1E8009AA3B9 /* FeaturedEntity.swift */; };
 		7EF3715B1AB8C9CD009AA3B9 /* LocationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371331AB8C1E8009AA3B9 /* LocationEntity.swift */; };
-		7EF3715C1AB8C9E1009AA3B9 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371411AB8C1E8009AA3B9 /* ParseClient.swift */; };
+		B43317B91AB8D8CF0056C68F /* BusinessDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371351AB8C1E8009AA3B9 /* BusinessDomain.swift */; };
+		B43317BA1AB8D8D10056C68F /* FeaturedListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371361AB8C1E8009AA3B9 /* FeaturedListInteractor.swift */; };
+		B43317BB1AB8D8D50056C68F /* ListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371381AB8C1E8009AA3B9 /* ListManager.swift */; };
+		B43317BC1AB8D8D90056C68F /* BusinessPop.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF3713A1AB8C1E8009AA3B9 /* BusinessPop.plist */; };
+		B43317BD1AB8D8DB0056C68F /* FeaturedPop.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF3713B1AB8C1E8009AA3B9 /* FeaturedPop.plist */; };
+		B43317BE1AB8D8DD0056C68F /* FeaturedListDisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF3713D1AB8C1E8009AA3B9 /* FeaturedListDisplayData.swift */; };
+		B43317BF1AB8D8DF0056C68F /* FeaturedListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF3713E1AB8C1E8009AA3B9 /* FeaturedListPresenter.swift */; };
+		B43317C11AB8D8E20056C68F /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371411AB8C1E8009AA3B9 /* ParseClient.swift */; };
+		B43317C21AB8D8E40056C68F /* PopulateParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371421AB8C1E8009AA3B9 /* PopulateParse.swift */; };
+		B43317C31AB8D8E70056C68F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371101AB8C012009AA3B9 /* AppDelegate.swift */; };
+		B43317C41AB8D8E90056C68F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371121AB8C012009AA3B9 /* ViewController.swift */; };
+		B43317C51AB8D8EC0056C68F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EF371141AB8C012009AA3B9 /* Main.storyboard */; };
+		B43317C61AB8D8F00056C68F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF371191AB8C012009AA3B9 /* LaunchScreen.xib */; };
+		B43317C71AB8D8F50056C68F /* Parse.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF371431AB8C1E8009AA3B9 /* Parse.plist */; };
+		B43317C81AB8D9290056C68F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7EF371171AB8C012009AA3B9 /* Images.xcassets */; };
 		E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -366,6 +380,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B43317C61AB8D8F00056C68F /* LaunchScreen.xib in Resources */,
+				B43317C71AB8D8F50056C68F /* Parse.plist in Resources */,
+				B43317C51AB8D8EC0056C68F /* Main.storyboard in Resources */,
+				B43317C81AB8D9290056C68F /* Images.xcassets in Resources */,
+				B43317BD1AB8D8DB0056C68F /* FeaturedPop.plist in Resources */,
+				B43317BC1AB8D8D90056C68F /* BusinessPop.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,12 +508,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EF3715C1AB8C9E1009AA3B9 /* ParseClient.swift in Sources */,
 				7EF3715A1AB8C9C9009AA3B9 /* FeaturedEntity.swift in Sources */,
 				7EF371571AB8C9B3009AA3B9 /* BusinessSpec.swift in Sources */,
 				7EF371591AB8C9C5009AA3B9 /* BusinessEntity.swift in Sources */,
+				B43317BB1AB8D8D50056C68F /* ListManager.swift in Sources */,
+				B43317C41AB8D8E90056C68F /* ViewController.swift in Sources */,
+				B43317B91AB8D8CF0056C68F /* BusinessDomain.swift in Sources */,
 				7EF3715B1AB8C9CD009AA3B9 /* LocationEntity.swift in Sources */,
 				7EF371581AB8C9B3009AA3B9 /* BusinessTests.swift in Sources */,
+				B43317C21AB8D8E40056C68F /* PopulateParse.swift in Sources */,
+				B43317C31AB8D8E70056C68F /* AppDelegate.swift in Sources */,
+				B43317BA1AB8D8D10056C68F /* FeaturedListInteractor.swift in Sources */,
+				B43317BF1AB8D8DF0056C68F /* FeaturedListPresenter.swift in Sources */,
+				B43317BE1AB8D8DD0056C68F /* FeaturedListDisplayData.swift in Sources */,
+				B43317C11AB8D8E20056C68F /* ParseClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
