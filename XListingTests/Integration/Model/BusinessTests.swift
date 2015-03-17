@@ -15,6 +15,9 @@ class BusinessTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        ParseClient.registerSubclasses()
+        ParseClient.initializeClient()
+        
         var location = LocationEntity()
         location.address = ["3289 Alberta st."]
         location.city = "Vancouver"

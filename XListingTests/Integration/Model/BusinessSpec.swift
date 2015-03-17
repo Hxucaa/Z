@@ -12,6 +12,16 @@ import XListing
 
 class BusinessSpec: QuickSpec {
     override func spec() {
+        
+        beforeSuite {
+            ParseClient.registerSubclasses()
+            ParseClient.initializeClient()
+        }
+        
+        afterSuite {
+            
+        }
+        
         describe("Save") {
             var business: BusinessEntity!
             

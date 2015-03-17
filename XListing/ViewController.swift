@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-03-02.
+//  Created by Lance on 2015-03-17.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
@@ -13,9 +13,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        var f = FeaturedListPresenter()
-        f.getList()
     }
 
     override func didReceiveMemoryWarning() {

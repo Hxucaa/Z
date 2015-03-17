@@ -40,7 +40,7 @@ class PopulateParse {
             newBus.phone = busDict["phone"] as String
             newBus.displayPhone = busDict["displayPhone"] as String
             newBus.reviewCount = busDict["reviewCount"] as Int
-            newBus.rating = busDict["rating"] as Double
+            newBus.rating = busDict["rating"] as? Double
             
             let locDict = busDict["location"] as NSDictionary
             var loc = LocationEntity()

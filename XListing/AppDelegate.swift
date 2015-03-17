@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-03-02.
+//  Created by Lance on 2015-03-17.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
@@ -20,9 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ParseClient.registerSubclasses()
         ParseClient.initializeClient()
         
-        
 //        PopulateParse.Populate()
-
+        
         return true
     }
 
