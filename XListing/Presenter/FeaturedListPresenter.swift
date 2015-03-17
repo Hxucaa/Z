@@ -11,10 +11,10 @@ import Foundation
 class FeaturedListPresenter {
     private var featuredListInteractor = FeaturedListInteractor()
     
-    func getList() {
-        featuredListInteractor.getFeaturedList { businessDomain in
+    func getList(callback: ([FeaturedListDisplayData], NSError?) -> Void) {
+        featuredListInteractor.getFeaturedList { (businessDomain, error) in
             var fldp = businessDomain.map {FeaturedListDisplayData(businessDomain: $0)}
-            println(fldp)
+            callback(fldp, error)
         }
     }
 }

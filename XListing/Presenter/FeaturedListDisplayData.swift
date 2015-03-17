@@ -9,18 +9,18 @@
 import Foundation
 
 struct FeaturedListDisplayData : Printable {
-    var isClaimed: Bool?
-    var isClosed: Bool?
-    var name: String?
-    var imageUrl: String?
-    var url: String?
-    var mobileUrl: String?
-    var phone: String?
-    var displayPhone: String?
-    var reviewCount: Int?
+    var isClaimed: Bool
+    var isClosed: Bool
+    var name: String
+    var imageUrl: String
+    var url: String
+    var mobileUrl: String
+    var phone: String
+    var displayPhone: String
+    var reviewCount: Int
 //    var distance: Double?
     var rating: Double?
-    var address: [String]?
+    var address: [String]
 //    var displayAddress: [String]
     var city: String
     var stateCode: String
@@ -40,7 +40,9 @@ struct FeaturedListDisplayData : Printable {
         displayPhone = businessDomain.displayPhone
         reviewCount = businessDomain.reviewCount
 //        distance = businessDomain.distance
-        rating = businessDomain.rating
+        if let r = businessDomain.rating {
+            rating = r
+        }
         address = businessDomain.address
 //        displayAddress = businessDomain.displayAddress
         city = businessDomain.city

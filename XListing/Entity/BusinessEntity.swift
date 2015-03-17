@@ -108,9 +108,9 @@ class BusinessEntity: PFObject, PFSubclassing {
 //    }
     
     // Rating for this business (value ranges from 1, 1.5, ... 4.5, 5)
-    var rating: Double {
+    var rating: Double? {
         get {
-            return self["rating"] as Double
+            return self["rating"] as? Double
         }
         set {
             self["rating"] = newValue

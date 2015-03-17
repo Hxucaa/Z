@@ -19,7 +19,7 @@ struct BusinessDomain : Printable {
     var displayPhone: String
     var reviewCount: Int
 //    var distance: Double
-    var rating: Double
+    var rating: Double?
     var address: [String]
 //    var displayAddress: [String]
     var city: String
@@ -40,7 +40,9 @@ struct BusinessDomain : Printable {
         displayPhone = business.displayPhone
         reviewCount = business.reviewCount
 //        distance = business.distance
-        rating = business.rating
+        if let r = business.rating {
+            rating = r
+        }
         let loc = business.location
         address = loc.address
 //        displayAddress = loc.displayAddress

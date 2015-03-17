@@ -9,7 +9,7 @@
 import Foundation
 
 class ListManager {
-    func findAListOfFeaturedBusinesses(callback: ([BusinessEntity]) -> Void) {
+    func findAListOfFeaturedBusinesses(callback: (businesses: [BusinessEntity], error: NSError?) -> Void) {
         var query = FeaturedEntity.query()
         query.includeKey("business")
         query.includeKey("business.location")
@@ -22,7 +22,7 @@ class ListManager {
             for item in featureds {
                 businesses.append(item.business)
             }
-            callback(businesses)
+            callback(businesses: businesses, error: error)
         }
     }
 }
