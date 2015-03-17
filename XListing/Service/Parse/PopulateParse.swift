@@ -31,24 +31,26 @@ class PopulateParse {
         for business in businessArray {
             let busDict = business as NSDictionary
             var newBus = BusinessEntity()
-            newBus.isClaimed = busDict["isClaimed"] as? Bool
-            newBus.isClosed = busDict["isClosed"] as? Bool
-            newBus.name = busDict["name"] as? String
-            newBus.imageUrl = busDict["imageUrl"] as? String
-            newBus.url = busDict["url"] as? String
-            newBus.mobileUrl = busDict["mobileUrl"] as? String
-            newBus.phone = busDict["phone"] as? String
-            newBus.rating = busDict["rating"] as? Double
+            newBus.isClaimed = busDict["isClaimed"] as Bool
+            newBus.isClosed = busDict["isClosed"] as Bool
+            newBus.name = busDict["name"] as String
+            newBus.imageUrl = busDict["imageUrl"] as String
+            newBus.url = busDict["url"] as String
+            newBus.mobileUrl = busDict["mobileUrl"] as String
+            newBus.phone = busDict["phone"] as String
+            newBus.displayPhone = busDict["displayPhone"] as String
+            newBus.reviewCount = busDict["reviewCount"] as Int
+            newBus.rating = busDict["rating"] as Double
             
             let locDict = busDict["location"] as NSDictionary
             var loc = LocationEntity()
-            loc.address = locDict["address"] as? [String]
-            loc.city = locDict["city"] as? String
-            loc.stateCode = locDict["stateCode"] as? String
-            loc.postalCode = locDict["postalCode"] as? String
-            loc.countryCode = locDict["countryCode"] as? String
+            loc.address = locDict["address"] as [String]
+            loc.city = locDict["city"] as String
+            loc.stateCode = locDict["stateCode"] as String
+            loc.postalCode = locDict["postalCode"] as String
+            loc.countryCode = locDict["countryCode"] as String
             loc.crossStreets = locDict["crossStreets"] as? String
-            loc.neighborhoods = locDict["neighborhoods"] as? [String]
+            loc.neighborhoods = locDict["neighborhoods"] as [String]
             
             newBus.location = loc
             
@@ -65,8 +67,8 @@ class PopulateParse {
         for featured in featuredArray {
             let feaDict = featured as NSDictionary
             var newFea = FeaturedEntity()
-            newFea.timeStart = feaDict["timeStart"] as? NSDate
-            newFea.timeEnd = feaDict["timeEnd"] as? NSDate
+            newFea.timeStart = feaDict["timeStart"] as NSDate
+            newFea.timeEnd = feaDict["timeEnd"] as NSDate
             
             featureds.append(newFea)
         }

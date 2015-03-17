@@ -9,25 +9,25 @@
 import Foundation
 
 struct BusinessDomain : Printable {
-    var isClaimed: Bool?
-    var isClosed: Bool?
-    var name: String?
-    var imageUrl: String?
-    var url: String?
-    var mobileUrl: String?
-    var phone: String?
-    var displayPhone: String?
-    var reviewCount: Int?
-    var distance: Double?
-    var rating: Double?
-    var address: [String]?
-    var displayAddress: [String]?
-    var city: String?
-    var stateCode: String?
-    var postalCode: String?
-    var countryCode: String?
+    var isClaimed: Bool
+    var isClosed: Bool
+    var name: String
+    var imageUrl: String
+    var url: String
+    var mobileUrl: String
+    var phone: String
+    var displayPhone: String
+    var reviewCount: Int
+//    var distance: Double
+    var rating: Double
+    var address: [String]
+//    var displayAddress: [String]
+    var city: String
+    var stateCode: String
+    var postalCode: String
+    var countryCode: String
     var crossStreets: String?
-    var neighborhoods: [String]?
+    var neighborhoods: [String]
     
     init(business: BusinessEntity) {
         isClaimed = business.isClaimed
@@ -39,17 +39,17 @@ struct BusinessDomain : Printable {
         phone = business.phone
         displayPhone = business.displayPhone
         reviewCount = business.reviewCount
-        distance = business.distance
+//        distance = business.distance
         rating = business.rating
         let loc = business.location
-        address = loc?.address
-        displayAddress = loc?.displayAddress
-        city = loc?.city
-        stateCode = loc?.stateCode
-        postalCode = loc?.postalCode
-        countryCode = loc?.countryCode
-        crossStreets = loc?.crossStreets
-        neighborhoods = loc?.neighborhoods
+        address = loc.address
+//        displayAddress = loc.displayAddress
+        city = loc.city
+        stateCode = loc.stateCode
+        postalCode = loc.postalCode
+        countryCode = loc.countryCode
+        crossStreets = loc.crossStreets
+        neighborhoods = loc.neighborhoods
     }
     
     var description: String {

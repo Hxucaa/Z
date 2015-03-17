@@ -18,16 +18,16 @@ struct FeaturedListDisplayData : Printable {
     var phone: String?
     var displayPhone: String?
     var reviewCount: Int?
-    var distance: Double?
+//    var distance: Double?
     var rating: Double?
     var address: [String]?
-    var displayAddress: [String]?
-    var city: String?
-    var stateCode: String?
-    var postalCode: String?
-    var countryCode: String?
+//    var displayAddress: [String]
+    var city: String
+    var stateCode: String
+    var postalCode: String
+    var countryCode: String
     var crossStreets: String?
-    var neighborhoods: [String]?
+    var neighborhoods: [String]
     
     init(businessDomain: BusinessDomain) {
         isClaimed = businessDomain.isClaimed
@@ -39,10 +39,10 @@ struct FeaturedListDisplayData : Printable {
         phone = businessDomain.phone
         displayPhone = businessDomain.displayPhone
         reviewCount = businessDomain.reviewCount
-        distance = businessDomain.distance
+//        distance = businessDomain.distance
         rating = businessDomain.rating
         address = businessDomain.address
-        displayAddress = businessDomain.displayAddress
+//        displayAddress = businessDomain.displayAddress
         city = businessDomain.city
         stateCode = businessDomain.stateCode
         postalCode = businessDomain.postalCode

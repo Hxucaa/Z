@@ -20,9 +20,7 @@ class ListManager {
 //            var businesses = featureds.map( {$0.business!} )
             var businesses = [BusinessEntity]()
             for item in featureds {
-                if let b = item.business {
-                    businesses.append(b)
-                }
+                businesses.append(item.business)
             }
             callback(businesses)
         }

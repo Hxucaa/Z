@@ -17,6 +17,10 @@
 		<string>placeholder</string>
 		<key>phone</key>
 		<string>6047293817</string>
+		<key>displayPhone</key>
+		<string>+1-(604)729-3817</string>
+		<key>reviewCount</key>
+		<integer>0</integer>
 		<key>rating</key>
 		<real>4.5</real>
 		<key>location</key>
@@ -50,12 +54,18 @@
 		<string>placeholder</string>
 		<key>url</key>
 		<string>placeholder</string>
+		<key>New item</key>
+		<string></string>
 		<key>mobileUrl</key>
 		<string>placeholder</string>
 		<key>phone</key>
 		<string>6044827169</string>
+		<key>displayPhone</key>
+		<string>+1-(640)482-7169</string>
+		<key>reviewCount</key>
+		<integer>0</integer>
 		<key>rating</key>
-		<real>4.5</real>
+		<real>2.5</real>
 		<key>location</key>
 		<dict>
 			<key>address</key>
@@ -91,6 +101,10 @@
 		<string>placeholder</string>
 		<key>phone</key>
 		<string>6045954327</string>
+		<key>displayPhone</key>
+		<string>+1-(604)595-4327</string>
+		<key>reviewCount</key>
+		<integer>0</integer>
 		<key>rating</key>
 		<real>3.5</real>
 		<key>location</key>
