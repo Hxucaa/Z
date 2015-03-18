@@ -4,11 +4,15 @@ PODS:
   - Parse (1.6.4):
     - Bolts (~> 1.1)
   - Quick (0.2.2)
+  - ReactKit (0.7.1):
+    - SwiftTask (~> 2.6.3)
+  - SwiftTask (2.6.3)
 
 DEPENDENCIES:
   - Nimble (from `https://github.com/Quick/Nimble.git`, branch `swift-1.1`)
   - Parse
   - Quick (from `https://github.com/Quick/Quick.git`, branch `swift-1.1`)
+  - ReactKit
 
 EXTERNAL SOURCES:
   Nimble:
@@ -31,5 +35,7 @@ SPEC CHECKSUMS:
   Nimble: 1b3c765852d63b9540a91e528e1e4f8afab79b6f
   Parse: c2610f7a12ad0defc974803b819c4efe7746e6db
   Quick: 1bda8b4c8d43f6b4dd69ca001918b1767b3c9c93
+  ReactKit: 54e09be741bfab6b7f3995b936e340c38824ed2d
+  SwiftTask: 18cea3b8aeec84d3b4c1194148833bda0a12d0fe
 
 COCOAPODS: 0.36.0

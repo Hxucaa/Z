@@ -7,22 +7,46 @@
 //
 
 import Foundation
+import SwiftTask
 
 class ListManager {
-    func findAListOfFeaturedBusinesses(callback: (businesses: [BusinessEntity], error: NSError?) -> Void) {
-        var query = FeaturedEntity.query()
-        query.includeKey("business")
-        query.includeKey("business.location")
+//    func findAListOfFeaturedBusinesses(callback: (businesses: [BusinessEntity], error: NSError?) -> Void) {
+//        var query = FeaturedEntity.query()
+//        query.includeKey("business")
+//        query.includeKey("business.location")
+//
+//        query.findObjectsInBackgroundWithBlock {(objects: [AnyObject]!, error: NSError!) -> Void in
+//            //TODO: handle NSError
+//            var featureds = objects as [FeaturedEntity]
+//            var businesses = featureds.map( {$0.business} )
+//            callback(businesses: businesses, error: error)
+//        }
+//    }
+    
+    func findAListOfFeaturedBusinesses() -> Task<Int, [BusinessEntity], NSError> {
         
-        query.findObjectsInBackgroundWithBlock {(objects: [AnyObject]!, error: NSError!) -> Void in
-            //TODO: handle NSError
-            var featureds = objects as [FeaturedEntity]
-//            var businesses = featureds.map( {$0.business!} )
-            var businesses = [BusinessEntity]()
-            for item in featureds {
-                businesses.append(item.business)
+        let task = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
+            var query = FeaturedEntity.query()
+            query.includeKey("business")
+            query.includeKey("business.location")
+            
+            query.findObjectsInBackgroundWithBlock {(objects: [AnyObject]!, error: NSError!) in
+                if error == nil {
+                    fulfill(objects)
+                }
+                else {
+                    reject(error)
+                }
             }
-            callback(businesses: businesses, error: error)
         }
+        
+        let resultTask = task
+            .success { (objects: [AnyObject]) -> [BusinessEntity] in
+                var featureds = objects as [FeaturedEntity]
+                var businesses = featureds.map( {$0.business} )
+                
+                return businesses
+            }
+        return resultTask
     }
 }

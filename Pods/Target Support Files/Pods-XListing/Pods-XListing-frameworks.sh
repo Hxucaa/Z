@@ -49,7 +49,11 @@ code_sign() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Bolts.framework'
+  install_framework 'ReactKit.framework'
+  install_framework 'SwiftTask.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Bolts.framework'
+  install_framework 'ReactKit.framework'
+  install_framework 'SwiftTask.framework'
 fi
