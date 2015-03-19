@@ -10,6 +10,37 @@ import Foundation
 
 class BusinessEntity: PFObject, PFSubclassing {
     
+    
+    // Simplified Chinese name of this business
+    var nameSChinese: String? {
+        get {
+            return self["name_schinese"] as? String
+        }
+        set {
+            self["name_schinese"] = newValue
+        }
+    }
+    
+    // Traditional Chinese name of this business
+    var nameTChinese: String? {
+        get {
+            return self["name_tchinese"] as? String
+        }
+        set {
+            self["name_tchinese"] = newValue
+        }
+    }
+    
+    // English name of this business
+    var nameEnglish: String? {
+        get {
+            return self["name_english"] as? String
+        }
+        set {
+            self["name_english"] = newValue
+        }
+    }
+    
     // Whether business has been claimed by a business owner
     var isClaimed: Bool {
         get {
@@ -30,46 +61,6 @@ class BusinessEntity: PFObject, PFSubclassing {
         }
     }
     
-    // Name of this business
-    var name: String {
-        get {
-            return self["name"] as String
-        }
-        set {
-            self["name"] = newValue
-        }
-    }
-    
-    // URL of photo for this business
-    var imageUrl: String {
-        get {
-            return self["image_url"] as String
-        }
-        set {
-            self["image_url"] = newValue
-        }
-    }
-    
-    // URL for business page
-    var url: String {
-        get {
-            return self["url"] as String
-        }
-        set {
-            self["url"] = newValue
-        }
-    }
-    
-    // URL for mobile business page
-    var mobileUrl: String {
-        get {
-            return self["mobile_url"] as String
-        }
-        set {
-            self["mobile_url"] = newValue
-        }
-    }
-    
     // Phone number for this business with international dialing code (e.g. +442079460000)
     var phone: String {
         get {
@@ -80,15 +71,54 @@ class BusinessEntity: PFObject, PFSubclassing {
         }
     }
     
-    // Phone number for this business formatted for display
-    var displayPhone: String {
+    // URL for business page
+    var url: String? {
         get {
-            return self["display_phone"] as String
+            return self["url"] as? String
         }
         set {
-            self["display_phone"] = newValue
+            self["url"] = newValue
         }
     }
+    
+    // URL for mobile business page
+    var mobileUrl: String? {
+        get {
+            return self["mobile_url"] as? String
+        }
+        set {
+            self["mobile_url"] = newValue
+        }
+    }
+    
+    var uid: String {
+        get {
+            return self["uid"] as String
+        }
+        set {
+            self["uid"] = newValue
+        }
+    }
+    
+    // URL of photo for this business
+    var imageUrl: String? {
+        get {
+            return self["image_url"] as? String
+        }
+        set {
+            self["image_url"] = newValue
+        }
+    }
+    
+//    // Phone number for this business formatted for display
+//    var displayPhone: String {
+//        get {
+//            return self["display_phone"] as String
+//        }
+//        set {
+//            self["display_phone"] = newValue
+//        }
+//    }
     
     // Number of reviews for this business
     var reviewCount: Int {

@@ -9,47 +9,55 @@
 import Foundation
 
 struct BusinessDomain : Printable {
+    var nameSChinese: String?
+    var nameTChinese: String?
+    var nameEnglish: String?
     var isClaimed: Bool
     var isClosed: Bool
-    var name: String
-    var imageUrl: String
-    var url: String
-    var mobileUrl: String
     var phone: String
-    var displayPhone: String
+    var url: String?
+    var mobileUrl: String?
+    var uid: String
+    var imageUrl: String?
+//    var displayPhone: String
     var reviewCount: Int
 //    var distance: Double
     var rating: Double?
-    var address: [String]
+    var unit: String?
+    var address: String
 //    var displayAddress: [String]
+    var district: String?
     var city: String
-    var stateCode: String
-    var postalCode: String
-    var countryCode: String
+    var state: String
+    var country: String
+    var postalCode: String?
     var crossStreets: String?
     var neighborhoods: [String]
     
     init(business: BusinessEntity) {
+        nameSChinese = business.nameSChinese
+        nameTChinese = business.nameTChinese
+        nameEnglish = business.nameEnglish
         isClaimed = business.isClaimed
         isClosed = business.isClosed
-        name = business.name
-        imageUrl = business.imageUrl
+        phone = business.phone
         url = business.url
         mobileUrl = business.mobileUrl
-        phone = business.phone
-        displayPhone = business.displayPhone
+        uid = business.uid
+        imageUrl = business.imageUrl
+//        displayPhone = business.displayPhone
         reviewCount = business.reviewCount
 //        distance = business.distance
-        if let r = business.rating {
-            rating = r
-        }
+        rating = business.rating
         let loc = business.location
+        unit = loc.unit
         address = loc.address
 //        displayAddress = loc.displayAddress
+        district = loc.district
         city = loc.city
-        stateCode = loc.stateCode
+        state = loc.state
+        country = loc.country
         postalCode = loc.postalCode
-        countryCode = loc.countryCode
         crossStreets = loc.crossStreets
         neighborhoods = loc.neighborhoods
     }

@@ -9,46 +9,54 @@
 import Foundation
 
 struct FeaturedListDisplayData : Printable {
+    var nameSChinese: String?
+    var nameTChinese: String?
+    var nameEnglish: String?
     var isClaimed: Bool
     var isClosed: Bool
-    var name: String
-    var imageUrl: String
-    var url: String
-    var mobileUrl: String
     var phone: String
-    var displayPhone: String
+    var url: String?
+    var mobileUrl: String?
+    var uid: String
+    var imageUrl: String?
+//    var displayPhone: String
     var reviewCount: Int
 //    var distance: Double?
     var rating: Double?
-    var address: [String]
+    var unit: String?
+    var address: String
+    var district: String?
 //    var displayAddress: [String]
     var city: String
-    var stateCode: String
-    var postalCode: String
-    var countryCode: String
+    var state: String
+    var country: String
+    var postalCode: String?
     var crossStreets: String?
     var neighborhoods: [String]
     
     init(businessDomain: BusinessDomain) {
+        nameSChinese = businessDomain.nameSChinese
+        nameTChinese = businessDomain.nameTChinese
+        nameEnglish = businessDomain.nameEnglish
         isClaimed = businessDomain.isClaimed
         isClosed = businessDomain.isClosed
-        name = businessDomain.name
-        imageUrl = businessDomain.imageUrl
+        phone = businessDomain.phone
         url = businessDomain.url
         mobileUrl = businessDomain.mobileUrl
-        phone = businessDomain.phone
-        displayPhone = businessDomain.displayPhone
+        uid = businessDomain.uid
+        imageUrl = businessDomain.imageUrl
+//        displayPhone = businessDomain.displayPhone
         reviewCount = businessDomain.reviewCount
 //        distance = businessDomain.distance
-        if let r = businessDomain.rating {
-            rating = r
-        }
+        rating = businessDomain.rating
+        unit = businessDomain.unit
         address = businessDomain.address
+        district = businessDomain.district
 //        displayAddress = businessDomain.displayAddress
         city = businessDomain.city
-        stateCode = businessDomain.stateCode
+        state = businessDomain.state
+        country = businessDomain.country
         postalCode = businessDomain.postalCode
-        countryCode = businessDomain.countryCode
         crossStreets = businessDomain.crossStreets
         neighborhoods = businessDomain.neighborhoods
     }

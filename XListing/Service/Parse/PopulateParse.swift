@@ -33,22 +33,27 @@ class PopulateParse {
             var newBus = BusinessEntity()
             newBus.isClaimed = busDict["isClaimed"] as Bool
             newBus.isClosed = busDict["isClosed"] as Bool
-            newBus.name = busDict["name"] as String
-            newBus.imageUrl = busDict["imageUrl"] as String
-            newBus.url = busDict["url"] as String
-            newBus.mobileUrl = busDict["mobileUrl"] as String
+            newBus.nameSChinese = busDict["nameSChinese"] as? String
+            newBus.nameTChinese = busDict["nameTChinese"] as? String
+            newBus.nameEnglish = busDict["nameEnglish"] as? String
+            newBus.imageUrl = busDict["imageUrl"] as? String
+            newBus.url = busDict["url"] as? String
+            newBus.mobileUrl = busDict["mobileUrl"] as? String
             newBus.phone = busDict["phone"] as String
-            newBus.displayPhone = busDict["displayPhone"] as String
+//            newBus.displayPhone = busDict["displayPhone"] as String
+            newBus.uid = busDict["uid"] as String
             newBus.reviewCount = busDict["reviewCount"] as Int
             newBus.rating = busDict["rating"] as? Double
             
             let locDict = busDict["location"] as NSDictionary
             var loc = LocationEntity()
-            loc.address = locDict["address"] as [String]
+            loc.unit = locDict["unit"] as? String
+            loc.address = locDict["address"] as String
+            loc.district = locDict["district"] as? String
             loc.city = locDict["city"] as String
-            loc.stateCode = locDict["stateCode"] as String
-            loc.postalCode = locDict["postalCode"] as String
-            loc.countryCode = locDict["countryCode"] as String
+            loc.state = locDict["state"] as String
+            loc.postalCode = locDict["postalCode"] as? String
+            loc.country = locDict["country"] as String
             loc.crossStreets = locDict["crossStreets"] as? String
             loc.neighborhoods = locDict["neighborhoods"] as [String]
             

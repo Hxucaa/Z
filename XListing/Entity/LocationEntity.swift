@@ -10,13 +10,31 @@ import Foundation
 
 class LocationEntity: PFObject, PFSubclassing {
     
-    // Address for this business. Only includes address fields.
-    var address: [String] {
+    var unit: String? {
         get {
-            return self["address"] as [String]
+            return self["unit"] as? String
+        }
+        set {
+            self["unit"] = newValue
+        }
+    }
+    
+    // Address for this business. Only includes address fields.
+    var address: String {
+        get {
+            return self["address"] as String
         }
         set {
             self["address"] = newValue
+        }
+    }
+    
+    var district: String? {
+        get {
+            return self["district"] as? String
+        }
+        set {
+            self["distrcit"] = newValue
         }
     }
     
@@ -37,33 +55,31 @@ class LocationEntity: PFObject, PFSubclassing {
         }
     }
     
-    // ISO 3166-2 state code for this business
-    var stateCode: String {
+    var state: String {
         get {
-            return self["state_code"] as String
+            return self["state"] as String
         }
         set {
-            self["state_code"] = newValue
+            self["state"] = newValue
+        }
+    }
+    
+    var country: String {
+        get {
+            return self["country"] as String
+        }
+        set {
+            self["country"] = newValue
         }
     }
     
     // Postal code for this business
-    var postalCode: String {
+    var postalCode: String? {
         get {
-            return self["postal_code"] as String
+            return self["postal_code"] as? String
         }
         set {
             self["postal_code"] = newValue
-        }
-    }
-    
-    // ISO 3166-1 country code for this business
-    var countryCode: String {
-        get {
-            return self["country_code"] as String
-        }
-        set {
-            self["country_code"] = newValue
         }
     }
     

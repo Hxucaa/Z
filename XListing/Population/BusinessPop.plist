@@ -3,11 +3,15 @@
 <plist version="1.0">
 <array>
 	<dict>
+		<key>nameSChinese</key>
+		<string>简体</string>
+		<key>nameTChinese</key>
+		<string>繁體</string>
 		<key>isClaimed</key>
 		<true/>
 		<key>isClosed</key>
 		<false/>
-		<key>name</key>
+		<key>nameEnglish</key>
 		<string>im business 1</string>
 		<key>imageUrl</key>
 		<string>placeholder</string>
@@ -19,24 +23,28 @@
 		<string>6047293817</string>
 		<key>displayPhone</key>
 		<string>+1-(604)729-3817</string>
+		<key>uid</key>
+		<string>IKE</string>
 		<key>reviewCount</key>
 		<integer>0</integer>
 		<key>rating</key>
 		<real>4.5</real>
 		<key>location</key>
 		<dict>
+			<key>unit</key>
+			<string>183</string>
 			<key>address</key>
-			<array>
-				<string>6876 Cambie St.</string>
-			</array>
+			<string>6876 Cambie St.</string>
+			<key>district</key>
+			<string>Kitslano</string>
 			<key>city</key>
 			<string>Vancouver</string>
-			<key>stateCode</key>
-			<string>BC</string>
+			<key>state</key>
+			<string>British Columbia</string>
 			<key>postalCode</key>
 			<string>V3A9U1</string>
-			<key>countryCode</key>
-			<string>CA</string>
+			<key>country</key>
+			<string>Canada</string>
 			<key>crossStreets</key>
 			<string></string>
 			<key>neighborhoods</key>
@@ -44,11 +52,15 @@
 		</dict>
 	</dict>
 	<dict>
+		<key>nameSChinese</key>
+		<string>简体</string>
+		<key>nameTChinese</key>
+		<string>繁體</string>
 		<key>isClaimed</key>
 		<true/>
 		<key>isClosed</key>
 		<false/>
-		<key>name</key>
+		<key>nameEnglish</key>
 		<string>im business 2</string>
 		<key>imageUrl</key>
 		<string>placeholder</string>
@@ -60,24 +72,28 @@
 		<string>6044827169</string>
 		<key>displayPhone</key>
 		<string>+1-(640)482-7169</string>
+		<key>uid</key>
+		<string>SFE</string>
 		<key>reviewCount</key>
 		<integer>0</integer>
 		<key>rating</key>
 		<real>2.5</real>
 		<key>location</key>
 		<dict>
+			<key>unit</key>
+			<string>142</string>
 			<key>address</key>
-			<array>
-				<string>3928 Granville St.</string>
-			</array>
+			<string>3928 Granville St.</string>
+			<key>district</key>
+			<string>Kitslano</string>
 			<key>city</key>
 			<string>Vancouver</string>
-			<key>stateCode</key>
-			<string>BC</string>
+			<key>state</key>
+			<string>British Columbia</string>
 			<key>postalCode</key>
 			<string>A3A2X3</string>
-			<key>countryCode</key>
-			<string>CA</string>
+			<key>country</key>
+			<string>Canada</string>
 			<key>crossStreets</key>
 			<string></string>
 			<key>neighborhoods</key>
@@ -85,11 +101,15 @@
 		</dict>
 	</dict>
 	<dict>
+		<key>nameSChinese</key>
+		<string>简体</string>
+		<key>nameTChinese</key>
+		<string>繁體</string>
 		<key>isClaimed</key>
 		<true/>
 		<key>isClosed</key>
 		<false/>
-		<key>name</key>
+		<key>nameEnglish</key>
 		<string>im business 3</string>
 		<key>imageUrl</key>
 		<string>placeholder</string>
@@ -101,24 +121,28 @@
 		<string>6045954327</string>
 		<key>displayPhone</key>
 		<string>+1-(604)595-4327</string>
+		<key>uid</key>
+		<string>ABC</string>
 		<key>reviewCount</key>
 		<integer>0</integer>
 		<key>rating</key>
 		<real>3.5</real>
 		<key>location</key>
 		<dict>
+			<key>unit</key>
+			<string>932</string>
 			<key>address</key>
-			<array>
-				<string>132 Main St.</string>
-			</array>
+			<string>132 Main St.</string>
+			<key>district</key>
+			<string>Kitslano</string>
 			<key>city</key>
 			<string>Vancouver</string>
-			<key>stateCode</key>
-			<string>BC</string>
+			<key>state</key>
+			<string>British Columbia</string>
 			<key>postalCode</key>
 			<string>V2U3Y2</string>
-			<key>countryCode</key>
-			<string>CA</string>
+			<key>country</key>
+			<string>Canada</string>
 			<key>crossStreets</key>
 			<string></string>
 			<key>neighborhoods</key>

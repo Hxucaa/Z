@@ -29,12 +29,12 @@ class BusinessSpec: QuickSpec {
                 business = BusinessEntity()
                 
                 var location = LocationEntity()
-                location.address = ["3289 Alberta st."]
+                location.address = "3289 Alberta st."
                 location.city = "Vancouver"
-                location.countryCode = "CA"
-                location.stateCode = "BC"
+                location.country = "CA"
+                location.state = "BC"
                 
-                business.name = "test business 2"
+                business.nameEnglish = "test business 2"
                 business.isClaimed = true
                 business.isClosed = false
                 business.imageUrl = "placeholder"
@@ -67,7 +67,7 @@ class BusinessSpec: QuickSpec {
                         
                         let obj = objects.first as BusinessEntity
                         
-                        expect(obj.name).to(equal(business.name))
+                        expect(obj.nameEnglish!).to(equal(business.nameEnglish!))
                         expect(obj.isClaimed).to(equal(business.isClaimed))
                         expect(obj.isClosed).to(equal(business.isClosed))
                         expect(obj.imageUrl).to(equal(business.imageUrl))
@@ -76,8 +76,8 @@ class BusinessSpec: QuickSpec {
                         expect(obj.phone).to(equal(business.phone))
                         expect((obj.location.address)).to(equal((business.location.address)))
                         expect((obj.location.city)).to(equal((business.location.city)))
-                        expect((obj.location.countryCode)).to(equal((business.location.countryCode)))
-                        expect((obj.location.stateCode)).to(equal((business.location.stateCode)))
+                        expect((obj.location.country)).to(equal((business.location.country)))
+                        expect((obj.location.state)).to(equal((business.location.state)))
                         
                         done()
                     })
