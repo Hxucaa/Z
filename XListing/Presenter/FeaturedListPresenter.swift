@@ -19,15 +19,22 @@ class FeaturedListPresenter {
 //        }
 //    }
     
-    func getList() {
+    func getList() -> Task<Int, [FeaturedListDisplayData], NSError> {
         let task = featuredListInteractor.getFeaturedList()
         
-        task
-            .success { displayData -> Void in
-                println(displayData)
+        let resultTask = task
+            .success { businessDomainArr -> [FeaturedListDisplayData] in
+                println(businessDomainArr)
+                var result = businessDomainArr.map { FeaturedListDisplayData(businessDomain: $0) }
+                
+                // Transform data here if necessary
+                
+                return result
             }
-            .failure { errorInfo -> Void in
-                println("Error \(errorInfo)")
+            .failure { errorInfo -> [FeaturedListDisplayData] in
+                return [FeaturedListDisplayData]()
             }
+        
+        return resultTask
     }
 }
