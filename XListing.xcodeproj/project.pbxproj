@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6355331D984FC626C0650774 /* Pods_XListing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		7E107AEB1ABD3F0D00E7B369 /* localBizInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 7E107AEA1ABD3F0D00E7B369 /* localBizInfo.json */; };
+		7E107AEC1ABD3F0D00E7B369 /* localBizInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 7E107AEA1ABD3F0D00E7B369 /* localBizInfo.json */; };
 		7EF371111AB8C012009AA3B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371101AB8C012009AA3B9 /* AppDelegate.swift */; };
 		7EF371131AB8C012009AA3B9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371121AB8C012009AA3B9 /* ViewController.swift */; };
 		7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EF371141AB8C012009AA3B9 /* Main.storyboard */; };
@@ -66,6 +68,7 @@
 		3274F99E18CB33E02A5ADE6D /* Pods-XListing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListing.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XListing/Pods-XListing.debug.xcconfig"; sourceTree = "<group>"; };
 		3B67513D959F982A4CF98B56 /* Pods-XListing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListing.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListing/Pods-XListing.release.xcconfig"; sourceTree = "<group>"; };
 		3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XListingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E107AEA1ABD3F0D00E7B369 /* localBizInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = localBizInfo.json; sourceTree = "<group>"; };
 		7EF3710B1AB8C012009AA3B9 /* XListing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XListing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EF3710F1AB8C012009AA3B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EF371101AB8C012009AA3B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -220,6 +223,7 @@
 		7EF371391AB8C1E8009AA3B9 /* Population */ = {
 			isa = PBXGroup;
 			children = (
+				7E107AEA1ABD3F0D00E7B369 /* localBizInfo.json */,
 				7EF3713A1AB8C1E8009AA3B9 /* BusinessPop.plist */,
 				7EF3713B1AB8C1E8009AA3B9 /* FeaturedPop.plist */,
 			);
@@ -368,6 +372,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
+				7E107AEB1ABD3F0D00E7B369 /* localBizInfo.json in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
 				7EF3714B1AB8C1E8009AA3B9 /* FeaturedPop.plist in Resources */,
 				7EF3714A1AB8C1E8009AA3B9 /* BusinessPop.plist in Resources */,
@@ -381,6 +386,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B43317C61AB8D8F00056C68F /* LaunchScreen.xib in Resources */,
+				7E107AEC1ABD3F0D00E7B369 /* localBizInfo.json in Resources */,
 				B43317C71AB8D8F50056C68F /* Parse.plist in Resources */,
 				B43317C51AB8D8EC0056C68F /* Main.storyboard in Resources */,
 				B43317C81AB8D9290056C68F /* Images.xcassets in Resources */,

@@ -7,10 +7,24 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 class PopulateParse {
-    class func Populate() {
+    class func populate() {
         println("############ Populating Database (Ignore warnings) ############")
+        //populateFromPlist()
+        populateFromJSON()
+        println("############ Populating Completed ############")
+    }
+    
+    private class func populateFromJSON() {
+        let businessEntityArr = fromJSON()
+        for item in businessEntityArr {
+            item.save()
+        }
+    }
+    
+    private class func populateFromPlist() {
         var businesses = loadBusiness("BusinessPop")
         var featureds = loadFeatured("FeaturedPop")
         
@@ -21,7 +35,81 @@ class PopulateParse {
         for f in featureds {
             f.save()
         }
-        println("############ Populating Completed ############")
+    }
+    
+    private class func fromJSON() -> [BusinessEntity] {
+        let path = NSBundle.mainBundle().pathForResource("localBizInfo", ofType: "json")
+        let jsonData = NSData(contentsOfFile: path!, options: .DataReadingMappedIfSafe, error: nil)
+        let json = JSON(data: jsonData!)
+        var businessEntityArr = [BusinessEntity]()
+        for(index: String, subJson: JSON) in json {
+            var b = BusinessEntity()
+            var l = LocationEntity()
+            
+            if let name = subJson["nameSChinese"].string {
+                b.nameSChinese = name
+            }
+            if let name = subJson["nameTChinese"].string {
+                b.nameTChinese = name
+            }
+            if let name = subJson["nameEnglish"].string {
+                b.nameEnglish = name
+            }
+            if let isClaimed = subJson["isClaimed"].bool {
+                b.isClaimed = isClaimed
+            }
+            if let isClosed = subJson["isClosed"].bool {
+                b.isClosed = isClosed
+            }
+            if let phone = subJson["phone"].string {
+                b.phone = phone
+            }
+            if let url = subJson["url"].string {
+                b.url = url
+            }
+            if let mobileUrl = subJson["mobileUrl"].string {
+                b.mobileUrl = mobileUrl
+            }
+            if let uid = subJson["uid"].string {
+                b.uid = uid
+            }
+            if let imageUrl = subJson["imageUrl"].string {
+                b.imageUrl = imageUrl
+            }
+            if let reviewCount = subJson["reviewCount"].int {
+                b.reviewCount = reviewCount
+            }
+            if let rating = subJson["rating"].double {
+                b.rating = rating
+            }
+            if let unit = subJson["unit"].string {
+                l.unit = unit
+            }
+            if let address = subJson["address"].string {
+                l.address = address
+            }
+            if let district = subJson["district"].string {
+                l.district = district
+            }
+            if let city = subJson["city"].string {
+                l.city = city
+            }
+            if let state = subJson["state"].string {
+                l.state = state
+            }
+            if let country = subJson["country"].string {
+                l.country = country
+            }
+            if let postalCode = subJson["postalCode"].string {
+                l.postalCode = postalCode
+            }
+            if let crossStreets = subJson["crossStreets"].string {
+                l.crossStreets = crossStreets
+            }
+            b.location = l
+            businessEntityArr.append(b)
+        }
+        return businessEntityArr
     }
     
     private class func loadBusiness(filename: String) -> [BusinessEntity] {

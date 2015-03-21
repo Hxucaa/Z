@@ -5,11 +5,13 @@ use_frameworks!
 target 'XListing' do
   pod 'Parse'
   pod 'ReactKit'
+  pod 'SwiftyJSON', '>= 2.1.3'
 end
 
 target 'XListingTests' do
   pod 'Parse'
   pod 'ReactKit'
+  pod 'SwiftyJSON', '>= 2.1.3'
   pod 'Quick', :git => 'https://github.com/Quick/Quick.git', :branch => 'swift-1.1'
   pod 'Nimble', :git => 'https://github.com/Quick/Nimble.git', :branch => 'swift-1.1'
 end

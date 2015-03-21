@@ -7,12 +7,14 @@ PODS:
   - ReactKit (0.7.1):
     - SwiftTask (~> 2.6.3)
   - SwiftTask (2.6.3)
+  - SwiftyJSON (2.1.3)
 
 DEPENDENCIES:
   - Nimble (from `https://github.com/Quick/Nimble.git`, branch `swift-1.1`)
   - Parse
   - Quick (from `https://github.com/Quick/Quick.git`, branch `swift-1.1`)
   - ReactKit
+  - SwiftyJSON (>= 2.1.3)
 
 EXTERNAL SOURCES:
   Nimble:
@@ -37,5 +39,6 @@ SPEC CHECKSUMS:
   Quick: 1bda8b4c8d43f6b4dd69ca001918b1767b3c9c93
   ReactKit: 54e09be741bfab6b7f3995b936e340c38824ed2d
   SwiftTask: 18cea3b8aeec84d3b4c1194148833bda0a12d0fe
+  SwiftyJSON: 48be7490a3989a58a3f511cd54167f0a2b466e76
 
 COCOAPODS: 0.36.0
