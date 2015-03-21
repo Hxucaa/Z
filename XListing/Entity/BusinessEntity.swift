@@ -42,9 +42,9 @@ class BusinessEntity: PFObject, PFSubclassing {
     }
     
     // Whether business has been claimed by a business owner
-    var isClaimed: Bool {
+    var isClaimed: Bool? {
         get {
-            return self["is_claimed"] as Bool
+            return self["is_claimed"] as? Bool
         }
         set {
             self["is_claimed"] = newValue
@@ -52,9 +52,9 @@ class BusinessEntity: PFObject, PFSubclassing {
     }
     
     // Whether business has been (permanently) closed
-    var isClosed: Bool {
+    var isClosed: Bool? {
         get {
-            return self["is_closed"] as Bool
+            return self["is_closed"] as? Bool
         }
         set {
             self["is_closed"] = newValue
@@ -62,9 +62,9 @@ class BusinessEntity: PFObject, PFSubclassing {
     }
     
     // Phone number for this business with international dialing code (e.g. +442079460000)
-    var phone: String {
+    var phone: String? {
         get {
-            return self["phone"] as String
+            return self["phone"] as? String
         }
         set {
             self["phone"] = newValue
@@ -91,9 +91,9 @@ class BusinessEntity: PFObject, PFSubclassing {
         }
     }
     
-    var uid: String {
+    var uid: String? {
         get {
-            return self["uid"] as String
+            return self["uid"] as? String
         }
         set {
             self["uid"] = newValue
@@ -121,9 +121,9 @@ class BusinessEntity: PFObject, PFSubclassing {
 //    }
     
     // Number of reviews for this business
-    var reviewCount: Int {
+    var reviewCount: Int? {
         get {
-            return self["review_count"] as Int
+            return self["review_count"] as? Int
         }
         set {
             self["review_count"] = newValue
@@ -148,9 +148,9 @@ class BusinessEntity: PFObject, PFSubclassing {
     }
     
     // Location
-    var location: LocationEntity {
+    var location: LocationEntity? {
         get {
-            return self["location"] as LocationEntity
+            return self["location"] as? LocationEntity
         }
         set {
             self["location"] = newValue
@@ -162,9 +162,9 @@ class BusinessEntity: PFObject, PFSubclassing {
     [["Local Flavor", "localflavor"], ["Active Life", "active"], ["Mass Media", "massmedia"]]
     The alias is provided so you can search with the category_filter.
     */
-    var categories: [String] {
+    var categories: [String]? {
         get {
-            return self["categories"] as [String]
+            return self["categories"] as? [String]
         }
         set {
             self["categories"] = newValue

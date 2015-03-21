@@ -20,9 +20,9 @@ class LocationEntity: PFObject, PFSubclassing {
     }
     
     // Address for this business. Only includes address fields.
-    var address: String {
+    var address: String? {
         get {
-            return self["address"] as String
+            return self["address"] as? String
         }
         set {
             self["address"] = newValue
@@ -46,27 +46,27 @@ class LocationEntity: PFObject, PFSubclassing {
 //    }
     
     // City for this business
-    var city: String {
+    var city: String? {
         get {
-            return self["city"] as String
+            return self["city"] as? String
         }
         set {
             self["city"] = newValue
         }
     }
     
-    var state: String {
+    var state: String? {
         get {
-            return self["state"] as String
+            return self["state"] as? String
         }
         set {
             self["state"] = newValue
         }
     }
     
-    var country: String {
+    var country: String? {
         get {
-            return self["country"] as String
+            return self["country"] as? String
         }
         set {
             self["country"] = newValue
@@ -94,9 +94,9 @@ class LocationEntity: PFObject, PFSubclassing {
     }
     
     // List that provides neighborhood(s) information for business
-    var neighborhoods: [String] {
+    var neighborhoods: [String]? {
         get {
-            return self["neighborhoods"] as [String]
+            return self["neighborhoods"] as? [String]
         }
         set {
             self["neighborhoods"] = newValue

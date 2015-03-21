@@ -43,7 +43,7 @@ class ListManager {
         let resultTask = task
             .success { (objects: [AnyObject]) -> [BusinessEntity] in
                 var featureds = objects as [FeaturedEntity]
-                var businesses = featureds.map( {$0.business} )
+                var businesses = featureds.map( {$0.business!} )
                 
                 return businesses
             }

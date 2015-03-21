@@ -12,27 +12,27 @@ struct FeaturedListDisplayData : Printable {
     var nameSChinese: String?
     var nameTChinese: String?
     var nameEnglish: String?
-    var isClaimed: Bool
-    var isClosed: Bool
-    var phone: String
+    var isClaimed: Bool?
+    var isClosed: Bool?
+    var phone: String?
     var url: String?
     var mobileUrl: String?
-    var uid: String
+    var uid: String?
     var imageUrl: String?
 //    var displayPhone: String
-    var reviewCount: Int
+    var reviewCount: Int?
 //    var distance: Double?
     var rating: Double?
     var unit: String?
-    var address: String
+    var address: String?
     var district: String?
 //    var displayAddress: [String]
-    var city: String
-    var state: String
-    var country: String
+    var city: String?
+    var state: String?
+    var country: String?
     var postalCode: String?
     var crossStreets: String?
-    var neighborhoods: [String]
+    var neighborhoods: [String]?
     
     init(businessDomain: BusinessDomain) {
         nameSChinese = businessDomain.nameSChinese
