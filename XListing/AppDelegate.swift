@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         ParseClient.registerSubclasses()
         ParseClient.initializeClient()
-        
+        PopulateParse().populate()
         return true
     }
 

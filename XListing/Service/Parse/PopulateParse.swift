@@ -13,7 +13,7 @@ import Dollar
 
 class PopulateParse {
     
-    typealias saveTask = Task<Int, Bool, NSError>
+    private typealias saveTask = Task<Int, Bool, NSError>
     
     init() {
         
@@ -42,7 +42,7 @@ class PopulateParse {
                 return
             }
             .success { successes -> Void in
-                if $.every(successes, callback: { $0 }) && businessEntityArr.count {
+                if $.every(successes, callback: { $0 }) && successes.count == businessEntityArr.count {
                     println("Upload data to server completes successfully!")
                 }
                 else {
