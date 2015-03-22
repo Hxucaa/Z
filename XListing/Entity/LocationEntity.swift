@@ -103,6 +103,14 @@ class LocationEntity: PFObject, PFSubclassing {
         }
     }
     
+    var geopoint: PFGeoPoint? {
+        get {
+            return self["geopoint"] as? PFGeoPoint
+        }
+        set {
+            self["geopoint"] = newValue
+        }
+    }
     
     // Class Name
     class func parseClassName() -> String! {

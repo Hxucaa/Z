@@ -8,40 +8,70 @@
 
 import Foundation
 import SwiftyJSON
+import SwiftTask
 
 class PopulateParse {
-    class func populate() {
-        println("############ Populating Database (Ignore warnings) ############")
-        //populateFromPlist()
+    
+    typealias saveTask = Task<Int, Bool, NSError>
+    
+    init() {
+        
+    }
+    
+    func populate() {
         populateFromJSON()
-        println("############ Populating Completed ############")
     }
     
-    private class func populateFromJSON() {
-        let businessEntityArr = fromJSON()
-        for item in businessEntityArr {
-            item.save()
-        }
-    }
-    
-    private class func populateFromPlist() {
-        var businesses = loadBusiness("BusinessPop")
-        var featureds = loadFeatured("FeaturedPop")
+    private func populateFromJSON() {
+        var businessEntityArr = fromJSON("localBizInfo", ofType: "json")
         
-        featureds[0].business = businesses[0]
-        featureds[1].business = businesses[1]
-        featureds[2].business = businesses[2]
-        
-        for f in featureds {
-            f.save()
+        // launch all tasks
+        let uploadTasks = businessEntityArr.map { (business: BusinessEntity) -> saveTask in
+            let l = business.location!
+            let addressString = "\(l.address!) \(l.city!) \(l.state!) \(l.country!)"
+            
+            return self.uploadToParse(business, addressString: addressString)
         }
+        
+        // ensure all upload tasks are successful
+        Task
+            .all(uploadTasks)
+            .progress { (oldProgress, newProgress) -> Void in
+                println("Progress: \(newProgress.completedCount)/\(newProgress.totalCount)")
+                return
+            }
+            .success { successes -> Void in
+                var counter = 0
+                for s in successes {
+                    counter++
+                }
+                if counter == businessEntityArr.count {
+                    println("Upload data to server completes successfully!")
+                }
+                else {
+                    println("Upload fails!")
+                }
+            }
+            .failure { (error, isCancelled) -> Void in
+                if let error = error {
+                    println("Error: \(error.localizedDescription)")
+                }
+                if isCancelled {
+                    println("Tasks cancelled!")
+                }
+            }
+        
     }
     
-    private class func fromJSON() -> [BusinessEntity] {
-        let path = NSBundle.mainBundle().pathForResource("localBizInfo", ofType: "json")
+    ///
+    /// Load data from JSON file
+    ///
+    private func fromJSON(filename: String, ofType: String) -> [BusinessEntity] {
+        let path = NSBundle.mainBundle().pathForResource(filename, ofType: ofType)
         let jsonData = NSData(contentsOfFile: path!, options: .DataReadingMappedIfSafe, error: nil)
         let json = JSON(data: jsonData!)
         var businessEntityArr = [BusinessEntity]()
+        
         for(index: String, subJson: JSON) in json {
             var b = BusinessEntity()
             var l = LocationEntity()
@@ -106,73 +136,65 @@ class PopulateParse {
             if let crossStreets = subJson["crossStreets"].string {
                 l.crossStreets = crossStreets
             }
+            
             b.location = l
             businessEntityArr.append(b)
         }
         return businessEntityArr
     }
     
-    private class func loadBusiness(filename: String) -> [BusinessEntity] {
-        var businesses = [BusinessEntity]()
+    ///
+    /// Upload to Parse server
+    ///
+    private func uploadToParse(business: BusinessEntity, addressString: String) -> saveTask {
         
-        let businessArray = loadFromPlist(filename)
-        for business in businessArray {
-            let busDict = business as NSDictionary
-            var newBus = BusinessEntity()
-            newBus.isClaimed = busDict["isClaimed"] as? Bool
-            newBus.isClosed = busDict["isClosed"] as? Bool
-            newBus.nameSChinese = busDict["nameSChinese"] as? String
-            newBus.nameTChinese = busDict["nameTChinese"] as? String
-            newBus.nameEnglish = busDict["nameEnglish"] as? String
-            newBus.imageUrl = busDict["imageUrl"] as? String
-            newBus.url = busDict["url"] as? String
-            newBus.mobileUrl = busDict["mobileUrl"] as? String
-            newBus.phone = busDict["phone"] as? String
-//            newBus.displayPhone = busDict["displayPhone"] as String
-            newBus.uid = busDict["uid"] as? String
-            newBus.reviewCount = busDict["reviewCount"] as? Int
-            newBus.rating = busDict["rating"] as? Double
-            
-            var loc = LocationEntity()
-            if let locDict = busDict["location"] as? NSDictionary {
-                loc.unit = locDict["unit"] as? String
-                loc.address = locDict["address"] as? String
-                loc.district = locDict["district"] as? String
-                loc.city = locDict["city"] as? String
-                loc.state = locDict["state"] as? String
-                loc.postalCode = locDict["postalCode"] as? String
-                loc.country = locDict["country"] as? String
-                loc.crossStreets = locDict["crossStreets"] as? String
-                loc.neighborhoods = locDict["neighborhoods"] as? [String]
+        // translate address to geo location coordinates
+        let forwardGeocodingTask = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
+            CLGeocoder().geocodeAddressString(addressString, completionHandler: { (placemarks: [AnyObject]!, error: NSError!) -> Void in
+                if error == nil && placemarks.count > 0 {
+                    fulfill(placemarks)
+                }
+                else {
+                    reject(error)
+                }
+            })
+        }
+        
+        let resultTask = forwardGeocodingTask
+            .success { (placemarks: [AnyObject]) -> saveTask in
+                // upload to parse
+                func saveToParse(business: BusinessEntity) -> saveTask {
+                    let task = Task<Int, Bool, NSError> { progress, fulfill, reject, configure in
+                        business.saveInBackgroundWithBlock { (success, error) -> Void in
+                            if success {
+                                fulfill(success)
+                            }
+                            else {
+                                reject(error)
+                            }
+                        }
+                    }
+                    return task
+                }
+                
+                // convert to PFGeoPoint
+                let placemark = placemarks[0] as CLPlacemark
+                let location = placemark.location
+                let geopoint = PFGeoPoint(location: location)
+                
+                business.location?.geopoint = geopoint
+                
+                return saveToParse(business)
             }
-            
-            newBus.location = loc
-            
-            businesses.append(newBus)
-        }
-        return businesses
-    }
-    
-    
-    private class func loadFeatured(filename: String) -> [FeaturedEntity] {
-        var featureds = [FeaturedEntity]()
-        
-        let featuredArray = loadFromPlist(filename)
-        for featured in featuredArray {
-            let feaDict = featured as NSDictionary
-            var newFea = FeaturedEntity()
-            newFea.timeStart = feaDict["timeStart"] as? NSDate
-            newFea.timeEnd = feaDict["timeEnd"] as? NSDate
-            
-            featureds.append(newFea)
-        }
-        return featureds
-    }
-    
-    private class func loadFromPlist(filename: String) -> NSArray {
-        let path = NSBundle.mainBundle().pathForResource(filename, ofType: "plist")
-        
-        var array = NSArray(contentsOfFile: path!)!
-        return array
+            .failure { (error: NSError?, isCancelled: Bool) -> Bool in
+                if let error = error {
+                    println("Forward geocoding failed with error: \(error.localizedDescription)")
+                }
+                if isCancelled {
+                    println("Forward geocoding cancelled")
+                }
+                return false
+            }
+        return resultTask
     }
 }
