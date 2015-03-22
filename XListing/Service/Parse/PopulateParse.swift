@@ -9,6 +9,7 @@
 import Foundation
 import SwiftyJSON
 import SwiftTask
+import Dollar
 
 class PopulateParse {
     
@@ -41,11 +42,7 @@ class PopulateParse {
                 return
             }
             .success { successes -> Void in
-                var counter = 0
-                for s in successes {
-                    counter++
-                }
-                if counter == businessEntityArr.count {
+                if $.every(successes, callback: { $0 }) && businessEntityArr.count {
                     println("Upload data to server completes successfully!")
                 }
                 else {
