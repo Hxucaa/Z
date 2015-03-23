@@ -13,7 +13,7 @@ import Dollar
 
 class PopulateParse {
     
-    private typealias saveTask = Task<Int, Bool, NSError>
+    private typealias SaveTask = Task<Int, Bool, NSError>
     
     init() {
         
@@ -21,28 +21,87 @@ class PopulateParse {
     
     func populate() {
         populateFromJSON()
+        
+    }
+    
+    func featuredizeByNameSChinese(name: String) {
+        // create a task to find the business first
+        let queryTask =
+            Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
+                
+                var query = BusinessEntity.query()
+                query.whereKey("name_schinese", equalTo: name)
+                
+                query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
+                    if error == nil {
+                        let count = objects.count
+                        if count > 1 {
+                            reject(NSError(domain: "There are \(count) business(es) sharing the same name.", code: 001, userInfo: nil))
+                        }
+                        else if count == 0 {
+                            reject(NSError(domain: "No business found", code: 000, userInfo: nil))
+                        }
+                        else {
+                            fulfill(objects)
+                        }
+                        
+                    }
+                    else {
+                        reject(error)
+                    }
+                })
+            }
+            .then { (objects, errorInfo) -> BusinessEntity? in
+                if errorInfo == nil {
+                    return (objects as? [BusinessEntity])?.first
+                }
+                else {
+                    return nil
+                }
+            }
+        
+        // create a task to save to the cloud
+        let saveTask = queryTask
+            .success { business -> SaveTask in
+                let featured = FeaturedEntity()
+                featured.timeStart = NSDate()
+                featured.timeEnd = NSDate()
+                featured.business = business
+                return self.createSaveInBackgroundTask(featured)
+            }
+        
+        // process save tasks
+        processAllSaveTasks([saveTask])
     }
     
     private func populateFromJSON() {
-        var businessEntityArr = fromJSON("localBizInfo", ofType: "json")
+        var businessEntityArr = loadBusinessesFromJSON("localBizInfo", ofType: "json")
         
         // launch all tasks
-        let uploadTasks = businessEntityArr.map { (business: BusinessEntity) -> saveTask in
+        let uploadTasks = businessEntityArr.map { (business: BusinessEntity) -> SaveTask in
             let l = business.location!
             let addressString = "\(l.address!) \(l.city!) \(l.state!) \(l.country!)"
             
-            return self.uploadToParse(business, addressString: addressString)
+            return self.createGeoEncodedUploadTask(business, addressString: addressString)
         }
         
+        processAllSaveTasks(uploadTasks)
+        
+    }
+    
+    ///
+    /// @abstract Process every save task.
+    ///
+    private func processAllSaveTasks(tasks: [SaveTask]) {
         // ensure all upload tasks are successful
         Task
-            .all(uploadTasks)
+            .all(tasks)
             .progress { (oldProgress, newProgress) -> Void in
                 println("Progress: \(newProgress.completedCount)/\(newProgress.totalCount)")
                 return
             }
             .success { successes -> Void in
-                if $.every(successes, callback: { $0 }) && successes.count == businessEntityArr.count {
+                if $.every(successes, callback: { $0 }) && successes.count == tasks.count {
                     println("Upload data to server completes successfully!")
                 }
                 else {
@@ -56,14 +115,13 @@ class PopulateParse {
                 if isCancelled {
                     println("Tasks cancelled!")
                 }
-            }
-        
+        }
     }
     
     ///
-    /// Load data from JSON file
+    /// @abstract Load data from JSON file
     ///
-    private func fromJSON(filename: String, ofType: String) -> [BusinessEntity] {
+    private func loadBusinessesFromJSON(filename: String, ofType: String) -> [BusinessEntity] {
         let path = NSBundle.mainBundle().pathForResource(filename, ofType: ofType)
         let jsonData = NSData(contentsOfFile: path!, options: .DataReadingMappedIfSafe, error: nil)
         let json = JSON(data: jsonData!)
@@ -141,9 +199,9 @@ class PopulateParse {
     }
     
     ///
-    /// Upload to Parse server
+    /// @abstract Upload to Parse server
     ///
-    private func uploadToParse(business: BusinessEntity, addressString: String) -> saveTask {
+    private func createGeoEncodedUploadTask(business: BusinessEntity, addressString: String) -> SaveTask {
         
         // translate address to geo location coordinates
         let forwardGeocodingTask = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
@@ -158,30 +216,16 @@ class PopulateParse {
         }
         
         let resultTask = forwardGeocodingTask
-            .success { (placemarks: [AnyObject]) -> saveTask in
-                // upload to parse
-                func saveToParse(business: BusinessEntity) -> saveTask {
-                    let task = Task<Int, Bool, NSError> { progress, fulfill, reject, configure in
-                        business.saveInBackgroundWithBlock { (success, error) -> Void in
-                            if success {
-                                fulfill(success)
-                            }
-                            else {
-                                reject(error)
-                            }
-                        }
-                    }
-                    return task
-                }
+            .success { (placemarks: [AnyObject]) -> SaveTask in
                 
                 // convert to PFGeoPoint
                 let placemark = placemarks[0] as CLPlacemark
                 let location = placemark.location
-                let geopoint = PFGeoPoint(location: location)
+                let geopoint = GeoPointEntity(location)
                 
                 business.location?.geopoint = geopoint
                 
-                return saveToParse(business)
+                return self.createSaveInBackgroundTask(business)
             }
             .failure { (error: NSError?, isCancelled: Bool) -> Bool in
                 if let error = error {
@@ -193,5 +237,22 @@ class PopulateParse {
                 return false
             }
         return resultTask
+    }
+    
+    ///
+    /// @abstract Save in background task
+    ///
+    private func createSaveInBackgroundTask<T: PFObject>(object: T) -> SaveTask {
+        let task = SaveTask { progress, fulfill, reject, configure in
+            object.saveInBackgroundWithBlock { (success, error) -> Void in
+                if success {
+                    fulfill(success)
+                }
+                else {
+                    reject(error)
+                }
+            }
+        }
+        return task
     }
 }

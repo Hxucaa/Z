@@ -19,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         ParseClient.registerSubclasses()
         ParseClient.initializeClient()
-        PopulateParse().populate()
+//        PopulateParse().populate()
+//        PopulateParse().featuredizeByNameSChinese("海港")
         return true
     }
 

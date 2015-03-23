@@ -33,6 +33,7 @@ struct FeaturedListDisplayData : Printable {
     var postalCode: String?
     var crossStreets: String?
     var neighborhoods: [String]?
+    var distance: Double?
     
     init(businessDomain: BusinessDomain) {
         nameSChinese = businessDomain.nameSChinese
@@ -59,6 +60,7 @@ struct FeaturedListDisplayData : Printable {
         postalCode = businessDomain.postalCode
         crossStreets = businessDomain.crossStreets
         neighborhoods = businessDomain.neighborhoods
+        distance = businessDomain.distance
     }
     
     var description: String {
@@ -69,6 +71,7 @@ struct FeaturedListDisplayData : Printable {
             
             result += "\(propertyName): \(childMirror.value)\n"
         }
+        result += "\n"
         return result
     }
 }

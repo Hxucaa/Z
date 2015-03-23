@@ -33,8 +33,9 @@ struct BusinessDomain : Printable {
     var postalCode: String?
     var crossStreets: String?
     var neighborhoods: [String]?
+    var distance: Double?
     
-    init(business: BusinessEntity) {
+    init(_ business: BusinessEntity) {
         nameSChinese = business.nameSChinese
         nameTChinese = business.nameTChinese
         nameEnglish = business.nameEnglish
@@ -60,6 +61,7 @@ struct BusinessDomain : Printable {
             postalCode = loc.postalCode
             crossStreets = loc.crossStreets
             neighborhoods = loc.neighborhoods
+            
         }
     }
     
@@ -71,6 +73,7 @@ struct BusinessDomain : Printable {
             
             result += "\(propertyName): \(childMirror.value)\n"
         }
+        result += "\n"
         return result
     }
 }

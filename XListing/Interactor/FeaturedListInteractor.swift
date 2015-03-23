@@ -10,26 +10,33 @@ import Foundation
 import SwiftTask
 
 class FeaturedListInteractor {
-    private var listManager = ListManager()
-    
-//    func getFeaturedList(callback: (businesses: [BusinessDomain], error: NSError?) -> Void) {
-//        listManager.findAListOfFeaturedBusinesses { (list, error) in
-//            var bd = list.map {BusinessDomain(business: $0)}
-//            callback(businesses: bd, error: error)
-//        }
-//    }
+    private let listManager = ListManager()
+    private let locationManager = LocationManager()
     
     func getFeaturedList() -> Task<Int, [BusinessDomain], NSError> {
         
-        let task = listManager.findAListOfFeaturedBusinesses()
-        
-        let resultTask = task
-            .success { businessEntities -> [BusinessDomain] in
-                let bd = businessEntities.map {BusinessDomain(business: $0)}
+        // acquire current location
+        let currentLocationTask = locationManager.getCurrentGeoPoint()
+        let resultTask = currentLocationTask.success { currentgp -> Task<Int, [BusinessDomain], NSError> in
+            
+            // retrieve a list of featured businesses
+            let featuredBusinessesArrTask = self.listManager.findAListOfFeaturedBusinesses()
+            let businessDomainConversionTask = featuredBusinessesArrTask.success { businessEntityArr -> [BusinessDomain] in
                 
-                return bd
+                // map to domain model
+                let bdArr = businessEntityArr.map { be -> BusinessDomain in
+                    var bd = BusinessDomain(be)
+                    bd.distance = be.location?.geopoint?.distanceInKilometersTo(currentgp)
+                    return bd
+                }
+                    
+                return bdArr
             }
+            
+            return businessDomainConversionTask
+        }
         
         return resultTask
     }
 }
+

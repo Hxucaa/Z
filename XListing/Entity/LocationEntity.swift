@@ -103,12 +103,17 @@ class LocationEntity: PFObject, PFSubclassing {
         }
     }
     
-    var geopoint: PFGeoPoint? {
+    var geopoint: GeoPointEntity? {
         get {
-            return self["geopoint"] as? PFGeoPoint
+            if let gp = self["geopoint"] as? PFGeoPoint {
+                return GeoPointEntity(gp)
+            }
+            else {
+                return nil
+            }
         }
         set {
-            self["geopoint"] = newValue
+            self["geopoint"] = newValue?.pfGeoPoint
         }
     }
     

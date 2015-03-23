@@ -10,18 +10,6 @@ import Foundation
 import SwiftTask
 
 class ListManager {
-//    func findAListOfFeaturedBusinesses(callback: (businesses: [BusinessEntity], error: NSError?) -> Void) {
-//        var query = FeaturedEntity.query()
-//        query.includeKey("business")
-//        query.includeKey("business.location")
-//
-//        query.findObjectsInBackgroundWithBlock {(objects: [AnyObject]!, error: NSError!) -> Void in
-//            //TODO: handle NSError
-//            var featureds = objects as [FeaturedEntity]
-//            var businesses = featureds.map( {$0.business} )
-//            callback(businesses: businesses, error: error)
-//        }
-//    }
     
     func findAListOfFeaturedBusinesses() -> Task<Int, [BusinessEntity], NSError> {
         
@@ -39,14 +27,23 @@ class ListManager {
                 }
             }
         }
-        
-        let resultTask = task
-            .success { (objects: [AnyObject]) -> [BusinessEntity] in
-                var featureds = objects as [FeaturedEntity]
-                var businesses = featureds.map( {$0.business!} )
-                
-                return businesses
+        .then { (objects: [AnyObject]?, errorInfo) -> [FeaturedEntity]? in
+            if let errorInfo = errorInfo {
+                return nil
             }
-        return resultTask
+            else {
+                return objects as? [FeaturedEntity]
+            }
+        }
+        .success { (objects: [FeaturedEntity]?) -> [BusinessEntity] in
+            var businesses = [BusinessEntity]()
+            if let featureds = objects {
+                businesses = featureds.map( {$0.business!} )
+            }
+            
+            return businesses
+        }
+        
+        return task
     }
 }
