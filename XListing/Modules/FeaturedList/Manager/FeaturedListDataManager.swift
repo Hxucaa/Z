@@ -9,15 +9,19 @@
 import Foundation
 import SwiftTask
 
-class FeaturedListDataManager {
+class FeaturedListDataManager : IFeaturedListDataManager {
     
     func findAListOfFeaturedBusinesses() -> Task<Int, [BusinessEntity], NSError> {
         
         let task = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
+            // create a query based on FeaturedEntity
             var query = FeaturedEntity.query()
+            
+            // include objects that should be included in one request
             query.includeKey("business")
             query.includeKey("business.location")
             
+            // send request
             query.findObjectsInBackgroundWithBlock {(objects: [AnyObject]!, error: NSError!) in
                 if error == nil {
                     fulfill(objects)

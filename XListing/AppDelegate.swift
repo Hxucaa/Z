@@ -17,9 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        // must register subclasses before connecting to Parse
         ParseClient.registerSubclasses()
+        // connect to Parse
         ParseClient.initializeClient()
         
+        // initialize root view
         appDependencies.installRootViewControllerIntoWindow(window!)
         
 //        PopulateParse().populate()

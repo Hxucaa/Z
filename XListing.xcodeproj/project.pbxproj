@@ -58,6 +58,12 @@
 		B4CC825F1AC15C8100E85CEA /* IFeaturedListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC825D1AC15C8100E85CEA /* IFeaturedListInteractor.swift */; };
 		B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */; };
 		B4CC82661AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */; };
+		B4E36B961AC1E085000F260E /* IFeaturedListDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36B951AC1E085000F260E /* IFeaturedListDataManager.swift */; };
+		B4E36B971AC1E085000F260E /* IFeaturedListDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36B951AC1E085000F260E /* IFeaturedListDataManager.swift */; };
+		B4E36B991AC1E141000F260E /* ILocationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36B981AC1E141000F260E /* ILocationDataManager.swift */; };
+		B4E36B9A1AC1E141000F260E /* ILocationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36B981AC1E141000F260E /* ILocationDataManager.swift */; };
+		B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36B9D1AC1F5F1000F260E /* BaseWireframe.swift */; };
+		B4E36B9F1AC1F5F1000F260E /* BaseWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36B9D1AC1F5F1000F260E /* BaseWireframe.swift */; };
 		E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -110,6 +116,9 @@
 		B4CC825A1AC15AD600E85CEA /* IFeaturedListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListPresenter.swift; sourceTree = "<group>"; };
 		B4CC825D1AC15C8100E85CEA /* IFeaturedListInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListInteractor.swift; sourceTree = "<group>"; };
 		B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedListViewController.swift; path = View/FeaturedListViewController.swift; sourceTree = "<group>"; };
+		B4E36B951AC1E085000F260E /* IFeaturedListDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListDataManager.swift; sourceTree = "<group>"; };
+		B4E36B981AC1E141000F260E /* ILocationDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ILocationDataManager.swift; sourceTree = "<group>"; };
+		B4E36B9D1AC1F5F1000F260E /* BaseWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWireframe.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,7 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				7EF371381AB8C1E8009AA3B9 /* FeaturedListDataManager.swift */,
-				B47C0EA21ABF78E600F9FB31 /* LocationDataManager.swift */,
+				B4E36B951AC1E085000F260E /* IFeaturedListDataManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -329,6 +338,8 @@
 		B4CC82671AC1662900E85CEA /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				B4E36B9C1AC1F5C9000F260E /* Wireframe */,
+				B4E36B9B1AC1E180000F260E /* Manager */,
 				7EF3713F1AB8C1E8009AA3B9 /* Service */,
 				7EF371301AB8C1E8009AA3B9 /* Entity */,
 			);
@@ -349,6 +360,25 @@
 				B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */,
 			);
 			path = Wireframe;
+			sourceTree = "<group>";
+		};
+		B4E36B9B1AC1E180000F260E /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				B47C0EA21ABF78E600F9FB31 /* LocationDataManager.swift */,
+				B4E36B981AC1E141000F260E /* ILocationDataManager.swift */,
+			);
+			name = Manager;
+			path = Common/Manager;
+			sourceTree = "<group>";
+		};
+		B4E36B9C1AC1F5C9000F260E /* Wireframe */ = {
+			isa = PBXGroup;
+			children = (
+				B4E36B9D1AC1F5F1000F260E /* BaseWireframe.swift */,
+			);
+			name = Wireframe;
+			path = Common/Wireframe;
 			sourceTree = "<group>";
 		};
 		CEFE73BB6B4CAA9AA89661B3 /* Pods */ = {
@@ -581,13 +611,16 @@
 				7EF371111AB8C012009AA3B9 /* AppDelegate.swift in Sources */,
 				7EF3714F1AB8C1E8009AA3B9 /* PopulateParse.swift in Sources */,
 				B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */,
+				B4E36B991AC1E141000F260E /* ILocationDataManager.swift in Sources */,
 				7EF371481AB8C1E8009AA3B9 /* FeaturedListInteractor.swift in Sources */,
 				7EF3714D1AB8C1E8009AA3B9 /* FeaturedListPresenter.swift in Sources */,
 				B47C0EA31ABF78E600F9FB31 /* LocationDataManager.swift in Sources */,
+				B4E36B961AC1E085000F260E /* IFeaturedListDataManager.swift in Sources */,
 				7EF3714C1AB8C1E8009AA3B9 /* FeaturedListDisplayData.swift in Sources */,
 				7EF3714E1AB8C1E8009AA3B9 /* ParseClient.swift in Sources */,
 				B4CC825B1AC15AD600E85CEA /* IFeaturedListPresenter.swift in Sources */,
 				B47C0EA01ABF6DF200F9FB31 /* GeoPointEntity.swift in Sources */,
+				B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,6 +631,7 @@
 				B4CC825C1AC15AD600E85CEA /* IFeaturedListPresenter.swift in Sources */,
 				7EF3715A1AB8C9C9009AA3B9 /* FeaturedEntity.swift in Sources */,
 				7EF371571AB8C9B3009AA3B9 /* BusinessSpec.swift in Sources */,
+				B4E36B9F1AC1F5F1000F260E /* BaseWireframe.swift in Sources */,
 				7EF371591AB8C9C5009AA3B9 /* BusinessEntity.swift in Sources */,
 				B4CC82661AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */,
 				B43317BB1AB8D8D50056C68F /* FeaturedListDataManager.swift in Sources */,
@@ -616,6 +650,8 @@
 				B43317BE1AB8D8DD0056C68F /* FeaturedListDisplayData.swift in Sources */,
 				B4CC825F1AC15C8100E85CEA /* IFeaturedListInteractor.swift in Sources */,
 				B43317C11AB8D8E20056C68F /* ParseClient.swift in Sources */,
+				B4E36B971AC1E085000F260E /* IFeaturedListDataManager.swift in Sources */,
+				B4E36B9A1AC1E141000F260E /* ILocationDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

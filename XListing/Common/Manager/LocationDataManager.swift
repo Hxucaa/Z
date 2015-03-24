@@ -9,12 +9,11 @@
 import Foundation
 import SwiftTask
 
-class LocationDataManager {
-    ///
-    /// @abstract Current location.
-    ///
+class LocationDataManager : ILocationDataManager {
+    
     func getCurrentGeoPoint() -> Task<Int, GeoPointEntity, NSError> {
         let task = Task<Int, GeoPointEntity, NSError> { progress, fulfill, reject, configure in
+            // asks device for current location
             GeoPointEntity.geoPointForCurrentLocationInBackground({ (geopoint, error) -> Void in
                 if error == nil {
                     fulfill(geopoint)
@@ -23,14 +22,6 @@ class LocationDataManager {
                     reject(error)
                 }
             })
-        }
-        
-        return task
-    }
-    
-    func calDistanceInKilometersFromCurrentLocationTo(another: GeoPointEntity!) -> Task<Int, Double, NSError> {
-        let task = getCurrentGeoPoint().success { (current: GeoPointEntity) -> Double in
-            return current.distanceInKilometersTo(another)
         }
         
         return task

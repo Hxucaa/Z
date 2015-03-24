@@ -10,5 +10,10 @@ import Foundation
 import SwiftTask
 
 protocol IFeaturedListInteractor {
+    
+    /// This function returns a Task which contains an array of Business Domain Model.
+    ///
+    /// :returns: a generic Task containing an array of Business Domain Model.
+    ///
     func getFeaturedList() -> Task<Int, [BusinessDomain], NSError>
 }

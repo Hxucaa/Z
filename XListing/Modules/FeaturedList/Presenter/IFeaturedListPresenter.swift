@@ -10,5 +10,8 @@ import Foundation
 import SwiftTask
 
 protocol IFeaturedListPresenter {
+    /// This function returns a Task which contains an array of Display Data of Featured List.
+    ///
+    /// :returns: a generic Task containing an array of FeaturedListDisplayData.
     func getList() -> Task<Int, [FeaturedListDisplayData], NSError>
 }

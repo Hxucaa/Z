@@ -10,7 +10,7 @@ import Foundation
 
 let FeaturedListViewControllerIdentifier = "FeaturedListViewController"
 
-class FeaturedListWireframe {
+class FeaturedListWireframe : BaseWireframe {
     
     private var featuredListPresenter: IFeaturedListPresenter?
     private var rootWireframe: RootWireframe?
@@ -21,28 +21,40 @@ class FeaturedListWireframe {
         self.featuredListPresenter = featuredListPresenter
     }
     
+    /**
+        Display FeaturedList to Window.
+        
+        :param: window The UIWindow.
+    */
     func presentFeaturedListInterfaceFromWindows(window: UIWindow) {
-        let viewController = featuredListViewControllerFromStoryboard()
-        viewController.featuredListPresenter = featuredListPresenter
-        featuredListViewController = viewController
-        rootWireframe?.showRootViewController(viewController, inWindow: window)
+        
+        let injectedViewController = injectPresenterToViewController()
+        rootWireframe?.showRootViewController(injectedViewController, inWindow: window)
         
     }
     
-    ///
-    /// @abstract Get FeaturedListViewController from the storyboard.
-    ///
+    /**
+        Inject presenter to view controller.
+    
+        :returns: Properly configured FeaturedListViewController.
+    */
+    private func injectPresenterToViewController() -> FeaturedListViewController {
+        // retrieve view controller from storyboard
+        let viewController = featuredListViewControllerFromStoryboard()
+        viewController.featuredListPresenter = featuredListPresenter
+        featuredListViewController = viewController
+        return viewController
+    }
+    
+    /**
+        Get FeaturedListViewController from the storyboard.
+        
+        :returns: A FeaturedListViewController
+    */
     private func featuredListViewControllerFromStoryboard() -> FeaturedListViewController {
         let storyboard = mainStoryboard()
         let viewController = storyboard.instantiateViewControllerWithIdentifier(FeaturedListViewControllerIdentifier) as FeaturedListViewController
         return viewController
     }
     
-    ///
-    /// @abstract Get storyboard
-    ///
-    private func mainStoryboard() -> UIStoryboard {
-        let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-        return storyboard
-    }
 }
