@@ -12,8 +12,8 @@ let FeaturedListViewControllerIdentifier = "FeaturedListViewController"
 
 class FeaturedListWireframe : BaseWireframe {
     
-    private var featuredListPresenter: IFeaturedListPresenter?
-    private var rootWireframe: RootWireframe?
+    private let featuredListPresenter: IFeaturedListPresenter?
+    private let rootWireframe: RootWireframe?
     private var featuredListViewController: FeaturedListViewController?
     
     init(rootWireframe: RootWireframe, featuredListPresenter: IFeaturedListPresenter) {
@@ -40,21 +40,9 @@ class FeaturedListWireframe : BaseWireframe {
     */
     private func injectPresenterToViewController() -> FeaturedListViewController {
         // retrieve view controller from storyboard
-        let viewController = featuredListViewControllerFromStoryboard()
+        let viewController = getViewControllerFromStoryboard(FeaturedListViewControllerIdentifier) as FeaturedListViewController
         viewController.featuredListPresenter = featuredListPresenter
         featuredListViewController = viewController
         return viewController
     }
-    
-    /**
-        Get FeaturedListViewController from the storyboard.
-        
-        :returns: A FeaturedListViewController
-    */
-    private func featuredListViewControllerFromStoryboard() -> FeaturedListViewController {
-        let storyboard = mainStoryboard()
-        let viewController = storyboard.instantiateViewControllerWithIdentifier(FeaturedListViewControllerIdentifier) as FeaturedListViewController
-        return viewController
-    }
-    
 }
