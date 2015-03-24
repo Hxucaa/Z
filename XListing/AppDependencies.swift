@@ -10,25 +10,30 @@ import Foundation
 
 class AppDependencies {
     
-    var featuredListWireframe = FeaturedListWireframe()
+    private var featuredListWireframe: FeaturedListWireframe?
     
     init() {
-        configureDependencies()
+        let rootWireframe = RootWireframe()
+        
+        configureFeaturedListDependencies(rootWireframe)
     }
     
     func installRootViewControllerIntoWindow(window: UIWindow) {
-        featuredListWireframe.presentFeaturedListInterfaceFromWindows(window)
+        featuredListWireframe?.presentFeaturedListInterfaceFromWindows(window)
     }
     
-    func configureDependencies() {
-        let rootWireframe = RootWireframe()
+    private func configureFeaturedListDependencies(rootWireframe: RootWireframe) {
         
-        let locationDataManager = LocationManager()
-        let featuredListDataManager = ListManager()
+        // create data manager first
+        let locationDataManager = LocationDataManager()
+        let featuredListDataManager = FeaturedListDataManager()
+        
+        // instantiate interactor next
         let featuredListInteractor = FeaturedListInteractor(featuredListDataManager: featuredListDataManager, locationDataManager: locationDataManager)
+        
+        // instantiate presenter next
         let featuredListPresenter = FeaturedListPresenter(featuredListInteractor: featuredListInteractor)
         
-        featuredListWireframe.featuredListPresenter = featuredListPresenter
-        featuredListWireframe.rootWireframe = rootWireframe
+        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListPresenter: featuredListPresenter)
     }
 }

@@ -9,13 +9,12 @@
 import Foundation
 import SwiftTask
 
-class FeaturedListInteractor {
-//    private let listManager = ListManager()
-//    private let locationManager = LocationManager()
-    private let listManager: ListManager
-    private let locationManager: LocationManager
+class FeaturedListInteractor : IFeaturedListInteractor {
     
-    init(featuredListDataManager: ListManager, locationDataManager: LocationManager) {
+    private let listManager: FeaturedListDataManager
+    private let locationManager: LocationDataManager
+    
+    init(featuredListDataManager: FeaturedListDataManager, locationDataManager: LocationDataManager) {
         listManager = featuredListDataManager
         locationManager = locationDataManager
     }

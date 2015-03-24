@@ -9,7 +9,7 @@
 import Foundation
 import SwiftTask
 
-class ListManager {
+class FeaturedListDataManager {
     
     func findAListOfFeaturedBusinesses() -> Task<Int, [BusinessEntity], NSError> {
         

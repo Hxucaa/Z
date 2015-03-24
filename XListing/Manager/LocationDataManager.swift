@@ -9,7 +9,7 @@
 import Foundation
 import SwiftTask
 
-class LocationManager {
+class LocationDataManager {
     ///
     /// @abstract Current location.
     ///

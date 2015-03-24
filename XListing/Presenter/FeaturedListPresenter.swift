@@ -9,10 +9,10 @@
 import Foundation
 import SwiftTask
 
-class FeaturedListPresenter {
-    let featuredListInteractor: FeaturedListInteractor
+class FeaturedListPresenter : IFeaturedListPresenter {
+    private let featuredListInteractor: IFeaturedListInteractor
     
-    init(featuredListInteractor: FeaturedListInteractor) {
+    init(featuredListInteractor: IFeaturedListInteractor) {
         self.featuredListInteractor = featuredListInteractor
     }
     

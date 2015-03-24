@@ -10,11 +10,16 @@ import Foundation
 
 let FeaturedListViewControllerIdentifier = "FeaturedListViewController"
 
-class FeaturedListWireframe : NSObject {
+class FeaturedListWireframe {
     
-    var featuredListPresenter: FeaturedListPresenter?
-    var rootWireframe: RootWireframe?
-    var featuredListViewController: FeaturedListViewController?
+    private var featuredListPresenter: IFeaturedListPresenter?
+    private var rootWireframe: RootWireframe?
+    private var featuredListViewController: FeaturedListViewController?
+    
+    init(rootWireframe: RootWireframe, featuredListPresenter: IFeaturedListPresenter) {
+        self.rootWireframe = rootWireframe
+        self.featuredListPresenter = featuredListPresenter
+    }
     
     func presentFeaturedListInterfaceFromWindows(window: UIWindow) {
         let viewController = featuredListViewControllerFromStoryboard()
@@ -24,12 +29,18 @@ class FeaturedListWireframe : NSObject {
         
     }
     
+    ///
+    /// @abstract Get FeaturedListViewController from the storyboard.
+    ///
     private func featuredListViewControllerFromStoryboard() -> FeaturedListViewController {
         let storyboard = mainStoryboard()
         let viewController = storyboard.instantiateViewControllerWithIdentifier(FeaturedListViewControllerIdentifier) as FeaturedListViewController
         return viewController
     }
     
+    ///
+    /// @abstract Get storyboard
+    ///
     private func mainStoryboard() -> UIStoryboard {
         let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
         return storyboard
