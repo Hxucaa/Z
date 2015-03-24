@@ -10,8 +10,15 @@ import Foundation
 import SwiftTask
 
 class FeaturedListInteractor {
-    private let listManager = ListManager()
-    private let locationManager = LocationManager()
+//    private let listManager = ListManager()
+//    private let locationManager = LocationManager()
+    private let listManager: ListManager
+    private let locationManager: LocationManager
+    
+    init(featuredListDataManager: ListManager, locationDataManager: LocationManager) {
+        listManager = featuredListDataManager
+        locationManager = locationDataManager
+    }
     
     func getFeaturedList() -> Task<Int, [BusinessDomain], NSError> {
         

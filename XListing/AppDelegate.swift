@@ -12,13 +12,16 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    private let appDependencies = AppDependencies()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
         ParseClient.registerSubclasses()
         ParseClient.initializeClient()
+        
+        appDependencies.installRootViewControllerIntoWindow(window!)
+        
 //        PopulateParse().populate()
 //        PopulateParse().featuredizeByNameSChinese("海港")
         return true

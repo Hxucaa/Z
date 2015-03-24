@@ -10,7 +10,11 @@ import Foundation
 import SwiftTask
 
 class FeaturedListPresenter {
-    private var featuredListInteractor = FeaturedListInteractor()
+    let featuredListInteractor: FeaturedListInteractor
+    
+    init(featuredListInteractor: FeaturedListInteractor) {
+        self.featuredListInteractor = featuredListInteractor
+    }
     
     func getList() -> Task<Int, [FeaturedListDisplayData], NSError> {
         let task = featuredListInteractor.getFeaturedList()
@@ -25,6 +29,7 @@ class FeaturedListPresenter {
                 return result
             }
             .failure { errorInfo -> [FeaturedListDisplayData] in
+                println(errorInfo)
                 return [FeaturedListDisplayData]()
             }
         

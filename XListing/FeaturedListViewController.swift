@@ -9,7 +9,7 @@
 import UIKit
 import ReactKit
 
-class ViewController: UIViewController {
+class FeaturedListViewController: UIViewController {
 
     @IBOutlet weak var featuredButton: UIButton!
     @IBOutlet weak var resultTextView: UITextView!
@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     private var resultSignal: Signal<NSString?>?
     
     
-    private var featuredListPresenter = FeaturedListPresenter()
+    var featuredListPresenter: FeaturedListPresenter?
     
     
     override func viewDidLoad() {
@@ -67,7 +67,7 @@ class ViewController: UIViewController {
         let featuredListRetrievalSignal = featuredButtonSignal?
             //            .startWith("Querying on start")  // startWith will send the signal right way. Perfect for initiating data retrieval on view loading.
             .flatMap { _ in
-                Signal<[FeaturedListDisplayData]>.fromTask(self.featuredListPresenter.getList())
+                Signal<[FeaturedListDisplayData]>.fromTask(self.featuredListPresenter!.getList())
         }
         
         // no need to assign a private variable of the signal if specify the owner
