@@ -90,7 +90,7 @@ class PopulateParse {
     }
     
     ///
-    /// @abstract Process every save task.
+    /// Process every save task.
     ///
     private func processAllSaveTasks(tasks: [SaveTask]) {
         // ensure all upload tasks are successful
@@ -119,7 +119,7 @@ class PopulateParse {
     }
     
     ///
-    /// @abstract Load data from JSON file
+    /// Load data from JSON file
     ///
     private func loadBusinessesFromJSON(filename: String, ofType: String) -> [BusinessEntity] {
         let path = NSBundle.mainBundle().pathForResource(filename, ofType: ofType)
@@ -199,7 +199,7 @@ class PopulateParse {
     }
     
     ///
-    /// @abstract Upload to Parse server
+    /// Upload to Parse server
     ///
     private func createGeoEncodedUploadTask(business: BusinessEntity, addressString: String) -> SaveTask {
         
@@ -240,7 +240,7 @@ class PopulateParse {
     }
     
     ///
-    /// @abstract Save in background task
+    /// Save in background task
     ///
     private func createSaveInBackgroundTask<T: PFObject>(object: T) -> SaveTask {
         let task = SaveTask { progress, fulfill, reject, configure in

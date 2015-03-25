@@ -19,13 +19,10 @@ struct BusinessDomain : Printable {
     var mobileUrl: String?
     var uid: String?
     var imageUrl: String?
-//    var displayPhone: String
     var reviewCount: Int?
-//    var distance: Double
     var rating: Double?
     var unit: String?
     var address: String?
-//    var displayAddress: [String]
     var district: String?
     var city: String?
     var state: String?
@@ -35,7 +32,7 @@ struct BusinessDomain : Printable {
     var neighborhoods: [String]?
     var distance: Double?
     
-    init(_ business: BusinessEntity) {
+    init(_ business: BusinessEntity, distance: Double?) {
         nameSChinese = business.nameSChinese
         nameTChinese = business.nameTChinese
         nameEnglish = business.nameEnglish
@@ -46,14 +43,11 @@ struct BusinessDomain : Printable {
         mobileUrl = business.mobileUrl
         uid = business.uid
         imageUrl = business.imageUrl
-//        displayPhone = business.displayPhone
         reviewCount = business.reviewCount
-//        distance = business.distance
         rating = business.rating
         if let loc = business.location {
             unit = loc.unit
             address = loc.address
-    //        displayAddress = loc.displayAddress
             district = loc.district
             city = loc.city
             state = loc.state
@@ -61,7 +55,7 @@ struct BusinessDomain : Printable {
             postalCode = loc.postalCode
             crossStreets = loc.crossStreets
             neighborhoods = loc.neighborhoods
-            
+            self.distance = distance
         }
     }
     

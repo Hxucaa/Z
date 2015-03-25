@@ -30,13 +30,13 @@ class FeaturedListInteractor : IFeaturedListInteractor {
             let businessDomainConversionTask = featuredBusinessesArrTask.success { businessEntityArr -> [BusinessDomain] in
                 
                 // map to domain model
-                let bdArr = businessEntityArr.map { be -> BusinessDomain in
-                    var bd = BusinessDomain(be)
-                    bd.distance = be.location?.geopoint?.distanceInKilometersTo(currentgp)
-                    return bd
+                let businessDomainArr = businessEntityArr.map { businessEntity -> BusinessDomain in
+                    let distance = businessEntity.location?.geopoint?.distanceInKilometersTo(currentgp)
+                    let businessDomain = BusinessDomain(businessEntity, distance: distance)
+                    return businessDomain
                 }
                     
-                return bdArr
+                return businessDomainArr
             }
             
             return businessDomainConversionTask
