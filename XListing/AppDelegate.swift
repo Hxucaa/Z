@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-03-02.
+//  Created by Lance on 2015-03-17.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
@@ -12,10 +12,21 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    private let appDependencies = AppDependencies()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // must register subclasses before connecting to Parse
+        ParseClient.registerSubclasses()
+        // connect to Parse
+        ParseClient.initializeClient()
+        
+        // initialize root view
+        appDependencies.installRootViewControllerIntoWindow(window!)
+        
+//        PopulateParse().populate()
+//        PopulateParse().featuredizeByNameSChinese("海港")
         return true
     }
 
