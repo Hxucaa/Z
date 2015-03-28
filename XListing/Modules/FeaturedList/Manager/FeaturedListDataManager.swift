@@ -9,9 +9,9 @@
 import Foundation
 import SwiftTask
 
-class FeaturedListDataManager : IFeaturedListDataManager {
+public class FeaturedListDataManager : IFeaturedListDataManager {
     
-    func findAListOfFeaturedBusinesses() -> Task<Int, [BusinessEntity], NSError> {
+    public func findAListOfFeaturedBusinesses() -> Task<Int, [BusinessEntity], NSError> {
         
         let task = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
             // create a query based on FeaturedEntity

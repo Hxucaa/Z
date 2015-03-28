@@ -11,11 +11,11 @@ import Foundation
 /**
     Dependency injector.
 */
-class AppDependencies {
+public class AppDependencies {
     
     private var featuredListWireframe: FeaturedListWireframe?
     
-    init() {
+    public init() {
         let rootWireframe = RootWireframe()
         
         configureFeaturedListDependencies(rootWireframe)
@@ -26,7 +26,7 @@ class AppDependencies {
     
         :param: window The UIWindow that needs to have a root view installed.
     */
-    func installRootViewControllerIntoWindow(window: UIWindow) {
+    public func installRootViewControllerIntoWindow(window: UIWindow) {
         featuredListWireframe?.presentFeaturedListInterfaceFromWindows(window)
     }
     

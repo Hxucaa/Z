@@ -8,8 +8,8 @@
 
 import Foundation
 
-class RootWireframe : BaseWireframe {
-    func showRootViewController(viewController: UIViewController, inWindow: UIWindow) {
+public class RootWireframe : BaseWireframe {
+    public func showRootViewController(viewController: UIViewController, inWindow: UIWindow) {
         let navigationController = navigationControllerFromWindow(inWindow)
         navigationController.viewControllers = [viewController]
     }

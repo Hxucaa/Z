@@ -9,7 +9,7 @@
 import Foundation
 import SwiftTask
 
-protocol IFeaturedListDataManager {
+public protocol IFeaturedListDataManager {
     ///
     /// This function find a list of featured businesses and returns an array of Business Entities.
     ///

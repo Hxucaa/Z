@@ -8,11 +8,11 @@
 
 import Foundation
 
-class FeaturedEntity: PFObject, PFSubclassing {
+public class FeaturedEntity: PFObject, PFSubclassing {
     
     
     // Starting time of featured business
-    var timeStart: NSDate? {
+    public var timeStart: NSDate? {
         get {
             return objectForKey("time_start") as? NSDate
         }
@@ -22,7 +22,7 @@ class FeaturedEntity: PFObject, PFSubclassing {
     }
     
     // Ending time of featured business
-    var timeEnd: NSDate? {
+    public var timeEnd: NSDate? {
         get {
             return objectForKey("time_end") as? NSDate
         }
@@ -32,7 +32,7 @@ class FeaturedEntity: PFObject, PFSubclassing {
     }
     
     // Business
-    var business: BusinessEntity? {
+    public var business: BusinessEntity? {
         get {
             return self["business"] as? BusinessEntity
         }
@@ -42,12 +42,12 @@ class FeaturedEntity: PFObject, PFSubclassing {
     }
     
     // Class Name
-    class func parseClassName() -> String! {
+    public class func parseClassName() -> String! {
         return "Featured"
     }
     
     // MARK: Constrcutros
-    override class func initialize() {
+    public override class func initialize() {
         var onceToken : dispatch_once_t = 0;
         dispatch_once(&onceToken) {
             self.registerSubclass()

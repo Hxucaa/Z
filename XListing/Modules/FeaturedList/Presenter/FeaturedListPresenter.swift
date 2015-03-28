@@ -9,14 +9,14 @@
 import Foundation
 import SwiftTask
 
-class FeaturedListPresenter : IFeaturedListPresenter {
+public class FeaturedListPresenter : IFeaturedListPresenter {
     private let featuredListInteractor: IFeaturedListInteractor
     
-    init(featuredListInteractor: IFeaturedListInteractor) {
+    public init(featuredListInteractor: IFeaturedListInteractor) {
         self.featuredListInteractor = featuredListInteractor
     }
     
-    func getList() -> Task<Int, [FeaturedListDisplayData], NSError> {
+    public func getList() -> Task<Int, [FeaturedListDisplayData], NSError> {
         let task = featuredListInteractor.getFeaturedList()
         
         let resultTask = task
