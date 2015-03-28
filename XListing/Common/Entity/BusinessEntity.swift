@@ -8,11 +8,11 @@
 
 import Foundation
 
-class BusinessEntity: PFObject, PFSubclassing {
+public class BusinessEntity: PFObject, PFSubclassing {
     
     
     // Simplified Chinese name of this business
-    var nameSChinese: String? {
+    public var nameSChinese: String? {
         get {
             return self["name_schinese"] as? String
         }
@@ -22,7 +22,7 @@ class BusinessEntity: PFObject, PFSubclassing {
     }
     
     // Traditional Chinese name of this business
-    var nameTChinese: String? {
+    public var nameTChinese: String? {
         get {
             return self["name_tchinese"] as? String
         }
@@ -32,7 +32,7 @@ class BusinessEntity: PFObject, PFSubclassing {
     }
     
     // English name of this business
-    var nameEnglish: String? {
+    public var nameEnglish: String? {
         get {
             return self["name_english"] as? String
         }
@@ -42,7 +42,7 @@ class BusinessEntity: PFObject, PFSubclassing {
     }
     
     // Whether business has been claimed by a business owner
-    var isClaimed: Bool? {
+    public var isClaimed: Bool? {
         get {
             return self["is_claimed"] as? Bool
         }
@@ -52,7 +52,7 @@ class BusinessEntity: PFObject, PFSubclassing {
     }
     
     // Whether business has been (permanently) closed
-    var isClosed: Bool? {
+    public var isClosed: Bool? {
         get {
             return self["is_closed"] as? Bool
         }
@@ -62,7 +62,7 @@ class BusinessEntity: PFObject, PFSubclassing {
     }
     
     // Phone number for this business with international dialing code (e.g. +442079460000)
-    var phone: String? {
+    public var phone: String? {
         get {
             return self["phone"] as? String
         }
@@ -72,7 +72,7 @@ class BusinessEntity: PFObject, PFSubclassing {
     }
     
     // URL for business page
-    var url: String? {
+    public var url: String? {
         get {
             return self["url"] as? String
         }
@@ -82,7 +82,7 @@ class BusinessEntity: PFObject, PFSubclassing {
     }
     
     // URL for mobile business page
-    var mobileUrl: String? {
+    public var mobileUrl: String? {
         get {
             return self["mobile_url"] as? String
         }
@@ -91,7 +91,7 @@ class BusinessEntity: PFObject, PFSubclassing {
         }
     }
     
-    var uid: String? {
+    public var uid: String? {
         get {
             return self["uid"] as? String
         }
@@ -101,7 +101,7 @@ class BusinessEntity: PFObject, PFSubclassing {
     }
     
     // URL of photo for this business
-    var imageUrl: String? {
+    public var imageUrl: String? {
         get {
             return self["image_url"] as? String
         }
@@ -121,7 +121,7 @@ class BusinessEntity: PFObject, PFSubclassing {
 //    }
     
     // Number of reviews for this business
-    var reviewCount: Int? {
+    public var reviewCount: Int? {
         get {
             return self["review_count"] as? Int
         }
@@ -138,7 +138,7 @@ class BusinessEntity: PFObject, PFSubclassing {
 //    }
     
     // Rating for this business (value ranges from 1, 1.5, ... 4.5, 5)
-    var rating: Double? {
+    public var rating: Double? {
         get {
             return self["rating"] as? Double
         }
@@ -148,7 +148,7 @@ class BusinessEntity: PFObject, PFSubclassing {
     }
     
     // Location
-    var location: LocationEntity? {
+    public var location: LocationEntity? {
         get {
             return self["location"] as? LocationEntity
         }
@@ -162,7 +162,7 @@ class BusinessEntity: PFObject, PFSubclassing {
     [["Local Flavor", "localflavor"], ["Active Life", "active"], ["Mass Media", "massmedia"]]
     The alias is provided so you can search with the category_filter.
     */
-    var categories: [String]? {
+    public var categories: [String]? {
         get {
             return self["categories"] as? [String]
         }
@@ -172,12 +172,12 @@ class BusinessEntity: PFObject, PFSubclassing {
     }
     
     // Class Name
-    class func parseClassName() -> String! {
+    public class func parseClassName() -> String! {
         return "Business"
     }
 
     // MARK: Constrcutros
-    override class func initialize() {
+    public override class func initialize() {
         var onceToken : dispatch_once_t = 0;
         dispatch_once(&onceToken) {
             self.registerSubclass()

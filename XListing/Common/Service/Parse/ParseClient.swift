@@ -11,14 +11,14 @@ import Foundation
 /** ParseClient Class
 
 */
-class ParseClient {
-    class func registerSubclasses() {
+public class ParseClient {
+    public class func registerSubclasses() {
         FeaturedEntity.initialize()
         BusinessEntity.initialize()
         LocationEntity.initialize()
     }
     
-    class func initializeClient() {
+    public class func initializeClient() {
         var id: String?
         var key: String?
         

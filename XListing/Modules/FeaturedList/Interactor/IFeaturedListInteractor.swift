@@ -9,7 +9,7 @@
 import Foundation
 import SwiftTask
 
-protocol IFeaturedListInteractor {
+public protocol IFeaturedListInteractor {
     
     /// This function returns a Task which contains an array of Business Domain Model.
     ///

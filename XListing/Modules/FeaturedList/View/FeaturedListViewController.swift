@@ -9,7 +9,7 @@
 import UIKit
 import ReactKit
 
-class FeaturedListViewController: UIViewController {
+public class FeaturedListViewController: UIViewController {
 
     @IBOutlet weak var featuredButton: UIButton!
     @IBOutlet weak var resultTextView: UITextView!
@@ -26,10 +26,10 @@ class FeaturedListViewController: UIViewController {
     private var resultSignal: Signal<NSString?>?
     
     
-    var featuredListPresenter: IFeaturedListPresenter?
+    public var featuredListPresenter: IFeaturedListPresenter?
     
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
@@ -40,7 +40,7 @@ class FeaturedListViewController: UIViewController {
         setupDisplayingFeaturedList()
     }
 
-    override func didReceiveMemoryWarning() {
+    public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }

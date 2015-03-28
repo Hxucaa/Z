@@ -8,9 +8,9 @@
 
 import Foundation
 
-class LocationEntity: PFObject, PFSubclassing {
+public class LocationEntity: PFObject, PFSubclassing {
     
-    var unit: String? {
+    public var unit: String? {
         get {
             return self["unit"] as? String
         }
@@ -20,7 +20,7 @@ class LocationEntity: PFObject, PFSubclassing {
     }
     
     // Address for this business. Only includes address fields.
-    var address: String? {
+    public var address: String? {
         get {
             return self["address"] as? String
         }
@@ -29,7 +29,7 @@ class LocationEntity: PFObject, PFSubclassing {
         }
     }
     
-    var district: String? {
+    public var district: String? {
         get {
             return self["district"] as? String
         }
@@ -46,7 +46,7 @@ class LocationEntity: PFObject, PFSubclassing {
 //    }
     
     // City for this business
-    var city: String? {
+    public var city: String? {
         get {
             return self["city"] as? String
         }
@@ -55,7 +55,7 @@ class LocationEntity: PFObject, PFSubclassing {
         }
     }
     
-    var state: String? {
+    public var state: String? {
         get {
             return self["state"] as? String
         }
@@ -64,7 +64,7 @@ class LocationEntity: PFObject, PFSubclassing {
         }
     }
     
-    var country: String? {
+    public var country: String? {
         get {
             return self["country"] as? String
         }
@@ -74,7 +74,7 @@ class LocationEntity: PFObject, PFSubclassing {
     }
     
     // Postal code for this business
-    var postalCode: String? {
+    public var postalCode: String? {
         get {
             return self["postal_code"] as? String
         }
@@ -84,7 +84,7 @@ class LocationEntity: PFObject, PFSubclassing {
     }
     
     // Cross streets for this business
-    var crossStreets: String? {
+    public var crossStreets: String? {
         get {
             return self["cross_streets"] as? String
         }
@@ -94,7 +94,7 @@ class LocationEntity: PFObject, PFSubclassing {
     }
     
     // List that provides neighborhood(s) information for business
-    var neighborhoods: [String]? {
+    public var neighborhoods: [String]? {
         get {
             return self["neighborhoods"] as? [String]
         }
@@ -103,7 +103,7 @@ class LocationEntity: PFObject, PFSubclassing {
         }
     }
     
-    var geopoint: GeoPointEntity? {
+    public var geopoint: GeoPointEntity? {
         get {
             if let gp = self["geopoint"] as? PFGeoPoint {
                 return GeoPointEntity(gp)
@@ -118,12 +118,12 @@ class LocationEntity: PFObject, PFSubclassing {
     }
     
     // Class Name
-    class func parseClassName() -> String! {
+    public class func parseClassName() -> String! {
         return "Location"
     }
     
     // MARK: Constrcutros
-    override class func initialize() {
+    public override class func initialize() {
         var onceToken : dispatch_once_t = 0;
         dispatch_once(&onceToken) {
             self.registerSubclass()

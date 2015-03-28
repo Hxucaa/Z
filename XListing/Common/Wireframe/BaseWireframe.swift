@@ -10,7 +10,7 @@ import Foundation
 
 let storyboardName = "Main"
 
-class BaseWireframe {
+public class BaseWireframe {
     
 
 }
@@ -25,7 +25,7 @@ extension BaseWireframe {
         :param: identifier A String of the identifier associated with the view controller
         :returns: An instance of the view controller.
     */
-    final func getViewControllerFromStoryboard(identifier: String) -> AnyObject {
+    public func getViewControllerFromStoryboard(identifier: String) -> AnyObject {
         let storyboard = mainStoryboard()
         let viewController: AnyObject! = storyboard.instantiateViewControllerWithIdentifier(identifier)
         return viewController
@@ -37,7 +37,7 @@ extension BaseWireframe {
         
         :returns: The UIStoryboard
     */
-    final func mainStoryboard() -> UIStoryboard {
+    public func mainStoryboard() -> UIStoryboard {
         let storyboard = UIStoryboard(name: storyboardName, bundle: NSBundle.mainBundle())
         return storyboard
     }
