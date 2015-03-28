@@ -26,7 +26,7 @@ public class FeaturedListViewController: UIViewController {
     private var resultSignal: Signal<NSString?>?
     
     
-    var featuredListPresenter: IFeaturedListPresenter?
+    public var featuredListPresenter: IFeaturedListPresenter?
     
     
     public override func viewDidLoad() {
