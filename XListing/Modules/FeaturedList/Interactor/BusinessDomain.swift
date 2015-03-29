@@ -8,31 +8,31 @@
 
 import Foundation
 
-struct BusinessDomain : Printable {
-    var nameSChinese: String?
-    var nameTChinese: String?
-    var nameEnglish: String?
-    var isClaimed: Bool?
-    var isClosed: Bool?
-    var phone: String?
-    var url: String?
-    var mobileUrl: String?
-    var uid: String?
-    var imageUrl: String?
-    var reviewCount: Int?
-    var rating: Double?
-    var unit: String?
-    var address: String?
-    var district: String?
-    var city: String?
-    var state: String?
-    var country: String?
-    var postalCode: String?
-    var crossStreets: String?
-    var neighborhoods: [String]?
-    var distance: Double?
+public struct BusinessDomain : Printable {
+    public var nameSChinese: String?
+    public var nameTChinese: String?
+    public var nameEnglish: String?
+    public var isClaimed: Bool?
+    public var isClosed: Bool?
+    public var phone: String?
+    public var url: String?
+    public var mobileUrl: String?
+    public var uid: String?
+    public var imageUrl: String?
+    public var reviewCount: Int?
+    public var rating: Double?
+    public var unit: String?
+    public var address: String?
+    public var district: String?
+    public var city: String?
+    public var state: String?
+    public var country: String?
+    public var postalCode: String?
+    public var crossStreets: String?
+    public var neighborhoods: [String]?
+    public var distance: Double?
     
-    init(_ business: BusinessEntity, distance: Double?) {
+    public init(_ business: BusinessEntity, distance: Double?) {
         nameSChinese = business.nameSChinese
         nameTChinese = business.nameTChinese
         nameEnglish = business.nameEnglish
@@ -59,7 +59,7 @@ struct BusinessDomain : Printable {
         }
     }
     
-    var description: String {
+    public var description: String {
         let bdMirror = reflect(self)
         var result = ""
         for var i = 0; i < bdMirror.count; i++ {

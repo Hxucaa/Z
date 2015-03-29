@@ -9,7 +9,7 @@
 import Foundation
 import SwiftTask
 
-protocol IFeaturedListPresenter {
+public protocol IFeaturedListPresenter {
     /// This function returns a Task which contains an array of Display Data of Featured List.
     ///
     /// :returns: a generic Task containing an array of FeaturedListDisplayData.

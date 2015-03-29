@@ -8,22 +8,22 @@
 
 import Foundation
 
-class GeoPointEntity {
+public class GeoPointEntity {
     private(set) var pfGeoPoint: PFGeoPoint
     
-    init(_ location: CLLocation) {
+    public init(_ location: CLLocation) {
         pfGeoPoint = PFGeoPoint(location: location)
     }
     
-    init(latitude: Double, longitude: Double) {
+    public init(latitude: Double, longitude: Double) {
         pfGeoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
     }
     
-    init?(_ geopoint: PFGeoPoint!) {
+    public init?(_ geopoint: PFGeoPoint!) {
         pfGeoPoint = geopoint
     }
     
-    var longitude: Double {
+    public var longitude: Double {
         get {
             return pfGeoPoint.longitude
         }
@@ -32,7 +32,7 @@ class GeoPointEntity {
         }
     }
     
-    var latitude: Double {
+    public var latitude: Double {
         get {
             return pfGeoPoint.latitude
         }
@@ -41,15 +41,15 @@ class GeoPointEntity {
         }
     }
     
-    func distanceInKilometersTo(another: GeoPointEntity!) -> Double {
+    public func distanceInKilometersTo(another: GeoPointEntity!) -> Double {
         return pfGeoPoint.distanceInKilometersTo(another.pfGeoPoint)
     }
     
-    func distanceInRadiansTo(another: GeoPointEntity!) -> Double {
+    public func distanceInRadiansTo(another: GeoPointEntity!) -> Double {
         return pfGeoPoint.distanceInRadiansTo(another.pfGeoPoint)
     }
     
-    func distanceInMilesTo(another: GeoPointEntity!) -> Double {
+    public func distanceInMilesTo(another: GeoPointEntity!) -> Double {
         return pfGeoPoint.distanceInMilesTo(another.pfGeoPoint)
     }
     
@@ -57,7 +57,7 @@ class GeoPointEntity {
 
 extension GeoPointEntity {
     
-    class func geoPointForCurrentLocationInBackground(callback: (geopoint: GeoPointEntity!, error: NSError!) -> Void) -> Void {
+    public class func geoPointForCurrentLocationInBackground(callback: (geopoint: GeoPointEntity!, error: NSError!) -> Void) -> Void {
         PFGeoPoint.geoPointForCurrentLocationInBackground { (gp: PFGeoPoint!, error: NSError!) -> Void in
             callback(geopoint: GeoPointEntity(gp), error: error)
         }
@@ -65,7 +65,7 @@ extension GeoPointEntity {
 }
 
 extension GeoPointEntity : Printable {
-    var description: String {
+    public var description: String {
         return self.pfGeoPoint.description
     }
 }

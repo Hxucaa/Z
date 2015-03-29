@@ -11,20 +11,20 @@ import SwiftyJSON
 import SwiftTask
 import Dollar
 
-class PopulateParse {
+public class PopulateParse {
     
     private typealias SaveTask = Task<Int, Bool, NSError>
     
-    init() {
+    public init() {
         
     }
     
-    func populate() {
+    public func populate() {
         populateFromJSON()
         
     }
     
-    func featuredizeByNameSChinese(name: String) {
+    public func featuredizeByNameSChinese(name: String) {
         // create a task to find the business first
         let queryTask =
             Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in

@@ -9,9 +9,9 @@
 import Foundation
 import SwiftTask
 
-class LocationDataManager : ILocationDataManager {
+public class LocationDataManager : ILocationDataManager {
     
-    func getCurrentGeoPoint() -> Task<Int, GeoPointEntity, NSError> {
+    public func getCurrentGeoPoint() -> Task<Int, GeoPointEntity, NSError> {
         let task = Task<Int, GeoPointEntity, NSError> { progress, fulfill, reject, configure in
             // asks device for current location
             GeoPointEntity.geoPointForCurrentLocationInBackground({ (geopoint, error) -> Void in

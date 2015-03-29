@@ -9,10 +9,10 @@
 import Foundation
 import SwiftTask
 
-protocol ILocationDataManager {
+public protocol ILocationDataManager {
     ///
     /// This function asks for the current location. Returns a Task which contains a GeoPointEntity of current location.
     ///
     /// :returns: a generic Task containing a GeoPointEntity representing the current location.
-    func getCurrentGeoPoint() -> Task<Int, GeoPointEntity, NSError>
+     func getCurrentGeoPoint() -> Task<Int, GeoPointEntity, NSError>
 }

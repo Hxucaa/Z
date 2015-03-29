@@ -9,17 +9,17 @@
 import Foundation
 import SwiftTask
 
-class FeaturedListInteractor : IFeaturedListInteractor {
+public class FeaturedListInteractor : IFeaturedListInteractor {
     
     private let featuredListDataManager: IFeaturedListDataManager
     private let locationDataManager: ILocationDataManager
     
-    init(featuredListDataManager: IFeaturedListDataManager, locationDataManager: ILocationDataManager) {
+    public init(featuredListDataManager: IFeaturedListDataManager, locationDataManager: ILocationDataManager) {
         self.featuredListDataManager = featuredListDataManager
         self.locationDataManager = locationDataManager
     }
     
-    func getFeaturedList() -> Task<Int, [BusinessDomain], NSError> {
+    public func getFeaturedList() -> Task<Int, [BusinessDomain], NSError> {
         
         // acquire current location
         let currentLocationTask = locationDataManager.getCurrentGeoPoint()
