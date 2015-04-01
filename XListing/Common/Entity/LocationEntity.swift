@@ -10,6 +10,25 @@ import Foundation
 
 public class LocationEntity: PFObject, PFSubclassing {
     
+    public var completeAddress: String {
+        get {
+            var addressString = ""
+            if let address = address {
+                addressString += "\(address) "
+            }
+            if let city = city {
+                addressString += "\(city) "
+            }
+            if let state = state {
+                addressString += "\(state) "
+            }
+            if let country = country {
+                addressString += "\(country)"
+            }
+            return addressString
+        }
+    }
+    
     public var unit: String? {
         get {
             return self["unit"] as? String
