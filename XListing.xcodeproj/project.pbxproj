@@ -41,6 +41,8 @@
 		B4E36BA61ACBB09B000F260E /* IBusinessDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BA51ACBB09B000F260E /* IBusinessDataManager.swift */; };
 		B4E36BA81ACBC97D000F260E /* BusinessInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BA71ACBC97D000F260E /* BusinessInteractor.swift */; };
 		B4E36BAA1ACBCA8F000F260E /* IBusinessInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BA91ACBCA8F000F260E /* IBusinessInteractor.swift */; };
+		B4E36BAF1ACC87EF000F260E /* FeaturedBusinessDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BAE1ACC87EF000F260E /* FeaturedBusinessDataManager.swift */; };
+		B4E36BB11ACC8801000F260E /* IFeaturedBusinessDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BB01ACC8801000F260E /* IFeaturedBusinessDataManager.swift */; };
 		E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -100,6 +102,8 @@
 		B4E36BA51ACBB09B000F260E /* IBusinessDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessDataManager.swift; sourceTree = "<group>"; };
 		B4E36BA71ACBC97D000F260E /* BusinessInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessInteractor.swift; sourceTree = "<group>"; };
 		B4E36BA91ACBCA8F000F260E /* IBusinessInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessInteractor.swift; sourceTree = "<group>"; };
+		B4E36BAE1ACC87EF000F260E /* FeaturedBusinessDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedBusinessDataManager.swift; sourceTree = "<group>"; };
+		B4E36BB01ACC8801000F260E /* IFeaturedBusinessDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "I\U0010FeaturedBusinessDataManager.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,6 +294,7 @@
 		B4CC82601AC1650100E85CEA /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				B4E36BAB1ACC8791000F260E /* FeaturedBusiness */,
 				B4E36BA01ACBA959000F260E /* Business */,
 				B4CC82681AC1673100E85CEA /* Root */,
 				B4CC82611AC1650A00E85CEA /* FeaturedList */,
@@ -366,8 +371,8 @@
 		B4E36BA01ACBA959000F260E /* Business */ = {
 			isa = PBXGroup;
 			children = (
-				B4E36BA21ACBAA31000F260E /* Manager */,
 				B4E36BA11ACBA972000F260E /* Interactor */,
+				B4E36BA21ACBAA31000F260E /* Manager */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -388,6 +393,31 @@
 				B4E36BA51ACBB09B000F260E /* IBusinessDataManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		B4E36BAB1ACC8791000F260E /* FeaturedBusiness */ = {
+			isa = PBXGroup;
+			children = (
+				B4E36BAD1ACC879D000F260E /* Interactor */,
+				B4E36BAC1ACC8797000F260E /* Manager */,
+			);
+			path = FeaturedBusiness;
+			sourceTree = "<group>";
+		};
+		B4E36BAC1ACC8797000F260E /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				B4E36BAE1ACC87EF000F260E /* FeaturedBusinessDataManager.swift */,
+				B4E36BB01ACC8801000F260E /* IFeaturedBusinessDataManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		B4E36BAD1ACC879D000F260E /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Interactor;
 			sourceTree = "<group>";
 		};
 		CEFE73BB6B4CAA9AA89661B3 /* Pods */ = {
@@ -619,9 +649,11 @@
 				B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */,
 				B4E36B991AC1E141000F260E /* ILocationDataManager.swift in Sources */,
 				B4E36BA81ACBC97D000F260E /* BusinessInteractor.swift in Sources */,
+				B4E36BB11ACC8801000F260E /* IFeaturedBusinessDataManager.swift in Sources */,
 				7EF371481AB8C1E8009AA3B9 /* FeaturedListInteractor.swift in Sources */,
 				7EF3714D1AB8C1E8009AA3B9 /* FeaturedListPresenter.swift in Sources */,
 				B4E36BAA1ACBCA8F000F260E /* IBusinessInteractor.swift in Sources */,
+				B4E36BAF1ACC87EF000F260E /* FeaturedBusinessDataManager.swift in Sources */,
 				B47C0EA31ABF78E600F9FB31 /* LocationDataManager.swift in Sources */,
 				B4E36B961AC1E085000F260E /* IFeaturedListDataManager.swift in Sources */,
 				7EF3714C1AB8C1E8009AA3B9 /* FeaturedListDisplayData.swift in Sources */,

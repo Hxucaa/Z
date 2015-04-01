@@ -26,39 +26,7 @@ public class PopulateParse {
     
 //    public func featuredizeByNameSChinese(name: String) {
 //        // create a task to find the business first
-//        let queryTask =
-//            Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
-//                
-//                var query = BusinessEntity.query()
-//                query.whereKey("name_schinese", equalTo: name)
-//                
-//                query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
-//                    if error == nil {
-//                        let count = objects.count
-//                        if count > 1 {
-//                            reject(NSError(domain: "There are \(count) business(es) sharing the same name.", code: 001, userInfo: nil))
-//                        }
-//                        else if count == 0 {
-//                            reject(NSError(domain: "No business found", code: 000, userInfo: nil))
-//                        }
-//                        else {
-//                            fulfill(objects)
-//                        }
-//                        
-//                    }
-//                    else {
-//                        reject(error)
-//                    }
-//                })
-//            }
-//            .then { (objects, errorInfo) -> BusinessEntity? in
-//                if errorInfo == nil {
-//                    return (objects as? [BusinessEntity])?.first
-//                }
-//                else {
-//                    return nil
-//                }
-//            }
+//        let queryTask = BusinessDataManager().findOne("name_schinese", value: name as NSString)
 //        
 //        // create a task to save to the cloud
 //        let saveTask = queryTask
