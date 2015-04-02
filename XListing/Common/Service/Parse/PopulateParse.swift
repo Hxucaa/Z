@@ -28,7 +28,7 @@ public class PopulateParse {
     
     public func featuredizeByNameSChinese(name: String) {
         // create a task to find the business first
-        let queryTask = BusinessDataManager().findOne(("name_schinese", value: name as NSString))
+        let queryTask = BusinessDataManager().find(("name_schinese", value: name as NSString))
         
         // create a task to save to the cloud
         let saveTask = queryTask
@@ -36,7 +36,10 @@ public class PopulateParse {
                 let featured = FeaturedEntity()
                 featured.timeStart = NSDate()
                 featured.timeEnd = NSDate()
-                featured.business = business
+                if business.count > 1 {
+                    fatalError("Found multiple records!")
+                }
+                featured.business = business.first
                 return self.featuredBusinessDataManager.save(featured)
             }
         

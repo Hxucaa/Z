@@ -33,36 +33,63 @@ public class BaseDataManager<T: PFObject> {
     /**
         This function finds the Entity based on the provided key value pair.
         
-        :params: key A String of the column name.
-        :params: value An Anyobject
+        :params: keyValuePair A tuple which comprises of a String of the name of the key and the value.
         :returns: a Task containing the result Entity in optional.
     */
-    public func findOne(keyValuePair: (key: String, value: AnyObject)...) -> Task<Int, T?, NSError> {
-        let task =
-            Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
-                let query = T.query()
-                for (key, value) in keyValuePair {
-                    query.whereKey(key, equalTo: value)
+    public func getFirst(keyValuePair: (key: String, value: AnyObject)...) -> Task<Int, T, NSError> {
+        let task = Task<Int, PFObject, NSError> { progress, fulfill, reject, configure in
+            let query = T.query()
+            for (key, value) in keyValuePair {
+                query.whereKey(key, equalTo: value)
+            }
+            query.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
+                if error == nil {
+                    fulfill(object)
                 }
-                query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]!, error: NSError!) -> Void in
-                    if error == nil {
-                        let count = objects.count
-                        if count > 1 {
-                            reject(NSError(domain: "There are \(count) business(es) sharing the following: \(keyValuePair)", code: 001, userInfo: nil))
-                        }
-                        else {
-                            fulfill(objects)
-                        }
-                        
-                    }
-                    else {
-                        reject(error)
-                    }
+                else {
+                    reject(error)
                 }
             }
-            .success { business -> T? in
-                return (business as? [T])?.first
+        }
+        .success { object -> T in
+            return object as T
+        }
+        
+        return task
+    }
+    
+    /**
+        Finds the entities that match the value for the key.
+        
+        :params: keyValuePair A tuple which comprises of a String of the name of the key and the value.
+        
+        :returns: A Task which contains an optional of the entity.
+    */
+    public func find(keyValuePair: (key: String, value: AnyObject)...) -> Task<Int, [T], NSError> {
+        let findTask = find(keyValuePair)
+        
+        return findTask
+    }
+    
+    private func find(keyValuePair: [(key: String, value: AnyObject)]) -> Task<Int, [T], NSError> {
+        
+        let task = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
+            let query = T.query()
+            for (key, value) in keyValuePair {
+                query.whereKey(key, equalTo: value)
             }
+            query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]!, error: NSError!) -> Void in
+                if error == nil {
+                    fulfill(objects)
+                }
+                else {
+                    reject(error)
+                }
+            }
+        }
+        .success { objects -> [T] in
+            return objects as [T]
+        }
         
         return task
     }
