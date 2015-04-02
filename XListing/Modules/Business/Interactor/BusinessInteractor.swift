@@ -10,6 +10,13 @@ import Foundation
 import SwiftTask
 
 public class BusinessInteractor : IBusinessInteractor {
+    private let locationDataManager: ILocationDataManager
+    private let businessDataManager: IBusinessDataManager
+    
+    public init(businessDataManager: IBusinessDataManager, locationDataManager: ILocationDataManager) {
+        self.businessDataManager = businessDataManager
+        self.locationDataManager = locationDataManager
+    }
     
     public func saveBusiness(business: BusinessEntity) -> Task<Int, Bool, NSError> {
         let addressString = business.location!.completeAddress

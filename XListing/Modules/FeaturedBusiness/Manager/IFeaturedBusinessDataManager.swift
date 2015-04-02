@@ -7,7 +7,12 @@
 //
 
 import Foundation
+import SwiftTask
 
 public protocol IFeaturedBusinessDataManager {
-    
+    ///
+    /// This function find a list of featured businesses and returns an array of Business Entities.
+    ///
+    /// :returns: a generic Task containing an array of Business Entities.
+    func findAll() -> Task<Int, [BusinessEntity], NSError>
 }

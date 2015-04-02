@@ -14,6 +14,8 @@ import Dollar
 public class PopulateParse {
     
     private typealias SaveTask = Task<Int, Bool, NSError>
+    private let businessInteractor = BusinessInteractor(businessDataManager: BusinessDataManager(), locationDataManager: LocationDataManager())
+    private let featuredBusinessDataManager = FeaturedBusinessDataManager()
     
     public init() {
         
@@ -24,23 +26,23 @@ public class PopulateParse {
         
     }
     
-//    public func featuredizeByNameSChinese(name: String) {
-//        // create a task to find the business first
-//        let queryTask = BusinessDataManager().findOne("name_schinese", value: name as NSString)
-//        
-//        // create a task to save to the cloud
-//        let saveTask = queryTask
-//            .success { business -> SaveTask in
-//                let featured = FeaturedEntity()
-//                featured.timeStart = NSDate()
-//                featured.timeEnd = NSDate()
-//                featured.business = business
-//                return self.createSaveInBackgroundTask(featured)
-//            }
-//        
-//        // process save tasks
-//        processAllSaveTasks([saveTask])
-//    }
+    public func featuredizeByNameSChinese(name: String) {
+        // create a task to find the business first
+        let queryTask = BusinessDataManager().findOne("name_schinese", value: name as NSString)
+        
+        // create a task to save to the cloud
+        let saveTask = queryTask
+            .success { business -> SaveTask in
+                let featured = FeaturedEntity()
+                featured.timeStart = NSDate()
+                featured.timeEnd = NSDate()
+                featured.business = business
+                return self.featuredBusinessDataManager.save(featured)
+            }
+        
+        // process save tasks
+        processAllSaveTasks([saveTask])
+    }
     
     private func populateFromJSON() {
         var businessEntityArr = loadBusinessesFromJSON("localBizInfo", ofType: "json")
@@ -48,7 +50,7 @@ public class PopulateParse {
         // launch all tasks
         let uploadTasks = businessEntityArr.map { (business: BusinessEntity) -> SaveTask in
             
-            return BusinessInteractor().saveBusiness(business)
+            return self.businessInteractor.saveBusiness(business)
         }
         
         processAllSaveTasks(uploadTasks)

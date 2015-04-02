@@ -39,10 +39,10 @@ public class AppDependencies {
         
         // create data manager first
         let locationDataManager = LocationDataManager()
-        let featuredListDataManager = FeaturedListDataManager()
+        let featuredBusinessDataManager = FeaturedBusinessDataManager()
         
         // instantiate interactor next
-        let featuredListInteractor = FeaturedListInteractor(featuredListDataManager: featuredListDataManager, locationDataManager: locationDataManager)
+        let featuredListInteractor = FeaturedListInteractor(featuredBusinessDataManager: featuredBusinessDataManager, locationDataManager: locationDataManager)
         
         // instantiate presenter next
         let featuredListPresenter = FeaturedListPresenter(featuredListInteractor: featuredListInteractor)
