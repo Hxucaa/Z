@@ -28,14 +28,41 @@ public class BusinessInteractor : IBusinessInteractor {
         return task
     }
     
-    public func findBusinessesBy(query: PFQuery) -> Task<Int, [BusinessDomain], NSError> {
+    public func findBusinessBy(query: PFQuery) -> Task<Int, [BusinessDomain], NSError> {
+        return retrieveBusinessWithGeolocation()
+    }
+    
+    public func getFeaturedBusiness() -> Task<Int, [BusinessDomain], NSError> {
+        
+        let query = BusinessEntity.query()
+        query.whereKey("featured", equalTo: true)
+        
+        return retrieveBusinessWithGeolocation(query)
+    }
+    
+    
+//    public func setBusinessAsFeatured(toBeFeatured: FeaturedDomain) -> Task<Int, Bool, NSError> {
+//        let task = FeaturedBusinessDataManager().save(toBeFeatured.toEntity())
+//        
+//        return task
+//    }
+}
+
+// private methods
+extension BusinessInteractor {
+    
+    /// Retrieve businesses based on the query value. And encode the geolocation distance to each business.
+    ///
+    /// :params: query A PFQuery
+    /// :returns: A Task which contains an array of BusinessDomain
+    private func retrieveBusinessWithGeolocation(var _ query: PFQuery = BusinessEntity.query()) -> Task<Int, [BusinessDomain], NSError> {
         // acquire current location
         let currentLocationTask = geolocationDataManager.getCurrentGeoPoint()
         let resultTask = currentLocationTask.success { currentgp -> Task<Int, [BusinessDomain], NSError> in
             
             // retrieve a list of featured businesses
-            let businessesTask = self.businessDataManager.findBy(query)
-            let businessDomainConversionTask = businessesTask.success { businessEntityArr -> [BusinessDomain] in
+            let featuredBusinessesArrTask = self.businessDataManager.findBy(query)
+            let businessDomainConversionTask = featuredBusinessesArrTask.success { businessEntityArr -> [BusinessDomain] in
                 
                 // map to domain model
                 let businessDomainArr = businessEntityArr.map { businessEntity -> BusinessDomain in
@@ -49,12 +76,7 @@ public class BusinessInteractor : IBusinessInteractor {
             
             return businessDomainConversionTask
         }
+        
         return resultTask
     }
-    
-//    public func setBusinessAsFeatured(toBeFeatured: FeaturedDomain) -> Task<Int, Bool, NSError> {
-//        let task = FeaturedBusinessDataManager().save(toBeFeatured.toEntity())
-//        
-//        return task
-//    }
 }

@@ -15,4 +15,6 @@ public protocol IBusinessInteractor {
     /// :returns: a generic Task containing the result of saving BusinessEntity.
     ///
     func saveBusiness(business: BusinessEntity) -> Task<Int, Bool, NSError>
+    func findBusinessBy(query: PFQuery) -> Task<Int, [BusinessDomain], NSError>
+    func getFeaturedBusiness() -> Task<Int, [BusinessDomain], NSError>
 }

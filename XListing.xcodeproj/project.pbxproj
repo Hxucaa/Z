@@ -16,7 +16,6 @@
 		7EF371441AB8C1E8009AA3B9 /* BusinessEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371311AB8C1E8009AA3B9 /* BusinessEntity.swift */; };
 		7EF371461AB8C1E8009AA3B9 /* LocationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371331AB8C1E8009AA3B9 /* LocationEntity.swift */; };
 		7EF371471AB8C1E8009AA3B9 /* BusinessDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371351AB8C1E8009AA3B9 /* BusinessDomain.swift */; };
-		7EF371481AB8C1E8009AA3B9 /* FeaturedListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371361AB8C1E8009AA3B9 /* FeaturedListInteractor.swift */; };
 		7EF3714C1AB8C1E8009AA3B9 /* FeaturedListDisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF3713D1AB8C1E8009AA3B9 /* FeaturedListDisplayData.swift */; };
 		7EF3714D1AB8C1E8009AA3B9 /* FeaturedListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF3713E1AB8C1E8009AA3B9 /* FeaturedListPresenter.swift */; };
 		7EF3714E1AB8C1E8009AA3B9 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371411AB8C1E8009AA3B9 /* ParseClient.swift */; };
@@ -29,7 +28,6 @@
 		B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47C0EA91AC0A82C00F9FB31 /* FeaturedListWireframe.swift */; };
 		B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */; };
 		B4CC825B1AC15AD600E85CEA /* IFeaturedListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC825A1AC15AD600E85CEA /* IFeaturedListPresenter.swift */; };
-		B4CC825E1AC15C8100E85CEA /* IFeaturedListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC825D1AC15C8100E85CEA /* IFeaturedListInteractor.swift */; };
 		B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */; };
 		B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36B9D1AC1F5F1000F260E /* BaseWireframe.swift */; };
 		B4E36BA81ACBC97D000F260E /* BusinessInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BA71ACBC97D000F260E /* BusinessInteractor.swift */; };
@@ -68,7 +66,6 @@
 		7EF371311AB8C1E8009AA3B9 /* BusinessEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessEntity.swift; sourceTree = "<group>"; };
 		7EF371331AB8C1E8009AA3B9 /* LocationEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationEntity.swift; sourceTree = "<group>"; };
 		7EF371351AB8C1E8009AA3B9 /* BusinessDomain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessDomain.swift; sourceTree = "<group>"; };
-		7EF371361AB8C1E8009AA3B9 /* FeaturedListInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListInteractor.swift; sourceTree = "<group>"; };
 		7EF3713D1AB8C1E8009AA3B9 /* FeaturedListDisplayData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListDisplayData.swift; sourceTree = "<group>"; };
 		7EF3713E1AB8C1E8009AA3B9 /* FeaturedListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListPresenter.swift; sourceTree = "<group>"; };
 		7EF371411AB8C1E8009AA3B9 /* ParseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
@@ -83,7 +80,6 @@
 		B47C0EA91AC0A82C00F9FB31 /* FeaturedListWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListWireframe.swift; sourceTree = "<group>"; };
 		B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootWireframe.swift; sourceTree = "<group>"; };
 		B4CC825A1AC15AD600E85CEA /* IFeaturedListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListPresenter.swift; sourceTree = "<group>"; };
-		B4CC825D1AC15C8100E85CEA /* IFeaturedListInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListInteractor.swift; sourceTree = "<group>"; };
 		B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedListViewController.swift; path = View/FeaturedListViewController.swift; sourceTree = "<group>"; };
 		B4E36B9D1AC1F5F1000F260E /* BaseWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWireframe.swift; sourceTree = "<group>"; };
 		B4E36BA71ACBC97D000F260E /* BusinessInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessInteractor.swift; sourceTree = "<group>"; };
@@ -195,16 +191,6 @@
 			path = Common/Entity;
 			sourceTree = "<group>";
 		};
-		7EF371341AB8C1E8009AA3B9 /* Interactor */ = {
-			isa = PBXGroup;
-			children = (
-				7EF371351AB8C1E8009AA3B9 /* BusinessDomain.swift */,
-				7EF371361AB8C1E8009AA3B9 /* FeaturedListInteractor.swift */,
-				B4CC825D1AC15C8100E85CEA /* IFeaturedListInteractor.swift */,
-			);
-			path = Interactor;
-			sourceTree = "<group>";
-		};
 		7EF371391AB8C1E8009AA3B9 /* Population */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,7 +269,6 @@
 				B4CC82631AC165E400E85CEA /* View */,
 				B47C0EA81AC0A7EF00F9FB31 /* Wireframe */,
 				7EF3713C1AB8C1E8009AA3B9 /* Presenter */,
-				7EF371341AB8C1E8009AA3B9 /* Interactor */,
 			);
 			path = FeaturedList;
 			sourceTree = "<group>";
@@ -355,6 +340,7 @@
 			children = (
 				B4E36BA71ACBC97D000F260E /* BusinessInteractor.swift */,
 				B4E36BA91ACBCA8F000F260E /* IBusinessInteractor.swift */,
+				7EF371351AB8C1E8009AA3B9 /* BusinessDomain.swift */,
 			);
 			path = Interactor;
 			sourceTree = "<group>";
@@ -572,7 +558,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4CC825E1AC15C8100E85CEA /* IFeaturedListInteractor.swift in Sources */,
 				B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */,
 				7EF371441AB8C1E8009AA3B9 /* BusinessEntity.swift in Sources */,
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,
@@ -583,7 +568,6 @@
 				7EF3714F1AB8C1E8009AA3B9 /* PopulateParse.swift in Sources */,
 				B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */,
 				B4E36BA81ACBC97D000F260E /* BusinessInteractor.swift in Sources */,
-				7EF371481AB8C1E8009AA3B9 /* FeaturedListInteractor.swift in Sources */,
 				7EF3714D1AB8C1E8009AA3B9 /* FeaturedListPresenter.swift in Sources */,
 				B4E36BAA1ACBCA8F000F260E /* IBusinessInteractor.swift in Sources */,
 				7EF3714C1AB8C1E8009AA3B9 /* FeaturedListDisplayData.swift in Sources */,

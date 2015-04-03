@@ -42,10 +42,10 @@ public class AppDependencies {
         let businessDataManager = BusinessDataManager()
         
         // instantiate interactor next
-        let featuredListInteractor = FeaturedListInteractor(businessDataManager: businessDataManager, geolocationDataManager: geolocationDataManager)
+        let businessInteractor = BusinessInteractor(businessDataManager: businessDataManager, geolocationDataManager: geolocationDataManager)
         
         // instantiate presenter next
-        let featuredListPresenter = FeaturedListPresenter(featuredListInteractor: featuredListInteractor)
+        let featuredListPresenter = FeaturedListPresenter(businessInteractor: businessInteractor)
         
         featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListPresenter: featuredListPresenter)
     }
