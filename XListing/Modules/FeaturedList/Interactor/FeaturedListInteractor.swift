@@ -12,17 +12,17 @@ import SwiftTask
 public class FeaturedListInteractor : IFeaturedListInteractor {
     
     private let businessDataManager: BusinessDataManager
-    private let locationDataManager: LocationDataManager
+    private let geolocationDataManager: GeolocationDataManager
     
-    public init(businessDataManager: BusinessDataManager, locationDataManager: LocationDataManager) {
+    public init(businessDataManager: BusinessDataManager, geolocationDataManager: GeolocationDataManager) {
         self.businessDataManager = businessDataManager
-        self.locationDataManager = locationDataManager
+        self.geolocationDataManager = geolocationDataManager
     }
     
     public func getFeaturedList() -> Task<Int, [BusinessDomain], NSError> {
         
         // acquire current location
-        let currentLocationTask = locationDataManager.getCurrentGeoPoint()
+        let currentLocationTask = geolocationDataManager.getCurrentGeoPoint()
         let resultTask = currentLocationTask.success { currentgp -> Task<Int, [BusinessDomain], NSError> in
             
             // retrieve a list of featured businesses

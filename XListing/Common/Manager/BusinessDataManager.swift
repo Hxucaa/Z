@@ -16,18 +16,38 @@ public class BusinessDataManager {
         :params: object A BusinessEntity.
         :returns: a generic Task containing a boolean value.
     */
-    public func save(object: BusinessEntity) -> Task<Int, Bool, NSError> {
-        let task = Task<Int, Bool, NSError> { progress, fulfill, reject, configure in
-            object.saveInBackgroundWithBlock { (success: Bool, error: NSError!) -> Void in
-                if success {
-                    fulfill(success)
+    public func save(business: BusinessEntity) -> Task<Int, Bool, NSError> {
+        let addressString = business.location!.completeAddress
+        let forwardGeocodingTask = forwardGeocoding(addressString)
+        
+        let resultTask = forwardGeocodingTask
+            .success { geopoint -> Task<Int, Bool, NSError> in
+                business.location?.geopoint = geopoint
+                
+                // save business to the cloud
+                let saveTask = Task<Int, Bool, NSError> { progress, fulfill, reject, configure in
+                    business.saveInBackgroundWithBlock { (success: Bool, error: NSError!) -> Void in
+                        if success {
+                            fulfill(success)
+                        }
+                        else {
+                            reject(error)
+                        }
+                    }
                 }
-                else {
-                    reject(error)
-                }
+                return saveTask
+                
             }
-        }
-        return task
+            .failure { (error: NSError?, isCancelled: Bool) -> Bool in
+                if let error = error {
+                    println("Forward geocoding failed with error: \(error.localizedDescription)")
+                }
+                if isCancelled {
+                    println("Forward geocoding cancelled")
+                }
+                return false
+            }
+        return resultTask
     }
     
     
@@ -48,9 +68,9 @@ public class BusinessDataManager {
                     reject(error)
                 }
             }
-            }
-            .success { object -> BusinessEntity? in
-                return object as? BusinessEntity
+        }
+        .success { object -> BusinessEntity? in
+            return object as? BusinessEntity
         }
 
         return task
@@ -75,10 +95,10 @@ public class BusinessDataManager {
                 }
             }
         }
-            .success { (objects: [AnyObject]) -> [BusinessEntity] in
-                let businesses = objects as [BusinessEntity]
-                
-                return businesses
+        .success { (objects: [AnyObject]) -> [BusinessEntity] in
+            let businesses = objects as [BusinessEntity]
+            
+            return businesses
         }
         
         return task
@@ -86,5 +106,38 @@ public class BusinessDataManager {
     
     private func enhanceQuery(inout query: PFQuery) {
         query.includeKey("location")
+    }
+    
+    
+}
+
+// geolocation service
+extension BusinessDataManager {
+    /**
+    This function translate physical address to geolocation coordinates.
+    
+    :params: address A String of the address.
+    :returns: a Task containing a GeoPointEntity which contains the location data.
+    */
+    private func forwardGeocoding(address: String) -> Task<Int, GeoPointEntity, NSError> {
+        let task = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
+            CLGeocoder().geocodeAddressString(address, completionHandler: { (placemarks: [AnyObject]!, error: NSError!) -> Void in
+                if error == nil && placemarks.count > 0 {
+                    fulfill(placemarks)
+                }
+                else {
+                    reject(error)
+                }
+            })
+            }
+            .success { (placemarks: [AnyObject]) -> GeoPointEntity in
+                // convert to GeoPointEntity
+                let placemark = placemarks[0] as CLPlacemark
+                let location = placemark.location
+                let geopoint = GeoPointEntity(location)
+                
+                return geopoint
+        }
+        return task
     }
 }

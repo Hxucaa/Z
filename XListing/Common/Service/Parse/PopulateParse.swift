@@ -14,7 +14,7 @@ import Dollar
 public class PopulateParse {
     
     private typealias SaveTask = Task<Int, Bool, NSError>
-    private let businessInteractor = BusinessInteractor(businessDataManager: BusinessDataManager(), locationDataManager: LocationDataManager())
+    private let businessInteractor = BusinessInteractor(businessDataManager: BusinessDataManager(), geolocationDataManager: GeolocationDataManager())
 //    private let businessDataManager = BusinessDataManager()
     
     public init() {

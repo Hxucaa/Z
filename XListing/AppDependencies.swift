@@ -38,11 +38,11 @@ public class AppDependencies {
     private func configureFeaturedListDependencies(rootWireframe: RootWireframe) {
         
         // create data manager first
-        let locationDataManager = LocationDataManager()
+        let geolocationDataManager = GeolocationDataManager()
         let businessDataManager = BusinessDataManager()
         
         // instantiate interactor next
-        let featuredListInteractor = FeaturedListInteractor(businessDataManager: businessDataManager, locationDataManager: locationDataManager)
+        let featuredListInteractor = FeaturedListInteractor(businessDataManager: businessDataManager, geolocationDataManager: geolocationDataManager)
         
         // instantiate presenter next
         let featuredListPresenter = FeaturedListPresenter(featuredListInteractor: featuredListInteractor)
