@@ -38,6 +38,7 @@
 		B4E36BAA1ACBCA8F000F260E /* IBusinessInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BA91ACBCA8F000F260E /* IBusinessInteractor.swift */; };
 		B4E36BB91ACE5286000F260E /* FeaturedBusinessDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BB81ACE5286000F260E /* FeaturedBusinessDataManager.swift */; };
 		B4E36BBB1ACE543C000F260E /* BusinessDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BBA1ACE543C000F260E /* BusinessDataManager.swift */; };
+		B4E36BC31ACEFC3E000F260E /* FeaturedDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BC21ACEFC3E000F260E /* FeaturedDomain.swift */; };
 		E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -94,6 +95,7 @@
 		B4E36BA91ACBCA8F000F260E /* IBusinessInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessInteractor.swift; sourceTree = "<group>"; };
 		B4E36BB81ACE5286000F260E /* FeaturedBusinessDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedBusinessDataManager.swift; sourceTree = "<group>"; };
 		B4E36BBA1ACE543C000F260E /* BusinessDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessDataManager.swift; sourceTree = "<group>"; };
+		B4E36BC21ACEFC3E000F260E /* FeaturedDomain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedDomain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -361,6 +363,7 @@
 			children = (
 				B4E36BA71ACBC97D000F260E /* BusinessInteractor.swift */,
 				B4E36BA91ACBCA8F000F260E /* IBusinessInteractor.swift */,
+				B4E36BC21ACEFC3E000F260E /* FeaturedDomain.swift */,
 			);
 			path = Interactor;
 			sourceTree = "<group>";
@@ -600,6 +603,7 @@
 				B4CC825B1AC15AD600E85CEA /* IFeaturedListPresenter.swift in Sources */,
 				B4E36BBB1ACE543C000F260E /* BusinessDataManager.swift in Sources */,
 				B47C0EA01ABF6DF200F9FB31 /* GeoPointEntity.swift in Sources */,
+				B4E36BC31ACEFC3E000F260E /* FeaturedDomain.swift in Sources */,
 				B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
