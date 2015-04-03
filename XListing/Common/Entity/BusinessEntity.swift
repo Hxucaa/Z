@@ -110,16 +110,6 @@ public class BusinessEntity: PFObject, PFSubclassing {
         }
     }
     
-//    // Phone number for this business formatted for display
-//    var displayPhone: String {
-//        get {
-//            return self["display_phone"] as String
-//        }
-//        set {
-//            self["display_phone"] = newValue
-//        }
-//    }
-    
     // Number of reviews for this business
     public var reviewCount: Int? {
         get {
@@ -129,13 +119,6 @@ public class BusinessEntity: PFObject, PFSubclassing {
             self["review_count"] = newValue
         }
     }
-    
-    // Distance that business is from search location in meters, if a latitude/longitude is specified.
-//    var distance: Double {
-//        get {
-//            return self["distance"] as Double
-//        }
-//    }
     
     // Rating for this business (value ranges from 1, 1.5, ... 4.5, 5)
     public var rating: Double? {
@@ -171,11 +154,15 @@ public class BusinessEntity: PFObject, PFSubclassing {
         }
     }
     
+}
+
+// PFObject + PFSubclassing required methods
+extension BusinessEntity {
     // Class Name
     public class func parseClassName() -> String! {
         return "Business"
     }
-
+    
     // MARK: Constrcutros
     public override class func initialize() {
         var onceToken : dispatch_once_t = 0;
@@ -183,5 +170,37 @@ public class BusinessEntity: PFObject, PFSubclassing {
             self.registerSubclass()
         }
     }
+}
+
+// Featured
+extension BusinessEntity {
     
+    public var featured: Bool? {
+        get {
+            return objectForKey("featured") as? Bool
+        }
+        set {
+            setObject(newValue, forKey: "featured")
+        }
+    }
+    
+    // Starting time of featured business
+    public var timeStart: NSDate? {
+        get {
+            return objectForKey("time_start") as? NSDate
+        }
+        set {
+            setObject(newValue, forKey: "time_start")
+        }
+    }
+    
+    // Ending time of featured business
+    public var timeEnd: NSDate? {
+        get {
+            return objectForKey("time_end") as? NSDate
+        }
+        set {
+            setObject(newValue, forKey: "time_end")
+        }
+    }
 }

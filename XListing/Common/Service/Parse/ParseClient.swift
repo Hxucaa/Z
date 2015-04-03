@@ -13,7 +13,6 @@ import Foundation
 */
 public class ParseClient {
     public class func registerSubclasses() {
-        FeaturedEntity.initialize()
         BusinessEntity.initialize()
         LocationEntity.initialize()
     }

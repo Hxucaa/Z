@@ -15,7 +15,7 @@ public class PopulateParse {
     
     private typealias SaveTask = Task<Int, Bool, NSError>
     private let businessInteractor = BusinessInteractor(businessDataManager: BusinessDataManager(), locationDataManager: LocationDataManager())
-    private let featuredBusinessDataManager = FeaturedBusinessDataManager()
+//    private let businessDataManager = BusinessDataManager()
     
     public init() {
         
@@ -35,14 +35,13 @@ public class PopulateParse {
         // create a task to save to the cloud
         let saveTask = queryTask
             .success { business -> SaveTask in
-                let featured = FeaturedEntity()
-                featured.timeStart = NSDate()
-                featured.timeEnd = NSDate()
                 if business.count > 1 {
                     fatalError("Found multiple records!")
                 }
-                featured.business = business.first
-                return self.featuredBusinessDataManager.save(featured)
+                business.first?.featured = true
+                business.first?.timeStart = NSDate()
+                business.first?.timeEnd = NSDate()
+                return self.businessInteractor.saveBusiness(business.first!)
             }
         
         // process save tasks
