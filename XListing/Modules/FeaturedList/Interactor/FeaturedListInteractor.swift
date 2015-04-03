@@ -12,9 +12,9 @@ import SwiftTask
 public class FeaturedListInteractor : IFeaturedListInteractor {
     
     private let featuredBusinessDataManager: FeaturedBusinessDataManager
-    private let locationDataManager: ILocationDataManager
+    private let locationDataManager: LocationDataManager
     
-    public init(featuredBusinessDataManager: FeaturedBusinessDataManager, locationDataManager: ILocationDataManager) {
+    public init(featuredBusinessDataManager: FeaturedBusinessDataManager, locationDataManager: LocationDataManager) {
         self.featuredBusinessDataManager = featuredBusinessDataManager
         self.locationDataManager = locationDataManager
     }

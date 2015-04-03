@@ -9,8 +9,12 @@
 import Foundation
 import SwiftTask
 
-public class LocationDataManager : ILocationDataManager {
+public class LocationDataManager {
     
+    ///
+    /// This function asks for the current location. Returns a Task which contains a GeoPointEntity of current location.
+    ///
+    /// :returns: a generic Task containing a GeoPointEntity representing the current location.
     public func getCurrentGeoPoint() -> Task<Int, GeoPointEntity, NSError> {
         let task = Task<Int, GeoPointEntity, NSError> { progress, fulfill, reject, configure in
             // asks device for current location
@@ -27,6 +31,12 @@ public class LocationDataManager : ILocationDataManager {
         return task
     }
     
+    /**
+        This function translate physical address to geolocation coordinates.
+        
+        :params: address A String of the address.
+        :returns: a Task containing a GeoPointEntity which contains the location data.
+    */
     public func forwardGeocoding(address: String) -> Task<Int, GeoPointEntity, NSError> {
         let task =
             Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in

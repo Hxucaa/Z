@@ -33,7 +33,6 @@
 		B4CC825B1AC15AD600E85CEA /* IFeaturedListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC825A1AC15AD600E85CEA /* IFeaturedListPresenter.swift */; };
 		B4CC825E1AC15C8100E85CEA /* IFeaturedListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC825D1AC15C8100E85CEA /* IFeaturedListInteractor.swift */; };
 		B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */; };
-		B4E36B991AC1E141000F260E /* ILocationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36B981AC1E141000F260E /* ILocationDataManager.swift */; };
 		B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36B9D1AC1F5F1000F260E /* BaseWireframe.swift */; };
 		B4E36BA81ACBC97D000F260E /* BusinessInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BA71ACBC97D000F260E /* BusinessInteractor.swift */; };
 		B4E36BAA1ACBCA8F000F260E /* IBusinessInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BA91ACBCA8F000F260E /* IBusinessInteractor.swift */; };
@@ -90,7 +89,6 @@
 		B4CC825A1AC15AD600E85CEA /* IFeaturedListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListPresenter.swift; sourceTree = "<group>"; };
 		B4CC825D1AC15C8100E85CEA /* IFeaturedListInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListInteractor.swift; sourceTree = "<group>"; };
 		B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedListViewController.swift; path = View/FeaturedListViewController.swift; sourceTree = "<group>"; };
-		B4E36B981AC1E141000F260E /* ILocationDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ILocationDataManager.swift; sourceTree = "<group>"; };
 		B4E36B9D1AC1F5F1000F260E /* BaseWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWireframe.swift; sourceTree = "<group>"; };
 		B4E36BA71ACBC97D000F260E /* BusinessInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessInteractor.swift; sourceTree = "<group>"; };
 		B4E36BA91ACBCA8F000F260E /* IBusinessInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessInteractor.swift; sourceTree = "<group>"; };
@@ -334,7 +332,6 @@
 			isa = PBXGroup;
 			children = (
 				B47C0EA21ABF78E600F9FB31 /* LocationDataManager.swift */,
-				B4E36B981AC1E141000F260E /* ILocationDataManager.swift */,
 				B4E36BB81ACE5286000F260E /* FeaturedBusinessDataManager.swift */,
 				B4E36BBA1ACE543C000F260E /* BusinessDataManager.swift */,
 			);
@@ -593,7 +590,6 @@
 				7EF371111AB8C012009AA3B9 /* AppDelegate.swift in Sources */,
 				7EF3714F1AB8C1E8009AA3B9 /* PopulateParse.swift in Sources */,
 				B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */,
-				B4E36B991AC1E141000F260E /* ILocationDataManager.swift in Sources */,
 				B4E36BA81ACBC97D000F260E /* BusinessInteractor.swift in Sources */,
 				7EF371481AB8C1E8009AA3B9 /* FeaturedListInteractor.swift in Sources */,
 				7EF3714D1AB8C1E8009AA3B9 /* FeaturedListPresenter.swift in Sources */,
