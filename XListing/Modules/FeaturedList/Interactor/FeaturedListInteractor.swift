@@ -11,10 +11,10 @@ import SwiftTask
 
 public class FeaturedListInteractor : IFeaturedListInteractor {
     
-    private let featuredBusinessDataManager: IFeaturedBusinessDataManager
+    private let featuredBusinessDataManager: FeaturedBusinessDataManager
     private let locationDataManager: ILocationDataManager
     
-    public init(featuredBusinessDataManager: IFeaturedBusinessDataManager, locationDataManager: ILocationDataManager) {
+    public init(featuredBusinessDataManager: FeaturedBusinessDataManager, locationDataManager: ILocationDataManager) {
         self.featuredBusinessDataManager = featuredBusinessDataManager
         self.locationDataManager = locationDataManager
     }
@@ -26,7 +26,7 @@ public class FeaturedListInteractor : IFeaturedListInteractor {
         let resultTask = currentLocationTask.success { currentgp -> Task<Int, [BusinessDomain], NSError> in
             
             // retrieve a list of featured businesses
-            let featuredBusinessesArrTask = self.featuredBusinessDataManager.findAll()
+            let featuredBusinessesArrTask = self.featuredBusinessDataManager.findBy()
             let businessDomainConversionTask = featuredBusinessesArrTask.success { businessEntityArr -> [BusinessDomain] in
                 
                 // map to domain model

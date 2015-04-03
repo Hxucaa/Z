@@ -11,9 +11,9 @@ import SwiftTask
 
 public class BusinessInteractor : IBusinessInteractor {
     private let locationDataManager: ILocationDataManager
-    private let businessDataManager: IBusinessDataManager
+    private let businessDataManager: BusinessDataManager
     
-    public init(businessDataManager: IBusinessDataManager, locationDataManager: ILocationDataManager) {
+    public init(businessDataManager: BusinessDataManager, locationDataManager: ILocationDataManager) {
         self.businessDataManager = businessDataManager
         self.locationDataManager = locationDataManager
     }

@@ -28,7 +28,9 @@ public class PopulateParse {
     
     public func featuredizeByNameSChinese(name: String) {
         // create a task to find the business first
-        let queryTask = BusinessDataManager().find(("name_schinese", value: name as NSString))
+        let q = BusinessEntity.query()
+        q.whereKey("name_schinese", equalTo: name)
+        let queryTask = BusinessDataManager().findBy(q)
         
         // create a task to save to the cloud
         let saveTask = queryTask
