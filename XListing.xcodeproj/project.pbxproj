@@ -291,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				B4E36B9C1AC1F5C9000F260E /* Wireframe */,
+				B4E36BA11ACBA972000F260E /* Interactor */,
 				B4E36B9B1AC1E180000F260E /* Manager */,
 				7EF3713F1AB8C1E8009AA3B9 /* Service */,
 				7EF371301AB8C1E8009AA3B9 /* Entity */,
@@ -338,7 +339,6 @@
 		B4E36BA01ACBA959000F260E /* Business */ = {
 			isa = PBXGroup;
 			children = (
-				B4E36BA11ACBA972000F260E /* Interactor */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -350,7 +350,8 @@
 				B4E36BA91ACBCA8F000F260E /* IBusinessInteractor.swift */,
 				7EF371351AB8C1E8009AA3B9 /* BusinessDomain.swift */,
 			);
-			path = Interactor;
+			name = Interactor;
+			path = Common/Interactor;
 			sourceTree = "<group>";
 		};
 		B4F32E1B1ACF88B000946FD8 /* Interactor */ = {
