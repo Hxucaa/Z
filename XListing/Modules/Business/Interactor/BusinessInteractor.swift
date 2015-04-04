@@ -22,14 +22,15 @@ public class BusinessInteractor : IBusinessInteractor {
     ///
     ///
     ///
-    public func saveBusiness(business: BusinessEntity) -> Task<Int, Bool, NSError> {
-        let task = businessDataManager.save(business)
+    public func saveBusiness(business: BusinessDomain) -> Task<Int, Bool, NSError> {
+        let b = business.toEntity()
+        let task = businessDataManager.save(b)
         
         return task
     }
     
     public func findBusinessBy(query: PFQuery) -> Task<Int, [BusinessDomain], NSError> {
-        return retrieveBusinessWithGeolocation()
+        return retrieveBusinessWithGeolocation(query)
     }
     
     public func getFeaturedBusiness() -> Task<Int, [BusinessDomain], NSError> {
@@ -67,7 +68,9 @@ extension BusinessInteractor {
                 // map to domain model
                 let businessDomainArr = businessEntityArr.map { businessEntity -> BusinessDomain in
                     let distance = businessEntity.location?.geopoint?.distanceInKilometersTo(currentgp)
-                    let businessDomain = BusinessDomain(businessEntity, distance: distance)
+                    
+                    let businessDomain = BusinessDomain()
+                    businessDomain.fromEntity(businessEntity, distance: distance)
                     return businessDomain
                 }
                 

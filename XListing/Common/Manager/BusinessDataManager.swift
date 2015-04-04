@@ -17,37 +17,51 @@ public class BusinessDataManager {
         :returns: a generic Task containing a boolean value.
     */
     public func save(business: BusinessEntity) -> Task<Int, Bool, NSError> {
-        let addressString = business.location!.completeAddress
-        let forwardGeocodingTask = forwardGeocoding(addressString)
         
-        let resultTask = forwardGeocodingTask
-            .success { geopoint -> Task<Int, Bool, NSError> in
-                business.location?.geopoint = geopoint
-                
-                // save business to the cloud
-                let saveTask = Task<Int, Bool, NSError> { progress, fulfill, reject, configure in
-                    business.saveInBackgroundWithBlock { (success: Bool, error: NSError!) -> Void in
-                        if success {
-                            fulfill(success)
-                        }
-                        else {
-                            reject(error)
-                        }
+        // save business to the cloud
+        func saveTask (bus: BusinessEntity) -> Task<Int, Bool, NSError> {
+            let task = Task<Int, Bool, NSError> { progress, fulfill, reject, configure in
+                bus.saveInBackgroundWithBlock { (success: Bool, error: NSError!) -> Void in
+                    if success {
+                        fulfill(success)
+                    }
+                    else {
+                        reject(error)
                     }
                 }
-                return saveTask
-                
             }
-            .failure { (error: NSError?, isCancelled: Bool) -> Bool in
-                if let error = error {
-                    println("Forward geocoding failed with error: \(error.localizedDescription)")
+            
+            return task
+        }
+        
+        // get complete address
+        let addressString: String? = business.location?.completeAddress
+        if let address = addressString {
+            
+            // get geolocation from the address
+            let forwardGeocodingTask = forwardGeocoding(address)
+            
+            let resultTask = forwardGeocodingTask
+                .success { geopoint -> Task<Int, Bool, NSError> in
+                    business.location?.geopoint = geopoint
+                    
+                    return saveTask(business)
+                    
                 }
-                if isCancelled {
-                    println("Forward geocoding cancelled")
+                .failure { (error: NSError?, isCancelled: Bool) -> Bool in
+                    if let error = error {
+                        println("Forward geocoding failed with error: \(error.localizedDescription)")
+                    }
+                    if isCancelled {
+                        println("Forward geocoding cancelled")
+                    }
+                    return false
                 }
-                return false
-            }
-        return resultTask
+            return resultTask
+        }
+        else {
+            return saveTask(business)
+        }
     }
     
     
