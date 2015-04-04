@@ -17,7 +17,7 @@ public class FeaturedListPresenter : IFeaturedListPresenter {
     }
     
     public func getList() -> Task<Int, [FeaturedListDisplayData], NSError> {
-        let task = featuredListInteractor.getFeaturedList()
+        let task = featuredListInteractor.getFeaturedBusiness()
         
         let resultTask = task
             .success { businessDomainArr -> [FeaturedListDisplayData] in

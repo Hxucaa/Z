@@ -14,9 +14,10 @@ import Dollar
 public class PopulateParse {
     
     private typealias SaveTask = Task<Int, Bool, NSError>
+    private let businessInteractor = BusinessInteractor(businessDataManager: BusinessDataManager(), geolocationDataManager: GeolocationDataManager())
     
     public init() {
-        
+
     }
     
     public func populate() {
@@ -26,48 +27,26 @@ public class PopulateParse {
     
     public func featuredizeByNameSChinese(name: String) {
         // create a task to find the business first
-        let queryTask =
-            Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
-                
-                var query = BusinessEntity.query()
-                query.whereKey("name_schinese", equalTo: name)
-                
-                query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
-                    if error == nil {
-                        let count = objects.count
-                        if count > 1 {
-                            reject(NSError(domain: "There are \(count) business(es) sharing the same name.", code: 001, userInfo: nil))
-                        }
-                        else if count == 0 {
-                            reject(NSError(domain: "No business found", code: 000, userInfo: nil))
-                        }
-                        else {
-                            fulfill(objects)
-                        }
-                        
-                    }
-                    else {
-                        reject(error)
-                    }
-                })
-            }
-            .then { (objects, errorInfo) -> BusinessEntity? in
-                if errorInfo == nil {
-                    return (objects as? [BusinessEntity])?.first
-                }
-                else {
-                    return nil
-                }
-            }
+        let q = BusinessEntity.query()
+        q.whereKey("nameSChinese", equalTo: name)
+        let queryTask = businessInteractor.findBusinessBy(q)
+        
         
         // create a task to save to the cloud
         let saveTask = queryTask
-            .success { business -> SaveTask in
-                let featured = FeaturedEntity()
-                featured.timeStart = NSDate()
-                featured.timeEnd = NSDate()
-                featured.business = business
-                return self.createSaveInBackgroundTask(featured)
+            .success { businessDomain -> SaveTask in
+                if businessDomain.count > 1 {
+                    fatalError("Found multiple records!")
+                }
+                
+                // create a new BusinessDomain to update the business
+                let updatedBusinessDomain = BusinessDomain()
+                updatedBusinessDomain.objectId = businessDomain.first?.objectId
+                updatedBusinessDomain.featured = true
+                updatedBusinessDomain.timeStart = NSDate()
+                updatedBusinessDomain.timeEnd = NSDate()
+                
+                return self.businessInteractor.saveBusiness(updatedBusinessDomain)
             }
         
         // process save tasks
@@ -78,11 +57,9 @@ public class PopulateParse {
         var businessEntityArr = loadBusinessesFromJSON("localBizInfo", ofType: "json")
         
         // launch all tasks
-        let uploadTasks = businessEntityArr.map { (business: BusinessEntity) -> SaveTask in
-            let l = business.location!
-            let addressString = "\(l.address!) \(l.city!) \(l.state!) \(l.country!)"
+        let uploadTasks = businessEntityArr.map { (business: BusinessDomain) -> SaveTask in
             
-            return self.createGeoEncodedUploadTask(business, addressString: addressString)
+            return self.businessInteractor.saveBusiness(business)
         }
         
         processAllSaveTasks(uploadTasks)
@@ -121,15 +98,14 @@ public class PopulateParse {
     ///
     /// Load data from JSON file
     ///
-    private func loadBusinessesFromJSON(filename: String, ofType: String) -> [BusinessEntity] {
+    private func loadBusinessesFromJSON(filename: String, ofType: String) -> [BusinessDomain] {
         let path = NSBundle.mainBundle().pathForResource(filename, ofType: ofType)
         let jsonData = NSData(contentsOfFile: path!, options: .DataReadingMappedIfSafe, error: nil)
         let json = JSON(data: jsonData!)
-        var businessEntityArr = [BusinessEntity]()
+        var businessDomainArr = [BusinessDomain]()
         
         for(index: String, subJson: JSON) in json {
-            var b = BusinessEntity()
-            var l = LocationEntity()
+            var b = BusinessDomain()
             
             if let name = subJson["nameSChinese"].string {
                 b.nameSChinese = name
@@ -168,91 +144,32 @@ public class PopulateParse {
                 b.rating = rating
             }
             if let unit = subJson["unit"].string {
-                l.unit = unit
+                b.unit = unit
             }
             if let address = subJson["address"].string {
-                l.address = address
+                b.address = address
             }
             if let district = subJson["district"].string {
-                l.district = district
+                b.district = district
             }
             if let city = subJson["city"].string {
-                l.city = city
+                b.city = city
             }
             if let state = subJson["state"].string {
-                l.state = state
+                b.state = state
             }
             if let country = subJson["country"].string {
-                l.country = country
+                b.country = country
             }
             if let postalCode = subJson["postalCode"].string {
-                l.postalCode = postalCode
+                b.postalCode = postalCode
             }
             if let crossStreets = subJson["crossStreets"].string {
-                l.crossStreets = crossStreets
+                b.crossStreets = crossStreets
             }
             
-            b.location = l
-            businessEntityArr.append(b)
+            businessDomainArr.append(b)
         }
-        return businessEntityArr
-    }
-    
-    ///
-    /// Upload to Parse server
-    ///
-    private func createGeoEncodedUploadTask(business: BusinessEntity, addressString: String) -> SaveTask {
-        
-        // translate address to geo location coordinates
-        let forwardGeocodingTask = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
-            CLGeocoder().geocodeAddressString(addressString, completionHandler: { (placemarks: [AnyObject]!, error: NSError!) -> Void in
-                if error == nil && placemarks.count > 0 {
-                    fulfill(placemarks)
-                }
-                else {
-                    reject(error)
-                }
-            })
-        }
-        
-        let resultTask = forwardGeocodingTask
-            .success { (placemarks: [AnyObject]) -> SaveTask in
-                
-                // convert to PFGeoPoint
-                let placemark = placemarks[0] as CLPlacemark
-                let location = placemark.location
-                let geopoint = GeoPointEntity(location)
-                
-                business.location?.geopoint = geopoint
-                
-                return self.createSaveInBackgroundTask(business)
-            }
-            .failure { (error: NSError?, isCancelled: Bool) -> Bool in
-                if let error = error {
-                    println("Forward geocoding failed with error: \(error.localizedDescription)")
-                }
-                if isCancelled {
-                    println("Forward geocoding cancelled")
-                }
-                return false
-            }
-        return resultTask
-    }
-    
-    ///
-    /// Save in background task
-    ///
-    private func createSaveInBackgroundTask<T: PFObject>(object: T) -> SaveTask {
-        let task = SaveTask { progress, fulfill, reject, configure in
-            object.saveInBackgroundWithBlock { (success, error) -> Void in
-                if success {
-                    fulfill(success)
-                }
-                else {
-                    reject(error)
-                }
-            }
-        }
-        return task
+        return businessDomainArr
     }
 }

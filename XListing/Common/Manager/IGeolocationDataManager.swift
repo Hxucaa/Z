@@ -1,5 +1,5 @@
 //
-//  IFeaturedListInteractor.swift
+//  IGeolocationDataManager.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-04-03.
@@ -9,6 +9,6 @@
 import Foundation
 import SwiftTask
 
-public protocol IFeaturedListInteractor {
-    func getFeaturedBusiness() -> Task<Int, [BusinessDomain], NSError>
+public protocol IGeolocationDataManager {
+    func getCurrentGeoPoint() -> Task<Int, GeoPointEntity, NSError>
 }
