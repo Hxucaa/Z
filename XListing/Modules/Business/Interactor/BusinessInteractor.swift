@@ -29,34 +29,24 @@ public class BusinessInteractor : IBusinessInteractor {
         return task
     }
     
+    ///
+    ///
+    ///
+    ///
     public func findBusinessBy(query: PFQuery) -> Task<Int, [BusinessDomain], NSError> {
         return retrieveBusinessWithGeolocation(query)
     }
     
-    public func getFeaturedBusiness() -> Task<Int, [BusinessDomain], NSError> {
-        
-        let query = BusinessEntity.query()
-        query.whereKey("featured", equalTo: true)
-        
-        return retrieveBusinessWithGeolocation(query)
-    }
-    
-    
-//    public func setBusinessAsFeatured(toBeFeatured: FeaturedDomain) -> Task<Int, Bool, NSError> {
-//        let task = FeaturedBusinessDataManager().save(toBeFeatured.toEntity())
-//        
-//        return task
-//    }
 }
 
-// private methods
+// protected methods
 extension BusinessInteractor {
     
     /// Retrieve businesses based on the query value. And encode the geolocation distance to each business.
     ///
     /// :params: query A PFQuery
     /// :returns: A Task which contains an array of BusinessDomain
-    private func retrieveBusinessWithGeolocation(var _ query: PFQuery = BusinessEntity.query()) -> Task<Int, [BusinessDomain], NSError> {
+    public func retrieveBusinessWithGeolocation(var _ query: PFQuery = BusinessEntity.query()) -> Task<Int, [BusinessDomain], NSError> {
         // acquire current location
         let currentLocationTask = geolocationDataManager.getCurrentGeoPoint()
         let resultTask = currentLocationTask.success { currentgp -> Task<Int, [BusinessDomain], NSError> in

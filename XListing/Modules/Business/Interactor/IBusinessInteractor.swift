@@ -16,5 +16,4 @@ public protocol IBusinessInteractor {
     ///
     func saveBusiness(business: BusinessDomain) -> Task<Int, Bool, NSError>
     func findBusinessBy(query: PFQuery) -> Task<Int, [BusinessDomain], NSError>
-    func getFeaturedBusiness() -> Task<Int, [BusinessDomain], NSError>
 }

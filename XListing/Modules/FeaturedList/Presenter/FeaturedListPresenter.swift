@@ -10,14 +10,14 @@ import Foundation
 import SwiftTask
 
 public class FeaturedListPresenter : IFeaturedListPresenter {
-    private let businessInteractor: IBusinessInteractor
+    private let featuredListInteractor: IFeaturedListInteractor
     
-    public init(businessInteractor: IBusinessInteractor) {
-        self.businessInteractor = businessInteractor
+    public init(featuredListInteractor: IFeaturedListInteractor) {
+        self.featuredListInteractor = featuredListInteractor
     }
     
     public func getList() -> Task<Int, [FeaturedListDisplayData], NSError> {
-        let task = businessInteractor.getFeaturedBusiness()
+        let task = featuredListInteractor.getFeaturedBusiness()
         
         let resultTask = task
             .success { businessDomainArr -> [FeaturedListDisplayData] in
