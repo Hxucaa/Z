@@ -35,7 +35,7 @@ public class BusinessDataManager {
         }
         
         // get complete address
-        let addressString: String? = business.location?.completeAddress
+        let addressString: String? = business.completeAddress
         if let address = addressString {
             
             // get geolocation from the address
@@ -43,7 +43,7 @@ public class BusinessDataManager {
             
             let resultTask = forwardGeocodingTask
                 .success { geopoint -> Task<Int, Bool, NSError> in
-                    business.location?.geopoint = geopoint
+                    business.geopoint = geopoint
                     
                     return saveTask(business)
                     
@@ -119,7 +119,7 @@ public class BusinessDataManager {
     }
     
     private func enhanceQuery(inout query: PFQuery) {
-        query.includeKey("location")
+        
     }
     
     

@@ -26,7 +26,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         appDependencies.installRootViewControllerIntoWindow(window!)
         
 //        PopulateParse().populate()
-//        PopulateParse().featuredizeByNameSChinese("海港")
+        PopulateParse().featuredizeByNameSChinese("海港")
         return true
     }
 

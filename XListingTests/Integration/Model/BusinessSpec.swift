@@ -30,11 +30,10 @@ class BusinessSpec: QuickSpec {
             beforeEach {
                 business = BusinessEntity()
                 
-                var location = LocationEntity()
-                location.address = "3289 Alberta st."
-                location.city = "Vancouver"
-                location.country = "CA"
-                location.state = "BC"
+                business.address = "3289 Alberta st."
+                business.city = "Vancouver"
+                business.country = "CA"
+                business.state = "BC"
                 
                 business.nameEnglish = "test business 2"
                 business.isClaimed = true
@@ -43,7 +42,6 @@ class BusinessSpec: QuickSpec {
                 business.url = "placeholder"
                 business.mobileUrl = "placeholder"
                 business.phone = "6049872738"
-                business.location = location
             }
             
             afterEach {
@@ -76,10 +74,10 @@ class BusinessSpec: QuickSpec {
                         expect(obj.url).to(equal(business.url))
                         expect(obj.mobileUrl).to(equal(business.mobileUrl))
                         expect(obj.phone).to(equal(business.phone))
-                        expect((obj.location?.address)!).to(equal((business.location?.address)!))
-                        expect((obj.location?.city)!).to(equal((business.location?.city)!))
-                        expect((obj.location?.country)!).to(equal((business.location?.country)!))
-                        expect((obj.location?.state)!).to(equal((business.location?.state)!))
+                        expect((obj.address)!).to(equal((business.address)!))
+                        expect((obj.city)!).to(equal((business.city)!))
+                        expect((obj.country)!).to(equal((business.country)!))
+                        expect((obj.state)!).to(equal((business.state)!))
                         
                         done()
                     })

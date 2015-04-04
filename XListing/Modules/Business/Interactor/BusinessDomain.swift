@@ -61,18 +61,16 @@ public class BusinessDomain : Printable {
         featured = business.featured
         timeStart = business.timeStart
         timeEnd = business.timeEnd
-        if let loc = business.location {
-            unit = loc.unit
-            address = loc.address
-            district = loc.district
-            city = loc.city
-            state = loc.state
-            country = loc.country
-            postalCode = loc.postalCode
-            crossStreets = loc.crossStreets
-            neighborhoods = loc.neighborhoods
-            self.distance = distance
-        }
+        unit = business.unit
+        address = business.address
+        district = business.district
+        city = business.city
+        state = business.state
+        country = business.country
+        postalCode = business.postalCode
+        crossStreets = business.crossStreets
+        neighborhoods = business.neighborhoods
+        self.distance = distance
         
         
     }
@@ -127,37 +125,33 @@ public class BusinessDomain : Printable {
         if timeEnd != nil {
             business.timeEnd = timeEnd
         }
-        
-        let loc = LocationEntity()
         if unit != nil {
-            loc.unit = unit
+            business.unit = unit
         }
         if address != nil {
-            loc.address = address
+            business.address = address
         }
         if district != nil {
-            loc.district = district
+            business.district = district
         }
         if city != nil {
-            loc.city = city
+            business.city = city
         }
         if state != nil {
-            loc.state = state
+            business.state = state
         }
         if country != nil {
-            loc.country = country
+            business.country = country
         }
         if postalCode != nil {
-            loc.postalCode = postalCode
+            business.postalCode = postalCode
         }
         if crossStreets != nil {
-            loc.crossStreets = crossStreets
+            business.crossStreets = crossStreets
         }
         if neighborhoods != nil {
-            loc.neighborhoods = neighborhoods
+            business.neighborhoods = neighborhoods
         }
-        
-        business.location = loc
         
         return business
     }

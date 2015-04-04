@@ -67,7 +67,7 @@ extension BusinessInteractor {
                 
                 // map to domain model
                 let businessDomainArr = businessEntityArr.map { businessEntity -> BusinessDomain in
-                    let distance = businessEntity.location?.geopoint?.distanceInKilometersTo(currentgp)
+                    let distance = businessEntity.geopoint?.distanceInKilometersTo(currentgp)
                     
                     let businessDomain = BusinessDomain()
                     businessDomain.fromEntity(businessEntity, distance: distance)

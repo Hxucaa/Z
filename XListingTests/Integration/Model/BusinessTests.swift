@@ -18,11 +18,10 @@ class BusinessTests: XCTestCase {
         ParseClient.registerSubclasses()
         ParseClient.initializeClient()
         
-        var location = LocationEntity()
-        location.address = "3289 Alberta st."
-        location.city = "Vancouver"
-        location.country = "CA"
-        location.state = "BC"
+        business.address = "3289 Alberta st."
+        business.city = "Vancouver"
+        business.country = "CA"
+        business.state = "BC"
         
         business.nameEnglish = "test business 2"
         business.isClaimed = true
@@ -31,7 +30,6 @@ class BusinessTests: XCTestCase {
         business.url = "placeholder"
         business.mobileUrl = "placeholder"
         business.phone = "6049872738"
-        business.location = location
     }
     
     override func tearDown() {
@@ -71,10 +69,10 @@ class BusinessTests: XCTestCase {
             XCTAssertEqual(obj.url!, self.business.url!, "Same")
             XCTAssertEqual(obj.mobileUrl!, self.business.mobileUrl!, "Same")
             XCTAssertEqual(obj.phone!, self.business.phone!, "Same")
-            XCTAssertEqual((obj.location?.address)!, (self.business.location?.address)!, "Same")
-            XCTAssertEqual((obj.location?.city)!, (self.business.location?.city)!, "Same")
-            XCTAssertEqual((obj.location?.country)!, (self.business.location?.country)!, "Same")
-            XCTAssertEqual((obj.location?.state)!, (self.business.location?.state)!, "Same")
+            XCTAssertEqual((obj.address)!, (self.business.address)!, "Same")
+            XCTAssertEqual((obj.city)!, (self.business.city)!, "Same")
+            XCTAssertEqual((obj.country)!, (self.business.country)!, "Same")
+            XCTAssertEqual((obj.state)!, (self.business.state)!, "Same")
 
         })
         

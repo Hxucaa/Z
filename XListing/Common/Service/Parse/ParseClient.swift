@@ -14,7 +14,6 @@ import Foundation
 public class ParseClient {
     public class func registerSubclasses() {
         BusinessEntity.initialize()
-        LocationEntity.initialize()
     }
     
     public class func initializeClient() {
