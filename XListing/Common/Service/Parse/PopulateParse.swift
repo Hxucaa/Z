@@ -28,7 +28,7 @@ public class PopulateParse {
     public func featuredizeByNameSChinese(name: String) {
         // create a task to find the business first
         let q = BusinessEntity.query()
-        q.whereKey("name_schinese", equalTo: name)
+        q.whereKey("nameSChinese", equalTo: name)
         let queryTask = businessInteractor.findBusinessBy(q)
         
         

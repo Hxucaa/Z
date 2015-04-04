@@ -13,50 +13,50 @@ public class BusinessEntity: PFObject, PFSubclassing {
     // Simplified Chinese name of this business
     public var nameSChinese: String? {
         get {
-            return self["name_schinese"] as? String
+            return self["nameSChinese"] as? String
         }
         set {
-            self["name_schinese"] = newValue
+            self["nameSChinese"] = newValue
         }
     }
     
     // Traditional Chinese name of this business
     public var nameTChinese: String? {
         get {
-            return self["name_tchinese"] as? String
+            return self["nameTChinese"] as? String
         }
         set {
-            self["name_tchinese"] = newValue
+            self["nameTChinese"] = newValue
         }
     }
     
     // English name of this business
     public var nameEnglish: String? {
         get {
-            return self["name_english"] as? String
+            return self["nameEnglish"] as? String
         }
         set {
-            self["name_english"] = newValue
+            self["nameEnglish"] = newValue
         }
     }
     
     // Whether business has been claimed by a business owner
     public var isClaimed: Bool? {
         get {
-            return self["is_claimed"] as? Bool
+            return self["isClaimed"] as? Bool
         }
         set {
-            self["is_claimed"] = newValue
+            self["isClaimed"] = newValue
         }
     }
     
     // Whether business has been (permanently) closed
     public var isClosed: Bool? {
         get {
-            return self["is_closed"] as? Bool
+            return self["isClosed"] as? Bool
         }
         set {
-            self["is_closed"] = newValue
+            self["isClosed"] = newValue
         }
     }
     
@@ -83,10 +83,10 @@ public class BusinessEntity: PFObject, PFSubclassing {
     // URL for mobile business page
     public var mobileUrl: String? {
         get {
-            return self["mobile_url"] as? String
+            return self["mobileUrl"] as? String
         }
         set {
-            self["mobile_url"] = newValue
+            self["mobileUrl"] = newValue
         }
     }
     
@@ -102,20 +102,20 @@ public class BusinessEntity: PFObject, PFSubclassing {
     // URL of photo for this business
     public var imageUrl: String? {
         get {
-            return self["image_url"] as? String
+            return self["imageUrl"] as? String
         }
         set {
-            self["image_url"] = newValue
+            self["imageUrl"] = newValue
         }
     }
     
     // Number of reviews for this business
     public var reviewCount: Int? {
         get {
-            return self["review_count"] as? Int
+            return self["reviewCount"] as? Int
         }
         set {
-            self["review_count"] = newValue
+            self["reviewCount"] = newValue
         }
     }
     
@@ -176,20 +176,20 @@ extension BusinessEntity {
     // Starting time of featured business
     public var timeStart: NSDate? {
         get {
-            return objectForKey("time_start") as? NSDate
+            return objectForKey("timeStart") as? NSDate
         }
         set {
-            setObject(newValue, forKey: "time_start")
+            setObject(newValue, forKey: "timeStart")
         }
     }
     
     // Ending time of featured business
     public var timeEnd: NSDate? {
         get {
-            return objectForKey("time_end") as? NSDate
+            return objectForKey("timeEnd") as? NSDate
         }
         set {
-            setObject(newValue, forKey: "time_end")
+            setObject(newValue, forKey: "timeEnd")
         }
     }
 }
@@ -286,20 +286,20 @@ extension BusinessEntity {
     // Postal code for this business
     public var postalCode: String? {
         get {
-            return self["postal_code"] as? String
+            return self["postalCode"] as? String
         }
         set {
-            self["postal_code"] = newValue
+            self["postalCode"] = newValue
         }
     }
     
     // Cross streets for this business
     public var crossStreets: String? {
         get {
-            return self["cross_streets"] as? String
+            return self["crossStreets"] as? String
         }
         set {
-            self["cross_streets"] = newValue
+            self["crossStreets"] = newValue
         }
     }
     
