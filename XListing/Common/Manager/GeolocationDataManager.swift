@@ -9,7 +9,7 @@
 import Foundation
 import SwiftTask
 
-public class GeolocationDataManager {
+public class GeolocationDataManager : IGeolocationDataManager {
     
     ///
     /// This function asks for the current location. Returns a Task which contains a GeoPointEntity of current location.

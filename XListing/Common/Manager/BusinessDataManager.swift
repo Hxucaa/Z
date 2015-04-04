@@ -9,7 +9,7 @@
 import Foundation
 import SwiftTask
 
-public class BusinessDataManager {
+public class BusinessDataManager : IBusinessDataManager {
     /**
         This function saves the BusinessEntity and returns true if success otherwise false.
         

@@ -10,10 +10,10 @@ import Foundation
 import SwiftTask
 
 public class BusinessInteractor : IBusinessInteractor {
-    private let geolocationDataManager: GeolocationDataManager
-    private let businessDataManager: BusinessDataManager
+    private let geolocationDataManager: IGeolocationDataManager
+    private let businessDataManager: IBusinessDataManager
     
-    public init(businessDataManager: BusinessDataManager, geolocationDataManager: GeolocationDataManager) {
+    public init(businessDataManager: IBusinessDataManager, geolocationDataManager: IGeolocationDataManager) {
         self.businessDataManager = businessDataManager
         self.geolocationDataManager = geolocationDataManager
     }
