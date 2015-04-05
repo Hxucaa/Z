@@ -261,7 +261,6 @@
 		B4CC82601AC1650100E85CEA /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				B4E36BA01ACBA959000F260E /* Business */,
 				B4CC82681AC1673100E85CEA /* Root */,
 				B4CC82611AC1650A00E85CEA /* FeaturedList */,
 			);
@@ -334,13 +333,6 @@
 			);
 			name = Wireframe;
 			path = Common/Wireframe;
-			sourceTree = "<group>";
-		};
-		B4E36BA01ACBA959000F260E /* Business */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Business;
 			sourceTree = "<group>";
 		};
 		B4E36BA11ACBA972000F260E /* Interactor */ = {
