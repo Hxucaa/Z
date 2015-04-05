@@ -16,6 +16,6 @@ public class FeaturedListInteractor : BusinessInteractor, IFeaturedListInteracto
         let query = BusinessEntity.query()
         query.whereKey("featured", equalTo: true)
         
-        return retrieveBusinessWithGeolocation(query)
+        return findBusinessBy(query)
     }
 }
