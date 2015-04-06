@@ -22,6 +22,7 @@
 		7EF371571AB8C9B3009AA3B9 /* BusinessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371551AB8C9B3009AA3B9 /* BusinessSpec.swift */; };
 		7EF371581AB8C9B3009AA3B9 /* BusinessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */; };
 		B421BA731AD2F3810094717F /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = B421BA721AD2F3810094717F /* RLMSupport.swift */; };
+		B421BA751AD2F5040094717F /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = B421BA741AD2F5040094717F /* Business.swift */; };
 		B47C0EA01ABF6DF200F9FB31 /* GeoPointEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47C0E9F1ABF6DF200F9FB31 /* GeoPointEntity.swift */; };
 		B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47C0EA51AC0A21000F9FB31 /* AppDependencies.swift */; };
 		B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47C0EA91AC0A82C00F9FB31 /* FeaturedListWireframe.swift */; };
@@ -78,6 +79,7 @@
 		7EF371551AB8C9B3009AA3B9 /* BusinessSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessSpec.swift; sourceTree = "<group>"; };
 		7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessTests.swift; sourceTree = "<group>"; };
 		B421BA721AD2F3810094717F /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
+		B421BA741AD2F5040094717F /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
 		B47C0E9F1ABF6DF200F9FB31 /* GeoPointEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GeoPoint\U0010Entity.swift"; sourceTree = "<group>"; };
 		B47C0EA51AC0A21000F9FB31 /* AppDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDependencies.swift; sourceTree = "<group>"; };
 		B47C0EA91AC0A82C00F9FB31 /* FeaturedListWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListWireframe.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 			children = (
 				7EF371311AB8C1E8009AA3B9 /* BusinessEntity.swift */,
 				B47C0E9F1ABF6DF200F9FB31 /* GeoPointEntity.swift */,
+				B421BA741AD2F5040094717F /* Business.swift */,
 			);
 			name = Entity;
 			path = Common/Entity;
@@ -220,6 +223,7 @@
 		7EF3713F1AB8C1E8009AA3B9 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				B421BA761AD2FB890094717F /* Realm */,
 				7EF371401AB8C1E8009AA3B9 /* Parse */,
 			);
 			name = Service;
@@ -251,6 +255,13 @@
 				7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		B421BA761AD2FB890094717F /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Realm;
 			sourceTree = "<group>";
 		};
 		B47C0EA81AC0A7EF00F9FB31 /* Wireframe */ = {
@@ -592,6 +603,7 @@
 				B4F32E211ACF934700946FD8 /* IGeolocationDataManager.swift in Sources */,
 				B47C0EA01ABF6DF200F9FB31 /* GeoPointEntity.swift in Sources */,
 				B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */,
+				B421BA751AD2F5040094717F /* Business.swift in Sources */,
 				B4F32E481ACFB43800946FD8 /* BusinessInteractor.swift in Sources */,
 				B4F32E1A1ACF88AA00946FD8 /* FeaturedListInteractor.swift in Sources */,
 			);
