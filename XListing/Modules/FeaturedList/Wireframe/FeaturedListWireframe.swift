@@ -8,17 +8,17 @@
 
 import Foundation
 
-let FeaturedListViewControllerIdentifier = "FeaturedListViewController"
+private let FeaturedListViewControllerIdentifier = "FeaturedListViewController"
 
 public class FeaturedListWireframe : BaseWireframe {
     
-    private let featuredListPresenter: IFeaturedListPresenter?
-    private let rootWireframe: RootWireframe?
+    private let featuredListVM: IFeaturedListViewModel
+    private let rootWireframe: RootWireframe
     private var featuredListViewController: FeaturedListViewController?
     
-    public init(rootWireframe: RootWireframe, featuredListPresenter: IFeaturedListPresenter) {
+    public init(rootWireframe: RootWireframe, featuredListVM: IFeaturedListViewModel) {
         self.rootWireframe = rootWireframe
-        self.featuredListPresenter = featuredListPresenter
+        self.featuredListVM = featuredListVM
     }
     
     /**
@@ -29,7 +29,7 @@ public class FeaturedListWireframe : BaseWireframe {
     public func presentFeaturedListInterfaceFromWindows(window: UIWindow) {
         
         let injectedViewController = injectPresenterToViewController()
-        rootWireframe?.showRootViewController(injectedViewController, inWindow: window)
+        rootWireframe.showRootViewController(injectedViewController, inWindow: window)
         
     }
     
@@ -41,7 +41,7 @@ public class FeaturedListWireframe : BaseWireframe {
     private func injectPresenterToViewController() -> FeaturedListViewController {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(FeaturedListViewControllerIdentifier) as FeaturedListViewController
-        viewController.featuredListPresenter = featuredListPresenter
+        viewController.featuredListVM = featuredListVM
         featuredListViewController = viewController
         return viewController
     }
