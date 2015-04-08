@@ -129,6 +129,15 @@ public class BusinessEntity: PFObject, PFSubclassing {
         }
     }
     
+    public var cover: PFFile? {
+        get {
+            return self["cover"] as? PFFile
+        }
+        set {
+            self["cover"] = newValue
+        }
+    }
+    
     /*!
     Provides a list of category name, alias pairs that this business is associated with. For example,
     [["Local Flavor", "localflavor"], ["Active Life", "active"], ["Mass Media", "massmedia"]]

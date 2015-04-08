@@ -8,6 +8,8 @@
 
 import UIKit
 import ReactKit
+import Realm
+import SwiftTask
 
 public class FeaturedListViewController: UIViewController {
 
@@ -28,6 +30,8 @@ public class FeaturedListViewController: UIViewController {
     
     public var featuredListPresenter: IFeaturedListPresenter?
     
+    private var token: RLMNotificationToken?
+    private var manager: OneShotLocationManager?
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +41,99 @@ public class FeaturedListViewController: UIViewController {
         
 //        var f = FeaturedListPresenter()
 //        f.getList()
-        setupDisplayingFeaturedList()
+        
+        //        setupDisplayingFeaturedList()
+        token = RLMRealm.defaultRealm().addNotificationBlock( { [unowned self] note, realm -> Void in
+            self.refreshView()
+        })
+    }
+    
+    private func refreshView() {
+        featuredButtonSignal = featuredButton?.signal(controlEvents: UIControlEvents.TouchUpInside, map: { (button: UIControl?) -> NSString in
+            return "Query Featured List"
+        })
+        
+        let featuredListRetrievalSignal = featuredButtonSignal?
+            .startWith("Start when view loads")  // startWith will send the signal right way. Perfect for initiating data retrieval on view loading.
+            .flatMap { _ in
+                Signal<[FeaturedListDisplayData]>.fromTask(Task<Int, CLLocation?, NSError> { progress, fulfill, reject, configure in
+                    self.manager = OneShotLocationManager()
+                    self.manager!.fetchWithCompletion { location, error in
+                        self.manager = nil
+                        if error == nil {
+                            fulfill(location)
+                        }
+                        else {
+                            reject(error!)
+                        }
+                    }
+                    
+                }
+                .success { [unowned self] cllocation -> RLMResults in
+                    let realm = RLMRealm.defaultRealm()
+                    let featured = Business.objectsInRealm(realm, withPredicate: NSPredicate(format: "featured = %@", true))
+                    println((featured[0] as Business).distanceToLocation(cllocation!))
+                    //                self.resultTextView.text = featured.description
+                    return featured
+                })
+        }
+        
+        // no need to assign a private variable of the signal if specify the owner
+        featuredListRetrievalSignal?.ownedBy(self)
+        
+        nameSChineseLabelSignal = featuredListRetrievalSignal?.map { displayDataArr -> NSString? in
+            if displayDataArr.count > 0 {
+                return (displayDataArr[0] as Business).nameSChinese
+            }
+            else {
+                return nil
+            }
+        }
+        
+        nameEnglishLabelSignal = featuredListRetrievalSignal?.map {
+            displayDataArr -> NSString? in
+            if displayDataArr.count > 0 {
+                return (displayDataArr[0] as Business).nameEnglish
+            }
+            else {
+                return nil
+            }
+        }
+        
+        
+        addressLabelSignal = featuredListRetrievalSignal?.map {
+            displayDataArr -> NSString? in
+            if displayDataArr.count > 0 {
+                return (displayDataArr[0] as Business).address
+            }
+            else {
+                return nil
+            }
+        }
+        
+        resultSignal = featuredListRetrievalSignal?.map { displayDataArr -> NSString? in
+            var result = ""
+            for item in displayDataArr {
+                result += displayDataArr.description
+            }
+            return result
+        }
+        
+        // set up ui controls to react to signal
+        (resultTextView, "text") <~ resultSignal!
+        (nameSChineseLabel, "text") <~ nameSChineseLabelSignal!
+        (nameEnglishLabel, "text") <~ nameEnglishLabelSignal!
+        (addressLabel, "text") <~ addressLabelSignal!
+        
+        
+        
+        
+        
+//        resultTextView.text = featured.description
+//        let b = featured[0] as Business
+//        nameSChineseLabel.text = b.nameSChinese
+//        nameEnglishLabel.text = b.nameEnglish
+//        addressLabel.text = b.address
     }
 
     public override func didReceiveMemoryWarning() {

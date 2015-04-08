@@ -8,74 +8,91 @@
 
 import Foundation
 import Realm
+import CoreLocation
 
 public class Business: RLMObject {
+    
+    /**
+    *  Parse fileds
+    */
+    public dynamic var objectId: String = ""
+    public dynamic var createdAt: NSTimeInterval = -1.0
+    public dynamic var updatedAt: NSTimeInterval = -1.0
+    
     /**
     *  Business info
     */
-    public dynamic var nameSChinese: String?
-    public dynamic var nameTChinese: String?
-    public dynamic var nameEnglish: String?
+    public dynamic var nameSChinese: String = ""
+    public dynamic var nameTChinese: String = ""
+    public dynamic var nameEnglish: String = ""
     public dynamic var isClaimed: Bool = false
     public dynamic var isClosed: Bool = false
-    public dynamic var phone: String?
-    public dynamic var url: String?
-    public dynamic var mobileUrl: String?
-    public dynamic var uid: String?
-    public dynamic var imageUrl: String?
+    public dynamic var phone: String = ""
+    public dynamic var url: String = ""
+    public dynamic var mobileUrl: String = ""
+    public dynamic var uid: String = ""
+    public dynamic var imageUrl: String = ""
     public dynamic var reviewCount: Int = 0
     public dynamic var rating: Double = -1
-    public dynamic var categories: [String] = []
+    public dynamic var coverImageUrl: String = ""
     
     /**
     *  Featured
     */
     public dynamic var featured: Bool = false
-    public dynamic var timeStart: NSDate?  //TODO: convert to NSInterval
-    public dynamic var timeEnd: NSDate?    //TODO: convert to NSInterval
+    public dynamic var timeStart: NSTimeInterval = -1.0
+    public dynamic var timeEnd: NSTimeInterval = -1.0
     
     /**
     *  Location
     */
-    public dynamic var unit: String?
-    public dynamic var address: String?
-    public dynamic var district: String?
-    public dynamic var city: String?
-    public dynamic var state: String?
-    public dynamic var country: String?
-    public dynamic var postalCode: String?
-    public dynamic var crossStreets: String?
-    public dynamic var neighborhoods: [String]?
-    //    var geopoint: GeoPoint
+    public dynamic var unit: String = ""
+    public dynamic var address: String = ""
+    public dynamic var district: String = ""
+    public dynamic var city: String = ""
+    public dynamic var state: String = ""
+    public dynamic var country: String = ""
+    public dynamic var postalCode: String = ""
+    public dynamic var crossStreets: String = ""
+    public dynamic var latitude: Double = -360
+    public dynamic var longitude: Double = -360
+    
+    public override class func primaryKey() -> String! {
+        return "objectId"
+    }
+    
+    public override class func ignoredProperties() -> [AnyObject] {
+        let propertiesToIgnore = []
+        return propertiesToIgnore
+    }
+    
+    public override class func indexedProperties() -> [AnyObject] {
+        let propertiesToIndex = ["nameSChinese"]
+        return propertiesToIndex
+    }
+}
 
+extension Business {
+    
+    /// Get complete address of the business
     public var completeAddress: String? {
         get {
-            var addressString = ""
-            if let address = address {
-                addressString += "\(address) "
+            if !address.isEmpty && !city.isEmpty && !state.isEmpty && !country.isEmpty {
+                return "\(address) \(city) \(state) \(country)"
             }
             else {
                 return nil
             }
-            if let city = city {
-                addressString += "\(city) "
-            }
-            else {
-                return nil
-            }
-            if let state = state {
-                addressString += "\(state) "
-            }
-            else {
-                return nil
-            }
-            if let country = country {
-                addressString += "\(country)"
-            }
-            else {
-                return nil
-            }
-            return addressString
         }
+    }
+    
+    public var cllocation: CLLocation {
+        get {
+            return CLLocation(latitude: latitude, longitude: longitude)
+        }
+    }
+    
+    public func distanceToLocation(another: CLLocation) -> Double {
+        return cllocation.distanceFromLocation(another)
     }
 }
