@@ -11,6 +11,6 @@ import SwiftTask
 
 public protocol IBusinessService {
     func save(business: BusinessDAO) -> Task<Int, Bool, NSError>
-    func getFirst(query: PFQuery) -> Task<Int, BusinessDAO?, NSError>
-    func findBy(query: PFQuery) -> Task<Int, [BusinessDAO], NSError>
+    func getFirst(query: PFQuery?) -> Task<Int, BusinessDAO?, NSError>
+    func findBy(query: PFQuery?) -> Task<Int, [BusinessDAO], NSError>
 }

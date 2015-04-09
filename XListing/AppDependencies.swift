@@ -15,6 +15,9 @@ public class AppDependencies {
     
     private var featuredListWireframe: FeaturedListWireframe?
     
+    /// singleton
+    private let realmService: IRealmService = RealmService()
+    
     public init() {
         let rootWireframe = RootWireframe()
         
@@ -38,12 +41,13 @@ public class AppDependencies {
     private func configureFeaturedListDependencies(rootWireframe: RootWireframe) {
         
         let businessService: IBusinessService = BusinessService()
+        let realmWritter: IRealmWritter = RealmWritter()
         
+        // instantiate data manager
+        let dm: IDataManager = DataManager(businessService: businessService, realmService: realmService, realmWritter: realmWritter)
         
-        // create data manager
-        let dm: IDataManager = DataManager()
-        
-        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(datamanager: dm)
+        // instantiate view model
+        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(datamanager: dm, realmService: realmService)
         
         featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM)
     }

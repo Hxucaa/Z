@@ -71,10 +71,14 @@ public class BusinessService : IBusinessService {
         :params: query A PFQuery.
         :returns: a Task containing the result DAO in optional.
     */
-    public func getFirst(var _ query: PFQuery = BusinessDAO.query()) -> Task<Int, BusinessDAO?, NSError> {
+    public func getFirst(var query: PFQuery?) -> Task<Int, BusinessDAO?, NSError> {
+        if query == nil {
+            query = BusinessDAO.query()
+        }
+        
         let task = Task<Int, PFObject, NSError> { progress, fulfill, reject, configure in
-            self.enhanceQuery(&query)
-            query.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
+            self.enhanceQuery(&query!)
+            query!.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
                 if error == nil {
                     fulfill(object)
                 }
@@ -96,11 +100,15 @@ public class BusinessService : IBusinessService {
         :params: query A PFQuery.
         :returns: A Task which contains an array of BusinessDTO.
     */
-    public func findBy(var _ query: PFQuery = BusinessDAO.query()) -> Task<Int, [BusinessDAO], NSError> {
+    public func findBy(var query: PFQuery?) -> Task<Int, [BusinessDAO], NSError> {
+        
+        if query == nil {
+            query = BusinessDAO.query()
+        }
         
         let task = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
-            self.enhanceQuery(&query)
-            query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]!, error: NSError!) -> Void in
+            self.enhanceQuery(&query!)
+            query!.findObjectsInBackgroundWithBlock { (objects: [AnyObject]!, error: NSError!) -> Void in
                 if error == nil {
                     fulfill(objects)
                 }

@@ -13,63 +13,73 @@ import ReactKit
 
 public class FeaturedListViewModel : IFeaturedListViewModel {
     
-//    public var featured: [BusinessViewModel] = []
-    /// wrapper for an array of BusinessViewModel
-    public let dynamicArray = DynamicArray()
-    
-    private var dm: IDataManager
+    /// Lazily evaluated list of featured businesses
+    private var featured = Business.objectsInRealm(RealmService().defaultRealm, withPredicate: NSPredicate(format: "featured = %@", true))
     /// notification token from Realm
     private var token: RLMNotificationToken?
-    /// location manager
-    private var manager: OneShotLocationManager?
     
-    public init(datamanager: IDataManager) {
+    private var dm: IDataManager
+    private var realmService: IRealmService
+    private var manager: OneShotLocationService?
+    
+    /// wrapper for an array of BusinessViewModel
+    public let dynamicArray = DynamicArray()
+
+    public init(datamanager: IDataManager, realmService: IRealmService) {
         dm = datamanager
+        self.realmService = realmService
+        let t = realmService.defaultRealm
         setupRLMNotificationToken()
     }
     
 
     public func requestAllBusinesses() -> Task<Int, Void, NSError> {
+        //TODO: support for offline usage.
         return dm.getFeaturedBusiness()
     }
 }
 
 extension FeaturedListViewModel {
+    /**
+    Subscribe to Realm notification
+    */
     private func setupRLMNotificationToken() {
         // subscribes to notification from Realm
         token = RLMRealm.defaultRealm().addNotificationBlock( { [unowned self] note, realm -> Void in
-            let task = Task<Int, CLLocation?, NSError> { progress, fulfill, reject, configure in
-                // get current location
-                self.manager = OneShotLocationManager()
-                self.manager!.fetchWithCompletion { location, error in
-                    self.manager = nil
-                    if error == nil {
-                        fulfill(location)
-                    }
-                    else {
-                        reject(error!)
-                    }
-                }
-                }
-                .success { [unowned self] cllocation -> Void in
-                    // retrieve data from Realm
-                    let realm = RLMRealm.defaultRealm()
-                    let featuredArr = Business.objectsInRealm(realm, withPredicate: NSPredicate(format: "featured = %@", true))
-                    
-                    // process the data
-                    for item in featuredArr {
-                        let bus = item as Business
-                        
-                        // initialize new BusinessViewModel
-                        let t=cllocation!.distanceFromLocation(bus.cllocation)
-                        let vm = BusinessViewModel(business: bus, distanceInMeter: cllocation!.distanceFromLocation(bus.cllocation))
-                        //                    self.featured.append(vm)
-                        
-                        // apend BusinessViewModel to DynamicArray for React
-                        self.dynamicArray.proxy.addObject(vm)
-                    }
-            }
-            
+            self.prepareDataForSignal()
         })
+    }
+    
+    /**
+    Fetch current location. Create BusinessViewModel with embedded distance data. And finally add the BusinessViewModels to dynamicArray for the view to consume the signal.
+    */
+    private func prepareDataForSignal() {
+        let task = Task<Int, CLLocation?, NSError> { [unowned self] progress, fulfill, reject, configure in
+            // get current location
+            self.manager = OneShotLocationService()
+            self.manager!.fetchWithCompletion { location, error in
+                self.manager = nil
+                if error == nil {
+                    fulfill(location)
+                }
+                else {
+                    reject(error!)
+                }
+            }
+        }
+        .success { [unowned self] cllocation -> Void in
+            
+            // process the data
+            for item in self.featured {
+                let bus = item as Business
+                
+                // initialize new BusinessViewModel
+                let t = cllocation!.distanceFromLocation(bus.cllocation)
+                let vm = BusinessViewModel(business: bus, distanceInMeter: cllocation!.distanceFromLocation(bus.cllocation))
+                
+                // apend BusinessViewModel to DynamicArray for React
+                self.dynamicArray.proxy.addObject(vm)
+            }
+        }
     }
 }

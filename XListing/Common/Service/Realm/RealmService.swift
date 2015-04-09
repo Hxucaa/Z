@@ -9,7 +9,7 @@
 import Foundation
 import Realm
 
-public class RealmService {
+public class RealmService : IRealmService {
     /// Default Realm
     public let defaultRealm = RLMRealm.defaultRealm()
     

@@ -26,11 +26,13 @@
 		B44E35061AD647E700657A31 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E35051AD647E700657A31 /* DataManager.swift */; };
 		B44E350A1AD6488D00657A31 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E35091AD6488D00657A31 /* RealmService.swift */; };
 		B44E350E1AD64DD100657A31 /* IDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E350D1AD64DD100657A31 /* IDataManager.swift */; };
-		B44E35101AD656B500657A31 /* EntityDAOMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E350F1AD656B500657A31 /* EntityDAOMapper.swift */; };
+		B44E35101AD656B500657A31 /* RealmWritter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E350F1AD656B500657A31 /* RealmWritter.swift */; };
+		B44E35141AD7216800657A31 /* IRealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E35131AD7216800657A31 /* IRealmService.swift */; };
+		B44E35171AD73BF100657A31 /* IRealmWritter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E35161AD73BF100657A31 /* IRealmWritter.swift */; };
 		B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47C0EA51AC0A21000F9FB31 /* AppDependencies.swift */; };
 		B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47C0EA91AC0A82C00F9FB31 /* FeaturedListWireframe.swift */; };
 		B4A3C16D1AD44B7E00B9D699 /* FeaturedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A3C16C1AD44B7E00B9D699 /* FeaturedListViewModel.swift */; };
-		B4A3C16F1AD4DEC600B9D699 /* OneShotLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A3C16E1AD4DEC600B9D699 /* OneShotLocationManager.swift */; };
+		B4A3C16F1AD4DEC600B9D699 /* OneShotLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A3C16E1AD4DEC600B9D699 /* OneShotLocationService.swift */; };
 		B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */; };
 		B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */; };
 		B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36B9D1AC1F5F1000F260E /* BaseWireframe.swift */; };
@@ -80,11 +82,13 @@
 		B44E35051AD647E700657A31 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		B44E35091AD6488D00657A31 /* RealmService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		B44E350D1AD64DD100657A31 /* IDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IDataManager.swift; sourceTree = "<group>"; };
-		B44E350F1AD656B500657A31 /* EntityDAOMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDAOMapper.swift; sourceTree = "<group>"; };
+		B44E350F1AD656B500657A31 /* RealmWritter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RealmWritter.swift; path = XListing/Common/Service/Realm/RealmWritter.swift; sourceTree = SOURCE_ROOT; };
+		B44E35131AD7216800657A31 /* IRealmService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "I\U0010RealmService.swift"; sourceTree = "<group>"; };
+		B44E35161AD73BF100657A31 /* IRealmWritter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRealmWritter.swift; sourceTree = "<group>"; };
 		B47C0EA51AC0A21000F9FB31 /* AppDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDependencies.swift; sourceTree = "<group>"; };
 		B47C0EA91AC0A82C00F9FB31 /* FeaturedListWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListWireframe.swift; sourceTree = "<group>"; };
 		B4A3C16C1AD44B7E00B9D699 /* FeaturedListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewModel.swift; sourceTree = "<group>"; };
-		B4A3C16E1AD4DEC600B9D699 /* OneShotLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneShotLocationManager.swift; sourceTree = "<group>"; };
+		B4A3C16E1AD4DEC600B9D699 /* OneShotLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OneShotLocationService.swift; path = ../../Manager/OneShotLocationService.swift; sourceTree = "<group>"; };
 		B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootWireframe.swift; sourceTree = "<group>"; };
 		B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedListViewController.swift; path = View/FeaturedListViewController.swift; sourceTree = "<group>"; };
 		B4E36B9D1AC1F5F1000F260E /* BaseWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWireframe.swift; sourceTree = "<group>"; };
@@ -205,9 +209,9 @@
 		7EF3713F1AB8C1E8009AA3B9 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				B44E35151AD7395600657A31 /* Location */,
 				B421BA761AD2FB890094717F /* Realm */,
 				7EF371401AB8C1E8009AA3B9 /* Parse */,
-				B44E350F1AD656B500657A31 /* EntityDAOMapper.swift */,
 			);
 			name = Service;
 			path = Common/Service;
@@ -217,8 +221,8 @@
 			isa = PBXGroup;
 			children = (
 				B44E35031AD63F6000657A31 /* BusinessService.swift */,
-				B4E36BBA1ACE543C000F260E /* BusinessDAO.swift */,
 				B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */,
+				B4E36BBA1ACE543C000F260E /* BusinessDAO.swift */,
 				7EF371391AB8C1E8009AA3B9 /* Population */,
 				7EF371411AB8C1E8009AA3B9 /* ParseClient.swift */,
 				7EF371421AB8C1E8009AA3B9 /* PopulateParse.swift */,
@@ -247,6 +251,9 @@
 			isa = PBXGroup;
 			children = (
 				B44E35091AD6488D00657A31 /* RealmService.swift */,
+				B44E35131AD7216800657A31 /* IRealmService.swift */,
+				B44E350F1AD656B500657A31 /* RealmWritter.swift */,
+				B44E35161AD73BF100657A31 /* IRealmWritter.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -258,6 +265,14 @@
 			);
 			name = ViewModel;
 			path = Common/ViewModel;
+			sourceTree = "<group>";
+		};
+		B44E35151AD7395600657A31 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				B4A3C16E1AD4DEC600B9D699 /* OneShotLocationService.swift */,
+			);
+			path = Location;
 			sourceTree = "<group>";
 		};
 		B47C0EA81AC0A7EF00F9FB31 /* Wireframe */ = {
@@ -335,7 +350,6 @@
 		B4E36B9B1AC1E180000F260E /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				B4A3C16E1AD4DEC600B9D699 /* OneShotLocationManager.swift */,
 				B44E35051AD647E700657A31 /* DataManager.swift */,
 				B44E350D1AD64DD100657A31 /* IDataManager.swift */,
 			);
@@ -575,14 +589,16 @@
 				7EF371111AB8C012009AA3B9 /* AppDelegate.swift in Sources */,
 				B4A3C16D1AD44B7E00B9D699 /* FeaturedListViewModel.swift in Sources */,
 				7EF3714F1AB8C1E8009AA3B9 /* PopulateParse.swift in Sources */,
+				B44E35141AD7216800657A31 /* IRealmService.swift in Sources */,
 				B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */,
-				B4A3C16F1AD4DEC600B9D699 /* OneShotLocationManager.swift in Sources */,
+				B4A3C16F1AD4DEC600B9D699 /* OneShotLocationService.swift in Sources */,
+				B44E35171AD73BF100657A31 /* IRealmWritter.swift in Sources */,
 				B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */,
 				7EF3714E1AB8C1E8009AA3B9 /* ParseClient.swift in Sources */,
 				B44E35011AD5D0AE00657A31 /* IFeaturedListViewModel.swift in Sources */,
 				B44E35061AD647E700657A31 /* DataManager.swift in Sources */,
 				B4E36BBB1ACE543C000F260E /* BusinessDAO.swift in Sources */,
-				B44E35101AD656B500657A31 /* EntityDAOMapper.swift in Sources */,
+				B44E35101AD656B500657A31 /* RealmWritter.swift in Sources */,
 				B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */,
 				B421BA751AD2F5040094717F /* Business.swift in Sources */,
 				B44E350A1AD6488D00657A31 /* RealmService.swift in Sources */,

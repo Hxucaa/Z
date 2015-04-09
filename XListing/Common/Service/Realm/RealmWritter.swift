@@ -1,5 +1,5 @@
 //
-//  EntityDAOMapper.swift
+//  RealmWritter.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-04-08.
@@ -9,7 +9,7 @@
 import Foundation
 import Realm
 
-public class EntityDAOMapper {
+public class RealmWritter : IRealmWritter {
     
     /**
     Save BusinessDAO to a designated Realm.
@@ -17,9 +17,9 @@ public class EntityDAOMapper {
     :param: realm  The Realm.
     :param: daoArr Array of BusinessDAO to be saved to the Realm.
     */
-    public func saveBusinessDaosToRealm(realm: RLMRealm, daoArr: [BusinessDAO]) {
-        realm.beginWriteTransaction()
+    public func saveBusinessDaosToRealm(realm: RLMRealm, withDaoArray daoArr: [BusinessDAO]) {
         for busDao in daoArr {
+            realm.beginWriteTransaction()
             Business.createOrUpdateInRealm(realm, withObject: toNSDictionary(busDao) { key, object, dict -> Void in
                 switch(key) {
                     case "timeStart": dict.setObject(object["timeStart"].timeIntervalSince1970, forKey: "timeStart")
@@ -30,8 +30,8 @@ public class EntityDAOMapper {
                     default: dict.setObject(object[key], forKey: key)
                 }
             })
+            realm.commitWriteTransaction()
         }
-        realm.commitWriteTransaction()
     }
     
     /**

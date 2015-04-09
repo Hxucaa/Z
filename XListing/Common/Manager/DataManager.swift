@@ -11,7 +11,15 @@ import SwiftTask
 
 public class DataManager : IDataManager {
     
-    private var realmService: RealmService = RealmService.sharedInstance
+    private let realmService: IRealmService
+    private let businessService: IBusinessService
+    private let realmWritter: IRealmWritter
+    
+    init(businessService: IBusinessService, realmService: IRealmService, realmWritter: IRealmWritter) {
+        self.businessService = businessService
+        self.realmService = realmService
+        self.realmWritter = realmWritter
+    }
     
     public func getFeaturedBusiness() -> Task<Int, Void, NSError> {
         return fetchBusinessFromNetwork()
@@ -20,8 +28,8 @@ public class DataManager : IDataManager {
     private func fetchBusinessFromNetwork() -> Task<Int, Void, NSError> {
         let task = Task<Int, Void, NSError> { progress, fulfill, reject, econfigure in
             
-            let businesses = BusinessService().findBy().success { busDaoArr -> Void in
-                EntityDAOMapper().saveBusinessDaosToRealm(self.realmService.defaultRealm, daoArr: busDaoArr)
+            let businesses = self.businessService.findBy(nil).success { busDaoArr -> Void in
+                self.realmWritter.saveBusinessDaosToRealm(self.realmService.defaultRealm, withDaoArray: busDaoArr)
             }
         }
         

@@ -1,5 +1,5 @@
 //
-//  OneShotLocationManager.swift
+//  OneShotLocationService.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-04-07.
@@ -19,7 +19,7 @@ enum OneShotLocationManagerErrors: Int {
 /**
 *  OneShotLocationManager - fetches the current device location once and invokes a completion closure
 */
-class OneShotLocationManager: NSObject, CLLocationManagerDelegate {
+class OneShotLocationService: NSObject, CLLocationManagerDelegate {
     
     //location manager
     private var locationManager: CLLocationManager?
