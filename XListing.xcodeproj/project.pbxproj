@@ -33,13 +33,8 @@
 		B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36B9D1AC1F5F1000F260E /* BaseWireframe.swift */; };
 		B4E36BBB1ACE543C000F260E /* BusinessDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BBA1ACE543C000F260E /* BusinessDataManager.swift */; };
 		B4F32E161ACF21AB00946FD8 /* GeolocationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E151ACF21AB00946FD8 /* GeolocationDataManager.swift */; };
-		B4F32E1A1ACF88AA00946FD8 /* FeaturedListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E191ACF88AA00946FD8 /* FeaturedListInteractor.swift */; };
-		B4F32E1D1ACF88F100946FD8 /* IFeaturedListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1C1ACF88F100946FD8 /* IFeaturedListInteractor.swift */; };
 		B4F32E1F1ACF91E400946FD8 /* IBusinessDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1E1ACF91E400946FD8 /* IBusinessDataManager.swift */; };
 		B4F32E211ACF934700946FD8 /* IGeolocationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E201ACF934700946FD8 /* IGeolocationDataManager.swift */; };
-		B4F32E461ACFB41E00946FD8 /* BusinessDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E451ACFB41E00946FD8 /* BusinessDomain.swift */; };
-		B4F32E481ACFB43800946FD8 /* BusinessInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E471ACFB43800946FD8 /* BusinessInteractor.swift */; };
-		B4F32E4A1ACFB44600946FD8 /* IBusinessInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E491ACFB44600946FD8 /* IBusinessInteractor.swift */; };
 		E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -91,13 +86,8 @@
 		B4E36B9D1AC1F5F1000F260E /* BaseWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWireframe.swift; sourceTree = "<group>"; };
 		B4E36BBA1ACE543C000F260E /* BusinessDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessDataManager.swift; sourceTree = "<group>"; };
 		B4F32E151ACF21AB00946FD8 /* GeolocationDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeolocationDataManager.swift; sourceTree = "<group>"; };
-		B4F32E191ACF88AA00946FD8 /* FeaturedListInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListInteractor.swift; sourceTree = "<group>"; };
-		B4F32E1C1ACF88F100946FD8 /* IFeaturedListInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListInteractor.swift; sourceTree = "<group>"; };
 		B4F32E1E1ACF91E400946FD8 /* IBusinessDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessDataManager.swift; sourceTree = "<group>"; };
 		B4F32E201ACF934700946FD8 /* IGeolocationDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IGeolocationDataManager.swift; sourceTree = "<group>"; };
-		B4F32E451ACFB41E00946FD8 /* BusinessDomain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessDomain.swift; sourceTree = "<group>"; };
-		B4F32E471ACFB43800946FD8 /* BusinessInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessInteractor.swift; sourceTree = "<group>"; };
-		B4F32E491ACFB44600946FD8 /* IBusinessInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -297,7 +287,6 @@
 				B4A3C16B1AD44B3E00B9D699 /* ViewModel */,
 				B4CC82631AC165E400E85CEA /* View */,
 				B47C0EA81AC0A7EF00F9FB31 /* Wireframe */,
-				B4F32E1B1ACF88B000946FD8 /* Interactor */,
 			);
 			path = FeaturedList;
 			sourceTree = "<group>";
@@ -315,7 +304,6 @@
 			children = (
 				B44E34FD1AD5A20700657A31 /* ViewModel */,
 				B4E36B9C1AC1F5C9000F260E /* Wireframe */,
-				B4E36BA11ACBA972000F260E /* Interactor */,
 				B4E36B9B1AC1E180000F260E /* Manager */,
 				7EF3713F1AB8C1E8009AA3B9 /* Service */,
 				7EF371301AB8C1E8009AA3B9 /* Entity */,
@@ -359,26 +347,6 @@
 			);
 			name = Wireframe;
 			path = Common/Wireframe;
-			sourceTree = "<group>";
-		};
-		B4E36BA11ACBA972000F260E /* Interactor */ = {
-			isa = PBXGroup;
-			children = (
-				B4F32E471ACFB43800946FD8 /* BusinessInteractor.swift */,
-				B4F32E491ACFB44600946FD8 /* IBusinessInteractor.swift */,
-				B4F32E451ACFB41E00946FD8 /* BusinessDomain.swift */,
-			);
-			name = Interactor;
-			path = Common/Interactor;
-			sourceTree = "<group>";
-		};
-		B4F32E1B1ACF88B000946FD8 /* Interactor */ = {
-			isa = PBXGroup;
-			children = (
-				B4F32E191ACF88AA00946FD8 /* FeaturedListInteractor.swift */,
-				B4F32E1C1ACF88F100946FD8 /* IFeaturedListInteractor.swift */,
-			);
-			path = Interactor;
 			sourceTree = "<group>";
 		};
 		CEFE73BB6B4CAA9AA89661B3 /* Pods */ = {
@@ -596,7 +564,6 @@
 			files = (
 				B421BA731AD2F3810094717F /* RLMSupport.swift in Sources */,
 				B44E34FF1AD5A23800657A31 /* BusinessViewModel.swift in Sources */,
-				B4F32E4A1ACFB44600946FD8 /* IBusinessInteractor.swift in Sources */,
 				B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */,
 				7EF371441AB8C1E8009AA3B9 /* BusinessEntity.swift in Sources */,
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,
@@ -605,8 +572,6 @@
 				B4A3C16D1AD44B7E00B9D699 /* FeaturedListViewModel.swift in Sources */,
 				7EF3714F1AB8C1E8009AA3B9 /* PopulateParse.swift in Sources */,
 				B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */,
-				B4F32E1D1ACF88F100946FD8 /* IFeaturedListInteractor.swift in Sources */,
-				B4F32E461ACFB41E00946FD8 /* BusinessDomain.swift in Sources */,
 				B4A3C16F1AD4DEC600B9D699 /* OneShotLocationManager.swift in Sources */,
 				B4F32E1F1ACF91E400946FD8 /* IBusinessDataManager.swift in Sources */,
 				7EF3714E1AB8C1E8009AA3B9 /* ParseClient.swift in Sources */,
@@ -617,8 +582,6 @@
 				B47C0EA01ABF6DF200F9FB31 /* GeoPointEntity.swift in Sources */,
 				B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */,
 				B421BA751AD2F5040094717F /* Business.swift in Sources */,
-				B4F32E481ACFB43800946FD8 /* BusinessInteractor.swift in Sources */,
-				B4F32E1A1ACF88AA00946FD8 /* FeaturedListInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

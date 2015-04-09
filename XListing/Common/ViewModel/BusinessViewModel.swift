@@ -62,7 +62,7 @@ public class BusinessViewModel {
     public private(set) var distance: String?
     
     
-    public init(business: Business, distance: CLLocationDistance) {
+    public init(business: Business, distanceInMeter: CLLocationDistance) {
         objectId = business.objectId
         createdAt = NSDate(timeIntervalSince1970: business.createdAt)
         updatedAt = NSDate(timeIntervalSince1970: business.updatedAt)
@@ -94,16 +94,17 @@ public class BusinessViewModel {
         postalCode = business.postalCode
         crossStreets = business.crossStreets
         latitude = business.latitude
-        longitude = business.latitude
+        longitude = business.longitude
         
-        var rounded: Double
-        if(distance >= 1) {
-            rounded = round(distance * 10) / 10
-            self.distance = rounded.description + 公里
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        if(distanceInMeter >= 1000) {
+            formatter.maximumFractionDigits = 1
+            self.distance = formatter.stringFromNumber(distanceInMeter / 1000)! + 公里
         }
         else {
-            rounded = round(distance * 1000) / 1000
-            self.distance = rounded.description + 米
+            formatter.maximumFractionDigits = 0
+            self.distance = formatter.stringFromNumber(distanceInMeter)! + 米
         }
     }
 }

@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import SwiftTask
 import ReactKit
 
 public protocol IFeaturedListViewModel {
     var dynamicArray: DynamicArray { get }
+    func requestAllBusinesses() -> Task<Int, Void, NSError>
 }
