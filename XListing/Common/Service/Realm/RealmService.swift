@@ -16,8 +16,8 @@ public class RealmService : IRealmService {
     /**
     WARNING: This method bypasses Realm database migration which can lead to corrupt and inconsistent databases. Only use this method if you know what you are doing.
     */
-    public func deleteDefaultRealm() -> Void {
-        deleteARealm(defaultRealm)
+    public class func deleteDefaultRealm() -> Void {
+        deleteARealm(RLMRealm.defaultRealmPath())
     }
     
     /**
@@ -25,9 +25,9 @@ public class RealmService : IRealmService {
     */
     public class func migrateDefaultRealm() {
         // Notice setSchemaVersion is set to 1, this is always set manually. It must be higher than the previous version (oldSchemaVersion) or an RLMException is thrown
-        RLMRealm.setSchemaVersion(1, forRealmAtPath: RLMRealm.defaultRealmPath(), withMigrationBlock: { migration, oldSchemaVersion in
+        RLMRealm.setSchemaVersion(0, forRealmAtPath: RLMRealm.defaultRealmPath(), withMigrationBlock: { migration, oldSchemaVersion in
             // We haven’t migrated anything yet, so oldSchemaVersion == 0
-            if oldSchemaVersion < 1 {
+//            if oldSchemaVersion < 1 {
                 // Nothing to do!
                 // Realm will automatically detect new properties and removed properties and will update the schema on disk automatically
                 
@@ -39,7 +39,7 @@ public class RealmService : IRealmService {
 //                    let lastName = oldObject["lastName"] as String
 //                    newObject["fullName"] = "\(firstName) \(lastName)"
 //                }
-            }
+//            }
         })
         // now that we have called `setSchemaVersion:withMigrationBlock:`, opening an outdated
         // Realm will automatically perform the migration and opening the Realm will succeed
@@ -51,10 +51,9 @@ public class RealmService : IRealmService {
     
     :param: realm A specific Realm.
     */
-    private func deleteARealm(realm: RLMRealm) -> Void {
+    private class func deleteARealm(path: String) -> Void {
         println("WARNING: Deletion of Realm bypasses database migration which can lead to corrupt and inconsistent databases. Only use this method if you know what you are doing.")
         let fileManager = NSFileManager.defaultManager()
-        let path = realm.path
         fileManager.removeItemAtPath(path, error: nil)
         fileManager.removeItemAtPath(path + ".lock", error: nil)
     }

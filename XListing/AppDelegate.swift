@@ -18,7 +18,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-//        RealmService.sharedInstance.deleteDefaultRealm()
+//        RealmService.deleteDefaultRealm()
         // prepare Realm
         RealmService.migrateDefaultRealm()
         

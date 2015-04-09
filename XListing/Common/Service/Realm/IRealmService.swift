@@ -11,5 +11,4 @@ import Realm
 
 public protocol IRealmService {
     var defaultRealm: RLMRealm! { get }
-    func deleteDefaultRealm() -> Void
 }
