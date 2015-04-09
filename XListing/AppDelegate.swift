@@ -19,6 +19,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
 //        RealmService.sharedInstance.deleteDefaultRealm()
+        // prepare Realm
         RealmService.migrateDefaultRealm()
         
         // must register subclasses before connecting to Parse
@@ -26,8 +27,9 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         // connect to Parse
         ParseClient.initializeClient()
         
-        // initialize root view
+        // start dependency injector
         appDependencies = AppDependencies()
+        // initialize root view
         appDependencies!.installRootViewControllerIntoWindow(window!)
         
 //        PopulateParse().populate()

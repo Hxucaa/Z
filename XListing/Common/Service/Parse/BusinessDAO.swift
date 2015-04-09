@@ -322,17 +322,12 @@ extension BusinessDAO {
         }
     }
     
-    public var geopoint: GeoPointEntity? {
+    public var geopoint: PFGeoPoint? {
         get {
-            if let gp = self["geopoint"] as? PFGeoPoint {
-                return GeoPointEntity(gp)
-            }
-            else {
-                return nil
-            }
+            return self["geopoint"] as? PFGeoPoint
         }
         set {
-            self["geopoint"] = newValue?.pfGeoPoint
+            self["geopoint"] = newValue
         }
     }
 

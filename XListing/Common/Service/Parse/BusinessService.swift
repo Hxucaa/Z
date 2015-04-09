@@ -133,7 +133,7 @@ extension BusinessService {
     :params: address A String of the address.
     :returns: a Task containing a GeoPointEntity which contains the location data.
     */
-    private func forwardGeocoding(address: String) -> Task<Int, GeoPointEntity, NSError> {
+    private func forwardGeocoding(address: String) -> Task<Int, PFGeoPoint, NSError> {
         let task = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
             CLGeocoder().geocodeAddressString(address, completionHandler: { (placemarks: [AnyObject]!, error: NSError!) -> Void in
                 if error == nil && placemarks.count > 0 {
@@ -144,11 +144,11 @@ extension BusinessService {
                 }
             })
             }
-            .success { (placemarks: [AnyObject]) -> GeoPointEntity in
+            .success { (placemarks: [AnyObject]) -> PFGeoPoint in
                 // convert to GeoPointEntity
                 let placemark = placemarks[0] as CLPlacemark
                 let location = placemark.location
-                let geopoint = GeoPointEntity(location)
+                let geopoint = PFGeoPoint(location: location)
                 
                 return geopoint
         }
