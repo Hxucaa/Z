@@ -13,10 +13,13 @@ import Realm
 public class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public var window: UIWindow?
-    private let appDependencies = AppDependencies()
+    private var appDependencies: AppDependencies?
 
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+//        RealmService.sharedInstance.deleteDefaultRealm()
+        RealmService.migrateDefaultRealm()
         
         // must register subclasses before connecting to Parse
         ParseClient.registerSubclasses()
@@ -24,12 +27,12 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         ParseClient.initializeClient()
         
         // initialize root view
-        appDependencies.installRootViewControllerIntoWindow(window!)
+        appDependencies = AppDependencies()
+        appDependencies!.installRootViewControllerIntoWindow(window!)
         
 //        PopulateParse().populate()
 //        PopulateParse().featuredizeByNameSChinese("海港")
         
-        RealmService.sharedInstance.deleteDefaultRealm()
         
         return true
     }
