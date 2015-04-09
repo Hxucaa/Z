@@ -10,7 +10,7 @@ import XCTest
 import XListing
 
 class BusinessTests: XCTestCase {
-    var business: BusinessEntity = BusinessEntity()
+    var business: BusinessDAO = BusinessDAO()
     
     override func setUp() {
         super.setUp()
@@ -52,7 +52,7 @@ class BusinessTests: XCTestCase {
         
         
         let objectSaved = expectationWithDescription("Business object is saved")
-        let query = BusinessEntity.query()
+        let query = BusinessDAO.query()
         query.whereKey("objectId", equalTo: business.objectId)
         query.includeKey("location")
         query.findObjectsInBackgroundWithBlock({(objects: [AnyObject]!, error: NSError!) -> Void in
@@ -60,7 +60,7 @@ class BusinessTests: XCTestCase {
             XCTAssertNil(error, "No error message")
             XCTAssertEqual(objects.count, 1, "size is 1")
             
-            let obj = objects.first as BusinessEntity
+            let obj = objects.first as BusinessDAO
             
             XCTAssertEqual(obj.nameEnglish!, self.business.nameEnglish!, "Same name")
             XCTAssertEqual(obj.isClaimed!, self.business.isClaimed!, "Same")

@@ -29,6 +29,8 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
 //        PopulateParse().populate()
 //        PopulateParse().featuredizeByNameSChinese("海港")
         
+        RealmService.sharedInstance.deleteDefaultRealm()
+        
         return true
     }
     

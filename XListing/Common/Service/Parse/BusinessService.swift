@@ -1,5 +1,5 @@
 //
-//  FeaturedBusinessDataManager.swift
+//  BusinessService.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-04-02.
@@ -9,17 +9,17 @@
 import Foundation
 import SwiftTask
 
-public class BusinessDataManager : IBusinessDataManager {
+public class BusinessService : IBusinessService {
     /**
-        This function saves the BusinessEntity and returns true if success otherwise false.
+        This function saves the BusinessDAO and returns true if success otherwise false.
         
-        :params: object A BusinessEntity.
+        :params: object A BusinessDAO.
         :returns: a generic Task containing a boolean value.
     */
-    public func save(business: BusinessEntity) -> Task<Int, Bool, NSError> {
+    public func save(business: BusinessDAO) -> Task<Int, Bool, NSError> {
         
         // save business to the cloud
-        func saveTask (bus: BusinessEntity) -> Task<Int, Bool, NSError> {
+        func saveTask (bus: BusinessDAO) -> Task<Int, Bool, NSError> {
             let task = Task<Int, Bool, NSError> { progress, fulfill, reject, configure in
                 bus.saveInBackgroundWithBlock { (success: Bool, error: NSError!) -> Void in
                     if success {
@@ -66,12 +66,12 @@ public class BusinessDataManager : IBusinessDataManager {
     
     
     /**
-        This function finds the BusinessEntity based on the query.
+        This function finds the BusinessDAO based on the query.
 
         :params: query A PFQuery.
-        :returns: a Task containing the result Entity in optional.
+        :returns: a Task containing the result DAO in optional.
     */
-    public func getFirst(var _ query: PFQuery = BusinessEntity.query()) -> Task<Int, BusinessEntity?, NSError> {
+    public func getFirst(var _ query: PFQuery = BusinessDAO.query()) -> Task<Int, BusinessDAO?, NSError> {
         let task = Task<Int, PFObject, NSError> { progress, fulfill, reject, configure in
             self.enhanceQuery(&query)
             query.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
@@ -83,20 +83,20 @@ public class BusinessDataManager : IBusinessDataManager {
                 }
             }
         }
-        .success { object -> BusinessEntity? in
-            return object as? BusinessEntity
+        .success { object -> BusinessDAO? in
+            return object as? BusinessDAO
         }
 
         return task
     }
     
     /**
-        Finds the BusinessEntities based on the query.
+        Finds the BusinessDAO based on the query.
         
         :params: query A PFQuery.
-        :returns: A Task which contains an array of BusinessEntity.
+        :returns: A Task which contains an array of BusinessDTO.
     */
-    public func findBy(var _ query: PFQuery = BusinessEntity.query()) -> Task<Int, [BusinessEntity], NSError> {
+    public func findBy(var _ query: PFQuery = BusinessDAO.query()) -> Task<Int, [BusinessDAO], NSError> {
         
         let task = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
             self.enhanceQuery(&query)
@@ -109,8 +109,8 @@ public class BusinessDataManager : IBusinessDataManager {
                 }
             }
         }
-        .success { (objects: [AnyObject]) -> [BusinessEntity] in
-            let businesses = objects as [BusinessEntity]
+        .success { (objects: [AnyObject]) -> [BusinessDAO] in
+            let businesses = objects as [BusinessDAO]
             
             return businesses
         }
@@ -126,7 +126,7 @@ public class BusinessDataManager : IBusinessDataManager {
 }
 
 // geolocation service
-extension BusinessDataManager {
+extension BusinessService {
     /**
     This function translate physical address to geolocation coordinates.
     

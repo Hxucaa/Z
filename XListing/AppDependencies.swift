@@ -37,11 +37,13 @@ public class AppDependencies {
     */
     private func configureFeaturedListDependencies(rootWireframe: RootWireframe) {
         
-        // create data manager first
-        let geolocationDataManager: IGeolocationDataManager = GeolocationDataManager()
-        let businessDataManager: IBusinessDataManager = BusinessDataManager()
+        let businessService: IBusinessService = BusinessService()
         
-        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel()
+        
+        // create data manager
+        let dm: IDataManager = DataManager()
+        
+        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(datamanager: dm)
         
         featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM)
     }

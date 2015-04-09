@@ -16,8 +16,8 @@ public class Business: RLMObject {
     *  Parse fileds
     */
     public dynamic var objectId: String = ""
-    public dynamic var createdAt: NSTimeInterval = -1.0
-    public dynamic var updatedAt: NSTimeInterval = -1.0
+    public dynamic var remoteCreatedAt: NSTimeInterval = -1.0
+    public dynamic var remoteUpdatedAt: NSTimeInterval = -1.0
     
     /**
     *  Business info

@@ -1,5 +1,5 @@
 //
-//  Business.swift
+//  BusinessDAO.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-03-02.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class BusinessEntity: PFObject, PFSubclassing {
+public class BusinessDAO: PFObject, PFSubclassing {
     
     // Simplified Chinese name of this business
     public var nameSChinese: String? {
@@ -155,7 +155,7 @@ public class BusinessEntity: PFObject, PFSubclassing {
 }
 
 // PFObject + PFSubclassing required methods
-extension BusinessEntity {
+extension BusinessDAO {
     // Class Name
     public class func parseClassName() -> String! {
         return "Business"
@@ -171,7 +171,7 @@ extension BusinessEntity {
 }
 
 // Featured
-extension BusinessEntity {
+extension BusinessDAO {
     
     public var featured: Bool? {
         get {
@@ -204,7 +204,7 @@ extension BusinessEntity {
 }
 
 // location
-extension BusinessEntity {
+extension BusinessDAO {
     public var completeAddress: String? {
         get {
             var addressString = ""

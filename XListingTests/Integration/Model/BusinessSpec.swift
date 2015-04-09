@@ -25,10 +25,10 @@ class BusinessSpec: QuickSpec {
         }
         
         describe("Save") {
-            var business: BusinessEntity!
+            var business: BusinessDAO!
             
             beforeEach {
-                business = BusinessEntity()
+                business = BusinessDAO()
                 
                 business.address = "3289 Alberta st."
                 business.city = "Vancouver"
@@ -56,7 +56,7 @@ class BusinessSpec: QuickSpec {
                     })
                 }
                 
-                let query = BusinessEntity.query()
+                let query = BusinessDAO.query()
                 query.whereKey("objectId", equalTo: business.objectId)
                 query.includeKey("location")
                 
@@ -65,7 +65,7 @@ class BusinessSpec: QuickSpec {
                         expect(error).to(beNil())
                         expect(objects.count).to(equal(1))
                         
-                        let obj = objects.first as BusinessEntity
+                        let obj = objects.first as BusinessDAO
                         
                         expect(obj.nameEnglish!).to(equal(business.nameEnglish!))
                         expect(obj.isClaimed).to(equal(business.isClaimed))

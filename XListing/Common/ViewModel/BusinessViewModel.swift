@@ -19,8 +19,8 @@ private let 米 = "米"
 public class BusinessViewModel {
     
     public private(set) var objectId: String?
-    public private(set) var createdAt: NSDate?
-    public private(set) var updatedAt: NSDate?
+    public private(set) var remoteCreatedAt: NSDate?
+    public private(set) var remoteUpdatedAt: NSDate?
     
     /**
     *  Business info
@@ -64,8 +64,8 @@ public class BusinessViewModel {
     
     public init(business: Business, distanceInMeter: CLLocationDistance) {
         objectId = business.objectId
-        createdAt = NSDate(timeIntervalSince1970: business.createdAt)
-        updatedAt = NSDate(timeIntervalSince1970: business.updatedAt)
+        remoteCreatedAt = NSDate(timeIntervalSince1970: business.remoteCreatedAt)
+        remoteUpdatedAt = NSDate(timeIntervalSince1970: business.remoteUpdatedAt)
         
         nameSChinese = business.nameSChinese
         nameTChinese = business.nameTChinese
