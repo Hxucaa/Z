@@ -14,7 +14,7 @@ target 'XListingTests' do
   pod 'ReactKit', '~> 0.9.0'
 #  pod 'SwiftyJSON', '>= 2.1.3'
   pod 'Realm/Headers'
-#  pod 'Quick'
-#  pod 'Nimble'
+  pod 'Quick'
+  pod 'Nimble'
 end
 

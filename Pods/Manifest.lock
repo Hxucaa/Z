@@ -1,7 +1,9 @@
 PODS:
   - Bolts (1.1.4)
+  - Nimble (0.4.2)
   - Parse (1.7.1):
     - Bolts (~> 1.1)
+  - Quick (0.3.1)
   - ReactKit (0.9.0):
     - SwiftTask (~> 3.0.0)
   - Realm (0.91.1):
@@ -10,14 +12,18 @@ PODS:
   - SwiftTask (3.0.0)
 
 DEPENDENCIES:
+  - Nimble
   - Parse
+  - Quick
   - ReactKit (~> 0.9.0)
   - Realm
   - Realm/Headers
 
 SPEC CHECKSUMS:
   Bolts: f8e2f94edbf9fec7bb8de5ecaaa3aa6b7de6f64e
+  Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Parse: fa8ec29de6d82035635986c11946299fb1b38316
+  Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   ReactKit: ac52dd22d3c085fc28db3b9282e984dd96b8ec52
   Realm: b9c1fd9defa26aa7276ce938a8df52ec81f24528
   SwiftTask: 2f2c0a7db83def1d1e3bad518169be3f61c603f4
