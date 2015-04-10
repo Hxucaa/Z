@@ -20,13 +20,13 @@ public class BusinessService : IBusinessService {
         
         // save business to the cloud
         func saveTask (bus: BusinessDAO) -> Task<Int, Bool, NSError> {
-            let task = Task<Int, Bool, NSError> { progress, fulfill, reject, configure in
-                bus.saveInBackgroundWithBlock { (success: Bool, error: NSError!) -> Void in
+            let task = Task<Int, Bool, NSError> { (fulfill, reject) -> Void in
+                bus.saveInBackgroundWithBlock { (success, error) -> Void in
                     if success {
                         fulfill(success)
                     }
                     else {
-                        reject(error)
+                        reject(error!)
                     }
                 }
             }
@@ -80,10 +80,10 @@ public class BusinessService : IBusinessService {
             self.enhanceQuery(&query!)
             query!.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
                 if error == nil {
-                    fulfill(object)
+                    fulfill(object!)
                 }
                 else {
-                    reject(error)
+                    reject(error!)
                 }
             }
         }
@@ -108,17 +108,17 @@ public class BusinessService : IBusinessService {
         
         let task = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
             self.enhanceQuery(&query!)
-            query!.findObjectsInBackgroundWithBlock { (objects: [AnyObject]!, error: NSError!) -> Void in
+            query?.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
                 if error == nil {
-                    fulfill(objects)
+                    fulfill(objects!)
                 }
                 else {
-                    reject(error)
+                    reject(error!)
                 }
             }
         }
         .success { (objects: [AnyObject]) -> [BusinessDAO] in
-            let businesses = objects as [BusinessDAO]
+            let businesses = objects as! [BusinessDAO]
             
             return businesses
         }
@@ -154,7 +154,7 @@ extension BusinessService {
             }
             .success { (placemarks: [AnyObject]) -> PFGeoPoint in
                 // convert to GeoPointEntity
-                let placemark = placemarks[0] as CLPlacemark
+                let placemark = placemarks[0] as! CLPlacemark
                 let location = placemark.location
                 let geopoint = PFGeoPoint(location: location)
                 

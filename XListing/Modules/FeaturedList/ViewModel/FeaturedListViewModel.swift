@@ -20,7 +20,6 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
     
     private var dm: IDataManager
     private var realmService: IRealmService
-    private var manager: OneShotLocationService?
     
     /// wrapper for an array of BusinessViewModel
     public let dynamicArray = DynamicArray()
@@ -46,6 +45,7 @@ extension FeaturedListViewModel {
     private func setupRLMNotificationToken() {
         // subscribes to notification from Realm
         token = RLMRealm.defaultRealm().addNotificationBlock( { [unowned self] note, realm -> Void in
+            
             self.prepareDataForSignal()
         })
     }
@@ -56,22 +56,21 @@ extension FeaturedListViewModel {
     private func prepareDataForSignal() {
         let task = Task<Int, CLLocation?, NSError> { [unowned self] progress, fulfill, reject, configure in
             // get current location
-            self.manager = OneShotLocationService()
-            self.manager!.fetchWithCompletion { location, error in
-                self.manager = nil
+            PFGeoPoint.geoPointForCurrentLocationInBackground({ (geopoint, error) -> Void in
                 if error == nil {
-                    fulfill(location)
+                    let t = geopoint!
+                    fulfill(CLLocation(latitude: t.latitude, longitude: t.longitude))
                 }
                 else {
                     reject(error!)
                 }
-            }
+            })
         }
         .success { [unowned self] cllocation -> Void in
             
             // process the data
             for item in self.featured {
-                let bus = item as Business
+                let bus = item as! Business
                 
                 // initialize new BusinessViewModel
                 let t = cllocation!.distanceFromLocation(bus.cllocation)

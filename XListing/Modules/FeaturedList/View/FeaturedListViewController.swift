@@ -63,13 +63,13 @@ public class FeaturedListViewController: UIViewController {
     }
     
     private func setupOther() {
-        dynamicArraySignal = featuredListVM?.dynamicArray.signal
+        dynamicArraySignal = featuredListVM?.dynamicArray.signal()
         let businessVMSignal = dynamicArraySignal?.map { (changedValues, change, indexSet) -> BusinessViewModel in
             if changedValues?.count > 1 {
                 //MARK: can't possibly be more than one item in the array???
                 println("Warning: more than one value in the array.")
             }
-            return (changedValues as [BusinessViewModel])[0]
+            return (changedValues as! [BusinessViewModel])[0]
         }
         businessVMSignal?.ownedBy(self)
         

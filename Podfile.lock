@@ -1,53 +1,25 @@
 PODS:
   - Bolts (1.1.4)
-  - Dollar (2.1.0)
-  - Nimble (0.3.1)
-  - Parse (1.7.0):
+  - Parse (1.7.1):
     - Bolts (~> 1.1)
-  - Quick (0.2.2)
-  - ReactKit (0.8.0):
-    - SwiftTask (~> 2.6.4)
+  - ReactKit (0.9.0):
+    - SwiftTask (~> 3.0.0)
   - Realm (0.91.1):
     - Realm/Headers (= 0.91.1)
   - Realm/Headers (0.91.1)
-  - SwiftTask (2.6.4)
-  - SwiftyJSON (2.1.3)
+  - SwiftTask (3.0.0)
 
 DEPENDENCIES:
-  - Dollar
-  - Nimble (from `https://github.com/Quick/Nimble.git`, branch `swift-1.1`)
   - Parse
-  - Quick (from `https://github.com/Quick/Quick.git`, branch `swift-1.1`)
-  - ReactKit (~> 0.8.0)
+  - ReactKit (~> 0.9.0)
   - Realm
   - Realm/Headers
-  - SwiftyJSON (>= 2.1.3)
-
-EXTERNAL SOURCES:
-  Nimble:
-    :branch: swift-1.1
-    :git: https://github.com/Quick/Nimble.git
-  Quick:
-    :branch: swift-1.1
-    :git: https://github.com/Quick/Quick.git
-
-CHECKOUT OPTIONS:
-  Nimble:
-    :commit: 1088d5f70497f34be946e3e2829a10529f7bea8e
-    :git: https://github.com/Quick/Nimble.git
-  Quick:
-    :commit: f8c9ff9f499fc5ea72ff55c1c5eed32e1ff303ea
-    :git: https://github.com/Quick/Quick.git
 
 SPEC CHECKSUMS:
   Bolts: f8e2f94edbf9fec7bb8de5ecaaa3aa6b7de6f64e
-  Dollar: 62acf721400836056043007bcee12fb329eebe16
-  Nimble: 1b3c765852d63b9540a91e528e1e4f8afab79b6f
-  Parse: 3c2d4e6ade7b59d31c0bc8106340c6b81b31bc0f
-  Quick: 1bda8b4c8d43f6b4dd69ca001918b1767b3c9c93
-  ReactKit: 4463df303251fb8fc04c36b931b722ac20328a59
+  Parse: fa8ec29de6d82035635986c11946299fb1b38316
+  ReactKit: ac52dd22d3c085fc28db3b9282e984dd96b8ec52
   Realm: b9c1fd9defa26aa7276ce938a8df52ec81f24528
-  SwiftTask: c8676ab1b0f632c65d4a945a6f0137a48d8edf22
-  SwiftyJSON: a561c2a840121085bec8a2dfeac97a360fc66901
+  SwiftTask: 2f2c0a7db83def1d1e3bad518169be3f61c603f4
 
 COCOAPODS: 0.36.3

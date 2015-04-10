@@ -157,7 +157,7 @@ public class BusinessDAO: PFObject, PFSubclassing {
 // PFObject + PFSubclassing required methods
 extension BusinessDAO {
     // Class Name
-    public class func parseClassName() -> String! {
+    public class func parseClassName() -> String {
         return "Business"
     }
     
@@ -178,7 +178,7 @@ extension BusinessDAO {
             return objectForKey("featured") as? Bool
         }
         set {
-            setObject(newValue, forKey: "featured")
+            setObject(newValue!, forKey: "featured")
         }
     }
     
@@ -188,7 +188,7 @@ extension BusinessDAO {
             return objectForKey("timeStart") as? NSDate
         }
         set {
-            setObject(newValue, forKey: "timeStart")
+            setObject(newValue!, forKey: "timeStart")
         }
     }
     
@@ -198,7 +198,7 @@ extension BusinessDAO {
             return objectForKey("timeEnd") as? NSDate
         }
         set {
-            setObject(newValue, forKey: "timeEnd")
+            setObject(newValue!, forKey: "timeEnd")
         }
     }
 }

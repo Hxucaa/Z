@@ -40,7 +40,7 @@ public class FeaturedListWireframe : BaseWireframe {
     */
     private func injectPresenterToViewController() -> FeaturedListViewController {
         // retrieve view controller from storyboard
-        let viewController = getViewControllerFromStoryboard(FeaturedListViewControllerIdentifier) as FeaturedListViewController
+        let viewController = getViewControllerFromStoryboard(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
         viewController.featuredListVM = featuredListVM
         featuredListViewController = viewController
         return viewController

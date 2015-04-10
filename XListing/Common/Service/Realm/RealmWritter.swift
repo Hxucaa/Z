@@ -22,12 +22,12 @@ public class RealmWritter : IRealmWritter {
             realm.beginWriteTransaction()
             Business.createOrUpdateInRealm(realm, withObject: toNSDictionary(busDao) { key, object, dict -> Void in
                 switch(key) {
-                    case "timeStart": dict.setObject(object["timeStart"].timeIntervalSince1970, forKey: "timeStart")
-                    case "timeEnd": dict.setObject(object["timeEnd"].timeIntervalSince1970, forKey: "timeEnd")
+                    case "timeStart": dict.setObject(object["timeStart"]!.timeIntervalSince1970, forKey: "timeStart")
+                    case "timeEnd": dict.setObject(object["timeEnd"]!.timeIntervalSince1970, forKey: "timeEnd")
                     case "geopoint":
-                        dict.setObject(object["geopoint"].longitude, forKey: "longitude")
-                        dict.setObject(object["geopoint"].latitude, forKey: "latitude")
-                    default: dict.setObject(object[key], forKey: key)
+                        dict.setObject(object["geopoint"]!.longitude, forKey: "longitude")
+                        dict.setObject(object["geopoint"]!.latitude, forKey: "latitude")
+                    default: dict.setObject(object[key]!, forKey: key)
                 }
             })
             realm.commitWriteTransaction()
@@ -45,9 +45,9 @@ public class RealmWritter : IRealmWritter {
     private func toNSDictionary(object: PFObject, block: (String, PFObject, NSMutableDictionary) -> Void) -> NSDictionary {
         var dict = NSMutableDictionary()
         /// Parse fields
-        dict.setObject(object.objectId, forKey: "objectId")
-        dict.setObject(object.createdAt.timeIntervalSince1970, forKey: "remoteCreatedAt")
-        dict.setObject(object.updatedAt.timeIntervalSince1970, forKey: "remoteUpdatedAt")
+        dict.setObject(object.objectId!, forKey: "objectId")
+        dict.setObject(object.createdAt!.timeIntervalSince1970, forKey: "remoteCreatedAt")
+        dict.setObject(object.updatedAt!.timeIntervalSince1970, forKey: "remoteUpdatedAt")
         
         for key in object.allKeys() {
             if let key = key as? String {

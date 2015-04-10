@@ -63,7 +63,7 @@ public class Business: RLMObject {
     
     public override class func ignoredProperties() -> [AnyObject] {
         let propertiesToIgnore = []
-        return propertiesToIgnore
+        return propertiesToIgnore as [AnyObject]
     }
     
     public override class func indexedProperties() -> [AnyObject] {
