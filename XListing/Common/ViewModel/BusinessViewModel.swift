@@ -36,7 +36,7 @@ public class BusinessViewModel {
     public private(set) var uid: String?
     public private(set) var imageUrl: String?
     public private(set) var reviewCount: Int = 0
-    public private(set) var rating: Double?
+    public private(set) var rating: Double = -1
     public private(set) var coverImageUrl: String?
     
     /**

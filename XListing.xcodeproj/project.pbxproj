@@ -126,7 +126,6 @@
 		7EF371021AB8C012009AA3B9 = {
 			isa = PBXGroup;
 			children = (
-				B421BA721AD2F3810094717F /* RLMSupport.swift */,
 				7EF371511AB8C26F009AA3B9 /* XListing-Bridging-Header.h */,
 				7EF371521AB8C8FA009AA3B9 /* XListingTests-Bridging-Header.h */,
 				7EF3710D1AB8C012009AA3B9 /* XListing */,
@@ -251,6 +250,7 @@
 				B44E35131AD7216800657A31 /* IRealmService.swift */,
 				B44E350F1AD656B500657A31 /* RealmWritter.swift */,
 				B44E35161AD73BF100657A31 /* IRealmWritter.swift */,
+				B421BA721AD2F3810094717F /* RLMSupport.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
