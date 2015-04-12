@@ -11,6 +11,6 @@ import SwiftTask
 import ReactKit
 
 public protocol IFeaturedListViewModel {
-    var dynamicArray: DynamicArray { get }
+    var businessVMArr: DynamicArray { get }
     func requestAllBusinesses() -> Task<Int, Void, NSError>
 }

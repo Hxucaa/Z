@@ -13,16 +13,18 @@ import ReactKit
 
 public class FeaturedListViewModel : IFeaturedListViewModel {
     
+    private var dm: IDataManager
+    
+    private var realmService: IRealmService
+    
     /// Lazily evaluated list of featured businesses
     private var featured = Business.objectsInRealm(RealmService().defaultRealm, withPredicate: NSPredicate(format: "featured = %@", true))
+    
     /// notification token from Realm
     private var token: RLMNotificationToken?
     
-    private var dm: IDataManager
-    private var realmService: IRealmService
-    
     /// wrapper for an array of BusinessViewModel
-    public let dynamicArray = DynamicArray()
+    public let businessVMArr = DynamicArray()
 
     public init(datamanager: IDataManager, realmService: IRealmService) {
         dm = datamanager
@@ -77,7 +79,7 @@ extension FeaturedListViewModel {
                 let vm = BusinessViewModel(business: bus, distanceInMeter: cllocation!.distanceFromLocation(bus.cllocation))
                 
                 // apend BusinessViewModel to DynamicArray for React
-                self.dynamicArray.proxy.addObject(vm)
+                self.businessVMArr.proxy.addObject(vm)
             }
         }
     }

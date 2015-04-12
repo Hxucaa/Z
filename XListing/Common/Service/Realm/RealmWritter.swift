@@ -18,8 +18,8 @@ public class RealmWritter : IRealmWritter {
     :param: daoArr Array of BusinessDAO to be saved to the Realm.
     */
     public func saveBusinessDaosToRealm(realm: RLMRealm, withDaoArray daoArr: [BusinessDAO]) {
+        realm.beginWriteTransaction()
         for busDao in daoArr {
-            realm.beginWriteTransaction()
             Business.createOrUpdateInRealm(realm, withObject: toNSDictionary(busDao) { key, object, dict -> Void in
                 switch(key) {
                     case "timeStart": dict.setObject(object["timeStart"]!.timeIntervalSince1970, forKey: "timeStart")
@@ -30,8 +30,8 @@ public class RealmWritter : IRealmWritter {
                     default: dict.setObject(object[key]!, forKey: key)
                 }
             })
-            realm.commitWriteTransaction()
         }
+        realm.commitWriteTransaction()
     }
     
     /**
