@@ -6,10 +6,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Nearby Business View Controller-->
+        <!--Nearby View Controller-->
         <scene sceneID="KoC-8t-r5K">
             <objects>
-                <viewController id="pnY-r6-qDL" customClass="NearbyBusinessViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pnY-r6-qDL" customClass="NearbyViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5gO-9J-keN"/>
                         <viewControllerLayoutGuide type="bottom" id="HE7-ZK-rFJ"/>
@@ -22,7 +22,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ucI-fY-N7K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="433.5" y="-101.25"/>
+            <point key="canvasLocation" x="1575" y="605"/>
         </scene>
         <!--Featured-->
         <scene sceneID="tne-QT-ifu">
@@ -243,7 +243,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="831" y="594.75"/>
+            <point key="canvasLocation" x="841" y="605"/>
         </scene>
         <!--Nearby View Controller-->
         <scene sceneID="bBj-gv-OXU">
@@ -442,7 +442,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F20-S3-QUQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1584" y="583.5"/>
+            <point key="canvasLocation" x="1575" y="1335"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Tnu-rh-Soi">
@@ -460,7 +460,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q1C-zc-nwi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="612"/>
+            <point key="canvasLocation" x="99" y="605"/>
         </scene>
     </scenes>
     <resources>

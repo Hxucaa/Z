@@ -28,17 +28,17 @@ public class FeaturedListWireframe : BaseWireframe {
     */
     public func presentFeaturedListInterfaceFromWindows(window: UIWindow) {
         
-        let injectedViewController = injectPresenterToViewController()
+        let injectedViewController = injectViewModelToViewController()
         rootWireframe.showRootViewController(injectedViewController, inWindow: window)
         
     }
     
     /**
-        Inject presenter to view controller.
+        Inject ViewModel to view controller.
     
         :returns: Properly configured FeaturedListViewController.
     */
-    private func injectPresenterToViewController() -> FeaturedListViewController {
+    private func injectViewModelToViewController() -> FeaturedListViewController {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
         viewController.featuredListVM = featuredListVM

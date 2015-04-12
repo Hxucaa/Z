@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class NearbyBusinessViewController: UIViewController {
+public class NearbyViewController: UIViewController {
     
     var dataSources: NSMutableArray? = []
     var contentView: HorizontalScrollContentView!
@@ -17,14 +17,17 @@ class NearbyBusinessViewController: UIViewController {
     
     internal var nearbyBusinessDataArray: Array<BusinessViewModel>? = []
     
-    override func viewDidLoad() {
+    /// View Model
+    public var nearbyVM: INearbyViewModel?
+    
+    public override func viewDidLoad() {
         super.viewDidLoad()
         initMapView()
         initScrollView()
         // Do any additional setup after loading the view.
     }
     
-    override func didReceiveMemoryWarning() {
+    public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -96,14 +99,14 @@ class NearbyBusinessViewController: UIViewController {
         println(self.contentView.subviews.count)
     }
     
-    func newTableView() -> NearbyBusinessTableView {
+    func newTableView() -> NearbyTableView {
         var dataSource =  NearbyTableDataSource()
         //dataSource.numberOfRows = numberOfRows
         dataSource.dataArray = nearbyBusinessDataArray
         
         dataSources?.addObject(dataSource)
         
-        var tableView = NearbyBusinessTableView()
+        var tableView = NearbyTableView()
         tableView.frame = CGRectZero
         
         tableView.backgroundColor = UIColor.clearColor()
@@ -129,9 +132,9 @@ class NearbyBusinessViewController: UIViewController {
     
 }
 
-extension NearbyBusinessViewController : UIScrollViewDelegate {
+extension NearbyViewController : UIScrollViewDelegate {
     
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         var pageWidth = contentView.pageWidth
         
         var pageNumber = targetContentOffset.memory.x/pageWidth!
