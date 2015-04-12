@@ -8,20 +8,34 @@
 
 import UIKit
 
-class NearbyTableDataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
+public class NearbyTableDataSource: NSObject, UITableViewDelegate {
     
     //var numberOfRows:Int?
     internal var dataArray: Array<BusinessViewModel>? = []
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataArray!.count
+    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        var yMin = -scrollView.contentInset.top
+        var yMax = min(0, scrollView.contentSize.height - scrollView.bounds.size.height)
+        
+        if targetContentOffset.memory.y < yMax {
+            if velocity.y < 0 {
+                targetContentOffset.memory.y = yMin
+            }else{
+                targetContentOffset.memory.y = yMax
+            }
+        }
+        
     }
+}
+
+extension NearbyTableDataSource : UITableViewDataSource {
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: "Cell")
         
@@ -45,19 +59,7 @@ class NearbyTableDataSource: NSObject, UITableViewDataSource, UITableViewDelegat
         return cell!
     }
     
-    
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
-        var yMin = -scrollView.contentInset.top
-        var yMax = min(0, scrollView.contentSize.height - scrollView.bounds.size.height)
-        
-        if targetContentOffset.memory.y < yMax {
-            if velocity.y < 0 {
-                targetContentOffset.memory.y = yMin
-            }else{
-                targetContentOffset.memory.y = yMax
-            }
-        }
-        
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataArray!.count
     }
 }

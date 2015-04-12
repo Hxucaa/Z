@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class NearbyBusinessViewController: UIViewController, UIScrollViewDelegate {
+class NearbyBusinessViewController: UIViewController {
     
     var dataSources: NSMutableArray? = []
     var contentView: HorizontalScrollContentView!
@@ -117,26 +117,6 @@ class NearbyBusinessViewController: UIViewController, UIScrollViewDelegate {
         return tableView
     }
     
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        var pageWidth = contentView.pageWidth
-        
-        var pageNumber = targetContentOffset.memory.x/pageWidth!
-        if velocity.x < 0 {
-            pageNumber = floor(pageNumber)
-        }else{
-            pageNumber = ceil(pageNumber)
-            
-        }
-        
-        var count = contentView.subviews.count
-        
-        
-        targetContentOffset.memory.x = pageNumber * pageWidth!
-        
-    }
-    
-    
-    
     /*
     // MARK: - Navigation
     
@@ -147,4 +127,25 @@ class NearbyBusinessViewController: UIViewController, UIScrollViewDelegate {
     }
     */
     
+}
+
+extension NearbyBusinessViewController : UIScrollViewDelegate {
+    
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        var pageWidth = contentView.pageWidth
+        
+        var pageNumber = targetContentOffset.memory.x/pageWidth!
+        if velocity.x < 0 {
+            pageNumber = floor(pageNumber)
+        }
+        else {
+            pageNumber = ceil(pageNumber)
+        }
+        
+        var count = contentView.subviews.count
+        
+        
+        targetContentOffset.memory.x = pageNumber * pageWidth!
+        
+    }
 }
