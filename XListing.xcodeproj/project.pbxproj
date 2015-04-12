@@ -31,6 +31,11 @@
 		B44E35171AD73BF100657A31 /* IRealmWritter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E35161AD73BF100657A31 /* IRealmWritter.swift */; };
 		B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47C0EA51AC0A21000F9FB31 /* AppDependencies.swift */; };
 		B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47C0EA91AC0A82C00F9FB31 /* FeaturedListWireframe.swift */; };
+		B48C99121ADA56F70045BCA9 /* NearbyBusinessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48C99111ADA56F70045BCA9 /* NearbyBusinessViewController.swift */; };
+		B48C99141ADA573C0045BCA9 /* HorizontalScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48C99131ADA573C0045BCA9 /* HorizontalScrollView.swift */; };
+		B48C99161ADA57800045BCA9 /* HorizontalScrollContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48C99151ADA57800045BCA9 /* HorizontalScrollContentView.swift */; };
+		B48C99181ADA57BB0045BCA9 /* NearbyTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48C99171ADA57BB0045BCA9 /* NearbyTableDataSource.swift */; };
+		B48C991A1ADA592A0045BCA9 /* NearbyBusinessTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48C99191ADA592A0045BCA9 /* NearbyBusinessTableView.swift */; };
 		B4A3C16D1AD44B7E00B9D699 /* FeaturedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A3C16C1AD44B7E00B9D699 /* FeaturedListViewModel.swift */; };
 		B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */; };
 		B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */; };
@@ -86,6 +91,11 @@
 		B44E35161AD73BF100657A31 /* IRealmWritter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRealmWritter.swift; sourceTree = "<group>"; };
 		B47C0EA51AC0A21000F9FB31 /* AppDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDependencies.swift; sourceTree = "<group>"; };
 		B47C0EA91AC0A82C00F9FB31 /* FeaturedListWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListWireframe.swift; sourceTree = "<group>"; };
+		B48C99111ADA56F70045BCA9 /* NearbyBusinessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyBusinessViewController.swift; sourceTree = "<group>"; };
+		B48C99131ADA573C0045BCA9 /* HorizontalScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalScrollView.swift; sourceTree = "<group>"; };
+		B48C99151ADA57800045BCA9 /* HorizontalScrollContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalScrollContentView.swift; sourceTree = "<group>"; };
+		B48C99171ADA57BB0045BCA9 /* NearbyTableDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyTableDataSource.swift; sourceTree = "<group>"; };
+		B48C99191ADA592A0045BCA9 /* NearbyBusinessTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyBusinessTableView.swift; sourceTree = "<group>"; };
 		B4A3C16C1AD44B7E00B9D699 /* FeaturedListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewModel.swift; sourceTree = "<group>"; };
 		B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootWireframe.swift; sourceTree = "<group>"; };
 		B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedListViewController.swift; path = View/FeaturedListViewController.swift; sourceTree = "<group>"; };
@@ -272,6 +282,26 @@
 			path = Wireframe;
 			sourceTree = "<group>";
 		};
+		B48C990F1ADA55AF0045BCA9 /* Nearby */ = {
+			isa = PBXGroup;
+			children = (
+				B48C99101ADA55C10045BCA9 /* View */,
+			);
+			path = Nearby;
+			sourceTree = "<group>";
+		};
+		B48C99101ADA55C10045BCA9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B48C99111ADA56F70045BCA9 /* NearbyBusinessViewController.swift */,
+				B48C99191ADA592A0045BCA9 /* NearbyBusinessTableView.swift */,
+				B48C99171ADA57BB0045BCA9 /* NearbyTableDataSource.swift */,
+				B48C99131ADA573C0045BCA9 /* HorizontalScrollView.swift */,
+				B48C99151ADA57800045BCA9 /* HorizontalScrollContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		B4A3C16B1AD44B3E00B9D699 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -284,6 +314,7 @@
 		B4CC82601AC1650100E85CEA /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				B48C990F1ADA55AF0045BCA9 /* Nearby */,
 				B4CC82681AC1673100E85CEA /* Root */,
 				B4CC82611AC1650A00E85CEA /* FeaturedList */,
 			);
@@ -569,8 +600,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B44E350E1AD64DD100657A31 /* IDataManager.swift in Sources */,
+				B48C99141ADA573C0045BCA9 /* HorizontalScrollView.swift in Sources */,
+				B48C99161ADA57800045BCA9 /* HorizontalScrollContentView.swift in Sources */,
 				B421BA731AD2F3810094717F /* RLMSupport.swift in Sources */,
+				B48C991A1ADA592A0045BCA9 /* NearbyBusinessTableView.swift in Sources */,
+				B48C99121ADA56F70045BCA9 /* NearbyBusinessViewController.swift in Sources */,
 				B44E34FF1AD5A23800657A31 /* BusinessViewModel.swift in Sources */,
+				B48C99181ADA57BB0045BCA9 /* NearbyTableDataSource.swift in Sources */,
 				B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */,
 				B44E35041AD63F6000657A31 /* BusinessService.swift in Sources */,
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,
