@@ -15,22 +15,12 @@ public class FeaturedListWireframe : BaseWireframe {
     private let featuredListVM: IFeaturedListViewModel
     private let rootWireframe: RootWireframe
     private var featuredListViewController: FeaturedListViewController?
+    private let pushNearbyViewController: () -> Void
     
-    public init(rootWireframe: RootWireframe, featuredListVM: IFeaturedListViewModel) {
+    public init(rootWireframe: RootWireframe, featuredListVM: IFeaturedListViewModel, pushNearbyViewController: () -> Void) {
         self.rootWireframe = rootWireframe
         self.featuredListVM = featuredListVM
-    }
-    
-    /**
-        Display FeaturedList to Window.
-        
-        :param: window The UIWindow.
-    */
-    public func presentFeaturedListInterfaceFromWindows(window: UIWindow) {
-        
-        let injectedViewController = injectViewModelToViewController()
-        rootWireframe.showRootViewController(injectedViewController, inWindow: window)
-        
+        self.pushNearbyViewController = pushNearbyViewController
     }
     
     /**
@@ -42,7 +32,21 @@ public class FeaturedListWireframe : BaseWireframe {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
         viewController.featuredListVM = featuredListVM
+        viewController.pushNearbyViewController = pushNearbyViewController
         featuredListViewController = viewController
         return viewController
+    }
+}
+
+extension FeaturedListWireframe : IFeaturedListWireframe {
+    
+    /**
+    Show FeaturedList as root view controller.
+    */
+    public func showFeaturedListAsRootViewController() {
+        
+        let injectedViewController = injectViewModelToViewController()
+        rootWireframe.showRootViewController(injectedViewController)
+        
     }
 }

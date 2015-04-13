@@ -22,13 +22,13 @@ public class NearbyWireframe : BaseWireframe {
     }
     
     /**
-    Display Nearby view to Window.
+    Push NearbyViewController to NavigationControllerw.
     
     :param: window The UIWindow.
     */
-    public func presentInterfaceFromWindows(window: UIWindow) {
+    public func pushNearbyViewController() {
         let injectedViewController = injectViewModelToViewController()
-        rootWireframe.showRootViewController(injectedViewController, inWindow: window)
+        rootWireframe.pushViewController(injectedViewController, animated: true)
     }
     
     /**

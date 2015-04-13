@@ -9,7 +9,7 @@
         <!--Nearby View Controller-->
         <scene sceneID="KoC-8t-r5K">
             <objects>
-                <viewController id="pnY-r6-qDL" customClass="NearbyViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NearbyViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pnY-r6-qDL" customClass="NearbyViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5gO-9J-keN"/>
                         <viewControllerLayoutGuide type="bottom" id="HE7-ZK-rFJ"/>
@@ -231,14 +231,12 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Featured" id="Bo2-mg-wo7">
-                        <barButtonItem key="leftBarButtonItem" title="Nearby" id="HNp-F3-8PD">
-                            <connections>
-                                <segue destination="pnY-r6-qDL" kind="show" identifier="goToExperiment" id="X6f-FV-g41"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" title="Nearby" id="HNp-F3-8PD"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="nearbyButton" destination="HNp-F3-8PD" id="kx4-S7-MPP"/>
                         <outlet property="tableView" destination="MEt-fk-66n" id="vpO-Ly-fAN"/>
+                        <segue destination="pnY-r6-qDL" kind="show" identifier="FromFeaturedToNearby" id="Kch-5Q-eUq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -455,7 +453,7 @@
                         <color key="barTintColor" red="0.8901960784313725" green="0.49411764705882355" blue="0.14117647058823529" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="TdF-HU-gRC"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="TTJ-VR-jwV"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q1C-zc-nwi" userLabel="First Responder" sceneMemberID="firstResponder"/>

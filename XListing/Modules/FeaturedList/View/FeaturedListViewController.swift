@@ -12,10 +12,16 @@ import Realm
 
 private let NumberOfRowsPerSection = 1
 private let CellIdentifier = "Cell"
+private let SegueIdentifier = "FromFeaturedToNearby"
 
 public class FeaturedListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var nearbyButton: UIBarButtonItem!
+    
+    /// Push NearbyViewController to NavigationController
+    public var pushNearbyViewController: (() -> Void)?
     
     /// ViewModel
     public var featuredListVM: IFeaturedListViewModel?
@@ -29,6 +35,9 @@ public class FeaturedListViewController: UIViewController {
         
         // Setup table
         setupTable()
+        
+        // Setup nearbyButton
+        setupNearbyButton()
         
         featuredListVM!.requestAllBusinesses()
     }
@@ -56,6 +65,16 @@ public class FeaturedListViewController: UIViewController {
         }
     }
     
+    /**
+    React to Nearby Button and present NearbyViewController.
+    */
+    private func setupNearbyButton() {
+        let nearbyButtonSignal = nearbyButton.signal { [unowned self] button -> Void in
+            self.pushNearbyViewController!()
+        }
+        nearbyButtonSignal.ownedBy(self)
+        nearbyButtonSignal ~> {}
+    }
 }
 
 /**
@@ -109,7 +128,7 @@ extension FeaturedListViewController : UITableViewDataSource {
             let englishName = businessVM.nameEnglish
             let chineseName = businessVM.nameSChinese
             
-            businessNameLabel?.text = englishName! + " | " + chineseName!
+            businessNameLabel?.text = chineseName! + " | " + englishName!
             distanceLabel?.text = businessVM.distance
         }
         

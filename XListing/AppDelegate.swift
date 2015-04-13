@@ -28,9 +28,10 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         ParseClient.initializeClient()
         
         // start dependency injector
-        appDependencies = AppDependencies()
+        appDependencies = AppDependencies(window: window!)
+        
         // initialize root view
-        appDependencies!.installRootViewControllerIntoWindow(window!)
+        appDependencies!.installRootViewControllerIntoWindow()
         
 //        PopulateParse().populate()
 //        PopulateParse().featuredizeByNameSChinese("海港")

@@ -29,7 +29,7 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
     public init(datamanager: IDataManager, realmService: IRealmService) {
         dm = datamanager
         self.realmService = realmService
-        let t = realmService.defaultRealm
+        
         setupRLMNotificationToken()
     }
     

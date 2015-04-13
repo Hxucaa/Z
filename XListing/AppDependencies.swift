@@ -13,15 +13,15 @@ import Foundation
 */
 public class AppDependencies {
     
-    private var featuredListWireframe: FeaturedListWireframe?
+    private var featuredListWireframe: IFeaturedListWireframe?
     private var nearbyWireframe: NearbyWireframe?
     
     /// singleton
     private let realmService: IRealmService = RealmService()
     
-    public init() {
-        let rootWireframe = RootWireframe()
-        
+    public init(window: UIWindow) {
+        let rootWireframe = RootWireframe(inWindow: window)
+        configureNearbyDependencies(rootWireframe)
         configureFeaturedListDependencies(rootWireframe)
     }
     
@@ -30,8 +30,8 @@ public class AppDependencies {
     
         :param: window The UIWindow that needs to have a root view installed.
     */
-    public func installRootViewControllerIntoWindow(window: UIWindow) {
-        featuredListWireframe?.presentFeaturedListInterfaceFromWindows(window)
+    public func installRootViewControllerIntoWindow() {
+        featuredListWireframe?.showFeaturedListAsRootViewController()
     }
     
     /**
@@ -50,7 +50,7 @@ public class AppDependencies {
         // instantiate view model
         let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(datamanager: dm, realmService: realmService)
         
-        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM)
+        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM, pushNearbyViewController: nearbyWireframe!.pushNearbyViewController)
     }
     
     /**
