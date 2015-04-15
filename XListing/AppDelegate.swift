@@ -14,7 +14,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public var window: UIWindow?
     private var appDependencies: AppDependencies?
-
+    
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -35,7 +35,6 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         
 //        PopulateParse().populate()
 //        PopulateParse().featuredizeByNameSChinese("海港")
-        
         
         return true
     }

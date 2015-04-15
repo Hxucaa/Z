@@ -26,9 +26,12 @@ public class DataManager : IDataManager {
         return fetchBusinessFromNetwork(realmService.defaultRealm)
     }
     
-//    public func get
+    public func getBusiness() {
+        fetchBusinessFromNetwork(realmService.defaultRealm)
+    }
     
     private func fetchBusinessFromNetwork(realm: RLMRealm, query: PFQuery = BusinessDAO.query()!) -> Task<Int, Void, NSError> {
+
         let task = Task<Int, Void, NSError> { progress, fulfill, reject, econfigure in
             
             let businesses = self.businessService.findBy(query).success { busDaoArr -> Void in

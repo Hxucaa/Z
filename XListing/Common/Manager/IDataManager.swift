@@ -11,4 +11,5 @@ import SwiftTask
 
 public protocol IDataManager {
     func getFeaturedBusiness() -> Task<Int, Void, NSError>
+    func getBusiness()
 }

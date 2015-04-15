@@ -45,6 +45,10 @@
 		B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */; };
 		B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36B9D1AC1F5F1000F260E /* BaseWireframe.swift */; };
 		B4E36BBB1ACE543C000F260E /* BusinessDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BBA1ACE543C000F260E /* BusinessDAO.swift */; };
+		B4EE76011ADF072700484251 /* BackgroundUpdateDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EE76001ADF072700484251 /* BackgroundUpdateDataManager.swift */; };
+		B4EE76031ADF08FA00484251 /* IBackgroundUpdateDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EE76021ADF08FA00484251 /* IBackgroundUpdateDataManager.swift */; };
+		B4EE76051ADF095C00484251 /* BackgroundUpdateWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EE76041ADF095C00484251 /* BackgroundUpdateWireframe.swift */; };
+		B4EE76071ADF0A6700484251 /* IBackgroundUpdateWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EE76061ADF0A6700484251 /* IBackgroundUpdateWireframe.swift */; };
 		B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */; };
 		E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -109,6 +113,10 @@
 		B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedListViewController.swift; path = View/FeaturedListViewController.swift; sourceTree = "<group>"; };
 		B4E36B9D1AC1F5F1000F260E /* BaseWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWireframe.swift; sourceTree = "<group>"; };
 		B4E36BBA1ACE543C000F260E /* BusinessDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessDAO.swift; sourceTree = "<group>"; };
+		B4EE76001ADF072700484251 /* BackgroundUpdateDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundUpdateDataManager.swift; sourceTree = "<group>"; };
+		B4EE76021ADF08FA00484251 /* IBackgroundUpdateDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBackgroundUpdateDataManager.swift; sourceTree = "<group>"; };
+		B4EE76041ADF095C00484251 /* BackgroundUpdateWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundUpdateWireframe.swift; sourceTree = "<group>"; };
+		B4EE76061ADF0A6700484251 /* IBackgroundUpdateWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBackgroundUpdateWireframe.swift; sourceTree = "<group>"; };
 		B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -342,6 +350,7 @@
 		B4CC82601AC1650100E85CEA /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				B4EE75FC1ADF067300484251 /* BackgroundUpdate */,
 				B48C990F1ADA55AF0045BCA9 /* Nearby */,
 				B4CC82681AC1673100E85CEA /* Root */,
 				B4CC82611AC1650A00E85CEA /* FeaturedList */,
@@ -412,6 +421,33 @@
 			);
 			name = Wireframe;
 			path = Common/Wireframe;
+			sourceTree = "<group>";
+		};
+		B4EE75FC1ADF067300484251 /* BackgroundUpdate */ = {
+			isa = PBXGroup;
+			children = (
+				B4EE75FF1ADF06C500484251 /* Wireframe */,
+				B4EE75FE1ADF069C00484251 /* Manager */,
+			);
+			path = BackgroundUpdate;
+			sourceTree = "<group>";
+		};
+		B4EE75FE1ADF069C00484251 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				B4EE76001ADF072700484251 /* BackgroundUpdateDataManager.swift */,
+				B4EE76021ADF08FA00484251 /* IBackgroundUpdateDataManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		B4EE75FF1ADF06C500484251 /* Wireframe */ = {
+			isa = PBXGroup;
+			children = (
+				B4EE76041ADF095C00484251 /* BackgroundUpdateWireframe.swift */,
+				B4EE76061ADF0A6700484251 /* IBackgroundUpdateWireframe.swift */,
+			);
+			path = Wireframe;
 			sourceTree = "<group>";
 		};
 		CEFE73BB6B4CAA9AA89661B3 /* Pods */ = {
@@ -644,6 +680,7 @@
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,
 				B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */,
 				7EF371111AB8C012009AA3B9 /* AppDelegate.swift in Sources */,
+				B4EE76051ADF095C00484251 /* BackgroundUpdateWireframe.swift in Sources */,
 				B4A3C16D1AD44B7E00B9D699 /* FeaturedListViewModel.swift in Sources */,
 				7EF3714F1AB8C1E8009AA3B9 /* PopulateParse.swift in Sources */,
 				B44E35141AD7216800657A31 /* IRealmService.swift in Sources */,
@@ -653,8 +690,11 @@
 				7EF3714E1AB8C1E8009AA3B9 /* ParseClient.swift in Sources */,
 				B44E35011AD5D0AE00657A31 /* IFeaturedListViewModel.swift in Sources */,
 				B44E35061AD647E700657A31 /* DataManager.swift in Sources */,
+				B4EE76031ADF08FA00484251 /* IBackgroundUpdateDataManager.swift in Sources */,
 				B4E36BBB1ACE543C000F260E /* BusinessDAO.swift in Sources */,
 				B44E35101AD656B500657A31 /* RealmWritter.swift in Sources */,
+				B4EE76071ADF0A6700484251 /* IBackgroundUpdateWireframe.swift in Sources */,
+				B4EE76011ADF072700484251 /* BackgroundUpdateDataManager.swift in Sources */,
 				B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */,
 				B421BA751AD2F5040094717F /* Business.swift in Sources */,
 				B44E350A1AD6488D00657A31 /* RealmService.swift in Sources */,

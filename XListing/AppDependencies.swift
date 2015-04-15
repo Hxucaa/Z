@@ -15,6 +15,7 @@ public class AppDependencies {
     
     private var featuredListWireframe: IFeaturedListWireframe?
     private var nearbyWireframe: NearbyWireframe?
+    private var backgroundUpdateWireframe: IBackgroundUpdateWireframe?
     
     /// singleton
     private let realmService: IRealmService = RealmService()
@@ -23,6 +24,7 @@ public class AppDependencies {
         let rootWireframe = RootWireframe(inWindow: window)
         configureNearbyDependencies(rootWireframe)
         configureFeaturedListDependencies(rootWireframe)
+        configureBackgroundUpdateDependencies()
     }
     
     /**
@@ -70,5 +72,15 @@ public class AppDependencies {
         let nearbyVM: INearbyViewModel = NearbyViewModel(datamanager: dm, realmService: realmService)
         
         nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, nearbyViewModel: nearbyVM)
+    }
+    
+    private func configureBackgroundUpdateDependencies() {
+        let businessService: IBusinessService = BusinessService()
+        let realmWritter: IRealmWritter = RealmWritter()
+        
+        // instantiate data manager
+        let dm: IDataManager = DataManager(businessService: businessService, realmService: realmService, realmWritter: realmWritter)
+        
+        backgroundUpdateWireframe = BackgroundUpdateWireframe(dataManager: dm)
     }
 }
