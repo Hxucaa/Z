@@ -8,9 +8,12 @@
 
 import UIKit
 import MapKit
+import ReactKit
+import SwiftTask
 
 public class NearbyViewController: UIViewController {
     
+    private var mapView = MKMapView()
     private var dataSources: NSMutableArray? = []
     private var contentView: HorizontalScrollContentView!
     private var locationData: NSMutableArray? = []
@@ -25,6 +28,11 @@ public class NearbyViewController: UIViewController {
         initMapView()
         initScrollView()
         // Do any additional setup after loading the view.
+        
+        setupMapViewSignal()
+        
+        nearbyVM!.getBusiness()
+        
     }
     
     public override func didReceiveMemoryWarning() {
@@ -32,48 +40,34 @@ public class NearbyViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    private func initMapView (){
-        var mapView = MKMapView()
-        mapView.frame = self.view.bounds
+    private func setupMapViewSignal() {
+        let businessVMArrSignal = nearbyVM!.businessVMArr.signal().ownedBy(self)
+        businessVMArrSignal ~> { [unowned self] changedValues, change, indexSet in
+            if change == .Insertion {
+                let businessVM = changedValues![0] as! BusinessViewModel
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = CLLocationCoordinate2D(latitude: businessVM.latitude!, longitude: businessVM.longitude!)
+                annotation.title = businessVM.nameSChinese
+                annotation.subtitle = businessVM.nameEnglish
+                self.mapView.addAnnotation(annotation)
+            }
+        }
+    }
+    
+    private func initMapView() -> Task<Int, Void, NSError> {
+        let task = nearbyVM!.getCurrentLocation().success { location -> Void in
+            self.mapView.frame = self.view.bounds
+            
+            self.mapView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
+            
+            let span = MKCoordinateSpanMake(0.07, 0.07)
+            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+            self.mapView.setRegion(region, animated: true)
+            
+            self.view.addSubview(self.mapView)
+        }
         
-        mapView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
-        
-        // 1
-        var center = CLLocationCoordinate2D(
-            latitude: 49.1667,
-            longitude: -123.1333
-        )
-        // 2
-        let span = MKCoordinateSpanMake(0.1, 0.1)
-        let region = MKCoordinateRegion(center: center, span: span)
-        mapView.setRegion(region, animated: true)
-        
-        
-        var location1 = CLLocationCoordinate2D(
-            latitude: 49.173805,
-            longitude: -123.1317793
-        )
-        
-        //3
-        var annotation1 = MKPointAnnotation()
-        annotation1.coordinate = location1
-        annotation1.title = "Chang'An"
-        annotation1.subtitle = "品味长安"
-        
-        var location2 = CLLocationCoordinate2D(
-            latitude: 49.16991,
-            longitude: -123.138535
-        )
-        
-        //3
-        var annotation2 = MKPointAnnotation()
-        annotation1.coordinate = location2
-        annotation2.title = "Kirin Restaurant"
-        annotation2.subtitle = "麒麟"
-        mapView.addAnnotations([annotation1, annotation2])
-        
-        self.view.addSubview(mapView)
-        
+        return task
     }
     
     private func initScrollView (){

@@ -11,29 +11,20 @@ import Realm
 import SwiftTask
 import ReactKit
 
-public class NearbyViewModel : INearbyViewModel {
+public class NearbyViewModel : BaseViewModel, INearbyViewModel {
     
-    private var dm: IDataManager
+    /// Lazily evaluated list of featured businesses
+    private var businesses = Business.allObjects()
     
-    private var realmService: IRealmService
     
-    /// notification token from Realm
-    private var token: RLMNotificationToken?
-    
-    /// wrapper for an array of BusinessViewModel
-    public let businessVMArr = DynamicArray()
-    
-    public init(datamanager: IDataManager, realmService: IRealmService) {
-        dm = datamanager
-        self.realmService = realmService
-        
-        setupRLMNotificationToken()
+    public override init(datamanager: IDataManager, realmService: IRealmService) {
+        super.init(datamanager: datamanager, realmService: realmService)
     }
     
-    /**
-    Subscribe to Realm notification.
-    */
-    private func setupRLMNotificationToken() {
-        
+    
+    public override func getBusiness() {
+        //TODO: support for offline usage.
+        //        return dm.getFeaturedBusiness()
+        prepareDataForSignal(businesses)
     }
 }

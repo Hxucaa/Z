@@ -7,7 +7,11 @@
 //
 
 import Foundation
+import ReactKit
+import SwiftTask
 
 public protocol INearbyViewModel {
-    
+    var businessVMArr: DynamicArray { get }
+    func getBusiness()
+    func getCurrentLocation() -> Task<Int, CLLocation, NSError>
 }

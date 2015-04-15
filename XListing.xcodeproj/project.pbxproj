@@ -49,6 +49,7 @@
 		B4EE76031ADF08FA00484251 /* IBackgroundUpdateDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EE76021ADF08FA00484251 /* IBackgroundUpdateDataManager.swift */; };
 		B4EE76051ADF095C00484251 /* BackgroundUpdateWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EE76041ADF095C00484251 /* BackgroundUpdateWireframe.swift */; };
 		B4EE76071ADF0A6700484251 /* IBackgroundUpdateWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EE76061ADF0A6700484251 /* IBackgroundUpdateWireframe.swift */; };
+		B4EE76091ADF0D1A00484251 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EE76081ADF0D1A00484251 /* BaseViewModel.swift */; };
 		B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */; };
 		E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -117,6 +118,7 @@
 		B4EE76021ADF08FA00484251 /* IBackgroundUpdateDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBackgroundUpdateDataManager.swift; sourceTree = "<group>"; };
 		B4EE76041ADF095C00484251 /* BackgroundUpdateWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundUpdateWireframe.swift; sourceTree = "<group>"; };
 		B4EE76061ADF0A6700484251 /* IBackgroundUpdateWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBackgroundUpdateWireframe.swift; sourceTree = "<group>"; };
+		B4EE76081ADF0D1A00484251 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -285,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				B44E34FE1AD5A23800657A31 /* BusinessViewModel.swift */,
+				B4EE76081ADF0D1A00484251 /* BaseViewModel.swift */,
 			);
 			name = ViewModel;
 			path = Common/ViewModel;
@@ -668,6 +671,7 @@
 				B48C991D1ADA62DA0045BCA9 /* NearbyViewModel.swift in Sources */,
 				B48C99141ADA573C0045BCA9 /* HorizontalScrollView.swift in Sources */,
 				B48C99161ADA57800045BCA9 /* HorizontalScrollContentView.swift in Sources */,
+				B4EE76091ADF0D1A00484251 /* BaseViewModel.swift in Sources */,
 				B48C991F1ADA62E70045BCA9 /* INearbyViewModel.swift in Sources */,
 				B421BA731AD2F3810094717F /* RLMSupport.swift in Sources */,
 				B48C991A1ADA592A0045BCA9 /* NearbyTableView.swift in Sources */,

@@ -39,7 +39,7 @@ public class FeaturedListViewController: UIViewController {
         // Setup nearbyButton
         setupNearbyButton()
         
-        featuredListVM!.requestAllBusinesses()
+        featuredListVM!.getBusiness()
     }
 
     public override func didReceiveMemoryWarning() {
