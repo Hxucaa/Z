@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftTask
+import Realm
 
 public class DataManager : IDataManager {
     
@@ -22,14 +23,16 @@ public class DataManager : IDataManager {
     }
     
     public func getFeaturedBusiness() -> Task<Int, Void, NSError> {
-        return fetchBusinessFromNetwork()
+        return fetchBusinessFromNetwork(realmService.defaultRealm)
     }
     
-    private func fetchBusinessFromNetwork() -> Task<Int, Void, NSError> {
+//    public func get
+    
+    private func fetchBusinessFromNetwork(realm: RLMRealm, query: PFQuery = BusinessDAO.query()!) -> Task<Int, Void, NSError> {
         let task = Task<Int, Void, NSError> { progress, fulfill, reject, econfigure in
             
-            let businesses = self.businessService.findBy(nil).success { busDaoArr -> Void in
-                self.realmWritter.saveBusinessDaosToRealm(self.realmService.defaultRealm, withDaoArray: busDaoArr)
+            let businesses = self.businessService.findBy(query).success { busDaoArr -> Void in
+                self.realmWritter.saveBusinessDaosToRealm(realm, withDaoArray: busDaoArr)
             }
         }
         

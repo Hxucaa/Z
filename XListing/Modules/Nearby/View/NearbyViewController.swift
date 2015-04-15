@@ -11,11 +11,11 @@ import MapKit
 
 public class NearbyViewController: UIViewController {
     
-    var dataSources: NSMutableArray? = []
-    var contentView: HorizontalScrollContentView!
-    var locationData: NSMutableArray? = []
+    private var dataSources: NSMutableArray? = []
+    private var contentView: HorizontalScrollContentView!
+    private var locationData: NSMutableArray? = []
     
-    internal var nearbyBusinessDataArray: Array<BusinessViewModel>? = []
+    private var nearbyBusinessDataArray: Array<BusinessViewModel>? = []
     
     /// View Model
     public var nearbyVM: INearbyViewModel?
@@ -32,7 +32,7 @@ public class NearbyViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func initMapView (){
+    private func initMapView (){
         var mapView = MKMapView()
         mapView.frame = self.view.bounds
         
@@ -76,7 +76,7 @@ public class NearbyViewController: UIViewController {
         
     }
     
-    func initScrollView (){
+    private func initScrollView (){
         var scrollView = HorizontalScrollView()
         scrollView.frame = self.view.bounds
         scrollView.showsHorizontalScrollIndicator = false
@@ -99,7 +99,7 @@ public class NearbyViewController: UIViewController {
         println(self.contentView.subviews.count)
     }
     
-    func newTableView() -> NearbyTableView {
+    private func newTableView() -> NearbyTableView {
         var dataSource =  NearbyTableDataSource()
         //dataSource.numberOfRows = numberOfRows
         dataSource.dataArray = nearbyBusinessDataArray

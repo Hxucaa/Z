@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HorizontalScrollView: UIScrollView {
+public class HorizontalScrollView: UIScrollView {
     
     /*
     // Only override drawRect: if you perform custom drawing.
@@ -19,7 +19,7 @@ class HorizontalScrollView: UIScrollView {
     */
     
     
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+    public override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
         var hitView = super.hitTest(point, withEvent: event)
         return hitView == self ? nil : hitView
     }

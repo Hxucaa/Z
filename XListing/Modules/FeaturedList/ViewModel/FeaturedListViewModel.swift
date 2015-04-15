@@ -42,7 +42,7 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
 
 extension FeaturedListViewModel {
     /**
-    Subscribe to Realm notification
+    Subscribe to Realm notification.
     */
     private func setupRLMNotificationToken() {
         // subscribes to notification from Realm

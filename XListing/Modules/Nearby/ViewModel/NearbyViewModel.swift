@@ -26,10 +26,13 @@ public class NearbyViewModel : INearbyViewModel {
     public init(datamanager: IDataManager, realmService: IRealmService) {
         dm = datamanager
         self.realmService = realmService
-        let t = realmService.defaultRealm
+        
         setupRLMNotificationToken()
     }
-
+    
+    /**
+    Subscribe to Realm notification.
+    */
     private func setupRLMNotificationToken() {
         
     }

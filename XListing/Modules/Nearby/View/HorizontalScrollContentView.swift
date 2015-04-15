@@ -8,17 +8,17 @@
 
 import UIKit
 
-class HorizontalScrollContentView: UIView {
+public class HorizontalScrollContentView: UIView {
     
-    var pageWidth: CGFloat?
-    var kGutterWidth: CGFloat = 0
+    internal var pageWidth: CGFloat?
+    private var kGutterWidth: CGFloat = 0
     
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+    public override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
         let hitView = super.hitTest(point, withEvent: event)
         return hitView == self ? nil : hitView
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         
         var superSize = self.superview?.bounds.size
