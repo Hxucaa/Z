@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D113c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="OjV-3x-cL1">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -63,7 +64,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AWt-ya-CYC" id="1DV-Lc-dp7">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Business Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ftk-xE-VaQ">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Business Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ftk-xE-VaQ">
                                                     <rect key="frame" x="8" y="202" width="481" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="481" id="MJp-IK-mm5"/>
@@ -159,27 +160,18 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="352" y="234" width="38" height="21"/>
-                                                    </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$60" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c4d-36-RgL">
                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
                                                     <color key="textColor" red="0.35686274509999999" green="0.23921568630000001" blue="0.4549019608" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact" ambiguous="YES" misplaced="YES">
-                                                        <rect key="frame" x="360" y="255" width="32" height="23"/>
-                                                    </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="可订位" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFX-36-zUX">
                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                                     <color key="textColor" red="0.23529411759999999" green="0.41960784309999999" blue="0.74509803919999995" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="160" y="259" width="52" height="21"/>
-                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
@@ -238,28 +230,28 @@
                                                     <exclude reference="fFX-36-zUX"/>
                                                 </mask>
                                                 <mask key="constraints">
+                                                    <exclude reference="2kS-2P-w6c"/>
+                                                    <exclude reference="EcI-jz-06Z"/>
                                                     <exclude reference="mhh-kX-sig"/>
                                                     <exclude reference="nU8-rn-iaA"/>
                                                     <exclude reference="pSw-2h-xJZ"/>
-                                                    <exclude reference="2mT-1o-nfd"/>
-                                                    <exclude reference="w3u-vW-NcB"/>
-                                                    <exclude reference="2bN-fP-hQc"/>
-                                                    <exclude reference="5Hg-CR-snF"/>
-                                                    <exclude reference="PJC-59-EMm"/>
                                                     <exclude reference="ZWk-5w-bN8"/>
                                                     <exclude reference="bQD-i6-dqc"/>
                                                     <exclude reference="udQ-i2-P40"/>
+                                                    <exclude reference="BmR-Zz-0Jw"/>
+                                                    <exclude reference="DHU-tp-eFn"/>
+                                                    <exclude reference="Pji-bu-F9G"/>
+                                                    <exclude reference="S40-98-st7"/>
+                                                    <exclude reference="2bN-fP-hQc"/>
+                                                    <exclude reference="5Hg-CR-snF"/>
+                                                    <exclude reference="PJC-59-EMm"/>
                                                     <exclude reference="3wC-RJ-D6J"/>
                                                     <exclude reference="581-gK-Fev"/>
                                                     <exclude reference="67t-Pi-VKV"/>
                                                     <exclude reference="U7K-Vp-tp2"/>
                                                     <exclude reference="XbX-Rz-rFO"/>
-                                                    <exclude reference="2kS-2P-w6c"/>
-                                                    <exclude reference="EcI-jz-06Z"/>
-                                                    <exclude reference="BmR-Zz-0Jw"/>
-                                                    <exclude reference="DHU-tp-eFn"/>
-                                                    <exclude reference="Pji-bu-F9G"/>
-                                                    <exclude reference="S40-98-st7"/>
+                                                    <exclude reference="2mT-1o-nfd"/>
+                                                    <exclude reference="w3u-vW-NcB"/>
                                                 </mask>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=compact">
@@ -272,32 +264,32 @@
                                                     <include reference="fFX-36-zUX"/>
                                                 </mask>
                                                 <mask key="constraints">
+                                                    <include reference="2kS-2P-w6c"/>
+                                                    <include reference="EcI-jz-06Z"/>
                                                     <exclude reference="ZMN-Ev-Uh5"/>
                                                     <exclude reference="ak0-jw-Bsj"/>
                                                     <include reference="mhh-kX-sig"/>
                                                     <include reference="nU8-rn-iaA"/>
                                                     <exclude reference="pSw-2h-xJZ"/>
                                                     <exclude reference="uSs-6X-vdZ"/>
-                                                    <include reference="2mT-1o-nfd"/>
-                                                    <exclude reference="LGk-9l-6YI"/>
-                                                    <include reference="w3u-vW-NcB"/>
-                                                    <include reference="2bN-fP-hQc"/>
-                                                    <include reference="5Hg-CR-snF"/>
-                                                    <include reference="PJC-59-EMm"/>
                                                     <include reference="ZWk-5w-bN8"/>
                                                     <include reference="bQD-i6-dqc"/>
                                                     <include reference="udQ-i2-P40"/>
+                                                    <include reference="BmR-Zz-0Jw"/>
+                                                    <include reference="DHU-tp-eFn"/>
+                                                    <include reference="Pji-bu-F9G"/>
+                                                    <include reference="S40-98-st7"/>
+                                                    <include reference="2bN-fP-hQc"/>
+                                                    <include reference="5Hg-CR-snF"/>
+                                                    <include reference="PJC-59-EMm"/>
                                                     <exclude reference="3wC-RJ-D6J"/>
                                                     <include reference="581-gK-Fev"/>
                                                     <include reference="67t-Pi-VKV"/>
                                                     <include reference="U7K-Vp-tp2"/>
                                                     <exclude reference="XbX-Rz-rFO"/>
-                                                    <include reference="2kS-2P-w6c"/>
-                                                    <include reference="EcI-jz-06Z"/>
-                                                    <include reference="BmR-Zz-0Jw"/>
-                                                    <include reference="DHU-tp-eFn"/>
-                                                    <include reference="Pji-bu-F9G"/>
-                                                    <include reference="S40-98-st7"/>
+                                                    <include reference="2mT-1o-nfd"/>
+                                                    <exclude reference="LGk-9l-6YI"/>
+                                                    <include reference="w3u-vW-NcB"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
