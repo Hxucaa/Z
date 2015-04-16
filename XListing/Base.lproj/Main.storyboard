@@ -332,7 +332,7 @@
                         <outlet property="nearbyButton" destination="HNp-F3-8PD" id="kx4-S7-MPP"/>
                         <outlet property="tableView" destination="MEt-fk-66n" id="vpO-Ly-fAN"/>
                         <segue destination="pnY-r6-qDL" kind="show" identifier="FromFeaturedToNearby" id="Kch-5Q-eUq"/>
-                        <segue destination="Qif-f0-4vj" kind="show" id="P7q-SO-bQp"/>
+                        <segue destination="Qif-f0-4vj" kind="show" identifier="ToDetail" id="P7q-SO-bQp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
