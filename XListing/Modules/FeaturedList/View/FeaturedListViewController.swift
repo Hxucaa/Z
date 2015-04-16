@@ -121,7 +121,8 @@ extension FeaturedListViewController : UITableViewDataSource {
         let section = indexPath.section
         
         var businessNameLabel : UILabel? = self.view.viewWithTag(1) as? UILabel
-        var distanceLabel : UILabel? = self.view.viewWithTag(2) as? UILabel
+        var cityLabel : UILabel? = self.view.viewWithTag(4) as? UILabel
+        var oldPriceLabel : UILabel? = self.view.viewWithTag(5) as? UILabel
         let coverImageView = self.view.viewWithTag(3) as? UIImageView
         
         let arr = featuredListVM!.businessVMArr.proxy
@@ -132,9 +133,14 @@ extension FeaturedListViewController : UITableViewDataSource {
             let englishName = businessVM.nameEnglish
             let chineseName = businessVM.nameSChinese
             
-            businessNameLabel?.text = chineseName! + " | " + englishName!
-            distanceLabel?.text = businessVM.distance
+            let oldPrice: NSMutableAttributedString =  NSMutableAttributedString(string: "$80")
+            oldPrice.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, oldPrice.length))
+            
+            businessNameLabel?.text = chineseName!// + " | " + englishName!
+            //distanceLabel?.text = businessVM.distance
             coverImageView?.image = businessVM.coverImage!
+            cityLabel?.text = businessVM.city
+            oldPriceLabel?.attributedText = oldPrice
         }
         
         return cell
