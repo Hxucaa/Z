@@ -119,6 +119,7 @@ extension FeaturedListViewController : UITableViewDataSource {
         
         var businessNameLabel : UILabel? = self.view.viewWithTag(1) as? UILabel
         var distanceLabel : UILabel? = self.view.viewWithTag(2) as? UILabel
+        let coverImageView = self.view.viewWithTag(3) as? UIImageView
         
         let arr = featuredListVM!.businessVMArr.proxy
         if (arr.count > section){
@@ -130,6 +131,7 @@ extension FeaturedListViewController : UITableViewDataSource {
             
             businessNameLabel?.text = chineseName! + " | " + englishName!
             distanceLabel?.text = businessVM.distance
+            coverImageView?.image = businessVM.coverImage!
         }
         
         return cell

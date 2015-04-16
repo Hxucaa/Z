@@ -59,6 +59,8 @@ public class BusinessViewModel {
     public private(set) var crossStreets: String?
     public private(set) var latitude: Double?
     public private(set) var longitude: Double?
+    
+    public private(set) var coverImage: UIImage?
     public private(set) var distance: String?
     
     
@@ -106,6 +108,8 @@ public class BusinessViewModel {
             formatter.maximumFractionDigits = 0
             self.distance = formatter.stringFromNumber(distanceInMeter)! + 米
         }
+        
+        coverImage = UIImage(data: NSData(contentsOfURL: NSURL(string: coverImageUrl!)!)!)
     }
 }
 

@@ -27,6 +27,8 @@ public class RealmWritter : IRealmWritter {
                     case "geopoint":
                         dict.setObject(object["geopoint"]!.longitude, forKey: "longitude")
                         dict.setObject(object["geopoint"]!.latitude, forKey: "latitude")
+                    case "cover":
+                        dict.setObject(object["cover"]!.url!!, forKey: "coverImageUrl")
                     default: dict.setObject(object[key]!, forKey: key)
                 }
             })
