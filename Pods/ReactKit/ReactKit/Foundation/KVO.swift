@@ -163,7 +163,7 @@ internal class _KVOProxy: NSObject
 //            #endif
             
             let newValue: AnyObject? = change[NSKeyValueChangeNewKey]
-            let keyValueChange: NSKeyValueChange = NSKeyValueChange(rawValue: (change[NSKeyValueChangeKindKey] as NSNumber).unsignedLongValue)!
+            let keyValueChange: NSKeyValueChange = NSKeyValueChange(rawValue: (change[NSKeyValueChangeKindKey] as! NSNumber).unsignedLongValue)!
             let indexSet: NSIndexSet? = change[NSKeyValueChangeIndexesKey] as? NSIndexSet
             
             self._handler(value: newValue, change: keyValueChange, indexSet: indexSet)
@@ -198,7 +198,7 @@ public func <~ <T: AnyObject>(tuple: (object: NSObject, keyPath: String), signal
     weak var object = tuple.object
     let keyPath = tuple.keyPath
     
-    signal.progress { (_, value: T?) in
+    signal.react { value in
         if let object = object {
             object.setValue(value, forKeyPath:keyPath)  // NOTE: don't use `tuple` inside closure, or object will be captured
         }
@@ -209,7 +209,7 @@ public func <~ <T: AnyObject>(tuple: (object: NSObject, keyPath: String), signal
 /// e.g. [ (obj1, "value1"), (obj2, "value2") ] <~ signal (sending [value1, value2] array)
 public func <~ <T: AnyObject>(tuples: [(object: NSObject, keyPath: String)], signal: Signal<[T?]>)
 {
-    signal.progress { (_, values: [T?]) in
+    signal.react { (values: [T?]) in
         for i in 0..<tuples.count {
             if i >= values.count { break }
             

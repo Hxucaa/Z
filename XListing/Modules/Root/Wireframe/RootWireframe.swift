@@ -9,13 +9,18 @@
 import Foundation
 
 public class RootWireframe : BaseWireframe {
-    public func showRootViewController(viewController: UIViewController, inWindow: UIWindow) {
-        let navigationController = navigationControllerFromWindow(inWindow)
+    
+    private let navigationController: UINavigationController
+    
+    init(inWindow: UIWindow) {
+        navigationController = inWindow.rootViewController as! UINavigationController
+    }
+    
+    public func showRootViewController(viewController: UIViewController) {
         navigationController.viewControllers = [viewController]
     }
     
-    private func navigationControllerFromWindow(window: UIWindow) -> UINavigationController {
-        let navigationController = window.rootViewController as UINavigationController
-        return navigationController
+    public func pushViewController(viewController: UIViewController, animated: Bool) {
+        navigationController.pushViewController(viewController, animated: animated)
     }
 }

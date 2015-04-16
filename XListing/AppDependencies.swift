@@ -13,12 +13,18 @@ import Foundation
 */
 public class AppDependencies {
     
-    private var featuredListWireframe: FeaturedListWireframe?
+    private var featuredListWireframe: IFeaturedListWireframe?
+    private var nearbyWireframe: NearbyWireframe?
+    private var backgroundUpdateWireframe: IBackgroundUpdateWireframe?
     
-    public init() {
-        let rootWireframe = RootWireframe()
-        
+    /// singleton
+    private let realmService: IRealmService = RealmService()
+    
+    public init(window: UIWindow) {
+        let rootWireframe = RootWireframe(inWindow: window)
+        configureNearbyDependencies(rootWireframe)
         configureFeaturedListDependencies(rootWireframe)
+        configureBackgroundUpdateDependencies()
     }
     
     /**
@@ -26,27 +32,55 @@ public class AppDependencies {
     
         :param: window The UIWindow that needs to have a root view installed.
     */
-    public func installRootViewControllerIntoWindow(window: UIWindow) {
-        featuredListWireframe?.presentFeaturedListInterfaceFromWindows(window)
+    public func installRootViewControllerIntoWindow() {
+        featuredListWireframe?.showFeaturedListAsRootViewController()
     }
     
     /**
-        Configure dependencies for FeaturedList Module
+        Configure dependencies for FeaturedList Module.
 
-        :param: rootWireframe The RootWireframe
+        :param: rootWireframe The RootWireframe.
     */
     private func configureFeaturedListDependencies(rootWireframe: RootWireframe) {
         
-        // create data manager first
-        let locationDataManager = LocationDataManager()
-        let featuredListDataManager = FeaturedListDataManager()
+        let businessService: IBusinessService = BusinessService()
+        let realmWritter: IRealmWritter = RealmWritter()
         
-        // instantiate interactor next
-        let featuredListInteractor = FeaturedListInteractor(featuredListDataManager: featuredListDataManager, locationDataManager: locationDataManager)
+        // instantiate data manager
+        let dm: IDataManager = DataManager(businessService: businessService, realmService: realmService, realmWritter: realmWritter)
         
-        // instantiate presenter next
-        let featuredListPresenter = FeaturedListPresenter(featuredListInteractor: featuredListInteractor)
+        // instantiate view model
+        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(datamanager: dm, realmService: realmService)
         
-        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListPresenter: featuredListPresenter)
+        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM, pushNearbyViewController: nearbyWireframe!.pushNearbyViewController)
+    }
+    
+    /**
+    Configure dependencies for Nearby Module.
+    
+    :param: rootWireframe The RootWireframe.
+    */
+    private func configureNearbyDependencies(rootWireframe: RootWireframe) {
+        
+        let businessService: IBusinessService = BusinessService()
+        let realmWritter: IRealmWritter = RealmWritter()
+        
+        // instantiate data manager
+        let dm: IDataManager = DataManager(businessService: businessService, realmService: realmService, realmWritter: realmWritter)
+        
+        // instantiate view model
+        let nearbyVM: INearbyViewModel = NearbyViewModel(datamanager: dm, realmService: realmService)
+        
+        nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, nearbyViewModel: nearbyVM)
+    }
+    
+    private func configureBackgroundUpdateDependencies() {
+        let businessService: IBusinessService = BusinessService()
+        let realmWritter: IRealmWritter = RealmWritter()
+        
+        // instantiate data manager
+        let dm: IDataManager = DataManager(businessService: businessService, realmService: realmService, realmWritter: realmWritter)
+        
+        backgroundUpdateWireframe = BackgroundUpdateWireframe(dataManager: dm)
     }
 }
