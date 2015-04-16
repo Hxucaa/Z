@@ -8,7 +8,7 @@
 
 import Foundation
 
-let storyboardName = "Main"
+private let StoryboardName = "Main"
 
 public class BaseWireframe {
     
@@ -38,7 +38,7 @@ extension BaseWireframe {
         :returns: The UIStoryboard
     */
     public func mainStoryboard() -> UIStoryboard {
-        let storyboard = UIStoryboard(name: storyboardName, bundle: NSBundle.mainBundle())
+        let storyboard = UIStoryboard(name: StoryboardName, bundle: NSBundle.mainBundle())
         return storyboard
     }
 }
