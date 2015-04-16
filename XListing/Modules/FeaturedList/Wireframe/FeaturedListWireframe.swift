@@ -16,11 +16,13 @@ public class FeaturedListWireframe : BaseWireframe {
     private let rootWireframe: RootWireframe
     private var featuredListViewController: FeaturedListViewController?
     private let pushNearbyViewController: () -> Void
+    private let pushDetailViewController: (BusinessViewModel) -> Void
     
-    public init(rootWireframe: RootWireframe, featuredListVM: IFeaturedListViewModel, pushNearbyViewController: () -> Void) {
+    public init(rootWireframe: RootWireframe, featuredListVM: IFeaturedListViewModel, pushNearbyViewController: () -> Void, pushDetailViewController: (BusinessViewModel) -> Void) {
         self.rootWireframe = rootWireframe
         self.featuredListVM = featuredListVM
         self.pushNearbyViewController = pushNearbyViewController
+        self.pushDetailViewController = pushDetailViewController
     }
     
     /**
@@ -33,6 +35,7 @@ public class FeaturedListWireframe : BaseWireframe {
         let viewController = getViewControllerFromStoryboard(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
         viewController.featuredListVM = featuredListVM
         viewController.pushNearbyViewController = pushNearbyViewController
+        viewController.pushDetailViewController = pushDetailViewController
         featuredListViewController = viewController
         return viewController
     }

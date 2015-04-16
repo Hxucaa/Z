@@ -16,12 +16,14 @@ public class AppDependencies {
     private var featuredListWireframe: IFeaturedListWireframe?
     private var nearbyWireframe: NearbyWireframe?
     private var backgroundUpdateWireframe: IBackgroundUpdateWireframe?
+    private var detailWireframe: DetailWireframe?
     
     /// singleton
     private let realmService: IRealmService = RealmService()
     
     public init(window: UIWindow) {
         let rootWireframe = RootWireframe(inWindow: window)
+        configureDetailDependencies(rootWireframe)
         configureNearbyDependencies(rootWireframe)
         configureFeaturedListDependencies(rootWireframe)
         configureBackgroundUpdateDependencies()
@@ -52,7 +54,7 @@ public class AppDependencies {
         // instantiate view model
         let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(datamanager: dm, realmService: realmService)
         
-        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM, pushNearbyViewController: nearbyWireframe!.pushNearbyViewController)
+        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM, pushNearbyViewController: nearbyWireframe!.pushNearbyViewController, pushDetailViewController: detailWireframe!.pushDetailViewController)
     }
     
     /**
@@ -82,5 +84,24 @@ public class AppDependencies {
         let dm: IDataManager = DataManager(businessService: businessService, realmService: realmService, realmWritter: realmWritter)
         
         backgroundUpdateWireframe = BackgroundUpdateWireframe(dataManager: dm)
+    }
+    
+    /**
+    Configure dependencies for Detail Module.
+    
+    :param: rootWireframe The RootWireframe.
+    */
+    private func configureDetailDependencies(rootWireframe: RootWireframe) {
+        let businessService: IBusinessService = BusinessService()
+        let realmWritter: IRealmWritter = RealmWritter()
+        
+        // instantiate data manager
+        let dm: IDataManager = DataManager(businessService: businessService, realmService: realmService, realmWritter: realmWritter)
+        
+        // instantiate view model
+        let detailVM: IDetailViewModel = DetailViewModel(datamanager: dm, realmService: realmService)
+        
+        detailWireframe = DetailWireframe(rootWireframe: rootWireframe, detailViewModel: detailVM)
+        
     }
 }

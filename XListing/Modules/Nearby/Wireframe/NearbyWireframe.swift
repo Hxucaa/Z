@@ -24,7 +24,6 @@ public class NearbyWireframe : BaseWireframe {
     /**
     Push NearbyViewController to NavigationControllerw.
     
-    :param: window The UIWindow.
     */
     public func pushNearbyViewController() {
         let injectedViewController = injectViewModelToViewController()
