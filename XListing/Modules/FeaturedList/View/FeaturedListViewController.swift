@@ -9,6 +9,7 @@
 import UIKit
 import ReactKit
 import Realm
+import Haneke
 
 private let NumberOfRowsPerSection = 1
 private let CellIdentifier = "Cell"
@@ -134,7 +135,9 @@ extension FeaturedListViewController : UITableViewDataSource {
             
             businessNameLabel?.text = chineseName! + " | " + englishName!
             distanceLabel?.text = businessVM.distance
-            coverImageView?.image = businessVM.coverImage!
+            coverImageView!.hnk_setImageFromURL(NSURL(string: businessVM.coverImageUrl!)!, failure: {
+                println("Image loading failed: \($0)")
+            })
         }
         
         return cell
