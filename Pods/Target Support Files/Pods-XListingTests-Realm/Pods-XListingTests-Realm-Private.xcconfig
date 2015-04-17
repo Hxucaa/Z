@@ -3,7 +3,7 @@ CLANG_CXX_LANGUAGE_STANDARD = ${PODS_XLISTINGTESTS_REALM_CLANG_CXX_LANGUAGE_STAN
 CONFIGURATION_BUILD_DIR = $PODS_FRAMEWORK_BUILD_PATH
 FRAMEWORK_SEARCH_PATHS = "$PODS_FRAMEWORK_BUILD_PATH"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/Realm" "${PODS_ROOT}/Headers/Private/Realm/Realm" "${PODS_ROOT}/Headers/Private/Realm/tightdb" "${PODS_ROOT}/Headers/Private/Realm/tightdb/util" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Bolts" "${PODS_ROOT}/Headers/Public/Nimble" "${PODS_ROOT}/Headers/Public/Parse" "${PODS_ROOT}/Headers/Public/Quick" "${PODS_ROOT}/Headers/Public/ReactKit" "${PODS_ROOT}/Headers/Public/Realm" "${PODS_ROOT}/Headers/Public/Realm/Realm" "${PODS_ROOT}/Headers/Public/SwiftTask"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/Realm" "${PODS_ROOT}/Headers/Private/Realm/Realm" "${PODS_ROOT}/Headers/Private/Realm/tightdb" "${PODS_ROOT}/Headers/Private/Realm/tightdb/util" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Bolts" "${PODS_ROOT}/Headers/Public/Haneke" "${PODS_ROOT}/Headers/Public/Nimble" "${PODS_ROOT}/Headers/Public/Parse" "${PODS_ROOT}/Headers/Public/Quick" "${PODS_ROOT}/Headers/Public/ReactKit" "${PODS_ROOT}/Headers/Public/Realm" "${PODS_ROOT}/Headers/Public/Realm/Realm" "${PODS_ROOT}/Headers/Public/SwiftTask"
 OTHER_CPLUSPLUSFLAGS = ${PODS_XLISTINGTESTS_REALM_OTHER_CPLUSPLUSFLAGS}
 OTHER_LDFLAGS = ${PODS_XLISTINGTESTS_REALM_OTHER_LDFLAGS} -ObjC
 PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods-XListingTests
