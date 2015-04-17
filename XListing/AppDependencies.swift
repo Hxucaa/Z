@@ -13,18 +13,24 @@ import Foundation
 */
 public class AppDependencies {
     
+    
     private var featuredListWireframe: IFeaturedListWireframe?
     private var nearbyWireframe: NearbyWireframe?
     private var backgroundUpdateWireframe: IBackgroundUpdateWireframe?
+    private var detailWireframe: DetailWireframe?
     
-    /// singleton
-    private let realmService: IRealmService = RealmService()
     
     public init(window: UIWindow) {
         let rootWireframe = RootWireframe(inWindow: window)
-        configureNearbyDependencies(rootWireframe)
-        configureFeaturedListDependencies(rootWireframe)
-        configureBackgroundUpdateDependencies()
+        let rw: IRealmWritter = RealmWritter()
+        let bs: IBusinessService = BusinessService()
+        let rs: IRealmService = RealmService.sharedInstance
+        let dm: IDataManager = DataManager(businessService: bs, realmService: rs, realmWritter: rw)
+        
+        configureDetailDependencies(rootWireframe, dataManager: dm, realmService: rs)
+        configureNearbyDependencies(rootWireframe, dataManager: dm, realmService: rs)
+        configureFeaturedListDependencies(rootWireframe, dataManager: dm, realmService: rs)
+        configureBackgroundUpdateDependencies(dm)
     }
     
     /**
@@ -41,18 +47,12 @@ public class AppDependencies {
 
         :param: rootWireframe The RootWireframe.
     */
-    private func configureFeaturedListDependencies(rootWireframe: RootWireframe) {
-        
-        let businessService: IBusinessService = BusinessService()
-        let realmWritter: IRealmWritter = RealmWritter()
-        
-        // instantiate data manager
-        let dm: IDataManager = DataManager(businessService: businessService, realmService: realmService, realmWritter: realmWritter)
+    private func configureFeaturedListDependencies(rootWireframe: RootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService) {
         
         // instantiate view model
-        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(datamanager: dm, realmService: realmService)
+        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(datamanager: dm, realmService: rs)
         
-        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM, pushNearbyViewController: nearbyWireframe!.pushNearbyViewController)
+        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM, pushNearbyViewController: nearbyWireframe!.pushNearbyViewController, pushDetailViewController: detailWireframe!.pushDetailViewController)
     }
     
     /**
@@ -60,27 +60,30 @@ public class AppDependencies {
     
     :param: rootWireframe The RootWireframe.
     */
-    private func configureNearbyDependencies(rootWireframe: RootWireframe) {
-        
-        let businessService: IBusinessService = BusinessService()
-        let realmWritter: IRealmWritter = RealmWritter()
-        
-        // instantiate data manager
-        let dm: IDataManager = DataManager(businessService: businessService, realmService: realmService, realmWritter: realmWritter)
+    private func configureNearbyDependencies(rootWireframe: RootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService) {
         
         // instantiate view model
-        let nearbyVM: INearbyViewModel = NearbyViewModel(datamanager: dm, realmService: realmService)
+        let nearbyVM: INearbyViewModel = NearbyViewModel(datamanager: dm, realmService: rs)
         
         nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, nearbyViewModel: nearbyVM)
     }
     
-    private func configureBackgroundUpdateDependencies() {
-        let businessService: IBusinessService = BusinessService()
-        let realmWritter: IRealmWritter = RealmWritter()
-        
-        // instantiate data manager
-        let dm: IDataManager = DataManager(businessService: businessService, realmService: realmService, realmWritter: realmWritter)
+    private func configureBackgroundUpdateDependencies(dm: IDataManager) {
         
         backgroundUpdateWireframe = BackgroundUpdateWireframe(dataManager: dm)
+    }
+    
+    /**
+    Configure dependencies for Detail Module.
+    
+    :param: rootWireframe The RootWireframe.
+    */
+    private func configureDetailDependencies(rootWireframe: RootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService) {
+        
+        // instantiate view model
+        let detailVM: IDetailViewModel = DetailViewModel(datamanager: dm, realmService: rs)
+        
+        detailWireframe = DetailWireframe(rootWireframe: rootWireframe, detailViewModel: detailVM)
+        
     }
 }

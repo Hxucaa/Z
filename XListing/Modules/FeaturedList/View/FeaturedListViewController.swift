@@ -9,6 +9,7 @@
 import UIKit
 import ReactKit
 import Realm
+import Haneke
 
 private let NumberOfRowsPerSection = 1
 private let CellIdentifier = "Cell"
@@ -22,6 +23,9 @@ public class FeaturedListViewController: UIViewController {
     
     /// Push NearbyViewController to NavigationController
     public var pushNearbyViewController: (() -> Void)?
+    
+    /// Push DetailViewController to NavigationController
+    public var pushDetailViewController: ((BusinessViewModel) -> Void)?
     
     /// ViewModel
     public var featuredListVM: IFeaturedListViewModel?
@@ -131,7 +135,9 @@ extension FeaturedListViewController : UITableViewDataSource {
             
             businessNameLabel?.text = chineseName! + " | " + englishName!
             distanceLabel?.text = businessVM.distance
-            coverImageView?.image = businessVM.coverImage!
+            coverImageView!.hnk_setImageFromURL(NSURL(string: businessVM.coverImageUrl!)!, failure: {
+                println("Image loading failed: \($0)")
+            })
         }
         
         return cell
@@ -151,6 +157,8 @@ extension FeaturedListViewController : UITableViewDelegate {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        println("selected row!")
+        let businessVM = featuredListVM!.businessVMArr.proxy[indexPath.section] as! BusinessViewModel
+        // pass business info to detail view and push it
+        pushDetailViewController!(businessVM)
     }
 }
