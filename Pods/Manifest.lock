@@ -7,9 +7,9 @@ PODS:
   - Quick (0.3.1)
   - ReactKit (0.9.0):
     - SwiftTask (~> 3.0.0)
-  - Realm (0.91.1):
-    - Realm/Headers (= 0.91.1)
-  - Realm/Headers (0.91.1)
+  - Realm (0.91.3):
+    - Realm/Headers (= 0.91.3)
+  - Realm/Headers (0.91.3)
   - SwiftTask (3.0.0)
 
 DEPENDENCIES:
@@ -37,7 +37,7 @@ SPEC CHECKSUMS:
   Parse: fa8ec29de6d82035635986c11946299fb1b38316
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   ReactKit: ac52dd22d3c085fc28db3b9282e984dd96b8ec52
-  Realm: b9c1fd9defa26aa7276ce938a8df52ec81f24528
+  Realm: 4bfdac6f0f3170a3947c7196e2e9a2e49c943719
   SwiftTask: 2f2c0a7db83def1d1e3bad518169be3f61c603f4
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.36.4
