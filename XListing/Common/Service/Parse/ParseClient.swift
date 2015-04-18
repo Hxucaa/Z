@@ -8,15 +8,20 @@
 
 import Foundation
 
-/** ParseClient Class
-
-*/
 public class ParseClient {
-    public class func registerSubclasses() {
+    
+    public class func initializeClient() {
+        prepareClient()
+        initialize()
+    }
+    
+    private class func prepareClient() {
+        UserDAO.enableAutomaticUser()
+        UserDAO.initialize()
         BusinessDAO.initialize()
     }
     
-    public class func initializeClient() {
+    private class func initialize() {
         var id: String?
         var key: String?
         
