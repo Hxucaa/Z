@@ -60,7 +60,6 @@ public class BusinessViewModel {
     public private(set) var latitude: Double?
     public private(set) var longitude: Double?
     
-    public private(set) var coverImage: UIImage?
     public private(set) var distance: String?
     
     
@@ -108,9 +107,11 @@ public class BusinessViewModel {
             formatter.maximumFractionDigits = 0
             self.distance = formatter.stringFromNumber(distanceInMeter)! + 米
         }
+
         
         coverImageUrl = "http://www.afroglobe.net/wp-content/uploads/2015/03/Wonderful-Life-With-Fantastic-Chinese-Restaurant-Design-Idea-2.jpg"
-        coverImage = UIImage(data: NSData(contentsOfURL: NSURL(string: coverImageUrl!)!)!)
+        //coverImage = UIImage(data: NSData(contentsOfURL: NSURL(string: coverImageUrl!)!)!)
+
     }
 }
 

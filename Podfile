@@ -6,6 +6,7 @@ target 'XListing' do
   pod 'Parse'
   pod 'ReactKit', '~> 0.9.0'
 #  pod 'SwiftyJSON', '>= 2.1.3'
+  pod 'Haneke', :git => 'https://github.com/Haneke/HanekeSwift.git'
   pod 'Realm'
 end
 
@@ -13,6 +14,7 @@ target 'XListingTests' do
   pod 'Parse'
   pod 'ReactKit', '~> 0.9.0'
 #  pod 'SwiftyJSON', '>= 2.1.3'
+  pod 'Haneke', :git => 'https://github.com/Haneke/HanekeSwift.git'
   pod 'Realm/Headers'
   pod 'Quick'
   pod 'Nimble'
