@@ -9,7 +9,7 @@
 import Foundation
 import SwiftTask
 
-public class UserService : IUserService {
+public class UserService : ObjectService, IUserService {
     
     public func currentUser() -> UserDAO? {
         return UserDAO.currentUser()
