@@ -18,6 +18,7 @@ public class DetailViewController : UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = businessVM?.nameSChinese
         println(businessVM!)
     }
     

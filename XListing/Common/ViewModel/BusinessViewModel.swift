@@ -108,10 +108,11 @@ public class BusinessViewModel {
             self.distance = formatter.stringFromNumber(distanceInMeter)! + 米
         }
 
-        
-        coverImageUrl = "http://www.afroglobe.net/wp-content/uploads/2015/03/Wonderful-Life-With-Fantastic-Chinese-Restaurant-Design-Idea-2.jpg"
-        //coverImage = UIImage(data: NSData(contentsOfURL: NSURL(string: coverImageUrl!)!)!)
+       
+        println(coverImageUrl)
 
+        coverImageUrl = "http://www.afroglobe.net/wp-content/uploads/2015/03/Wonderful-Life-With-Fantastic-Chinese-Restaurant-Design-Idea-2.jpg"
+        
     }
 }
 
