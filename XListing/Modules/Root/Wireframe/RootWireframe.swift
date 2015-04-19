@@ -14,6 +14,7 @@ public class RootWireframe : BaseWireframe {
     
     init(inWindow: UIWindow) {
         navigationController = inWindow.rootViewController as! UINavigationController
+        navigationController.navigationBar.barStyle = UIBarStyle.Black
     }
     
     public func showRootViewController(viewController: UIViewController) {
