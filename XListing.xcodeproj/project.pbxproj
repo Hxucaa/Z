@@ -571,7 +571,7 @@
 				TargetAttributes = {
 					7EF3710A1AB8C012009AA3B9 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = ANH52YVDY8;
+						DevelopmentTeam = M6WK7U72AV;
 					};
 					7EF3711F1AB8C012009AA3B9 = {
 						CreatedOnToolsVersion = 6.2;
@@ -917,6 +917,7 @@
 			baseConfigurationReference = 1764137F392722E0F7D6FA70 /* Pods-XListingTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhi Hao Li (M6WK7U72AV)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -938,6 +939,7 @@
 			baseConfigurationReference = 26AB479389256B6B20922161 /* Pods-XListingTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhi Hao Li (M6WK7U72AV)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
