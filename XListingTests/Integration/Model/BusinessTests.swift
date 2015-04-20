@@ -15,7 +15,6 @@ class BusinessTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        ParseClient.registerSubclasses()
         ParseClient.initializeClient()
         
         business.address = "3289 Alberta st."

@@ -18,12 +18,9 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-//        RealmService.deleteDefaultRealm()
         // prepare Realm
         RealmService.migrateDefaultRealm()
         
-        // must register subclasses before connecting to Parse
-        ParseClient.registerSubclasses()
         // connect to Parse
         ParseClient.initializeClient()
         
@@ -32,9 +29,6 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // initialize root view
         appDependencies!.installRootViewControllerIntoWindow()
-        
-//        PopulateParse().populate()
-//        PopulateParse().featuredizeByNameSChinese("海港")
         
         return true
     }

@@ -9,7 +9,8 @@
 import Foundation
 import SwiftTask
 
-public class BusinessService : IBusinessService {
+public class BusinessService : ObjectService, IBusinessService {
+    
     /**
         This function saves the BusinessDAO and returns true if success otherwise false.
         
@@ -17,22 +18,6 @@ public class BusinessService : IBusinessService {
         :returns: a generic Task containing a boolean value.
     */
     public func save(business: BusinessDAO) -> Task<Int, Bool, NSError> {
-        
-        // save business to the cloud
-        func saveTask (bus: BusinessDAO) -> Task<Int, Bool, NSError> {
-            let task = Task<Int, Bool, NSError> { (fulfill, reject) -> Void in
-                bus.saveInBackgroundWithBlock { (success, error) -> Void in
-                    if success {
-                        fulfill(success)
-                    }
-                    else {
-                        reject(error!)
-                    }
-                }
-            }
-            
-            return task
-        }
         
         // get complete address
         let addressString: String? = business.completeAddress
@@ -45,7 +30,7 @@ public class BusinessService : IBusinessService {
                 .success { geopoint -> Task<Int, Bool, NSError> in
                     business.geopoint = geopoint
                     
-                    return saveTask(business)
+                    return super.save(business)
                     
                 }
                 .failure { (error: NSError?, isCancelled: Bool) -> Bool in
@@ -60,7 +45,7 @@ public class BusinessService : IBusinessService {
             return resultTask
         }
         else {
-            return saveTask(business)
+            return super.save(business)
         }
     }
     

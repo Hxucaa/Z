@@ -36,6 +36,14 @@ public class RealmWritter : IRealmWritter {
         realm.commitWriteTransaction()
     }
     
+    public func saveUserDaoToRealm(realm: RLMRealm, user: UserDAO) {
+        realm.beginWriteTransaction()
+        User.createOrUpdateInRealm(realm, withObject: toNSDictionary(user) { key, object, dict -> Void in
+            
+        })
+        realm.commitWriteTransaction()
+    }
+    
     /**
     Convert DAO to NSDictionary.
     
