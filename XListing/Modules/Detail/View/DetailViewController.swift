@@ -10,6 +10,7 @@ import UIKit
 import ReactKit
 import Realm
 import MapKit
+import WebKit
 
 public class DetailViewController : UIViewController {
     
@@ -38,22 +39,76 @@ public class DetailViewController : UIViewController {
     
     public override func viewDidDisappear(animated: Bool) {
         
-        switch (mapView!.mapType) {
-        case MKMapType.Hybrid:
-            
-                mapView?.mapType = MKMapType.Standard;
-            
-        case MKMapType.Standard:
-                mapView?.mapType = MKMapType.Hybrid;
-
-        default:
-            break;
-        }
-
-        mapView?.removeFromSuperview()
-        mapView = nil
+      
+//        mapView?.removeFromSuperview()
+//        mapView = nil
     
     }
+    
+    public func wantToGoPopover(){
+        
+        var alert = UIAlertController(title: "什么时候想去？", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        alert.addAction(UIAlertAction(title: "这个星期", style: UIAlertActionStyle.Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "这个月", style: UIAlertActionStyle.Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "以后", style: UIAlertActionStyle.Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+        
+    }
+    
+    public func shareSheetAction() {
+        var someText = "blah"
+        let google:NSURL = NSURL(string:"http://google.com/")!
+        
+        let activityViewController = UIActivityViewController(
+            activityItems: [someText, google],
+            applicationActivities:nil)
+        self.presentViewController(activityViewController,
+            animated: true,
+            completion: nil)
+        
+    }
+    
+    public func callBusiness(){
+//        NSString *phoneNumber = [@"tel://" stringByAppendingString:mymobileNO.titleLabel.text];
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+        
+        var phoneNumber = "tel:"+businessVM!.phone!
+        UIApplication.sharedApplication().openURL(NSURL (string: phoneNumber)!)
+    }
+    
+    public func goToWebsiteUrl(){
+        
+       
+        
+        let webVC = UIViewController()
+        var webView = WKWebView()
+        var url = NSURL(string:businessVM!.url!)
+        var req = NSURLRequest(URL:url!)
+        webView.loadRequest(req)
+        webVC.view = webView
+        
+        let navController = UINavigationController()
+
+        navController.pushViewController(webVC, animated: true)
+     
+        webVC.navigationItem.title = businessVM?.nameSChinese
+        webVC.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: "dismissWebView")
+        self.presentViewController(navController, animated: true, completion: nil)
+
+    }
+    
+    public func dismissWebView() {
+        
+        self.presentedViewController!.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
+
+    
+    
 }
 
 /**
@@ -82,7 +137,7 @@ extension DetailViewController : UITableViewDataSource {
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch section {
-        case 0: return 3
+        case 0: return 4
         case 3: return 3
         default: return 1
         }
@@ -135,8 +190,21 @@ extension DetailViewController : UITableViewDataSource {
                 
             case 2:
                 var cell2 = tableView.dequeueReusableCellWithIdentifier("ButtonCell", forIndexPath: indexPath) as! UITableViewCell
+                
+                var wantToGoButton : UIButton? = self.view.viewWithTag(1) as? UIButton
+                var shareButton : UIButton? = self.view.viewWithTag(2) as? UIButton
+                
+                wantToGoButton?.addTarget(self, action: "wantToGoPopover", forControlEvents: .TouchUpInside)
+                shareButton?.addTarget(self, action: "shareSheetAction", forControlEvents: .TouchUpInside)
             
                 return cell2
+                
+            case 3:
+                var cell3 = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath) as! UITableViewCell
+                
+                cell3.textLabel?.text = "查看菜单"
+                
+                return cell3
                 
             default:
                 var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
@@ -147,9 +215,9 @@ extension DetailViewController : UITableViewDataSource {
         case 1:
             switch (row) {
             case 0:
-                var cell3 = tableView.dequeueReusableCellWithIdentifier("HoursCell", forIndexPath: indexPath) as! UITableViewCell
+                var cell4 = tableView.dequeueReusableCellWithIdentifier("HoursCell", forIndexPath: indexPath) as! UITableViewCell
                 
-                return cell3
+                return cell4
                 
             default:
                 var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
@@ -158,14 +226,14 @@ extension DetailViewController : UITableViewDataSource {
             }
             
         case 2:
-            var cell4 = tableView.dequeueReusableCellWithIdentifier("DescriptionCell", forIndexPath: indexPath) as! UITableViewCell
+            var cell5 = tableView.dequeueReusableCellWithIdentifier("DescriptionCell", forIndexPath: indexPath) as! UITableViewCell
             
-            return cell4
+            return cell5
             
         case 3:
             switch (row){
             case 0:
-                var cell5 = tableView.dequeueReusableCellWithIdentifier("MapCell", forIndexPath: indexPath) as! UITableViewCell
+                var cell6 = tableView.dequeueReusableCellWithIdentifier("MapCell", forIndexPath: indexPath) as! UITableViewCell
                 
                 mapView = self.view.viewWithTag(1) as? MKMapView
                 
@@ -180,9 +248,9 @@ extension DetailViewController : UITableViewDataSource {
                 let region = MKCoordinateRegion(center: CLLocationCoordinate2DMake(businessVM!.latitude!, businessVM!.longitude!), span: span)
                 mapView!.setRegion(region, animated: false)
                 
-                return cell5
+                return cell6
             case 1:
-                var cell6 = tableView.dequeueReusableCellWithIdentifier("AddressCell", forIndexPath: indexPath) as! UITableViewCell
+                var cell7 = tableView.dequeueReusableCellWithIdentifier("AddressCell", forIndexPath: indexPath) as! UITableViewCell
                 var addressButton : UIButton? = self.view.viewWithTag(1) as? UIButton
                 
                 let address = businessVM?.address
@@ -192,16 +260,28 @@ extension DetailViewController : UITableViewDataSource {
                 var fullAddress = address! + ", " + city! + ", " + state!
 
                 addressButton?.setTitle(fullAddress, forState: UIControlState.Normal)
-                return cell6
+                return cell7
                 
             case 2:
-                var cell7 = tableView.dequeueReusableCellWithIdentifier("PhoneWebSplitCell", forIndexPath: indexPath) as! UITableViewCell
+                var cell8 = tableView.dequeueReusableCellWithIdentifier("PhoneWebSplitCell", forIndexPath: indexPath) as! UITableViewCell
                 var phoneNumberButton : UIButton? = self.view.viewWithTag(1) as? UIButton
                 var websiteButton : UIButton? = self.view.viewWithTag(2) as? UIButton
                 phoneNumberButton?.setTitle(businessVM?.phone, forState: UIControlState.Normal)
+                
+                if (businessVM?.url != ""){
+                    websiteButton?.setTitle("访问网站", forState: UIControlState.Normal)
+                    websiteButton?.addTarget(self, action: "goToWebsiteUrl", forControlEvents: .TouchUpInside)
+                }else{
+                    websiteButton?.setTitle("没有网站", forState: UIControlState.Normal)
+                }
 
-                websiteButton?.setTitle("访问网站", forState: UIControlState.Normal)
-                return cell7
+                
+                
+                phoneNumberButton?.addTarget(self, action: "callBusiness", forControlEvents: .TouchUpInside)
+                
+                
+                
+                return cell8
             default:
                 var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
                 return placeHolderCell
@@ -230,7 +310,9 @@ extension DetailViewController : UITableViewDataSource {
         case 0:
             switch row {
             case 0: return 226
-            default: return 58
+            case 1: return 65
+            case 2: return 86
+            default: return 44
             }
         case 1:
             return 215
