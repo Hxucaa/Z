@@ -47,14 +47,14 @@ public class DetailViewController : UIViewController {
     
     public func wantToGoPopover(){
         
-        var alert = UIAlertController(title: "什么时候想去？", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        var alert = UIAlertController(title: "什么时候想去？", message: "", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "这个星期", style: UIAlertActionStyle.Default, handler: nil))
         alert.addAction(UIAlertAction(title: "这个月", style: UIAlertActionStyle.Default, handler: nil))
         alert.addAction(UIAlertAction(title: "以后", style: UIAlertActionStyle.Default, handler: nil))
         alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil))
         
         self.presentViewController(alert, animated: true, completion: nil)
-        
+     
         
     }
     
