@@ -60,6 +60,6 @@ extension NearbyTableDataSource : UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataArray!.count
+        return 5//dataArray!.count
     }
 }

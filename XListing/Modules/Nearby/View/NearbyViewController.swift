@@ -25,13 +25,14 @@ public class NearbyViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        nearbyVM!.getBusiness()
         initMapView()
-        initScrollView()
+        
         // Do any additional setup after loading the view.
         
         setupMapViewSignal()
         
-        nearbyVM!.getBusiness()
+        
         
     }
     
@@ -65,6 +66,7 @@ public class NearbyViewController: UIViewController {
             self.mapView.setRegion(region, animated: true)
             
             self.view.addSubview(self.mapView)
+            self.initScrollView()
         }
         
         return task
