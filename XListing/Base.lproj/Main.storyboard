@@ -1264,15 +1264,16 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="hEY-c9-9OE"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
-                                                    <color key="textColor" red="0.27692724320000001" green="0.70855034719999999" blue="0.63696834089999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="hEY-c9-9OE"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="313" y="253" width="79" height="25"/>
                                                         <mask key="constraints">
                                                             <include reference="hEY-c9-9OE"/>
                                                         </mask>
