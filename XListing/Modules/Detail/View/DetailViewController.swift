@@ -137,8 +137,10 @@ extension DetailViewController : UITableViewDataSource {
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch section {
-        case 0: return 4
-        case 3: return 3
+        case 0: return 3
+        case 1: return 2
+        case 2: return 2
+        case 3: return 4
         default: return 1
         }
         
@@ -182,8 +184,10 @@ extension DetailViewController : UITableViewDataSource {
                 var distanceLabel : UILabel? = self.view.viewWithTag(3) as? UILabel
                 
                 businessNameLabel?.text = businessVM?.nameSChinese
-                cityLabel?.text = businessVM?.city
-                distanceLabel?.text = businessVM?.distance
+                var distance = businessVM!.distance!
+                var city = businessVM!.city!
+                cityLabel?.text = city + " • " + distance
+                //distanceLabel?.text = businessVM?.distance
                 
                 return cell1
                 
@@ -215,6 +219,13 @@ extension DetailViewController : UITableViewDataSource {
         case 1:
             switch (row) {
             case 0:
+                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
+                
+                placeHolderCell.textLabel?.text = "营业时间"
+                
+                return placeHolderCell
+                
+            case 1:
                 var cell4 = tableView.dequeueReusableCellWithIdentifier("HoursCell", forIndexPath: indexPath) as! UITableViewCell
                 
                 return cell4
@@ -226,13 +237,31 @@ extension DetailViewController : UITableViewDataSource {
             }
             
         case 2:
+            switch (row) {
+            case 0:
+                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
+                
+                placeHolderCell.textLabel?.text = "特设介绍"
+                
+                return placeHolderCell
+            case 1:
             var cell5 = tableView.dequeueReusableCellWithIdentifier("DescriptionCell", forIndexPath: indexPath) as! UITableViewCell
             
             return cell5
-            
+                
+            default:
+                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
+                return placeHolderCell
+            }
         case 3:
             switch (row){
             case 0:
+                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
+                
+                placeHolderCell.textLabel?.text = "地址和信息"
+                
+                return placeHolderCell
+            case 1:
                 var cell6 = tableView.dequeueReusableCellWithIdentifier("MapCell", forIndexPath: indexPath) as! UITableViewCell
                 
                 mapView = self.view.viewWithTag(1) as? MKMapView
@@ -244,12 +273,12 @@ extension DetailViewController : UITableViewDataSource {
                 
                 mapView?.addAnnotation(annotation)
                 
-                let span = MKCoordinateSpanMake(0.07, 0.07)
+                let span = MKCoordinateSpanMake(0.04, 0.04)
                 let region = MKCoordinateRegion(center: CLLocationCoordinate2DMake(businessVM!.latitude!, businessVM!.longitude!), span: span)
                 mapView!.setRegion(region, animated: false)
                 
                 return cell6
-            case 1:
+            case 2:
                 var cell7 = tableView.dequeueReusableCellWithIdentifier("AddressCell", forIndexPath: indexPath) as! UITableViewCell
                 var addressButton : UIButton? = self.view.viewWithTag(1) as? UIButton
                 
@@ -262,7 +291,7 @@ extension DetailViewController : UITableViewDataSource {
                 addressButton?.setTitle(fullAddress, forState: UIControlState.Normal)
                 return cell7
                 
-            case 2:
+            case 3:
                 var cell8 = tableView.dequeueReusableCellWithIdentifier("PhoneWebSplitCell", forIndexPath: indexPath) as! UITableViewCell
                 var phoneNumberButton : UIButton? = self.view.viewWithTag(1) as? UIButton
                 var websiteButton : UIButton? = self.view.viewWithTag(2) as? UIButton
@@ -315,12 +344,20 @@ extension DetailViewController : UITableViewDataSource {
             default: return 44
             }
         case 1:
-            return 215
+            switch row {
+            case 1: return 215
+            default: return 35
+            }
+         
         case 2:
-            return 91
+            switch row {
+            case 1: return 91
+            default: return 35
+            }
         case 3:
             switch row {
-            case 0: return 226
+            case 0: return 35
+            case 1: return 226
             default: return 44
             }
             
@@ -333,9 +370,9 @@ extension DetailViewController : UITableViewDataSource {
     
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-        case 1: return "营业时间"
-        case 2: return "特设介绍"
-        case 3: return "地址和信息"
+//        case 1: return "营业时间"
+//        case 2: return "特设介绍"
+//        case 3: return "地址和信息"
         default: return ""
         }
     }

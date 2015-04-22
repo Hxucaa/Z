@@ -89,9 +89,11 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="City" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wdQ-wZ-Vrh">
                                                     <rect key="frame" x="8" y="28" width="31" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="131" id="Q9H-4b-ike"/>
+                                                        <constraint firstAttribute="width" constant="131" id="Q9H-4b-ike">
+                                                            <variation key="heightClass=regular-widthClass=compact" constant="231"/>
+                                                        </constraint>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
@@ -99,10 +101,20 @@
                                                             <exclude reference="Q9H-4b-ike"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" ambiguous="YES" misplaced="YES">
+                                                        <rect key="frame" x="8" y="35" width="231" height="21"/>
                                                         <mask key="constraints">
                                                             <include reference="Q9H-4b-ike"/>
                                                         </mask>
+                                                    </variation>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Business Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ST-xf-XWm">
+                                                    <rect key="frame" x="8" y="8" width="120" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" ambiguous="YES" misplaced="YES">
+                                                        <rect key="frame" x="8" y="9" width="301" height="21"/>
                                                     </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Now Open" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vt-d6-s6e">
@@ -124,38 +136,8 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Distance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UKB-uc-7B6">
-                                                    <rect key="frame" x="525" y="28" width="67" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="67" id="ayS-Yx-k9v">
-                                                            <variation key="heightClass=regular-widthClass=compact" constant="100"/>
-                                                        </constraint>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="ayS-Yx-k9v"/>
-                                                        </mask>
-                                                    </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
-                                                        <mask key="constraints">
-                                                            <include reference="ayS-Yx-k9v"/>
-                                                        </mask>
-                                                    </variation>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Business Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ST-xf-XWm">
-                                                    <rect key="frame" x="8" y="8" width="120" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="UKB-uc-7B6" firstAttribute="trailing" secondItem="1Vt-d6-s6e" secondAttribute="trailing" id="29T-kz-Xu9">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="1"/>
-                                                </constraint>
                                                 <constraint firstItem="1Vt-d6-s6e" firstAttribute="baseline" secondItem="2ST-xf-XWm" secondAttribute="firstBaseline" id="4dV-uw-ihc">
                                                     <variation key="heightClass=regular-widthClass=compact" constant="-1"/>
                                                 </constraint>
@@ -165,11 +147,9 @@
                                                 <constraint firstAttribute="bottomMargin" secondItem="wdQ-wZ-Vrh" secondAttribute="bottom" constant="-4" id="DIn-jo-b4f">
                                                     <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                                                 </constraint>
-                                                <constraint firstItem="UKB-uc-7B6" firstAttribute="top" secondItem="wdQ-wZ-Vrh" secondAttribute="top" id="ImR-Pg-sY3"/>
                                                 <constraint firstItem="2ST-xf-XWm" firstAttribute="leading" secondItem="k8M-vG-EXB" secondAttribute="leadingMargin" constant="-7" id="Lan-oo-y6B">
                                                     <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                                                 </constraint>
-                                                <constraint firstItem="wdQ-wZ-Vrh" firstAttribute="baseline" secondItem="UKB-uc-7B6" secondAttribute="baseline" id="PoM-N1-Job"/>
                                                 <constraint firstItem="2ST-xf-XWm" firstAttribute="leading" secondItem="wdQ-wZ-Vrh" secondAttribute="leading" id="ekt-TR-ODO"/>
                                                 <constraint firstItem="wdQ-wZ-Vrh" firstAttribute="top" secondItem="2ST-xf-XWm" secondAttribute="bottom" constant="4" id="i8o-2k-NbI">
                                                     <variation key="heightClass=regular-widthClass=compact" constant="5"/>
@@ -179,9 +159,6 @@
                                                 </constraint>
                                                 <constraint firstAttribute="trailingMargin" secondItem="1Vt-d6-s6e" secondAttribute="trailing" constant="-7" id="qs0-F9-Fnc">
                                                     <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
-                                                </constraint>
-                                                <constraint firstItem="UKB-uc-7B6" firstAttribute="top" secondItem="1Vt-d6-s6e" secondAttribute="bottom" constant="3" id="wQ0-7G-j92">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="5"/>
                                                 </constraint>
                                                 <constraint firstItem="1Vt-d6-s6e" firstAttribute="top" secondItem="k8M-vG-EXB" secondAttribute="topMargin" id="xbR-WZ-UIz">
                                                     <variation key="heightClass=regular-widthClass=compact" constant="1"/>
@@ -193,15 +170,11 @@
                                                     <exclude reference="Lan-oo-y6B"/>
                                                     <exclude reference="ekt-TR-ODO"/>
                                                     <exclude reference="DIn-jo-b4f"/>
-                                                    <exclude reference="PoM-N1-Job"/>
                                                     <exclude reference="i8o-2k-NbI"/>
                                                     <exclude reference="4dV-uw-ihc"/>
                                                     <exclude reference="jb2-iA-9ZH"/>
                                                     <exclude reference="qs0-F9-Fnc"/>
                                                     <exclude reference="xbR-WZ-UIz"/>
-                                                    <exclude reference="29T-kz-Xu9"/>
-                                                    <exclude reference="ImR-Pg-sY3"/>
-                                                    <exclude reference="wQ0-7G-j92"/>
                                                 </mask>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=compact">
@@ -210,15 +183,11 @@
                                                     <include reference="Lan-oo-y6B"/>
                                                     <include reference="ekt-TR-ODO"/>
                                                     <include reference="DIn-jo-b4f"/>
-                                                    <include reference="PoM-N1-Job"/>
                                                     <include reference="i8o-2k-NbI"/>
                                                     <include reference="4dV-uw-ihc"/>
                                                     <include reference="jb2-iA-9ZH"/>
                                                     <include reference="qs0-F9-Fnc"/>
                                                     <include reference="xbR-WZ-UIz"/>
-                                                    <include reference="29T-kz-Xu9"/>
-                                                    <include reference="ImR-Pg-sY3"/>
-                                                    <include reference="wQ0-7G-j92"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -855,7 +824,7 @@
                                                     <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                     <state key="normal" title="Business Address">
-                                                        <color key="titleColor" red="0.27692724320000001" green="0.70855034719999999" blue="0.63696834089999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
@@ -909,7 +878,7 @@
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                     <state key="normal" title="Phone Number">
-                                                        <color key="titleColor" red="0.27692724320000001" green="0.70855034719999999" blue="0.63696834089999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <variation key="default">
@@ -935,7 +904,7 @@
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                     <state key="normal" title="Website">
-                                                        <color key="titleColor" red="0.27692724320000001" green="0.70855034719999999" blue="0.63696834089999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <variation key="default">
@@ -1118,10 +1087,21 @@
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Placeholder" rowHeight="44" id="Rb6-40-yeW">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Placeholder" textLabel="Nhz-kK-D7g" rowHeight="44" style="IBUITableViewCellStyleDefault" id="Rb6-40-yeW">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rb6-40-yeW" id="PjL-4M-bQD">
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nhz-kK-D7g">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    </variation>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -1165,7 +1145,7 @@
             </objects>
             <point key="canvasLocation" x="840" y="1629"/>
         </scene>
-        <!--Featured-->
+        <!--推荐-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="FeaturedListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="FeaturedListViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
@@ -1179,7 +1159,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="285" sectionHeaderHeight="1" sectionFooterHeight="2" translatesAutoresizingMaskIntoConstraints="NO" id="MEt-fk-66n">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="285" id="AWt-ya-CYC">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -1434,8 +1414,8 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Featured" id="Bo2-mg-wo7">
-                        <barButtonItem key="leftBarButtonItem" title="Nearby" id="HNp-F3-8PD"/>
+                    <navigationItem key="navigationItem" title="推荐" id="Bo2-mg-wo7">
+                        <barButtonItem key="leftBarButtonItem" title="逛一逛" id="HNp-F3-8PD"/>
                     </navigationItem>
                     <connections>
                         <outlet property="nearbyButton" destination="HNp-F3-8PD" id="kx4-S7-MPP"/>
@@ -1456,7 +1436,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.27692724317258877" green="0.70855034722222221" blue="0.63696834091734222" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.69803921570000005" blue="0.63529411759999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>
