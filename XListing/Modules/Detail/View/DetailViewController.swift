@@ -12,6 +12,8 @@ import Realm
 import MapKit
 import WebKit
 
+private let CityDistanceSeparator = " • "
+
 public class DetailViewController : UIViewController {
     
     public var detailVM: IDetailViewModel?
@@ -184,9 +186,15 @@ extension DetailViewController : UITableViewDataSource {
                 var distanceLabel : UILabel? = self.view.viewWithTag(3) as? UILabel
                 
                 businessNameLabel?.text = businessVM?.nameSChinese
-                var distance = businessVM!.distance!
+                var distance: String
+                if let d = businessVM?.distance {
+                    distance = CityDistanceSeparator + d
+                }
+                else {
+                    distance = ""
+                }
                 var city = businessVM!.city!
-                cityLabel?.text = city + " • " + distance
+                cityLabel?.text = city + distance
                 //distanceLabel?.text = businessVM?.distance
                 
                 return cell1
