@@ -62,8 +62,7 @@ public class BusinessViewModel {
     
     public private(set) var distance: String?
     
-    
-    public init(business: Business, distanceInMeter: CLLocationDistance) {
+    public init(business: Business) {
         objectId = business.objectId
         remoteCreatedAt = NSDate(timeIntervalSince1970: business.remoteCreatedAt)
         remoteUpdatedAt = NSDate(timeIntervalSince1970: business.remoteUpdatedAt)
@@ -97,6 +96,12 @@ public class BusinessViewModel {
         latitude = business.latitude
         longitude = business.longitude
         
+        coverImageUrl = "http://www.afroglobe.net/wp-content/uploads/2015/03/Wonderful-Life-With-Fantastic-Chinese-Restaurant-Design-Idea-2.jpg"
+    }
+    
+    public convenience init(business: Business, distanceInMeter: CLLocationDistance) {
+        self.init(business: business)
+        
         let formatter = NSNumberFormatter()
         formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         if(distanceInMeter >= 1000) {
@@ -107,12 +112,6 @@ public class BusinessViewModel {
             formatter.maximumFractionDigits = 0
             self.distance = formatter.stringFromNumber(distanceInMeter)! + 米
         }
-
-       
-        println(coverImageUrl)
-
-        coverImageUrl = "http://www.afroglobe.net/wp-content/uploads/2015/03/Wonderful-Life-With-Fantastic-Chinese-Restaurant-Design-Idea-2.jpg"
-        
     }
 }
 

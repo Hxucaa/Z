@@ -55,23 +55,40 @@ public class BaseViewModel {
     Fetch current location. Create BusinessViewModel with embedded distance data. And finally add the BusinessViewModels to dynamicArray for the view to consume the signal.
     */
     public func prepareDataForSignal(results: RLMResults) {
-        let task = getCurrentLocation().success { [unowned self] cllocation -> Void in
-
+        // add BusinessViewModel to the dynamic array for signal consumption by view
+        let addToBusinessVMArr = { (cllocation: CLLocation?) -> Void in
             for item in results {
                 let bus = item as! Business
                 
                 // initialize new BusinessViewModel
-                let t = cllocation.distanceFromLocation(bus.cllocation)
-                let vm = BusinessViewModel(business: bus, distanceInMeter: cllocation.distanceFromLocation(bus.cllocation))
+                var vm: BusinessViewModel
+                if let loc = cllocation {
+                    vm = BusinessViewModel(business: bus, distanceInMeter: loc.distanceFromLocation(bus.cllocation))
+                }
+                else {
+                    vm = BusinessViewModel(business: bus)
+                }
                 
                 // apend BusinessViewModel to DynamicArray for React
                 self.businessVMArr.proxy.addObject(vm)
             }
+            
         }
+        
+        let task = getCurrentLocation()
+            .success { [unowned self] cllocation -> Void in
+                // with current location
+                addToBusinessVMArr(cllocation)
+            }
+            .failure { [unowned self] error, isCancelled -> Void in
+                // no current location
+                addToBusinessVMArr(nil)
+            }
     }
     
     public func getCurrentLocation() -> Task<Int, CLLocation, NSError> {
         let task = Task<Int, CLLocation, NSError> { [unowned self] progress, fulfill, reject, configure in
+            // get current location
             PFGeoPoint.geoPointForCurrentLocationInBackground({ (geopoint, error) -> Void in
                 if error == nil {
                     let t = geopoint!

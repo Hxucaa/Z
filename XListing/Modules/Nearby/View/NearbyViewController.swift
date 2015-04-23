@@ -56,7 +56,8 @@ public class NearbyViewController: UIViewController {
     }
     
     private func initMapView() -> Task<Int, Void, NSError> {
-        let task = nearbyVM!.getCurrentLocation().success { location -> Void in
+        // start a map view focused at a certain location
+        let startMapViewAtALocation = { (location: CLLocation) -> Void in
             self.mapView.frame = self.view.bounds
             
             self.mapView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
@@ -67,7 +68,20 @@ public class NearbyViewController: UIViewController {
             
             self.view.addSubview(self.mapView)
             self.initScrollView()
+            
         }
+        
+        let task = nearbyVM!.getCurrentLocation()
+            .success { [unowned self] location -> Void in
+                // with current location
+                startMapViewAtALocation(location)
+            }
+            .failure { [unowned self] (error, isCancelled) -> Void in
+                // with hardcoded location
+                //TODO: better support for hardcoded location
+                println("Location service failed! Using default Vancouver location.")
+                startMapViewAtALocation(CLLocation(latitude: 49.27623, longitude: -123.12941))
+            }
         
         return task
     }
