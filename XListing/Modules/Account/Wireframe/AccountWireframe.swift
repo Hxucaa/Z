@@ -13,12 +13,11 @@ private let AccountViewControllerIdentifier = "AccountViewController"
 public class AccountWireframe : BaseWireframe, IAccountWireframe {
     
     private let accountVM: IAccountViewModel
-    private let rootWireframe: RootWireframe
     private var accountVC: AccountViewController?
     
-    public init(rootWireframe: RootWireframe, accountVM: IAccountViewModel) {
-        self.rootWireframe = rootWireframe
+    public init(rootWireframe: IRootWireframe, accountVM: IAccountViewModel) {
         self.accountVM = accountVM
+        super.init(rootWireframe: rootWireframe)
     }
     
     private func injectViewModelToViewController() -> AccountViewController {

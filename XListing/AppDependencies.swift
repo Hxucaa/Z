@@ -22,7 +22,7 @@ public class AppDependencies {
     
     
     public init(window: UIWindow) {
-        let rootWireframe = RootWireframe(inWindow: window)
+        let rootWireframe: IRootWireframe = RootWireframe(inWindow: window)
         let rw: IRealmWritter = RealmWritter()
         let us: IUserService = UserService()
         let bs: IBusinessService = BusinessService()
@@ -51,7 +51,7 @@ public class AppDependencies {
 
         :param: rootWireframe The RootWireframe.
     */
-    private func configureFeaturedListDependencies(rootWireframe: RootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService) {
+    private func configureFeaturedListDependencies(rootWireframe: IRootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService) {
         
         // instantiate view model
         let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(datamanager: dm, realmService: rs)
@@ -65,7 +65,7 @@ public class AppDependencies {
     
     :param: rootWireframe The RootWireframe.
     */
-    private func configureNearbyDependencies(rootWireframe: RootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService) {
+    private func configureNearbyDependencies(rootWireframe: IRootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService) {
         
         // instantiate view model
         let nearbyVM: INearbyViewModel = NearbyViewModel(datamanager: dm, realmService: rs)
@@ -85,7 +85,7 @@ public class AppDependencies {
     
     :param: rootWireframe The RootWireframe.
     */
-    private func configureDetailDependencies(rootWireframe: RootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService) {
+    private func configureDetailDependencies(rootWireframe: IRootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService) {
         
         // instantiate view model
         let detailVM: IDetailViewModel = DetailViewModel(datamanager: dm, realmService: rs)
@@ -95,7 +95,7 @@ public class AppDependencies {
         featuredListWireframe?.detailInterfaceDelegate = detailWireframe as? FeaturedListInterfaceToDetailInterfaceDelegate
     }
     
-    private func configureAccountDependencies(rootWireframe: RootWireframe, userService us: IUserService) {
+    private func configureAccountDependencies(rootWireframe: IRootWireframe, userService us: IUserService) {
         let accountVM: IAccountViewModel = AccountViewModel(userService: us)
         
         accountWireframe = AccountWireframe(rootWireframe: rootWireframe, accountVM: accountVM)

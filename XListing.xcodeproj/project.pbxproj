@@ -73,6 +73,7 @@
 		B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */; };
 		B4FCC73D1AEAD6F3009B4DF6 /* AccountInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC73C1AEAD6F3009B4DF6 /* AccountInterfaceDelegate.swift */; };
 		B4FCC73F1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC73E1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift */; };
+		B4FCC7411AEB0080009B4DF6 /* IRootWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7401AEB0080009B4DF6 /* IRootWireframe.swift */; };
 		E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -164,6 +165,7 @@
 		B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = INearbyWireframe.swift; sourceTree = "<group>"; };
 		B4FCC73C1AEAD6F3009B4DF6 /* AccountInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountInterfaceDelegate.swift; sourceTree = "<group>"; };
 		B4FCC73E1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewControllerNavigationDelegate.swift; sourceTree = "<group>"; };
+		B4FCC7401AEB0080009B4DF6 /* IRootWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRootWireframe.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -508,6 +510,7 @@
 			isa = PBXGroup;
 			children = (
 				B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */,
+				B4FCC7401AEB0080009B4DF6 /* IRootWireframe.swift */,
 			);
 			path = Wireframe;
 			sourceTree = "<group>";
@@ -811,6 +814,7 @@
 				B43032471AE4281D0068E8DF /* TypeAliases.swift in Sources */,
 				B44E350E1AD64DD100657A31 /* IDataManager.swift in Sources */,
 				B48C99221ADA6A640045BCA9 /* NearbyWireframe.swift in Sources */,
+				B4FCC7411AEB0080009B4DF6 /* IRootWireframe.swift in Sources */,
 				B48C991D1ADA62DA0045BCA9 /* NearbyViewModel.swift in Sources */,
 				B48C99141ADA573C0045BCA9 /* HorizontalScrollView.swift in Sources */,
 				B48C99161ADA57800045BCA9 /* HorizontalScrollContentView.swift in Sources */,

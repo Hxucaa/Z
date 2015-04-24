@@ -8,11 +8,11 @@
 
 import Foundation
 
-public class RootWireframe : BaseWireframe {
+public class RootWireframe : IRootWireframe {
     
     private let navigationController: UINavigationController
     
-    init(inWindow: UIWindow) {
+    public init(inWindow: UIWindow) {
         navigationController = inWindow.rootViewController as! UINavigationController
         navigationController.navigationBar.barStyle = UIBarStyle.Black
     }

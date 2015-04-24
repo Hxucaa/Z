@@ -13,12 +13,11 @@ private let DetailViewControllerIdentifier = "DetailViewController"
 public class DetailWireframe : BaseWireframe, IDetailWireframe {
     
     private let detailVM: IDetailViewModel
-    private let rootWireframe: RootWireframe
     private var detailViewController: DetailViewController?
     
-    public init(rootWireframe: RootWireframe, detailViewModel: IDetailViewModel) {
-        self.rootWireframe = rootWireframe
+    public init(rootWireframe: IRootWireframe, detailViewModel: IDetailViewModel) {
         detailVM = detailViewModel
+        super.init(rootWireframe: rootWireframe)
     }
     
     /**

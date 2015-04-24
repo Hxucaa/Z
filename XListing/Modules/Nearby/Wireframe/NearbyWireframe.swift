@@ -13,12 +13,11 @@ private let NearbyViewControllerIdentifier = "NearbyViewController"
 public class NearbyWireframe : BaseWireframe, INearbyWireframe {
     
     private let nearbyVM: INearbyViewModel
-    private let rootWireframe: RootWireframe
     private var nearbyVC: NearbyViewController?
     
-    public init(rootWireframe: RootWireframe, nearbyViewModel: INearbyViewModel) {
-        self.rootWireframe = rootWireframe
+    public init(rootWireframe: IRootWireframe, nearbyViewModel: INearbyViewModel) {
         nearbyVM = nearbyViewModel
+        super.init(rootWireframe: rootWireframe)
     }
     
     /**

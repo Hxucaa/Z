@@ -13,15 +13,14 @@ private let FeaturedListViewControllerIdentifier = "FeaturedListViewController"
 public class FeaturedListWireframe : BaseWireframe {
     
     private let featuredListVM: IFeaturedListViewModel
-    private let rootWireframe: RootWireframe
     private var featuredListViewController: FeaturedListViewController?
     
     public weak var nearbyInterfaceDelegate: FeaturedListInterfaceToNearbyInterfaceDelegate?
     public weak var detailInterfaceDelegate: FeaturedListInterfaceToDetailInterfaceDelegate?
     
-    public init(rootWireframe: RootWireframe, featuredListVM: IFeaturedListViewModel) {
-        self.rootWireframe = rootWireframe
+    public init(rootWireframe: IRootWireframe, featuredListVM: IFeaturedListViewModel) {
         self.featuredListVM = featuredListVM
+        super.init(rootWireframe: rootWireframe)
     }
     
     /**
