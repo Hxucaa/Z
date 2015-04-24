@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol DetailInterfaceDelegate : class {
+public protocol FeaturedListInterfaceToDetailInterfaceDelegate : class {
     /**
     Push DetailViewController to NavigationControllerw.
     

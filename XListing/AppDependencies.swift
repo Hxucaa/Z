@@ -72,7 +72,7 @@ public class AppDependencies {
         
         nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, nearbyViewModel: nearbyVM)
         
-        featuredListWireframe?.nearbyInterfaceDelegate = nearbyWireframe as? NearbyInterfaceDelegate
+        featuredListWireframe?.nearbyInterfaceDelegate = nearbyWireframe as? FeaturedListInterfaceToNearbyInterfaceDelegate
     }
     
     private func configureBackgroundUpdateDependencies(dm: IDataManager) {
@@ -92,7 +92,7 @@ public class AppDependencies {
         
         detailWireframe = DetailWireframe(rootWireframe: rootWireframe, detailViewModel: detailVM)
         
-        featuredListWireframe?.detailInterfaceDelegate = detailWireframe as? DetailInterfaceDelegate
+        featuredListWireframe?.detailInterfaceDelegate = detailWireframe as? FeaturedListInterfaceToDetailInterfaceDelegate
     }
     
     private func configureAccountDependencies(rootWireframe: RootWireframe, userService us: IUserService) {

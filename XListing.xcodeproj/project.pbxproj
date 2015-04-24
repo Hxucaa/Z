@@ -68,8 +68,8 @@
 		B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */; };
 		B4FCC72E1AE9D35C009B4DF6 /* IAccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72D1AE9D35C009B4DF6 /* IAccountWireframe.swift */; };
 		B4FCC7301AE9D644009B4DF6 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72F1AE9D644009B4DF6 /* AccountViewController.swift */; };
-		B4FCC7341AEA28BA009B4DF6 /* NearbyInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7331AEA28BA009B4DF6 /* NearbyInterfaceDelegate.swift */; };
-		B4FCC7381AEAD172009B4DF6 /* DetailInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7371AEAD172009B4DF6 /* DetailInterfaceDelegate.swift */; };
+		B4FCC7341AEA28BA009B4DF6 /* FeaturedListInterfaceToNearbyInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7331AEA28BA009B4DF6 /* FeaturedListInterfaceToNearbyInterfaceDelegate.swift */; };
+		B4FCC7381AEAD172009B4DF6 /* FeaturedListInterfaceToDetailInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7371AEAD172009B4DF6 /* FeaturedListInterfaceToDetailInterfaceDelegate.swift */; };
 		B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */; };
 		B4FCC73D1AEAD6F3009B4DF6 /* AccountInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC73C1AEAD6F3009B4DF6 /* AccountInterfaceDelegate.swift */; };
 		B4FCC73F1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC73E1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift */; };
@@ -159,8 +159,8 @@
 		B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountWireframe.swift; sourceTree = "<group>"; };
 		B4FCC72D1AE9D35C009B4DF6 /* IAccountWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IAccount\U0010Wireframe.swift"; sourceTree = "<group>"; };
 		B4FCC72F1AE9D644009B4DF6 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
-		B4FCC7331AEA28BA009B4DF6 /* NearbyInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyInterfaceDelegate.swift; sourceTree = "<group>"; };
-		B4FCC7371AEAD172009B4DF6 /* DetailInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailInterfaceDelegate.swift; sourceTree = "<group>"; };
+		B4FCC7331AEA28BA009B4DF6 /* FeaturedListInterfaceToNearbyInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListInterfaceToNearbyInterfaceDelegate.swift; sourceTree = "<group>"; };
+		B4FCC7371AEAD172009B4DF6 /* FeaturedListInterfaceToDetailInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListInterfaceToDetailInterfaceDelegate.swift; sourceTree = "<group>"; };
 		B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = INearbyWireframe.swift; sourceTree = "<group>"; };
 		B4FCC73C1AEAD6F3009B4DF6 /* AccountInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountInterfaceDelegate.swift; sourceTree = "<group>"; };
 		B4FCC73E1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewControllerNavigationDelegate.swift; sourceTree = "<group>"; };
@@ -355,6 +355,8 @@
 		B47C0EA81AC0A7EF00F9FB31 /* Wireframe */ = {
 			isa = PBXGroup;
 			children = (
+				B4FCC7371AEAD172009B4DF6 /* FeaturedListInterfaceToDetailInterfaceDelegate.swift */,
+				B4FCC7331AEA28BA009B4DF6 /* FeaturedListInterfaceToNearbyInterfaceDelegate.swift */,
 				B47C0EA91AC0A82C00F9FB31 /* FeaturedListWireframe.swift */,
 				B48C99231ADBA4280045BCA9 /* IFeaturedListWireframe.swift */,
 			);
@@ -395,7 +397,6 @@
 		B48C99201ADA687D0045BCA9 /* Wireframe */ = {
 			isa = PBXGroup;
 			children = (
-				B4FCC7331AEA28BA009B4DF6 /* NearbyInterfaceDelegate.swift */,
 				B48C99211ADA6A640045BCA9 /* NearbyWireframe.swift */,
 				B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */,
 			);
@@ -443,7 +444,6 @@
 		B4B6653E1ADF88250084DBE7 /* Wireframe */ = {
 			isa = PBXGroup;
 			children = (
-				B4FCC7371AEAD172009B4DF6 /* DetailInterfaceDelegate.swift */,
 				B4B665451ADF8D5C0084DBE7 /* DetailWireframe.swift */,
 				B4B665471ADF8DC60084DBE7 /* IDetailWireframe.swift */,
 			);
@@ -833,14 +833,14 @@
 				B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */,
 				B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */,
 				7EF371111AB8C012009AA3B9 /* AppDelegate.swift in Sources */,
-				B4FCC7341AEA28BA009B4DF6 /* NearbyInterfaceDelegate.swift in Sources */,
+				B4FCC7341AEA28BA009B4DF6 /* FeaturedListInterfaceToNearbyInterfaceDelegate.swift in Sources */,
 				B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */,
 				B4CDE7781AE1B3E0008BDEE8 /* User.swift in Sources */,
 				B4B665401ADF88DB0084DBE7 /* DetailViewController.swift in Sources */,
 				B4EE76051ADF095C00484251 /* BackgroundUpdateWireframe.swift in Sources */,
 				B4B665461ADF8D5C0084DBE7 /* DetailWireframe.swift in Sources */,
 				B4A3C16D1AD44B7E00B9D699 /* FeaturedListViewModel.swift in Sources */,
-				B4FCC7381AEAD172009B4DF6 /* DetailInterfaceDelegate.swift in Sources */,
+				B4FCC7381AEAD172009B4DF6 /* FeaturedListInterfaceToDetailInterfaceDelegate.swift in Sources */,
 				7EF3714F1AB8C1E8009AA3B9 /* PopulateParse.swift in Sources */,
 				B44E35141AD7216800657A31 /* IRealmService.swift in Sources */,
 				B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */,

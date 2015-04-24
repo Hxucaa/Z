@@ -36,7 +36,7 @@ public class DetailWireframe : BaseWireframe, IDetailWireframe {
     }
 }
 
-extension DetailWireframe : DetailInterfaceDelegate {
+extension DetailWireframe : FeaturedListInterfaceToDetailInterfaceDelegate {
     public func pushInterface(businessViewModel: BusinessViewModel) {
         let injectedViewController = injectViewModelToViewController()
         injectedViewController.businessVM = businessViewModel

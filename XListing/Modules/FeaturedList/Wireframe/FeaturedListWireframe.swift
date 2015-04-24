@@ -16,8 +16,8 @@ public class FeaturedListWireframe : BaseWireframe {
     private let rootWireframe: RootWireframe
     private var featuredListViewController: FeaturedListViewController?
     
-    public weak var nearbyInterfaceDelegate: NearbyInterfaceDelegate?
-    public weak var detailInterfaceDelegate: DetailInterfaceDelegate?
+    public weak var nearbyInterfaceDelegate: FeaturedListInterfaceToNearbyInterfaceDelegate?
+    public weak var detailInterfaceDelegate: FeaturedListInterfaceToDetailInterfaceDelegate?
     
     public init(rootWireframe: RootWireframe, featuredListVM: IFeaturedListViewModel) {
         self.rootWireframe = rootWireframe

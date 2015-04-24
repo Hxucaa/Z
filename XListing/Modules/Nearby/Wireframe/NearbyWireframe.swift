@@ -35,7 +35,7 @@ public class NearbyWireframe : BaseWireframe, INearbyWireframe {
     }
 }
 
-extension NearbyWireframe : NearbyInterfaceDelegate {
+extension NearbyWireframe : FeaturedListInterfaceToNearbyInterfaceDelegate {
     public func pushInterface() {
         let injectedViewController = initViewController()
         rootWireframe.pushViewController(injectedViewController, animated: true)

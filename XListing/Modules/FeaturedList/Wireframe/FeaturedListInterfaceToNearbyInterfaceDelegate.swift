@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol NearbyInterfaceDelegate : class {
+public protocol FeaturedListInterfaceToNearbyInterfaceDelegate : class {
     func pushInterface()
 }
