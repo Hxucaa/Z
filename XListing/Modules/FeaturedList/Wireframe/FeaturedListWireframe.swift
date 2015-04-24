@@ -33,10 +33,7 @@ public class FeaturedListWireframe : BaseWireframe {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
         viewController.featuredListVM = featuredListVM
-        viewController.nearbyInterfaceDelegate = self.nearbyInterfaceDelegate
-        self.nearbyInterfaceDelegate = nil
-        viewController.detailInterfaceDelegate = self.detailInterfaceDelegate
-        self.detailInterfaceDelegate = nil
+        viewController.navigationDelegate = self
         featuredListViewController = viewController
         return viewController
     }
@@ -52,5 +49,15 @@ extension FeaturedListWireframe : IFeaturedListWireframe {
         let injectedViewController = initViewController()
         rootWireframe.showRootViewController(injectedViewController)
         
+    }
+}
+
+extension FeaturedListWireframe : FeaturedListViewControllerNavigationDelegate {
+    public func pushNearby() {
+        nearbyInterfaceDelegate?.pushInterface()
+    }
+    
+    public func pushDetail(businessViewModel: BusinessViewModel) {
+        detailInterfaceDelegate?.pushInterface(businessViewModel)
     }
 }

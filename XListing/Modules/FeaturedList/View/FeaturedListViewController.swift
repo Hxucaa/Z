@@ -21,11 +21,7 @@ public class FeaturedListViewController: UIViewController {
     
     @IBOutlet weak var nearbyButton: UIBarButtonItem!
     
-    /// Push NearbyViewController to NavigationController
-    public weak var nearbyInterfaceDelegate: NearbyInterfaceDelegate?
-    
-    /// Push DetailViewController to NavigationController
-    public weak var detailInterfaceDelegate: DetailInterfaceDelegate?
+    public weak var navigationDelegate: FeaturedListViewControllerNavigationDelegate?
     
     /// ViewModel
     public var featuredListVM: IFeaturedListViewModel?
@@ -75,7 +71,7 @@ public class FeaturedListViewController: UIViewController {
     private func setupNearbyButton() {
         let nearbyButtonSignal = nearbyButton.signal { [unowned self] button -> Void in
 //            self.pushNearbyViewController!()
-            self.nearbyInterfaceDelegate?.pushInterface()
+            self.navigationDelegate?.pushNearby()
         }
         nearbyButtonSignal.ownedBy(self)
         nearbyButtonSignal ~> {}
@@ -169,6 +165,6 @@ extension FeaturedListViewController : UITableViewDelegate {
         
         let businessVM = featuredListVM!.businessVMArr.proxy[indexPath.section] as! BusinessViewModel
         // pass business info to detail view and push it
-        detailInterfaceDelegate?.pushInterface(businessVM)
+        navigationDelegate?.pushDetail(businessVM)
     }
 }

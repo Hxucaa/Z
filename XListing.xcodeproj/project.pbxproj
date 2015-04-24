@@ -72,6 +72,7 @@
 		B4FCC7381AEAD172009B4DF6 /* DetailInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7371AEAD172009B4DF6 /* DetailInterfaceDelegate.swift */; };
 		B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */; };
 		B4FCC73D1AEAD6F3009B4DF6 /* AccountInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC73C1AEAD6F3009B4DF6 /* AccountInterfaceDelegate.swift */; };
+		B4FCC73F1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC73E1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift */; };
 		E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -140,7 +141,7 @@
 		B4B665451ADF8D5C0084DBE7 /* DetailWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailWireframe.swift; sourceTree = "<group>"; };
 		B4B665471ADF8DC60084DBE7 /* IDetailWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IDetailWireframe.swift; sourceTree = "<group>"; };
 		B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootWireframe.swift; sourceTree = "<group>"; };
-		B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedListViewController.swift; path = View/FeaturedListViewController.swift; sourceTree = "<group>"; };
+		B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewController.swift; sourceTree = "<group>"; };
 		B4CDE7771AE1B3E0008BDEE8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B4E138491AE1B94C0082DCA3 /* UserDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDAO.swift; sourceTree = "<group>"; };
 		B4E1384B1AE1BD0D0082DCA3 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
@@ -162,6 +163,7 @@
 		B4FCC7371AEAD172009B4DF6 /* DetailInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailInterfaceDelegate.swift; sourceTree = "<group>"; };
 		B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = INearbyWireframe.swift; sourceTree = "<group>"; };
 		B4FCC73C1AEAD6F3009B4DF6 /* AccountInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountInterfaceDelegate.swift; sourceTree = "<group>"; };
+		B4FCC73E1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewControllerNavigationDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -476,8 +478,9 @@
 			isa = PBXGroup;
 			children = (
 				B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */,
+				B4FCC73E1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift */,
 			);
-			name = View;
+			path = View;
 			sourceTree = "<group>";
 		};
 		B4CC82671AC1662900E85CEA /* Common */ = {
@@ -820,6 +823,7 @@
 				B44E34FF1AD5A23800657A31 /* BusinessViewModel.swift in Sources */,
 				B48C99181ADA57BB0045BCA9 /* NearbyTableDataSource.swift in Sources */,
 				B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */,
+				B4FCC73F1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift in Sources */,
 				B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */,
 				B48C99241ADBA4280045BCA9 /* IFeaturedListWireframe.swift in Sources */,
 				B44E35041AD63F6000657A31 /* BusinessService.swift in Sources */,
