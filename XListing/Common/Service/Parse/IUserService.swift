@@ -10,7 +10,8 @@ import Foundation
 import SwiftTask
 
 public protocol IUserService {
-    func currentUser() -> UserDAO?
+    static func isLoggedInAlready() -> Bool
+    static func currentUser() -> UserDAO?
     func signUp(user: UserDAO) -> Task<Int, Bool, NSError>
     func logIn(username: String, password: String) -> Task<Int, UserDAO, NSError>
     func logOut(user: UserDAO) -> Task<Int, Bool, NSError>

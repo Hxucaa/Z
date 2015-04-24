@@ -18,15 +18,19 @@ public class AppDependencies {
     private var nearbyWireframe: NearbyWireframe?
     private var backgroundUpdateWireframe: IBackgroundUpdateWireframe?
     private var detailWireframe: DetailWireframe?
+    private var accountWireframe: AccountWireframe?
     
     
     public init(window: UIWindow) {
         let rootWireframe = RootWireframe(inWindow: window)
         let rw: IRealmWritter = RealmWritter()
+        let us: IUserService = UserService()
         let bs: IBusinessService = BusinessService()
         let rs: IRealmService = RealmService.sharedInstance
         let dm: IDataManager = DataManager(businessService: bs, realmService: rs, realmWritter: rw)
         
+        
+        configureAccountDependencies(rootWireframe, userService: us)
         configureDetailDependencies(rootWireframe, dataManager: dm, realmService: rs)
         configureNearbyDependencies(rootWireframe, dataManager: dm, realmService: rs)
         configureFeaturedListDependencies(rootWireframe, dataManager: dm, realmService: rs)
@@ -85,5 +89,11 @@ public class AppDependencies {
         
         detailWireframe = DetailWireframe(rootWireframe: rootWireframe, detailViewModel: detailVM)
         
+    }
+    
+    private func configureAccountDependencies(rootWireframe: RootWireframe, userService us: IUserService) {
+        let accountVM: IAccountViewModel = AccountViewModel(userService: us)
+        
+        accountWireframe = AccountWireframe(rootWireframe: rootWireframe, accountVM: accountVM)
     }
 }

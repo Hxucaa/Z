@@ -11,7 +11,16 @@ import SwiftTask
 
 public class UserService : ObjectService, IUserService {
     
-    public func currentUser() -> UserDAO? {
+    public class func isLoggedInAlready() -> Bool {
+        if let c = currentUser() {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    public class func currentUser() -> UserDAO? {
         return UserDAO.currentUser()
     }
     

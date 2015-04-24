@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14E7f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="OjV-3x-cL1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="OjV-3x-cL1">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -1252,8 +1252,7 @@
                                                             <exclude reference="hEY-c9-9OE"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="313" y="253" width="79" height="25"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="hEY-c9-9OE"/>
                                                         </mask>
@@ -1264,9 +1263,6 @@
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                                     <color key="textColor" red="0.27692724320000001" green="0.70855034719999999" blue="0.63696834089999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="322" y="232" width="70" height="21"/>
-                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
@@ -1422,6 +1418,7 @@
                         <outlet property="tableView" destination="MEt-fk-66n" id="vpO-Ly-fAN"/>
                         <segue destination="pnY-r6-qDL" kind="show" identifier="FromFeaturedToNearby" id="Kch-5Q-eUq"/>
                         <segue destination="Qif-f0-4vj" kind="show" identifier="ToDetail" id="P7q-SO-bQp"/>
+                        <segue destination="pAO-nX-D6I" kind="show" id="Boq-x9-a33"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -1448,6 +1445,44 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q1C-zc-nwi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="99" y="605"/>
+        </scene>
+        <!--Account View Controller-->
+        <scene sceneID="Uir-Bv-OeF">
+            <objects>
+                <viewController storyboardIdentifier="AccountViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pAO-nX-D6I" customClass="AccountViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jL9-yB-zP8"/>
+                        <viewControllerLayoutGuide type="bottom" id="2Vi-B0-6Ys"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Wst-I1-vrX">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I'm account view controller" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="356-Ra-Bh2">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="97" y="324" width="207" height="21"/>
+                                </variation>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="356-Ra-Bh2"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="356-Ra-Bh2"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MVa-de-5on" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="840" y="-92.25"/>
         </scene>
     </scenes>
     <resources>

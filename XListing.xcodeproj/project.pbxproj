@@ -63,6 +63,11 @@
 		B4EE76071ADF0A6700484251 /* IBackgroundUpdateWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EE76061ADF0A6700484251 /* IBackgroundUpdateWireframe.swift */; };
 		B4EE76091ADF0D1A00484251 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EE76081ADF0D1A00484251 /* BaseViewModel.swift */; };
 		B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */; };
+		B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */; };
+		B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */; };
+		B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */; };
+		B4FCC72E1AE9D35C009B4DF6 /* IAccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72D1AE9D35C009B4DF6 /* IAccountWireframe.swift */; };
+		B4FCC7301AE9D644009B4DF6 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72F1AE9D644009B4DF6 /* AccountViewController.swift */; };
 		E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -145,6 +150,11 @@
 		B4EE76061ADF0A6700484251 /* IBackgroundUpdateWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBackgroundUpdateWireframe.swift; sourceTree = "<group>"; };
 		B4EE76081ADF0D1A00484251 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessService.swift; sourceTree = "<group>"; };
+		B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAccountViewModel.swift; sourceTree = "<group>"; };
+		B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountWireframe.swift; sourceTree = "<group>"; };
+		B4FCC72D1AE9D35C009B4DF6 /* IAccountWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IAccount\U0010Wireframe.swift"; sourceTree = "<group>"; };
+		B4FCC72F1AE9D644009B4DF6 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -433,6 +443,7 @@
 		B4CC82601AC1650100E85CEA /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				B4FCC7231AE9C627009B4DF6 /* Account */,
 				B4B6653B1ADF88070084DBE7 /* Detail */,
 				B4EE75FC1ADF067300484251 /* BackgroundUpdate */,
 				B48C990F1ADA55AF0045BCA9 /* Nearby */,
@@ -533,6 +544,42 @@
 				B4EE76061ADF0A6700484251 /* IBackgroundUpdateWireframe.swift */,
 			);
 			path = Wireframe;
+			sourceTree = "<group>";
+		};
+		B4FCC7231AE9C627009B4DF6 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				B4FCC72A1AE9D302009B4DF6 /* View */,
+				B4FCC7241AE9C675009B4DF6 /* ViewModel */,
+				B4FCC7291AE9D2FB009B4DF6 /* Wireframe */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
+		B4FCC7241AE9C675009B4DF6 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */,
+				B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B4FCC7291AE9D2FB009B4DF6 /* Wireframe */ = {
+			isa = PBXGroup;
+			children = (
+				B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */,
+				B4FCC72D1AE9D35C009B4DF6 /* IAccountWireframe.swift */,
+			);
+			path = Wireframe;
+			sourceTree = "<group>";
+		};
+		B4FCC72A1AE9D302009B4DF6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B4FCC72F1AE9D644009B4DF6 /* AccountViewController.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		CEFE73BB6B4CAA9AA89661B3 /* Pods */ = {
@@ -762,6 +809,7 @@
 				B48C99121ADA56F70045BCA9 /* NearbyViewController.swift in Sources */,
 				B44E34FF1AD5A23800657A31 /* BusinessViewModel.swift in Sources */,
 				B48C99181ADA57BB0045BCA9 /* NearbyTableDataSource.swift in Sources */,
+				B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */,
 				B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */,
 				B48C99241ADBA4280045BCA9 /* IFeaturedListWireframe.swift in Sources */,
 				B44E35041AD63F6000657A31 /* BusinessService.swift in Sources */,
@@ -770,6 +818,7 @@
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,
 				B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */,
 				7EF371111AB8C012009AA3B9 /* AppDelegate.swift in Sources */,
+				B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */,
 				B4CDE7781AE1B3E0008BDEE8 /* User.swift in Sources */,
 				B4B665401ADF88DB0084DBE7 /* DetailViewController.swift in Sources */,
 				B4EE76051ADF095C00484251 /* BackgroundUpdateWireframe.swift in Sources */,
@@ -785,11 +834,14 @@
 				7EF3714E1AB8C1E8009AA3B9 /* ParseClient.swift in Sources */,
 				B44E35011AD5D0AE00657A31 /* IFeaturedListViewModel.swift in Sources */,
 				B44E35061AD647E700657A31 /* DataManager.swift in Sources */,
+				B4FCC72E1AE9D35C009B4DF6 /* IAccountWireframe.swift in Sources */,
 				B4B665441ADF8D2F0084DBE7 /* IDetailViewModel.swift in Sources */,
 				B4EE76031ADF08FA00484251 /* IBackgroundUpdateDataManager.swift in Sources */,
 				B43032441AE369230068E8DF /* IObjectService.swift in Sources */,
 				B4E36BBB1ACE543C000F260E /* BusinessDAO.swift in Sources */,
+				B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */,
 				B44E35101AD656B500657A31 /* RealmWritter.swift in Sources */,
+				B4FCC7301AE9D644009B4DF6 /* AccountViewController.swift in Sources */,
 				B4EE76071ADF0A6700484251 /* IBackgroundUpdateWireframe.swift in Sources */,
 				B4EE76011ADF072700484251 /* BackgroundUpdateDataManager.swift in Sources */,
 				B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */,
