@@ -15,10 +15,10 @@ public class AppDependencies {
     
     
     private var featuredListWireframe: IFeaturedListWireframe?
-    private var nearbyWireframe: NearbyWireframe?
+    private var nearbyWireframe: INearbyWireframe?
     private var backgroundUpdateWireframe: IBackgroundUpdateWireframe?
-    private var detailWireframe: DetailWireframe?
-    private var accountWireframe: AccountWireframe?
+    private var detailWireframe: IDetailWireframe?
+    private var accountWireframe: IAccountWireframe?
     
     
     public init(window: UIWindow) {
@@ -30,11 +30,11 @@ public class AppDependencies {
         let dm: IDataManager = DataManager(businessService: bs, realmService: rs, realmWritter: rw)
         
         
-        configureAccountDependencies(rootWireframe, userService: us)
+        configureBackgroundUpdateDependencies(dm)
+        configureFeaturedListDependencies(rootWireframe, dataManager: dm, realmService: rs)
         configureDetailDependencies(rootWireframe, dataManager: dm, realmService: rs)
         configureNearbyDependencies(rootWireframe, dataManager: dm, realmService: rs)
-        configureFeaturedListDependencies(rootWireframe, dataManager: dm, realmService: rs)
-        configureBackgroundUpdateDependencies(dm)
+        configureAccountDependencies(rootWireframe, userService: us)
     }
     
     /**
@@ -56,7 +56,8 @@ public class AppDependencies {
         // instantiate view model
         let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(datamanager: dm, realmService: rs)
         
-        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM, pushNearbyViewController: nearbyWireframe!.pushNearbyViewController, pushDetailViewController: detailWireframe!.pushDetailViewController)
+        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM)
+        
     }
     
     /**
@@ -70,6 +71,8 @@ public class AppDependencies {
         let nearbyVM: INearbyViewModel = NearbyViewModel(datamanager: dm, realmService: rs)
         
         nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, nearbyViewModel: nearbyVM)
+        
+        featuredListWireframe?.nearbyInterfaceDelegate = nearbyWireframe as? NearbyInterfaceDelegate
     }
     
     private func configureBackgroundUpdateDependencies(dm: IDataManager) {
@@ -89,6 +92,7 @@ public class AppDependencies {
         
         detailWireframe = DetailWireframe(rootWireframe: rootWireframe, detailViewModel: detailVM)
         
+        featuredListWireframe?.detailInterfaceDelegate = detailWireframe as? DetailInterfaceDelegate
     }
     
     private func configureAccountDependencies(rootWireframe: RootWireframe, userService us: IUserService) {

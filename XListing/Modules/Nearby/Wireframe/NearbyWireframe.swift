@@ -10,7 +10,7 @@ import Foundation
 
 private let NearbyViewControllerIdentifier = "NearbyViewController"
 
-public class NearbyWireframe : BaseWireframe {
+public class NearbyWireframe : BaseWireframe, INearbyWireframe {
     
     private let nearbyVM: INearbyViewModel
     private let rootWireframe: RootWireframe
@@ -22,24 +22,22 @@ public class NearbyWireframe : BaseWireframe {
     }
     
     /**
-    Push NearbyViewController to NavigationControllerw.
-    
-    */
-    public func pushNearbyViewController() {
-        let injectedViewController = injectViewModelToViewController()
-        rootWireframe.pushViewController(injectedViewController, animated: true)
-    }
-    
-    /**
     Inject view model to view controller.
     
     :returns: Properly configure and injected instance of NearbyViewController.
     */
-    private func injectViewModelToViewController() -> NearbyViewController {
+    private func initViewController() -> NearbyViewController {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(NearbyViewControllerIdentifier) as! NearbyViewController
         viewController.nearbyVM = nearbyVM
         nearbyVC = viewController
         return viewController
+    }
+}
+
+extension NearbyWireframe : NearbyInterfaceDelegate {
+    public func pushInterface() {
+        let injectedViewController = initViewController()
+        rootWireframe.pushViewController(injectedViewController, animated: true)
     }
 }

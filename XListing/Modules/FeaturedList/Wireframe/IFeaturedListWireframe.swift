@@ -9,5 +9,7 @@
 import Foundation
 
 public protocol IFeaturedListWireframe {
+    var nearbyInterfaceDelegate: NearbyInterfaceDelegate? { get set }
+    var detailInterfaceDelegate: DetailInterfaceDelegate? { get set }
     func showFeaturedListAsRootViewController()
 }

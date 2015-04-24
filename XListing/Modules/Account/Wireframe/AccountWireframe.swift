@@ -10,7 +10,7 @@ import Foundation
 
 private let AccountViewControllerIdentifier = "AccountViewController"
 
-public class AccountWireframe : BaseWireframe {
+public class AccountWireframe : BaseWireframe, IAccountWireframe {
     
     private let accountVM: IAccountViewModel
     private let rootWireframe: RootWireframe
@@ -21,15 +21,17 @@ public class AccountWireframe : BaseWireframe {
         self.accountVM = accountVM
     }
     
-    public func pushAccountViewController() {
-        let injectedViewController = injectViewModelToViewController()
-        rootWireframe.pushViewController(injectedViewController, animated: true)
-    }
-    
     private func injectViewModelToViewController() -> AccountViewController {
         let viewController = getViewControllerFromStoryboard(AccountViewControllerIdentifier) as! AccountViewController
         viewController.accountVM = accountVM
         accountVC = viewController
         return viewController
+    }
+}
+
+extension AccountWireframe : AccountInterfaceDelegate {
+    public func pushInterface() {
+        let injectedViewController = injectViewModelToViewController()
+        rootWireframe.pushViewController(injectedViewController, animated: true)
     }
 }

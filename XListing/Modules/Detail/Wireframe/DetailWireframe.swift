@@ -22,17 +22,6 @@ public class DetailWireframe : BaseWireframe, IDetailWireframe {
     }
     
     /**
-    Push DetailViewController to NavigationControllerw.
-    
-    :param: businessViewModel A BusinessViewModel.
-    */
-    public func pushDetailViewController(businessViewModel: BusinessViewModel) {
-        let injectedViewController = injectViewModelToViewController()
-        injectedViewController.businessVM = businessViewModel
-        rootWireframe.pushViewController(injectedViewController, animated: true)
-    }
-    
-    /**
     Inject ViewModel to view controller.
     
     :returns: Properly configured DetailViewController.
@@ -47,3 +36,10 @@ public class DetailWireframe : BaseWireframe, IDetailWireframe {
     }
 }
 
+extension DetailWireframe : DetailInterfaceDelegate {
+    public func pushInterface(businessViewModel: BusinessViewModel) {
+        let injectedViewController = injectViewModelToViewController()
+        injectedViewController.businessVM = businessViewModel
+        rootWireframe.pushViewController(injectedViewController, animated: true)
+    }
+}

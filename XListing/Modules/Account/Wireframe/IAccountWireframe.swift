@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol IAccountWireframe {
+public protocol IAccountWireframe : class {
     
 }

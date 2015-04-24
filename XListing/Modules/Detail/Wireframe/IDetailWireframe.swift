@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol IDetailWireframe {
-    func pushDetailViewController(businessViewModel: BusinessViewModel)
+public protocol IDetailWireframe : class {
+    
 }
