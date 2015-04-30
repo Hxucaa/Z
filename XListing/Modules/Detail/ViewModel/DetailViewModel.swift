@@ -13,8 +13,14 @@ import ReactKit
 
 public class DetailViewModel : BaseViewModel, IDetailViewModel {
     
-    public override init(datamanager: IDataManager, realmService: IRealmService) {
+    private let wantToGoService: IWantToGoService
+    
+    public init(datamanager: IDataManager, realmService: IRealmService, wantToGoService: IWantToGoService) {
+        self.wantToGoService = wantToGoService
         super.init(datamanager: datamanager, realmService: realmService)
     }
     
+    public func goingToBusiness(business: BusinessViewModel, thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGoDAO, NSError> {
+        return wantToGoService.goingToBusiness(business.objectId!, thisWeek: thisWeek, thisMonth: thisMonth, later: later)
+    }
 }

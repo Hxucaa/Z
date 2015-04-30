@@ -21,11 +21,7 @@ public class FeaturedListViewController: UIViewController {
     
     @IBOutlet weak var nearbyButton: UIBarButtonItem!
     
-    /// Push NearbyViewController to NavigationController
-    public var pushNearbyViewController: (() -> Void)?
-    
-    /// Push DetailViewController to NavigationController
-    public var pushDetailViewController: ((BusinessViewModel) -> Void)?
+    public weak var navigationDelegate: FeaturedListViewControllerNavigationDelegate?
     
     /// ViewModel
     public var featuredListVM: IFeaturedListViewModel?
@@ -74,7 +70,8 @@ public class FeaturedListViewController: UIViewController {
     */
     private func setupNearbyButton() {
         let nearbyButtonSignal = nearbyButton.signal { [unowned self] button -> Void in
-            self.pushNearbyViewController!()
+//            self.pushNearbyViewController!()
+            self.navigationDelegate?.pushNearby()
         }
         nearbyButtonSignal.ownedBy(self)
         nearbyButtonSignal ~> {}
@@ -122,7 +119,8 @@ extension FeaturedListViewController : UITableViewDataSource {
         let section = indexPath.section
         
         var businessNameLabel : UILabel? = self.view.viewWithTag(1) as? UILabel
-        var distanceLabel : UILabel? = self.view.viewWithTag(2) as? UILabel
+        var cityLabel : UILabel? = self.view.viewWithTag(4) as? UILabel
+        var oldPriceLabel : UILabel? = self.view.viewWithTag(5) as? UILabel
         let coverImageView = self.view.viewWithTag(3) as? UIImageView
         
         let arr = featuredListVM!.businessVMArr.proxy
@@ -133,11 +131,19 @@ extension FeaturedListViewController : UITableViewDataSource {
             let englishName = businessVM.nameEnglish
             let chineseName = businessVM.nameSChinese
             
-            businessNameLabel?.text = chineseName! + " | " + englishName!
-            distanceLabel?.text = businessVM.distance
+            let oldPrice: NSMutableAttributedString =  NSMutableAttributedString(string: "$80")
+            oldPrice.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, oldPrice.length))
+            
+            businessNameLabel?.text = chineseName!// + " | " + englishName!
+            //distanceLabel?.text = businessVM.distance
+            //coverImageView?.image = businessVM.coverImage!
+            cityLabel?.text = businessVM.city
+            oldPriceLabel?.attributedText = oldPrice
+
             coverImageView!.hnk_setImageFromURL(NSURL(string: businessVM.coverImageUrl!)!, failure: {
                 println("Image loading failed: \($0)")
             })
+
         }
         
         return cell
@@ -159,6 +165,6 @@ extension FeaturedListViewController : UITableViewDelegate {
         
         let businessVM = featuredListVM!.businessVMArr.proxy[indexPath.section] as! BusinessViewModel
         // pass business info to detail view and push it
-        pushDetailViewController!(businessVM)
+        navigationDelegate?.pushDetail(businessVM)
     }
 }

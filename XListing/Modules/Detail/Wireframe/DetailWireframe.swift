@@ -13,23 +13,11 @@ private let DetailViewControllerIdentifier = "DetailViewController"
 public class DetailWireframe : BaseWireframe, IDetailWireframe {
     
     private let detailVM: IDetailViewModel
-    private let rootWireframe: RootWireframe
     private var detailViewController: DetailViewController?
     
-    public init(rootWireframe: RootWireframe, detailViewModel: IDetailViewModel) {
-        self.rootWireframe = rootWireframe
+    public init(rootWireframe: IRootWireframe, detailViewModel: IDetailViewModel) {
         detailVM = detailViewModel
-    }
-    
-    /**
-    Push DetailViewController to NavigationControllerw.
-    
-    :param: businessViewModel A BusinessViewModel.
-    */
-    public func pushDetailViewController(businessViewModel: BusinessViewModel) {
-        let injectedViewController = injectViewModelToViewController()
-        injectedViewController.businessVM = businessViewModel
-        rootWireframe.pushViewController(injectedViewController, animated: true)
+        super.init(rootWireframe: rootWireframe)
     }
     
     /**
@@ -47,3 +35,10 @@ public class DetailWireframe : BaseWireframe, IDetailWireframe {
     }
 }
 
+extension DetailWireframe : FeaturedListInterfaceToDetailInterfaceDelegate {
+    public func pushInterface(businessViewModel: BusinessViewModel) {
+        let injectedViewController = injectViewModelToViewController()
+        injectedViewController.businessVM = businessViewModel
+        rootWireframe.pushViewController(injectedViewController, animated: true)
+    }
+}
