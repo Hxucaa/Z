@@ -7,7 +7,8 @@
 //
 
 import Foundation
+import SwiftTask
 
 public protocol IDetailViewModel {
-    
+    func goingToBusiness(business: BusinessViewModel, thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGoDAO, NSError>
 }

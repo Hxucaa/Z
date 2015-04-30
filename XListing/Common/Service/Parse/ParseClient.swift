@@ -16,9 +16,11 @@ public class ParseClient {
     }
     
     private class func prepareClient() {
+        Parse.enableLocalDatastore()
         UserDAO.enableAutomaticUser()
         UserDAO.initialize()
         BusinessDAO.initialize()
+        WantToGoDAO.initialize()
     }
     
     private class func initialize() {

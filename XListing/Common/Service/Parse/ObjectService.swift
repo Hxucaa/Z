@@ -36,4 +36,24 @@ public class ObjectService : IObjectService {
             }
         }
     }
+    
+    public func findBy(var query: PFQuery?) -> Task<Int, [PFObject], NSError> {
+        let task = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
+            query!.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+                if error == nil {
+                    fulfill(objects!)
+                }
+                else {
+                    reject(error!)
+                }
+            }
+        }
+        .success { objects -> [PFObject] in
+            let businesses = objects as! [PFObject]
+            
+            return businesses
+        }
+        
+        return task
+    }
 }

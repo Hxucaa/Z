@@ -30,6 +30,8 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         // initialize root view
         appDependencies!.installRootViewControllerIntoWindow()
         
+//        UserService().logIn("test1", password: "12345678");
+        
         return true
     }
     

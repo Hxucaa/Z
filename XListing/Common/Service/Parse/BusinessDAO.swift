@@ -10,6 +10,15 @@ import Foundation
 
 public class BusinessDAO: PFObject, PFSubclassing {
     
+    public override init() {
+        super.init()
+    }
+    
+    public convenience init(withoutDataWithObjectId id: String) {
+        self.init()
+        self.objectId = id
+    }
+    
     // Simplified Chinese name of this business
     public var nameSChinese: String? {
         get {

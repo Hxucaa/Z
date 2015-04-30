@@ -26,13 +26,14 @@ public class AppDependencies {
         let rw: IRealmWritter = RealmWritter()
         let us: IUserService = UserService()
         let bs: IBusinessService = BusinessService()
+        let wtg: IWantToGoService = WantToGoService()
         let rs: IRealmService = RealmService.sharedInstance
         let dm: IDataManager = DataManager(businessService: bs, realmService: rs, realmWritter: rw)
         
         
         configureBackgroundUpdateDependencies(dm)
         configureFeaturedListDependencies(rootWireframe, dataManager: dm, realmService: rs)
-        configureDetailDependencies(rootWireframe, dataManager: dm, realmService: rs)
+        configureDetailDependencies(rootWireframe, dataManager: dm, realmService: rs, wantToGoService: wtg)
         configureNearbyDependencies(rootWireframe, dataManager: dm, realmService: rs)
         configureAccountDependencies(rootWireframe, userService: us)
     }
@@ -85,10 +86,10 @@ public class AppDependencies {
     
     :param: rootWireframe The RootWireframe.
     */
-    private func configureDetailDependencies(rootWireframe: IRootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService) {
+    private func configureDetailDependencies(rootWireframe: IRootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService, wantToGoService wtg: IWantToGoService) {
         
         // instantiate view model
-        let detailVM: IDetailViewModel = DetailViewModel(datamanager: dm, realmService: rs)
+        let detailVM: IDetailViewModel = DetailViewModel(datamanager: dm, realmService: rs, wantToGoService: wtg)
         
         detailWireframe = DetailWireframe(rootWireframe: rootWireframe, detailViewModel: detailVM)
         
