@@ -139,7 +139,7 @@ extension DetailViewController : UITableViewDataSource {
     :returns: The number of sections in tableView. The default value is 1.
     */
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 4
+        return 5
     }
     
     /**
@@ -156,7 +156,8 @@ extension DetailViewController : UITableViewDataSource {
         case 0: return 3
         case 1: return 2
         case 2: return 2
-        case 3: return 4
+        case 3: return 2
+        case 4: return 4
         default: return 1
         }
         
@@ -258,6 +259,35 @@ extension DetailViewController : UITableViewDataSource {
                 placeHolderCell.layoutMargins = UIEdgeInsetsZero;
                 placeHolderCell.preservesSuperviewLayoutMargins = false;
                 
+                placeHolderCell.textLabel?.text = "推荐物品"
+                
+                return placeHolderCell
+            
+            
+            case 1:
+                var whatsGoodCell =  tableView.dequeueReusableCellWithIdentifier("WhatsGoodCell", forIndexPath: indexPath) as! UITableViewCell
+            
+                whatsGoodCell.layoutMargins = UIEdgeInsetsZero
+                whatsGoodCell.preservesSuperviewLayoutMargins = false
+            
+                return whatsGoodCell
+            
+            default:
+                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
+                return placeHolderCell
+            
+            }
+        
+            
+            
+        case 2:
+            switch (row) {
+            case 0:
+                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
+                
+                placeHolderCell.layoutMargins = UIEdgeInsetsZero;
+                placeHolderCell.preservesSuperviewLayoutMargins = false;
+                
                 placeHolderCell.textLabel?.text = "营业时间"
                 
                 return placeHolderCell
@@ -276,7 +306,7 @@ extension DetailViewController : UITableViewDataSource {
                     
                     hourCell.accessoryView = UIImageView(image: UIImage(named:"downArrow"))
                     
-                    hourCell.textLabel?.text = "今天：10AM - 10PM"
+                    hourCell.textLabel?.text = "今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM"
                     
             
                 }
@@ -300,7 +330,7 @@ extension DetailViewController : UITableViewDataSource {
 
             }
             
-        case 2:
+        case 3:
             switch (row) {
             case 0:
                 var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
@@ -323,7 +353,7 @@ extension DetailViewController : UITableViewDataSource {
                 var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
                 return placeHolderCell
             }
-        case 3:
+        case 4:
             switch (row){
             case 0:
                 var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
@@ -430,7 +460,14 @@ extension DetailViewController : UITableViewDataSource {
             case 2: return 86
             default: return 44
             }
+            
         case 1:
+            switch row {
+            case 0: return 35
+            default: return 70
+            }
+            
+        case 2:
             switch row {
                 
             case 1:
@@ -443,12 +480,12 @@ extension DetailViewController : UITableViewDataSource {
             default: return 35
             }
          
-        case 2:
+        case 3:
             switch row {
             case 1: return 91
             default: return 35
             }
-        case 3:
+        case 4:
             switch row {
             case 0: return 35
             case 1: return 226
@@ -464,9 +501,7 @@ extension DetailViewController : UITableViewDataSource {
     
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-//        case 1: return "营业时间"
-//        case 2: return "特设介绍"
-//        case 3: return "地址和信息"
+
         default: return ""
         }
     }
@@ -487,9 +522,9 @@ extension DetailViewController : UITableViewDelegate {
     :param: indexPath An index path locating the new selected row in tableView.
     */
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        //tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        if (indexPath.section == 1 && indexPath.section == 1){
+        if (indexPath.section == 2 && indexPath.row == 1){
             
             if (expandHours){
                 expandHours = false
