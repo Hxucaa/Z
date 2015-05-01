@@ -22,6 +22,8 @@ public class DetailViewController : UIViewController {
     
     public var mapView = MKMapView?()
     
+    public var expandHours: Bool = false
+    
     @IBOutlet weak var tableView: UITableView!
     
   
@@ -30,6 +32,7 @@ public class DetailViewController : UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        //tableView.allowsSelection = false
         
         self.navigationItem.title = businessVM?.nameSChinese
         println(businessVM!)
@@ -181,6 +184,9 @@ extension DetailViewController : UITableViewDataSource {
             case 0:
                 var cell0 = tableView.dequeueReusableCellWithIdentifier("ImageCell", forIndexPath: indexPath) as! UITableViewCell
                 
+                cell0.layoutMargins = UIEdgeInsetsZero;
+                cell0.preservesSuperviewLayoutMargins = false;
+                
                 let businessImageView = self.view.viewWithTag(1) as? UIImageView
                 
                 businessImageView!.hnk_setImageFromURL(NSURL(string: businessVM!.coverImageUrl!)!, failure: {
@@ -191,6 +197,9 @@ extension DetailViewController : UITableViewDataSource {
                 
             case 1:
                 var cell1 = tableView.dequeueReusableCellWithIdentifier("BizInfoCell", forIndexPath: indexPath) as! UITableViewCell
+                
+                cell1.layoutMargins = UIEdgeInsetsZero;
+                cell1.preservesSuperviewLayoutMargins = false;
                 
                 var businessNameLabel : UILabel? = self.view.viewWithTag(1) as? UILabel
                 var cityLabel : UILabel? = self.view.viewWithTag(2) as? UILabel
@@ -214,6 +223,9 @@ extension DetailViewController : UITableViewDataSource {
             case 2:
                 var cell2 = tableView.dequeueReusableCellWithIdentifier("ButtonCell", forIndexPath: indexPath) as! UITableViewCell
                 
+                cell2.layoutMargins = UIEdgeInsetsZero;
+                cell2.preservesSuperviewLayoutMargins = false;
+                
                 var wantToGoButton : UIButton? = self.view.viewWithTag(1) as? UIButton
                 var shareButton : UIButton? = self.view.viewWithTag(2) as? UIButton
                 
@@ -224,6 +236,9 @@ extension DetailViewController : UITableViewDataSource {
                 
             case 3:
                 var cell3 = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath) as! UITableViewCell
+                
+                cell3.layoutMargins = UIEdgeInsetsZero;
+                cell3.preservesSuperviewLayoutMargins = false;
                 
                 cell3.textLabel?.text = "查看菜单"
                 
@@ -240,12 +255,42 @@ extension DetailViewController : UITableViewDataSource {
             case 0:
                 var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
                 
+                placeHolderCell.layoutMargins = UIEdgeInsetsZero;
+                placeHolderCell.preservesSuperviewLayoutMargins = false;
+                
                 placeHolderCell.textLabel?.text = "营业时间"
                 
                 return placeHolderCell
+              
                 
             case 1:
+                
+            
+                var hourCell : UITableViewCell
+                
+                
+                if (expandHours){
+                    hourCell = tableView.dequeueReusableCellWithIdentifier("HoursCell", forIndexPath: indexPath) as! UITableViewCell
+                }else{
+                    hourCell = tableView.dequeueReusableCellWithIdentifier("CurrentHoursCell", forIndexPath: indexPath) as! UITableViewCell
+                    
+                    hourCell.accessoryView = UIImageView(image: UIImage(named:"downArrow"))
+                    
+                    hourCell.textLabel?.text = "今天：10AM - 10PM"
+                    
+            
+                }
+                
+                hourCell.layoutMargins = UIEdgeInsetsZero;
+                hourCell.preservesSuperviewLayoutMargins = false;
+                
+                return hourCell
+                
+            case 2:
                 var cell4 = tableView.dequeueReusableCellWithIdentifier("HoursCell", forIndexPath: indexPath) as! UITableViewCell
+                
+                cell4.layoutMargins = UIEdgeInsetsZero;
+                cell4.preservesSuperviewLayoutMargins = false;
                 
                 return cell4
                 
@@ -260,11 +305,17 @@ extension DetailViewController : UITableViewDataSource {
             case 0:
                 var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
                 
+                placeHolderCell.layoutMargins = UIEdgeInsetsZero;
+                placeHolderCell.preservesSuperviewLayoutMargins = false;
+                
                 placeHolderCell.textLabel?.text = "特设介绍"
                 
                 return placeHolderCell
             case 1:
             var cell5 = tableView.dequeueReusableCellWithIdentifier("DescriptionCell", forIndexPath: indexPath) as! UITableViewCell
+            
+            cell5.layoutMargins = UIEdgeInsetsZero;
+            cell5.preservesSuperviewLayoutMargins = false;
             
             return cell5
                 
@@ -277,11 +328,17 @@ extension DetailViewController : UITableViewDataSource {
             case 0:
                 var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
                 
+                placeHolderCell.layoutMargins = UIEdgeInsetsZero;
+                placeHolderCell.preservesSuperviewLayoutMargins = false;
+                
                 placeHolderCell.textLabel?.text = "地址和信息"
                 
                 return placeHolderCell
             case 1:
                 var cell6 = tableView.dequeueReusableCellWithIdentifier("MapCell", forIndexPath: indexPath) as! UITableViewCell
+                
+                cell6.layoutMargins = UIEdgeInsetsZero;
+                cell6.preservesSuperviewLayoutMargins = false;
                 
                 mapView = self.view.viewWithTag(1) as? MKMapView
                 
@@ -292,16 +349,23 @@ extension DetailViewController : UITableViewDataSource {
                 
                 mapView?.addAnnotation(annotation)
                 
-                let span = MKCoordinateSpanMake(0.04, 0.04)
+                let span = MKCoordinateSpanMake(0.01, 0.01)
                 let region = MKCoordinateRegion(center: CLLocationCoordinate2DMake(businessVM!.latitude!, businessVM!.longitude!), span: span)
                 mapView!.setRegion(region, animated: false)
                 
                 return cell6
             case 2:
                 var cell7 = tableView.dequeueReusableCellWithIdentifier("AddressCell", forIndexPath: indexPath) as! UITableViewCell
+                
+                cell7.layoutMargins = UIEdgeInsetsZero;
+                cell7.preservesSuperviewLayoutMargins = false;
+                
                 var addressButton : UIButton? = self.view.viewWithTag(1) as? UIButton
                 
-                let address = businessVM?.address
+                var address = businessVM?.address
+                
+                address = "   \u{f124}   " + address!
+                
                 let city = businessVM?.city
                 let state = businessVM?.state
                 
@@ -312,15 +376,19 @@ extension DetailViewController : UITableViewDataSource {
                 
             case 3:
                 var cell8 = tableView.dequeueReusableCellWithIdentifier("PhoneWebSplitCell", forIndexPath: indexPath) as! UITableViewCell
+                
+                cell8.layoutMargins = UIEdgeInsetsZero;
+                cell8.preservesSuperviewLayoutMargins = false;
+                
                 var phoneNumberButton : UIButton? = self.view.viewWithTag(1) as? UIButton
                 var websiteButton : UIButton? = self.view.viewWithTag(2) as? UIButton
-                phoneNumberButton?.setTitle(businessVM?.phone, forState: UIControlState.Normal)
+                phoneNumberButton?.setTitle("   \u{f095}   "+businessVM!.phone!, forState: UIControlState.Normal)
                 
                 if (businessVM?.url != ""){
-                    websiteButton?.setTitle("访问网站", forState: UIControlState.Normal)
+                    websiteButton?.setTitle("   \u{f0ac}   访问网站", forState: UIControlState.Normal)
                     websiteButton?.addTarget(self, action: "goToWebsiteUrl", forControlEvents: .TouchUpInside)
                 }else{
-                    websiteButton?.setTitle("没有网站", forState: UIControlState.Normal)
+                    websiteButton?.setTitle("   \u{f0ac}   没有网站", forState: UIControlState.Normal)
                 }
 
                 
@@ -364,7 +432,14 @@ extension DetailViewController : UITableViewDataSource {
             }
         case 1:
             switch row {
-            case 1: return 215
+                
+            case 1:
+                if (expandHours){
+                    return 215
+                }else{
+                    return 44
+                }
+            case 2: return 215
             default: return 35
             }
          
@@ -413,6 +488,17 @@ extension DetailViewController : UITableViewDelegate {
     */
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        if (indexPath.section == 1 && indexPath.section == 1){
+            
+            if (expandHours){
+                expandHours = false
+            }else{
+               expandHours = true
+            }
+            
+            tableView.reloadData()
+        }
         
         
     }
