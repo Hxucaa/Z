@@ -27,6 +27,8 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     /// View Model
     public var nearbyVM: INearbyViewModel?
     
+    public weak var navigationDelegate: NearbyViewControllerNavigationDelegate?
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -168,7 +170,8 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
         
         //TO DO:
         //PUSH TO DETAIL VIEW
-        
+        println("wtf")
+        navigationDelegate?.pushDetail(biz);
     }
     
     

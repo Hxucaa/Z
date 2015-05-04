@@ -55,6 +55,8 @@
 		B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */; };
 		B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */; };
 		B4CDE7781AE1B3E0008BDEE8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CDE7771AE1B3E0008BDEE8 /* User.swift */; };
+		B4D408D21AF80C2100ECF59A /* NearbyInterfaceToDetailInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D408D11AF80C2100ECF59A /* NearbyInterfaceToDetailInterfaceDelegate.swift */; };
+		B4D408D41AF80E9200ECF59A /* NearbyViewControllerNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D408D31AF80E9200ECF59A /* NearbyViewControllerNavigationDelegate.swift */; };
 		B4E1384A1AE1B94C0082DCA3 /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E138491AE1B94C0082DCA3 /* UserDAO.swift */; };
 		B4E1384C1AE1BD0D0082DCA3 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E1384B1AE1BD0D0082DCA3 /* UserService.swift */; };
 		B4E1384E1AE1CA9D0082DCA3 /* IUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E1384D1AE1CA9D0082DCA3 /* IUserService.swift */; };
@@ -152,6 +154,8 @@
 		B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootWireframe.swift; sourceTree = "<group>"; };
 		B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewController.swift; sourceTree = "<group>"; };
 		B4CDE7771AE1B3E0008BDEE8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B4D408D11AF80C2100ECF59A /* NearbyInterfaceToDetailInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyInterfaceToDetailInterfaceDelegate.swift; sourceTree = "<group>"; };
+		B4D408D31AF80E9200ECF59A /* NearbyViewControllerNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyViewControllerNavigationDelegate.swift; sourceTree = "<group>"; };
 		B4E138491AE1B94C0082DCA3 /* UserDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDAO.swift; sourceTree = "<group>"; };
 		B4E1384B1AE1BD0D0082DCA3 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		B4E1384D1AE1CA9D0082DCA3 /* IUserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IUserService.swift; sourceTree = "<group>"; };
@@ -392,6 +396,7 @@
 		B48C99101ADA55C10045BCA9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B4D408D31AF80E9200ECF59A /* NearbyViewControllerNavigationDelegate.swift */,
 				B48C99111ADA56F70045BCA9 /* NearbyViewController.swift */,
 				2A41A3111AF337350086D24B /* NearbyTableViewCell.swift */,
 				2AC9D8BF1AF735A600C51DB3 /* NearbyTableViewCellXIB.xib */,
@@ -414,6 +419,7 @@
 		B48C99201ADA687D0045BCA9 /* Wireframe */ = {
 			isa = PBXGroup;
 			children = (
+				B4D408D11AF80C2100ECF59A /* NearbyInterfaceToDetailInterfaceDelegate.swift */,
 				B48C99211ADA6A640045BCA9 /* NearbyWireframe.swift */,
 				B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */,
 			);
@@ -846,6 +852,8 @@
 				B44E34FF1AD5A23800657A31 /* BusinessViewModel.swift in Sources */,
 				B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */,
 				2A41A3131AF337350086D24B /* NearbyTableViewCell.swift in Sources */,
+				B4D408D41AF80E9200ECF59A /* NearbyViewControllerNavigationDelegate.swift in Sources */,
+				B4D408D21AF80C2100ECF59A /* NearbyInterfaceToDetailInterfaceDelegate.swift in Sources */,
 				B4FCC73F1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift in Sources */,
 				B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */,
 				B48C99241ADBA4280045BCA9 /* IFeaturedListWireframe.swift in Sources */,
