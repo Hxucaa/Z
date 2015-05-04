@@ -53,10 +53,10 @@ extension FeaturedListWireframe : IFeaturedListWireframe {
 
 extension FeaturedListWireframe : FeaturedListViewControllerNavigationDelegate {
     public func pushNearby() {
-        nearbyInterfaceDelegate?.pushInterface()
+        nearbyInterfaceDelegate?.transitionToNearbyInterfaceFromFeaturedList()
     }
     
     public func pushDetail(businessViewModel: BusinessViewModel) {
-        detailInterfaceDelegate?.pushInterface(businessViewModel)
+        detailInterfaceDelegate?.transitionToDetailInterfaceFromFeaturedListInterface(businessViewModel)
     }
 }

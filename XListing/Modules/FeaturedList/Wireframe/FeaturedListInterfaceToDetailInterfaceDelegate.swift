@@ -14,5 +14,5 @@ public protocol FeaturedListInterfaceToDetailInterfaceDelegate : class {
     
     :param: businessViewModel A BusinessViewModel.
     */
-    func pushInterface(businessViewModel: BusinessViewModel)
+    func transitionToDetailInterfaceFromFeaturedListInterface(businessViewModel: BusinessViewModel)
 }

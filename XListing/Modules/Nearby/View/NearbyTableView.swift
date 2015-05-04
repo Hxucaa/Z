@@ -11,7 +11,7 @@ import Foundation
 public class NearbyTableView : UITableView {
     public override func awakeFromNib() {
         super.awakeFromNib()
-        self.backgroundColor = UIColor.clearColor()
+       // self.backgroundColor = UIColor.clearColor()
     }
     
     public override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {

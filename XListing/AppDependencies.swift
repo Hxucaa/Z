@@ -33,8 +33,8 @@ public class AppDependencies {
         
         configureBackgroundUpdateDependencies(dm)
         configureFeaturedListDependencies(rootWireframe, dataManager: dm, realmService: rs)
-        configureDetailDependencies(rootWireframe, dataManager: dm, realmService: rs, wantToGoService: wtg)
         configureNearbyDependencies(rootWireframe, dataManager: dm, realmService: rs)
+        configureDetailDependencies(rootWireframe, dataManager: dm, realmService: rs, wantToGoService: wtg)
         configureAccountDependencies(rootWireframe, userService: us)
     }
     
@@ -94,6 +94,7 @@ public class AppDependencies {
         detailWireframe = DetailWireframe(rootWireframe: rootWireframe, detailViewModel: detailVM)
         
         featuredListWireframe?.detailInterfaceDelegate = detailWireframe as? FeaturedListInterfaceToDetailInterfaceDelegate
+        nearbyWireframe?.detailInterfaceDelegate = detailWireframe as? NearbyInterfaceToDetailInterfaceDelegate
     }
     
     private func configureAccountDependencies(rootWireframe: IRootWireframe, userService us: IUserService) {
