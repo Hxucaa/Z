@@ -11,29 +11,28 @@ import MapKit
 import ReactKit
 import SwiftTask
 
-public class NearbyViewController: UIViewController {
+public class NearbyViewController: UIViewController , UITableViewDelegate, UITableViewDataSource{
     
     private var mapView = MKMapView()
     private var dataSources: NSMutableArray? = []
     private var contentView: HorizontalScrollContentView!
     private var locationData: NSMutableArray? = []
+    private var pageNumber: Int = 0
     
-    private var nearbyBusinessDataArray: Array<BusinessViewModel>? = []
+    //private var tView = UITableView()
+    private var tableArray: NSMutableArray? = []
+    
+    private var nearbyBusinessDataArray: NSMutableArray? = []
     
     /// View Model
     public var nearbyVM: INearbyViewModel?
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        nearbyVM!.getBusiness()
-        initMapView()
         
-        // Do any additional setup after loading the view.
-        
-        setupMapViewSignal()
-        
-        
-        
+       
+         initMapView()
+    
     }
     
     public override func didReceiveMemoryWarning() {
@@ -42,6 +41,7 @@ public class NearbyViewController: UIViewController {
     }
     
     private func setupMapViewSignal() {
+
         let businessVMArrSignal = nearbyVM!.businessVMArr.signal().ownedBy(self)
         businessVMArrSignal ~> { [unowned self] changedValues, change, indexSet in
             if change == .Insertion {
@@ -51,6 +51,8 @@ public class NearbyViewController: UIViewController {
                 annotation.title = businessVM.nameSChinese
                 annotation.subtitle = businessVM.nameEnglish
                 self.mapView.addAnnotation(annotation)
+                self.nearbyBusinessDataArray?.addObject(businessVM)
+                self.contentView.addSubview(self.newTableView())
             }
         }
     }
@@ -74,7 +76,8 @@ public class NearbyViewController: UIViewController {
         let task = nearbyVM!.getCurrentLocation()
             .success { [unowned self] location -> Void in
                 // with current location
-                startMapViewAtALocation(location)
+                //startMapViewAtALocation(location)
+                startMapViewAtALocation(CLLocation(latitude: 49.27623, longitude: -123.12941))
             }
             .failure { [unowned self] (error, isCancelled) -> Void in
                 // with hardcoded location
@@ -100,35 +103,75 @@ public class NearbyViewController: UIViewController {
         scrollView.addSubview(self.contentView)
         scrollView.delegate = self
         
-        
-        println(self.contentView.subviews.count)
-        self.contentView.addSubview(newTableView())
-        self.contentView.addSubview(newTableView())
-        self.contentView.addSubview(newTableView())
-        self.contentView.addSubview(newTableView())
-        println(self.contentView.subviews.count)
+        nearbyVM!.getBusiness()
+        setupMapViewSignal()
+
     }
     
-    private func newTableView() -> NearbyTableView {
-        var dataSource =  NearbyTableDataSource()
-        //dataSource.numberOfRows = numberOfRows
-        dataSource.dataArray = nearbyBusinessDataArray
-        
-        dataSources?.addObject(dataSource)
-        
+    private func newTableView() -> UITableView {
+       
         var tableView = NearbyTableView()
+        
+        //register the xib file for the custom cell
+        var nib = UINib(nibName: "NearbyTableViewCellXIB", bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: "NearbyCell")
+
         tableView.frame = CGRectZero
         
         tableView.backgroundColor = UIColor.clearColor()
-        tableView.dataSource = dataSource
-        tableView.delegate = dataSource
+        tableView.dataSource = self
+        tableView.delegate = self
         tableView.showsHorizontalScrollIndicator = false
         tableView.showsVerticalScrollIndicator = false
         tableView.decelerationRate = UIScrollViewDecelerationRateFast
-        tableView.rowHeight = 44
+        tableView.rowHeight = 80
+        tableView.scrollEnabled = false
+        
+        tableArray?.addObject(tableView)
         
         return tableView
     }
+    
+    public func shiftMapCenter(biz: BusinessViewModel){
+     var bizCoordinate = CLLocationCoordinate2D(latitude: biz.latitude!, longitude: biz.longitude!)
+        let span = MKCoordinateSpanMake(0.07, 0.07)
+        let region = MKCoordinateRegion(center: bizCoordinate, span: span)
+        self.mapView.setRegion(region, animated: true)
+
+    }
+    
+    
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        var tView:UITableView = tableArray?.objectAtIndex(self.pageNumber) as! UITableView
+        
+        var biz:BusinessViewModel = self.nearbyBusinessDataArray?.objectAtIndex(self.pageNumber) as! BusinessViewModel
+        
+        var cell:NearbyTableViewCell = tView.dequeueReusableCellWithIdentifier("NearbyCell") as! NearbyTableViewCell
+        
+        cell.bizName.text = biz.nameSChinese
+        cell.bizDetail.text = "130+ 人想去 ｜ 开车25分钟"
+        cell.bizHours.text = "今天 10:00AM - 10:00PM"
+        cell.bizImage!.hnk_setImageFromURL(NSURL(string: biz.coverImageUrl!)!, failure: {
+            println("Image loading failed: \($0)")
+        })
+        return cell
+        
+    }
+    
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        var biz:BusinessViewModel = self.nearbyBusinessDataArray?.objectAtIndex(self.pageNumber) as! BusinessViewModel
+        
+        //TO DO:
+        //PUSH TO DETAIL VIEW
+        
+    }
+    
+    
 }
 
 extension NearbyViewController : UIScrollViewDelegate {
@@ -146,8 +189,16 @@ extension NearbyViewController : UIScrollViewDelegate {
         
         var count = contentView.subviews.count
         
+        println("page number is: \(pageNumber)")
+    
+        self.pageNumber = Int(pageNumber)
+        var tView:UITableView = tableArray?.objectAtIndex(self.pageNumber) as! UITableView
+        tView.reloadData()
+        var biz:BusinessViewModel = self.nearbyBusinessDataArray?.objectAtIndex(self.pageNumber) as! BusinessViewModel
+        shiftMapCenter(biz)
         
         targetContentOffset.memory.x = pageNumber * pageWidth!
         
     }
+    
 }
