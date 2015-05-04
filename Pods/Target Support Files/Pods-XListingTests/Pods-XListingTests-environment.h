@@ -12,6 +12,12 @@
 #define COCOAPODS_VERSION_MINOR_Bolts 1
 #define COCOAPODS_VERSION_PATCH_Bolts 4
 
+// Haneke
+#define COCOAPODS_POD_AVAILABLE_Haneke
+#define COCOAPODS_VERSION_MAJOR_Haneke 0
+#define COCOAPODS_VERSION_MINOR_Haneke 9
+#define COCOAPODS_VERSION_PATCH_Haneke 0
+
 // Nimble
 #define COCOAPODS_POD_AVAILABLE_Nimble
 #define COCOAPODS_VERSION_MAJOR_Nimble 0
@@ -40,7 +46,7 @@
 #define COCOAPODS_POD_AVAILABLE_Realm_Headers
 #define COCOAPODS_VERSION_MAJOR_Realm_Headers 0
 #define COCOAPODS_VERSION_MINOR_Realm_Headers 91
-#define COCOAPODS_VERSION_PATCH_Realm_Headers 1
+#define COCOAPODS_VERSION_PATCH_Realm_Headers 5
 
 // SwiftTask
 #define COCOAPODS_POD_AVAILABLE_SwiftTask

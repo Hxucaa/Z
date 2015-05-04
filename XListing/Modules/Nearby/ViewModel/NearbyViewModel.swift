@@ -21,10 +21,4 @@ public class NearbyViewModel : BaseViewModel, INearbyViewModel {
         super.init(datamanager: datamanager, realmService: realmService)
     }
     
-    
-    public override func getBusiness() {
-        //TODO: support for offline usage.
-        //        return dm.getFeaturedBusiness()
-        prepareDataForSignal(businesses)
-    }
 }

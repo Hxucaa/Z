@@ -12,6 +12,11 @@ private let StoryboardName = "Main"
 
 public class BaseWireframe {
     
+    public let rootWireframe: IRootWireframe
+    
+    public init(rootWireframe: IRootWireframe) {
+        self.rootWireframe = rootWireframe
+    }
 
 }
 

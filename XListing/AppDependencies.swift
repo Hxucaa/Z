@@ -13,18 +13,29 @@ import Foundation
 */
 public class AppDependencies {
     
-    private var featuredListWireframe: IFeaturedListWireframe?
-    private var nearbyWireframe: NearbyWireframe?
-    private var backgroundUpdateWireframe: IBackgroundUpdateWireframe?
     
-    /// singleton
-    private let realmService: IRealmService = RealmService()
+    private var featuredListWireframe: IFeaturedListWireframe?
+    private var nearbyWireframe: INearbyWireframe?
+    private var backgroundUpdateWireframe: IBackgroundUpdateWireframe?
+    private var detailWireframe: IDetailWireframe?
+    private var accountWireframe: IAccountWireframe?
+    
     
     public init(window: UIWindow) {
-        let rootWireframe = RootWireframe(inWindow: window)
-        configureNearbyDependencies(rootWireframe)
-        configureFeaturedListDependencies(rootWireframe)
-        configureBackgroundUpdateDependencies()
+        let rootWireframe: IRootWireframe = RootWireframe(inWindow: window)
+        let rw: IRealmWritter = RealmWritter()
+        let us: IUserService = UserService()
+        let bs: IBusinessService = BusinessService()
+        let wtg: IWantToGoService = WantToGoService()
+        let rs: IRealmService = RealmService.sharedInstance
+        let dm: IDataManager = DataManager(businessService: bs, realmService: rs, realmWritter: rw)
+        
+        
+        configureBackgroundUpdateDependencies(dm)
+        configureFeaturedListDependencies(rootWireframe, dataManager: dm, realmService: rs)
+        configureDetailDependencies(rootWireframe, dataManager: dm, realmService: rs, wantToGoService: wtg)
+        configureNearbyDependencies(rootWireframe, dataManager: dm, realmService: rs)
+        configureAccountDependencies(rootWireframe, userService: us)
     }
     
     /**
@@ -41,18 +52,13 @@ public class AppDependencies {
 
         :param: rootWireframe The RootWireframe.
     */
-    private func configureFeaturedListDependencies(rootWireframe: RootWireframe) {
-        
-        let businessService: IBusinessService = BusinessService()
-        let realmWritter: IRealmWritter = RealmWritter()
-        
-        // instantiate data manager
-        let dm: IDataManager = DataManager(businessService: businessService, realmService: realmService, realmWritter: realmWritter)
+    private func configureFeaturedListDependencies(rootWireframe: IRootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService) {
         
         // instantiate view model
-        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(datamanager: dm, realmService: realmService)
+        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(datamanager: dm, realmService: rs)
         
-        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM, pushNearbyViewController: nearbyWireframe!.pushNearbyViewController)
+        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM)
+        
     }
     
     /**
@@ -60,27 +66,39 @@ public class AppDependencies {
     
     :param: rootWireframe The RootWireframe.
     */
-    private func configureNearbyDependencies(rootWireframe: RootWireframe) {
-        
-        let businessService: IBusinessService = BusinessService()
-        let realmWritter: IRealmWritter = RealmWritter()
-        
-        // instantiate data manager
-        let dm: IDataManager = DataManager(businessService: businessService, realmService: realmService, realmWritter: realmWritter)
+    private func configureNearbyDependencies(rootWireframe: IRootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService) {
         
         // instantiate view model
-        let nearbyVM: INearbyViewModel = NearbyViewModel(datamanager: dm, realmService: realmService)
+        let nearbyVM: INearbyViewModel = NearbyViewModel(datamanager: dm, realmService: rs)
         
         nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, nearbyViewModel: nearbyVM)
+        
+        featuredListWireframe?.nearbyInterfaceDelegate = nearbyWireframe as? FeaturedListInterfaceToNearbyInterfaceDelegate
     }
     
-    private func configureBackgroundUpdateDependencies() {
-        let businessService: IBusinessService = BusinessService()
-        let realmWritter: IRealmWritter = RealmWritter()
-        
-        // instantiate data manager
-        let dm: IDataManager = DataManager(businessService: businessService, realmService: realmService, realmWritter: realmWritter)
+    private func configureBackgroundUpdateDependencies(dm: IDataManager) {
         
         backgroundUpdateWireframe = BackgroundUpdateWireframe(dataManager: dm)
+    }
+    
+    /**
+    Configure dependencies for Detail Module.
+    
+    :param: rootWireframe The RootWireframe.
+    */
+    private func configureDetailDependencies(rootWireframe: IRootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService, wantToGoService wtg: IWantToGoService) {
+        
+        // instantiate view model
+        let detailVM: IDetailViewModel = DetailViewModel(datamanager: dm, realmService: rs, wantToGoService: wtg)
+        
+        detailWireframe = DetailWireframe(rootWireframe: rootWireframe, detailViewModel: detailVM)
+        
+        featuredListWireframe?.detailInterfaceDelegate = detailWireframe as? FeaturedListInterfaceToDetailInterfaceDelegate
+    }
+    
+    private func configureAccountDependencies(rootWireframe: IRootWireframe, userService us: IUserService) {
+        let accountVM: IAccountViewModel = AccountViewModel(userService: us)
+        
+        accountWireframe = AccountWireframe(rootWireframe: rootWireframe, accountVM: accountVM)
     }
 }
