@@ -341,3 +341,15 @@ extension BusinessDAO {
     }
 
 }
+
+// Statistics
+extension BusinessDAO {
+    public var wantToGoCounter: Int? {
+        get {
+            return objectForKey("wantToGoCounter") as? Int
+        }
+        set {
+            setObject(newValue!, forKey: "wantToGoCounter")
+        }
+    }
+}

@@ -25,9 +25,14 @@ public class RealmService : IRealmService {
     */
     public class func migrateDefaultRealm() {
         // Notice setSchemaVersion is set to 1, this is always set manually. It must be higher than the previous version (oldSchemaVersion) or an RLMException is thrown
-        RLMRealm.setSchemaVersion(1, forRealmAtPath: RLMRealm.defaultRealmPath(), withMigrationBlock: { migration, oldSchemaVersion in
+        RLMRealm.setSchemaVersion(2, forRealmAtPath: RLMRealm.defaultRealmPath(), withMigrationBlock: { migration, oldSchemaVersion in
             // We haven’t migrated anything yet, so oldSchemaVersion == 0
             if oldSchemaVersion < 1 {
+                // Nothing to do!
+                // Realm will automatically detect new properties and removed properties and will update the schema on disk automatically
+                
+            }
+            if oldSchemaVersion < 2 {
                 // Nothing to do!
                 // Realm will automatically detect new properties and removed properties and will update the schema on disk automatically
                 

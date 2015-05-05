@@ -57,6 +57,12 @@ public class Business: RLMObject {
     public dynamic var latitude: Double = -360
     public dynamic var longitude: Double = -360
     
+    /**
+    *  Statistics
+    */
+    public dynamic var wantToGoCounter: Int = 0
+    
+    
     public override class func primaryKey() -> String! {
         return "objectId"
     }

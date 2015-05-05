@@ -62,6 +62,11 @@ public class BusinessViewModel {
     
     public private(set) var distance: String?
     
+    /**
+    *  Statistics
+    */
+    public private(set) var wantToGoCounter: Int = 0
+    
     public init(business: Business) {
         objectId = business.objectId
         remoteCreatedAt = NSDate(timeIntervalSince1970: business.remoteCreatedAt)
@@ -95,6 +100,8 @@ public class BusinessViewModel {
         crossStreets = business.crossStreets
         latitude = business.latitude
         longitude = business.longitude
+        
+        wantToGoCounter = business.wantToGoCounter
         
         coverImageUrl = "http://www.afroglobe.net/wp-content/uploads/2015/03/Wonderful-Life-With-Fantastic-Chinese-Restaurant-Design-Idea-2.jpg"
     }

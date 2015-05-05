@@ -119,6 +119,7 @@ extension FeaturedListViewController : UITableViewDataSource {
         let section = indexPath.section
         
         var businessNameLabel : UILabel? = self.view.viewWithTag(1) as? UILabel
+        var wantToGoLabel: UILabel? = self.view.viewWithTag(2) as? UILabel
         var cityLabel : UILabel? = self.view.viewWithTag(4) as? UILabel
         var oldPriceLabel : UILabel? = self.view.viewWithTag(5) as? UILabel
         let coverImageView = self.view.viewWithTag(3) as? UIImageView
@@ -130,11 +131,18 @@ extension FeaturedListViewController : UITableViewDataSource {
             
             let englishName = businessVM.nameEnglish
             let chineseName = businessVM.nameSChinese
+            let wantToGoCounter = businessVM.wantToGoCounter
             
             let oldPrice: NSMutableAttributedString =  NSMutableAttributedString(string: "$80")
             oldPrice.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, oldPrice.length))
             
             businessNameLabel?.text = chineseName!// + " | " + englishName!
+            if (wantToGoCounter > 0) {
+                wantToGoLabel?.text = String(format: "%d+ 人想去", wantToGoCounter)
+            }
+            else {
+                wantToGoLabel?.hidden = true
+            }
             //distanceLabel?.text = businessVM.distance
             //coverImageView?.image = businessVM.coverImage!
             cityLabel?.text = businessVM.city
