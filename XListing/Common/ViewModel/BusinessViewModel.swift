@@ -103,6 +103,7 @@ public class BusinessViewModel {
         wantToGoCounter = business.wantToGoCounter!
         
         coverImageUrl = "http://www.afroglobe.net/wp-content/uploads/2015/03/Wonderful-Life-With-Fantastic-Chinese-Restaurant-Design-Idea-2.jpg"
+        
     }
     
     public convenience init(business: BusinessDAO, currentLocation: CLLocation) {
@@ -120,6 +121,15 @@ public class BusinessViewModel {
         else {
             formatter.maximumFractionDigits = 0
             self.distance = formatter.stringFromNumber(distanceInMeter)! + 米
+        }
+    }
+    
+    public func getWantToGoLabelText() -> String {
+        if (wantToGoCounter > 0) {
+            return String(format: "%d+ 人想去", wantToGoCounter)
+        }
+        else {
+            return ""
         }
     }
 }

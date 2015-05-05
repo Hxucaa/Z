@@ -11,6 +11,9 @@ import MapKit
 import ReactKit
 import SwiftTask
 
+private let NearbyTableViewCellXIB = "NearbyTableViewCellXIB"
+private let CellIdentifier = "NearbyCell"
+
 public class NearbyViewController: UIViewController , UITableViewDelegate, UITableViewDataSource{
     
     private var mapView = MKMapView()
@@ -115,8 +118,8 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
         var tableView = NearbyTableView()
         
         //register the xib file for the custom cell
-        var nib = UINib(nibName: "NearbyTableViewCellXIB", bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: "NearbyCell")
+        var nib = UINib(nibName: NearbyTableViewCellXIB, bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: CellIdentifier)
 
         tableView.frame = CGRectZero
         
@@ -149,7 +152,7 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
         
         var biz:BusinessViewModel = self.nearbyBusinessDataArray?.objectAtIndex(self.pageNumber) as! BusinessViewModel
         
-        var cell:NearbyTableViewCell = tView.dequeueReusableCellWithIdentifier("NearbyCell") as! NearbyTableViewCell
+        var cell:NearbyTableViewCell = tView.dequeueReusableCellWithIdentifier(CellIdentifier) as! NearbyTableViewCell
         
         cell.bizName.text = biz.nameSChinese
         cell.bizDetail.text = "130+ 人想去 ｜ 开车25分钟"
@@ -170,7 +173,6 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
         
         //TO DO:
         //PUSH TO DETAIL VIEW
-        println("wtf")
         navigationDelegate?.pushDetail(biz);
     }
     
@@ -191,9 +193,7 @@ extension NearbyViewController : UIScrollViewDelegate {
         }
         
         var count = contentView.subviews.count
-        
-        println("page number is: \(pageNumber)")
-    
+            
         self.pageNumber = Int(pageNumber)
         var tView:UITableView = tableArray?.objectAtIndex(self.pageNumber) as! UITableView
         tView.reloadData()

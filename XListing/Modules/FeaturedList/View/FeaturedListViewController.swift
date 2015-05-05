@@ -130,22 +130,11 @@ extension FeaturedListViewController : UITableViewDataSource {
             
             let englishName = businessVM.nameEnglish
             let chineseName = businessVM.nameSChinese
-            let wantToGoCounter = businessVM.wantToGoCounter
-            
-            let oldPrice: NSMutableAttributedString =  NSMutableAttributedString(string: "$80")
-            oldPrice.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, oldPrice.length))
             
             businessNameLabel?.text = chineseName!
-            if (wantToGoCounter > 0) {
-                wantToGoLabel?.text = String(format: "%d+ 人想去", wantToGoCounter)
-            }
-            else {
-                wantToGoLabel?.hidden = true
-            }
-            //distanceLabel?.text = businessVM.distance
-            //coverImageView?.image = businessVM.coverImage!
+            wantToGoLabel?.text = businessVM.getWantToGoLabelText()
+            
             cityLabel?.text = businessVM.city
-            oldPriceLabel?.attributedText = oldPrice
 
             coverImageView!.hnk_setImageFromURL(NSURL(string: businessVM.coverImageUrl!)!, failure: {
                 println("Image loading failed: \($0)")
