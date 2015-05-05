@@ -13,8 +13,12 @@ import ReactKit
 
 public class NearbyViewModel : BaseViewModel, INearbyViewModel {    
     
-    public override init(businessService: IBusinessService) {
-        super.init(businessService: businessService)
+    public override init(businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+        super.init(businessService: businessService, geoLocationService: geoLocationService)
     }
     
+    public func getBusiness() {
+        let query = BusinessDAO.query()!
+        super.getBusiness(query)
+    }
 }

@@ -136,7 +136,7 @@ extension FeaturedListViewController : UITableViewDataSource {
             let oldPrice: NSMutableAttributedString =  NSMutableAttributedString(string: "$80")
             oldPrice.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, oldPrice.length))
             
-            businessNameLabel?.text = chineseName!// + " | " + englishName!
+            businessNameLabel?.text = chineseName!
             if (wantToGoCounter > 0) {
                 wantToGoLabel?.text = String(format: "%d+ 人想去", wantToGoCounter)
             }

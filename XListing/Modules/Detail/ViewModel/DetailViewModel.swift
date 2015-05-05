@@ -14,9 +14,9 @@ public class DetailViewModel : BaseViewModel, IDetailViewModel {
     
     private let wantToGoService: IWantToGoService
     
-    public init(wantToGoService: IWantToGoService, businessService: IBusinessService) {
+    public init(wantToGoService: IWantToGoService, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
         self.wantToGoService = wantToGoService
-        super.init(businessService: businessService)
+        super.init(businessService: businessService, geoLocationService: geoLocationService)
     }
     
     public func goingToBusiness(business: BusinessViewModel, thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGoDAO, NSError> {

@@ -16,28 +16,20 @@ public class BaseViewModel {
     public let businessVMArr = DynamicArray()
     
     private let businessService: IBusinessService
+    private let geoLocationService: IGeoLocationService
     
-    public init(businessService: IBusinessService) {
+    public init(businessService: IBusinessService, geoLocationService: IGeoLocationService) {
         self.businessService = businessService
-        //        setupRLMNotificationToken()
+        self.geoLocationService = geoLocationService
     }
     
     
-    public func getBusiness() {
+    public func getBusiness(query: PFQuery) {
         //TODO: support for offline usage.
-        //        return dm.getFeaturedBusiness()
-        prepareDataForSignal()
-    }
-    
-    
-    /**
-    Fetch current location. Create BusinessViewModel with embedded distance data. And finally add the BusinessViewModels to dynamicArray for the view to consume the signal.
-    */
-    public func prepareDataForSignal() {
-        
+        //Fetch current location. Create BusinessViewModel with embedded distance data. And finally add the BusinessViewModels to dynamicArray for the view to consume the signal.
         getCurrentLocation()
             .success { [unowned self] location -> Task<Int, Void, NSError> in
-                return self.businessService.findBy(BusinessDAO.query())
+                return self.businessService.findBy(query)
                     .success { businessDAOArr -> Void in
                         for bus in businessDAOArr {
                             let vm: BusinessViewModel = BusinessViewModel(business: bus, currentLocation: location)
@@ -45,24 +37,12 @@ public class BaseViewModel {
                             self.businessVMArr.proxy.addObject(vm)
                         }
                         
-                    }
-            }
+                }
+        }
     }
     
+    
     public func getCurrentLocation() -> Task<Int, CLLocation, NSError> {
-        let task = Task<Int, CLLocation, NSError> { [unowned self] progress, fulfill, reject, configure in
-            // get current location
-            PFGeoPoint.geoPointForCurrentLocationInBackground({ (geopoint, error) -> Void in
-                if error == nil {
-                    let t = geopoint!
-                    fulfill(CLLocation(latitude: t.latitude, longitude: t.longitude))
-                }
-                else {
-                    reject(error!)
-                }
-            })
-        }
-        
-        return task
+        return geoLocationService.getCurrentLocation()
     }
 }

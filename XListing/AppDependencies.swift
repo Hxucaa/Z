@@ -22,14 +22,15 @@ public class AppDependencies {
     
     public init(window: UIWindow) {
         let rootWireframe: IRootWireframe = RootWireframe(inWindow: window)
+        let gs: IGeoLocationService = GeoLocationService()
         let us: IUserService = UserService()
         let bs: IBusinessService = BusinessService()
         let wtg: IWantToGoService = WantToGoService()
         
         
-        configureFeaturedListDependencies(rootWireframe, businessService: bs)
-        configureNearbyDependencies(rootWireframe, businessService: bs)
-        configureDetailDependencies(rootWireframe, wantToGoService: wtg, businessService: bs)
+        configureFeaturedListDependencies(rootWireframe, businessService: bs, geoLocationService: gs)
+        configureNearbyDependencies(rootWireframe, businessService: bs, geoLocationService: gs)
+        configureDetailDependencies(rootWireframe, wantToGoService: wtg, businessService: bs, geoLocationService: gs)
         configureAccountDependencies(rootWireframe, userService: us)
     }
     
@@ -47,10 +48,10 @@ public class AppDependencies {
 
         :param: rootWireframe The RootWireframe.
     */
-    private func configureFeaturedListDependencies(rootWireframe: IRootWireframe, businessService bs: IBusinessService) {
+    private func configureFeaturedListDependencies(rootWireframe: IRootWireframe, businessService bs: IBusinessService, geoLocationService gs: IGeoLocationService) {
         
         // instantiate view model
-        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(businessService: bs)
+        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(businessService: bs, geoLocationService: gs)
         
         featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM)
         
@@ -61,10 +62,10 @@ public class AppDependencies {
     
     :param: rootWireframe The RootWireframe.
     */
-    private func configureNearbyDependencies(rootWireframe: IRootWireframe, businessService bs: IBusinessService) {
+    private func configureNearbyDependencies(rootWireframe: IRootWireframe, businessService bs: IBusinessService, geoLocationService gs: IGeoLocationService) {
         
         // instantiate view model
-        let nearbyVM: INearbyViewModel = NearbyViewModel(businessService: bs)
+        let nearbyVM: INearbyViewModel = NearbyViewModel(businessService: bs, geoLocationService: gs)
         
         nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, nearbyViewModel: nearbyVM)
         
@@ -76,10 +77,10 @@ public class AppDependencies {
     
     :param: rootWireframe The RootWireframe.
     */
-    private func configureDetailDependencies(rootWireframe: IRootWireframe, wantToGoService wtg: IWantToGoService, businessService bs: IBusinessService) {
+    private func configureDetailDependencies(rootWireframe: IRootWireframe, wantToGoService wtg: IWantToGoService, businessService bs: IBusinessService, geoLocationService gs: IGeoLocationService) {
         
         // instantiate view model
-        let detailVM: IDetailViewModel = DetailViewModel(wantToGoService: wtg, businessService: bs)
+        let detailVM: IDetailViewModel = DetailViewModel(wantToGoService: wtg, businessService: bs, geoLocationService: gs)
         
         detailWireframe = DetailWireframe(rootWireframe: rootWireframe, detailViewModel: detailVM)
         
