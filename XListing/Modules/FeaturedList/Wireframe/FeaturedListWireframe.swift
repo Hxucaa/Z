@@ -15,8 +15,8 @@ public class FeaturedListWireframe : BaseWireframe {
     private let featuredListVM: IFeaturedListViewModel
     private var featuredListViewController: FeaturedListViewController?
     
-    public weak var nearbyInterfaceDelegate: FeaturedListInterfaceToNearbyInterfaceDelegate?
-    public weak var detailInterfaceDelegate: FeaturedListInterfaceToDetailInterfaceDelegate?
+    public weak var nearbyModule: NearbyModule?
+    public weak var detailModule: DetailModule?
     
     public init(rootWireframe: IRootWireframe, featuredListVM: IFeaturedListViewModel) {
         self.featuredListVM = featuredListVM
@@ -51,12 +51,12 @@ extension FeaturedListWireframe : IFeaturedListWireframe {
     }
 }
 
-extension FeaturedListWireframe : FeaturedListViewControllerNavigationDelegate {
+extension FeaturedListWireframe : FeaturedListNavigationDelegate {
     public func pushNearby() {
-        nearbyInterfaceDelegate?.transitionToNearbyInterfaceFromFeaturedList()
+        nearbyModule?.pushView()
     }
     
     public func pushDetail(businessViewModel: BusinessViewModel) {
-        detailInterfaceDelegate?.transitionToDetailInterfaceFromFeaturedListInterface(businessViewModel)
+        detailModule?.pushView(businessViewModel)
     }
 }

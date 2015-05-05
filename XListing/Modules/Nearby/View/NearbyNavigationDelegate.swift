@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol NearbyViewControllerNavigationDelegate : class {
+public protocol NearbyNavigationDelegate : class {
     func pushDetail(businessViewModel: BusinessViewModel)
 }

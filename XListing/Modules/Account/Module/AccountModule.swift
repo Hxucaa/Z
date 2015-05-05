@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol AccountInterfaceDelegate : class {
-    func pushInterface()
+    func pushView()
 }

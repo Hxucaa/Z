@@ -15,7 +15,7 @@ public class NearbyWireframe : BaseWireframe, INearbyWireframe {
     private let nearbyVM: INearbyViewModel
     private var nearbyVC: NearbyViewController?
     
-    public weak var detailInterfaceDelegate: NearbyInterfaceToDetailInterfaceDelegate?
+    public weak var detailModule: DetailModule?
     
     public init(rootWireframe: IRootWireframe, nearbyViewModel: INearbyViewModel) {
         nearbyVM = nearbyViewModel
@@ -37,15 +37,15 @@ public class NearbyWireframe : BaseWireframe, INearbyWireframe {
     }
 }
 
-extension NearbyWireframe : FeaturedListInterfaceToNearbyInterfaceDelegate {
-    public func transitionToNearbyInterfaceFromFeaturedList() {
+extension NearbyWireframe : NearbyModule {
+    public func pushView() {
         let injectedViewController = initViewController()
         rootWireframe.pushViewController(injectedViewController, animated: true)
     }
 }
 
-extension NearbyWireframe : NearbyViewControllerNavigationDelegate {
+extension NearbyWireframe : NearbyNavigationDelegate {
     public func pushDetail(businessViewModel: BusinessViewModel) {
-        detailInterfaceDelegate?.transitionToDetailInterfaceFromNearbyInterface(businessViewModel)
+        detailModule?.pushView(businessViewModel)
     }
 }

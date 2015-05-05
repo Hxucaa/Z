@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol FeaturedListViewControllerNavigationDelegate : class {
+public protocol FeaturedListNavigationDelegate : class {
     /// Push NearbyViewController to NavigationController
     func pushNearby()
     /// Push DetailViewController to NavigationController

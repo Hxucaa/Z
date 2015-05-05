@@ -44,10 +44,11 @@
 		B4B665481ADF8DC60084DBE7 /* IDetailWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B665471ADF8DC60084DBE7 /* IDetailWireframe.swift */; };
 		B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */; };
 		B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */; };
-		B4D408D21AF80C2100ECF59A /* NearbyInterfaceToDetailInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D408D11AF80C2100ECF59A /* NearbyInterfaceToDetailInterfaceDelegate.swift */; };
-		B4D408D41AF80E9200ECF59A /* NearbyViewControllerNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D408D31AF80E9200ECF59A /* NearbyViewControllerNavigationDelegate.swift */; };
+		B4D408D41AF80E9200ECF59A /* NearbyNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D408D31AF80E9200ECF59A /* NearbyNavigationDelegate.swift */; };
 		B4DB9AC21AF954AC009FBFE1 /* GeoLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9AC11AF954AC009FBFE1 /* GeoLocationService.swift */; };
 		B4DB9AC41AF954C8009FBFE1 /* IGeoLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9AC31AF954C8009FBFE1 /* IGeoLocationService.swift */; };
+		B4DB9AC71AF95F4B009FBFE1 /* DetailModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9AC61AF95F4B009FBFE1 /* DetailModule.swift */; };
+		B4DB9ACC1AF969D7009FBFE1 /* NearbyModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9ACB1AF969D7009FBFE1 /* NearbyModule.swift */; };
 		B4E1384A1AE1B94C0082DCA3 /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E138491AE1B94C0082DCA3 /* UserDAO.swift */; };
 		B4E1384C1AE1BD0D0082DCA3 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E1384B1AE1BD0D0082DCA3 /* UserService.swift */; };
 		B4E1384E1AE1CA9D0082DCA3 /* IUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E1384D1AE1CA9D0082DCA3 /* IUserService.swift */; };
@@ -62,11 +63,9 @@
 		B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */; };
 		B4FCC72E1AE9D35C009B4DF6 /* IAccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72D1AE9D35C009B4DF6 /* IAccountWireframe.swift */; };
 		B4FCC7301AE9D644009B4DF6 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72F1AE9D644009B4DF6 /* AccountViewController.swift */; };
-		B4FCC7341AEA28BA009B4DF6 /* FeaturedListInterfaceToNearbyInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7331AEA28BA009B4DF6 /* FeaturedListInterfaceToNearbyInterfaceDelegate.swift */; };
-		B4FCC7381AEAD172009B4DF6 /* FeaturedListInterfaceToDetailInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7371AEAD172009B4DF6 /* FeaturedListInterfaceToDetailInterfaceDelegate.swift */; };
 		B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */; };
-		B4FCC73D1AEAD6F3009B4DF6 /* AccountInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC73C1AEAD6F3009B4DF6 /* AccountInterfaceDelegate.swift */; };
-		B4FCC73F1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC73E1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift */; };
+		B4FCC73D1AEAD6F3009B4DF6 /* AccountModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC73C1AEAD6F3009B4DF6 /* AccountModule.swift */; };
+		B4FCC73F1AEADE5B009B4DF6 /* FeaturedListNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC73E1AEADE5B009B4DF6 /* FeaturedListNavigationDelegate.swift */; };
 		B4FCC7411AEB0080009B4DF6 /* IRootWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7401AEB0080009B4DF6 /* IRootWireframe.swift */; };
 		E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -130,10 +129,11 @@
 		B4B665471ADF8DC60084DBE7 /* IDetailWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IDetailWireframe.swift; sourceTree = "<group>"; };
 		B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootWireframe.swift; sourceTree = "<group>"; };
 		B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewController.swift; sourceTree = "<group>"; };
-		B4D408D11AF80C2100ECF59A /* NearbyInterfaceToDetailInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyInterfaceToDetailInterfaceDelegate.swift; sourceTree = "<group>"; };
-		B4D408D31AF80E9200ECF59A /* NearbyViewControllerNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyViewControllerNavigationDelegate.swift; sourceTree = "<group>"; };
+		B4D408D31AF80E9200ECF59A /* NearbyNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NearbyNavigationDelegate.swift; path = ../View/NearbyNavigationDelegate.swift; sourceTree = "<group>"; };
 		B4DB9AC11AF954AC009FBFE1 /* GeoLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoLocationService.swift; sourceTree = "<group>"; };
 		B4DB9AC31AF954C8009FBFE1 /* IGeoLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IGeoLocationService.swift; sourceTree = "<group>"; };
+		B4DB9AC61AF95F4B009FBFE1 /* DetailModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailModule.swift; sourceTree = "<group>"; };
+		B4DB9ACB1AF969D7009FBFE1 /* NearbyModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyModule.swift; sourceTree = "<group>"; };
 		B4E138491AE1B94C0082DCA3 /* UserDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDAO.swift; sourceTree = "<group>"; };
 		B4E1384B1AE1BD0D0082DCA3 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		B4E1384D1AE1CA9D0082DCA3 /* IUserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IUserService.swift; sourceTree = "<group>"; };
@@ -148,11 +148,9 @@
 		B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountWireframe.swift; sourceTree = "<group>"; };
 		B4FCC72D1AE9D35C009B4DF6 /* IAccountWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IAccount\U0010Wireframe.swift"; sourceTree = "<group>"; };
 		B4FCC72F1AE9D644009B4DF6 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
-		B4FCC7331AEA28BA009B4DF6 /* FeaturedListInterfaceToNearbyInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListInterfaceToNearbyInterfaceDelegate.swift; sourceTree = "<group>"; };
-		B4FCC7371AEAD172009B4DF6 /* FeaturedListInterfaceToDetailInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListInterfaceToDetailInterfaceDelegate.swift; sourceTree = "<group>"; };
 		B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = INearbyWireframe.swift; sourceTree = "<group>"; };
-		B4FCC73C1AEAD6F3009B4DF6 /* AccountInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountInterfaceDelegate.swift; sourceTree = "<group>"; };
-		B4FCC73E1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewControllerNavigationDelegate.swift; sourceTree = "<group>"; };
+		B4FCC73C1AEAD6F3009B4DF6 /* AccountModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountModule.swift; sourceTree = "<group>"; };
+		B4FCC73E1AEADE5B009B4DF6 /* FeaturedListNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedListNavigationDelegate.swift; path = ../View/FeaturedListNavigationDelegate.swift; sourceTree = "<group>"; };
 		B4FCC7401AEB0080009B4DF6 /* IRootWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRootWireframe.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -326,8 +324,7 @@
 		B47C0EA81AC0A7EF00F9FB31 /* Wireframe */ = {
 			isa = PBXGroup;
 			children = (
-				B4FCC7371AEAD172009B4DF6 /* FeaturedListInterfaceToDetailInterfaceDelegate.swift */,
-				B4FCC7331AEA28BA009B4DF6 /* FeaturedListInterfaceToNearbyInterfaceDelegate.swift */,
+				B4FCC73E1AEADE5B009B4DF6 /* FeaturedListNavigationDelegate.swift */,
 				B47C0EA91AC0A82C00F9FB31 /* FeaturedListWireframe.swift */,
 				B48C99231ADBA4280045BCA9 /* IFeaturedListWireframe.swift */,
 			);
@@ -337,6 +334,7 @@
 		B48C990F1ADA55AF0045BCA9 /* Nearby */ = {
 			isa = PBXGroup;
 			children = (
+				B4DB9ACA1AF96977009FBFE1 /* Module */,
 				B48C99201ADA687D0045BCA9 /* Wireframe */,
 				B48C99101ADA55C10045BCA9 /* View */,
 				B48C991B1ADA62350045BCA9 /* ViewModel */,
@@ -347,7 +345,6 @@
 		B48C99101ADA55C10045BCA9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B4D408D31AF80E9200ECF59A /* NearbyViewControllerNavigationDelegate.swift */,
 				B48C99111ADA56F70045BCA9 /* NearbyViewController.swift */,
 				2A41A3111AF337350086D24B /* NearbyTableViewCell.swift */,
 				2AC9D8BF1AF735A600C51DB3 /* NearbyTableViewCellXIB.xib */,
@@ -370,7 +367,7 @@
 		B48C99201ADA687D0045BCA9 /* Wireframe */ = {
 			isa = PBXGroup;
 			children = (
-				B4D408D11AF80C2100ECF59A /* NearbyInterfaceToDetailInterfaceDelegate.swift */,
+				B4D408D31AF80E9200ECF59A /* NearbyNavigationDelegate.swift */,
 				B48C99211ADA6A640045BCA9 /* NearbyWireframe.swift */,
 				B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */,
 			);
@@ -389,6 +386,7 @@
 		B4B6653B1ADF88070084DBE7 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				B4DB9AC51AF95EED009FBFE1 /* Module */,
 				B4B6653E1ADF88250084DBE7 /* Wireframe */,
 				B4B6653C1ADF88130084DBE7 /* View */,
 				B4B6653D1ADF88180084DBE7 /* ViewModel */,
@@ -451,7 +449,6 @@
 			isa = PBXGroup;
 			children = (
 				B4CC82641AC1660F00E85CEA /* FeaturedListViewController.swift */,
-				B4FCC73E1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -485,6 +482,31 @@
 			path = Wireframe;
 			sourceTree = "<group>";
 		};
+		B4DB9AC51AF95EED009FBFE1 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				B4DB9AC61AF95F4B009FBFE1 /* DetailModule.swift */,
+			);
+			name = Module;
+			path = Detail/Module;
+			sourceTree = "<group>";
+		};
+		B4DB9ACA1AF96977009FBFE1 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				B4DB9ACB1AF969D7009FBFE1 /* NearbyModule.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		B4DB9ACD1AF96FD3009FBFE1 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				B4FCC73C1AEAD6F3009B4DF6 /* AccountModule.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
 		B4E36B9C1AC1F5C9000F260E /* Wireframe */ = {
 			isa = PBXGroup;
 			children = (
@@ -497,6 +519,7 @@
 		B4FCC7231AE9C627009B4DF6 /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				B4DB9ACD1AF96FD3009FBFE1 /* Module */,
 				B4FCC7291AE9D2FB009B4DF6 /* Wireframe */,
 				B4FCC72A1AE9D302009B4DF6 /* View */,
 				B4FCC7241AE9C675009B4DF6 /* ViewModel */,
@@ -518,7 +541,6 @@
 			children = (
 				B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */,
 				B4FCC72D1AE9D35C009B4DF6 /* IAccountWireframe.swift */,
-				B4FCC73C1AEAD6F3009B4DF6 /* AccountInterfaceDelegate.swift */,
 			);
 			path = Wireframe;
 			sourceTree = "<group>";
@@ -761,9 +783,8 @@
 				B44E34FF1AD5A23800657A31 /* BusinessViewModel.swift in Sources */,
 				B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */,
 				2A41A3131AF337350086D24B /* NearbyTableViewCell.swift in Sources */,
-				B4D408D41AF80E9200ECF59A /* NearbyViewControllerNavigationDelegate.swift in Sources */,
-				B4D408D21AF80C2100ECF59A /* NearbyInterfaceToDetailInterfaceDelegate.swift in Sources */,
-				B4FCC73F1AEADE5B009B4DF6 /* FeaturedListViewControllerNavigationDelegate.swift in Sources */,
+				B4D408D41AF80E9200ECF59A /* NearbyNavigationDelegate.swift in Sources */,
+				B4FCC73F1AEADE5B009B4DF6 /* FeaturedListNavigationDelegate.swift in Sources */,
 				B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */,
 				B48C99241ADBA4280045BCA9 /* IFeaturedListWireframe.swift in Sources */,
 				B44E35041AD63F6000657A31 /* BusinessService.swift in Sources */,
@@ -772,14 +793,13 @@
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,
 				B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */,
 				B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */,
+				B4DB9ACC1AF969D7009FBFE1 /* NearbyModule.swift in Sources */,
 				7EF371111AB8C012009AA3B9 /* AppDelegate.swift in Sources */,
-				B4FCC7341AEA28BA009B4DF6 /* FeaturedListInterfaceToNearbyInterfaceDelegate.swift in Sources */,
 				B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */,
 				B4DB9AC41AF954C8009FBFE1 /* IGeoLocationService.swift in Sources */,
 				B4B665401ADF88DB0084DBE7 /* DetailViewController.swift in Sources */,
 				B4B665461ADF8D5C0084DBE7 /* DetailWireframe.swift in Sources */,
 				B4A3C16D1AD44B7E00B9D699 /* FeaturedListViewModel.swift in Sources */,
-				B4FCC7381AEAD172009B4DF6 /* FeaturedListInterfaceToDetailInterfaceDelegate.swift in Sources */,
 				B4CC82651AC1660F00E85CEA /* FeaturedListViewController.swift in Sources */,
 				B4DB9AC21AF954AC009FBFE1 /* GeoLocationService.swift in Sources */,
 				B4E1384C1AE1BD0D0082DCA3 /* UserService.swift in Sources */,
@@ -793,7 +813,8 @@
 				B43032441AE369230068E8DF /* IObjectService.swift in Sources */,
 				B4E36BBB1ACE543C000F260E /* BusinessDAO.swift in Sources */,
 				B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */,
-				B4FCC73D1AEAD6F3009B4DF6 /* AccountInterfaceDelegate.swift in Sources */,
+				B4FCC73D1AEAD6F3009B4DF6 /* AccountModule.swift in Sources */,
+				B4DB9AC71AF95F4B009FBFE1 /* DetailModule.swift in Sources */,
 				B4FCC7301AE9D644009B4DF6 /* AccountViewController.swift in Sources */,
 				B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */,
 				B4E1384E1AE1CA9D0082DCA3 /* IUserService.swift in Sources */,

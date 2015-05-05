@@ -69,7 +69,7 @@ public class AppDependencies {
         
         nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, nearbyViewModel: nearbyVM)
         
-        featuredListWireframe?.nearbyInterfaceDelegate = nearbyWireframe as? FeaturedListInterfaceToNearbyInterfaceDelegate
+        featuredListWireframe?.nearbyModule = nearbyWireframe as? NearbyModule
     }
     
     /**
@@ -84,8 +84,9 @@ public class AppDependencies {
         
         detailWireframe = DetailWireframe(rootWireframe: rootWireframe, detailViewModel: detailVM)
         
-        featuredListWireframe?.detailInterfaceDelegate = detailWireframe as? FeaturedListInterfaceToDetailInterfaceDelegate
-        nearbyWireframe?.detailInterfaceDelegate = detailWireframe as? NearbyInterfaceToDetailInterfaceDelegate
+        featuredListWireframe?.detailModule = detailWireframe as? DetailModule
+        
+        nearbyWireframe?.detailModule = detailWireframe as? DetailModule
     }
     
     private func configureAccountDependencies(rootWireframe: IRootWireframe, userService us: IUserService) {

@@ -27,7 +27,7 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     /// View Model
     public var nearbyVM: INearbyViewModel?
     
-    public weak var navigationDelegate: NearbyViewControllerNavigationDelegate?
+    public weak var navigationDelegate: NearbyNavigationDelegate?
     
     public override func viewDidLoad() {
         super.viewDidLoad()
