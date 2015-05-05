@@ -13,18 +13,14 @@ import ReactKit
 
 public class FeaturedListViewModel : BaseViewModel, IFeaturedListViewModel {
     
-    /// Lazily evaluated list of featured businesses
-    private var featured = Business.objectsInRealm(RealmService().defaultRealm, withPredicate: NSPredicate(format: "featured = %@", true))
-    
-    
-    public override init(datamanager: IDataManager, realmService: IRealmService) {
-        super.init(datamanager: datamanager, realmService: realmService)
+    public override init(businessService: IBusinessService) {
+        super.init(businessService: businessService)
     }
     
 
     public override func getBusiness() {
         //TODO: support for offline usage.
 //        return dm.getFeaturedBusiness()
-        prepareDataForSignal(featured)
+        prepareDataForSignal()
     }
 }

@@ -11,14 +11,10 @@ import Realm
 import SwiftTask
 import ReactKit
 
-public class NearbyViewModel : BaseViewModel, INearbyViewModel {
+public class NearbyViewModel : BaseViewModel, INearbyViewModel {    
     
-    /// Lazily evaluated list of featured businesses
-    private var businesses = Business.allObjects()
-    
-    
-    public override init(datamanager: IDataManager, realmService: IRealmService) {
-        super.init(datamanager: datamanager, realmService: realmService)
+    public override init(businessService: IBusinessService) {
+        super.init(businessService: businessService)
     }
     
 }
