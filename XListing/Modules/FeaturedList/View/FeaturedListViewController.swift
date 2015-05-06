@@ -8,7 +8,6 @@
 
 import UIKit
 import ReactKit
-import Realm
 import Haneke
 
 private let NumberOfRowsPerSection = 1

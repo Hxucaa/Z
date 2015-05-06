@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Realm
 import SwiftTask
 import ReactKit
 
