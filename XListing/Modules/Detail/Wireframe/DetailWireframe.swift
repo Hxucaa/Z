@@ -35,16 +35,8 @@ public class DetailWireframe : BaseWireframe, IDetailWireframe {
     }
 }
 
-extension DetailWireframe : FeaturedListInterfaceToDetailInterfaceDelegate {
-    public func transitionToDetailInterfaceFromFeaturedListInterface(businessViewModel: BusinessViewModel) {
-        let injectedViewController = injectViewModelToViewController()
-        injectedViewController.businessVM = businessViewModel
-        rootWireframe.pushViewController(injectedViewController, animated: true)
-    }
-}
-
-extension DetailWireframe : NearbyInterfaceToDetailInterfaceDelegate {
-    public func transitionToDetailInterfaceFromNearbyInterface(businessViewModel: BusinessViewModel) {
+extension DetailWireframe : DetailModule {
+    public func pushView(businessViewModel: BusinessViewModel) {
         let injectedViewController = injectViewModelToViewController()
         injectedViewController.businessVM = businessViewModel
         rootWireframe.pushViewController(injectedViewController, animated: true)

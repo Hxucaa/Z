@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Realm
 import SwiftTask
 
 /**
@@ -19,8 +18,8 @@ private let 米 = "米"
 public class BusinessViewModel {
     
     public private(set) var objectId: String?
-    public private(set) var remoteCreatedAt: NSDate?
-    public private(set) var remoteUpdatedAt: NSDate?
+    public private(set) var createdAt: NSDate?
+    public private(set) var updatedAt: NSDate?
     
     /**
     *  Business info
@@ -62,28 +61,33 @@ public class BusinessViewModel {
     
     public private(set) var distance: String?
     
-    public init(business: Business) {
+    /**
+    *  Statistics
+    */
+    public private(set) var wantToGoCounter: Int = 0
+    
+    public init(business: BusinessDAO) {
         objectId = business.objectId
-        remoteCreatedAt = NSDate(timeIntervalSince1970: business.remoteCreatedAt)
-        remoteUpdatedAt = NSDate(timeIntervalSince1970: business.remoteUpdatedAt)
+        createdAt = business.createdAt
+        updatedAt = business.updatedAt
         
         nameSChinese = business.nameSChinese
         nameTChinese = business.nameTChinese
         nameEnglish = business.nameEnglish
-        isClaimed = business.isClaimed
-        isClosed = business.isClosed
+        isClaimed = business.isClaimed!
+        isClosed = business.isClosed!
         phone = business.phone
         url = business.url
         mobileUrl = business.mobileUrl
         uid = business.uid
         imageUrl = business.imageUrl
-        reviewCount = business.reviewCount
-        rating = business.rating
-        coverImageUrl = business.coverImageUrl
+        reviewCount = business.reviewCount!
+        rating = business.rating!
+        coverImageUrl = business.cover?.url
         
-        featured = business.featured
-        timeStart = NSDate(timeIntervalSince1970: business.timeStart)
-        timeEnd = NSDate(timeIntervalSince1970: business.timeEnd)
+        featured = business.featured!
+        timeStart = business.timeStart
+        timeEnd = business.timeEnd
         
         unit = business.unit
         address = business.address
@@ -93,14 +97,20 @@ public class BusinessViewModel {
         country = business.country
         postalCode = business.postalCode
         crossStreets = business.crossStreets
-        latitude = business.latitude
-        longitude = business.longitude
+        latitude = business.geopoint?.latitude
+        longitude = business.geopoint?.longitude
+        
+        wantToGoCounter = business.wantToGoCounter!
         
         coverImageUrl = "http://www.afroglobe.net/wp-content/uploads/2015/03/Wonderful-Life-With-Fantastic-Chinese-Restaurant-Design-Idea-2.jpg"
+        
     }
     
-    public convenience init(business: Business, distanceInMeter: CLLocationDistance) {
+    public convenience init(business: BusinessDAO, currentLocation: CLLocation) {
         self.init(business: business)
+
+        let busCLLocation = CLLocation(latitude: (business.geopoint?.latitude)!, longitude: (business.geopoint?.longitude)!)
+        let distanceInMeter = currentLocation.distanceFromLocation(busCLLocation)
         
         let formatter = NSNumberFormatter()
         formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
@@ -111,6 +121,15 @@ public class BusinessViewModel {
         else {
             formatter.maximumFractionDigits = 0
             self.distance = formatter.stringFromNumber(distanceInMeter)! + 米
+        }
+    }
+    
+    public func getWantToGoLabelText() -> String {
+        if (wantToGoCounter > 0) {
+            return String(format: "%d+ 人想去", wantToGoCounter)
+        }
+        else {
+            return ""
         }
     }
 }

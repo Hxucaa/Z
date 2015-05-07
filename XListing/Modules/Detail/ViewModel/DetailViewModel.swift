@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Realm
 import SwiftTask
 import ReactKit
 
@@ -15,9 +14,9 @@ public class DetailViewModel : BaseViewModel, IDetailViewModel {
     
     private let wantToGoService: IWantToGoService
     
-    public init(datamanager: IDataManager, realmService: IRealmService, wantToGoService: IWantToGoService) {
+    public init(wantToGoService: IWantToGoService, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
         self.wantToGoService = wantToGoService
-        super.init(datamanager: datamanager, realmService: realmService)
+        super.init(businessService: businessService, geoLocationService: geoLocationService)
     }
     
     public func goingToBusiness(business: BusinessViewModel, thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGoDAO, NSError> {

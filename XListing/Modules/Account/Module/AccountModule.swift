@@ -1,5 +1,5 @@
 //
-//  INearbyWireframe.swift
+//  AccountInterfaceDelegate.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-04-24.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol INearbyWireframe : class {
-    var detailModule: DetailModule? { get set }
+public protocol AccountInterfaceDelegate : class {
+    func pushView()
 }

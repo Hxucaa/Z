@@ -7,24 +7,18 @@
 //
 
 import Foundation
-import Realm
 import SwiftTask
 import ReactKit
 
 public class FeaturedListViewModel : BaseViewModel, IFeaturedListViewModel {
     
-    /// Lazily evaluated list of featured businesses
-    private var featured = Business.objectsInRealm(RealmService().defaultRealm, withPredicate: NSPredicate(format: "featured = %@", true))
-    
-    
-    public override init(datamanager: IDataManager, realmService: IRealmService) {
-        super.init(datamanager: datamanager, realmService: realmService)
+    public override init(businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+        super.init(businessService: businessService, geoLocationService: geoLocationService)
     }
-    
 
-    public override func getBusiness() {
-        //TODO: support for offline usage.
-//        return dm.getFeaturedBusiness()
-        prepareDataForSignal(featured)
+    public func getBusiness() {
+        let query = BusinessDAO.query()!
+        query.whereKey("featured", equalTo: true);
+        super.getBusiness(query)
     }
 }

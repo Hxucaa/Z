@@ -29,7 +29,7 @@ public class AccountWireframe : BaseWireframe, IAccountWireframe {
 }
 
 extension AccountWireframe : AccountInterfaceDelegate {
-    public func pushInterface() {
+    public func pushView() {
         let injectedViewController = injectViewModelToViewController()
         rootWireframe.pushViewController(injectedViewController, animated: true)
     }

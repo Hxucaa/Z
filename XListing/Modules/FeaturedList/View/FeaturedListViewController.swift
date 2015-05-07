@@ -8,7 +8,6 @@
 
 import UIKit
 import ReactKit
-import Realm
 import Haneke
 
 private let NumberOfRowsPerSection = 1
@@ -21,7 +20,7 @@ public class FeaturedListViewController: UIViewController {
     
     @IBOutlet weak var nearbyButton: UIBarButtonItem!
     
-    public weak var navigationDelegate: FeaturedListViewControllerNavigationDelegate?
+    public weak var navigationDelegate: FeaturedListNavigationDelegate?
     
     /// ViewModel
     public var featuredListVM: IFeaturedListViewModel?
@@ -70,8 +69,7 @@ public class FeaturedListViewController: UIViewController {
     */
     private func setupNearbyButton() {
         let nearbyButtonSignal = nearbyButton.signal { [unowned self] button -> Void in
-//            self.pushNearbyViewController!()
-            self.navigationDelegate?.pushNearby()
+            navigationDelegate?.pushNearby()
         }
         nearbyButtonSignal.ownedBy(self)
         nearbyButtonSignal ~> {}
@@ -119,6 +117,7 @@ extension FeaturedListViewController : UITableViewDataSource {
         let section = indexPath.section
         
         var businessNameLabel : UILabel? = self.view.viewWithTag(1) as? UILabel
+        var wantToGoLabel: UILabel? = self.view.viewWithTag(2) as? UILabel
         var cityLabel : UILabel? = self.view.viewWithTag(4) as? UILabel
         var oldPriceLabel : UILabel? = self.view.viewWithTag(5) as? UILabel
         let coverImageView = self.view.viewWithTag(3) as? UIImageView
@@ -131,14 +130,10 @@ extension FeaturedListViewController : UITableViewDataSource {
             let englishName = businessVM.nameEnglish
             let chineseName = businessVM.nameSChinese
             
-            let oldPrice: NSMutableAttributedString =  NSMutableAttributedString(string: "$80")
-            oldPrice.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, oldPrice.length))
+            businessNameLabel?.text = chineseName!
+            wantToGoLabel?.text = businessVM.getWantToGoLabelText()
             
-            businessNameLabel?.text = chineseName!// + " | " + englishName!
-            //distanceLabel?.text = businessVM.distance
-            //coverImageView?.image = businessVM.coverImage!
             cityLabel?.text = businessVM.city
-            oldPriceLabel?.attributedText = oldPrice
 
             coverImageView!.hnk_setImageFromURL(NSURL(string: businessVM.coverImageUrl!)!, failure: {
                 println("Image loading failed: \($0)")
@@ -165,6 +160,7 @@ extension FeaturedListViewController : UITableViewDelegate {
         
         let businessVM = featuredListVM!.businessVMArr.proxy[indexPath.section] as! BusinessViewModel
         // pass business info to detail view and push it
+//        navigationDelegate?.pushDetail(businessVM)
         navigationDelegate?.pushDetail(businessVM)
     }
 }

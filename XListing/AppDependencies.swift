@@ -16,25 +16,21 @@ public class AppDependencies {
     
     private var featuredListWireframe: IFeaturedListWireframe?
     private var nearbyWireframe: INearbyWireframe?
-    private var backgroundUpdateWireframe: IBackgroundUpdateWireframe?
     private var detailWireframe: IDetailWireframe?
     private var accountWireframe: IAccountWireframe?
     
     
     public init(window: UIWindow) {
         let rootWireframe: IRootWireframe = RootWireframe(inWindow: window)
-        let rw: IRealmWritter = RealmWritter()
+        let gs: IGeoLocationService = GeoLocationService()
         let us: IUserService = UserService()
         let bs: IBusinessService = BusinessService()
         let wtg: IWantToGoService = WantToGoService()
-        let rs: IRealmService = RealmService.sharedInstance
-        let dm: IDataManager = DataManager(businessService: bs, realmService: rs, realmWritter: rw)
         
         
-        configureBackgroundUpdateDependencies(dm)
-        configureFeaturedListDependencies(rootWireframe, dataManager: dm, realmService: rs)
-        configureNearbyDependencies(rootWireframe, dataManager: dm, realmService: rs)
-        configureDetailDependencies(rootWireframe, dataManager: dm, realmService: rs, wantToGoService: wtg)
+        configureFeaturedListDependencies(rootWireframe, businessService: bs, geoLocationService: gs)
+        configureNearbyDependencies(rootWireframe, businessService: bs, geoLocationService: gs)
+        configureDetailDependencies(rootWireframe, wantToGoService: wtg, businessService: bs, geoLocationService: gs)
         configureAccountDependencies(rootWireframe, userService: us)
     }
     
@@ -52,10 +48,10 @@ public class AppDependencies {
 
         :param: rootWireframe The RootWireframe.
     */
-    private func configureFeaturedListDependencies(rootWireframe: IRootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService) {
+    private func configureFeaturedListDependencies(rootWireframe: IRootWireframe, businessService bs: IBusinessService, geoLocationService gs: IGeoLocationService) {
         
         // instantiate view model
-        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(datamanager: dm, realmService: rs)
+        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(businessService: bs, geoLocationService: gs)
         
         featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM)
         
@@ -66,19 +62,14 @@ public class AppDependencies {
     
     :param: rootWireframe The RootWireframe.
     */
-    private func configureNearbyDependencies(rootWireframe: IRootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService) {
+    private func configureNearbyDependencies(rootWireframe: IRootWireframe, businessService bs: IBusinessService, geoLocationService gs: IGeoLocationService) {
         
         // instantiate view model
-        let nearbyVM: INearbyViewModel = NearbyViewModel(datamanager: dm, realmService: rs)
+        let nearbyVM: INearbyViewModel = NearbyViewModel(businessService: bs, geoLocationService: gs)
         
         nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, nearbyViewModel: nearbyVM)
         
-        featuredListWireframe?.nearbyInterfaceDelegate = nearbyWireframe as? FeaturedListInterfaceToNearbyInterfaceDelegate
-    }
-    
-    private func configureBackgroundUpdateDependencies(dm: IDataManager) {
-        
-        backgroundUpdateWireframe = BackgroundUpdateWireframe(dataManager: dm)
+        featuredListWireframe?.nearbyModule = nearbyWireframe as? NearbyModule
     }
     
     /**
@@ -86,15 +77,16 @@ public class AppDependencies {
     
     :param: rootWireframe The RootWireframe.
     */
-    private func configureDetailDependencies(rootWireframe: IRootWireframe, dataManager dm: IDataManager, realmService rs: IRealmService, wantToGoService wtg: IWantToGoService) {
+    private func configureDetailDependencies(rootWireframe: IRootWireframe, wantToGoService wtg: IWantToGoService, businessService bs: IBusinessService, geoLocationService gs: IGeoLocationService) {
         
         // instantiate view model
-        let detailVM: IDetailViewModel = DetailViewModel(datamanager: dm, realmService: rs, wantToGoService: wtg)
+        let detailVM: IDetailViewModel = DetailViewModel(wantToGoService: wtg, businessService: bs, geoLocationService: gs)
         
         detailWireframe = DetailWireframe(rootWireframe: rootWireframe, detailViewModel: detailVM)
         
-        featuredListWireframe?.detailInterfaceDelegate = detailWireframe as? FeaturedListInterfaceToDetailInterfaceDelegate
-        nearbyWireframe?.detailInterfaceDelegate = detailWireframe as? NearbyInterfaceToDetailInterfaceDelegate
+        featuredListWireframe?.detailModule = detailWireframe as? DetailModule
+        
+        nearbyWireframe?.detailModule = detailWireframe as? DetailModule
     }
     
     private func configureAccountDependencies(rootWireframe: IRootWireframe, userService us: IUserService) {

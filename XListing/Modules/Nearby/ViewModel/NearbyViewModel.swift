@@ -7,18 +7,17 @@
 //
 
 import Foundation
-import Realm
 import SwiftTask
 import ReactKit
 
-public class NearbyViewModel : BaseViewModel, INearbyViewModel {
+public class NearbyViewModel : BaseViewModel, INearbyViewModel {    
     
-    /// Lazily evaluated list of featured businesses
-    private var businesses = Business.allObjects()
-    
-    
-    public override init(datamanager: IDataManager, realmService: IRealmService) {
-        super.init(datamanager: datamanager, realmService: realmService)
+    public override init(businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+        super.init(businessService: businessService, geoLocationService: geoLocationService)
     }
     
+    public func getBusiness() {
+        let query = BusinessDAO.query()!
+        super.getBusiness(query)
+    }
 }
