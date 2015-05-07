@@ -18,6 +18,7 @@ public class AppDependencies {
     private var nearbyWireframe: INearbyWireframe?
     private var detailWireframe: IDetailWireframe?
     private var accountWireframe: IAccountWireframe?
+    private var profileWireframe: IProfileWireframe?
     
     
     public init(window: UIWindow) {
@@ -31,6 +32,7 @@ public class AppDependencies {
         configureFeaturedListDependencies(rootWireframe, businessService: bs, geoLocationService: gs)
         configureNearbyDependencies(rootWireframe, businessService: bs, geoLocationService: gs)
         configureDetailDependencies(rootWireframe, wantToGoService: wtg, businessService: bs, geoLocationService: gs)
+        configureProfileDependencies(rootWireframe, wantToGoService: wtg)
         configureAccountDependencies(rootWireframe, userService: us)
     }
     
@@ -93,5 +95,13 @@ public class AppDependencies {
         let accountVM: IAccountViewModel = AccountViewModel(userService: us)
         
         accountWireframe = AccountWireframe(rootWireframe: rootWireframe, accountVM: accountVM)
+    }
+
+    private func configureProfileDependencies(rootWireframe: IRootWireframe, wantToGoService wtg: IWantToGoService) {
+        let profileVM: IProfileViewModel = ProfileViewModel(wantToGoService: wtg)
+
+        profileWireframe = ProfileWireframe(rootWireframe: rootWireframe, profileViewModel: profileVM)
+
+        featuredListWireframe?.profileModule = profileWireframe as? ProfileModule
     }
 }

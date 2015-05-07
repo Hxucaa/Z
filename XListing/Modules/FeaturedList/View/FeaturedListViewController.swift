@@ -19,6 +19,7 @@ public class FeaturedListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var nearbyButton: UIBarButtonItem!
+    @IBOutlet weak var profileButton: UIBarButtonItem!
     
     public weak var navigationDelegate: FeaturedListNavigationDelegate?
     
@@ -37,6 +38,8 @@ public class FeaturedListViewController: UIViewController {
         
         // Setup nearbyButton
         setupNearbyButton()
+        // Setup profileButton
+        setupProfileButton()
         
         featuredListVM!.getBusiness()
     }
@@ -73,6 +76,17 @@ public class FeaturedListViewController: UIViewController {
         }
         nearbyButtonSignal.ownedBy(self)
         nearbyButtonSignal ~> {}
+    }
+
+    /**
+    React to Profile Button and present ProfileViewController.
+    */
+    private func setupProfileButton() {
+        let profileButtonSignal = profileButton.signal { [unowned self] button -> Void in
+            navigationDelegate?.pushProfile()
+        }
+        profileButtonSignal.ownedBy(self)
+        profileButtonSignal ~> {}
     }
 }
 
