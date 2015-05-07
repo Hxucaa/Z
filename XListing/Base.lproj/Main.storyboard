@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="OjV-3x-cL1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="OjV-3x-cL1">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
@@ -667,9 +667,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="推荐" id="Bo2-mg-wo7">
                         <barButtonItem key="leftBarButtonItem" title="逛一逛" id="HNp-F3-8PD"/>
+                        <barButtonItem key="rightBarButtonItem" title="资料" id="TfN-ot-KeU"/>
                     </navigationItem>
                     <connections>
                         <outlet property="nearbyButton" destination="HNp-F3-8PD" id="kx4-S7-MPP"/>
+                        <outlet property="profileButton" destination="TfN-ot-KeU" id="hfL-fs-Hfg"/>
                         <outlet property="tableView" destination="MEt-fk-66n" id="vpO-Ly-fAN"/>
                         <segue destination="pnY-r6-qDL" kind="push" identifier="FromFeaturedToNearby" id="Kch-5Q-eUq"/>
                         <segue destination="Qif-f0-4vj" kind="push" identifier="ToDetail" id="P7q-SO-bQp"/>

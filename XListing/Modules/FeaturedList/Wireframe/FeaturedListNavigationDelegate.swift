@@ -13,4 +13,6 @@ public protocol FeaturedListNavigationDelegate : class {
     func pushNearby()
     /// Push DetailViewController to NavigationController
     func pushDetail(businessViewModel: BusinessViewModel)
+    /// Push ProfileViewControler to NavigationController
+    func pushProfile()
 }

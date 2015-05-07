@@ -17,6 +17,7 @@ public class FeaturedListWireframe : BaseWireframe {
     
     public weak var nearbyModule: NearbyModule?
     public weak var detailModule: DetailModule?
+    public weak var profileModule: ProfileModule?
     
     public init(rootWireframe: IRootWireframe, featuredListVM: IFeaturedListViewModel) {
         self.featuredListVM = featuredListVM
@@ -58,5 +59,9 @@ extension FeaturedListWireframe : FeaturedListNavigationDelegate {
     
     public func pushDetail(businessViewModel: BusinessViewModel) {
         detailModule?.pushView(businessViewModel)
+    }
+
+    public func pushProfile() {
+        profileModule?.pushView()
     }
 }
