@@ -38,7 +38,18 @@ public class BaseViewModel {
                         }
                         
                 }
-        }
+            }
+            .failure { (error: NSError?, isCancelled: Bool) -> Void in
+                return self.businessService.findBy(query)
+                    .success { businessDAOArr -> Void in
+                        for bus in businessDAOArr {
+                            let vm: BusinessViewModel = BusinessViewModel(business: bus)
+                            // apend BusinessViewModel to DynamicArray for React
+                            self.businessVMArr.proxy.addObject(vm)
+                        }
+                        
+                }
+            }
     }
     
     
