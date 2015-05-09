@@ -16,16 +16,11 @@ private let CellIdentifier = "NearbyCell"
 
 public class NearbyViewController: UIViewController , UITableViewDelegate, UITableViewDataSource{
     
-    private var mapView = MKMapView()
-    private var dataSources: NSMutableArray? = []
-    private var contentView: HorizontalScrollContentView!
-    private var locationData: NSMutableArray? = []
+    private let mapView = MKMapView()
+    private let horizontalScrollContentView = HorizontalScrollContentView()
     private var pageNumber: Int = 0
     
-    //private var tView = UITableView()
-    private var tableArray: NSMutableArray? = []
-    
-    private var nearbyBusinessDataArray: NSMutableArray? = []
+    private var tableArray = [NearbyTableView]()
     
     /// View Model
     public var nearbyVM: INearbyViewModel?
@@ -33,14 +28,55 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-       
-         initMapView()
+        initMapView()
+        initScrollView()
     
+        // Process the signal to do something else. That's why you need to have a reference to the signal.
+        let locationStream = nearbyVM!.getCurrentLocation() ~> { [unowned self] location -> Void in
+            self.shiftMapCenter(location)
+        }
+        locationStream.ownedBy(self)
+
+        setupMapViewSignal()
+        
+        // Don't care about the result. Therefore don't need to hold a reference to the signal.
+        nearbyVM!.getBusiness()
     }
     
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    /**
+    Initialize map view.
+    
+    */
+    private func initMapView() {
+        // start a map view focused at a certain location
+        mapView.frame = view.bounds
+        
+        mapView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
+        
+        view.addSubview(mapView)
+    }
+    
+    /**
+    Intialize scroll view.
+    
+    */
+    private func initScrollView (){
+        let scrollView = HorizontalScrollView()
+        scrollView.frame = view.bounds
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.decelerationRate = UIScrollViewDecelerationRateFast
+        scrollView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
+        
+        scrollView.addSubview(horizontalScrollContentView)
+        scrollView.delegate = self
+        
+        view.addSubview(scrollView)
     }
     
     private func setupMapViewSignal() {
@@ -49,66 +85,19 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
         businessVMArrSignal ~> { [unowned self] changedValues, change, indexSet in
             if change == .Insertion {
                 let businessVM = changedValues![0] as! BusinessViewModel
+                
+                // Setup annotation
                 let annotation = MKPointAnnotation()
-                annotation.coordinate = CLLocationCoordinate2D(latitude: businessVM.latitude!, longitude: businessVM.longitude!)
+                annotation.coordinate = businessVM.getCLLocation().coordinate
                 annotation.title = businessVM.nameSChinese
                 annotation.subtitle = businessVM.nameEnglish
+                
+                // Add annotation to map
                 self.mapView.addAnnotation(annotation)
-                self.nearbyBusinessDataArray?.addObject(businessVM)
-                self.contentView.addSubview(self.newTableView())
+                
+                self.horizontalScrollContentView.addSubview(self.newTableView())
             }
         }
-    }
-    
-    private func initMapView() -> Task<Int, Void, NSError> {
-        // start a map view focused at a certain location
-        let startMapViewAtALocation = { (location: CLLocation) -> Void in
-            self.mapView.frame = self.view.bounds
-            
-            self.mapView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
-            
-            let span = MKCoordinateSpanMake(0.07, 0.07)
-            let region = MKCoordinateRegion(center: location.coordinate, span: span)
-            self.mapView.setRegion(region, animated: true)
-            
-            self.view.addSubview(self.mapView)
-            self.initScrollView()
-            
-        }
-        
-        let task = nearbyVM!.getCurrentLocation()
-            .success { [unowned self] location -> Void in
-                // with current location
-                //startMapViewAtALocation(location)
-                startMapViewAtALocation(CLLocation(latitude: 49.27623, longitude: -123.12941))
-            }
-            .failure { [unowned self] (error, isCancelled) -> Void in
-                // with hardcoded location
-                //TODO: better support for hardcoded location
-                println("Location service failed! Using default Vancouver location.")
-                startMapViewAtALocation(CLLocation(latitude: 49.27623, longitude: -123.12941))
-            }
-        
-        return task
-    }
-    
-    private func initScrollView (){
-        var scrollView = HorizontalScrollView()
-        scrollView.frame = self.view.bounds
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.decelerationRate = UIScrollViewDecelerationRateFast
-        scrollView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
-        self.view.addSubview(scrollView)
-        
-        self.contentView = HorizontalScrollContentView()
-        
-        scrollView.addSubview(self.contentView)
-        scrollView.delegate = self
-        
-        nearbyVM!.getBusiness()
-        setupMapViewSignal()
-
     }
     
     private func newTableView() -> UITableView {
@@ -130,25 +119,28 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
         tableView.rowHeight = 80
         tableView.scrollEnabled = false
         
-        tableArray?.addObject(tableView)
+        tableArray.append(tableView)
         
         return tableView
     }
     
-    public func shiftMapCenter(biz: BusinessViewModel){
-     var bizCoordinate = CLLocationCoordinate2D(latitude: biz.latitude!, longitude: biz.longitude!)
+    /**
+    Move the map view to center on a location.
+    
+    :param: location The geolocation.
+    */
+    private func shiftMapCenter(location: CLLocation){
         let span = MKCoordinateSpanMake(0.07, 0.07)
-        let region = MKCoordinateRegion(center: bizCoordinate, span: span)
-        self.mapView.setRegion(region, animated: true)
-
+        let region = MKCoordinateRegion(center: location.coordinate, span: span)
+        mapView.setRegion(region, animated: true)
     }
     
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var tView:UITableView = tableArray?.objectAtIndex(self.pageNumber) as! UITableView
+        var tView = tableArray[pageNumber]
         
-        var biz:BusinessViewModel = self.nearbyBusinessDataArray?.objectAtIndex(self.pageNumber) as! BusinessViewModel
+        var biz:BusinessViewModel = nearbyVM!.businessVMArr.proxy[pageNumber] as! BusinessViewModel
         
         var cell:NearbyTableViewCell = tView.dequeueReusableCellWithIdentifier(CellIdentifier) as! NearbyTableViewCell
         
@@ -167,10 +159,8 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     }
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var biz:BusinessViewModel = self.nearbyBusinessDataArray?.objectAtIndex(self.pageNumber) as! BusinessViewModel
+        var biz:BusinessViewModel = nearbyVM!.businessVMArr.proxy[pageNumber] as! BusinessViewModel
         
-        //TO DO:
-        //PUSH TO DETAIL VIEW
         nearbyVM?.pushDetailModule(biz)
     }
     
@@ -180,7 +170,7 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
 extension NearbyViewController : UIScrollViewDelegate {
     
     public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        var pageWidth = contentView.pageWidth
+        var pageWidth = horizontalScrollContentView.pageWidth
         
         var pageNumber = targetContentOffset.memory.x/pageWidth!
         if velocity.x < 0 {
@@ -190,13 +180,13 @@ extension NearbyViewController : UIScrollViewDelegate {
             pageNumber = ceil(pageNumber)
         }
         
-        var count = contentView.subviews.count
+        var count = horizontalScrollContentView.subviews.count
             
         self.pageNumber = Int(pageNumber)
-        var tView:UITableView = tableArray?.objectAtIndex(self.pageNumber) as! UITableView
+        var tView = tableArray[self.pageNumber]
         tView.reloadData()
-        var biz:BusinessViewModel = self.nearbyBusinessDataArray?.objectAtIndex(self.pageNumber) as! BusinessViewModel
-        shiftMapCenter(biz)
+        var biz:BusinessViewModel = nearbyVM!.businessVMArr.proxy[self.pageNumber] as! BusinessViewModel
+        shiftMapCenter(biz.getCLLocation())
         
         targetContentOffset.memory.x = pageNumber * pageWidth!
         

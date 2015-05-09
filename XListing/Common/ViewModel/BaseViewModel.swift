@@ -24,10 +24,10 @@ public class BaseViewModel {
     }
     
     
-    public func getBusiness(query: PFQuery) {
+    public func getBusiness(query: PFQuery) -> Task<Int, Void, NSError> {
         //TODO: support for offline usage.
         //Fetch current location. Create BusinessViewModel with embedded distance data. And finally add the BusinessViewModels to dynamicArray for the view to consume the signal.
-        getCurrentLocation()
+        return getCurrentLocation()
             .success { [unowned self] location -> Task<Int, Void, NSError> in
                 return self.businessService.findBy(query)
                     .success { businessDAOArr -> Void in

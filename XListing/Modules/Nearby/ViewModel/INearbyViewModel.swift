@@ -12,7 +12,7 @@ import SwiftTask
 
 public protocol INearbyViewModel {
     var businessVMArr: DynamicArray { get }
-    func getBusiness()
-    func getCurrentLocation() -> Task<Int, CLLocation, NSError>
+    func getCurrentLocation() -> Stream<CLLocation>
+    func getBusiness() -> Stream<Void>
     func pushDetailModule(businessViewModel: BusinessViewModel)
 }

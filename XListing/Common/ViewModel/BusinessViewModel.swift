@@ -140,6 +140,10 @@ public class BusinessViewModel {
     public func getCoverImageNSURL() -> NSURL? {
         return NSURL(string: coverImageUrl!)
     }
+    
+    public func getCLLocation() -> CLLocation {
+        return CLLocation(latitude: latitude!, longitude: longitude!)
+    }
 }
 
 extension BusinessViewModel : Printable {
