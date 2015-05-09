@@ -14,4 +14,5 @@ public protocol INearbyViewModel {
     var businessVMArr: DynamicArray { get }
     func getBusiness()
     func getCurrentLocation() -> Task<Int, CLLocation, NSError>
+    func pushDetailModule(businessViewModel: BusinessViewModel)
 }

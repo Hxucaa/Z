@@ -124,13 +124,21 @@ public class BusinessViewModel {
         }
     }
     
-    public func getWantToGoLabelText() -> String {
+    public func getWantToGoText() -> String {
         if (wantToGoCounter > 0) {
             return String(format: "%d+ 人想去", wantToGoCounter)
         }
         else {
             return ""
         }
+    }
+    
+    public func getOpeningText() -> String {
+        return "营业中"
+    }
+    
+    public func getCoverImageNSURL() -> NSURL? {
+        return NSURL(string: coverImageUrl!)
     }
 }
 

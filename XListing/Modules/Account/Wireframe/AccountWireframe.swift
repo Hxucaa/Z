@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ReactKit
 
 private let AccountViewControllerIdentifier = "AccountViewController"
 
@@ -15,9 +16,18 @@ public class AccountWireframe : BaseWireframe, IAccountWireframe {
     private let accountVM: IAccountViewModel
     private var accountVC: AccountViewController?
     
+    private let navigationNotificationReceiver: Stream<NSNotification?>
+    
     public init(rootWireframe: IRootWireframe, accountVM: IAccountViewModel) {
         self.accountVM = accountVM
+        
+        navigationNotificationReceiver = Notification.stream(NavigationNotificationName.PushAccountModule, nil)
+        
         super.init(rootWireframe: rootWireframe)
+        
+        navigationNotificationReceiver ~> { notification -> Void in
+            self.pushView()
+        }
     }
     
     private func injectViewModelToViewController() -> AccountViewController {
@@ -26,10 +36,9 @@ public class AccountWireframe : BaseWireframe, IAccountWireframe {
         accountVC = viewController
         return viewController
     }
-}
-
-extension AccountWireframe : AccountInterfaceDelegate {
-    public func pushView() {
+    
+    
+    private func pushView() {
         let injectedViewController = injectViewModelToViewController()
         rootWireframe.pushViewController(injectedViewController, animated: true)
     }

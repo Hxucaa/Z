@@ -4,13 +4,13 @@ use_frameworks!
 
 target 'XListing' do
   pod 'Parse'
-  pod 'ReactKit', '~> 0.9.0'
+  pod 'ReactKit', '~> 0.10.0'
   pod 'Haneke', :git => 'https://github.com/Haneke/HanekeSwift.git'
 end
 
 target 'XListingTests' do
   pod 'Parse'
-  pod 'ReactKit', '~> 0.9.0'
+  pod 'ReactKit', '~> 0.10.0'
   pod 'Haneke', :git => 'https://github.com/Haneke/HanekeSwift.git'
   pod 'Quick'
   pod 'Nimble'

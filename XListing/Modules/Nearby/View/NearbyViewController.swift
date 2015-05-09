@@ -30,8 +30,6 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     /// View Model
     public var nearbyVM: INearbyViewModel?
     
-    public weak var navigationDelegate: NearbyNavigationDelegate?
-    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,7 +45,7 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     
     private func setupMapViewSignal() {
 
-        let businessVMArrSignal = nearbyVM!.businessVMArr.signal().ownedBy(self)
+        let businessVMArrSignal = nearbyVM!.businessVMArr.stream().ownedBy(self)
         businessVMArrSignal ~> { [unowned self] changedValues, change, indexSet in
             if change == .Insertion {
                 let businessVM = changedValues![0] as! BusinessViewModel
@@ -173,7 +171,7 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
         
         //TO DO:
         //PUSH TO DETAIL VIEW
-        navigationDelegate?.pushDetail(biz);
+        nearbyVM?.pushDetailModule(biz)
     }
     
     

@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol INearbyWireframe : class {
-    var detailModule: DetailModule? { get set }
+    
 }

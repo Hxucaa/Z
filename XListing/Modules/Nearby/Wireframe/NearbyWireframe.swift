@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ReactKit
 
 private let NearbyViewControllerIdentifier = "NearbyViewController"
 
@@ -15,11 +16,18 @@ public class NearbyWireframe : BaseWireframe, INearbyWireframe {
     private let nearbyVM: INearbyViewModel
     private var nearbyVC: NearbyViewController?
     
-    public weak var detailModule: DetailModule?
+    private let navigationNotificationReceiver: Stream<NSNotification?>
     
     public init(rootWireframe: IRootWireframe, nearbyViewModel: INearbyViewModel) {
         nearbyVM = nearbyViewModel
+        
+        navigationNotificationReceiver = Notification.stream(NavigationNotificationName.PushNearbyModule, nil)
+        
         super.init(rootWireframe: rootWireframe)
+        
+        navigationNotificationReceiver ~> { notification -> Void in
+            self.pushView()
+        }
     }
     
     /**
@@ -31,21 +39,13 @@ public class NearbyWireframe : BaseWireframe, INearbyWireframe {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(NearbyViewControllerIdentifier) as! NearbyViewController
         viewController.nearbyVM = nearbyVM
-        viewController.navigationDelegate = self
+        
         nearbyVC = viewController
         return viewController
     }
-}
-
-extension NearbyWireframe : NearbyModule {
-    public func pushView() {
+    
+    private func pushView() {
         let injectedViewController = initViewController()
         rootWireframe.pushViewController(injectedViewController, animated: true)
-    }
-}
-
-extension NearbyWireframe : NearbyNavigationDelegate {
-    public func pushDetail(businessViewModel: BusinessViewModel) {
-        detailModule?.pushView(businessViewModel)
     }
 }

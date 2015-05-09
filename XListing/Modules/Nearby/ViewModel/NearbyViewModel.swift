@@ -20,4 +20,9 @@ public class NearbyViewModel : BaseViewModel, INearbyViewModel {
         let query = BusinessDAO.query()!
         super.getBusiness(query)
     }
+    
+    public func pushDetailModule(businessViewModel: BusinessViewModel) {
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushDetailModule, object: nil, userInfo: ["viewmodel" : businessViewModel])
+    }
 }
