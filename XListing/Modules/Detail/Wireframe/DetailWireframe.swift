@@ -13,7 +13,7 @@ private let DetailViewControllerIdentifier = "DetailViewController"
 
 public class DetailWireframe : BaseWireframe, IDetailWireframe {
     
-    private let detailVM: IDetailViewModel
+    private var detailVM: IDetailViewModel
     private var detailViewController: DetailViewController?
     
     private let navigationNotificationReceiver: Stream<NSNotification?>
@@ -47,7 +47,7 @@ public class DetailWireframe : BaseWireframe, IDetailWireframe {
     
     private func pushView(businessViewModel: BusinessViewModel) {
         let injectedViewController = injectViewModelToViewController()
-        injectedViewController.businessVM = businessViewModel
+        detailVM.business = businessViewModel
         rootWireframe.pushViewController(injectedViewController, animated: true)
     }
 }

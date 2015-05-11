@@ -146,7 +146,7 @@ extension FeaturedListViewController : UITableViewDataSource {
             
             openingLabel?.text = businessVM.getOpeningText()
             
-            if let url = businessVM.getCoverImageNSURL() {
+            if let url = businessVM.coverImageNSURL {
                 coverImageView!.hnk_setImageFromURL(url, failure: {
                     println("Image loading failed: \($0)")
                 })

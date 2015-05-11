@@ -10,7 +10,7 @@ import Foundation
 import SwiftTask
 import ReactKit
 
-public class BaseViewModel {
+public class BaseViewModel : NSObject {
     
     /// wrapper for an array of BusinessViewModel
     public let businessVMArr = DynamicArray()

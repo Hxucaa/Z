@@ -51,6 +51,8 @@
 		B4B665441ADF8D2F0084DBE7 /* IDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B665431ADF8D2F0084DBE7 /* IDetailViewModel.swift */; };
 		B4B665461ADF8D5C0084DBE7 /* DetailWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B665451ADF8D5C0084DBE7 /* DetailWireframe.swift */; };
 		B4B665481ADF8DC60084DBE7 /* IDetailWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B665471ADF8DC60084DBE7 /* IDetailWireframe.swift */; };
+		B4C6EA231AFE845B00A166AD /* DetailWebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6EA221AFE845B00A166AD /* DetailWebViewViewController.swift */; };
+		B4C6EA251AFF318400A166AD /* KVO+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6EA241AFF318400A166AD /* KVO+extension.swift */; };
 		B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */; };
 		B4DB9AC21AF954AC009FBFE1 /* GeoLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9AC11AF954AC009FBFE1 /* GeoLocationService.swift */; };
 		B4DB9AC41AF954C8009FBFE1 /* IGeoLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9AC31AF954C8009FBFE1 /* IGeoLocationService.swift */; };
@@ -139,6 +141,8 @@
 		B4B665431ADF8D2F0084DBE7 /* IDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IDetailViewModel.swift; sourceTree = "<group>"; };
 		B4B665451ADF8D5C0084DBE7 /* DetailWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailWireframe.swift; sourceTree = "<group>"; };
 		B4B665471ADF8DC60084DBE7 /* IDetailWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IDetailWireframe.swift; sourceTree = "<group>"; };
+		B4C6EA221AFE845B00A166AD /* DetailWebViewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailWebViewViewController.swift; sourceTree = "<group>"; };
+		B4C6EA241AFF318400A166AD /* KVO+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KVO+extension.swift"; sourceTree = "<group>"; };
 		B4CC82571AC0BB7400E85CEA /* RootWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootWireframe.swift; sourceTree = "<group>"; };
 		B4DB9AC11AF954AC009FBFE1 /* GeoLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoLocationService.swift; sourceTree = "<group>"; };
 		B4DB9AC31AF954C8009FBFE1 /* IGeoLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IGeoLocationService.swift; sourceTree = "<group>"; };
@@ -359,6 +363,7 @@
 			children = (
 				B43032461AE4281D0068E8DF /* TypeAliases.swift */,
 				B42797421AFD463500AE5A90 /* NavigationNotificationName.swift */,
+				B4C6EA241AFF318400A166AD /* KVO+extension.swift */,
 			);
 			name = Utility;
 			path = Common/Utility;
@@ -447,6 +452,7 @@
 			isa = PBXGroup;
 			children = (
 				B4B6653F1ADF88DB0084DBE7 /* DetailViewController.swift */,
+				B4C6EA221AFE845B00A166AD /* DetailWebViewViewController.swift */,
 			);
 			name = View;
 			path = Detail/View;
@@ -837,11 +843,13 @@
 				B4FCC7301AE9D644009B4DF6 /* AccountViewController.swift in Sources */,
 				B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */,
 				B42797431AFD463500AE5A90 /* NavigationNotificationName.swift in Sources */,
+				B4C6EA231AFE845B00A166AD /* DetailWebViewViewController.swift in Sources */,
 				7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */,
 				B4E1384E1AE1CA9D0082DCA3 /* IUserService.swift in Sources */,
 				45CBB368E7FE3FD3551D6C35 /* ProfileWireframe.swift in Sources */,
 				45CBB1BF173283F19EC8C446 /* IProfileWireframe.swift in Sources */,
 				45CBBB3CCC6E72DCE005EE35 /* IProfileViewModel.swift in Sources */,
+				B4C6EA251AFF318400A166AD /* KVO+extension.swift in Sources */,
 				45CBBDCF399C77A93D0B1C1E /* ProfileViewModel.swift in Sources */,
 				45CBB4D53772AB5C9D2FD37D /* ProfileViewController.swift in Sources */,
 				45CBBAA5C5FE57F2BC2C0170 /* ProfileModule.swift in Sources */,

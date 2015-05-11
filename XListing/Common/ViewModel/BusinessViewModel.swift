@@ -8,14 +8,16 @@
 
 import Foundation
 import SwiftTask
+import ReactKit
 
 /**
 *  Constants
 */
 private let 公里 = "公里"
 private let 米 = "米"
+private let CityDistanceSeparator = " • "
 
-public class BusinessViewModel {
+public class BusinessViewModel : NSObject {
     
     public private(set) var objectId: String?
     public private(set) var createdAt: NSDate?
@@ -66,6 +68,25 @@ public class BusinessViewModel {
     */
     public private(set) var wantToGoCounter: Int = 0
     
+    public var businessName: String {
+        get {
+            return nameSChinese!
+        }
+    }
+    
+    public var cityAndDistance: String {
+        get {
+            let distanceText = distance == nil ? "" : "\(CityDistanceSeparator) \(distance!)"
+            return "\(city!) \(distanceText)"
+        }
+    }
+    
+    public var coverImageNSURL: NSURL? {
+        get {
+            return NSURL(string: coverImageUrl!)
+        }
+    }
+    
     public init(business: BusinessDAO) {
         objectId = business.objectId
         createdAt = business.createdAt
@@ -104,6 +125,21 @@ public class BusinessViewModel {
         
         coverImageUrl = "http://www.afroglobe.net/wp-content/uploads/2015/03/Wonderful-Life-With-Fantastic-Chinese-Restaurant-Design-Idea-2.jpg"
         
+        super.init()
+        
+//        cityAndDistanceStream = [
+//                KVO.startingStream(self, "city"),
+//                KVO.startingStream(self, "distance")
+//            ]
+//            |> combineLatestAll
+//            |> map { [unowned self] values -> NSString? in
+//                let distanceText = values[1] == nil ? "" : "\(CityDistanceSeparator) \(values[1]!)"
+//                return "\(values[0]!) \(distanceText)"
+//            }
+    }
+    
+    deinit {
+        println("deinit from businessViewModel")
     }
     
     public convenience init(business: BusinessDAO, currentLocation: CLLocation) {
@@ -137,18 +173,23 @@ public class BusinessViewModel {
         return "营业中"
     }
     
-    public func getCoverImageNSURL() -> NSURL? {
-        return NSURL(string: coverImageUrl!)
-    }
-    
     public func getCLLocation() -> CLLocation {
         return CLLocation(latitude: latitude!, longitude: longitude!)
+    }
+    
+    public func getNSURL() -> NSURL? {
+        if let url = url {
+            return NSURL(string: url)
+        }
+        else {
+            return nil
+        }
     }
 }
 
 extension BusinessViewModel : Printable {
     
-    public var description: String {
+    public override var description: String {
         let bdMirror = reflect(self)
         var result = ""
         for var i = 0; i < bdMirror.count; i++ {

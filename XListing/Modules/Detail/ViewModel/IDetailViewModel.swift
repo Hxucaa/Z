@@ -8,7 +8,9 @@
 
 import Foundation
 import SwiftTask
+import ReactKit
 
-public protocol IDetailViewModel {
+public protocol IDetailViewModel : class {
+    var business: BusinessViewModel! { get set }
     func goingToBusiness(business: BusinessViewModel, thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGoDAO, NSError>
 }
