@@ -14,5 +14,5 @@ public protocol INearbyViewModel {
     var businessVMArr: DynamicArray { get }
     func getCurrentLocation() -> Stream<CLLocation>
     func getBusiness() -> Stream<Void>
-    func pushDetailModule(businessViewModel: BusinessViewModel)
+    func pushDetailModule(section: Int)
 }

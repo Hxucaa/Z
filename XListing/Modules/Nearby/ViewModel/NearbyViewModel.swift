@@ -28,8 +28,10 @@ public class NearbyViewModel : BaseViewModel, INearbyViewModel {
     
     :param: businessViewModel The business information to pass along.
     */
-    public func pushDetailModule(businessViewModel: BusinessViewModel) {
-        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushDetailModule, object: nil, userInfo: ["viewmodel" : businessViewModel])
+    public func pushDetailModule(section: Int) {
+        let viewmodel: AnyObject = businessVMArr.proxy[section]
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushDetailModule, object: nil, userInfo: ["BusinessModel" : viewmodel])
     }
     
     /**

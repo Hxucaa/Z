@@ -11,6 +11,7 @@ import SwiftTask
 import ReactKit
 
 public protocol IDetailViewModel : class {
-    var business: BusinessViewModel! { get set }
-    func goingToBusiness(business: BusinessViewModel, thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGoDAO, NSError>
+    var business: BusinessDAO! { get set }
+    var detailBusinessInfoVM: DetailBusinessInfoViewModel! { get set }
+    func goingToBusiness(#thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGoDAO, NSError>
 }

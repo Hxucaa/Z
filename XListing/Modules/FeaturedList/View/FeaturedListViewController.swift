@@ -52,7 +52,7 @@ public class FeaturedListViewController: UIViewController {
     */
     private func setupTable() {
         // Setup signal
-        let businessVMArrSignal = featuredListVM!.businessVMArr.stream().ownedBy(self)
+        let businessVMArrSignal = featuredListVM!.businessDynamicArr.stream().ownedBy(self)
         businessVMArrSignal ~> { [unowned self] changedValues, change, indexSet in
             /**
             *  Programatically insert each business view model to the table
@@ -99,7 +99,7 @@ extension FeaturedListViewController : UITableViewDataSource {
     :returns: The number of sections in tableView. The default value is 1.
     */
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return featuredListVM!.businessVMArr.proxy.count
+        return featuredListVM!.businessDynamicArr.proxy.count
     }
     
     /**
@@ -133,18 +133,18 @@ extension FeaturedListViewController : UITableViewDataSource {
         var openingLabel: UILabel? = cell.viewWithTag(6) as? UILabel
         var coverImageView = cell.viewWithTag(3) as? UIImageView
         
-        let arr = featuredListVM!.businessVMArr.proxy
+        let arr = featuredListVM!.businessDynamicArr.proxy
         if (arr.count > section){
 //            let businessVM = arr[section] as! FeaturedListCellViewModel
-            let businessVM = arr[section] as! BusinessViewModel
+            let businessVM = arr[section] as! FeaturedListCellViewModel
             
-            businessNameLabel?.text = businessVM.nameSChinese
+            businessNameLabel?.text = businessVM.businessName
             
-            wantToGoLabel?.text = businessVM.getWantToGoText()
+            wantToGoLabel?.text = businessVM.wantToGoText
             
             cityLabel?.text = businessVM.city
             
-            openingLabel?.text = businessVM.getOpeningText()
+            openingLabel?.text = businessVM.openingText
             
             if let url = businessVM.coverImageNSURL {
                 coverImageView!.hnk_setImageFromURL(url, failure: {

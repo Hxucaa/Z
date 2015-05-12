@@ -28,7 +28,7 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
     private var wantToGoButtonStream: Stream<String>!
     private var shareButtonStream: Stream<String>!
     private var coverImageNSURLStream: Stream<AnyObject?>!
-    private var t: Stream<NSString?>!
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,8 +36,7 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
         tableView.dataSource = self
         //tableView.allowsSelection = false
         
-        
-        self.navigationItem.title = detailVM.business?.nameSChinese
+        self.navigationItem.title = detailVM.detailBusinessInfoVM.navigationTitle
     }
     
     public override func didReceiveMemoryWarning() {
@@ -59,10 +58,10 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
     
     }
     
-    public override func viewDidAppear(animated: Bool) {
-        tableView.reloadData()
-        println("did appear")
-    }
+//    public override func viewDidAppear(animated: Bool) {
+//        tableView.reloadData()
+//        println("did appear")
+//    }
     
     public func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         if (annotation is MKUserLocation) {
@@ -88,21 +87,19 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
     }
     
     public func wantToGoPopover(){
-        println("wtf")
-        
         var alert = UIAlertController(title: "什么时候想去？", message: "", preferredStyle: UIAlertControllerStyle.Alert)
         
         alert.addAction(UIAlertAction(title: "这个星期", style: UIAlertActionStyle.Default) { alert in
-            detailVM.goingToBusiness((detailVM.business)!, thisWeek: true, thisMonth: false, later: false)
+            detailVM.goingToBusiness(thisWeek: true, thisMonth: false, later: false)
             })
             
             
         alert.addAction(UIAlertAction(title: "这个月", style: UIAlertActionStyle.Default) { alert in
-            detailVM.goingToBusiness((detailVM.business)!, thisWeek: false, thisMonth: true, later: false)
+            detailVM.goingToBusiness(thisWeek: false, thisMonth: true, later: false)
             })
         
         alert.addAction(UIAlertAction(title: "以后", style: UIAlertActionStyle.Default) { alert in
-            detailVM.goingToBusiness((detailVM.business)!, thisWeek: false, thisMonth: false, later: true)
+            detailVM.goingToBusiness(thisWeek: false, thisMonth: false, later: true)
             })
         
         alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil))
@@ -133,13 +130,13 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
 //        NSString *phoneNumber = [@"tel://" stringByAppendingString:mymobileNO.titleLabel.text];
 //        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
         
-        var phoneNumber = "tel:" + (detailVM.business?.phone)!
+        var phoneNumber = "tel:" + detailVM.detailBusinessInfoVM.phone!
         UIApplication.sharedApplication().openURL(NSURL (string: phoneNumber)!)
     }
     
     public func goToWebsiteUrl(){
-        let businessName = (detailVM.business?.nameSChinese)!
-        let url = (detailVM.business?.getNSURL())!
+        let businessName = detailVM.detailBusinessInfoVM.businessName
+        let url = detailVM.detailBusinessInfoVM.websiteURL!
         let navController = UINavigationController()
         let webVC = DetailWebViewViewController(url: url, businessName: businessName)
         navController.pushViewController(webVC, animated: true)
@@ -210,7 +207,7 @@ extension DetailViewController : UITableViewDataSource {
                 
                 let businessImageView = self.view.viewWithTag(1) as? UIImageView
                 
-                coverImageNSURLStream = KVO.startingStream(detailVM.business, "coverImageNSURL")
+                coverImageNSURLStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "coverImageNSURL")
                 coverImageNSURLStream ~> { url in
                     businessImageView!.hnk_setImageFromURL(url as! NSURL, failure: {
                         println("Image loading failed: \($0)")
@@ -230,16 +227,10 @@ extension DetailViewController : UITableViewDataSource {
                 let cityLabel : UILabel? = self.view.viewWithTag(2) as? UILabel
                 let distanceLabel : UILabel? = self.view.viewWithTag(3) as? UILabel
                 
-//                businessNameStream =
-                t = KVO.startingStream(detailVM.business, "businessName")
-                    |> asStream(NSString?)
-//                    |> map { value -> NSString? in
-//                        println(value)
-//                        return value as? NSString
-//                    }
-                (businessNameLabel!, "text") <~ t
+                businessNameStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "businessName")
+                (businessNameLabel!, "text") <~ businessNameStream
                 
-                cityAndDistanceStream = KVO.startingStream(detailVM.business, "cityAndDistance")
+                cityAndDistanceStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "cityAndDistance")
                 (cityLabel!, "text") <~ cityAndDistanceStream
                 
                 return cell1
@@ -404,15 +395,12 @@ extension DetailViewController : UITableViewDataSource {
                 mapView = view.viewWithTag(1) as! MKMapView
                 mapView.delegate = self
                 
-                let annotation = MKPointAnnotation()
-                annotation.coordinate = (detailVM.business?.getCLLocation().coordinate)!
-                annotation.title = detailVM.business?.nameSChinese
-                annotation.subtitle = detailVM.business?.distance
+                let annotation = detailVM.detailBusinessInfoVM.mapAnnotation
                 
                 mapView.addAnnotation(annotation)
                 
                 let span = MKCoordinateSpanMake(0.01, 0.01)
-                let region = MKCoordinateRegion(center: (detailVM.business?.getCLLocation().coordinate)!, span: span)
+                let region = MKCoordinateRegion(center: detailVM.detailBusinessInfoVM.cllocation.coordinate, span: span)
                 mapView.setRegion(region, animated: false)
                 
                 return cell6
@@ -424,14 +412,7 @@ extension DetailViewController : UITableViewDataSource {
                 
                 var addressButton : UIButton? = view.viewWithTag(1) as? UIButton
                 
-                var address = detailVM.business?.address
-                
-                address = "   \u{f124}   " + address!
-                
-                let city = detailVM.business?.city
-                let state = detailVM.business?.state
-                
-                var fullAddress = address! + ", " + city! + ", " + state!
+                let fullAddress = detailVM.detailBusinessInfoVM.fullAddress
 
                 addressButton?.setTitle(fullAddress, forState: UIControlState.Normal)
                 return cell7
@@ -444,9 +425,9 @@ extension DetailViewController : UITableViewDataSource {
                 
                 var phoneNumberButton : UIButton? = self.view.viewWithTag(1) as? UIButton
                 var websiteButton : UIButton? = self.view.viewWithTag(2) as? UIButton
-                phoneNumberButton?.setTitle("   \u{f095}   " + (detailVM.business?.phone)!, forState: UIControlState.Normal)
+                phoneNumberButton?.setTitle("   \u{f095}   " + (detailVM.detailBusinessInfoVM.phone)!, forState: UIControlState.Normal)
                 
-                if (detailVM.business?.getNSURL() != nil){
+                if (detailVM.detailBusinessInfoVM.websiteURL != nil){
                     websiteButton?.setTitle("   \u{f0ac}   访问网站", forState: UIControlState.Normal)
                     websiteButton?.addTarget(self, action: "goToWebsiteUrl", forControlEvents: .TouchUpInside)
                 } else{

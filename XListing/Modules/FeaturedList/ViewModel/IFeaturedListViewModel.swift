@@ -11,7 +11,7 @@ import SwiftTask
 import ReactKit
 
 public protocol IFeaturedListViewModel : class {
-    var businessVMArr: DynamicArray { get }
+    var businessDynamicArr: DynamicArray { get }
     func getBusiness()
     func pushNearbyModule()
     func pushDetailModule(section: Int)

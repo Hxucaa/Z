@@ -30,7 +30,7 @@ public class AppDependencies {
         
         configureFeaturedListDependencies(rootWireframe, businessService: bs, geoLocationService: gs)
         configureNearbyDependencies(rootWireframe, businessService: bs, geoLocationService: gs)
-        configureDetailDependencies(rootWireframe, wantToGoService: wtg, businessService: bs, geoLocationService: gs)
+        configureDetailDependencies(rootWireframe, wantToGoService: wtg, geoLocationService: gs)
         configureProfileDependencies(rootWireframe, wantToGoService: wtg)
         configureAccountDependencies(rootWireframe, userService: us)
     }
@@ -75,10 +75,10 @@ public class AppDependencies {
     
     :param: rootWireframe The RootWireframe.
     */
-    private func configureDetailDependencies(rootWireframe: IRootWireframe, wantToGoService wtg: IWantToGoService, businessService bs: IBusinessService, geoLocationService gs: IGeoLocationService) {
+    private func configureDetailDependencies(rootWireframe: IRootWireframe, wantToGoService wtg: IWantToGoService, geoLocationService gs: IGeoLocationService) {
         
         // instantiate view model
-        let detailVM: IDetailViewModel = DetailViewModel(wantToGoService: wtg, businessService: bs, geoLocationService: gs)
+        let detailVM: IDetailViewModel = DetailViewModel(wantToGoService: wtg, geoLocationService: gs)
         
         detailWireframe = DetailWireframe(rootWireframe: rootWireframe, detailViewModel: detailVM)
     }

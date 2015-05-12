@@ -11,10 +11,12 @@ import SwiftTask
 import ReactKit
 
 public class FeaturedListViewModel : IFeaturedListViewModel {
-    public let businessVMArr = DynamicArray()
+    public let businessDynamicArr = DynamicArray()
     
     private let businessService: IBusinessService
     private let geoLocationService: IGeoLocationService
+    
+    private var businessModelArr: [BusinessDAO]!
     
     public init(businessService: IBusinessService, geoLocationService: IGeoLocationService) {
         self.businessService = businessService
@@ -31,11 +33,13 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
             .success { [unowned self] location -> Task<Int, Void, NSError> in
                 return self.businessService.findBy(query)
                     .success { businessDAOArr -> Void in
+                        self.businessModelArr = businessDAOArr
+                        
                         for bus in businessDAOArr {
-                            let vm: BusinessViewModel = BusinessViewModel(business: bus, currentLocation: location)
-                            
+//                            let vm: BusinessViewModel = BusinessViewModel(business: bus, currentLocation: location)
+                            let vm = FeaturedListCellViewModel(business: bus, currentLocation: location)
                             // apend BusinessViewModel to DynamicArray for React
-                            self.businessVMArr.proxy.addObject(vm)
+                            self.businessDynamicArr.proxy.addObject(vm)
                         }
                         
                 }
@@ -43,11 +47,13 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
             .failure { (error: NSError?, isCancelled: Bool) -> Void in
                 return self.businessService.findBy(query)
                     .success { businessDAOArr -> Void in
+                        self.businessModelArr = businessDAOArr
+                        
                         for bus in businessDAOArr {
-                            let vm: BusinessViewModel = BusinessViewModel(business: bus)
-                            
+//                            let vm: BusinessViewModel = BusinessViewModel(business: bus)
+                            let vm = FeaturedListCellViewModel(business: bus)
                             // apend BusinessViewModel to DynamicArray for React
-                            self.businessVMArr.proxy.addObject(vm)
+                            self.businessDynamicArr.proxy.addObject(vm)
                         }
                         
                 }
@@ -59,9 +65,9 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     public func pushDetailModule(section: Int) {
-        let viewmodel = businessVMArr.proxy[section] as! BusinessViewModel
+        let viewmodel = businessModelArr[section]
         
-        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushDetailModule, object: nil, userInfo: ["viewmodel" : viewmodel])
+        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushDetailModule, object: nil, userInfo: ["BusinessModel" : viewmodel])
     }
     
     public func pushProfileModule() {

@@ -26,7 +26,7 @@ public class DetailWireframe : BaseWireframe, IDetailWireframe {
         super.init(rootWireframe: rootWireframe)
         
         navigationNotificationReceiver ~> { notification -> Void in
-            let vm = (notification?.userInfo)!["viewmodel"] as! BusinessViewModel
+            let vm = (notification?.userInfo)!["BusinessModel"] as! BusinessDAO
             self.pushView(vm)
         }
     }
@@ -45,9 +45,9 @@ public class DetailWireframe : BaseWireframe, IDetailWireframe {
         return viewController
     }
     
-    private func pushView(businessViewModel: BusinessViewModel) {
+    private func pushView(businessModel: BusinessDAO) {
         let injectedViewController = injectViewModelToViewController()
-        detailVM.business = businessViewModel
+        detailVM.business = businessModel
         rootWireframe.pushViewController(injectedViewController, animated: true)
     }
 }

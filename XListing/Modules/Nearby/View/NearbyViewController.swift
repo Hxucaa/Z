@@ -159,9 +159,8 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     }
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var biz:BusinessViewModel = nearbyVM!.businessVMArr.proxy[pageNumber] as! BusinessViewModel
         
-        nearbyVM?.pushDetailModule(biz)
+        nearbyVM?.pushDetailModule(indexPath.section)
     }
     
     
