@@ -36,7 +36,6 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
                         self.businessModelArr = businessDAOArr
                         
                         for bus in businessDAOArr {
-//                            let vm: BusinessViewModel = BusinessViewModel(business: bus, currentLocation: location)
                             let vm = FeaturedListCellViewModel(business: bus, currentLocation: location)
                             // apend BusinessViewModel to DynamicArray for React
                             self.businessDynamicArr.proxy.addObject(vm)
@@ -50,7 +49,6 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
                         self.businessModelArr = businessDAOArr
                         
                         for bus in businessDAOArr {
-//                            let vm: BusinessViewModel = BusinessViewModel(business: bus)
                             let vm = FeaturedListCellViewModel(business: bus)
                             // apend BusinessViewModel to DynamicArray for React
                             self.businessDynamicArr.proxy.addObject(vm)
@@ -65,9 +63,9 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     public func pushDetailModule(section: Int) {
-        let viewmodel = businessModelArr[section]
+        let model = businessModelArr[section]
         
-        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushDetailModule, object: nil, userInfo: ["BusinessModel" : viewmodel])
+        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushDetailModule, object: nil, userInfo: ["BusinessModel" : model])
     }
     
     public func pushProfileModule() {

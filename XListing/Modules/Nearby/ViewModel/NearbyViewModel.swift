@@ -10,17 +10,53 @@ import Foundation
 import SwiftTask
 import ReactKit
 
-public class NearbyViewModel : BaseViewModel, INearbyViewModel {
+public class NearbyViewModel : INearbyViewModel {
+    public let businessDynamicArr = DynamicArray()
     
-    public var t: Stream<Int>?
+    private let businessService: IBusinessService
+    private let geoLocationService: IGeoLocationService
     
-    public override init(businessService: IBusinessService, geoLocationService: IGeoLocationService) {
-        super.init(businessService: businessService, geoLocationService: geoLocationService)
+    private var businessModelArr: [BusinessDAO]!
+    
+    public init(businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+        self.businessService = businessService
+        self.geoLocationService = geoLocationService
     }
     
     public func getBusiness() -> Stream<Void> {
         let query = BusinessDAO.query()!
-        return Stream<Void>.fromTask(super.getBusiness(query))
+        
+        //TODO: support for offline usage.
+        //Fetch current location. Create BusinessViewModel with embedded distance data. And finally add the BusinessViewModels to dynamicArray for the view to consume the signal.
+        let task = geoLocationService.getCurrentGeoPoint()
+            .success { [unowned self] geopoint -> Task<Int, Void, NSError> in
+                query.whereKey("geopoint", nearGeoPoint: geopoint)
+                return self.businessService.findBy(query)
+                    .success { businessDAOArr -> Void in
+                        self.businessModelArr = businessDAOArr
+                        
+                        for bus in businessDAOArr {
+                            let vm = NearbyHorizontalScrollCellViewModel(business: bus, currentLocation: CLLocation(latitude: geopoint.latitude, longitude: geopoint.longitude))
+                            // apend BusinessViewModel to DynamicArray for React
+                            self.businessDynamicArr.proxy.addObject(vm)
+                        }
+                        
+                }
+            }
+//            .failure { (error, isCancelled) -> Void in
+//                query.whereKey("geopoint", nearGeoPoint: self.geoLocationService.defaultGeoPoint)
+//                return self.businessService.findBy(query)
+//                    .success { businessDAOArr -> Void in
+//                        self.businessModelArr = businessDAOArr
+//                        
+//                        for bus in businessDAOArr {
+//                            let vm = NearbyHorizontalScrollCellViewModel(business: bus)
+//                            self.businessDynamicArr.proxy.addObject(vm)
+//                        }
+//                        return
+//                    }
+//            }
+        return Stream<Void>.fromTask(task)
     }
     
     /**
@@ -29,9 +65,9 @@ public class NearbyViewModel : BaseViewModel, INearbyViewModel {
     :param: businessViewModel The business information to pass along.
     */
     public func pushDetailModule(section: Int) {
-        let viewmodel: AnyObject = businessVMArr.proxy[section]
+        let model: AnyObject = businessModelArr[section]
         
-        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushDetailModule, object: nil, userInfo: ["BusinessModel" : viewmodel])
+        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushDetailModule, object: nil, userInfo: ["BusinessModel" : model])
     }
     
     /**
@@ -40,11 +76,11 @@ public class NearbyViewModel : BaseViewModel, INearbyViewModel {
     :returns: A Task that contains a geo location.
     */
     public func getCurrentLocation() -> Stream<CLLocation> {
-        return Stream<CLLocation>.fromTask(super.getCurrentLocation().failure { [unowned self] (error, isCancelled) -> CLLocation in
-            // with hardcoded location
-            //TODO: better support for hardcoded location
-            println("Location service failed! Using default Vancouver location.")
-            return CLLocation(latitude: 49.27623, longitude: -123.12941)
+        return Stream<CLLocation>.fromTask(geoLocationService.getCurrentLocation().failure { [unowned self] (error, isCancelled) -> CLLocation in
+                // with hardcoded location
+                //TODO: better support for hardcoded location
+                println("Location service failed! Using default Vancouver location.")
+                return CLLocation(latitude: 49.27623, longitude: -123.12941)
             }
         )
     }

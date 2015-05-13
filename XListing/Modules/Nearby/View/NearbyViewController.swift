@@ -23,7 +23,7 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     private var tableArray = [NearbyTableView]()
     
     /// View Model
-    public var nearbyVM: INearbyViewModel?
+    public var nearbyVM: INearbyViewModel!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +32,7 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
         initScrollView()
     
         // Process the signal to do something else. That's why you need to have a reference to the signal.
-        let locationStream = nearbyVM!.getCurrentLocation() ~> { [unowned self] location -> Void in
+        let locationStream = nearbyVM.getCurrentLocation() ~> { [unowned self] location -> Void in
             self.shiftMapCenter(location)
         }
         locationStream.ownedBy(self)
@@ -40,7 +40,7 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
         setupMapViewSignal()
         
         // Don't care about the result. Therefore don't need to hold a reference to the signal.
-        nearbyVM!.getBusiness()
+        nearbyVM.getBusiness()
     }
     
     public override func didReceiveMemoryWarning() {
@@ -81,16 +81,16 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     
     private func setupMapViewSignal() {
 
-        let businessVMArrSignal = nearbyVM!.businessVMArr.stream().ownedBy(self)
+        let businessVMArrSignal = nearbyVM.businessDynamicArr.stream().ownedBy(self)
         businessVMArrSignal ~> { [unowned self] changedValues, change, indexSet in
             if change == .Insertion {
-                let businessVM = changedValues![0] as! BusinessViewModel
+                let businessVM = changedValues![0] as! NearbyHorizontalScrollCellViewModel
                 
                 // Setup annotation
                 let annotation = MKPointAnnotation()
-                annotation.coordinate = businessVM.getCLLocation().coordinate
-                annotation.title = businessVM.nameSChinese
-                annotation.subtitle = businessVM.nameEnglish
+                annotation.coordinate = businessVM.cllocation.coordinate
+                annotation.title = businessVM.businessName
+//                annotation.subtitle = businessVM.nameEnglish
                 
                 // Add annotation to map
                 self.mapView.addAnnotation(annotation)
@@ -140,16 +140,19 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
         
         var tView = tableArray[pageNumber]
         
-        var biz:BusinessViewModel = nearbyVM!.businessVMArr.proxy[pageNumber] as! BusinessViewModel
+        var biz = nearbyVM.businessDynamicArr.proxy[pageNumber] as! NearbyHorizontalScrollCellViewModel
         
-        var cell:NearbyTableViewCell = tView.dequeueReusableCellWithIdentifier(CellIdentifier) as! NearbyTableViewCell
+        var cell = tView.dequeueReusableCellWithIdentifier(CellIdentifier) as! NearbyTableViewCell
         
-        cell.bizName.text = biz.nameSChinese
+        cell.bizName.text = biz.businessName
         cell.bizDetail.text = "130+ 人想去 ｜ 开车25分钟"
         cell.bizHours.text = "今天 10:00AM - 10:00PM"
-        cell.bizImage!.hnk_setImageFromURL(NSURL(string: biz.coverImageUrl!)!, failure: {
-            println("Image loading failed: \($0)")
-        })
+        if let url = biz.coverImageNSURL {
+            cell.bizImage!.hnk_setImageFromURL(url, failure: {
+                println("Image loading failed: \($0)")
+            })
+        }
+        
         return cell
         
     }
@@ -160,7 +163,7 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        nearbyVM?.pushDetailModule(indexPath.section)
+        nearbyVM.pushDetailModule(indexPath.section)
     }
     
     
@@ -184,8 +187,8 @@ extension NearbyViewController : UIScrollViewDelegate {
         self.pageNumber = Int(pageNumber)
         var tView = tableArray[self.pageNumber]
         tView.reloadData()
-        var biz:BusinessViewModel = nearbyVM!.businessVMArr.proxy[self.pageNumber] as! BusinessViewModel
-        shiftMapCenter(biz.getCLLocation())
+        var biz = nearbyVM.businessDynamicArr.proxy[self.pageNumber] as! NearbyHorizontalScrollCellViewModel
+        shiftMapCenter(biz.cllocation)
         
         targetContentOffset.memory.x = pageNumber * pageWidth!
         
