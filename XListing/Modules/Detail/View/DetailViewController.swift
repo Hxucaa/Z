@@ -209,9 +209,11 @@ extension DetailViewController : UITableViewDataSource {
                 
                 coverImageNSURLStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "coverImageNSURL")
                 coverImageNSURLStream ~> { url in
-                    businessImageView!.hnk_setImageFromURL(url as! NSURL, failure: {
-                        println("Image loading failed: \($0)")
-                    })
+                    if let url = url as? NSURL{
+                        businessImageView!.hnk_setImageFromURL(url, failure: {
+                            println("Image loading failed: \($0)")
+                        })
+                    }
                 }
                 
                 

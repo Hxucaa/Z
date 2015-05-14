@@ -15,7 +15,7 @@ public class DetailViewModel : NSObject, IDetailViewModel {
     private let wantToGoService: IWantToGoService
     private let geoLocationService: IGeoLocationService
     
-    public dynamic var business: BusinessDAO!
+    public dynamic var business: Business!
     
     private var businessKVO: Stream<AnyObject?>!
     
@@ -29,11 +29,11 @@ public class DetailViewModel : NSObject, IDetailViewModel {
         
         businessKVO = KVO.stream(self, "business")
         businessKVO ~> { [weak self] bus in
-            self!.detailBusinessInfoVM = DetailBusinessInfoViewModel(business: bus as! BusinessDAO)
+            self!.detailBusinessInfoVM = DetailBusinessInfoViewModel(business: bus as! Business)
         }
     }
     
-    public func goingToBusiness(#thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGoDAO, NSError> {
+    public func goingToBusiness(#thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGo, NSError> {
         return wantToGoService.goingToBusiness(business.objectId!, thisWeek: thisWeek, thisMonth: thisMonth, later: later)
     }
     

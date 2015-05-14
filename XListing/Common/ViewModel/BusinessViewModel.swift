@@ -9,6 +9,7 @@
 import Foundation
 import SwiftTask
 import ReactKit
+import MapKit
 
 /**
 *  Constants
@@ -87,7 +88,7 @@ public class BusinessViewModel : NSObject {
         }
     }
     
-    public init(business: BusinessDAO) {
+    public init(business: Business) {
         objectId = business.objectId
         createdAt = business.createdAt
         updatedAt = business.updatedAt
@@ -95,18 +96,18 @@ public class BusinessViewModel : NSObject {
         nameSChinese = business.nameSChinese
         nameTChinese = business.nameTChinese
         nameEnglish = business.nameEnglish
-        isClaimed = business.isClaimed!
-        isClosed = business.isClosed!
+        isClaimed = business.isClaimed
+        isClosed = business.isClosed
         phone = business.phone
         url = business.url
         mobileUrl = business.mobileUrl
         uid = business.uid
         imageUrl = business.imageUrl
-        reviewCount = business.reviewCount!
-        rating = business.rating!
+        reviewCount = business.reviewCount
+        rating = business.rating
         coverImageUrl = business.cover?.url
         
-        featured = business.featured!
+        featured = business.featured
         timeStart = business.timeStart
         timeEnd = business.timeEnd
         
@@ -121,28 +122,18 @@ public class BusinessViewModel : NSObject {
         latitude = business.geopoint?.latitude
         longitude = business.geopoint?.longitude
         
-        wantToGoCounter = business.wantToGoCounter!
+        wantToGoCounter = business.wantToGoCounter
         
         coverImageUrl = "http://www.afroglobe.net/wp-content/uploads/2015/03/Wonderful-Life-With-Fantastic-Chinese-Restaurant-Design-Idea-2.jpg"
         
         super.init()
-        
-//        cityAndDistanceStream = [
-//                KVO.startingStream(self, "city"),
-//                KVO.startingStream(self, "distance")
-//            ]
-//            |> combineLatestAll
-//            |> map { [unowned self] values -> NSString? in
-//                let distanceText = values[1] == nil ? "" : "\(CityDistanceSeparator) \(values[1]!)"
-//                return "\(values[0]!) \(distanceText)"
-//            }
     }
     
     deinit {
         println("deinit from businessViewModel")
     }
     
-    public convenience init(business: BusinessDAO, currentLocation: CLLocation) {
+    public convenience init(business: Business, currentLocation: CLLocation) {
         self.init(business: business)
 
         let busCLLocation = CLLocation(latitude: (business.geopoint?.latitude)!, longitude: (business.geopoint?.longitude)!)

@@ -8,6 +8,7 @@
 
 import Foundation
 import ReactKit
+import UIKit
 
 private let AccountViewControllerIdentifier = "AccountViewController"
 

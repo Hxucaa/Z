@@ -9,5 +9,4 @@
 import Foundation
 
 public protocol IAccountViewModel {
-    func logIn(username: String, password: String)
 }

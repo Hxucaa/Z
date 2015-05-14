@@ -8,6 +8,7 @@
 
 import Foundation
 import Locksmith
+import SwiftTask
 
 public class AccountViewModel : IAccountViewModel {
     
@@ -15,7 +16,10 @@ public class AccountViewModel : IAccountViewModel {
     
     public init(userService: IUserService) {
         self.userService = userService
-        
+        logInOrsignUpInBackground()
+    }
+    
+    private func logInOrsignUpInBackground() {
         if UserService.isLoggedInAlready() {
             // User Already Logged in
             println("User is already logged in!")
@@ -28,55 +32,48 @@ public class AccountViewModel : IAccountViewModel {
                 // User Account created previously
                 let loginUser = usernameData!.valueForKey("username") as! String
                 let loginPass = passwordData!.valueForKey("password") as! String
-                logIn(loginUser, password: loginPass)
+                userService.logIn(loginUser, password: loginPass)
             } else {
                 // First time setup, generate random user and pass
                 var username = NSUUID().UUIDString
                 var password = NSUUID().UUIDString
                 
-                var user = UserDAO()
+                var user = User()
                 user.username = username
                 user.password = password
                 
-                // Sign up for PFUser account
-                user.signUpInBackgroundWithBlock {
-                    (succeeded: Bool, error: NSError?) -> Void in
-                    if let error = error {
-                        let errorString = error.userInfo?["error"] as? NSString
-                        println(errorString)
+                // Sign up for a user account
+                userService.signUp(user).success { success -> Void in
+                    println("Sign Up Successful with username " + username)
+                    Locksmith.clearKeychain()
+                    
+                    // Save username to Keychain
+                    let keychainUserError = Locksmith.saveData(["username": username], forUserAccount: "XListingUser", inService: "XListing")
+                    if keychainUserError != nil {
+                        println("Error Saving Username to Keychain:\n" + String(stringInterpolationSegment: keychainUserError))
                     } else {
-                        println("Sign Up Successful with username " + username)
-                        Locksmith.clearKeychain()
-                        
-                        // Save username to Keychain
-                        let keychainUserError = Locksmith.saveData(["username": username], forUserAccount: "XListingUser", inService: "XListing")
-                        if keychainUserError != nil {
-                            println("Error Saving Username to Keychain:\n" + String(stringInterpolationSegment: keychainUserError))
-                        } else {
-                            println("Username " + username + " successfully saved to keychain.")
-                        }
+                        println("Username " + username + " successfully saved to keychain.")
+                    }
+                    
+                    // Save password to Keychain
+                    let keychainPasswordError = Locksmith.saveData(["password": password], forUserAccount: "XListingPassword", inService: "XListing")
+                    if keychainPasswordError != nil {
+                        println("Error Saving Password to Keychain:\n" + String(stringInterpolationSegment: keychainPasswordError))
+                        println("Problematic password was " + password)
+                    } else {
+                        println("Password " + password + " successfully saved to keychain.")
+                    }
 
-                        // Save password to Keychain
-                        let keychainPasswordError = Locksmith.saveData(["password": password], forUserAccount: "XListingPassword", inService: "XListing")
-                        if keychainPasswordError != nil {
-                            println("Error Saving Password to Keychain:\n" + String(stringInterpolationSegment: keychainPasswordError))
-                            println("Problematic password was " + password)
-                        } else {
-                            println("Password " + password + " successfully saved to keychain.")
-                        }
+                }
+                .failure { (error, isCancelled) -> Void in
+                    if let error = error {
+                        println(error)
+                    }
+                    else {
+                        println(isCancelled)
                     }
                 }
             }
         }
-    }
-    
-    public func logIn(username: String, password: String) {
-            userService.logIn(username, password: password)
-            .success { user -> Void in
-                println(user)
-            }
-            .failure { error, isCancelled -> Void in
-                println(error)
-            }
     }
 }

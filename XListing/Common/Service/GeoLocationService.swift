@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftTask
+import MapKit
 
 public class GeoLocationService : IGeoLocationService {
     

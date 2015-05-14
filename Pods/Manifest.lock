@@ -1,37 +1,36 @@
 PODS:
-  - Bolts (1.1.4)
-  - Haneke (0.9.0)
+  - AVOSCloud (3.1.1.1)
+  - AVOSCloudCrashReporting (3.1.1.1):
+    - AVOSCloud
+  - AVOSCloudSNS (3.1.1.1):
+    - AVOSCloud
+  - HanekeSwift (0.9.1)
+  - Locksmith (1.2.1)
   - Nimble (0.4.2)
-  - Parse (1.7.1):
-    - Bolts (~> 1.1)
   - Quick (0.3.1)
   - ReactKit (0.10.0):
     - SwiftTask (~> 3.0.0)
   - SwiftTask (3.0.0)
 
 DEPENDENCIES:
-  - Haneke (from `https://github.com/Haneke/HanekeSwift.git`)
+  - AVOSCloud (~> 3.1)
+  - AVOSCloudCrashReporting (~> 3.1)
+  - AVOSCloudSNS (~> 3.1)
+  - HanekeSwift
+  - LockSmith
   - Nimble
-  - Parse
   - Quick
   - ReactKit (~> 0.10.0)
 
-EXTERNAL SOURCES:
-  Haneke:
-    :git: https://github.com/Haneke/HanekeSwift.git
-
-CHECKOUT OPTIONS:
-  Haneke:
-    :commit: 3666366255bbe4c520cfe7763d8815205eb9cb29
-    :git: https://github.com/Haneke/HanekeSwift.git
-
 SPEC CHECKSUMS:
-  Bolts: f8e2f94edbf9fec7bb8de5ecaaa3aa6b7de6f64e
-  Haneke: 6d0b23dc6603d069c889f0c02e72ddbbc78d2e97
+  AVOSCloud: 0c0b91ffd91f83b448312027e5f8b243f261c42a
+  AVOSCloudCrashReporting: 5add5ca29ec9f585010ecda3a643108c7e376e86
+  AVOSCloudSNS: fa177d50fe83b630d684dd27d790358531b365cc
+  HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
+  Locksmith: 770f6c5c6e5c5c712d1f00e709c62b8a7240c716
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
-  Parse: fa8ec29de6d82035635986c11946299fb1b38316
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   ReactKit: 914b50142021e558669d6870a6a35e6e7bb14f30
   SwiftTask: 2f2c0a7db83def1d1e3bad518169be3f61c603f4
 
-COCOAPODS: 0.37.1
+COCOAPODS: 0.36.4
