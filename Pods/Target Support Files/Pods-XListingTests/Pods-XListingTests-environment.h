@@ -33,6 +33,12 @@
 #define COCOAPODS_VERSION_MINOR_HanekeSwift 9
 #define COCOAPODS_VERSION_PATCH_HanekeSwift 1
 
+// LockSmith
+#define COCOAPODS_POD_AVAILABLE_LockSmith
+#define COCOAPODS_VERSION_MAJOR_LockSmith 1
+#define COCOAPODS_VERSION_MINOR_LockSmith 2
+#define COCOAPODS_VERSION_PATCH_LockSmith 1
+
 // Nimble
 #define COCOAPODS_POD_AVAILABLE_Nimble
 #define COCOAPODS_VERSION_MAJOR_Nimble 0

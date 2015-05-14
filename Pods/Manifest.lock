@@ -5,6 +5,7 @@ PODS:
   - AVOSCloudSNS (3.1.1.1):
     - AVOSCloud
   - HanekeSwift (0.9.1)
+  - Locksmith (1.2.1)
   - Nimble (0.4.2)
   - Quick (0.3.1)
   - ReactKit (0.10.0):
@@ -16,6 +17,7 @@ DEPENDENCIES:
   - AVOSCloudCrashReporting (~> 3.1)
   - AVOSCloudSNS (~> 3.1)
   - HanekeSwift
+  - LockSmith
   - Nimble
   - Quick
   - ReactKit (~> 0.10.0)
@@ -25,6 +27,7 @@ SPEC CHECKSUMS:
   AVOSCloudCrashReporting: 5add5ca29ec9f585010ecda3a643108c7e376e86
   AVOSCloudSNS: fa177d50fe83b630d684dd27d790358531b365cc
   HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
+  Locksmith: 770f6c5c6e5c5c712d1f00e709c62b8a7240c716
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   ReactKit: 914b50142021e558669d6870a6a35e6e7bb14f30
