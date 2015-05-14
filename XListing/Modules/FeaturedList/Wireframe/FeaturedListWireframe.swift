@@ -15,10 +15,6 @@ public class FeaturedListWireframe : BaseWireframe {
     private let featuredListVM: IFeaturedListViewModel
     private var featuredListViewController: FeaturedListViewController?
     
-    public weak var nearbyModule: NearbyModule?
-    public weak var detailModule: DetailModule?
-    public weak var profileModule: ProfileModule?
-    
     public init(rootWireframe: IRootWireframe, featuredListVM: IFeaturedListViewModel) {
         self.featuredListVM = featuredListVM
         super.init(rootWireframe: rootWireframe)
@@ -33,7 +29,7 @@ public class FeaturedListWireframe : BaseWireframe {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
         viewController.featuredListVM = featuredListVM
-        viewController.navigationDelegate = self
+        
         featuredListViewController = viewController
         return viewController
     }
@@ -49,19 +45,5 @@ extension FeaturedListWireframe : IFeaturedListWireframe {
         let injectedViewController = initViewController()
         rootWireframe.showRootViewController(injectedViewController)
         
-    }
-}
-
-extension FeaturedListWireframe : FeaturedListNavigationDelegate {
-    public func pushNearby() {
-        nearbyModule?.pushView()
-    }
-    
-    public func pushDetail(businessViewModel: BusinessViewModel) {
-        detailModule?.pushView(businessViewModel)
-    }
-
-    public func pushProfile() {
-        profileModule?.pushView()
     }
 }

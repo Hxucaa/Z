@@ -21,8 +21,6 @@ public class FeaturedListViewController: UIViewController {
     @IBOutlet weak var nearbyButton: UIBarButtonItem!
     @IBOutlet weak var profileButton: UIBarButtonItem!
     
-    public weak var navigationDelegate: FeaturedListNavigationDelegate?
-    
     /// ViewModel
     public var featuredListVM: IFeaturedListViewModel?
     
@@ -54,7 +52,7 @@ public class FeaturedListViewController: UIViewController {
     */
     private func setupTable() {
         // Setup signal
-        let businessVMArrSignal = featuredListVM!.businessVMArr.signal().ownedBy(self)
+        let businessVMArrSignal = featuredListVM!.businessDynamicArr.stream().ownedBy(self)
         businessVMArrSignal ~> { [unowned self] changedValues, change, indexSet in
             /**
             *  Programatically insert each business view model to the table
@@ -71,22 +69,21 @@ public class FeaturedListViewController: UIViewController {
     React to Nearby Button and present NearbyViewController.
     */
     private func setupNearbyButton() {
-        let nearbyButtonSignal = nearbyButton.signal { [unowned self] button -> Void in
-            navigationDelegate?.pushNearby()
+        let nearbyButtonSignal = nearbyButton.stream().ownedBy(self)
+        nearbyButtonSignal ~> { [unowned self] button -> Void in
+            featuredListVM?.pushNearbyModule()
         }
-        nearbyButtonSignal.ownedBy(self)
-        nearbyButtonSignal ~> {}
     }
 
     /**
     React to Profile Button and present ProfileViewController.
     */
     private func setupProfileButton() {
-        let profileButtonSignal = profileButton.signal { [unowned self] button -> Void in
-            navigationDelegate?.pushProfile()
+        let profileButtonSignal = profileButton.stream().ownedBy(self)
+        profileButtonSignal ~> { [unowned self] button -> Void in
+            featuredListVM?.pushProfileModule()
         }
-        profileButtonSignal.ownedBy(self)
-        profileButtonSignal ~> {}
+
     }
 }
 
@@ -102,7 +99,7 @@ extension FeaturedListViewController : UITableViewDataSource {
     :returns: The number of sections in tableView. The default value is 1.
     */
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return featuredListVM!.businessVMArr.proxy.count
+        return featuredListVM!.businessDynamicArr.proxy.count
     }
     
     /**
@@ -130,31 +127,31 @@ extension FeaturedListViewController : UITableViewDataSource {
         
         let section = indexPath.section
         
-        var businessNameLabel : UILabel? = self.view.viewWithTag(1) as? UILabel
-        var wantToGoLabel: UILabel? = self.view.viewWithTag(2) as? UILabel
-        var cityLabel : UILabel? = self.view.viewWithTag(4) as? UILabel
-        var oldPriceLabel : UILabel? = self.view.viewWithTag(5) as? UILabel
-        let coverImageView = self.view.viewWithTag(3) as? UIImageView
+        var businessNameLabel : UILabel? = cell.viewWithTag(1) as? UILabel
+        var wantToGoLabel: UILabel? = cell.viewWithTag(2) as? UILabel
+        var cityLabel : UILabel? = cell.viewWithTag(4) as? UILabel
+        var openingLabel: UILabel? = cell.viewWithTag(6) as? UILabel
+        var coverImageView = cell.viewWithTag(3) as? UIImageView
         
-        let arr = featuredListVM!.businessVMArr.proxy
+        let arr = featuredListVM!.businessDynamicArr.proxy
         if (arr.count > section){
-            let businessVM = arr[section] as! BusinessViewModel
+//            let businessVM = arr[section] as! FeaturedListCellViewModel
+            let businessVM = arr[section] as! FeaturedListCellViewModel
             
+            businessNameLabel?.text = businessVM.businessName
             
-            let englishName = businessVM.nameEnglish
-            let chineseName = businessVM.nameSChinese
-            
-            businessNameLabel?.text = chineseName!
-            wantToGoLabel?.text = businessVM.getWantToGoLabelText()
+            wantToGoLabel?.text = businessVM.wantToGoText
             
             cityLabel?.text = businessVM.city
-
-            coverImageView!.hnk_setImageFromURL(NSURL(string: businessVM.coverImageUrl!)!, failure: {
-                println("Image loading failed: \($0)")
-            })
-
+            
+            openingLabel?.text = businessVM.openingText
+            
+            if let url = businessVM.coverImageNSURL {
+                coverImageView!.hnk_setImageFromURL(url, failure: {
+                    println("Image loading failed: \($0)")
+                })
+            }
         }
-        
         return cell
     }
 }
@@ -172,9 +169,7 @@ extension FeaturedListViewController : UITableViewDelegate {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        let businessVM = featuredListVM!.businessVMArr.proxy[indexPath.section] as! BusinessViewModel
         // pass business info to detail view and push it
-//        navigationDelegate?.pushDetail(businessVM)
-        navigationDelegate?.pushDetail(businessVM)
+        featuredListVM?.pushDetailModule(indexPath.section)
     }
 }

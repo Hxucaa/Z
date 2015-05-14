@@ -7,17 +7,28 @@
 //
 
 import Foundation
+import ReactKit
 
 private let DetailViewControllerIdentifier = "DetailViewController"
 
 public class DetailWireframe : BaseWireframe, IDetailWireframe {
     
-    private let detailVM: IDetailViewModel
+    private var detailVM: IDetailViewModel
     private var detailViewController: DetailViewController?
+    
+    private let navigationNotificationReceiver: Stream<NSNotification?>
     
     public init(rootWireframe: IRootWireframe, detailViewModel: IDetailViewModel) {
         detailVM = detailViewModel
+        
+        navigationNotificationReceiver = Notification.stream(NavigationNotificationName.PushDetailModule, nil)
+        
         super.init(rootWireframe: rootWireframe)
+        
+        navigationNotificationReceiver ~> { notification -> Void in
+            let vm = (notification?.userInfo)!["BusinessModel"] as! BusinessDAO
+            self.pushView(vm)
+        }
     }
     
     /**
@@ -33,12 +44,10 @@ public class DetailWireframe : BaseWireframe, IDetailWireframe {
         detailViewController = viewController
         return viewController
     }
-}
-
-extension DetailWireframe : DetailModule {
-    public func pushView(businessViewModel: BusinessViewModel) {
+    
+    private func pushView(businessModel: BusinessDAO) {
         let injectedViewController = injectViewModelToViewController()
-        injectedViewController.businessVM = businessViewModel
+        detailVM.business = businessModel
         rootWireframe.pushViewController(injectedViewController, animated: true)
     }
 }

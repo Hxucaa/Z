@@ -9,8 +9,5 @@
 import Foundation
 
 public protocol IFeaturedListWireframe {
-    var nearbyModule: NearbyModule? { get set }
-    var detailModule: DetailModule? { get set }
-    var profileModule: ProfileModule? { get set }
     func showFeaturedListAsRootViewController()
 }

@@ -27,7 +27,7 @@
 // ReactKit
 #define COCOAPODS_POD_AVAILABLE_ReactKit
 #define COCOAPODS_VERSION_MAJOR_ReactKit 0
-#define COCOAPODS_VERSION_MINOR_ReactKit 9
+#define COCOAPODS_VERSION_MINOR_ReactKit 10
 #define COCOAPODS_VERSION_PATCH_ReactKit 0
 
 // SwiftTask

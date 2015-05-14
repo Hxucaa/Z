@@ -10,16 +10,34 @@ import Foundation
 import SwiftTask
 import ReactKit
 
-public class DetailViewModel : BaseViewModel, IDetailViewModel {
+public class DetailViewModel : NSObject, IDetailViewModel {
     
     private let wantToGoService: IWantToGoService
+    private let geoLocationService: IGeoLocationService
     
-    public init(wantToGoService: IWantToGoService, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+    public dynamic var business: BusinessDAO!
+    
+    private var businessKVO: Stream<AnyObject?>!
+    
+    public var detailBusinessInfoVM: DetailBusinessInfoViewModel!
+    
+    public init(wantToGoService: IWantToGoService, geoLocationService: IGeoLocationService) {
         self.wantToGoService = wantToGoService
-        super.init(businessService: businessService, geoLocationService: geoLocationService)
+        self.geoLocationService = geoLocationService
+        
+        super.init()
+        
+        businessKVO = KVO.stream(self, "business")
+        businessKVO ~> { [weak self] bus in
+            self!.detailBusinessInfoVM = DetailBusinessInfoViewModel(business: bus as! BusinessDAO)
+        }
     }
     
-    public func goingToBusiness(business: BusinessViewModel, thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGoDAO, NSError> {
+    public func goingToBusiness(#thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGoDAO, NSError> {
         return wantToGoService.goingToBusiness(business.objectId!, thisWeek: thisWeek, thisMonth: thisMonth, later: later)
+    }
+    
+    deinit {
+        println("DetailViewModel deinit")
     }
 }

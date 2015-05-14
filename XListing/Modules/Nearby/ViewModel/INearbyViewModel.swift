@@ -10,8 +10,9 @@ import Foundation
 import ReactKit
 import SwiftTask
 
-public protocol INearbyViewModel {
-    var businessVMArr: DynamicArray { get }
-    func getBusiness()
-    func getCurrentLocation() -> Task<Int, CLLocation, NSError>
+public protocol INearbyViewModel : class {
+    var businessDynamicArr: DynamicArray { get }
+    func getCurrentLocation() -> Stream<CLLocation>
+    func getBusiness() -> Stream<Void>
+    func pushDetailModule(section: Int)
 }

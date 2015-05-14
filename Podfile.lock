@@ -5,7 +5,7 @@ PODS:
   - Parse (1.7.1):
     - Bolts (~> 1.1)
   - Quick (0.3.1)
-  - ReactKit (0.9.0):
+  - ReactKit (0.10.0):
     - SwiftTask (~> 3.0.0)
   - SwiftTask (3.0.0)
 
@@ -14,7 +14,7 @@ DEPENDENCIES:
   - Nimble
   - Parse
   - Quick
-  - ReactKit (~> 0.9.0)
+  - ReactKit (~> 0.10.0)
 
 EXTERNAL SOURCES:
   Haneke:
@@ -31,7 +31,7 @@ SPEC CHECKSUMS:
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Parse: fa8ec29de6d82035635986c11946299fb1b38316
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
-  ReactKit: ac52dd22d3c085fc28db3b9282e984dd96b8ec52
+  ReactKit: 914b50142021e558669d6870a6a35e6e7bb14f30
   SwiftTask: 2f2c0a7db83def1d1e3bad518169be3f61c603f4
 
-COCOAPODS: 0.37.0
+COCOAPODS: 0.37.1

@@ -73,7 +73,9 @@ public class BusinessService : ObjectService, IBusinessService {
             }
         }
         .success { object -> BusinessDAO? in
-            return object as? BusinessDAO
+            let result = object as? BusinessDAO
+            result?.pinInBackground()
+            return result
         }
 
         return task
@@ -104,7 +106,7 @@ public class BusinessService : ObjectService, IBusinessService {
         }
         .success { (objects: [AnyObject]) -> [BusinessDAO] in
             let businesses = objects as! [BusinessDAO]
-            
+            BusinessDAO.pinAllInBackground(businesses)
             return businesses
         }
         

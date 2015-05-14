@@ -10,7 +10,10 @@ import Foundation
 import SwiftTask
 import ReactKit
 
-public protocol IFeaturedListViewModel {
-    var businessVMArr: DynamicArray { get }
+public protocol IFeaturedListViewModel : class {
+    var businessDynamicArr: DynamicArray { get }
     func getBusiness()
+    func pushNearbyModule()
+    func pushDetailModule(section: Int)
+    func pushProfileModule()
 }
