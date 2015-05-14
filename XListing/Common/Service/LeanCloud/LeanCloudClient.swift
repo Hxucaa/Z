@@ -7,17 +7,25 @@
 //
 
 import Foundation
+import AVOSCloudCrashReporting
+import AVOSCloud
 
 public class LeanCloudClient {
     
     public class func initializeClient() {
         prepareClient()
-        Parse.useAVCloudUS()
         initialize()
     }
     
     private class func prepareClient() {
+        Parse.useAVCloudUS()
+        
+        AVOSCloudCrashReporting.enable()
+        
+        AVAnalytics.setAnalyticsEnabled(true)
+        
         User.enableAutomaticUser()
+        
         User.registerSubclass()
         Business.registerSubclass()
         WantToGo.registerSubclass()

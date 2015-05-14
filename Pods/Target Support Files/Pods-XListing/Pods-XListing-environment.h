@@ -13,6 +13,20 @@
 // Please contact the author.
 // Version: 3.1.1.1.
 
+// AVOSCloudCrashReporting
+#define COCOAPODS_POD_AVAILABLE_AVOSCloudCrashReporting
+// This library does not follow semantic-versioning,
+// so we were not able to define version macros.
+// Please contact the author.
+// Version: 3.1.1.1.
+
+// AVOSCloudSNS
+#define COCOAPODS_POD_AVAILABLE_AVOSCloudSNS
+// This library does not follow semantic-versioning,
+// so we were not able to define version macros.
+// Please contact the author.
+// Version: 3.1.1.1.
+
 // Haneke
 #define COCOAPODS_POD_AVAILABLE_Haneke
 #define COCOAPODS_VERSION_MAJOR_Haneke 0

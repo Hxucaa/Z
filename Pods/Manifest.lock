@@ -1,5 +1,9 @@
 PODS:
   - AVOSCloud (3.1.1.1)
+  - AVOSCloudCrashReporting (3.1.1.1):
+    - AVOSCloud
+  - AVOSCloudSNS (3.1.1.1):
+    - AVOSCloud
   - Haneke (0.9.0)
   - Nimble (0.4.2)
   - Quick (0.3.1)
@@ -8,7 +12,9 @@ PODS:
   - SwiftTask (3.0.0)
 
 DEPENDENCIES:
-  - AVOSCloud
+  - AVOSCloud (~> 3.1)
+  - AVOSCloudCrashReporting (~> 3.1)
+  - AVOSCloudSNS (~> 3.1)
   - Haneke (from `https://github.com/Haneke/HanekeSwift.git`)
   - Nimble
   - Quick
@@ -25,6 +31,8 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AVOSCloud: 0c0b91ffd91f83b448312027e5f8b243f261c42a
+  AVOSCloudCrashReporting: 5add5ca29ec9f585010ecda3a643108c7e376e86
+  AVOSCloudSNS: fa177d50fe83b630d684dd27d790358531b365cc
   Haneke: 6d0b23dc6603d069c889f0c02e72ddbbc78d2e97
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
