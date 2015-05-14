@@ -14,12 +14,6 @@ public class AccountViewModel : IAccountViewModel {
     
     public init(userService: IUserService) {
         self.userService = userService
-        if UserService.isLoggedInAlready() {
-            println("User is already logged in!")
-        }
-        else {
-            logIn("test1", password: "12345678")
-        }
     }
     
     public func logIn(username: String, password: String) {

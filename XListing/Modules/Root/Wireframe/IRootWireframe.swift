@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public protocol IRootWireframe : class {
     func showRootViewController(viewController: UIViewController)

@@ -10,12 +10,12 @@ import XCTest
 import XListing
 
 class BusinessTests: XCTestCase {
-    var business: BusinessDAO = BusinessDAO()
+    var business = Business()
     
     override func setUp() {
         super.setUp()
         
-        ParseClient.initializeClient()
+        LeanCloudClient.initializeClient()
         
         business.address = "3289 Alberta st."
         business.city = "Vancouver"
@@ -51,7 +51,7 @@ class BusinessTests: XCTestCase {
         
         
         let objectSaved = expectationWithDescription("Business object is saved")
-        let query = BusinessDAO.query()
+        let query = Business.query()
         query!.whereKey("objectId", equalTo: business.objectId!)
         query!.includeKey("location")
         query?.findObjectsInBackgroundWithBlock({(objects, error) -> Void in
@@ -59,11 +59,11 @@ class BusinessTests: XCTestCase {
             XCTAssertNil(error, "No error message")
             XCTAssertEqual(objects!.count, 1, "size is 1")
             
-            let obj = objects!.first as! BusinessDAO
+            let obj = objects!.first as! Business
             
             XCTAssertEqual(obj.nameEnglish!, self.business.nameEnglish!, "Same name")
-            XCTAssertEqual(obj.isClaimed!, self.business.isClaimed!, "Same")
-            XCTAssertEqual(obj.isClosed!, self.business.isClosed!, "Same")
+            XCTAssertEqual(obj.isClaimed, self.business.isClaimed, "Same")
+            XCTAssertEqual(obj.isClosed, self.business.isClosed, "Same")
             XCTAssertEqual(obj.imageUrl!, self.business.imageUrl!, "Same")
             XCTAssertEqual(obj.url!, self.business.url!, "Same")
             XCTAssertEqual(obj.mobileUrl!, self.business.mobileUrl!, "Same")

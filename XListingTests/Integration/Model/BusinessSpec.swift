@@ -25,10 +25,10 @@ class BusinessSpec: QuickSpec {
         }
         
         describe("Save") {
-            var business: BusinessDAO?
+            var business: Business?
             
             beforeEach {
-                business = BusinessDAO()
+                business = Business()
                 
                 business?.address = "3289 Alberta st."
                 business?.city = "Vancouver"
@@ -56,7 +56,7 @@ class BusinessSpec: QuickSpec {
                     })
                 }
                 
-                let query = BusinessDAO.query()
+                let query = Business.query()
                 query!.whereKey("objectId", equalTo: (business?.objectId)!)
                 query!.includeKey("location")
                 waitUntil(timeout: 3) { done in
@@ -64,7 +64,7 @@ class BusinessSpec: QuickSpec {
                         expect(error).to(beNil())
                         expect(objects?.count).to(equal(1))
                         
-                        let obj = objects?.first as? BusinessDAO
+                        let obj = objects?.first as? Business
                         
                         expect(obj?.nameEnglish).to(equal(business?.nameEnglish!))
                         expect(obj?.isClaimed).to(equal(business?.isClaimed))

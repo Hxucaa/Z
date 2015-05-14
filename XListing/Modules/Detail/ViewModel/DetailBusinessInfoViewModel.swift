@@ -39,7 +39,7 @@ public class DetailBusinessInfoViewModel : NSObject {
 //    public let postalCode: String?
 
     
-    public init(business: BusinessDAO, currentLocation: CLLocation? = nil) {
+    public init(business: Business, currentLocation: CLLocation? = nil) {
         navigationTitle = business.nameSChinese!
         
         businessName = business.nameSChinese!

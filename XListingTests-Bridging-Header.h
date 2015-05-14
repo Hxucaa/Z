@@ -10,9 +10,5 @@
 #ifndef XListing_XListingTests_Bridging_Header_h
 #define XListing_XListingTests_Bridging_Header_h
 
-#import <Parse/Parse.h>
-//#import <ParseUI/ParseUI.h>
-#import <Bolts/BFTask.h>
-#import <Parse/PFObject+Subclass.h>
 
 #endif

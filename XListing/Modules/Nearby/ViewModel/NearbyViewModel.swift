@@ -9,6 +9,7 @@
 import Foundation
 import SwiftTask
 import ReactKit
+import MapKit
 
 public class NearbyViewModel : INearbyViewModel {
     public let businessDynamicArr = DynamicArray()
@@ -16,7 +17,7 @@ public class NearbyViewModel : INearbyViewModel {
     private let businessService: IBusinessService
     private let geoLocationService: IGeoLocationService
     
-    private var businessModelArr: [BusinessDAO]!
+    private var businessModelArr: [Business]!
     
     public init(businessService: IBusinessService, geoLocationService: IGeoLocationService) {
         self.businessService = businessService
@@ -24,7 +25,7 @@ public class NearbyViewModel : INearbyViewModel {
     }
     
     public func getBusiness() -> Stream<Void> {
-        let query = BusinessDAO.query()!
+        let query = Business.query()!
         
         //TODO: support for offline usage.
         //Fetch current location. Create BusinessViewModel with embedded distance data. And finally add the BusinessViewModels to dynamicArray for the view to consume the signal.

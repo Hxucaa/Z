@@ -16,7 +16,7 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
     private let businessService: IBusinessService
     private let geoLocationService: IGeoLocationService
     
-    private var businessModelArr: [BusinessDAO]!
+    private var businessModelArr: [Business]!
     
     public init(businessService: IBusinessService, geoLocationService: IGeoLocationService) {
         self.businessService = businessService
@@ -25,7 +25,7 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
     
     
     public func getBusiness() {
-        let query = BusinessDAO.query()!
+        let query = Business.query()!
         query.whereKey("featured", equalTo: true);
         //TODO: support for offline usage.
         //Fetch current location. Create BusinessViewModel with embedded distance data. And finally add the BusinessViewModels to dynamicArray for the view to consume the signal.
