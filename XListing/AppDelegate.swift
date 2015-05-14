@@ -18,15 +18,13 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
                 
         // connect to Parse
-        ParseClient.initializeClient()
+        LeanCloudClient.initializeClient()
         
         // start dependency injector
         appDependencies = AppDependencies(window: window!)
         
         // initialize root view
         appDependencies!.installRootViewControllerIntoWindow()
-        
-//        UserService().logIn("test1", password: "12345678");
         
         return true
     }

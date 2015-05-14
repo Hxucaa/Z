@@ -1,18 +1,16 @@
 PODS:
-  - Bolts (1.1.4)
+  - AVOSCloud (3.1.1.1)
   - Haneke (0.9.0)
   - Nimble (0.4.2)
-  - Parse (1.7.1):
-    - Bolts (~> 1.1)
   - Quick (0.3.1)
   - ReactKit (0.10.0):
     - SwiftTask (~> 3.0.0)
   - SwiftTask (3.0.0)
 
 DEPENDENCIES:
+  - AVOSCloud
   - Haneke (from `https://github.com/Haneke/HanekeSwift.git`)
   - Nimble
-  - Parse
   - Quick
   - ReactKit (~> 0.10.0)
 
@@ -26,12 +24,11 @@ CHECKOUT OPTIONS:
     :git: https://github.com/Haneke/HanekeSwift.git
 
 SPEC CHECKSUMS:
-  Bolts: f8e2f94edbf9fec7bb8de5ecaaa3aa6b7de6f64e
+  AVOSCloud: 0c0b91ffd91f83b448312027e5f8b243f261c42a
   Haneke: 6d0b23dc6603d069c889f0c02e72ddbbc78d2e97
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
-  Parse: fa8ec29de6d82035635986c11946299fb1b38316
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   ReactKit: 914b50142021e558669d6870a6a35e6e7bb14f30
   SwiftTask: 2f2c0a7db83def1d1e3bad518169be3f61c603f4
 
-COCOAPODS: 0.37.1
+COCOAPODS: 0.36.4

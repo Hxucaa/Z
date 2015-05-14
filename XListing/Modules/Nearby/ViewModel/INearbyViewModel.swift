@@ -9,6 +9,7 @@
 import Foundation
 import ReactKit
 import SwiftTask
+import MapKit
 
 public protocol INearbyViewModel : class {
     var businessDynamicArr: DynamicArray { get }

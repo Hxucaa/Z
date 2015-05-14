@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MapKit
 
 /**
 *  Constants
@@ -24,14 +25,14 @@ public class FeaturedListCellViewModel : NSObject {
     public let coverImageNSURL: NSURL?
     public private(set) var distance: String?
     
-    public init(business: BusinessDAO) {
-        className = business.parseClassName
+    public init(business: Business) {
+        className = business.className
         
         objectId = business.objectId!
         
         businessName = business.nameSChinese!
         
-        let wantToGoCounter = business.wantToGoCounter!
+        let wantToGoCounter = business.wantToGoCounter
         if (wantToGoCounter > 0) {
             wantToGoText = String(format: "%d+ 人想去", wantToGoCounter)
         }
@@ -51,7 +52,7 @@ public class FeaturedListCellViewModel : NSObject {
         }
     }
     
-    public convenience init(business: BusinessDAO, currentLocation: CLLocation) {
+    public convenience init(business: Business, currentLocation: CLLocation) {
         self.init(business: business)
         
         let busCLLocation = CLLocation(latitude: (business.geopoint?.latitude)!, longitude: (business.geopoint?.longitude)!)

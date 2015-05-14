@@ -6,23 +6,18 @@
 // project.
 
 
-// Bolts
-#define COCOAPODS_POD_AVAILABLE_Bolts
-#define COCOAPODS_VERSION_MAJOR_Bolts 1
-#define COCOAPODS_VERSION_MINOR_Bolts 1
-#define COCOAPODS_VERSION_PATCH_Bolts 4
+// AVOSCloud
+#define COCOAPODS_POD_AVAILABLE_AVOSCloud
+// This library does not follow semantic-versioning,
+// so we were not able to define version macros.
+// Please contact the author.
+// Version: 3.1.1.1.
 
 // Haneke
 #define COCOAPODS_POD_AVAILABLE_Haneke
 #define COCOAPODS_VERSION_MAJOR_Haneke 0
 #define COCOAPODS_VERSION_MINOR_Haneke 9
 #define COCOAPODS_VERSION_PATCH_Haneke 0
-
-// Parse
-#define COCOAPODS_POD_AVAILABLE_Parse
-#define COCOAPODS_VERSION_MAJOR_Parse 1
-#define COCOAPODS_VERSION_MINOR_Parse 7
-#define COCOAPODS_VERSION_PATCH_Parse 1
 
 // ReactKit
 #define COCOAPODS_POD_AVAILABLE_ReactKit
