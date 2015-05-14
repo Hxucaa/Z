@@ -13,7 +13,7 @@ This application makes use of the following third party libraries:
 
 © Copyright 2015 LeanCloud, Inc. See https://leancloud.cn/terms.html
 
-## Haneke
+## HanekeSwift
 
 Apache License
                            Version 2.0, January 2004

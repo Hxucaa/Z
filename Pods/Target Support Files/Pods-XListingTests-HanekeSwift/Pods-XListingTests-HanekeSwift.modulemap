@@ -1,5 +1,5 @@
 framework module Haneke {
-  umbrella header "Pods-XListingTests-Haneke-umbrella.h"
+  umbrella header "Pods-XListingTests-HanekeSwift-umbrella.h"
 
   export *
   module * { export * }

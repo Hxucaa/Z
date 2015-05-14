@@ -27,11 +27,11 @@
 // Please contact the author.
 // Version: 3.1.1.1.
 
-// Haneke
-#define COCOAPODS_POD_AVAILABLE_Haneke
-#define COCOAPODS_VERSION_MAJOR_Haneke 0
-#define COCOAPODS_VERSION_MINOR_Haneke 9
-#define COCOAPODS_VERSION_PATCH_Haneke 0
+// HanekeSwift
+#define COCOAPODS_POD_AVAILABLE_HanekeSwift
+#define COCOAPODS_VERSION_MAJOR_HanekeSwift 0
+#define COCOAPODS_VERSION_MINOR_HanekeSwift 9
+#define COCOAPODS_VERSION_PATCH_HanekeSwift 1
 
 // Nimble
 #define COCOAPODS_POD_AVAILABLE_Nimble
