@@ -20,8 +20,10 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
     public var mapView = MKMapView()
     
     public var expandHours: Bool = false
+    public var isGoing: Bool = false
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var profileButton: UIBarButtonItem!
     
     private var businessNameStream: Stream<AnyObject?>!
     private var cityAndDistanceStream: Stream<AnyObject?>!
@@ -35,8 +37,10 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
         tableView.delegate = self
         tableView.dataSource = self
         //tableView.allowsSelection = false
+        setupProfileButton()
         
         self.navigationItem.title = detailVM.detailBusinessInfoVM.navigationTitle
+
     }
     
     public override func didReceiveMemoryWarning() {
@@ -63,6 +67,17 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
 //        println("did appear")
 //    }
     
+    /**
+    React to Profile Button and present ProfileViewController.
+    */
+    private func setupProfileButton() {
+        let profileButtonSignal = profileButton.stream().ownedBy(self)
+        profileButtonSignal ~> { [unowned self] button -> Void in
+            detailVM?.pushProfileModule()
+        }
+        
+    }
+    
     public func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         if (annotation is MKUserLocation) {
             //if annotation is not an MKPointAnnotation (eg. MKUserLocation),
@@ -87,24 +102,31 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
     }
     
     public func wantToGoPopover(){
-        var alert = UIAlertController(title: "什么时候想去？", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+        var alert = UIAlertController(title: "请选一种", message: "", preferredStyle: UIAlertControllerStyle.Alert)
         
-        alert.addAction(UIAlertAction(title: "这个星期", style: UIAlertActionStyle.Default) { alert in
-            detailVM.goingToBusiness(thisWeek: true, thisMonth: false, later: false)
+        alert.addAction(UIAlertAction(title: "我想去", style: UIAlertActionStyle.Default) { alert in
+            self.isGoing = true
+            self.tableView.reloadData();
+           // detailVM.goingToBusiness(thisWeek: true, thisMonth: false, later: false)
             })
             
             
-        alert.addAction(UIAlertAction(title: "这个月", style: UIAlertActionStyle.Default) { alert in
-            detailVM.goingToBusiness(thisWeek: false, thisMonth: true, later: false)
+        alert.addAction(UIAlertAction(title: "我想请客", style: UIAlertActionStyle.Default) { alert in
+            self.isGoing = true
+            self.tableView.reloadData();
+            //detailVM.goingToBusiness(thisWeek: false, thisMonth: true, later: false)
             })
-        
-        alert.addAction(UIAlertAction(title: "以后", style: UIAlertActionStyle.Default) { alert in
-            detailVM.goingToBusiness(thisWeek: false, thisMonth: false, later: true)
+
+        alert.addAction(UIAlertAction(title: "我想 AA", style: UIAlertActionStyle.Default) { alert in
+            self.isGoing = true
+            self.tableView.reloadData();
+           // detailVM.goingToBusiness(thisWeek: false, thisMonth: false, later: true)
             })
         
         alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil))
         
         self.presentViewController(alert, animated: true, completion: nil)
+        
      
         
     }
@@ -170,7 +192,12 @@ extension DetailViewController : UITableViewDataSource {
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch section {
-        case 0: return 3
+        case 0:
+            if (isGoing){
+                return 3
+            }else{
+                return 2
+            }
         case 1: return 2
         case 2: return 2
         case 3: return 2
@@ -216,6 +243,10 @@ extension DetailViewController : UITableViewDataSource {
                     }
                 }
                 
+                //TO DO:
+                //temp restaurant image; remove once cover image is linked properly
+                businessImageView?.image = UIImage (named: "tempRestImage")
+                
                 
                 return cell0
                 
@@ -228,6 +259,19 @@ extension DetailViewController : UITableViewDataSource {
                 let businessNameLabel : UILabel? = self.view.viewWithTag(1) as? UILabel
                 let cityLabel : UILabel? = self.view.viewWithTag(2) as? UILabel
                 let distanceLabel : UILabel? = self.view.viewWithTag(3) as? UILabel
+                var wantToGoButton : UIButton? = self.view.viewWithTag(4) as? UIButton
+                
+                wantToGoButtonStream = wantToGoButton?.buttonStream("Want To Go Button")
+                wantToGoButtonStream! ~> { _ in
+                    self.wantToGoPopover()
+                }
+                
+                if (isGoing){
+                    wantToGoButton?.setTitle("\u{f004}   我想去", forState: UIControlState.Normal)
+                }else{
+                    wantToGoButton?.setTitle("\u{f08a}   我想去", forState: UIControlState.Normal)
+                }
+                
                 
                 businessNameStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "businessName")
                 (businessNameLabel!, "text") <~ businessNameStream
@@ -239,6 +283,12 @@ extension DetailViewController : UITableViewDataSource {
                 
                 
             case 2:
+                let wantToGoCell = tableView.dequeueReusableCellWithIdentifier("NumPeopleGoingCell", forIndexPath: indexPath) as! UITableViewCell
+                wantToGoCell.layoutMargins = UIEdgeInsetsZero
+                wantToGoCell.preservesSuperviewLayoutMargins = false
+                return wantToGoCell
+            
+            case 3:
                 let cell2 = tableView.dequeueReusableCellWithIdentifier("ButtonCell", forIndexPath: indexPath) as! UITableViewCell
                 
                 cell2.layoutMargins = UIEdgeInsetsZero;
@@ -259,7 +309,7 @@ extension DetailViewController : UITableViewDataSource {
 
                 return cell2
                 
-            case 3:
+            case 4:
                 var cell3 = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath) as! UITableViewCell
                 
                 cell3.layoutMargins = UIEdgeInsetsZero;
@@ -472,7 +522,6 @@ extension DetailViewController : UITableViewDataSource {
             switch row {
             case 0: return 226
             case 1: return 65
-            case 2: return 86
             default: return 44
             }
             

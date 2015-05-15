@@ -16,4 +16,5 @@ public protocol INearbyViewModel : class {
     func getCurrentLocation() -> Stream<CLLocation>
     func getBusiness() -> Stream<Void>
     func pushDetailModule(section: Int)
+    func pushProfileModule()
 }

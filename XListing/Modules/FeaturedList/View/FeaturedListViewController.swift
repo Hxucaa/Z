@@ -151,6 +151,10 @@ extension FeaturedListViewController : UITableViewDataSource {
                     println("Image loading failed: \($0)")
                 })
             }
+            
+            //TO DO:
+            //temp restaurant image; remove once cover image is linked properly
+            coverImageView?.image = UIImage (named: "tempRestImage")
         }
         return cell
     }
