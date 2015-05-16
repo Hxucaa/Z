@@ -1,19 +1,20 @@
 //
-//  UserDAO.swift
+//  Profile.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-04-17.
+//  Created by William Qi on 2015-05-15.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import Foundation
 import AVOSCloud
 
-public class User: AVUser, AVSubclassing {
+public class Profile: AVObject, AVSubclassing {
+    
+    // Class Name
     public func parseClassName() -> String! {
-        return "_User"
+        return "Profile"
     }
-    public dynamic var name: String?
     
     // MARK: Constructors
     public override class func registerSubclass() {

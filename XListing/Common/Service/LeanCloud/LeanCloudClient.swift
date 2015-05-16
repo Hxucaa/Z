@@ -27,6 +27,7 @@ public class LeanCloudClient {
         User.enableAutomaticUser()
         
         User.registerSubclass()
+        Profile.registerSubclass()
         Business.registerSubclass()
         WantToGo.registerSubclass()
     }

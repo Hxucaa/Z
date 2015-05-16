@@ -13,7 +13,7 @@ public class UserService : ObjectService, IUserService {
     
     public class func isLoggedInAlready() -> Bool {
         if let c = currentUser() {
-            return true
+            return false
         }
         else {
             return false

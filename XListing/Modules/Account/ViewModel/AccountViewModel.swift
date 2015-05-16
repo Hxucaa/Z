@@ -26,13 +26,14 @@ public class AccountViewModel : IAccountViewModel {
         } else {
             // Load data from Keychain
             let (usernameData, userError) = Locksmith.loadDataForUserAccount("XListingUser", inService: "XListing")
-            let (passwordData, passError) = Locksmith.loadDataForUserAccount("XLstingPassword", inService: "XListing")
+            let (passwordData, passError) = Locksmith.loadDataForUserAccount("XListingPassword", inService: "XListing")
             
             if usernameData != nil {
                 // User Account created previously
                 let loginUser = usernameData!.valueForKey("username") as! String
                 let loginPass = passwordData!.valueForKey("password") as! String
                 userService.logIn(loginUser, password: loginPass)
+                println("Logged in as " + loginUser)
             } else {
                 // First time setup, generate random user and pass
                 var username = NSUUID().UUIDString
@@ -59,7 +60,6 @@ public class AccountViewModel : IAccountViewModel {
                     let keychainPasswordError = Locksmith.saveData(["password": password], forUserAccount: "XListingPassword", inService: "XListing")
                     if keychainPasswordError != nil {
                         println("Error Saving Password to Keychain:\n" + String(stringInterpolationSegment: keychainPasswordError))
-                        println("Problematic password was " + password)
                     } else {
                         println("Password " + password + " successfully saved to keychain.")
                     }
