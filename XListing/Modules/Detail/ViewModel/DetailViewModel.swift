@@ -37,6 +37,11 @@ public class DetailViewModel : NSObject, IDetailViewModel {
         return wantToGoService.goingToBusiness(business.objectId!, thisWeek: thisWeek, thisMonth: thisMonth, later: later)
     }
     
+    public func pushProfileModule() {
+        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushProfileModule, object: nil)
+        
+    }
+    
     deinit {
         println("DetailViewModel deinit")
     }

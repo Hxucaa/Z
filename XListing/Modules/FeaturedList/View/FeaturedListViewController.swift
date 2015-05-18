@@ -27,6 +27,10 @@ public class FeaturedListViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        let signUpVC = SignInViewController(nibName: "SignInViewController", bundle: nil)
+        
+        self.presentViewController(signUpVC, animated: true, completion: nil)
+        
         // Setup delegates
         tableView.delegate = self
         tableView.dataSource = self
@@ -83,7 +87,6 @@ public class FeaturedListViewController: UIViewController {
         profileButtonSignal ~> { [unowned self] button -> Void in
             featuredListVM?.pushProfileModule()
         }
-
     }
 }
 
@@ -125,6 +128,11 @@ extension FeaturedListViewController : UITableViewDataSource {
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! UITableViewCell
         
+        cell.selectionStyle = UITableViewCellSelectionStyle.None
+        
+        cell.layoutMargins = UIEdgeInsetsZero;
+        cell.preservesSuperviewLayoutMargins = false;
+        
         let section = indexPath.section
         
         var businessNameLabel : UILabel? = cell.viewWithTag(1) as? UILabel
@@ -142,7 +150,10 @@ extension FeaturedListViewController : UITableViewDataSource {
             
             wantToGoLabel?.text = businessVM.wantToGoText
             
-            cityLabel?.text = businessVM.city
+            //TODO:
+            //city and distance data not set up yet, temporarilily hard coded
+            cityLabel?.text = businessVM.city + " • 开车15分钟"
+            
             
             openingLabel?.text = businessVM.openingText
             
@@ -151,6 +162,10 @@ extension FeaturedListViewController : UITableViewDataSource {
                     println("Image loading failed: \($0)")
                 })
             }
+            
+            //TO DO:
+            //temp restaurant image; remove once cover image is linked properly
+            coverImageView?.image = UIImage (named: "tempRestImage")
         }
         return cell
     }
@@ -168,7 +183,7 @@ extension FeaturedListViewController : UITableViewDelegate {
     */
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
+ 
         // pass business info to detail view and push it
         featuredListVM?.pushDetailModule(indexPath.section)
     }

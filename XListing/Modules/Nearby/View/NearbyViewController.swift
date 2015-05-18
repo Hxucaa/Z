@@ -22,11 +22,13 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     
     private var tableArray = [NearbyTableView]()
     
+    @IBOutlet weak var profileButton: UIBarButtonItem!
     /// View Model
     public var nearbyVM: INearbyViewModel!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        setupProfileButton()
         
         initMapView()
         initScrollView()
@@ -46,6 +48,17 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    /**
+    React to Profile Button and present ProfileViewController.
+    */
+    private func setupProfileButton() {
+        let profileButtonSignal = profileButton.stream().ownedBy(self)
+        profileButtonSignal ~> { [unowned self] button -> Void in
+            nearbyVM?.pushProfileModule()
+        }
+        
     }
     
     /**

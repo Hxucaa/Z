@@ -85,4 +85,9 @@ public class NearbyViewModel : INearbyViewModel {
             }
         )
     }
+    
+    public func pushProfileModule() {
+        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushProfileModule, object: nil)
+        
+    }
 }

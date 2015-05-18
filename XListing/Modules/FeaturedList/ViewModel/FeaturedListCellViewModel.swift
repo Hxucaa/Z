@@ -34,7 +34,7 @@ public class FeaturedListCellViewModel : NSObject {
         
         let wantToGoCounter = business.wantToGoCounter
         if (wantToGoCounter > 0) {
-            wantToGoText = String(format: "%d+ 人想去", wantToGoCounter)
+            wantToGoText = String(format: "附近有%d人想去", wantToGoCounter)
         }
         else {
             wantToGoText = ""
