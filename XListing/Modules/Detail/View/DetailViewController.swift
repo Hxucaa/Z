@@ -37,7 +37,7 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
         tableView.delegate = self
         tableView.dataSource = self
         //tableView.allowsSelection = false
-        setupProfileButton()
+        //setupProfileButton()
         
         self.navigationItem.title = detailVM.detailBusinessInfoVM.navigationTitle
 
@@ -57,8 +57,6 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
         cityAndDistanceStream = nil
         wantToGoButtonStream = nil
         shareButtonStream = nil
-        
-        println("view did disappear")
     
     }
     
@@ -67,6 +65,10 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
 //        println("did appear")
 //    }
     
+    @IBAction func shareButtonTapped(sender: AnyObject) {
+        self.shareSheetAction()
+    }
+
     /**
     React to Profile Button and present ProfileViewController.
     */
@@ -267,9 +269,9 @@ extension DetailViewController : UITableViewDataSource {
                 }
                 
                 if (isGoing){
-                    wantToGoButton?.setTitle("\u{f004}   我想去", forState: UIControlState.Normal)
+                    wantToGoButton?.setTitle("\u{f004} 我想去", forState: UIControlState.Normal)
                 }else{
-                    wantToGoButton?.setTitle("\u{f08a}   我想去", forState: UIControlState.Normal)
+                    wantToGoButton?.setTitle("\u{f08a} 我想去", forState: UIControlState.Normal)
                 }
                 
                 
@@ -278,6 +280,10 @@ extension DetailViewController : UITableViewDataSource {
                 
                 cityAndDistanceStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "cityAndDistance")
                 (cityLabel!, "text") <~ cityAndDistanceStream
+                
+                //TODO:
+                //Temp addition of ETA until the distance stream comes through
+                cityLabel?.text = cityLabel!.text! + " • 开车15分钟"
                 
                 return cell1
                 
@@ -571,7 +577,11 @@ extension DetailViewController : UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 1
+        return 2
+    }
+    
+    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 2
     }
 }
 
