@@ -22,7 +22,7 @@ public class AccountViewModel : IAccountViewModel {
     private func logInOrsignUpInBackground() {
         if UserService.isLoggedInAlready() {
             // User Already Logged in
-            println("User is already logged in!")
+            println("Current user logged in is " + UserService.currentUser()!.username)
         } else {
             // Load data from Keychain
             let (usernameData, userError) = Locksmith.loadDataForUserAccount("XListingUser", inService: "XListing")
@@ -63,6 +63,8 @@ public class AccountViewModel : IAccountViewModel {
                     } else {
                         println("Password " + password + " successfully saved to keychain.")
                     }
+                    
+                    
 
                 }
                 .failure { (error, isCancelled) -> Void in

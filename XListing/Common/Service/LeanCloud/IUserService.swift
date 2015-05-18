@@ -11,6 +11,7 @@ import SwiftTask
 
 public protocol IUserService {
     static func isLoggedInAlready() -> Bool
+    static func isSignedUpAlready() -> Bool
     static func currentUser() -> User?
     func signUp(user: User) -> Task<Int, Bool, NSError>
     func logIn(username: String, password: String) -> Task<Int, User, NSError>

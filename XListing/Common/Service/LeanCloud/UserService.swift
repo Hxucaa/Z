@@ -8,14 +8,26 @@
 
 import Foundation
 import SwiftTask
+import Locksmith
 
 public class UserService : ObjectService, IUserService {
     
     public class func isLoggedInAlready() -> Bool {
-        if let c = currentUser() {
-            return false
+        if let c = currentUser()?.username {
+            return true
         }
         else {
+            return false
+        }
+    }
+    
+    public class func isSignedUpAlready() -> Bool {
+        let (usernameData, userError) = Locksmith.loadDataForUserAccount("XListingUser", inService: "XListing")
+        let (passwordData, passError) = Locksmith.loadDataForUserAccount("XListingPassword", inService: "XListing")
+        
+        if usernameData != nil {
+           return true
+        } else {
             return false
         }
     }
