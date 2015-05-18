@@ -27,6 +27,10 @@ public class FeaturedListViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        let signUpVC = SignInViewController(nibName: "SignInViewController", bundle: nil)
+        
+        self.presentViewController(signUpVC, animated: true, completion: nil)
+        
         // Setup delegates
         tableView.delegate = self
         tableView.dataSource = self
