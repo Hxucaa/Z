@@ -661,10 +661,11 @@
 				TargetAttributes = {
 					7EF3710A1AB8C012009AA3B9 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = M6WK7U72AV;
+						DevelopmentTeam = ANH52YVDY8;
 					};
 					7EF3711F1AB8C012009AA3B9 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = ANH52YVDY8;
 						TestTargetID = 7EF3710A1AB8C012009AA3B9;
 					};
 				};
@@ -1037,7 +1038,8 @@
 			baseConfigurationReference = 1764137F392722E0F7D6FA70 /* Pods-XListingTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhi Hao Li (M6WK7U72AV)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1049,6 +1051,7 @@
 				INFOPLIST_FILE = XListingTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "XListingTests-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XListing.app/XListing";
 			};
@@ -1059,7 +1062,8 @@
 			baseConfigurationReference = 26AB479389256B6B20922161 /* Pods-XListingTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhi Hao Li (M6WK7U72AV)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1067,6 +1071,7 @@
 				INFOPLIST_FILE = XListingTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "XListingTests-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XListing.app/XListing";
 			};
