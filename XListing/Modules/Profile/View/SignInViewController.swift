@@ -9,7 +9,9 @@
 import UIKit
 
 class SignInViewController: UIViewController {
-
+    @IBOutlet weak var birthdayPicker: UIDatePicker!
+    @IBOutlet weak var displayNameField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,8 +25,17 @@ class SignInViewController: UIViewController {
     
 
     @IBAction func continueButtonPressed(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        let displayName : String = displayNameField.text
+        
+        if displayName.isEmpty {
+            println("Name field is empty")
+        } else {
+            UserService.updateBirthday((birthdayPicker.date))
+            UserService.updateDisplayName(displayNameField.text)
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
+  
 
     /*
     // MARK: - Navigation

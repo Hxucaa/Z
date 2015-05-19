@@ -17,4 +17,6 @@ public protocol IUserService {
     func logIn(username: String, password: String) -> Task<Int, User, NSError>
     func logOut(user: User)
     func logInAnonymously() -> Task<Int, User, NSError>
+    static func updateBirthday(birthday: NSDate)
+    static func updateDisplayName(displayName : String)
 }

@@ -78,4 +78,44 @@ public class UserService : ObjectService, IUserService {
             }
         }
     }
+    
+    public class func updateBirthday(birthday : NSDate) {
+        // Format the string
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "M/d/yyyy"
+        let dateString = formatter.stringFromDate(birthday)
+        let dateArray = split(dateString) {$0 == "/"}
+        
+        let month = dateArray[0].toInt()
+        let day   = dateArray[1].toInt()
+        let year  = dateArray[2].toInt()
+        
+        // Save data to LeanCloud
+        var user = User.currentUser()
+        user["birthMonth"] = month
+        user["birthDay"] = day
+        user["birthYear"] = year
+        
+        user.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError?) -> Void in
+            if (success) {
+                println("User birthday updated to " + dateString)
+            } else {
+                println("Error when attempting to update birthday")
+            }
+        }
+    }
+    
+    public class func updateDisplayName(displayName : String) {
+        var user = User.currentUser()
+        user["displayName"] = displayName
+        user.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError?) -> Void in
+            if (success) {
+                println("User display name updated to " + displayName)
+            } else {
+                println("Error when attempting to update display name")
+            }
+        }
+    }
 }
