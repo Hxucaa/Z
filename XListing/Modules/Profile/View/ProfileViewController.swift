@@ -15,6 +15,8 @@ public class ProfileViewController : UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         println("I'm in ProfileViewController")
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
     }
 
     public override func didReceiveMemoryWarning() {
@@ -49,7 +51,7 @@ extension ProfileViewController : UITableViewDataSource {
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 3
+        return 5
         
     }
     
@@ -62,18 +64,39 @@ extension ProfileViewController : UITableViewDataSource {
     :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("ProfileCell", forIndexPath: indexPath) as! UITableViewCell
-        return placeHolderCell
+        
+        switch (indexPath.row){
+        case 0:
+            var profileCell = tableView.dequeueReusableCellWithIdentifier("ProfileCell", forIndexPath: indexPath) as! UITableViewCell
+            return profileCell
+        case 1:
+            var segmentedCell = tableView.dequeueReusableCellWithIdentifier("SegmentedCell", forIndexPath: indexPath) as! UITableViewCell
+            return segmentedCell
+        case 2:
+            var businessCell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! UITableViewCell
+            return businessCell
+        case 3:
+            var chatCell = tableView.dequeueReusableCellWithIdentifier("ChatCell", forIndexPath: indexPath) as! UITableViewCell
+            return chatCell
+        default:
+            var notificationCell = tableView.dequeueReusableCellWithIdentifier("NotificationCell", forIndexPath: indexPath) as! UITableViewCell
+            return notificationCell
+        }
+        
+        
+        
         
     }
     
     
     
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
-        return 44
-        
-        
+        switch (indexPath.row){
+            case 0: return 87
+            case 1: return 43
+            default: return 66
+        }
+
     }
     
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
