@@ -8,13 +8,15 @@
 
 import UIKit
 
-class SignInViewController: UIViewController {
+class SignInViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var birthdayPicker: UIDatePicker!
     @IBOutlet weak var displayNameField: UITextField!
+    @IBOutlet weak var selectPictureButton: UIButton!
+    let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        imagePicker.delegate = self
         // Do any additional setup after loading the view.
     }
 
@@ -23,6 +25,22 @@ class SignInViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            //UserService.updateProfilePicture(pickedImage)
+        }
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func selectPictureButtonPressed(sender: AnyObject) {
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .PhotoLibrary
+        presentViewController(imagePicker, animated: true, completion: nil)
+    }
 
     @IBAction func continueButtonPressed(sender: AnyObject) {
         let displayName : String = displayNameField.text

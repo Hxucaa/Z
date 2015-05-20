@@ -118,4 +118,42 @@ public class UserService : ObjectService, IUserService {
             }
         }
     }
+    
+    public class func updateProfilePicture(image: UIImage) {
+        var user = User.currentUser()
+
+        let imageData = UIImagePNGRepresentation(image)
+        let imageName = User.currentUser().username + ".png"
+        //let imageFile = PFFile(name: imageName, data:imageData)
+        
+        //user["profilePicture"] = imageFile
+        user.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError?) -> Void in
+            if (success) {
+                println("Profile picture updated successfully")
+            } else {
+                println("Error when attempting to update profile picture")
+            }
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -18,5 +18,6 @@ public protocol IUserService {
     func logOut(user: User)
     func logInAnonymously() -> Task<Int, User, NSError>
     static func updateBirthday(birthday: NSDate)
-    static func updateDisplayName(displayName : String)
+    static func updateDisplayName(displayName: String)
+    static func updateProfilePicture(image: UIImage)
 }
