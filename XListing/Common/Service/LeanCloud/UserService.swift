@@ -84,17 +84,10 @@ public class UserService : ObjectService, IUserService {
         let formatter = NSDateFormatter()
         formatter.dateFormat = "M/d/yyyy"
         let dateString = formatter.stringFromDate(birthday)
-        let dateArray = split(dateString) {$0 == "/"}
         
-        let month = dateArray[0].toInt()
-        let day   = dateArray[1].toInt()
-        let year  = dateArray[2].toInt()
-        
-        // Save data to LeanCloud
+        // Save to Parse
         var user = User.currentUser()
-        user["birthMonth"] = month
-        user["birthDay"] = day
-        user["birthYear"] = year
+        user["birthday"] = birthday
         
         user.saveInBackgroundWithBlock {
             (success: Bool, error: NSError?) -> Void in
