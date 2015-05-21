@@ -11,12 +11,15 @@ public class ProfileViewController : UIViewController {
     public var profileVM: IProfileViewModel?
 
     @IBOutlet weak var tableView: UITableView!
+    public var firstSegSelected = true
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         println("I'm in ProfileViewController")
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        self.navigationItem.title = "我的"
+
     }
 
     public override func didReceiveMemoryWarning() {
@@ -51,7 +54,7 @@ extension ProfileViewController : UITableViewDataSource {
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 5
+        return 8
         
     }
     
@@ -68,24 +71,80 @@ extension ProfileViewController : UITableViewDataSource {
         switch (indexPath.row){
         case 0:
             var profileCell = tableView.dequeueReusableCellWithIdentifier("ProfileCell", forIndexPath: indexPath) as! UITableViewCell
+            
+            var profilePicImageView = profileCell.viewWithTag(1) as? UIImageView
+            var nameLabel : UILabel? = profileCell.viewWithTag(2) as? UILabel
+            var horoscopeAgeLabel: UILabel? = profileCell.viewWithTag(3) as? UILabel
+            var cityLabel : UILabel? = profileCell.viewWithTag(4) as? UILabel
+            
+
+            
             return profileCell
         case 1:
             var segmentedCell = tableView.dequeueReusableCellWithIdentifier("SegmentedCell", forIndexPath: indexPath) as! UITableViewCell
+            var segmentedControl = segmentedCell.viewWithTag(1) as? UISegmentedControl
+            
+            segmentedControl?.addTarget(self, action: "switchSegment", forControlEvents: UIControlEvents.ValueChanged)
+            
+ 
+  
             return segmentedCell
-        case 2:
-            var businessCell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! UITableViewCell
-            return businessCell
-        case 3:
-            var chatCell = tableView.dequeueReusableCellWithIdentifier("ChatCell", forIndexPath: indexPath) as! UITableViewCell
-            return chatCell
         default:
-            var notificationCell = tableView.dequeueReusableCellWithIdentifier("NotificationCell", forIndexPath: indexPath) as! UITableViewCell
-            return notificationCell
+            
+            if (self.firstSegSelected) {
+                
+                if (indexPath.row%2 == 0){
+                    
+                    var chatCell = tableView.dequeueReusableCellWithIdentifier("ChatCell", forIndexPath: indexPath) as! UITableViewCell
+                    
+                    var chatImage = chatCell.viewWithTag(1) as? UIImageView
+                    var chatMessage = chatCell.viewWithTag(2) as? UILabel
+                    var cityName = chatCell.viewWithTag(3) as? UILabel
+                    var timestamp = chatCell.viewWithTag(4) as? UILabel
+                    
+                    
+                    return chatCell
+                }else{
+                
+                
+                    var notificationCell = tableView.dequeueReusableCellWithIdentifier("NotificationCell", forIndexPath: indexPath) as! UITableViewCell
+                    var notificationMessage = notificationCell.viewWithTag(1) as? UILabel
+                    var img1 = notificationCell.viewWithTag(2) as? UIImageView
+                    var img2 = notificationCell.viewWithTag(3) as? UIImageView
+                    var img3 = notificationCell.viewWithTag(4) as? UIImageView
+                    var img4 = notificationCell.viewWithTag(5) as? UIImageView
+                    var img5 = notificationCell.viewWithTag(6) as? UIImageView
+                    var timestamp = notificationCell.viewWithTag(7) as? UIImageView
+                    
+                    return notificationCell
+                }
+            }else{
+            
+            
+            var businessCell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! UITableViewCell
+            var businessImageView = businessCell.viewWithTag(1) as? UIImageView
+            var businessName = businessCell.viewWithTag(2) as? UILabel
+            var cityName = businessCell.viewWithTag(3) as? UILabel
+            var icon = businessCell.viewWithTag(4) as? UIButton
+            
+            
+            return businessCell
+            }
+
         }
         
         
         
         
+    }
+    
+    public func switchSegment(){
+        if (self.firstSegSelected){
+            self.firstSegSelected = false
+        }else{
+            self.firstSegSelected = true
+        }
+        self.tableView.reloadData()
     }
     
     
