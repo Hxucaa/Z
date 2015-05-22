@@ -99,6 +99,11 @@ public class UserService : ObjectService, IUserService {
         }
     }
     
+    public class func getDisplayName() -> String {
+        var user = User.currentUser()
+        return String(stringInterpolationSegment: user["displayName"])
+    }
+    
     public class func updateDisplayName(displayName : String) {
         var user = User.currentUser()
         user["displayName"] = displayName
