@@ -10,20 +10,18 @@ private let ProfileViewControllerIdentifier = "ProfileViewController"
 private let StoryboardName = "Profile"
 
 public class ProfileWireframe : BaseWireframe, IProfileWireframe {
-
+    
+    private let navigator: INavigator
     private let profileVM: IProfileViewModel
     private var profileVC: ProfileViewController?
-    
-    private let navigationNotificationReceiver: Stream<NSNotification?>
 
-    public init(rootWireframe: IRootWireframe, profileViewModel: IProfileViewModel) {
+    public init(rootWireframe: IRootWireframe, navigator: INavigator, profileViewModel: IProfileViewModel) {
+        self.navigator = navigator
         self.profileVM = profileViewModel
-        
-        navigationNotificationReceiver = Notification.stream(NavigationNotificationName.PushProfileModule, nil)
         
         super.init(rootWireframe: rootWireframe)
         
-        navigationNotificationReceiver ~> { notification -> Void in
+        navigator.profileModuleNavigationNotificationSignal! ~> { notification -> Void in
             self.pushView()
         }
     }
@@ -34,10 +32,7 @@ public class ProfileWireframe : BaseWireframe, IProfileWireframe {
         profileVC = viewController
         return viewController
     }
-
-}
-
-extension ProfileWireframe : ProfileModule {
+    
     public func pushView() {
         let injectedViewController = initViewController()
         rootWireframe.pushViewController(injectedViewController, animated: true)

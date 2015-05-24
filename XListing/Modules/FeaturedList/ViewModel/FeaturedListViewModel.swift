@@ -13,12 +13,14 @@ import ReactKit
 public class FeaturedListViewModel : IFeaturedListViewModel {
     public let businessDynamicArr = DynamicArray()
     
+    private let navigator: INavigator
     private let businessService: IBusinessService
     private let geoLocationService: IGeoLocationService
     
     private var businessModelArr: [Business]!
     
-    public init(businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+    public init(navigator: INavigator, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+        self.navigator = navigator
         self.businessService = businessService
         self.geoLocationService = geoLocationService
     }
@@ -59,17 +61,17 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     public func pushNearbyModule() {
-        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushNearbyModule, object: nil)
+        navigator.navigateToNearbyModule()
     }
     
     public func pushDetailModule(section: Int) {
         let model = businessModelArr[section]
         
-        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushDetailModule, object: nil, userInfo: ["BusinessModel" : model])
+        navigator.navigateToDetailModule(["BusinessModel" : model])
     }
     
     public func pushProfileModule() {
-        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushProfileModule, object: nil)
+        navigator.navigateToProfileModule()
         
     }
 }
