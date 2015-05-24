@@ -13,12 +13,16 @@ public class ProfileViewController : UIViewController {
     @IBOutlet weak var tableView: UITableView!
     public var firstSegSelected = true
     
+    public var numberOfChats = 8;
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         println("I'm in ProfileViewController")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.navigationItem.title = "我的"
+
+        self.navigationItem.rightBarButtonItem = editButtonItem()
 
     }
 
@@ -54,7 +58,7 @@ extension ProfileViewController : UITableViewDataSource {
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 8
+        return numberOfChats
         
     }
     
@@ -76,6 +80,9 @@ extension ProfileViewController : UITableViewDataSource {
             var nameLabel : UILabel? = profileCell.viewWithTag(2) as? UILabel
             var horoscopeAgeLabel: UILabel? = profileCell.viewWithTag(3) as? UILabel
             var cityLabel : UILabel? = profileCell.viewWithTag(4) as? UILabel
+            
+            self.convertImgToCircle(profilePicImageView!)
+
             
 
             
@@ -102,6 +109,8 @@ extension ProfileViewController : UITableViewDataSource {
                     var cityName = chatCell.viewWithTag(3) as? UILabel
                     var timestamp = chatCell.viewWithTag(4) as? UILabel
                     
+                    self.convertImgToCircle(chatImage!)
+                    
                     
                     return chatCell
                 }else{
@@ -116,6 +125,12 @@ extension ProfileViewController : UITableViewDataSource {
                     var img5 = notificationCell.viewWithTag(6) as? UIImageView
                     var timestamp = notificationCell.viewWithTag(7) as? UIImageView
                     
+                    self.convertImgToCircle(img1!)
+                    self.convertImgToCircle(img2!)
+                    self.convertImgToCircle(img3!)
+                    self.convertImgToCircle(img4!)
+                    self.convertImgToCircle(img5!)
+                    
                     return notificationCell
                 }
             }else{
@@ -126,7 +141,10 @@ extension ProfileViewController : UITableViewDataSource {
             var businessName = businessCell.viewWithTag(2) as? UILabel
             var cityName = businessCell.viewWithTag(3) as? UILabel
             var icon = businessCell.viewWithTag(4) as? UIButton
-            
+                
+            let iconWidth = CGFloat(icon!.frame.width)
+            icon!.layer.cornerRadius = iconWidth / 2
+            icon!.layer.masksToBounds = true;
             
             return businessCell
             }
@@ -136,6 +154,13 @@ extension ProfileViewController : UITableViewDataSource {
         
         
         
+    }
+    
+    public func convertImgToCircle(imageView: UIImageView){
+        let imgWidth = CGFloat(imageView.frame.width)
+        imageView.layer.cornerRadius = imgWidth / 2
+        imageView.layer.masksToBounds = true;
+        return
     }
     
     public func switchSegment(){
@@ -151,7 +176,7 @@ extension ProfileViewController : UITableViewDataSource {
     
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch (indexPath.row){
-            case 0: return 87
+            case 0: return 88
             case 1: return 43
             default: return 66
         }
@@ -186,6 +211,25 @@ extension ProfileViewController : UITableViewDelegate {
         
 
         
+        
+    }
+    
+    public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        
+        if (firstSegSelected){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if (editingStyle == UITableViewCellEditingStyle.Delete){
+            
+            numberOfChats--
+            [self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)]
+        }
         
     }
 }
