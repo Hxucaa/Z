@@ -49,7 +49,7 @@ public class FeaturedListViewController: UIViewController {
         // Setup profileButton
         setupProfileButton()
         
-        reorderTable()
+        
         
     }
 
@@ -95,11 +95,13 @@ public class FeaturedListViewController: UIViewController {
             /**
             *  Programatically insert each business view model to the table
             */
+            
             if change == .Insertion {
                 self.tableView.beginUpdates()
                 self.tableView.insertSections(indexSet, withRowAnimation: UITableViewRowAnimation.Automatic)
                 self.tableView.endUpdates()
             }
+            
         }
     }
     

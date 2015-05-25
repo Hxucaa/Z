@@ -216,7 +216,7 @@ extension ProfileViewController : UITableViewDelegate {
     
     public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         
-        if (firstSegSelected){
+        if (indexPath.row > 1){
             return true;
         }else{
             return false;
@@ -231,5 +231,17 @@ extension ProfileViewController : UITableViewDelegate {
             [self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)]
         }
         
+    }
+    
+    public override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        if (editing){
+            println("EDITING")
+            self.tableView.setEditing(true, animated: true)
+        }else{
+            println("DONE")
+            self.tableView.setEditing(false, animated: false)
+        }
+    
     }
 }

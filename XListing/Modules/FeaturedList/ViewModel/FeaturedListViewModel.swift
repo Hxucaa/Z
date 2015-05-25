@@ -33,6 +33,7 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
             .success { [unowned self] location -> Task<Int, Void, NSError> in
                 return self.businessService.findBy(query)
                     .success { businessDAOArr -> Void in
+                        
                         self.businessModelArr = businessDAOArr
                         
                         for bus in businessDAOArr {
@@ -40,6 +41,8 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
                             // apend BusinessViewModel to DynamicArray for React
                             self.businessDynamicArr.proxy.addObject(vm)
                         }
+                        
+                        self.shuffle(self.businessDynamicArr.proxy)
                         
                 }
             }
@@ -54,8 +57,22 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
                             self.businessDynamicArr.proxy.addObject(vm)
                         }
                         
+                        self.shuffle(self.businessDynamicArr.proxy)
+                        
                 }
         }
+    }
+    
+    private func shuffle(array: NSMutableArray){
+        let c = array.count
+        
+        if (c > 0){
+            for i in 0..<(c - 1) {
+                let j = Int(arc4random_uniform(UInt32(c - i))) + i
+                swap(&array[i], &array[j])
+            }
+        }
+        return
     }
     
     public func pushNearbyModule() {
