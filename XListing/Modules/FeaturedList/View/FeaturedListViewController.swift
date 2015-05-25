@@ -27,7 +27,7 @@ public class FeaturedListViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        let signUpVC = SignInViewController(nibName: "SignInViewController", bundle: nil)
+        let signUpVC = SignUpViewController(nibName: "SignUpViewController", bundle: nil)
         
         self.presentViewController(signUpVC, animated: true, completion: nil)
         

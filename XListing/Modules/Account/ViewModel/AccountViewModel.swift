@@ -20,8 +20,6 @@ public class AccountViewModel : IAccountViewModel {
         logInOrsignUpInBackground()
     }
     
-    
-    
     private func logInOrsignUpInBackground() {
         if UserService.isLoggedInAlready() {
             // User Already Logged in
@@ -80,6 +78,64 @@ public class AccountViewModel : IAccountViewModel {
             }
         }
     }
+    
+    public func updateBirthday(birthday : NSDate) {
+        // Format the string
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "M/d/yyyy"
+        let dateString = formatter.stringFromDate(birthday)
+        
+        // Save to Parse
+        var user = User.currentUser()
+        user["birthday"] = birthday
+        
+        user.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError?) -> Void in
+            if (success) {
+                println("User birthday updated to " + dateString)
+            } else {
+                println("Error when attempting to update birthday")
+            }
+        }
+    }
+    
+    public func getDisplayName() -> String {
+        var user = User.currentUser()
+        return String(stringInterpolationSegment: user["displayName"])
+    }
+    
+    public func updateDisplayName(displayName : String) {
+        var user = User.currentUser()
+        user["displayName"] = displayName
+        user.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError?) -> Void in
+            if (success) {
+                println("User display name updated to " + displayName)
+            } else {
+                println("Error when attempting to update display name")
+            }
+        }
+    }
+    
+    public func updateProfilePicture(image: UIImage) {
+        var user = User.currentUser()
+        
+        let imageData = UIImagePNGRepresentation(image)
+        let imageName = User.currentUser().username + ".png"
+        //let imageFile = PFFile(name: imageName, data:imageData)
+        
+        //user["profilePicture"] = imageFile
+        user.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError?) -> Void in
+            if (success) {
+                println("Profile picture updated successfully")
+            } else {
+                println("Error when attempting to update profile picture")
+            }
+        }
+    }
+
+    
 }
 
 

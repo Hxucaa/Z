@@ -11,12 +11,14 @@ import ReactKit
 import UIKit
 
 private let AccountViewControllerIdentifier = "AccountViewController"
+private let SignUpViewControllerIdentifier = "SignUpViewController"
 
 public class AccountWireframe : BaseWireframe, IAccountWireframe {
     
     private let navigator: INavigator
     private let accountVM: IAccountViewModel
     private var accountVC: AccountViewController?
+    private var signUpVC: SignUpViewController?
     
     public init(rootWireframe: IRootWireframe, navigator: INavigator, accountVM: IAccountViewModel) {
         self.navigator = navigator
@@ -26,6 +28,7 @@ public class AccountWireframe : BaseWireframe, IAccountWireframe {
         
         navigator.accountModuleNavigationNotificationSignal! ~> { notification -> Void in
             self.pushView()
+            self.pushSignUpView()
         }
     }
     
@@ -39,6 +42,18 @@ public class AccountWireframe : BaseWireframe, IAccountWireframe {
     
     private func pushView() {
         let injectedViewController = injectViewModelToViewController()
+        rootWireframe.pushViewController(injectedViewController, animated: true)
+    }
+    
+    private func injectViewModelToSignUpViewController() -> SignUpViewController {
+        let viewController = getViewControllerFromStoryboard(SignUpViewControllerIdentifier) as! SignUpViewController
+        viewController.accountVM = accountVM
+        signUpVC = viewController
+        return viewController    }
+    
+    
+    private func pushSignUpView() {
+        let injectedViewController = injectViewModelToSignUpViewController()
         rootWireframe.pushViewController(injectedViewController, animated: true)
     }
 }

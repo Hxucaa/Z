@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		2A41A30E1AF3133F0086D24B /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */; };
 		2A41A3131AF337350086D24B /* NearbyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A41A3111AF337350086D24B /* NearbyTableViewCell.swift */; };
-		2A714B121B085C63007A8FBB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A714B101B085C63007A8FBB /* SignInViewController.swift */; };
-		2A714B131B085C63007A8FBB /* SignInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A714B111B085C63007A8FBB /* SignInViewController.xib */; };
+		2A714B121B085C63007A8FBB /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A714B101B085C63007A8FBB /* SignUpViewController.swift */; };
+		2A714B131B085C63007A8FBB /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A714B111B085C63007A8FBB /* SignUpViewController.xib */; };
 		2AC9D8C01AF735A600C51DB3 /* NearbyTableViewCellXIB.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AC9D8BF1AF735A600C51DB3 /* NearbyTableViewCellXIB.xib */; };
 		3DB8AC301B06D0DF00E51F0E /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB8AC2F1B06D0DF00E51F0E /* Profile.swift */; };
 		3DE38A7E1B11BB3000DFA128 /* IKeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE38A7D1B11BB3000DFA128 /* IKeychainService.swift */; };
@@ -98,8 +98,8 @@
 		26AB479389256B6B20922161 /* Pods-XListingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests.release.xcconfig"; sourceTree = "<group>"; };
 		2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		2A41A3111AF337350086D24B /* NearbyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyTableViewCell.swift; sourceTree = "<group>"; };
-		2A714B101B085C63007A8FBB /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
-		2A714B111B085C63007A8FBB /* SignInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignInViewController.xib; sourceTree = "<group>"; };
+		2A714B101B085C63007A8FBB /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpViewController.swift; path = ../../Profile/View/SignUpViewController.swift; sourceTree = "<group>"; };
+		2A714B111B085C63007A8FBB /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SignUpViewController.xib; path = ../../Profile/View/SignUpViewController.xib; sourceTree = "<group>"; };
 		2AC9D8BF1AF735A600C51DB3 /* NearbyTableViewCellXIB.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NearbyTableViewCellXIB.xib; sourceTree = "<group>"; };
 		3274F99E18CB33E02A5ADE6D /* Pods-XListing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListing.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XListing/Pods-XListing.debug.xcconfig"; sourceTree = "<group>"; };
 		3B67513D959F982A4CF98B56 /* Pods-XListing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListing.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListing/Pods-XListing.release.xcconfig"; sourceTree = "<group>"; };
@@ -221,8 +221,6 @@
 			children = (
 				45CBB717784EC301CD7D042E /* ProfileViewController.swift */,
 				7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */,
-				2A714B101B085C63007A8FBB /* SignInViewController.swift */,
-				2A714B111B085C63007A8FBB /* SignInViewController.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -592,6 +590,8 @@
 			isa = PBXGroup;
 			children = (
 				B4FCC72F1AE9D644009B4DF6 /* AccountViewController.swift */,
+				2A714B101B085C63007A8FBB /* SignUpViewController.swift */,
+				2A714B111B085C63007A8FBB /* SignUpViewController.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -695,7 +695,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A714B131B085C63007A8FBB /* SignInViewController.xib in Resources */,
+				2A714B131B085C63007A8FBB /* SignUpViewController.xib in Resources */,
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				2AC9D8C01AF735A600C51DB3 /* NearbyTableViewCellXIB.xib in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
@@ -823,7 +823,7 @@
 				B4E70B3C1AF1709400A7418F /* WantToGoService.swift in Sources */,
 				B48C991F1ADA62E70045BCA9 /* INearbyViewModel.swift in Sources */,
 				B4B665421ADF8D070084DBE7 /* DetailViewModel.swift in Sources */,
-				2A714B121B085C63007A8FBB /* SignInViewController.swift in Sources */,
+				2A714B121B085C63007A8FBB /* SignUpViewController.swift in Sources */,
 				B48AB2761AEC0D00008D05D9 /* WantToGo.swift in Sources */,
 				B48C991A1ADA592A0045BCA9 /* NearbyTableView.swift in Sources */,
 				B48C99121ADA56F70045BCA9 /* NearbyViewController.swift in Sources */,

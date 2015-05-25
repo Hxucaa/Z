@@ -8,11 +8,14 @@
 
 import UIKit
 
-class SignInViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var birthdayPicker: UIDatePicker!
     @IBOutlet weak var displayNameField: UITextField!
     @IBOutlet weak var selectPictureButton: UIButton!
+    
     let imagePicker = UIImagePickerController()
+        var accountVM: IAccountViewModel?
+        
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,8 +51,8 @@ class SignInViewController: UIViewController, UIImagePickerControllerDelegate, U
         if displayName.isEmpty {
             println("Name field is empty")
         } else {
-            UserService.updateBirthday((birthdayPicker.date))
-            UserService.updateDisplayName(displayNameField.text)
+            accountVM!.updateBirthday((birthdayPicker.date))
+            accountVM!.updateDisplayName(displayNameField.text)
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
