@@ -20,6 +20,7 @@ public class FeaturedListViewController: UIViewController {
     
     @IBOutlet weak var nearbyButton: UIBarButtonItem!
     @IBOutlet weak var profileButton: UIBarButtonItem!
+    public var refreshControl: UIRefreshControl!
     
     /// ViewModel
     public var featuredListVM: IFeaturedListViewModel?
@@ -28,6 +29,8 @@ public class FeaturedListViewController: UIViewController {
         super.viewDidLoad()
         
         let signUpVC = SignInViewController(nibName: "SignInViewController", bundle: nil)
+        
+        featuredListVM!.getBusiness()
         
         self.presentViewController(signUpVC, animated: true, completion: nil)
         
@@ -38,12 +41,16 @@ public class FeaturedListViewController: UIViewController {
         // Setup table
         setupTable()
         
+        // Set up pull to refresh
+        setUpRefresh()
+        
         // Setup nearbyButton
         setupNearbyButton()
         // Setup profileButton
         setupProfileButton()
         
-        featuredListVM!.getBusiness()
+        reorderTable()
+        
     }
 
     public override func didReceiveMemoryWarning() {
@@ -51,6 +58,33 @@ public class FeaturedListViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    private func setUpRefresh() {
+        var refreshControl = UIRefreshControl()
+        self.tableView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: "reorderTable", forControlEvents:UIControlEvents.ValueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: "Reordering Listings")
+
+        self.refreshControl = refreshControl
+        
+    }
+    
+    public func reorderTable (){
+        shuffle(featuredListVM!.businessDynamicArr.proxy)
+        self.tableView.reloadData()
+        self.refreshControl.endRefreshing()
+    }
+    
+    private func shuffle(array: NSMutableArray){
+        let c = array.count
+        
+        if (c > 0){
+            for i in 0..<(c - 1) {
+                let j = Int(arc4random_uniform(UInt32(c - i))) + i
+                swap(&array[i], &array[j])
+            }
+        }
+        return
+    }
     /**
     React to signal coming from view model and update table accordingly.
     */

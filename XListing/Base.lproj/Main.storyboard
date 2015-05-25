@@ -30,7 +30,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="逛一逛" id="lVv-eu-6qo">
-                        <barButtonItem key="rightBarButtonItem" image="8FD23ECE-1148-401E-8C87-B24464538E8A" id="LOC-Av-aAC"/>
+                        <barButtonItem key="rightBarButtonItem" image="3CE630F0-766F-4502-98CE-B975635D8553" id="LOC-Av-aAC"/>
                     </navigationItem>
                     <connections>
                         <outlet property="profileButton" destination="LOC-Av-aAC" id="Fx8-Pt-Igr"/>
@@ -816,7 +816,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="8FD23ECE-1148-401E-8C87-B24464538E8A" width="22" height="22">
+        <image name="3CE630F0-766F-4502-98CE-B975635D8553" width="22" height="22">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
