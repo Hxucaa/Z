@@ -30,20 +30,11 @@ public class AppDependencies {
         let wtg: IWantToGoService = WantToGoService()
         let ks: IKeychainService = KeychainService()
         
-        
-<<<<<<< HEAD
-        configureFeaturedListDependencies(rootWireframe, businessService: bs, geoLocationService: gs)
-        configureNearbyDependencies(rootWireframe, businessService: bs, geoLocationService: gs)
-        configureDetailDependencies(rootWireframe, wantToGoService: wtg, geoLocationService: gs)
-        configureProfileDependencies(rootWireframe, wantToGoService: wtg)
-        configureAccountDependencies(rootWireframe, userService: us, keychainService: ks)
-=======
         configureFeaturedListDependencies(rootWireframe, navigator: navigator, businessService: bs, geoLocationService: gs)
         configureNearbyDependencies(rootWireframe, navigator: navigator, businessService: bs, geoLocationService: gs)
         configureDetailDependencies(rootWireframe, navigator: navigator, wantToGoService: wtg, geoLocationService: gs)
         configureProfileDependencies(rootWireframe, navigator: navigator, wantToGoService: wtg)
-        configureAccountDependencies(rootWireframe, navigator: navigator, userService: us)
->>>>>>> 0de4cdeb6f6bfe2727630d70fc40f24421a73b74
+        configureAccountDependencies(rootWireframe, navigator: navigator, userService: us, keychainService: ks)
     }
     
     /**
@@ -94,10 +85,10 @@ public class AppDependencies {
         detailWireframe = DetailWireframe(rootWireframe: rootWireframe, navigator: navigator, detailViewModel: detailVM)
     }
     
-    private func configureAccountDependencies(rootWireframe: IRootWireframe, userService us: IUserService, keychainService ks: IKeychainService) {
+    private func configureAccountDependencies(rootWireframe: IRootWireframe, navigator: INavigator, userService us: IUserService, keychainService ks: IKeychainService) {
         let accountVM: IAccountViewModel = AccountViewModel(userService: us, keychainService: ks)
 
-        accountWireframe = AccountWirefrßame(rootWireframe: rootWireframe, navigator: navigator, accountVM: accountVM)
+        accountWireframe = AccountWireframe(rootWireframe: rootWireframe, navigator: navigator, accountVM: accountVM)
     }
 
     private func configureProfileDependencies(rootWireframe: IRootWireframe, navigator: INavigator, wantToGoService wtg: IWantToGoService) {
