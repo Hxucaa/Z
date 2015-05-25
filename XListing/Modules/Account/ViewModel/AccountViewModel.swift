@@ -7,15 +7,16 @@
 //
 
 import Foundation
-import Locksmith
 import SwiftTask
 
 public class AccountViewModel : IAccountViewModel {
     
     private let userService: IUserService
+    private let keychainService: IKeychainService
     
-    public init(userService: IUserService) {
+    public init(userService: IUserService, keychainService: IKeychainService) {
         self.userService = userService
+        self.keychainService = keychainService
         logInOrsignUpInBackground()
     }
     
@@ -25,8 +26,8 @@ public class AccountViewModel : IAccountViewModel {
             println("Current user logged in is " + UserService.currentUser()!.username)
         } else {
             // Load data from Keychain
-            let (usernameData, userError) = Locksmith.loadDataForUserAccount("XListingUser", inService: "XListing")
-            let (passwordData, passError) = Locksmith.loadDataForUserAccount("XListingPassword", inService: "XListing")
+            let (usernameData, userError) = keychainService.loadData("XListingUser", service: "XListing")
+            let (passwordData, passError) = keychainService.loadData("XListingPassword", service: "XListing")
             
             if usernameData != nil {
                 // User Account created previously
@@ -46,10 +47,9 @@ public class AccountViewModel : IAccountViewModel {
                 // Sign up for a user account
                 userService.signUp(user).success { success -> Void in
                     println("Sign Up Successful with username " + username)
-                    Locksmith.clearKeychain()
                     
                     // Save username to Keychain
-                    let keychainUserError = Locksmith.saveData(["username": username], forUserAccount: "XListingUser", inService: "XListing")
+                    let keychainUserError = self.keychainService.storeStringData("username", data: username, account: "XListingUser", service: "XListing")
                     if keychainUserError != nil {
                         println("Error Saving Username to Keychain:\n" + String(stringInterpolationSegment: keychainUserError))
                     } else {
@@ -57,7 +57,7 @@ public class AccountViewModel : IAccountViewModel {
                     }
                     
                     // Save password to Keychain
-                    let keychainPasswordError = Locksmith.saveData(["password": password], forUserAccount: "XListingPassword", inService: "XListing")
+                    let keychainPasswordError = self.keychainService.storeStringData("password", data: password, account: "XListingPassword", service: "XListing")
                     if keychainPasswordError != nil {
                         println("Error Saving Password to Keychain:\n" + String(stringInterpolationSegment: keychainPasswordError))
                     } else {
