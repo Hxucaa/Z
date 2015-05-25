@@ -20,7 +20,7 @@ public class AccountViewModel : IAccountViewModel {
         logInOrsignUpInBackground()
     }
     
-    public
+    
     
     private func logInOrsignUpInBackground() {
         if UserService.isLoggedInAlready() {
