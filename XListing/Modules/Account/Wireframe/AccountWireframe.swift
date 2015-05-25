@@ -14,19 +14,17 @@ private let AccountViewControllerIdentifier = "AccountViewController"
 
 public class AccountWireframe : BaseWireframe, IAccountWireframe {
     
+    private let navigator: INavigator
     private let accountVM: IAccountViewModel
     private var accountVC: AccountViewController?
     
-    private let navigationNotificationReceiver: Stream<NSNotification?>
-    
-    public init(rootWireframe: IRootWireframe, accountVM: IAccountViewModel) {
+    public init(rootWireframe: IRootWireframe, navigator: INavigator, accountVM: IAccountViewModel) {
+        self.navigator = navigator
         self.accountVM = accountVM
-        
-        navigationNotificationReceiver = Notification.stream(NavigationNotificationName.PushAccountModule, nil)
         
         super.init(rootWireframe: rootWireframe)
         
-        navigationNotificationReceiver ~> { notification -> Void in
+        navigator.accountModuleNavigationNotificationSignal! ~> { notification -> Void in
             self.pushView()
         }
     }
