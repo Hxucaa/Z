@@ -32,6 +32,14 @@
 			<key>FooterText</key>
 			<string>&#169; Copyright 2015 LeanCloud, Inc. See https://leancloud.cn/terms.html</string>
 			<key>Title</key>
+			<string>AVOSCloudIM</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>&#169; Copyright 2015 LeanCloud, Inc. See https://leancloud.cn/terms.html</string>
+			<key>Title</key>
 			<string>AVOSCloudSNS</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>

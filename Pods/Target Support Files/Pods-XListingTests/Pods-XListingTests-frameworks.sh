@@ -49,23 +49,11 @@ code_sign() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'AVOSCloud.framework'
-  install_framework 'AVOSCloudCrashReporting.framework'
-  install_framework 'AVOSCloudSNS.framework'
-  install_framework 'Haneke.framework'
-  install_framework 'Locksmith.framework'
   install_framework 'Nimble.framework'
   install_framework 'Quick.framework'
-  install_framework 'ReactKit.framework'
-  install_framework 'SwiftTask.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'AVOSCloud.framework'
-  install_framework 'AVOSCloudCrashReporting.framework'
-  install_framework 'AVOSCloudSNS.framework'
-  install_framework 'Haneke.framework'
-  install_framework 'Locksmith.framework'
   install_framework 'Nimble.framework'
   install_framework 'Quick.framework'
-  install_framework 'ReactKit.framework'
-  install_framework 'SwiftTask.framework'
 fi

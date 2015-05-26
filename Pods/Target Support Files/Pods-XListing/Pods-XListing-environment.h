@@ -20,6 +20,13 @@
 // Please contact the author.
 // Version: 3.1.1.1.
 
+// AVOSCloudIM
+#define COCOAPODS_POD_AVAILABLE_AVOSCloudIM
+// This library does not follow semantic-versioning,
+// so we were not able to define version macros.
+// Please contact the author.
+// Version: 3.1.1.1.
+
 // AVOSCloudSNS
 #define COCOAPODS_POD_AVAILABLE_AVOSCloudSNS
 // This library does not follow semantic-versioning,
@@ -33,11 +40,11 @@
 #define COCOAPODS_VERSION_MINOR_HanekeSwift 9
 #define COCOAPODS_VERSION_PATCH_HanekeSwift 1
 
-// LockSmith
-#define COCOAPODS_POD_AVAILABLE_LockSmith
-#define COCOAPODS_VERSION_MAJOR_LockSmith 1
-#define COCOAPODS_VERSION_MINOR_LockSmith 2
-#define COCOAPODS_VERSION_PATCH_LockSmith 1
+// Locksmith
+#define COCOAPODS_POD_AVAILABLE_Locksmith
+#define COCOAPODS_VERSION_MAJOR_Locksmith 1
+#define COCOAPODS_VERSION_MINOR_Locksmith 2
+#define COCOAPODS_VERSION_PATCH_Locksmith 2
 
 // ReactKit
 #define COCOAPODS_POD_AVAILABLE_ReactKit

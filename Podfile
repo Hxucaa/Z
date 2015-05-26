@@ -4,22 +4,17 @@ use_frameworks!
 
 target 'XListing' do
   pod 'ReactKit', '~> 0.10.0'
+  pod 'SwiftTask', '~> 3.0'
   pod 'HanekeSwift'
-  pod 'LockSmith', '~> 1.2'
+  pod 'Locksmith', '~> 1.2'
   pod 'AVOSCloud', '~> 3.1'
   pod 'AVOSCloudCrashReporting', '~> 3.1'
-#  pod 'AVOSCloudIM', '~> 3.1'
+  pod 'AVOSCloudIM', '~> 3.1'
   pod 'AVOSCloudSNS', '~> 3.1'
 end
 
 target 'XListingTests' do
-  pod 'ReactKit', '~> 0.10.0'
-  pod 'HanekeSwift'
-  pod 'LockSmith', '~> 1.2'
   pod 'AVOSCloud', '~> 3.1'
-  pod 'AVOSCloudCrashReporting', '~> 3.1'
-#  pod 'AVOSCloudIM', '~> 3.1'
-  pod 'AVOSCloudSNS', '~> 3.1'
   pod 'Quick'
   pod 'Nimble'
 end
