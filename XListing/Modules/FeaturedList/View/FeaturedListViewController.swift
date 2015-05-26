@@ -28,6 +28,8 @@ public class FeaturedListViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        featuredListVM!.getBusiness()
+        
         // Setup delegates
         tableView.delegate = self
         tableView.dataSource = self
@@ -42,9 +44,6 @@ public class FeaturedListViewController: UIViewController {
         setupNearbyButton()
         // Setup profileButton
         setupProfileButton()
-        
-        
-        
     }
 
     public override func didReceiveMemoryWarning() {
@@ -56,6 +55,33 @@ public class FeaturedListViewController: UIViewController {
         featuredListVM?.presentAccountModule()
     }
     
+    private func setUpRefresh() {
+        var refreshControl = UIRefreshControl()
+        self.tableView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: "reorderTable", forControlEvents:UIControlEvents.ValueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: "Reordering Listings")
+
+        self.refreshControl = refreshControl
+        
+    }
+    
+    public func reorderTable (){
+        shuffle(featuredListVM!.businessDynamicArr.proxy)
+        self.tableView.reloadData()
+        self.refreshControl.endRefreshing()
+    }
+    
+    private func shuffle(array: NSMutableArray){
+        let c = array.count
+        
+        if (c > 0){
+            for i in 0..<(c - 1) {
+                let j = Int(arc4random_uniform(UInt32(c - i))) + i
+                swap(&array[i], &array[j])
+            }
+        }
+        return
+    }
     /**
     React to signal coming from view model and update table accordingly.
     */
