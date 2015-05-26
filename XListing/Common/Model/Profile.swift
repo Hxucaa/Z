@@ -23,4 +23,6 @@ public class Profile: AVObject, AVSubclassing {
             super.registerSubclass()
         }
     }
+    
+    @NSManaged public var nickname: String?
 }

@@ -21,10 +21,12 @@ public class AccountViewModel : IAccountViewModel {
     }
     
     private func logInOrsignUpInBackground() {
-        if UserService.isLoggedInAlready() {
+        userService.logOut()
+        if userService.isLoggedInAlready() {
             // User Already Logged in
-            println("Current user logged in is " + UserService.currentUser()!.username)
-        } else {
+            println("Current user logged in is " + userService.currentUser()!.username)
+        }
+        else {
             // Load data from Keychain
             let (usernameData, userError) = keychainService.loadData("XListingUser", service: "XListing")
             let (passwordData, passError) = keychainService.loadData("XListingPassword", service: "XListing")
@@ -34,7 +36,16 @@ public class AccountViewModel : IAccountViewModel {
                 let loginUser = usernameData!.valueForKey("username") as! String
                 let loginPass = passwordData!.valueForKey("password") as! String
                 userService.logIn(loginUser, password: loginPass)
-                println("Logged in as " + loginUser)
+                    .success { success -> Void in
+                        println("Logged in as " + loginUser)
+                        
+                    }
+                    .failure({ (error, isCancelled) -> Void in
+                        if let error = error {
+                            println(error)
+                        }
+                    })
+                
             } else {
                 // First time setup, generate random user and pass
                 var username = NSUUID().UUIDString
@@ -79,60 +90,28 @@ public class AccountViewModel : IAccountViewModel {
         }
     }
     
-    public func updateBirthday(birthday : NSDate) {
-        // Format the string
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "M/d/yyyy"
-        let dateString = formatter.stringFromDate(birthday)
-        
-        // Save to Parse
-        var user = User.currentUser()
-        user["birthday"] = birthday
-        
-        user.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError?) -> Void in
-            if (success) {
-                println("User birthday updated to " + dateString)
-            } else {
-                println("Error when attempting to update birthday")
-            }
-        }
-    }
-    
-    public func getDisplayName() -> String {
-        var user = User.currentUser()
-        return String(stringInterpolationSegment: user["displayName"])
-    }
-    
-    public func updateDisplayName(displayName : String) {
-        var user = User.currentUser()
-        user["displayName"] = displayName
-        user.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError?) -> Void in
-            if (success) {
-                println("User display name updated to " + displayName)
-            } else {
-                println("Error when attempting to update display name")
-            }
-        }
+    public func updateProfile(nickname: String, birthday: NSDate) -> Task<Int, Bool, NSError> {
+        let currentUser = userService.currentUser()!
+        currentUser.birthday = birthday
+        currentUser.nickname = nickname
+        return userService.save(currentUser)
     }
     
     public func updateProfilePicture(image: UIImage) {
-        var user = User.currentUser()
+        var user = userService.currentUser()!
         
         let imageData = UIImagePNGRepresentation(image)
-        let imageName = User.currentUser().username + ".png"
+        let imageName = userService.currentUser()!.username + ".png"
         //let imageFile = PFFile(name: imageName, data:imageData)
         
         //user["profilePicture"] = imageFile
-        user.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError?) -> Void in
-            if (success) {
+        userService.save(user)
+            .success { success -> Void in
                 println("Profile picture updated successfully")
-            } else {
+            }
+            .failure { (error, isCancelled) -> Void in
                 println("Error when attempting to update profile picture")
             }
-        }
     }
 
     

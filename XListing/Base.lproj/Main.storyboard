@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="OjV-3x-cL1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="OjV-3x-cL1">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
@@ -30,7 +30,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="逛一逛" id="lVv-eu-6qo">
-                        <barButtonItem key="rightBarButtonItem" image="90610D49-3851-40A5-9C7C-C808C7A27210" id="LOC-Av-aAC"/>
+                        <barButtonItem key="rightBarButtonItem" image="F7FEAB18-043B-41B1-8D99-2FCE273CB4AC" id="LOC-Av-aAC"/>
                     </navigationItem>
                     <connections>
                         <outlet property="profileButton" destination="LOC-Av-aAC" id="Fx8-Pt-Igr"/>
@@ -759,7 +759,6 @@
                         <outlet property="tableView" destination="MEt-fk-66n" id="vpO-Ly-fAN"/>
                         <segue destination="pnY-r6-qDL" kind="push" identifier="FromFeaturedToNearby" id="Kch-5Q-eUq"/>
                         <segue destination="Qif-f0-4vj" kind="push" identifier="ToDetail" id="P7q-SO-bQp"/>
-                        <segue destination="pAO-nX-D6I" kind="push" identifier="ToAccount" id="Boq-x9-a33"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -787,36 +786,9 @@
             </objects>
             <point key="canvasLocation" x="52.799999999999997" y="572.73333333333335"/>
         </scene>
-        <!--Account View Controller-->
-        <scene sceneID="Uir-Bv-OeF">
-            <objects>
-                <viewController storyboardIdentifier="AccountViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pAO-nX-D6I" customClass="AccountViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="jL9-yB-zP8"/>
-                        <viewControllerLayoutGuide type="bottom" id="2Vi-B0-6Ys"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Wst-I1-vrX">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="I'm account view controller" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="356-Ra-Bh2">
-                                <rect key="frame" x="97" y="324" width="207" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="OjO-kt-fLf"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MVa-de-5on" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="448" y="-87.329999999999998"/>
-        </scene>
     </scenes>
     <resources>
-        <image name="90610D49-3851-40A5-9C7C-C808C7A27210" width="22" height="22">
+        <image name="F7FEAB18-043B-41B1-8D99-2FCE273CB4AC" width="22" height="22">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

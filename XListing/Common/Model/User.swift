@@ -10,10 +10,6 @@ import Foundation
 import AVOSCloud
 
 public class User: AVUser, AVSubclassing {
-    public func parseClassName() -> String! {
-        return "_User"
-    }
-    public dynamic var name: String?
     
     // MARK: Constructors
     public override class func registerSubclass() {
@@ -22,4 +18,17 @@ public class User: AVUser, AVSubclassing {
             super.registerSubclass()
         }
     }
+    
+
+    
+    @NSManaged public var birthday: NSDate?
+//    public dynamic var birthday: NSDate? {
+//        get {
+//            return objectForKey("birthday") as? NSDate
+//        }
+//        set {
+//            setObject(newValue, forKey: "birthday")
+//        }
+//    }
+    @NSManaged public var nickname: String
 }

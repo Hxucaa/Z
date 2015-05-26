@@ -8,10 +8,11 @@
 
 import Foundation
 import SwiftTask
+import AVOSCloud
 
 public class ObjectService : IObjectService {
     
-    public func save(obj: PFObject) -> Task<Int, Bool, NSError> {
+    public func save<T: AVObject>(obj: T) -> Task<Int, Bool, NSError> {
         return Task<Int, Bool, NSError> { (fulfill, reject) -> Void in
             obj.saveInBackgroundWithBlock { (success, error) -> Void in
                 if success {

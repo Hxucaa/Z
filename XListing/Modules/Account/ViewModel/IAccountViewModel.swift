@@ -6,12 +6,9 @@
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import SwiftTask
 
 public protocol IAccountViewModel {
-    func updateBirthday(birthday: NSDate)
-    func getDisplayName() -> String
-    func updateDisplayName(displayName: String)
+    func updateProfile(nickname: String, birthday: NSDate) -> Task<Int, Bool, NSError>
     func updateProfilePicture(image: UIImage)
 }

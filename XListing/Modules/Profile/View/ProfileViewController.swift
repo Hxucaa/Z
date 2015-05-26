@@ -73,7 +73,7 @@ extension ProfileViewController : UITableViewDataSource {
             
             var profilePicImageView = profileCell.viewWithTag(1) as? UIImageView
             var nameLabel : UILabel? = profileCell.viewWithTag(2) as? UILabel
-            nameLabel!.text = UserService.getDisplayName()
+//            nameLabel!.text = UserService.getDisplayName()
             var horoscopeAgeLabel: UILabel? = profileCell.viewWithTag(3) as? UILabel
             var cityLabel : UILabel? = profileCell.viewWithTag(4) as? UILabel
             

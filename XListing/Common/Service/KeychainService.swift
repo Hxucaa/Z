@@ -10,7 +10,7 @@ import Foundation
 import SwiftTask
 import Locksmith
 
-public class KeychainService : ObjectService, IKeychainService {
+public  struct KeychainService : IKeychainService {
     public func loadData(account: String, service: String) -> (NSDictionary?, NSError?) {
         return Locksmith.loadDataForUserAccount(account, inService: service)
     }

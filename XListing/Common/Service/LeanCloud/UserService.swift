@@ -8,11 +8,10 @@
 
 import Foundation
 import SwiftTask
-import Locksmith
 
 public class UserService : ObjectService, IUserService {
     
-    public class func isLoggedInAlready() -> Bool {
+    public func isLoggedInAlready() -> Bool {
         if let c = currentUser()?.username {
             return true
         }
@@ -21,7 +20,7 @@ public class UserService : ObjectService, IUserService {
         }
     }
     
-    public class func currentUser() -> User? {
+    public func currentUser() -> User? {
         return User.currentUser()
     }
     
@@ -51,7 +50,7 @@ public class UserService : ObjectService, IUserService {
         }
     }
     
-    public func logOut(user: User) {
+    public func logOut() {
         User.logOut()
     }
     
@@ -64,62 +63,6 @@ public class UserService : ObjectService, IUserService {
                 else {
                     reject(error!)
                 }
-            }
-        }
-    }
-    
-    public class func updateBirthday(birthday : NSDate) {
-        // Format the string
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "M/d/yyyy"
-        let dateString = formatter.stringFromDate(birthday)
-        
-        // Save to Parse
-        var user = User.currentUser()
-        user["birthday"] = birthday
-        
-        user.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError?) -> Void in
-            if (success) {
-                println("User birthday updated to " + dateString)
-            } else {
-                println("Error when attempting to update birthday")
-            }
-        }
-    }
-    
-    public class func getDisplayName() -> String {
-        var user = User.currentUser()
-        return String(stringInterpolationSegment: user["displayName"])
-    }
-    
-    public class func updateDisplayName(displayName : String) {
-        var user = User.currentUser()
-        user["displayName"] = displayName
-        user.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError?) -> Void in
-            if (success) {
-                println("User display name updated to " + displayName)
-            } else {
-                println("Error when attempting to update display name")
-            }
-        }
-    }
-    
-    public class func updateProfilePicture(image: UIImage) {
-        var user = User.currentUser()
-
-        let imageData = UIImagePNGRepresentation(image)
-        let imageName = User.currentUser().username + ".png"
-        //let imageFile = PFFile(name: imageName, data:imageData)
-        
-        //user["profilePicture"] = imageFile
-        user.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError?) -> Void in
-            if (success) {
-                println("Profile picture updated successfully")
-            } else {
-                println("Error when attempting to update profile picture")
             }
         }
     }

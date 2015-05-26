@@ -30,7 +30,7 @@ public class AppDependencies {
         let wtg: IWantToGoService = WantToGoService()
         let ks: IKeychainService = KeychainService()
         
-        configureFeaturedListDependencies(rootWireframe, navigator: navigator, businessService: bs, geoLocationService: gs)
+        configureFeaturedListDependencies(rootWireframe, navigator: navigator, businessService: bs, userService: us, geoLocationService: gs)
         configureNearbyDependencies(rootWireframe, navigator: navigator, businessService: bs, geoLocationService: gs)
         configureDetailDependencies(rootWireframe, navigator: navigator, wantToGoService: wtg, geoLocationService: gs)
         configureProfileDependencies(rootWireframe, navigator: navigator, wantToGoService: wtg)
@@ -51,10 +51,10 @@ public class AppDependencies {
 
         :param: rootWireframe The RootWireframe.
     */
-    private func configureFeaturedListDependencies(rootWireframe: IRootWireframe, navigator: INavigator, businessService bs: IBusinessService, geoLocationService gs: IGeoLocationService) {
+    private func configureFeaturedListDependencies(rootWireframe: IRootWireframe, navigator: INavigator, businessService bs: IBusinessService, userService us: IUserService, geoLocationService gs: IGeoLocationService) {
         
         // instantiate view model
-        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(navigator: navigator, businessService: bs, geoLocationService: gs)
+        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(navigator: navigator, businessService: bs, userService: us, geoLocationService: gs)
         
         featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM)
     }

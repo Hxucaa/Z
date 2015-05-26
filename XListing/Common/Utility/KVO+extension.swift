@@ -9,8 +9,8 @@
 import Foundation
 import ReactKit
 
-extension KVO {
-    static func startingStringStream(target: NSObject, _ keyPath: String) -> Stream<NSString?> {
+public extension KVO {
+    public static func startingStringStream(target: NSObject, _ keyPath: String) -> Stream<NSString?> {
         return KVO.startingStream(target, keyPath)
             |> map { value -> NSString? in
                 return value as? NSString

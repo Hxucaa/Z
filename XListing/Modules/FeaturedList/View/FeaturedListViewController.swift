@@ -27,10 +27,6 @@ public class FeaturedListViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        let signUpVC = SignUpViewController(nibName: "SignUpViewController", bundle: nil)
-        
-        self.presentViewController(signUpVC, animated: true, completion: nil)
-        
         // Setup delegates
         tableView.delegate = self
         tableView.dataSource = self
@@ -49,6 +45,10 @@ public class FeaturedListViewController: UIViewController {
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    public override func viewDidAppear(animated: Bool) {
+        featuredListVM?.presentAccountModule()
     }
     
     /**

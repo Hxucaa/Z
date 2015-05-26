@@ -15,13 +15,15 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
     
     private let navigator: INavigator
     private let businessService: IBusinessService
+    private let userService: IUserService
     private let geoLocationService: IGeoLocationService
     
     private var businessModelArr: [Business]!
     
-    public init(navigator: INavigator, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+    public init(navigator: INavigator, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService) {
         self.navigator = navigator
         self.businessService = businessService
+        self.userService = userService
         self.geoLocationService = geoLocationService
     }
     
@@ -72,6 +74,11 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
     
     public func pushProfileModule() {
         navigator.navigateToProfileModule()
-        
+    }
+    
+    public func presentAccountModule() {
+        if userService.currentUser()?.birthday == nil {
+            navigator.navigateToAccountModule()
+        }
     }
 }

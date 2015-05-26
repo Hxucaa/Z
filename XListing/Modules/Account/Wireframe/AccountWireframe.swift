@@ -10,14 +10,12 @@ import Foundation
 import ReactKit
 import UIKit
 
-private let AccountViewControllerIdentifier = "AccountViewController"
-private let SignUpViewControllerIdentifier = "SignUpViewController"
+private let SignUpViewNibName = "SignUpView"
 
 public class AccountWireframe : BaseWireframe, IAccountWireframe {
     
     private let navigator: INavigator
     private let accountVM: IAccountViewModel
-    private var accountVC: AccountViewController?
     private var signUpVC: SignUpViewController?
     
     public init(rootWireframe: IRootWireframe, navigator: INavigator, accountVM: IAccountViewModel) {
@@ -28,32 +26,19 @@ public class AccountWireframe : BaseWireframe, IAccountWireframe {
         
         navigator.accountModuleNavigationNotificationSignal! ~> { notification -> Void in
             self.pushView()
-            self.pushSignUpView()
         }
     }
     
-    private func injectViewModelToViewController() -> AccountViewController {
-        let viewController = getViewControllerFromStoryboard(AccountViewControllerIdentifier) as! AccountViewController
-        viewController.accountVM = accountVM
-        accountVC = viewController
+    private func injectViewModelToViewController() -> SignUpViewController {
+        let viewController = SignUpViewController(accountVM: accountVM, signUpViewNibName: SignUpViewNibName)
+        signUpVC = viewController
         return viewController
     }
     
     
     private func pushView() {
         let injectedViewController = injectViewModelToViewController()
-        rootWireframe.pushViewController(injectedViewController, animated: true)
-    }
-    
-    private func injectViewModelToSignUpViewController() -> SignUpViewController {
-        let viewController = getViewControllerFromStoryboard(SignUpViewControllerIdentifier) as! SignUpViewController
-        viewController.accountVM = accountVM
-        signUpVC = viewController
-        return viewController    }
-    
-    
-    private func pushSignUpView() {
-        let injectedViewController = injectViewModelToSignUpViewController()
-        rootWireframe.pushViewController(injectedViewController, animated: true)
+//        rootWireframe.pushViewController(injectedViewController, animated: true)
+        rootWireframe.presentViewController(injectedViewController, animated: true)
     }
 }
