@@ -20,6 +20,7 @@ public class FeaturedListViewController: UIViewController {
     
     @IBOutlet weak var nearbyButton: UIBarButtonItem!
     @IBOutlet weak var profileButton: UIBarButtonItem!
+    public var refreshControl: UIRefreshControl!
     
     /// ViewModel
     public var featuredListVM: IFeaturedListViewModel?
@@ -34,12 +35,16 @@ public class FeaturedListViewController: UIViewController {
         // Setup table
         setupTable()
         
+        // Set up pull to refresh
+        setUpRefresh()
+        
         // Setup nearbyButton
         setupNearbyButton()
         // Setup profileButton
         setupProfileButton()
         
-        featuredListVM!.getBusiness()
+        
+        
     }
 
     public override func didReceiveMemoryWarning() {
@@ -61,11 +66,13 @@ public class FeaturedListViewController: UIViewController {
             /**
             *  Programatically insert each business view model to the table
             */
+            
             if change == .Insertion {
                 self.tableView.beginUpdates()
                 self.tableView.insertSections(indexSet, withRowAnimation: UITableViewRowAnimation.Automatic)
                 self.tableView.endUpdates()
             }
+            
         }
     }
     
