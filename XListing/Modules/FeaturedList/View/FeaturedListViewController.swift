@@ -8,7 +8,6 @@
 
 import UIKit
 import ReactKit
-import Haneke
 
 private let NumberOfRowsPerSection = 1
 private let CellIdentifier = "Cell"
@@ -191,14 +190,12 @@ extension FeaturedListViewController : UITableViewDataSource {
             openingLabel?.text = businessVM.openingText
             
             if let url = businessVM.coverImageNSURL {
-                coverImageView!.hnk_setImageFromURL(url, failure: {
-                    println("Image loading failed: \($0)")
-                })
+                coverImageView?.sd_setImageWithURL(url)
             }
             
             //TO DO:
             //temp restaurant image; remove once cover image is linked properly
-            coverImageView?.image = UIImage (named: "tempRestImage")
+//            coverImageView?.image = UIImage (named: "tempRestImage")
         }
         return cell
     }

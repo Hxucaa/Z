@@ -239,15 +239,9 @@ extension DetailViewController : UITableViewDataSource {
                 coverImageNSURLStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "coverImageNSURL")
                 coverImageNSURLStream ~> { url in
                     if let url = url as? NSURL{
-                        businessImageView!.hnk_setImageFromURL(url, failure: {
-                            println("Image loading failed: \($0)")
-                        })
+                        businessImageView?.sd_setImageWithURL(url)
                     }
                 }
-                
-                //TO DO:
-                //temp restaurant image; remove once cover image is linked properly
-                businessImageView?.image = UIImage (named: "tempRestImage")
                 
                 
                 return cell0

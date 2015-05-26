@@ -1,6 +1,0 @@
-framework module Haneke {
-  umbrella header "Pods-XListing-HanekeSwift-umbrella.h"
-
-  export *
-  module * { export * }
-}

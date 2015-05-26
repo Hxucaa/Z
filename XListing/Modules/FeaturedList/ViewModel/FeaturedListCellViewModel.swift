@@ -48,7 +48,9 @@ public class FeaturedListCellViewModel : NSObject {
             coverImageNSURL = NSURL(string: url)
         }
         else {
-            coverImageNSURL = nil
+            // TODO: fix temp image
+            coverImageNSURL = NSURL(string: "http://www.phoenixpalace.co.uk/images/background/aboutus.jpg")
+//            coverImageNSURL = nil
         }
     }
     

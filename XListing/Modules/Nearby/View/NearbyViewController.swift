@@ -161,9 +161,7 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
         cell.bizDetail.text = "130+ 人想去 ｜ 开车25分钟"
         cell.bizHours.text = "今天 10:00AM - 10:00PM"
         if let url = biz.coverImageNSURL {
-            cell.bizImage!.hnk_setImageFromURL(url, failure: {
-                println("Image loading failed: \($0)")
-            })
+            cell.bizImage?.sd_setImageWithURL(url)
         }
         
         return cell

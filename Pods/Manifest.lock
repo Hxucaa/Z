@@ -6,12 +6,14 @@ PODS:
     - AVOSCloud
   - AVOSCloudSNS (3.1.1.1):
     - AVOSCloud
-  - HanekeSwift (0.9.1)
   - Locksmith (1.2.2)
   - Nimble (0.4.2)
   - Quick (0.3.1)
   - ReactKit (0.10.0):
     - SwiftTask (~> 3.0.0)
+  - SDWebImage (3.7.2):
+    - SDWebImage/Core (= 3.7.2)
+  - SDWebImage/Core (3.7.2)
   - SwiftTask (3.0.0)
 
 DEPENDENCIES:
@@ -19,11 +21,11 @@ DEPENDENCIES:
   - AVOSCloudCrashReporting (~> 3.1)
   - AVOSCloudIM (~> 3.1)
   - AVOSCloudSNS (~> 3.1)
-  - HanekeSwift
   - Locksmith (~> 1.2)
   - Nimble
   - Quick
   - ReactKit (~> 0.10.0)
+  - SDWebImage
   - SwiftTask (~> 3.0)
 
 SPEC CHECKSUMS:
@@ -31,11 +33,11 @@ SPEC CHECKSUMS:
   AVOSCloudCrashReporting: 5add5ca29ec9f585010ecda3a643108c7e376e86
   AVOSCloudIM: d3f1da845152724fa99350c8b1da559278d7bd68
   AVOSCloudSNS: fa177d50fe83b630d684dd27d790358531b365cc
-  HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   ReactKit: 914b50142021e558669d6870a6a35e6e7bb14f30
+  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SwiftTask: 2f2c0a7db83def1d1e3bad518169be3f61c603f4
 
 COCOAPODS: 0.36.4
