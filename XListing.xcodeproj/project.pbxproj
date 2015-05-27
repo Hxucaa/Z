@@ -38,6 +38,7 @@
 		7EF371581AB8C9B3009AA3B9 /* BusinessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */; };
 		7EFEF7421B124B060043E076 /* INavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7411B124B060043E076 /* INavigator.swift */; };
 		7EFEF7461B13D0900043E076 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7451B13D0900043E076 /* SignUpView.swift */; };
+		B40943901B164C5600D9BDEF /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B409438F1B164C5600D9BDEF /* ReactiveCocoa.framework */; };
 		B42797431AFD463500AE5A90 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42797421AFD463500AE5A90 /* Navigator.swift */; };
 		B430323F1AE361350068E8DF /* ObjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B430323E1AE361350068E8DF /* ObjectService.swift */; };
 		B43032441AE369230068E8DF /* IObjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43032431AE369230068E8DF /* IObjectService.swift */; };
@@ -138,6 +139,7 @@
 		7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessTests.swift; sourceTree = "<group>"; };
 		7EFEF7411B124B060043E076 /* INavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = INavigator.swift; sourceTree = "<group>"; };
 		7EFEF7451B13D0900043E076 /* SignUpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		B409438F1B164C5600D9BDEF /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = "Pods/../build/Debug-iphoneos/Pods-XListing/ReactiveCocoa.framework"; sourceTree = "<group>"; };
 		B42797421AFD463500AE5A90 /* Navigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 		B430323E1AE361350068E8DF /* ObjectService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectService.swift; sourceTree = "<group>"; };
 		B43032431AE369230068E8DF /* IObjectService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IObjectService.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B40943901B164C5600D9BDEF /* ReactiveCocoa.framework in Frameworks */,
 				6355331D984FC626C0650774 /* Pods_XListing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,6 +210,7 @@
 		29D3149CACD608DFBF4B5FBA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B409438F1B164C5600D9BDEF /* ReactiveCocoa.framework */,
 				1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */,
 				3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */,
 			);
@@ -1026,6 +1030,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods-XListing",
+				);
 				INFOPLIST_FILE = XListing/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1041,6 +1049,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods-XListing",
+				);
 				INFOPLIST_FILE = XListing/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
