@@ -90,31 +90,13 @@ public class AccountViewModel : IAccountViewModel {
         }
     }
     
-    public func updateProfile(nickname: String, birthday: NSDate) -> Task<Int, Bool, NSError> {
+    public func updateProfile(nickname: String, birthday: NSDate, profileImage: UIImage?) -> Task<Int, Bool, NSError> {
         let currentUser = userService.currentUser()!
         currentUser.birthday = birthday
         currentUser.nickname = nickname
+        let imageData = UIImagePNGRepresentation(profileImage)
         return userService.save(currentUser)
     }
-    
-    public func updateProfilePicture(image: UIImage) {
-        var user = userService.currentUser()!
-        
-        let imageData = UIImagePNGRepresentation(image)
-        let imageName = userService.currentUser()!.username + ".png"
-        //let imageFile = PFFile(name: imageName, data:imageData)
-        
-        //user["profilePicture"] = imageFile
-        userService.save(user)
-            .success { success -> Void in
-                println("Profile picture updated successfully")
-            }
-            .failure { (error, isCancelled) -> Void in
-                println("Error when attempting to update profile picture")
-            }
-    }
-
-    
 }
 
 

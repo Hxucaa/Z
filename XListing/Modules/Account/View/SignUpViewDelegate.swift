@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol SignUpViewDelegate : class {
-    func submitUpdate(#nickname: String, birthday: NSDate)
-    func presentUIImagePickerController()
+    func submitUpdate(#nickname: String, birthday: NSDate, profileImage: UIImage?)
+    func presentUIImagePickerController(imagePicker: UIImagePickerController)
     func dismissViewController()
 }

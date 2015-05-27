@@ -12,6 +12,8 @@ import ReactKit
 
 public class SignUpView : UIView {
     
+    private let imagePicker = UIImagePickerController()
+    
     @IBOutlet weak var dismissViewButton: UIButton!
     @IBOutlet weak var nicknameField: UITextField!
     @IBOutlet weak var imagePickerButton: UIButton!
@@ -24,18 +26,26 @@ public class SignUpView : UIView {
     public var submitButtonSignal: Stream<NSString?>?
     private var imagePickerButtonSignal: Stream<NSString?>?
     
+    // Profile imaged picked by user
+    private var profileImage: UIImage?
+    
     public weak var delegate: SignUpViewDelegate?
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         
-        nicknameField.delegate = self
-        
+        setupImagePicker()
         setupDismissViewButton()
         setupNicknameField()
         setupBirthdayPicker()
         setupSubtmitButton()
         setupImagePickerButton()
+    }
+    
+    private func setupImagePicker() {
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .PhotoLibrary
     }
     
     private func setupDismissViewButton() {
@@ -52,11 +62,12 @@ public class SignUpView : UIView {
         imagePickerButtonSignal = imagePickerButton.buttonStream("Image Picker Button")
         
         imagePickerButtonSignal! ~> { [unowned self] _ in
-            self.delegate?.presentUIImagePickerController()
+            self.delegate?.presentUIImagePickerController(self.imagePicker)
         }
     }
     
     private func setupNicknameField() {
+        nicknameField.delegate = self
         // React to text change
         nicknameFieldSignal = nicknameField.textChangedStream()
     }
@@ -70,7 +81,7 @@ public class SignUpView : UIView {
         // React to button press
         submitButtonSignal = submitButton.buttonStream("Submit Button")
         
-        submitButtonSignal! ~> { [unowned self] _ in self.delegate?.submitUpdate(nickname: nicknameField.text, birthday: birthdayPicker.date) }
+        submitButtonSignal! ~> { [unowned self] _ in self.delegate?.submitUpdate(nickname: nicknameField.text, birthday: birthdayPicker.date, profileImage: profileImage) }
         
         /**
         *   Enable or diable submit button
@@ -103,6 +114,21 @@ public class SignUpView : UIView {
         
         // Submit Button reacts to the signal to be enabled/disabled
         (submitButton, "enabled") <~ enableSubmitButtonSignal
+    }
+}
+
+extension SignUpView : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            profileImage = pickedImage
+            
+        }
+        delegate?.dismissViewController()
+    }
+    
+    public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        delegate?.dismissViewController()
     }
 }
 

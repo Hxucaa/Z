@@ -9,6 +9,5 @@
 import SwiftTask
 
 public protocol IAccountViewModel {
-    func updateProfile(nickname: String, birthday: NSDate) -> Task<Int, Bool, NSError>
-    func updateProfilePicture(image: UIImage)
+    func updateProfile(nickname: String, birthday: NSDate, profileImage: UIImage?) -> Task<Int, Bool, NSError>
 }
