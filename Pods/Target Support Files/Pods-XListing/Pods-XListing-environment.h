@@ -25,14 +25,14 @@
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.1.1.
+// Version: 3.1.2.1.
 
 // AVOSCloudSNS
 #define COCOAPODS_POD_AVAILABLE_AVOSCloudSNS
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.1.1.
+// Version: 3.1.2.1.
 
 // Box
 #define COCOAPODS_POD_AVAILABLE_Box

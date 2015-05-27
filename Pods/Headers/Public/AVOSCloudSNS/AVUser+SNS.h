@@ -1,1 +1,1 @@
-../../../AVOSCloudSNS/iOS/release-v3.1.1.1/AVOSCloudSNS.framework/Headers/AVUser+SNS.h
+../../../AVOSCloudSNS/iOS/release-v3.1.2.1/AVOSCloudSNS.framework/Headers/AVUser+SNS.h

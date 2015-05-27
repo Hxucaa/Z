@@ -2,9 +2,9 @@ PODS:
   - AVOSCloud (3.1.2.1)
   - AVOSCloudCrashReporting (3.1.1.1):
     - AVOSCloud
-  - AVOSCloudIM (3.1.1.1):
+  - AVOSCloudIM (3.1.2.1):
     - AVOSCloud
-  - AVOSCloudSNS (3.1.1.1):
+  - AVOSCloudSNS (3.1.2.1):
     - AVOSCloud
   - Box (1.2.2)
   - Locksmith (1.2.2)
@@ -52,8 +52,8 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AVOSCloud: 26962b8cf4a5bf9a77a78ce86893b6ebd1fa43e6
   AVOSCloudCrashReporting: 5add5ca29ec9f585010ecda3a643108c7e376e86
-  AVOSCloudIM: d3f1da845152724fa99350c8b1da559278d7bd68
-  AVOSCloudSNS: fa177d50fe83b630d684dd27d790358531b365cc
+  AVOSCloudIM: 95fb4e5dc58c052f9e9ec25fcb43e8014d1f2622
+  AVOSCloudSNS: 1ee3c049725efd2e61f7fa8e5dbc14e96269054e
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
