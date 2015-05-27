@@ -52,8 +52,11 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'AVOSCloudCrashReporting.framework'
   install_framework 'AVOSCloudIM.framework'
   install_framework 'AVOSCloudSNS.framework'
+  install_framework 'Box.framework'
   install_framework 'Locksmith.framework'
   install_framework 'ReactKit.framework'
+  install_framework 'ReactiveCocoa.framework'
+  install_framework 'Result.framework'
   install_framework 'SDWebImage.framework'
   install_framework 'SwiftTask.framework'
 fi
@@ -62,8 +65,11 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'AVOSCloudCrashReporting.framework'
   install_framework 'AVOSCloudIM.framework'
   install_framework 'AVOSCloudSNS.framework'
+  install_framework 'Box.framework'
   install_framework 'Locksmith.framework'
   install_framework 'ReactKit.framework'
+  install_framework 'ReactiveCocoa.framework'
+  install_framework 'Result.framework'
   install_framework 'SDWebImage.framework'
   install_framework 'SwiftTask.framework'
 fi

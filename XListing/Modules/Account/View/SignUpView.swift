@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import ReactKit
+import ReactiveCocoa
 
 public class SignUpView : UIView {
     
