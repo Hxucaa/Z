@@ -1,5 +1,5 @@
 PODS:
-  - AVOSCloud (3.1.1.1)
+  - AVOSCloud (3.1.2.1)
   - AVOSCloudCrashReporting (3.1.1.1):
     - AVOSCloud
   - AVOSCloudIM (3.1.1.1):
@@ -32,6 +32,7 @@ PODS:
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
+  - SnapKit (0.11.0)
   - SwiftTask (3.0.0)
 
 DEPENDENCIES:
@@ -45,10 +46,11 @@ DEPENDENCIES:
   - ReactiveCocoa (= 3.0-beta.6)
   - ReactKit (~> 0.10.0)
   - SDWebImage
+  - SnapKit (~> 0.11.0)
   - SwiftTask (~> 3.0)
 
 SPEC CHECKSUMS:
-  AVOSCloud: 0c0b91ffd91f83b448312027e5f8b243f261c42a
+  AVOSCloud: 26962b8cf4a5bf9a77a78ce86893b6ebd1fa43e6
   AVOSCloudCrashReporting: 5add5ca29ec9f585010ecda3a643108c7e376e86
   AVOSCloudIM: d3f1da845152724fa99350c8b1da559278d7bd68
   AVOSCloudSNS: fa177d50fe83b630d684dd27d790358531b365cc
@@ -60,6 +62,7 @@ SPEC CHECKSUMS:
   ReactKit: 914b50142021e558669d6870a6a35e6e7bb14f30
   Result: 910839ce03c5c573ec94026678b7cecb69ee862e
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
+  SnapKit: 5194d53cee209d337a989919ff66a70b7aa3dda3
   SwiftTask: 2f2c0a7db83def1d1e3bad518169be3f61c603f4
 
 COCOAPODS: 0.36.4

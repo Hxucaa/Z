@@ -58,6 +58,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'ReactiveCocoa.framework'
   install_framework 'Result.framework'
   install_framework 'SDWebImage.framework'
+  install_framework 'SnapKit.framework'
   install_framework 'SwiftTask.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -71,5 +72,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'ReactiveCocoa.framework'
   install_framework 'Result.framework'
   install_framework 'SDWebImage.framework'
+  install_framework 'SnapKit.framework'
   install_framework 'SwiftTask.framework'
 fi
