@@ -27,6 +27,10 @@ public class SignUpView : UIView {
     public weak var delegate: SignUpViewDelegate?
     
     public override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        nicknameField.delegate = self
+        
         setupDismissViewButton()
         setupNicknameField()
         setupBirthdayPicker()
@@ -99,5 +103,19 @@ public class SignUpView : UIView {
         
         // Submit Button reacts to the signal to be enabled/disabled
         (submitButton, "enabled") <~ enableSubmitButtonSignal
+    }
+}
+
+extension SignUpView : UITextFieldDelegate {
+    /**
+    The text field calls this method whenever the user taps the return button. You can use this method to implement any custom behavior when the button is tapped.
+    
+    :param: textField The text field whose return button was pressed.
+    
+    :returns: YES if the text field should implement its default behavior for the return button; otherwise, NO.
+    */
+    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.endEditing(true)
+        return false
     }
 }
