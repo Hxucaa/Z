@@ -34,7 +34,7 @@ public class FeaturedListCellViewModel : NSObject {
         
         let wantToGoCounter = business.wantToGoCounter
         if (wantToGoCounter > 0) {
-            wantToGoText = String(format: "%d+ 人想去", wantToGoCounter)
+            wantToGoText = String(format: "附近有%d人想去", wantToGoCounter)
         }
         else {
             wantToGoText = ""
@@ -48,7 +48,9 @@ public class FeaturedListCellViewModel : NSObject {
             coverImageNSURL = NSURL(string: url)
         }
         else {
-            coverImageNSURL = nil
+            // TODO: fix temp image
+            coverImageNSURL = NSURL(string: "http://www.phoenixpalace.co.uk/images/background/aboutus.jpg")
+//            coverImageNSURL = nil
         }
     }
     

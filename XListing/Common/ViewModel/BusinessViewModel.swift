@@ -153,7 +153,7 @@ public class BusinessViewModel : NSObject {
     
     public func getWantToGoText() -> String {
         if (wantToGoCounter > 0) {
-            return String(format: "%d+ 人想去", wantToGoCounter)
+            return String(format: "附近有%d人想去", wantToGoCounter)
         }
         else {
             return ""

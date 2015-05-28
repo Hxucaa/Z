@@ -14,12 +14,14 @@ import MapKit
 public class NearbyViewModel : INearbyViewModel {
     public let businessDynamicArr = DynamicArray()
     
+    private let navigator: INavigator
     private let businessService: IBusinessService
     private let geoLocationService: IGeoLocationService
     
     private var businessModelArr: [Business]!
     
-    public init(businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+    public init(navigator: INavigator, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+        self.navigator = navigator
         self.businessService = businessService
         self.geoLocationService = geoLocationService
     }
@@ -66,9 +68,9 @@ public class NearbyViewModel : INearbyViewModel {
     :param: businessViewModel The business information to pass along.
     */
     public func pushDetailModule(section: Int) {
-        let model: AnyObject = businessModelArr[section]
+        let model: Business = businessModelArr[section]
         
-        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushDetailModule, object: nil, userInfo: ["BusinessModel" : model])
+        navigator.navigateToDetailModule(["BusinessModel" : model])
     }
     
     /**
@@ -84,5 +86,10 @@ public class NearbyViewModel : INearbyViewModel {
                 return CLLocation(latitude: 49.27623, longitude: -123.12941)
             }
         )
+    }
+    
+    public func pushProfileModule() {
+        navigator.navigateToProfileModule()
+        
     }
 }

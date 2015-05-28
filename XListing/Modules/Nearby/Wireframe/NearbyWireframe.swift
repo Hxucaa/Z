@@ -13,21 +13,20 @@ private let NearbyViewControllerIdentifier = "NearbyViewController"
 
 public class NearbyWireframe : BaseWireframe, INearbyWireframe {
     
+    private let navigator: INavigator
     private let nearbyVM: INearbyViewModel
     private var nearbyVC: NearbyViewController?
     
-    private let navigationNotificationReceiver: Stream<NSNotification?>
-    
-    public init(rootWireframe: IRootWireframe, nearbyViewModel: INearbyViewModel) {
+    public init(rootWireframe: IRootWireframe, navigator: INavigator, nearbyViewModel: INearbyViewModel) {
+        self.navigator = navigator
         nearbyVM = nearbyViewModel
-        
-        navigationNotificationReceiver = Notification.stream(NavigationNotificationName.PushNearbyModule, nil)
         
         super.init(rootWireframe: rootWireframe)
         
-        navigationNotificationReceiver ~> { notification -> Void in
+        navigator.nearbyModuleNavigationNotificationSignal! ~> { notification -> Void in
             self.pushView()
         }
+        
     }
     
     /**

@@ -13,13 +13,17 @@ import ReactKit
 public class FeaturedListViewModel : IFeaturedListViewModel {
     public let businessDynamicArr = DynamicArray()
     
+    private let navigator: INavigator
     private let businessService: IBusinessService
+    private let userService: IUserService
     private let geoLocationService: IGeoLocationService
     
     private var businessModelArr: [Business]!
     
-    public init(businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+    public init(navigator: INavigator, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService) {
+        self.navigator = navigator
         self.businessService = businessService
+        self.userService = userService
         self.geoLocationService = geoLocationService
     }
     
@@ -33,6 +37,7 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
             .success { [unowned self] location -> Task<Int, Void, NSError> in
                 return self.businessService.findBy(query)
                     .success { businessDAOArr -> Void in
+                        
                         self.businessModelArr = businessDAOArr
                         
                         for bus in businessDAOArr {
@@ -40,6 +45,8 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
                             // apend BusinessViewModel to DynamicArray for React
                             self.businessDynamicArr.proxy.addObject(vm)
                         }
+                        
+                        self.shuffle(self.businessDynamicArr.proxy)
                         
                 }
             }
@@ -54,22 +61,41 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
                             self.businessDynamicArr.proxy.addObject(vm)
                         }
                         
+                        self.shuffle(self.businessDynamicArr.proxy)
+                        
                 }
         }
     }
     
+    private func shuffle(array: NSMutableArray){
+        let c = array.count
+        
+        if (c > 0){
+            for i in 0..<(c - 1) {
+                let j = Int(arc4random_uniform(UInt32(c - i))) + i
+                swap(&array[i], &array[j])
+            }
+        }
+        return
+    }
+    
     public func pushNearbyModule() {
-        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushNearbyModule, object: nil)
+        navigator.navigateToNearbyModule()
     }
     
     public func pushDetailModule(section: Int) {
         let model = businessModelArr[section]
         
-        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushDetailModule, object: nil, userInfo: ["BusinessModel" : model])
+        navigator.navigateToDetailModule(["BusinessModel" : model])
     }
     
     public func pushProfileModule() {
-        NSNotificationCenter.defaultCenter().postNotificationName(NavigationNotificationName.PushProfileModule, object: nil)
-        
+        navigator.navigateToProfileModule()
+    }
+    
+    public func presentAccountModule() {
+        if userService.currentUser()?.birthday == nil {
+            navigator.navigateToAccountModule()
+        }
     }
 }

@@ -11,8 +11,8 @@ import SwiftTask
 
 public class UserService : ObjectService, IUserService {
     
-    public class func isLoggedInAlready() -> Bool {
-        if let c = currentUser() {
+    public func isLoggedInAlready() -> Bool {
+        if let c = currentUser()?.username {
             return true
         }
         else {
@@ -20,7 +20,7 @@ public class UserService : ObjectService, IUserService {
         }
     }
     
-    public class func currentUser() -> User? {
+    public func currentUser() -> User? {
         return User.currentUser()
     }
     
@@ -50,7 +50,7 @@ public class UserService : ObjectService, IUserService {
         }
     }
     
-    public func logOut(user: User) {
+    public func logOut() {
         User.logOut()
     }
     
@@ -67,3 +67,23 @@ public class UserService : ObjectService, IUserService {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

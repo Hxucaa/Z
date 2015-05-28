@@ -10,37 +10,35 @@ import Foundation
 import ReactKit
 import UIKit
 
-private let AccountViewControllerIdentifier = "AccountViewController"
+private let SignUpViewNibName = "SignUpView"
 
 public class AccountWireframe : BaseWireframe, IAccountWireframe {
     
+    private let navigator: INavigator
     private let accountVM: IAccountViewModel
-    private var accountVC: AccountViewController?
+    private var signUpVC: SignUpViewController?
     
-    private let navigationNotificationReceiver: Stream<NSNotification?>
-    
-    public init(rootWireframe: IRootWireframe, accountVM: IAccountViewModel) {
+    public init(rootWireframe: IRootWireframe, navigator: INavigator, accountVM: IAccountViewModel) {
+        self.navigator = navigator
         self.accountVM = accountVM
-        
-        navigationNotificationReceiver = Notification.stream(NavigationNotificationName.PushAccountModule, nil)
         
         super.init(rootWireframe: rootWireframe)
         
-        navigationNotificationReceiver ~> { notification -> Void in
+        navigator.accountModuleNavigationNotificationSignal! ~> { notification -> Void in
             self.pushView()
         }
     }
     
-    private func injectViewModelToViewController() -> AccountViewController {
-        let viewController = getViewControllerFromStoryboard(AccountViewControllerIdentifier) as! AccountViewController
-        viewController.accountVM = accountVM
-        accountVC = viewController
+    private func injectViewModelToViewController() -> SignUpViewController {
+        let viewController = SignUpViewController(accountVM: accountVM, signUpViewNibName: SignUpViewNibName)
+        signUpVC = viewController
         return viewController
     }
     
     
     private func pushView() {
         let injectedViewController = injectViewModelToViewController()
-        rootWireframe.pushViewController(injectedViewController, animated: true)
+//        rootWireframe.pushViewController(injectedViewController, animated: true)
+        rootWireframe.presentViewController(injectedViewController, animated: true)
     }
 }

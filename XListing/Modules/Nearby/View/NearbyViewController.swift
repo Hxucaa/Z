@@ -22,11 +22,13 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     
     private var tableArray = [NearbyTableView]()
     
+    @IBOutlet weak var profileButton: UIBarButtonItem!
     /// View Model
     public var nearbyVM: INearbyViewModel!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        setupProfileButton()
         
         initMapView()
         initScrollView()
@@ -46,6 +48,17 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    /**
+    React to Profile Button and present ProfileViewController.
+    */
+    private func setupProfileButton() {
+        let profileButtonSignal = profileButton.stream().ownedBy(self)
+        profileButtonSignal ~> { [unowned self] button -> Void in
+            nearbyVM?.pushProfileModule()
+        }
+        
     }
     
     /**
@@ -148,9 +161,7 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
         cell.bizDetail.text = "130+ 人想去 ｜ 开车25分钟"
         cell.bizHours.text = "今天 10:00AM - 10:00PM"
         if let url = biz.coverImageNSURL {
-            cell.bizImage!.hnk_setImageFromURL(url, failure: {
-                println("Image loading failed: \($0)")
-            })
+            cell.bizImage?.sd_setImageWithURL(url)
         }
         
         return cell

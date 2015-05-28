@@ -12,6 +12,7 @@ import ReactKit
 
 public class DetailViewModel : NSObject, IDetailViewModel {
     
+    private let navigator: INavigator
     private let wantToGoService: IWantToGoService
     private let geoLocationService: IGeoLocationService
     
@@ -21,7 +22,8 @@ public class DetailViewModel : NSObject, IDetailViewModel {
     
     public var detailBusinessInfoVM: DetailBusinessInfoViewModel!
     
-    public init(wantToGoService: IWantToGoService, geoLocationService: IGeoLocationService) {
+    public init(navigator: INavigator, wantToGoService: IWantToGoService, geoLocationService: IGeoLocationService) {
+        self.navigator = navigator
         self.wantToGoService = wantToGoService
         self.geoLocationService = geoLocationService
         
@@ -35,6 +37,11 @@ public class DetailViewModel : NSObject, IDetailViewModel {
     
     public func goingToBusiness(#thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGo, NSError> {
         return wantToGoService.goingToBusiness(business.objectId!, thisWeek: thisWeek, thisMonth: thisMonth, later: later)
+    }
+    
+    public func pushProfileModule() {
+        navigator.navigateToProfileModule()
+        
     }
     
     deinit {

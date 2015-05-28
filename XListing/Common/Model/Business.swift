@@ -25,7 +25,7 @@ public class Business: AVObject, AVSubclassing {
         return "Business"
     }
     
-    // MARK: Constrcutros
+    // MARK: Constructors
     public override class func registerSubclass() {
         var onceToken : dispatch_once_t = 0;
         dispatch_once(&onceToken) {

@@ -1,1 +1,1 @@
-../../../AVOSCloud/iOS/release-v3.1.1.1/AVOSCloud.framework/Headers/AVRelation.h
+../../../AVOSCloud/iOS/release-v3.1.2.1/AVOSCloud.framework/Headers/AVRelation.h

@@ -8,7 +8,6 @@
 
 import UIKit
 import ReactKit
-import Haneke
 
 private let NumberOfRowsPerSection = 1
 private let CellIdentifier = "Cell"
@@ -20,12 +19,15 @@ public class FeaturedListViewController: UIViewController {
     
     @IBOutlet weak var nearbyButton: UIBarButtonItem!
     @IBOutlet weak var profileButton: UIBarButtonItem!
+    public var refreshControl: UIRefreshControl!
     
     /// ViewModel
     public var featuredListVM: IFeaturedListViewModel?
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        featuredListVM!.getBusiness()
         
         // Setup delegates
         tableView.delegate = self
@@ -34,12 +36,13 @@ public class FeaturedListViewController: UIViewController {
         // Setup table
         setupTable()
         
+        // Set up pull to refresh
+        setUpRefresh()
+        
         // Setup nearbyButton
         setupNearbyButton()
         // Setup profileButton
         setupProfileButton()
-        
-        featuredListVM!.getBusiness()
     }
 
     public override func didReceiveMemoryWarning() {
@@ -47,6 +50,37 @@ public class FeaturedListViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    public override func viewDidAppear(animated: Bool) {
+        featuredListVM?.presentAccountModule()
+    }
+    
+    private func setUpRefresh() {
+        var refreshControl = UIRefreshControl()
+        self.tableView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: "reorderTable", forControlEvents:UIControlEvents.ValueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: "Reordering Listings")
+
+        self.refreshControl = refreshControl
+        
+    }
+    
+    public func reorderTable (){
+        shuffle(featuredListVM!.businessDynamicArr.proxy)
+        self.tableView.reloadData()
+        self.refreshControl.endRefreshing()
+    }
+    
+    private func shuffle(array: NSMutableArray){
+        let c = array.count
+        
+        if (c > 0){
+            for i in 0..<(c - 1) {
+                let j = Int(arc4random_uniform(UInt32(c - i))) + i
+                swap(&array[i], &array[j])
+            }
+        }
+        return
+    }
     /**
     React to signal coming from view model and update table accordingly.
     */
@@ -57,11 +91,13 @@ public class FeaturedListViewController: UIViewController {
             /**
             *  Programatically insert each business view model to the table
             */
+            
             if change == .Insertion {
                 self.tableView.beginUpdates()
                 self.tableView.insertSections(indexSet, withRowAnimation: UITableViewRowAnimation.Automatic)
                 self.tableView.endUpdates()
             }
+            
         }
     }
     
@@ -83,7 +119,6 @@ public class FeaturedListViewController: UIViewController {
         profileButtonSignal ~> { [unowned self] button -> Void in
             featuredListVM?.pushProfileModule()
         }
-
     }
 }
 
@@ -125,6 +160,11 @@ extension FeaturedListViewController : UITableViewDataSource {
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! UITableViewCell
         
+        cell.selectionStyle = UITableViewCellSelectionStyle.None
+        
+        cell.layoutMargins = UIEdgeInsetsZero;
+        cell.preservesSuperviewLayoutMargins = false;
+        
         let section = indexPath.section
         
         var businessNameLabel : UILabel? = cell.viewWithTag(1) as? UILabel
@@ -142,15 +182,20 @@ extension FeaturedListViewController : UITableViewDataSource {
             
             wantToGoLabel?.text = businessVM.wantToGoText
             
-            cityLabel?.text = businessVM.city
+            //TODO:
+            //city and distance data not set up yet, temporarilily hard coded
+            cityLabel?.text = businessVM.city + " • 开车15分钟"
+            
             
             openingLabel?.text = businessVM.openingText
             
             if let url = businessVM.coverImageNSURL {
-                coverImageView!.hnk_setImageFromURL(url, failure: {
-                    println("Image loading failed: \($0)")
-                })
+                coverImageView?.sd_setImageWithURL(url)
             }
+            
+            //TO DO:
+            //temp restaurant image; remove once cover image is linked properly
+//            coverImageView?.image = UIImage (named: "tempRestImage")
         }
         return cell
     }
@@ -168,7 +213,7 @@ extension FeaturedListViewController : UITableViewDelegate {
     */
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
+ 
         // pass business info to detail view and push it
         featuredListVM?.pushDetailModule(indexPath.section)
     }

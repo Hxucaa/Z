@@ -13,19 +13,18 @@ private let DetailViewControllerIdentifier = "DetailViewController"
 
 public class DetailWireframe : BaseWireframe, IDetailWireframe {
     
-    private var detailVM: IDetailViewModel
+    private let navigator: INavigator
+    private let detailVM: IDetailViewModel
     private var detailViewController: DetailViewController?
     
-    private let navigationNotificationReceiver: Stream<NSNotification?>
-    
-    public init(rootWireframe: IRootWireframe, detailViewModel: IDetailViewModel) {
-        detailVM = detailViewModel
+    public init(rootWireframe: IRootWireframe, navigator: INavigator, detailViewModel: IDetailViewModel) {
         
-        navigationNotificationReceiver = Notification.stream(NavigationNotificationName.PushDetailModule, nil)
+        self.navigator = navigator
+        detailVM = detailViewModel
         
         super.init(rootWireframe: rootWireframe)
         
-        navigationNotificationReceiver ~> { notification -> Void in
+        navigator.detailModuleNavigationNotificationSignal! ~> { notification -> Void in
             let vm = (notification?.userInfo)!["BusinessModel"] as! Business
             self.pushView(vm)
         }
