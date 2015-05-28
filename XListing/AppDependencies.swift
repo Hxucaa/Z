@@ -30,11 +30,11 @@ public class AppDependencies {
         let wtg: IWantToGoService = WantToGoService()
         let ks: IKeychainService = KeychainService()
         
+        configureAccountDependencies(rootWireframe, navigator: navigator, userService: us, keychainService: ks)
         configureFeaturedListDependencies(rootWireframe, navigator: navigator, businessService: bs, userService: us, geoLocationService: gs)
         configureNearbyDependencies(rootWireframe, navigator: navigator, businessService: bs, geoLocationService: gs)
         configureDetailDependencies(rootWireframe, navigator: navigator, wantToGoService: wtg, geoLocationService: gs)
-        configureProfileDependencies(rootWireframe, navigator: navigator, wantToGoService: wtg)
-        configureAccountDependencies(rootWireframe, navigator: navigator, userService: us, keychainService: ks)
+        configureProfileDependencies(rootWireframe, navigator: navigator, userService: us)
     }
     
     /**
@@ -91,9 +91,8 @@ public class AppDependencies {
         accountWireframe = AccountWireframe(rootWireframe: rootWireframe, navigator: navigator, accountVM: accountVM)
     }
 
-    private func configureProfileDependencies(rootWireframe: IRootWireframe, navigator: INavigator, wantToGoService wtg: IWantToGoService) {
-        let profileVM: IProfileViewModel = ProfileViewModel(wantToGoService: wtg)
+    private func configureProfileDependencies(rootWireframe: IRootWireframe, navigator: INavigator, userService us: IUserService) {
 
-        profileWireframe = ProfileWireframe(rootWireframe: rootWireframe, navigator: navigator, profileViewModel: profileVM)
+        profileWireframe = ProfileWireframe(rootWireframe: rootWireframe, navigator: navigator, userService: us)
     }
 }

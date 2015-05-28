@@ -5,10 +5,11 @@
 
 import Foundation
 import UIKit
+import ReactiveCocoa
 
 public class ProfileViewController : UIViewController {
 
-    public var profileVM: IProfileViewModel?
+    private var profileVM: IProfileViewModel!
 
     @IBOutlet weak var tableView: UITableView!
     public var firstSegSelected = true
@@ -17,7 +18,6 @@ public class ProfileViewController : UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        println("I'm in ProfileViewController")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.navigationItem.title = "我的"
@@ -26,6 +26,10 @@ public class ProfileViewController : UIViewController {
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    public func bindToViewModel(profileViewModel: IProfileViewModel) {
+        profileVM = profileViewModel
     }
 }
 
@@ -81,9 +85,7 @@ extension ProfileViewController : UITableViewDataSource {
             
             self.convertImgToCircle(profilePicImageView!)
 
-            
-
-            
+            nameLabel!.rac_text <~ profileVM.nickname!
             return profileCell
         case 1:
             var segmentedCell = tableView.dequeueReusableCellWithIdentifier("SegmentedCell", forIndexPath: indexPath) as! UITableViewCell

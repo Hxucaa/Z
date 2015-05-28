@@ -12,11 +12,14 @@ import SwiftTask
 public class UserService : ObjectService, IUserService {
     
     public func isLoggedInAlready() -> Bool {
-        if let c = currentUser()?.username {
-            return true
+        if let currentUser = currentUser() {
+            if currentUser.isAuthenticated() {
+                return true
+            }
+            return false
         }
         else {
-            return false
+            return true
         }
     }
     

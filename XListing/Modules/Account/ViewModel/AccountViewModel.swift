@@ -21,7 +21,6 @@ public class AccountViewModel : IAccountViewModel {
     }
     
     private func logInOrsignUpInBackground() {
-        userService.logOut()
         if userService.isLoggedInAlready() {
             // User Already Logged in
             println("Current user logged in is " + userService.currentUser()!.username)
@@ -38,7 +37,7 @@ public class AccountViewModel : IAccountViewModel {
                 userService.logIn(loginUser, password: loginPass)
                     .success { success -> Void in
                         println("Logged in as " + loginUser)
-                        
+                        println(self.userService.currentUser())
                     }
                     .failure({ (error, isCancelled) -> Void in
                         if let error = error {

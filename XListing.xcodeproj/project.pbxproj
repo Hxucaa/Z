@@ -48,6 +48,8 @@
 		B44E35041AD63F6000657A31 /* BusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E35031AD63F6000657A31 /* BusinessService.swift */; };
 		B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47C0EA51AC0A21000F9FB31 /* AppDependencies.swift */; };
 		B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47C0EA91AC0A82C00F9FB31 /* FeaturedListWireframe.swift */; };
+		B47E15BD1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47E15BC1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift */; };
+		B47E15BF1B17AD790028E07E /* UIKit+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47E15BE1B17AD790028E07E /* UIKit+extension.swift */; };
 		B48AB2761AEC0D00008D05D9 /* WantToGo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AB2751AEC0D00008D05D9 /* WantToGo.swift */; };
 		B48C99121ADA56F70045BCA9 /* NearbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48C99111ADA56F70045BCA9 /* NearbyViewController.swift */; };
 		B48C99141ADA573C0045BCA9 /* HorizontalScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48C99131ADA573C0045BCA9 /* HorizontalScrollView.swift */; };
@@ -149,6 +151,8 @@
 		B44E35031AD63F6000657A31 /* BusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessService.swift; sourceTree = "<group>"; };
 		B47C0EA51AC0A21000F9FB31 /* AppDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDependencies.swift; sourceTree = "<group>"; };
 		B47C0EA91AC0A82C00F9FB31 /* FeaturedListWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListWireframe.swift; sourceTree = "<group>"; };
+		B47E15BC1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileUserInfoCellViewModel.swift; sourceTree = "<group>"; };
+		B47E15BE1B17AD790028E07E /* UIKit+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+extension.swift"; sourceTree = "<group>"; };
 		B48AB2751AEC0D00008D05D9 /* WantToGo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WantToGo.swift; sourceTree = "<group>"; };
 		B48C99111ADA56F70045BCA9 /* NearbyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyViewController.swift; sourceTree = "<group>"; };
 		B48C99131ADA573C0045BCA9 /* HorizontalScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalScrollView.swift; sourceTree = "<group>"; };
@@ -220,8 +224,9 @@
 		45CBB0ED9FE439192D088D2F /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */,
 				45CBB2272E6DA7ED3BDD24AE /* ProfileViewModel.swift */,
+				45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */,
+				B47E15BC1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -385,6 +390,7 @@
 				B42797421AFD463500AE5A90 /* Navigator.swift */,
 				7EFEF7411B124B060043E076 /* INavigator.swift */,
 				7E0173821B13F2B9002E154B /* UIDatePicker+stream.swift */,
+				B47E15BE1B17AD790028E07E /* UIKit+extension.swift */,
 			);
 			name = Utility;
 			path = Common/Utility;
@@ -836,6 +842,7 @@
 				B48C99161ADA57800045BCA9 /* HorizontalScrollContentView.swift in Sources */,
 				B4E70B3C1AF1709400A7418F /* WantToGoService.swift in Sources */,
 				B48C991F1ADA62E70045BCA9 /* INearbyViewModel.swift in Sources */,
+				B47E15BD1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift in Sources */,
 				B4B665421ADF8D070084DBE7 /* DetailViewModel.swift in Sources */,
 				2A714B121B085C63007A8FBB /* SignUpViewController.swift in Sources */,
 				B48AB2761AEC0D00008D05D9 /* WantToGo.swift in Sources */,
@@ -883,6 +890,7 @@
 				B42797431AFD463500AE5A90 /* Navigator.swift in Sources */,
 				B4C6EA231AFE845B00A166AD /* DetailWebViewViewController.swift in Sources */,
 				7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */,
+				B47E15BF1B17AD790028E07E /* UIKit+extension.swift in Sources */,
 				B4E1384E1AE1CA9D0082DCA3 /* IUserService.swift in Sources */,
 				45CBB368E7FE3FD3551D6C35 /* ProfileWireframe.swift in Sources */,
 				45CBB1BF173283F19EC8C446 /* IProfileWireframe.swift in Sources */,
@@ -1071,6 +1079,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods-XListing",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1095,6 +1104,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods-XListing",
 				);
 				INFOPLIST_FILE = XListingTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
