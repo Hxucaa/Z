@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import SwiftTask
+import ReactKit
+import AVOSCloud
 
 public struct SignUpAndLogInWorker : ISignUpAndLogInWorker {
     
@@ -24,67 +27,87 @@ public struct SignUpAndLogInWorker : ISignUpAndLogInWorker {
             println("Current user logged in is " + userService.currentUser()!.username)
         }
         else {
-            // Load data from Keychain
-            let (usernameData, userError) = keychainService.loadData("XListingUser", service: "XListing")
-            let (passwordData, passError) = keychainService.loadData("XListingPassword", service: "XListing")
+
+            // Load credentials from Keychain
+            let getCredentialsSignal = keychainService.loadUserCredentials()
             
-            if usernameData != nil {
-                // User Account created previously
-                let loginUser = usernameData!.valueForKey("username") as! String
-                let loginPass = passwordData!.valueForKey("password") as! String
-                userService.logIn(loginUser, password: loginPass)
-                    .success { success -> Void in
-                        println("Logged in as " + loginUser)
-                        println(self.userService.currentUser())
+            let setupNewCredentialSignal = getCredentialsSignal
+                // Catch load from Keychain error
+                |> catch { (error, isCancelled) -> Stream<(username: String, password: String)> in
+                    
+                    // Generate random user and pass
+                    let (username, password) = self.generateUsernameAndPassword()
+                    
+                    // Save new credentials to Keychain
+                    return self.keychainService.saveUserCredentials(username, password: password)
+                        // Load credentials from Keychain again
+                        |> flatMap { success -> Stream<(username: String, password: String)> in
+                            return self.keychainService.loadUserCredentials()
                     }
-                    .failure({ (error, isCancelled) -> Void in
-                        if let error = error {
-                            println(error)
+                }
+            
+            
+            let signUpSignal = setupNewCredentialSignal
+                // Sign up
+                |> flatMap { (username, password) -> Stream<Bool> in
+                    
+                    var user = User()
+                    user.username = username
+                    user.password = password
+                    
+                    return self.userService.signUp(user)
+                }
+            
+            // Handle error: username is taken
+            let code = signUpSignal.errorInfo?.error?.code
+            if code == kAVErrorUsernameTaken || code == kAVErrorUsernamePasswordMismatch {
+                let signUpAgainSignal = signUpSignal
+                    |> catch { (error, isCancelled) -> Stream<Bool> in
+                        
+                        return self.signUpWithCredentials { (username, password) -> Stream<Bool> in
+                            return self.keychainService.saveUserCredentials(username, password: password)
                         }
-                    })
-                
-            } else {
-                // First time setup, generate random user and pass
-                var username = NSUUID().UUIDString
-                var password = NSUUID().UUIDString
+                    }
+            }
+            
+            // Log in when credentials are loaded from Keychain
+            let logInSignal = getCredentialsSignal
+                // Log in
+                |> flatMap { (username, password) -> Stream<Bool> in
+                    return self.userService.logIn(username, password: password)
+                }
+                // Catch log in error
+                |>  catch { (error, isCancelled) -> Stream<Bool> in
+//                    if error?.code == kAVErrorUserNotFound {
+                    return self.signUpWithCredentials { (username, password) -> Stream<Bool> in
+                        return self.keychainService.updateUserCredentials(username, password: password)
+                    }
+//                    }
+                }
+        }
+    }
+    
+    private func signUpWithCredentials(credentialOperation: (username: String, password: String) -> Stream<Bool>) -> Stream<Bool> {
+        // Generate random user and pass
+        let (username, password) = self.generateUsernameAndPassword()
+        
+        // Update credentials in Keychain
+        return credentialOperation(username: username, password: password)
+            |> flatMap { success -> Stream<(username: String, password: String)> in
+                return self.keychainService.loadUserCredentials()
+            }
+            // Try log in again
+            |> flatMap { (username: String, password: String) -> Stream<Bool> in
                 
                 var user = User()
                 user.username = username
                 user.password = password
                 
-                // Sign up for a user account
-                userService.signUp(user).success { success -> Void in
-                    println("Sign Up Successful with username " + username)
-                    
-                    // Save username to Keychain
-                    let keychainUserError = self.keychainService.storeStringData("username", data: username, account: "XListingUser", service: "XListing")
-                    if keychainUserError != nil {
-                        println("Error Saving Username to Keychain:\n" + String(stringInterpolationSegment: keychainUserError))
-                    } else {
-                        println("Username " + username + " successfully saved to keychain.")
-                    }
-                    
-                    // Save password to Keychain
-                    let keychainPasswordError = self.keychainService.storeStringData("password", data: password, account: "XListingPassword", service: "XListing")
-                    if keychainPasswordError != nil {
-                        println("Error Saving Password to Keychain:\n" + String(stringInterpolationSegment: keychainPasswordError))
-                    } else {
-                        println("Password " + password + " successfully saved to keychain.")
-                    }
-                    
-                    
-                    
-                    }
-                    .failure { (error, isCancelled) -> Void in
-                        if let error = error {
-                            println(error)
-                        }
-                        else {
-                            println(isCancelled)
-                        }
-                }
+                return self.userService.signUp(user)
             }
-        }
     }
 
+    private func generateUsernameAndPassword() -> (username: String, password: String) {
+        return (username: NSUUID().UUIDString, password: NSUUID().UUIDString)
+    }
 }
