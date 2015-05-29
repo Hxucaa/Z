@@ -33,14 +33,9 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.delegate = self
         tableView.dataSource = self
-        //tableView.allowsSelection = false
-        //setupProfileButton()
-        
         self.navigationItem.title = detailVM.detailBusinessInfoVM.navigationTitle
-
     }
     
     public override func didReceiveMemoryWarning() {
@@ -59,11 +54,6 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
         shareButtonStream = nil
     
     }
-    
-//    public override func viewDidAppear(animated: Bool) {
-//        tableView.reloadData()
-//        println("did appear")
-//    }
     
     @IBAction func shareButtonTapped(sender: AnyObject) {
         self.shareSheetAction()
@@ -530,7 +520,6 @@ extension DetailViewController : UITableViewDataSource {
             case 0: return 35
             default: return 70
             }
-            
         case 2:
             switch row {
                 
@@ -543,7 +532,6 @@ extension DetailViewController : UITableViewDataSource {
             case 2: return 215
             default: return 35
             }
-         
         case 3:
             switch row {
             case 1: return 91
@@ -555,20 +543,10 @@ extension DetailViewController : UITableViewDataSource {
             case 1: return 226
             default: return 44
             }
-            
         default: return 44
         }
-        
-        
-        
     }
     
-    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-
-        default: return ""
-        }
-    }
     
     public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 2
@@ -601,6 +579,11 @@ extension DetailViewController : UITableViewDelegate {
             }
             
             tableView.reloadData()
+        }
+        
+        if (indexPath.section == 0 && indexPath.row == 2){
+            println("in here")
+            
         }
         
         
