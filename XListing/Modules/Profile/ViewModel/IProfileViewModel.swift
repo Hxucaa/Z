@@ -7,6 +7,5 @@ import ReactiveCocoa
 
 public protocol IProfileViewModel : class {
     init(userService: IUserService)
-    var nickname: ConstantProperty<String>? { get }
-    func prepareData()
+    var nickname: ConstantProperty<String> { get }
 }

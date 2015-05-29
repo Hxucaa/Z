@@ -19,8 +19,6 @@ public final class User: AVUser, AVSubclassing {
         }
     }
     
-
-    
     @NSManaged public var birthday: NSDate?
 //    public dynamic var birthday: NSDate? {
 //        get {
@@ -30,5 +28,5 @@ public final class User: AVUser, AVSubclassing {
 //            setObject(newValue, forKey: "birthday")
 //        }
 //    }
-    @NSManaged public var nickname: String
+    @NSManaged public var nickname: String?
 }

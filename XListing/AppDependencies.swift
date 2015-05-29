@@ -14,7 +14,7 @@ import UIKit
 */
 public class AppDependencies {
     
-    
+    private var backgroundOperationsWorkerFactory: IBackgroundOperationsWorkerFactory?
     private var featuredListWireframe: IFeaturedListWireframe?
     private var nearbyWireframe: INearbyWireframe?
     private var detailWireframe: IDetailWireframe?
@@ -30,7 +30,8 @@ public class AppDependencies {
         let wtg: IWantToGoService = WantToGoService()
         let ks: IKeychainService = KeychainService()
         
-        configureAccountDependencies(rootWireframe, navigator: navigator, userService: us, keychainService: ks)
+        configureBackgroundOperationsWorkerFactory(userService: us, geoLocationService: gs, KeychainService: ks)
+        configureAccountDependencies(rootWireframe, navigator: navigator, userService: us)
         configureFeaturedListDependencies(rootWireframe, navigator: navigator, businessService: bs, userService: us, geoLocationService: gs)
         configureNearbyDependencies(rootWireframe, navigator: navigator, businessService: bs, geoLocationService: gs)
         configureDetailDependencies(rootWireframe, navigator: navigator, wantToGoService: wtg, geoLocationService: gs)
@@ -44,6 +45,15 @@ public class AppDependencies {
     */
     public func installRootViewControllerIntoWindow() {
         featuredListWireframe?.showFeaturedListAsRootViewController()
+    }
+    
+    public func startBackgroundOperations() {
+        backgroundOperationsWorkerFactory?.startSignUpAndLogInWorker()
+    }
+    
+    private func configureBackgroundOperationsWorkerFactory(userService us: IUserService, geoLocationService gs: IGeoLocationService, KeychainService ks: IKeychainService) {
+        
+        backgroundOperationsWorkerFactory = BackgroundOperationsWorkerFactory(userService: us, geoLocationService: gs, keychainService: ks)
     }
     
     /**
@@ -76,10 +86,9 @@ public class AppDependencies {
         detailWireframe = DetailWireframe(rootWireframe: rootWireframe, navigator: navigator, wantToGoService: wtg, geoLocationService: gs)
     }
     
-    private func configureAccountDependencies(rootWireframe: IRootWireframe, navigator: INavigator, userService us: IUserService, keychainService ks: IKeychainService) {
-        let accountVM: IAccountViewModel = AccountViewModel(userService: us, keychainService: ks)
-
-        accountWireframe = AccountWireframe(rootWireframe: rootWireframe, navigator: navigator, userService: us, keychainService: ks)
+    private func configureAccountDependencies(rootWireframe: IRootWireframe, navigator: INavigator, userService us: IUserService) {
+        
+        accountWireframe = AccountWireframe(rootWireframe: rootWireframe, navigator: navigator, userService: us)
     }
 
     private func configureProfileDependencies(rootWireframe: IRootWireframe, navigator: INavigator, userService us: IUserService) {

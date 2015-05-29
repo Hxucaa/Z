@@ -12,7 +12,7 @@ import UIKit
 public final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public var window: UIWindow?
-    private var appDependencies: AppDependencies?
+    private var appDependencies: AppDependencies!
     
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -23,8 +23,11 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
         // start dependency injector
         appDependencies = AppDependencies(window: window!)
         
+        // start background workers
+        appDependencies.startBackgroundOperations()
+        
         // initialize root view
-        appDependencies!.installRootViewControllerIntoWindow()
+        appDependencies.installRootViewControllerIntoWindow()
         
         return true
     }

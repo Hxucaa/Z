@@ -85,7 +85,7 @@ extension ProfileViewController : UITableViewDataSource {
             
             self.convertImgToCircle(profilePicImageView!)
 
-            nameLabel!.rac_text <~ profileVM.nickname!
+            nameLabel!.rac_text <~ profileVM.nickname
             return profileCell
         case 1:
             var segmentedCell = tableView.dequeueReusableCellWithIdentifier("SegmentedCell", forIndexPath: indexPath) as! UITableViewCell

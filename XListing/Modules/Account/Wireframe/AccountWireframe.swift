@@ -16,13 +16,11 @@ public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     
     private let navigator: INavigator
     private let userService: IUserService
-    private let keychainService: IKeychainService
     private var signUpVC: SignUpViewController?
     
-    public required init(rootWireframe: IRootWireframe, navigator: INavigator, userService: IUserService, keychainService: IKeychainService) {
+    public required init(rootWireframe: IRootWireframe, navigator: INavigator, userService: IUserService) {
         self.navigator = navigator
         self.userService = userService
-        self.keychainService = keychainService
         
         super.init(rootWireframe: rootWireframe)
         
@@ -32,7 +30,7 @@ public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     }
     
     private func injectViewModelToViewController() -> SignUpViewController {
-        let viewmodel = AccountViewModel(userService: userService, keychainService: keychainService)
+        let viewmodel = AccountViewModel(userService: userService)
         let viewController = SignUpViewController(accountVM: viewmodel, signUpViewNibName: SignUpViewNibName)
         signUpVC = viewController
         return viewController

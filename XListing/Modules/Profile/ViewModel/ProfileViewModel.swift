@@ -12,19 +12,16 @@ import ReactiveCocoa
 public final class ProfileViewModel : IProfileViewModel {
     private let userService: IUserService
     
-    public var nickname: ConstantProperty<String>?
+    public let nickname: ConstantProperty<String>
     
     public required init(userService: IUserService) {
         self.userService = userService
         
-//        if let currentUser = userService.currentUser() {
-        nickname = ConstantProperty(userService.currentUser()!.nickname)
-//        }
-    }
-    
-    public func prepareData() {
-        if let currentUser = userService.currentUser() {
-            nickname = ConstantProperty(currentUser.nickname)
+        if let nickname = userService.currentUser()?.nickname {
+            self.nickname = ConstantProperty(nickname)
+        }
+        else {
+            self.nickname = ConstantProperty("")
         }
     }
 }
