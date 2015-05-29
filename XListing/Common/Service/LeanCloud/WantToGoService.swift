@@ -9,7 +9,7 @@
 import Foundation
 import SwiftTask
 
-public class WantToGoService : ObjectService, IWantToGoService {
+public final class WantToGoService : ObjectService, IWantToGoService {
     public func findBy(var query: PFQuery?) -> Task<Int, [WantToGo], NSError> {
         if query == nil {
             query = WantToGo.query()

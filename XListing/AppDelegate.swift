@@ -9,7 +9,7 @@
 import UIKit
 
 @UIApplicationMain
-public class AppDelegate: UIResponder, UIApplicationDelegate {
+public final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public var window: UIWindow?
     private var appDependencies: AppDependencies?

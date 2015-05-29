@@ -10,28 +10,29 @@ import Foundation
 import SwiftTask
 import ReactKit
 
-public class DetailViewModel : NSObject, IDetailViewModel {
+public final class DetailViewModel : NSObject, IDetailViewModel {
     
     private let navigator: INavigator
     private let wantToGoService: IWantToGoService
     private let geoLocationService: IGeoLocationService
     
-    public dynamic var business: Business!
+    private dynamic let business: Business
     
     private var businessKVO: Stream<AnyObject?>!
     
     public var detailBusinessInfoVM: DetailBusinessInfoViewModel!
     
-    public init(navigator: INavigator, wantToGoService: IWantToGoService, geoLocationService: IGeoLocationService) {
+    public required init(navigator: INavigator, wantToGoService: IWantToGoService, geoLocationService: IGeoLocationService, businessModel: Business) {
         self.navigator = navigator
         self.wantToGoService = wantToGoService
         self.geoLocationService = geoLocationService
+        self.business = businessModel
         
         super.init()
         
-        businessKVO = KVO.stream(self, "business")
-        businessKVO ~> { [weak self] bus in
-            self!.detailBusinessInfoVM = DetailBusinessInfoViewModel(business: bus as! Business)
+        businessKVO = KVO.startingStream(self, "business")
+        businessKVO ~> { [unowned self] bus in
+            self.detailBusinessInfoVM = DetailBusinessInfoViewModel(business: bus as! Business)
         }
     }
     
@@ -42,9 +43,5 @@ public class DetailViewModel : NSObject, IDetailViewModel {
     public func pushProfileModule() {
         navigator.navigateToProfileModule()
         
-    }
-    
-    deinit {
-        println("DetailViewModel deinit")
     }
 }

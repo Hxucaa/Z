@@ -11,15 +11,17 @@ import ReactKit
 
 private let NearbyViewControllerIdentifier = "NearbyViewController"
 
-public class NearbyWireframe : BaseWireframe, INearbyWireframe {
+public final class NearbyWireframe : BaseWireframe, INearbyWireframe {
     
     private let navigator: INavigator
-    private let nearbyVM: INearbyViewModel
+    private let businessService: IBusinessService
+    private let geoLocationService: IGeoLocationService
     private var nearbyVC: NearbyViewController?
     
-    public init(rootWireframe: IRootWireframe, navigator: INavigator, nearbyViewModel: INearbyViewModel) {
+    public required init(rootWireframe: IRootWireframe, navigator: INavigator, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
         self.navigator = navigator
-        nearbyVM = nearbyViewModel
+        self.businessService = businessService
+        self.geoLocationService = geoLocationService
         
         super.init(rootWireframe: rootWireframe)
         
@@ -37,7 +39,9 @@ public class NearbyWireframe : BaseWireframe, INearbyWireframe {
     private func initViewController() -> NearbyViewController {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(NearbyViewControllerIdentifier) as! NearbyViewController
-        viewController.nearbyVM = nearbyVM
+        let viewmodel = NearbyViewModel(navigator: navigator, businessService: businessService, geoLocationService: geoLocationService)
+        
+        viewController.bindToViewModel(viewmodel)
         
         nearbyVC = viewController
         return viewController

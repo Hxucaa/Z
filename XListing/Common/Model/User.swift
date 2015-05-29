@@ -9,7 +9,7 @@
 import Foundation
 import AVOSCloud
 
-public class User: AVUser, AVSubclassing {
+public final class User: AVUser, AVSubclassing {
     
     // MARK: Constructors
     public override class func registerSubclass() {

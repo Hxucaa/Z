@@ -10,7 +10,7 @@ import Foundation
 import SwiftTask
 import MapKit
 
-public class BusinessService : ObjectService, IBusinessService {
+public final class BusinessService : ObjectService, IBusinessService {
     
     /**
         This function saves the BusinessDAO and returns true if success otherwise false.

@@ -9,7 +9,7 @@
 import Foundation
 import SwiftTask
 
-public class UserService : ObjectService, IUserService {
+public final class UserService : ObjectService, IUserService {
     
     public func isLoggedInAlready() -> Bool {
         if let currentUser = currentUser() {

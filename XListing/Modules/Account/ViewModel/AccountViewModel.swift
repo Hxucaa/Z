@@ -9,12 +9,12 @@
 import Foundation
 import SwiftTask
 
-public class AccountViewModel : IAccountViewModel {
+public final class AccountViewModel : IAccountViewModel {
     
     private let userService: IUserService
     private let keychainService: IKeychainService
     
-    public init(userService: IUserService, keychainService: IKeychainService) {
+    public required init(userService: IUserService, keychainService: IKeychainService) {
         self.userService = userService
         self.keychainService = keychainService
         logInOrsignUpInBackground()

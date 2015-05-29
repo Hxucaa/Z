@@ -7,7 +7,7 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 
-public class ProfileViewController : UIViewController {
+public final class ProfileViewController : UIViewController {
 
     private var profileVM: IProfileViewModel!
 

@@ -53,10 +53,7 @@ public class AppDependencies {
     */
     private func configureFeaturedListDependencies(rootWireframe: IRootWireframe, navigator: INavigator, businessService bs: IBusinessService, userService us: IUserService, geoLocationService gs: IGeoLocationService) {
         
-        // instantiate view model
-        let featuredListVM: IFeaturedListViewModel = FeaturedListViewModel(navigator: navigator, businessService: bs, userService: us, geoLocationService: gs)
-        
-        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, featuredListVM: featuredListVM)
+        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, navigator: navigator, businessService: bs, userService: us, geoLocationService: gs)
     }
     
     /**
@@ -66,10 +63,7 @@ public class AppDependencies {
     */
     private func configureNearbyDependencies(rootWireframe: IRootWireframe, navigator: INavigator, businessService bs: IBusinessService, geoLocationService gs: IGeoLocationService) {
         
-        // instantiate view model
-        let nearbyVM: INearbyViewModel = NearbyViewModel(navigator: navigator, businessService: bs, geoLocationService: gs)
-        
-        nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, navigator: navigator, nearbyViewModel: nearbyVM)
+        nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, navigator: navigator, businessService: bs, geoLocationService: gs)
     }
     
     /**
@@ -79,16 +73,13 @@ public class AppDependencies {
     */
     private func configureDetailDependencies(rootWireframe: IRootWireframe, navigator: INavigator, wantToGoService wtg: IWantToGoService, geoLocationService gs: IGeoLocationService) {
         
-        // instantiate view model
-        let detailVM: IDetailViewModel = DetailViewModel(navigator: navigator, wantToGoService: wtg, geoLocationService: gs)
-        
-        detailWireframe = DetailWireframe(rootWireframe: rootWireframe, navigator: navigator, detailViewModel: detailVM)
+        detailWireframe = DetailWireframe(rootWireframe: rootWireframe, navigator: navigator, wantToGoService: wtg, geoLocationService: gs)
     }
     
     private func configureAccountDependencies(rootWireframe: IRootWireframe, navigator: INavigator, userService us: IUserService, keychainService ks: IKeychainService) {
         let accountVM: IAccountViewModel = AccountViewModel(userService: us, keychainService: ks)
 
-        accountWireframe = AccountWireframe(rootWireframe: rootWireframe, navigator: navigator, accountVM: accountVM)
+        accountWireframe = AccountWireframe(rootWireframe: rootWireframe, navigator: navigator, userService: us, keychainService: ks)
     }
 
     private func configureProfileDependencies(rootWireframe: IRootWireframe, navigator: INavigator, userService us: IUserService) {

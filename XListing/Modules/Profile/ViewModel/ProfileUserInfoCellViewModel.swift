@@ -9,7 +9,7 @@
 import Foundation
 import ReactiveCocoa
 
-public class ProfileUserInfoCellViewModel {
+public final class ProfileUserInfoCellViewModel {
     
     public let nickname: ConstantProperty<String>
 //    public let horoscope: ConstantProperty<String>

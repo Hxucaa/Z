@@ -9,13 +9,13 @@ import ReactKit
 private let ProfileViewControllerIdentifier = "ProfileViewController"
 private let StoryboardName = "Profile"
 
-public class ProfileWireframe : BaseWireframe, IProfileWireframe {
+public final class ProfileWireframe : BaseWireframe, IProfileWireframe {
     
     private let navigator: INavigator
     private let userService: IUserService
     private var profileVC: ProfileViewController?
 
-    public init(rootWireframe: IRootWireframe, navigator: INavigator, userService: IUserService) {
+    public required init(rootWireframe: IRootWireframe, navigator: INavigator, userService: IUserService) {
         self.navigator = navigator
         self.userService = userService
         super.init(rootWireframe: rootWireframe)

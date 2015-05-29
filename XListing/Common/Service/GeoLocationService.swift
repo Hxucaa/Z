@@ -12,7 +12,6 @@ import MapKit
 
 public class GeoLocationService : IGeoLocationService {
     
-    
     public let defaultGeoPoint = PFGeoPoint(latitude: 49.27623, longitude: -123.12941)
     
     public func getCurrentLocation() -> Task<Int, CLLocation, NSError> {

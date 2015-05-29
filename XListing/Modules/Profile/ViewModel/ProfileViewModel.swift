@@ -9,12 +9,12 @@
 import Foundation
 import ReactiveCocoa
 
-public class ProfileViewModel : IProfileViewModel {
+public final class ProfileViewModel : IProfileViewModel {
     private let userService: IUserService
     
     public var nickname: ConstantProperty<String>?
     
-    public init(userService: IUserService) {
+    public required init(userService: IUserService) {
         self.userService = userService
         
 //        if let currentUser = userService.currentUser() {

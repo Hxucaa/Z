@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class WantToGo: PFObject, PFSubclassing {
+public final class WantToGo: PFObject, PFSubclassing {
     
     // Class Name
     public class func parseClassName() -> String {

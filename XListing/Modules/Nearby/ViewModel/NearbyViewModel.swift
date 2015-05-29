@@ -11,7 +11,7 @@ import SwiftTask
 import ReactKit
 import MapKit
 
-public class NearbyViewModel : INearbyViewModel {
+public final class NearbyViewModel : INearbyViewModel {
     public let businessDynamicArr = DynamicArray()
     
     private let navigator: INavigator
@@ -20,7 +20,7 @@ public class NearbyViewModel : INearbyViewModel {
     
     private var businessModelArr: [Business]!
     
-    public init(navigator: INavigator, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+    public required init(navigator: INavigator, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
         self.navigator = navigator
         self.businessService = businessService
         self.geoLocationService = geoLocationService

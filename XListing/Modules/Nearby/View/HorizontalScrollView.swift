@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class HorizontalScrollView: UIScrollView {
+public final class HorizontalScrollView: UIScrollView {
     
     /*
     // Only override drawRect: if you perform custom drawing.
