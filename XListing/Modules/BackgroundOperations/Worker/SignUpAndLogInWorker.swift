@@ -22,19 +22,19 @@ public struct SignUpAndLogInWorker : ISignUpAndLogInWorker {
     }
     
     public func logInOrsignUpInBackground() {
+        
+        // Only enable this if you have trouble reigster/log in
+//        keychainService.clearKeychain()
+        
+        
         if userService.isLoggedInAlready() {
             // User Already Logged in
             println("Current user logged in is " + userService.currentUser()!.username)
         }
         else {
-
             // Load credentials from Keychain
-            let getCredentialsSignal = keychainService.loadUserCredentials()
-            
-            let setupNewCredentialSignal = getCredentialsSignal
-                // Catch load from Keychain error
+            let getCredentialsSignal = Stream<(username: String, password: String)>.fromTask(keychainService.loadUserCredentialsTask())
                 |> catch { (error, isCancelled) -> Stream<(username: String, password: String)> in
-                    
                     // Generate random user and pass
                     let (username, password) = self.generateUsernameAndPassword()
                     
@@ -45,66 +45,48 @@ public struct SignUpAndLogInWorker : ISignUpAndLogInWorker {
                             return self.keychainService.loadUserCredentials()
                     }
                 }
-            
-            
-            let signUpSignal = setupNewCredentialSignal
-                // Sign up
-                |> flatMap { (username, password) -> Stream<Bool> in
-                    
-                    var user = User()
-                    user.username = username
-                    user.password = password
-                    
-                    return self.userService.signUp(user)
+                |> peek { (username: String, password: String) -> Void in
+                    println("Username \(username) is loaded from Keychain.")
                 }
-            
-            // Handle error: username is taken
-            let code = signUpSignal.errorInfo?.error?.code
-            if code == kAVErrorUsernameTaken || code == kAVErrorUsernamePasswordMismatch {
-                let signUpAgainSignal = signUpSignal
-                    |> catch { (error, isCancelled) -> Stream<Bool> in
-                        
-                        return self.signUpWithCredentials { (username, password) -> Stream<Bool> in
-                            return self.keychainService.saveUserCredentials(username, password: password)
+                |> flatMap { (username, password) -> Stream<Bool> in
+                    if self.keychainService.credentialsHaveRegistered() {
+                        println("Log in user...")
+                        let logInTask = self.userService.logIn(username, password: password)
+                            .success { user -> Bool in
+                                println("Operation succeed!")
+                                return true
+                            }
+                            .failure({ (error, isCancelled) -> Bool in
+                                println("Operation failed!")
+                                return false
+                            })
+                        return Stream<Bool>.fromTask(logInTask)
+                    }
+                    else {
+                        println("Sign up user...")
+                        var user = User()
+                        user.username = username
+                        user.password = password
+                        let signUpTask = self.userService.signUp(user)
+                            .success { success -> Bool in
+                                println("Operation succeed!")
+                                return true
+                            }
+                            .failure({ (error, isCancelled) -> Bool in
+                                println("Operation failed!")
+                                return false
+                            })
+                        let updateHasRegisteredTask = signUpTask
+                            .success { _ -> Task<Int, Bool, NSError> in
+                                println("Status saved to Keychain!")
+                                return self.keychainService.updateHasRegistered(true)
                         }
+                        return Stream<Bool>.fromTask(updateHasRegisteredTask)
                     }
-            }
+                }
             
-            // Log in when credentials are loaded from Keychain
-            let logInSignal = getCredentialsSignal
-                // Log in
-                |> flatMap { (username, password) -> Stream<Bool> in
-                    return self.userService.logIn(username, password: password)
-                }
-                // Catch log in error
-                |>  catch { (error, isCancelled) -> Stream<Bool> in
-//                    if error?.code == kAVErrorUserNotFound {
-                    return self.signUpWithCredentials { (username, password) -> Stream<Bool> in
-                        return self.keychainService.updateUserCredentials(username, password: password)
-                    }
-//                    }
-                }
+            getCredentialsSignal ~> { _ in }
         }
-    }
-    
-    private func signUpWithCredentials(credentialOperation: (username: String, password: String) -> Stream<Bool>) -> Stream<Bool> {
-        // Generate random user and pass
-        let (username, password) = self.generateUsernameAndPassword()
-        
-        // Update credentials in Keychain
-        return credentialOperation(username: username, password: password)
-            |> flatMap { success -> Stream<(username: String, password: String)> in
-                return self.keychainService.loadUserCredentials()
-            }
-            // Try log in again
-            |> flatMap { (username: String, password: String) -> Stream<Bool> in
-                
-                var user = User()
-                user.username = username
-                user.password = password
-                
-                return self.userService.signUp(user)
-            }
     }
 
     private func generateUsernameAndPassword() -> (username: String, password: String) {

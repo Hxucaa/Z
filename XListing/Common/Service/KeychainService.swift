@@ -14,12 +14,72 @@ import Locksmith
 private let account = "XListingCredentials"
 private let usernameKey = "username"
 private let passwordKey = "password"
+private let hasRegistered = "hasRegistered"
+private let yes = "YES"
+private let no = "NO"
 
 public struct KeychainService : IKeychainService {
     
+    public func clearKeychain() -> Bool {
+        let t = Locksmith.deleteDataForUserAccount(account)
+        return t != nil ? true : false
+    }
+    
+    public func loadHasRegistered() -> Stream<Bool> {
+        let task = Task<Int, Bool, NSError> { fulfill, reject in
+            let (data, error) = self.loadData()
+            if let error = error {
+                reject(error)
+            }
+            else {
+                if let didRegistered = data?[hasRegistered] as? String {
+                    if didRegistered == yes {
+                        fulfill(true)
+                    }
+                    else {
+                        fulfill(false)
+                    }
+                }
+                else {
+                    reject(NSError(domain: "KeychainService", code: 800, userInfo: ["Error" : "Data retrieved from Keychain is invalid"]))
+                }
+            }
+        }
+        return Stream<Bool>.fromTask(task)
+    }
+    
+    public func credentialsHaveRegistered() -> Bool {
+        let (data, error) = self.loadData()
+        if let didRegistered = data?[hasRegistered] as? String {
+            if didRegistered == yes {
+                return true
+            }
+            else {
+                return false
+            }
+        }
+        else {
+            return false
+        }
+    }
+    
+    public func updateHasRegistered(registered: Bool) -> Task<Int, Bool, NSError> {
+        
+        let task = Task<Int, Bool, NSError> { fulfill, reject in
+            let error = self.saveData([hasRegistered: registered ? yes : no])
+            if let error = error {
+                reject(error)
+            }
+            else {
+                fulfill(true)
+            }
+        }
+        return task
+    }
+    
     private func saveUserCredentials(username: String, password: String) -> Task<Int, Bool, NSError> {
         return Task<Int, Bool, NSError> { fulfill, reject in
-            let error = self.saveData([usernameKey : username, passwordKey : password])
+            let error = self.saveData([usernameKey : username, passwordKey : password, hasRegistered: no])
             if let error = error {
                 reject(error)
             }
@@ -33,7 +93,7 @@ public struct KeychainService : IKeychainService {
         return Stream<Bool>.fromTask(saveUserCredentials(username, password: password))
     }
     
-    private func loadUserCredentials() -> Task<Int, (username: String, password: String), NSError> {
+    public func loadUserCredentialsTask() -> Task<Int, (username: String, password: String), NSError> {
         return Task<Int, (username: String, password: String), NSError> { fulfill, reject in
             let (data, error) = self.loadData()
             if let error = error {
@@ -52,7 +112,7 @@ public struct KeychainService : IKeychainService {
     }
     
     public func loadUserCredentials() -> Stream<(username: String, password: String)> {
-        return Stream<(username: String, password: String)>.fromTask(loadUserCredentials())
+        return Stream<(username: String, password: String)>.fromTask(loadUserCredentialsTask())
     }
     
     private func updateUserCredentials(username: String, password: String) -> Task<Int, Bool, NSError> {

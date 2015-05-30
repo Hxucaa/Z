@@ -41,10 +41,6 @@ public final class UserService : ObjectService, IUserService {
         }
     }
     
-    public func signUp(user: User) -> Stream<Bool> {
-        return Stream<Bool>.fromTask(signUp(user))
-    }
-    
     public func logIn(username: String, password: String) -> Task<Int, User, NSError> {
         return Task<Int, User, NSError> { fulfill, reject -> Void in
             User.logInWithUsernameInBackground(username, password: password) { user, error -> Void in
@@ -56,23 +52,6 @@ public final class UserService : ObjectService, IUserService {
                 }
             }
         }
-    }
-    
-    public func logIn(username: String, password: String) -> Task<Int, Bool, NSError> {
-        return Task<Int, Bool, NSError> { fulfill, reject -> Void in
-            User.logInWithUsernameInBackground(username, password: password) { user, error -> Void in
-                if error == nil {
-                    fulfill(true)
-                }
-                else {
-                    reject(error!)
-                }
-            }
-        }
-    }
-    
-    public func logIn(username: String, password: String) -> Stream<Bool> {
-        return Stream<Bool>.fromTask(logIn(username, password: password))
     }
     
     public func logOut() {

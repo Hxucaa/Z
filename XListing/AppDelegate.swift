@@ -21,11 +21,11 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
         // connect to Parse
         LeanCloudClient.initializeClient()
         
-        // start dependency injector
-        appDependencies = AppDependencies(window: window!)
-        
         // start background workers
         backgroundOperationsWorkerFactory.startSignUpAndLogInWorker()
+        
+        // start dependency injector
+        appDependencies = AppDependencies(window: window!)
         
         // initialize root view
         appDependencies.installRootViewControllerIntoWindow()
