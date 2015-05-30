@@ -9,6 +9,6 @@
 import Foundation
 
 public protocol IBackgroundOperationsWorkerFactory {
-    init(userService: IUserService, geoLocationService: IGeoLocationService, keychainService: IKeychainService)
+    init()
     func startSignUpAndLogInWorker()
 }

@@ -13,6 +13,7 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public var window: UIWindow?
     private var appDependencies: AppDependencies!
+    private let backgroundOperationsWorkerFactory: IBackgroundOperationsWorkerFactory = BackgroundOperationsWorkerFactory()
     
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -24,7 +25,7 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
         appDependencies = AppDependencies(window: window!)
         
         // start background workers
-        appDependencies.startBackgroundOperations()
+        backgroundOperationsWorkerFactory.startSignUpAndLogInWorker()
         
         // initialize root view
         appDependencies.installRootViewControllerIntoWindow()

@@ -14,7 +14,6 @@ import UIKit
 */
 public class AppDependencies {
     
-    private var backgroundOperationsWorkerFactory: IBackgroundOperationsWorkerFactory?
     private var featuredListWireframe: IFeaturedListWireframe?
     private var nearbyWireframe: INearbyWireframe?
     private var detailWireframe: IDetailWireframe?
@@ -30,7 +29,6 @@ public class AppDependencies {
         let wtg: IWantToGoService = WantToGoService()
         let ks: IKeychainService = KeychainService()
         
-        configureBackgroundOperationsWorkerFactory(userService: us, geoLocationService: gs, KeychainService: ks)
         configureAccountDependencies(rootWireframe, navigator: navigator, userService: us)
         configureFeaturedListDependencies(rootWireframe, navigator: navigator, businessService: bs, userService: us, geoLocationService: gs)
         configureNearbyDependencies(rootWireframe, navigator: navigator, businessService: bs, geoLocationService: gs)
@@ -45,15 +43,6 @@ public class AppDependencies {
     */
     public func installRootViewControllerIntoWindow() {
         featuredListWireframe?.showFeaturedListAsRootViewController()
-    }
-    
-    public func startBackgroundOperations() {
-        backgroundOperationsWorkerFactory?.startSignUpAndLogInWorker()
-    }
-    
-    private func configureBackgroundOperationsWorkerFactory(userService us: IUserService, geoLocationService gs: IGeoLocationService, KeychainService ks: IKeychainService) {
-        
-        backgroundOperationsWorkerFactory = BackgroundOperationsWorkerFactory(userService: us, geoLocationService: gs, keychainService: ks)
     }
     
     /**
