@@ -10,7 +10,7 @@ import Foundation
 import SwiftTask
 import ReactKit
 
-public class FeaturedListViewModel : IFeaturedListViewModel {
+public final class FeaturedListViewModel : IFeaturedListViewModel {
     public let businessDynamicArr = DynamicArray()
     
     private let navigator: INavigator
@@ -20,7 +20,7 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
     
     private var businessModelArr: [Business]!
     
-    public init(navigator: INavigator, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService) {
+    public required init(navigator: INavigator, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService) {
         self.navigator = navigator
         self.businessService = businessService
         self.userService = userService
@@ -94,8 +94,11 @@ public class FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     public func presentAccountModule() {
-        if userService.currentUser()?.birthday == nil {
-            navigator.navigateToAccountModule()
-        }
+        
+//        let nickname = userService.currentUser()?.nickname
+//        let birthday = userService.currentUser()?.birthday
+//        if birthday == nil || nickname == nil {
+//            navigator.navigateToAccountModule()
+//        }
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 import AVOSCloud
 
-public class Profile: AVObject, AVSubclassing {
+public final class Profile: AVObject, AVSubclassing {
     
     // Class Name
     public func parseClassName() -> String! {

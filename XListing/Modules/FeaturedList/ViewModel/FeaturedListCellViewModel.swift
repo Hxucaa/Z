@@ -15,7 +15,7 @@ import MapKit
 private let 公里 = "公里"
 private let 米 = "米"
 
-public class FeaturedListCellViewModel : NSObject {
+public final class FeaturedListCellViewModel : NSObject {
     private let className: String
     private let objectId: String
     public let businessName: String

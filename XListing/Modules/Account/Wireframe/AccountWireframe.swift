@@ -12,31 +12,32 @@ import UIKit
 
 private let SignUpViewNibName = "SignUpView"
 
-public class AccountWireframe : BaseWireframe, IAccountWireframe {
+public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     
     private let navigator: INavigator
-    private let accountVM: IAccountViewModel
+    private let userService: IUserService
     private var signUpVC: SignUpViewController?
     
-    public init(rootWireframe: IRootWireframe, navigator: INavigator, accountVM: IAccountViewModel) {
+    public required init(rootWireframe: IRootWireframe, navigator: INavigator, userService: IUserService) {
         self.navigator = navigator
-        self.accountVM = accountVM
+        self.userService = userService
         
         super.init(rootWireframe: rootWireframe)
         
         navigator.accountModuleNavigationNotificationSignal! ~> { notification -> Void in
-            self.pushView()
+            self.presentView()
         }
     }
     
     private func injectViewModelToViewController() -> SignUpViewController {
-        let viewController = SignUpViewController(accountVM: accountVM, signUpViewNibName: SignUpViewNibName)
+        let viewmodel = AccountViewModel(userService: userService)
+        let viewController = SignUpViewController(accountVM: viewmodel, signUpViewNibName: SignUpViewNibName)
         signUpVC = viewController
         return viewController
     }
     
     
-    private func pushView() {
+    private func presentView() {
         let injectedViewController = injectViewModelToViewController()
 //        rootWireframe.pushViewController(injectedViewController, animated: true)
         rootWireframe.presentViewController(injectedViewController, animated: true)

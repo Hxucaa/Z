@@ -15,7 +15,7 @@ private let 公里 = "公里"
 private let 米 = "米"
 private let CityDistanceSeparator = " • "
 
-public class DetailBusinessInfoViewModel : NSObject {
+public final class DetailBusinessInfoViewModel : NSObject {
     public let navigationTitle: String
     public let businessName: String
     public let websiteURL: NSURL?

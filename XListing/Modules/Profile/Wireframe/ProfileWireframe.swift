@@ -9,16 +9,15 @@ import ReactKit
 private let ProfileViewControllerIdentifier = "ProfileViewController"
 private let StoryboardName = "Profile"
 
-public class ProfileWireframe : BaseWireframe, IProfileWireframe {
+public final class ProfileWireframe : BaseWireframe, IProfileWireframe {
     
     private let navigator: INavigator
-    private let profileVM: IProfileViewModel
+    private let userService: IUserService
     private var profileVC: ProfileViewController?
 
-    public init(rootWireframe: IRootWireframe, navigator: INavigator, profileViewModel: IProfileViewModel) {
+    public required init(rootWireframe: IRootWireframe, navigator: INavigator, userService: IUserService) {
         self.navigator = navigator
-        self.profileVM = profileViewModel
-        
+        self.userService = userService
         super.init(rootWireframe: rootWireframe)
         
         navigator.profileModuleNavigationNotificationSignal! ~> { notification -> Void in
@@ -28,7 +27,7 @@ public class ProfileWireframe : BaseWireframe, IProfileWireframe {
 
     private func initViewController() -> ProfileViewController {
         let viewController = getViewControllerFromStoryboard(ProfileViewControllerIdentifier, storyboardName: StoryboardName) as! ProfileViewController
-        viewController.profileVM = profileVM
+        viewController.bindToViewModel(ProfileViewModel(userService: userService))
         profileVC = viewController
         return viewController
     }

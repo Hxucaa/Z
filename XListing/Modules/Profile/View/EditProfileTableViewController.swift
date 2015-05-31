@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditProfileTableViewController: UITableViewController {
+final class EditProfileTableViewController: UITableViewController {
 
     
     @IBOutlet weak var editNameTextField: UITextField!

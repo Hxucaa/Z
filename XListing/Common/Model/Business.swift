@@ -9,7 +9,7 @@
 import Foundation
 import AVOSCloud
 
-public class Business: AVObject, AVSubclassing {
+public final class Business: AVObject, AVSubclassing {
     
     public override init() {
         super.init()

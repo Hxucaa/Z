@@ -11,10 +11,10 @@ import MapKit
 import ReactKit
 import SwiftTask
 
-private let NearbyTableViewCellXIB = "NearbyTableViewCellXIB"
+private let NearbyTableViewCellXIB = "NearbyTableViewCell"
 private let CellIdentifier = "NearbyCell"
 
-public class NearbyViewController: UIViewController , UITableViewDelegate, UITableViewDataSource{
+public final class NearbyViewController: UIViewController , UITableViewDelegate, UITableViewDataSource{
     
     private let mapView = MKMapView()
     private let horizontalScrollContentView = HorizontalScrollContentView()
@@ -23,8 +23,9 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     private var tableArray = [NearbyTableView]()
     
     @IBOutlet weak var profileButton: UIBarButtonItem!
+    
     /// View Model
-    public var nearbyVM: INearbyViewModel!
+    private var nearbyVM: INearbyViewModel!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +49,10 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    public func bindToViewModel(viewmodel: INearbyViewModel) {
+        nearbyVM = viewmodel
     }
     
     /**

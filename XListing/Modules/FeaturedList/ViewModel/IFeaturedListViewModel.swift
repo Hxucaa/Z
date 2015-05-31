@@ -11,6 +11,7 @@ import SwiftTask
 import ReactKit
 
 public protocol IFeaturedListViewModel : class {
+    init(navigator: INavigator, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService)
     var businessDynamicArr: DynamicArray { get }
     func getBusiness()
     func pushNearbyModule()

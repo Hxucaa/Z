@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol IDetailWireframe : class {
-    
+    init(rootWireframe: IRootWireframe, navigator: INavigator, wantToGoService: IWantToGoService, geoLocationService: IGeoLocationService)
 }

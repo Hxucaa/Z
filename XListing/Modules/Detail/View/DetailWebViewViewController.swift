@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-public class DetailWebViewViewController : UIViewController {
+public final class DetailWebViewViewController : UIViewController {
     
     private let urlRequest: NSURLRequest
     private let webView = WKWebView()

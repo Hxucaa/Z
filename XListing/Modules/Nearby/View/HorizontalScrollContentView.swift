@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class HorizontalScrollContentView: UIView {
+public final class HorizontalScrollContentView: UIView {
     
     internal var pageWidth: CGFloat?
     private var kGutterWidth: CGFloat = 0
