@@ -25,11 +25,11 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var profileButton: UIBarButtonItem!
     
-    private var businessNameStream: Stream<AnyObject?>!
-    private var cityAndDistanceStream: Stream<AnyObject?>!
-    private var wantToGoButtonStream: Stream<String>!
-    private var shareButtonStream: Stream<String>!
-    private var coverImageNSURLStream: Stream<AnyObject?>!
+    internal var businessNameStream: Stream<AnyObject?>!
+    internal var cityAndDistanceStream: Stream<AnyObject?>!
+    internal var wantToGoButtonStream: Stream<String>!
+    internal var shareButtonStream: Stream<String>!
+    internal var coverImageNSURLStream: Stream<AnyObject?>!
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,30 +97,23 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
         var alert = UIAlertController(title: "请选一种", message: "", preferredStyle: UIAlertControllerStyle.Alert)
         
         alert.addAction(UIAlertAction(title: "我想去", style: UIAlertActionStyle.Default) { alert in
-            self.isGoing = true
-            self.tableView.reloadData();
-           // detailVM.goingToBusiness(thisWeek: true, thisMonth: false, later: false)
+            self.alertAction()
             })
-            
-            
         alert.addAction(UIAlertAction(title: "我想请客", style: UIAlertActionStyle.Default) { alert in
-            self.isGoing = true
-            self.tableView.reloadData();
-            //detailVM.goingToBusiness(thisWeek: false, thisMonth: true, later: false)
+            self.alertAction()
             })
-
         alert.addAction(UIAlertAction(title: "我想 AA", style: UIAlertActionStyle.Default) { alert in
-            self.isGoing = true
-            self.tableView.reloadData();
-           // detailVM.goingToBusiness(thisWeek: false, thisMonth: false, later: true)
+            self.alertAction()
             })
         
         alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil))
-        
+ 
         self.presentViewController(alert, animated: true, completion: nil)
-        
-     
-        
+    }
+    
+    public func alertAction(){
+        self.isGoing = true
+        self.tableView.reloadData();
     }
     
     deinit {
@@ -137,13 +130,9 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
         self.presentViewController(activityViewController,
             animated: true,
             completion: nil)
-        
     }
     
     public func callBusiness(){
-//        NSString *phoneNumber = [@"tel://" stringByAppendingString:mymobileNO.titleLabel.text];
-//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
-        
         var phoneNumber = "tel:" + detailVM.detailBusinessInfoVM.phone!
         UIApplication.sharedApplication().openURL(NSURL (string: phoneNumber)!)
     }
@@ -196,9 +185,8 @@ extension DetailViewController : UITableViewDataSource {
         case 4: return 4
         default: return 1
         }
-        
     }
-    
+
     /**
     Asks the data source for a cell to insert in a particular location of the table view. (required)
     
@@ -209,298 +197,11 @@ extension DetailViewController : UITableViewDataSource {
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let row = indexPath.row
-        let section = indexPath.section
-        
-        
-        
-        switch (section){
-        
-        case 0:
-            switch (row){
-            case 0:
-                var cell0 = tableView.dequeueReusableCellWithIdentifier("ImageCell", forIndexPath: indexPath) as! UITableViewCell
-                
-                cell0.layoutMargins = UIEdgeInsetsZero;
-                cell0.preservesSuperviewLayoutMargins = false;
-                
-                let businessImageView = self.view.viewWithTag(1) as? UIImageView
-                
-                coverImageNSURLStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "coverImageNSURL")
-                coverImageNSURLStream ~> { url in
-                    if let url = url as? NSURL{
-                        businessImageView?.sd_setImageWithURL(url)
-                    }
-                }
-                
-                
-                return cell0
-                
-            case 1:
-                let cell1 = tableView.dequeueReusableCellWithIdentifier("BizInfoCell", forIndexPath: indexPath) as! UITableViewCell
-                
-                cell1.layoutMargins = UIEdgeInsetsZero;
-                cell1.preservesSuperviewLayoutMargins = false;
-                
-                let businessNameLabel : UILabel? = self.view.viewWithTag(1) as? UILabel
-                let cityLabel : UILabel? = self.view.viewWithTag(2) as? UILabel
-                let distanceLabel : UILabel? = self.view.viewWithTag(3) as? UILabel
-                var wantToGoButton : UIButton? = self.view.viewWithTag(4) as? UIButton
-                
-                wantToGoButtonStream = wantToGoButton?.buttonStream("Want To Go Button")
-                wantToGoButtonStream! ~> { _ in
-                    self.wantToGoPopover()
-                }
-                
-                if (isGoing){
-                    wantToGoButton?.setTitle("\u{f004} 我想去", forState: UIControlState.Normal)
-                }else{
-                    wantToGoButton?.setTitle("\u{f08a} 我想去", forState: UIControlState.Normal)
-                }
-                
-                
-                businessNameStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "businessName")
-                (businessNameLabel!, "text") <~ businessNameStream
-                
-                cityAndDistanceStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "cityAndDistance")
-                (cityLabel!, "text") <~ cityAndDistanceStream
-                
-                //TODO:
-                //Temp addition of ETA until the distance stream comes through
-                cityLabel?.text = cityLabel!.text! + " • 开车15分钟"
-                
-                return cell1
-                
-                
-            case 2:
-                let wantToGoCell = tableView.dequeueReusableCellWithIdentifier("NumPeopleGoingCell", forIndexPath: indexPath) as! UITableViewCell
-                wantToGoCell.layoutMargins = UIEdgeInsetsZero
-                wantToGoCell.preservesSuperviewLayoutMargins = false
-                return wantToGoCell
-            
-            case 3:
-                let cell2 = tableView.dequeueReusableCellWithIdentifier("ButtonCell", forIndexPath: indexPath) as! UITableViewCell
-                
-                cell2.layoutMargins = UIEdgeInsetsZero;
-                cell2.preservesSuperviewLayoutMargins = false;
-                
-                let wantToGoButton : UIButton? = self.view.viewWithTag(1) as? UIButton
-                let shareButton : UIButton? = self.view.viewWithTag(2) as? UIButton
-                
-                wantToGoButtonStream = wantToGoButton?.buttonStream("Want To Go Button")
-                wantToGoButtonStream! ~> { _ in
-                    self.wantToGoPopover()
-                }
-
-                shareButtonStream = shareButton?.buttonStream("Share Button")
-                shareButtonStream! ~> { _ in
-                    self.shareSheetAction()
-                }
-
-                return cell2
-                
-            case 4:
-                var cell3 = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath) as! UITableViewCell
-                
-                cell3.layoutMargins = UIEdgeInsetsZero;
-                cell3.preservesSuperviewLayoutMargins = false;
-                
-                cell3.textLabel?.text = "查看菜单"
-                
-                return cell3
-                
-            default:
-                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
-                return placeHolderCell
-                
-            }
-            
-        case 1:
-            switch (row) {
-            case 0:
-                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
-                
-                placeHolderCell.layoutMargins = UIEdgeInsetsZero;
-                placeHolderCell.preservesSuperviewLayoutMargins = false;
-                
-                placeHolderCell.textLabel?.text = "推荐物品"
-                
-                return placeHolderCell
-            
-            
-            case 1:
-                var whatsGoodCell =  tableView.dequeueReusableCellWithIdentifier("WhatsGoodCell", forIndexPath: indexPath) as! UITableViewCell
-            
-                whatsGoodCell.layoutMargins = UIEdgeInsetsZero
-                whatsGoodCell.preservesSuperviewLayoutMargins = false
-            
-                return whatsGoodCell
-            
-            default:
-                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
-                return placeHolderCell
-            
-            }
-        
-            
-            
-        case 2:
-            switch (row) {
-            case 0:
-                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
-                
-                placeHolderCell.layoutMargins = UIEdgeInsetsZero;
-                placeHolderCell.preservesSuperviewLayoutMargins = false;
-                
-                placeHolderCell.textLabel?.text = "营业时间"
-                
-                return placeHolderCell
-              
-                
-            case 1:
-                
-            
-                var hourCell : UITableViewCell
-                
-                
-                if (expandHours){
-                    hourCell = tableView.dequeueReusableCellWithIdentifier("HoursCell", forIndexPath: indexPath) as! UITableViewCell
-                }else{
-                    hourCell = tableView.dequeueReusableCellWithIdentifier("CurrentHoursCell", forIndexPath: indexPath) as! UITableViewCell
-                    
-                    hourCell.accessoryView = UIImageView(image: UIImage(named:"downArrow"))
-                    
-                    hourCell.textLabel?.text = "今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM"
-                    
-            
-                }
-                
-                hourCell.layoutMargins = UIEdgeInsetsZero;
-                hourCell.preservesSuperviewLayoutMargins = false;
-                
-                return hourCell
-                
-            case 2:
-                var cell4 = tableView.dequeueReusableCellWithIdentifier("HoursCell", forIndexPath: indexPath) as! UITableViewCell
-                
-                cell4.layoutMargins = UIEdgeInsetsZero;
-                cell4.preservesSuperviewLayoutMargins = false;
-                
-                return cell4
-                
-            default:
-                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
-                return placeHolderCell
-
-            }
-            
-        case 3:
-            switch (row) {
-            case 0:
-                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
-                
-                placeHolderCell.layoutMargins = UIEdgeInsetsZero;
-                placeHolderCell.preservesSuperviewLayoutMargins = false;
-                
-                placeHolderCell.textLabel?.text = "特设介绍"
-                
-                return placeHolderCell
-            case 1:
-            var cell5 = tableView.dequeueReusableCellWithIdentifier("DescriptionCell", forIndexPath: indexPath) as! UITableViewCell
-            
-            cell5.layoutMargins = UIEdgeInsetsZero;
-            cell5.preservesSuperviewLayoutMargins = false;
-            
-            return cell5
-                
-            default:
-                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
-                return placeHolderCell
-            }
-        case 4:
-            switch (row){
-            case 0:
-                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
-                
-                placeHolderCell.layoutMargins = UIEdgeInsetsZero;
-                placeHolderCell.preservesSuperviewLayoutMargins = false;
-                
-                placeHolderCell.textLabel?.text = "地址和信息"
-                
-                return placeHolderCell
-            case 1:
-                var cell6 = tableView.dequeueReusableCellWithIdentifier("MapCell", forIndexPath: indexPath) as! UITableViewCell
-                
-                cell6.layoutMargins = UIEdgeInsetsZero;
-                cell6.preservesSuperviewLayoutMargins = false;
-                
-                mapView = view.viewWithTag(1) as! MKMapView
-                mapView.delegate = self
-                
-                let annotation = detailVM.detailBusinessInfoVM.mapAnnotation
-                
-                mapView.addAnnotation(annotation)
-                
-                let span = MKCoordinateSpanMake(0.01, 0.01)
-                let region = MKCoordinateRegion(center: detailVM.detailBusinessInfoVM.cllocation.coordinate, span: span)
-                mapView.setRegion(region, animated: false)
-                
-                return cell6
-            case 2:
-                var cell7 = tableView.dequeueReusableCellWithIdentifier("AddressCell", forIndexPath: indexPath) as! UITableViewCell
-                
-                cell7.layoutMargins = UIEdgeInsetsZero;
-                cell7.preservesSuperviewLayoutMargins = false;
-                
-                var addressButton : UIButton? = view.viewWithTag(1) as? UIButton
-                
-                let fullAddress = detailVM.detailBusinessInfoVM.fullAddress
-
-                addressButton?.setTitle(fullAddress, forState: UIControlState.Normal)
-                return cell7
-                
-            case 3:
-                var cell8 = tableView.dequeueReusableCellWithIdentifier("PhoneWebSplitCell", forIndexPath: indexPath) as! UITableViewCell
-                
-                cell8.layoutMargins = UIEdgeInsetsZero;
-                cell8.preservesSuperviewLayoutMargins = false;
-                
-                var phoneNumberButton : UIButton? = self.view.viewWithTag(1) as? UIButton
-                var websiteButton : UIButton? = self.view.viewWithTag(2) as? UIButton
-                phoneNumberButton?.setTitle("   \u{f095}   " + (detailVM.detailBusinessInfoVM.phone)!, forState: UIControlState.Normal)
-                
-                if (detailVM.detailBusinessInfoVM.websiteURL != nil){
-                    websiteButton?.setTitle("   \u{f0ac}   访问网站", forState: UIControlState.Normal)
-                    websiteButton?.addTarget(self, action: "goToWebsiteUrl", forControlEvents: .TouchUpInside)
-                } else{
-                    websiteButton?.setTitle("   \u{f0ac}   没有网站", forState: UIControlState.Normal)
-                }
-
-                
-                
-                phoneNumberButton?.addTarget(self, action: "callBusiness", forControlEvents: .TouchUpInside)
-                
-                
-                
-                return cell8
-            default:
-                var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
-                return placeHolderCell
-            }
-            
-            
-            
-        default:
-            var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
-            return placeHolderCell
-
-        }
-        
+       var cell = DetailTableViewCell()
+        return cell.createDetailViewCell(tableView, cellForRowAtIndexPath: indexPath, fromVC: self)
         
     }
-    
-    
-    
+
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         let row = indexPath.row
