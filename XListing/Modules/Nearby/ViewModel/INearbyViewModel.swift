@@ -9,9 +9,13 @@
 import Foundation
 import ReactKit
 import SwiftTask
+import MapKit
 
-public protocol INearbyViewModel {
-    var businessVMArr: DynamicArray { get }
-    func getBusiness()
-    func getCurrentLocation() -> Task<Int, CLLocation, NSError>
+public protocol INearbyViewModel : class {
+    init(navigator: INavigator, businessService: IBusinessService, geoLocationService: IGeoLocationService)
+    var businessDynamicArr: DynamicArray { get }
+    func getCurrentLocation() -> Stream<CLLocation>
+    func getBusiness() -> Stream<Void>
+    func pushDetailModule(section: Int)
+    func pushProfileModule()
 }

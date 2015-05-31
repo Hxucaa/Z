@@ -9,9 +9,6 @@
 #ifndef XListing_XListing_Bridging_Header_h
 #define XListing_XListing_Bridging_Header_h
 
-#import <Parse/Parse.h>
-//#import <ParseUI/ParseUI.h>
-#import <Bolts/BFTask.h>
-#import <Parse/PFObject+Subclass.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #endif

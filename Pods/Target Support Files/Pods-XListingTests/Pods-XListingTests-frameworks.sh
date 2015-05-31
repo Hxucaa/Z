@@ -48,20 +48,12 @@ code_sign() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework 'Bolts.framework'
-  install_framework 'Haneke.framework'
+  install_framework 'AVOSCloud.framework'
   install_framework 'Nimble.framework'
   install_framework 'Quick.framework'
-  install_framework 'ReactKit.framework'
-  install_framework 'Realm.framework'
-  install_framework 'SwiftTask.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework 'Bolts.framework'
-  install_framework 'Haneke.framework'
+  install_framework 'AVOSCloud.framework'
   install_framework 'Nimble.framework'
   install_framework 'Quick.framework'
-  install_framework 'ReactKit.framework'
-  install_framework 'Realm.framework'
-  install_framework 'SwiftTask.framework'
 fi

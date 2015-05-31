@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public class RootWireframe : IRootWireframe {
     
@@ -23,5 +24,9 @@ public class RootWireframe : IRootWireframe {
     
     public func pushViewController(viewController: UIViewController, animated: Bool) {
         navigationController.pushViewController(viewController, animated: animated)
+    }
+    
+    public func presentViewController<T: UIViewController>(viewController: T, animated: Bool) {
+        navigationController.presentViewController(viewController, animated: animated, completion: nil)
     }
 }

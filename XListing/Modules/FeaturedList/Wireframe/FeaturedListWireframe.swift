@@ -10,16 +10,20 @@ import Foundation
 
 private let FeaturedListViewControllerIdentifier = "FeaturedListViewController"
 
-public class FeaturedListWireframe : BaseWireframe {
+public final class FeaturedListWireframe : BaseWireframe {
     
-    private let featuredListVM: IFeaturedListViewModel
+    private let navigator: INavigator
+    private let businessService: IBusinessService
+    private let userService: IUserService
+    private let geoLocationService: IGeoLocationService
     private var featuredListViewController: FeaturedListViewController?
     
-    public weak var nearbyInterfaceDelegate: FeaturedListInterfaceToNearbyInterfaceDelegate?
-    public weak var detailInterfaceDelegate: FeaturedListInterfaceToDetailInterfaceDelegate?
-    
-    public init(rootWireframe: IRootWireframe, featuredListVM: IFeaturedListViewModel) {
-        self.featuredListVM = featuredListVM
+    public required init(rootWireframe: IRootWireframe, navigator: INavigator, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService) {
+        self.navigator = navigator
+        self.businessService = businessService
+        self.userService = userService
+        self.geoLocationService = geoLocationService
+        
         super.init(rootWireframe: rootWireframe)
     }
     
@@ -31,8 +35,9 @@ public class FeaturedListWireframe : BaseWireframe {
     private func initViewController() -> FeaturedListViewController {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
-        viewController.featuredListVM = featuredListVM
-        viewController.navigationDelegate = self
+        let viewmodel = FeaturedListViewModel(navigator: navigator, businessService: businessService, userService: userService, geoLocationService: geoLocationService)
+        viewController.bindToViewModel(viewmodel)
+        
         featuredListViewController = viewController
         return viewController
     }
@@ -48,15 +53,5 @@ extension FeaturedListWireframe : IFeaturedListWireframe {
         let injectedViewController = initViewController()
         rootWireframe.showRootViewController(injectedViewController)
         
-    }
-}
-
-extension FeaturedListWireframe : FeaturedListViewControllerNavigationDelegate {
-    public func pushNearby() {
-        nearbyInterfaceDelegate?.transitionToNearbyInterfaceFromFeaturedList()
-    }
-    
-    public func pushDetail(businessViewModel: BusinessViewModel) {
-        detailInterfaceDelegate?.transitionToDetailInterfaceFromFeaturedListInterface(businessViewModel)
     }
 }

@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import UIKit
 
-public class NearbyTableView : UITableView {
+public final class NearbyTableView : UITableView {
     public override func awakeFromNib() {
         super.awakeFromNib()
        // self.backgroundColor = UIColor.clearColor()

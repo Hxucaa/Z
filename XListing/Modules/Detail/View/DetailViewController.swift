@@ -8,35 +8,39 @@
 
 import UIKit
 import ReactKit
-import Realm
 import MapKit
 import WebKit
 
 private let CityDistanceSeparator = " • "
 
-public class DetailViewController : UIViewController, MKMapViewDelegate {
+public final class DetailViewController : UIViewController, MKMapViewDelegate {
     
-    public var detailVM: IDetailViewModel?
+    private var detailVM: IDetailViewModel!
     
-    public var businessVM: BusinessViewModel?
-    
-    public var mapView = MKMapView?()
+    public var mapView = MKMapView()
     
     public var expandHours: Bool = false
+    public var isGoing: Bool = false
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var profileButton: UIBarButtonItem!
     
-  
+    private var businessNameStream: Stream<AnyObject?>!
+    private var cityAndDistanceStream: Stream<AnyObject?>!
+    private var wantToGoButtonStream: Stream<String>!
+    private var shareButtonStream: Stream<String>!
+    private var coverImageNSURLStream: Stream<AnyObject?>!
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
         //tableView.allowsSelection = false
+        //setupProfileButton()
         
-        
-        self.navigationItem.title = businessVM?.nameSChinese
-        println(businessVM!)
+        self.navigationItem.title = detailVM.detailBusinessInfoVM.navigationTitle
+
     }
     
     public override func didReceiveMemoryWarning() {
@@ -44,11 +48,40 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
     }
     
     public override func viewDidDisappear(animated: Bool) {
+        super.viewDidAppear(animated)
         
-      
-//        mapView?.removeFromSuperview()
-//        mapView = nil
+        /**
+        Set streams to nil.
+        */
+        businessNameStream = nil
+        cityAndDistanceStream = nil
+        wantToGoButtonStream = nil
+        shareButtonStream = nil
     
+    }
+    
+    public func bindToViewModel(detailViewModel: IDetailViewModel) {
+        detailVM = detailViewModel
+    }
+    
+//    public override func viewDidAppear(animated: Bool) {
+//        tableView.reloadData()
+//        println("did appear")
+//    }
+    
+    @IBAction func shareButtonTapped(sender: AnyObject) {
+        self.shareSheetAction()
+    }
+
+    /**
+    React to Profile Button and present ProfileViewController.
+    */
+    private func setupProfileButton() {
+        let profileButtonSignal = profileButton.stream().ownedBy(self)
+        profileButtonSignal ~> { [unowned self] button -> Void in
+            detailVM?.pushProfileModule()
+        }
+        
     }
     
     public func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
@@ -75,27 +108,37 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
     }
     
     public func wantToGoPopover(){
+        var alert = UIAlertController(title: "请选一种", message: "", preferredStyle: UIAlertControllerStyle.Alert)
         
-        var alert = UIAlertController(title: "什么时候想去？", message: "", preferredStyle: UIAlertControllerStyle.Alert)
-        
-        alert.addAction(UIAlertAction(title: "这个星期", style: UIAlertActionStyle.Default) { alert in
-            detailVM?.goingToBusiness(businessVM!, thisWeek: true, thisMonth: false, later: false)
+        alert.addAction(UIAlertAction(title: "我想去", style: UIAlertActionStyle.Default) { alert in
+            self.isGoing = true
+            self.tableView.reloadData();
+           // detailVM.goingToBusiness(thisWeek: true, thisMonth: false, later: false)
             })
             
             
-        alert.addAction(UIAlertAction(title: "这个月", style: UIAlertActionStyle.Default) { alert in
-            detailVM?.goingToBusiness(businessVM!, thisWeek: false, thisMonth: true, later: false)
+        alert.addAction(UIAlertAction(title: "我想请客", style: UIAlertActionStyle.Default) { alert in
+            self.isGoing = true
+            self.tableView.reloadData();
+            //detailVM.goingToBusiness(thisWeek: false, thisMonth: true, later: false)
             })
-        
-        alert.addAction(UIAlertAction(title: "以后", style: UIAlertActionStyle.Default) { alert in
-            detailVM?.goingToBusiness(businessVM!, thisWeek: false, thisMonth: false, later: true)
+
+        alert.addAction(UIAlertAction(title: "我想 AA", style: UIAlertActionStyle.Default) { alert in
+            self.isGoing = true
+            self.tableView.reloadData();
+           // detailVM.goingToBusiness(thisWeek: false, thisMonth: false, later: true)
             })
         
         alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil))
         
         self.presentViewController(alert, animated: true, completion: nil)
+        
      
         
+    }
+    
+    deinit {
+        println("deinit from detailviewcontroller")
     }
     
     public func shareSheetAction() {
@@ -115,40 +158,18 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
 //        NSString *phoneNumber = [@"tel://" stringByAppendingString:mymobileNO.titleLabel.text];
 //        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
         
-        var phoneNumber = "tel:"+businessVM!.phone!
+        var phoneNumber = "tel:" + detailVM.detailBusinessInfoVM.phone!
         UIApplication.sharedApplication().openURL(NSURL (string: phoneNumber)!)
     }
     
     public func goToWebsiteUrl(){
-        
-       
-        
-        let webVC = UIViewController()
-        var webView = WKWebView()
-        var url = NSURL(string:businessVM!.url!)
-        var req = NSURLRequest(URL:url!)
-        webView.loadRequest(req)
-        webVC.view = webView
-        
+        let businessName = detailVM.detailBusinessInfoVM.businessName
+        let url = detailVM.detailBusinessInfoVM.websiteURL!
         let navController = UINavigationController()
-
+        let webVC = DetailWebViewViewController(url: url, businessName: businessName)
         navController.pushViewController(webVC, animated: true)
-     
-        webVC.navigationItem.title = businessVM?.nameSChinese
-        webVC.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: "dismissWebView")
         self.presentViewController(navController, animated: true, completion: nil)
-
     }
-    
-    public func dismissWebView() {
-        
-        self.presentedViewController!.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    
-
-    
-    
 }
 
 /**
@@ -177,7 +198,12 @@ extension DetailViewController : UITableViewDataSource {
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch section {
-        case 0: return 3
+        case 0:
+            if (isGoing){
+                return 3
+            }else{
+                return 2
+            }
         case 1: return 2
         case 2: return 2
         case 3: return 2
@@ -214,52 +240,80 @@ extension DetailViewController : UITableViewDataSource {
                 
                 let businessImageView = self.view.viewWithTag(1) as? UIImageView
                 
-                businessImageView!.hnk_setImageFromURL(NSURL(string: businessVM!.coverImageUrl!)!, failure: {
-                    println("Image loading failed: \($0)")
-                })
+                coverImageNSURLStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "coverImageNSURL")
+                coverImageNSURLStream ~> { url in
+                    if let url = url as? NSURL{
+                        businessImageView?.sd_setImageWithURL(url)
+                    }
+                }
+                
                 
                 return cell0
                 
             case 1:
-                var cell1 = tableView.dequeueReusableCellWithIdentifier("BizInfoCell", forIndexPath: indexPath) as! UITableViewCell
+                let cell1 = tableView.dequeueReusableCellWithIdentifier("BizInfoCell", forIndexPath: indexPath) as! UITableViewCell
                 
                 cell1.layoutMargins = UIEdgeInsetsZero;
                 cell1.preservesSuperviewLayoutMargins = false;
                 
-                var businessNameLabel : UILabel? = self.view.viewWithTag(1) as? UILabel
-                var cityLabel : UILabel? = self.view.viewWithTag(2) as? UILabel
-                var distanceLabel : UILabel? = self.view.viewWithTag(3) as? UILabel
+                let businessNameLabel : UILabel? = self.view.viewWithTag(1) as? UILabel
+                let cityLabel : UILabel? = self.view.viewWithTag(2) as? UILabel
+                let distanceLabel : UILabel? = self.view.viewWithTag(3) as? UILabel
+                var wantToGoButton : UIButton? = self.view.viewWithTag(4) as? UIButton
                 
-                businessNameLabel?.text = businessVM?.nameSChinese
-                var distance: String
-                if let d = businessVM?.distance {
-                    distance = CityDistanceSeparator + d
+                wantToGoButtonStream = wantToGoButton?.buttonStream("Want To Go Button")
+                wantToGoButtonStream! ~> { _ in
+                    self.wantToGoPopover()
                 }
-                else {
-                    distance = ""
+                
+                if (isGoing){
+                    wantToGoButton?.setTitle("\u{f004} 我想去", forState: UIControlState.Normal)
+                }else{
+                    wantToGoButton?.setTitle("\u{f08a} 我想去", forState: UIControlState.Normal)
                 }
-                var city = businessVM!.city!
-                cityLabel?.text = city + distance
-                //distanceLabel?.text = businessVM?.distance
+                
+                
+                businessNameStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "businessName")
+                (businessNameLabel!, "text") <~ businessNameStream
+                
+                cityAndDistanceStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "cityAndDistance")
+                (cityLabel!, "text") <~ cityAndDistanceStream
+                
+                //TODO:
+                //Temp addition of ETA until the distance stream comes through
+                cityLabel?.text = cityLabel!.text! + " • 开车15分钟"
                 
                 return cell1
                 
                 
             case 2:
-                var cell2 = tableView.dequeueReusableCellWithIdentifier("ButtonCell", forIndexPath: indexPath) as! UITableViewCell
+                let wantToGoCell = tableView.dequeueReusableCellWithIdentifier("NumPeopleGoingCell", forIndexPath: indexPath) as! UITableViewCell
+                wantToGoCell.layoutMargins = UIEdgeInsetsZero
+                wantToGoCell.preservesSuperviewLayoutMargins = false
+                return wantToGoCell
+            
+            case 3:
+                let cell2 = tableView.dequeueReusableCellWithIdentifier("ButtonCell", forIndexPath: indexPath) as! UITableViewCell
                 
                 cell2.layoutMargins = UIEdgeInsetsZero;
                 cell2.preservesSuperviewLayoutMargins = false;
                 
-                var wantToGoButton : UIButton? = self.view.viewWithTag(1) as? UIButton
-                var shareButton : UIButton? = self.view.viewWithTag(2) as? UIButton
+                let wantToGoButton : UIButton? = self.view.viewWithTag(1) as? UIButton
+                let shareButton : UIButton? = self.view.viewWithTag(2) as? UIButton
                 
-                wantToGoButton?.addTarget(self, action: "wantToGoPopover", forControlEvents: .TouchUpInside)
-                shareButton?.addTarget(self, action: "shareSheetAction", forControlEvents: .TouchUpInside)
-            
+                wantToGoButtonStream = wantToGoButton?.buttonStream("Want To Go Button")
+                wantToGoButtonStream! ~> { _ in
+                    self.wantToGoPopover()
+                }
+
+                shareButtonStream = shareButton?.buttonStream("Share Button")
+                shareButtonStream! ~> { _ in
+                    self.shareSheetAction()
+                }
+
                 return cell2
                 
-            case 3:
+            case 4:
                 var cell3 = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath) as! UITableViewCell
                 
                 cell3.layoutMargins = UIEdgeInsetsZero;
@@ -394,19 +448,16 @@ extension DetailViewController : UITableViewDataSource {
                 cell6.layoutMargins = UIEdgeInsetsZero;
                 cell6.preservesSuperviewLayoutMargins = false;
                 
-                mapView = self.view.viewWithTag(1) as? MKMapView
-                mapView!.delegate = self
+                mapView = view.viewWithTag(1) as! MKMapView
+                mapView.delegate = self
                 
-                let annotation = MKPointAnnotation()
-                annotation.coordinate = CLLocationCoordinate2D(latitude: businessVM!.latitude!, longitude: businessVM!.longitude!)
-                annotation.title = businessVM!.nameSChinese
-                annotation.subtitle = businessVM!.distance
+                let annotation = detailVM.detailBusinessInfoVM.mapAnnotation
                 
-                mapView?.addAnnotation(annotation)
+                mapView.addAnnotation(annotation)
                 
                 let span = MKCoordinateSpanMake(0.01, 0.01)
-                let region = MKCoordinateRegion(center: CLLocationCoordinate2DMake(businessVM!.latitude!, businessVM!.longitude!), span: span)
-                mapView!.setRegion(region, animated: false)
+                let region = MKCoordinateRegion(center: detailVM.detailBusinessInfoVM.cllocation.coordinate, span: span)
+                mapView.setRegion(region, animated: false)
                 
                 return cell6
             case 2:
@@ -415,16 +466,9 @@ extension DetailViewController : UITableViewDataSource {
                 cell7.layoutMargins = UIEdgeInsetsZero;
                 cell7.preservesSuperviewLayoutMargins = false;
                 
-                var addressButton : UIButton? = self.view.viewWithTag(1) as? UIButton
+                var addressButton : UIButton? = view.viewWithTag(1) as? UIButton
                 
-                var address = businessVM?.address
-                
-                address = "   \u{f124}   " + address!
-                
-                let city = businessVM?.city
-                let state = businessVM?.state
-                
-                var fullAddress = address! + ", " + city! + ", " + state!
+                let fullAddress = detailVM.detailBusinessInfoVM.fullAddress
 
                 addressButton?.setTitle(fullAddress, forState: UIControlState.Normal)
                 return cell7
@@ -437,12 +481,12 @@ extension DetailViewController : UITableViewDataSource {
                 
                 var phoneNumberButton : UIButton? = self.view.viewWithTag(1) as? UIButton
                 var websiteButton : UIButton? = self.view.viewWithTag(2) as? UIButton
-                phoneNumberButton?.setTitle("   \u{f095}   "+businessVM!.phone!, forState: UIControlState.Normal)
+                phoneNumberButton?.setTitle("   \u{f095}   " + (detailVM.detailBusinessInfoVM.phone)!, forState: UIControlState.Normal)
                 
-                if (businessVM?.url != ""){
+                if (detailVM.detailBusinessInfoVM.websiteURL != nil){
                     websiteButton?.setTitle("   \u{f0ac}   访问网站", forState: UIControlState.Normal)
                     websiteButton?.addTarget(self, action: "goToWebsiteUrl", forControlEvents: .TouchUpInside)
-                }else{
+                } else{
                     websiteButton?.setTitle("   \u{f0ac}   没有网站", forState: UIControlState.Normal)
                 }
 
@@ -482,7 +526,6 @@ extension DetailViewController : UITableViewDataSource {
             switch row {
             case 0: return 226
             case 1: return 65
-            case 2: return 86
             default: return 44
             }
             
@@ -532,7 +575,11 @@ extension DetailViewController : UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 1
+        return 2
+    }
+    
+    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 2
     }
 }
 

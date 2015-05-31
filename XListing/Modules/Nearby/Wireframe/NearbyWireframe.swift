@@ -7,19 +7,28 @@
 //
 
 import Foundation
+import ReactKit
 
 private let NearbyViewControllerIdentifier = "NearbyViewController"
 
-public class NearbyWireframe : BaseWireframe, INearbyWireframe {
+public final class NearbyWireframe : BaseWireframe, INearbyWireframe {
     
-    private let nearbyVM: INearbyViewModel
+    private let navigator: INavigator
+    private let businessService: IBusinessService
+    private let geoLocationService: IGeoLocationService
     private var nearbyVC: NearbyViewController?
     
-    public weak var detailInterfaceDelegate: NearbyInterfaceToDetailInterfaceDelegate?
-    
-    public init(rootWireframe: IRootWireframe, nearbyViewModel: INearbyViewModel) {
-        nearbyVM = nearbyViewModel
+    public required init(rootWireframe: IRootWireframe, navigator: INavigator, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+        self.navigator = navigator
+        self.businessService = businessService
+        self.geoLocationService = geoLocationService
+        
         super.init(rootWireframe: rootWireframe)
+        
+        navigator.nearbyModuleNavigationNotificationSignal! ~> { notification -> Void in
+            self.pushView()
+        }
+        
     }
     
     /**
@@ -30,22 +39,16 @@ public class NearbyWireframe : BaseWireframe, INearbyWireframe {
     private func initViewController() -> NearbyViewController {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(NearbyViewControllerIdentifier) as! NearbyViewController
-        viewController.nearbyVM = nearbyVM
-        viewController.navigationDelegate = self
+        let viewmodel = NearbyViewModel(navigator: navigator, businessService: businessService, geoLocationService: geoLocationService)
+        
+        viewController.bindToViewModel(viewmodel)
+        
         nearbyVC = viewController
         return viewController
     }
-}
-
-extension NearbyWireframe : FeaturedListInterfaceToNearbyInterfaceDelegate {
-    public func transitionToNearbyInterfaceFromFeaturedList() {
+    
+    private func pushView() {
         let injectedViewController = initViewController()
         rootWireframe.pushViewController(injectedViewController, animated: true)
-    }
-}
-
-extension NearbyWireframe : NearbyViewControllerNavigationDelegate {
-    public func pushDetail(businessViewModel: BusinessViewModel) {
-        detailInterfaceDelegate?.transitionToDetailInterfaceFromNearbyInterface(businessViewModel)
     }
 }

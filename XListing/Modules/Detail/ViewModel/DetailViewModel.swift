@@ -7,20 +7,41 @@
 //
 
 import Foundation
-import Realm
 import SwiftTask
 import ReactKit
 
-public class DetailViewModel : BaseViewModel, IDetailViewModel {
+public final class DetailViewModel : NSObject, IDetailViewModel {
     
+    private let navigator: INavigator
     private let wantToGoService: IWantToGoService
+    private let geoLocationService: IGeoLocationService
     
-    public init(datamanager: IDataManager, realmService: IRealmService, wantToGoService: IWantToGoService) {
+    private dynamic let business: Business
+    
+    private var businessKVO: Stream<AnyObject?>!
+    
+    public var detailBusinessInfoVM: DetailBusinessInfoViewModel!
+    
+    public required init(navigator: INavigator, wantToGoService: IWantToGoService, geoLocationService: IGeoLocationService, businessModel: Business) {
+        self.navigator = navigator
         self.wantToGoService = wantToGoService
-        super.init(datamanager: datamanager, realmService: realmService)
+        self.geoLocationService = geoLocationService
+        self.business = businessModel
+        
+        super.init()
+        
+        businessKVO = KVO.startingStream(self, "business")
+        businessKVO ~> { [unowned self] bus in
+            self.detailBusinessInfoVM = DetailBusinessInfoViewModel(business: bus as! Business)
+        }
     }
     
-    public func goingToBusiness(business: BusinessViewModel, thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGoDAO, NSError> {
+    public func goingToBusiness(#thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGo, NSError> {
         return wantToGoService.goingToBusiness(business.objectId!, thisWeek: thisWeek, thisMonth: thisMonth, later: later)
+    }
+    
+    public func pushProfileModule() {
+        navigator.navigateToProfileModule()
+        
     }
 }

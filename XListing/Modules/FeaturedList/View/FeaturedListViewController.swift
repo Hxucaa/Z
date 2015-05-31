@@ -8,26 +8,26 @@
 
 import UIKit
 import ReactKit
-import Realm
-import Haneke
 
 private let NumberOfRowsPerSection = 1
 private let CellIdentifier = "Cell"
 private let SegueIdentifier = "FromFeaturedToNearby"
 
-public class FeaturedListViewController: UIViewController {
+public final class FeaturedListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var nearbyButton: UIBarButtonItem!
-    
-    public weak var navigationDelegate: FeaturedListViewControllerNavigationDelegate?
+    @IBOutlet weak var profileButton: UIBarButtonItem!
+    public var refreshControl: UIRefreshControl!
     
     /// ViewModel
-    public var featuredListVM: IFeaturedListViewModel?
+    private var featuredListVM: IFeaturedListViewModel!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        featuredListVM.getBusiness()
         
         // Setup delegates
         tableView.delegate = self
@@ -36,10 +36,13 @@ public class FeaturedListViewController: UIViewController {
         // Setup table
         setupTable()
         
+        // Set up pull to refresh
+        setUpRefresh()
+        
         // Setup nearbyButton
         setupNearbyButton()
-        
-        featuredListVM!.getBusiness()
+        // Setup profileButton
+        setupProfileButton()
     }
 
     public override func didReceiveMemoryWarning() {
@@ -47,21 +50,58 @@ public class FeaturedListViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    public override func viewDidAppear(animated: Bool) {
+        featuredListVM.presentAccountModule()
+    }
+    
+    public func bindToViewModel(viewmodel: IFeaturedListViewModel) {
+        featuredListVM = viewmodel
+    }
+    
+    private func setUpRefresh() {
+        var refreshControl = UIRefreshControl()
+        self.tableView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: "reorderTable", forControlEvents:UIControlEvents.ValueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: "Reordering Listings")
+
+        self.refreshControl = refreshControl
+        
+    }
+    
+    public func reorderTable (){
+        shuffle(featuredListVM!.businessDynamicArr.proxy)
+        self.tableView.reloadData()
+        self.refreshControl.endRefreshing()
+    }
+    
+    private func shuffle(array: NSMutableArray){
+        let c = array.count
+        
+        if (c > 0){
+            for i in 0..<(c - 1) {
+                let j = Int(arc4random_uniform(UInt32(c - i))) + i
+                swap(&array[i], &array[j])
+            }
+        }
+        return
+    }
     /**
     React to signal coming from view model and update table accordingly.
     */
     private func setupTable() {
         // Setup signal
-        let businessVMArrSignal = featuredListVM!.businessVMArr.signal().ownedBy(self)
+        let businessVMArrSignal = featuredListVM!.businessDynamicArr.stream().ownedBy(self)
         businessVMArrSignal ~> { [unowned self] changedValues, change, indexSet in
             /**
             *  Programatically insert each business view model to the table
             */
+            
             if change == .Insertion {
                 self.tableView.beginUpdates()
                 self.tableView.insertSections(indexSet, withRowAnimation: UITableViewRowAnimation.Automatic)
                 self.tableView.endUpdates()
             }
+            
         }
     }
     
@@ -69,12 +109,20 @@ public class FeaturedListViewController: UIViewController {
     React to Nearby Button and present NearbyViewController.
     */
     private func setupNearbyButton() {
-        let nearbyButtonSignal = nearbyButton.signal { [unowned self] button -> Void in
-//            self.pushNearbyViewController!()
-            self.navigationDelegate?.pushNearby()
+        let nearbyButtonSignal = nearbyButton.stream().ownedBy(self)
+        nearbyButtonSignal ~> { [unowned self] button -> Void in
+            self.featuredListVM.pushNearbyModule()
         }
-        nearbyButtonSignal.ownedBy(self)
-        nearbyButtonSignal ~> {}
+    }
+
+    /**
+    React to Profile Button and present ProfileViewController.
+    */
+    private func setupProfileButton() {
+        let profileButtonSignal = profileButton.stream().ownedBy(self)
+        profileButtonSignal ~> { [unowned self] button -> Void in
+            self.featuredListVM.pushProfileModule()
+        }
     }
 }
 
@@ -90,7 +138,7 @@ extension FeaturedListViewController : UITableViewDataSource {
     :returns: The number of sections in tableView. The default value is 1.
     */
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return featuredListVM!.businessVMArr.proxy.count
+        return featuredListVM.businessDynamicArr.proxy.count
     }
     
     /**
@@ -116,36 +164,43 @@ extension FeaturedListViewController : UITableViewDataSource {
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! UITableViewCell
         
+        cell.selectionStyle = UITableViewCellSelectionStyle.None
+        
+        cell.layoutMargins = UIEdgeInsetsZero;
+        cell.preservesSuperviewLayoutMargins = false;
+        
         let section = indexPath.section
         
-        var businessNameLabel : UILabel? = self.view.viewWithTag(1) as? UILabel
-        var cityLabel : UILabel? = self.view.viewWithTag(4) as? UILabel
-        var oldPriceLabel : UILabel? = self.view.viewWithTag(5) as? UILabel
-        let coverImageView = self.view.viewWithTag(3) as? UIImageView
+        var businessNameLabel : UILabel? = cell.viewWithTag(1) as? UILabel
+        var wantToGoLabel: UILabel? = cell.viewWithTag(2) as? UILabel
+        var cityLabel : UILabel? = cell.viewWithTag(4) as? UILabel
+        var openingLabel: UILabel? = cell.viewWithTag(6) as? UILabel
+        var coverImageView = cell.viewWithTag(3) as? UIImageView
         
-        let arr = featuredListVM!.businessVMArr.proxy
+        let arr = featuredListVM.businessDynamicArr.proxy
         if (arr.count > section){
-            let businessVM = arr[section] as! BusinessViewModel
+//            let businessVM = arr[section] as! FeaturedListCellViewModel
+            let businessVM = arr[section] as! FeaturedListCellViewModel
+            
+            businessNameLabel?.text = businessVM.businessName
+            
+            wantToGoLabel?.text = businessVM.wantToGoText
+            
+            //TODO:
+            //city and distance data not set up yet, temporarilily hard coded
+            cityLabel?.text = businessVM.city + " • 开车15分钟"
             
             
-            let englishName = businessVM.nameEnglish
-            let chineseName = businessVM.nameSChinese
+            openingLabel?.text = businessVM.openingText
             
-            let oldPrice: NSMutableAttributedString =  NSMutableAttributedString(string: "$80")
-            oldPrice.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, oldPrice.length))
+            if let url = businessVM.coverImageNSURL {
+                coverImageView?.sd_setImageWithURL(url)
+            }
             
-            businessNameLabel?.text = chineseName!// + " | " + englishName!
-            //distanceLabel?.text = businessVM.distance
-            //coverImageView?.image = businessVM.coverImage!
-            cityLabel?.text = businessVM.city
-            oldPriceLabel?.attributedText = oldPrice
-
-            coverImageView!.hnk_setImageFromURL(NSURL(string: businessVM.coverImageUrl!)!, failure: {
-                println("Image loading failed: \($0)")
-            })
-
+            //TO DO:
+            //temp restaurant image; remove once cover image is linked properly
+//            coverImageView?.image = UIImage (named: "tempRestImage")
         }
-        
         return cell
     }
 }
@@ -162,9 +217,8 @@ extension FeaturedListViewController : UITableViewDelegate {
     */
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        let businessVM = featuredListVM!.businessVMArr.proxy[indexPath.section] as! BusinessViewModel
+ 
         // pass business info to detail view and push it
-        navigationDelegate?.pushDetail(businessVM)
+        featuredListVM.pushDetailModule(indexPath.section)
     }
 }

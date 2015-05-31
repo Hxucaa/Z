@@ -6,8 +6,9 @@
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
-import Foundation
+import SwiftTask
 
 public protocol IAccountViewModel {
-    func logIn(username: String, password: String)
+    init(userService: IUserService)
+    func updateProfile(nickname: String, birthday: NSDate, profileImage: UIImage?) -> Task<Int, Bool, NSError>
 }

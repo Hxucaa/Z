@@ -7,20 +7,22 @@
 //
 
 import Foundation
-import Realm
 import SwiftTask
+import ReactKit
+import MapKit
 
 /**
 *  Constants
 */
 private let 公里 = "公里"
 private let 米 = "米"
+private let CityDistanceSeparator = " • "
 
-public class BusinessViewModel {
+public class BusinessViewModel : NSObject {
     
     public private(set) var objectId: String?
-    public private(set) var remoteCreatedAt: NSDate?
-    public private(set) var remoteUpdatedAt: NSDate?
+    public private(set) var createdAt: NSDate?
+    public private(set) var updatedAt: NSDate?
     
     /**
     *  Business info
@@ -62,10 +64,34 @@ public class BusinessViewModel {
     
     public private(set) var distance: String?
     
+    /**
+    *  Statistics
+    */
+    public private(set) var wantToGoCounter: Int = 0
+    
+    public var businessName: String {
+        get {
+            return nameSChinese!
+        }
+    }
+    
+    public var cityAndDistance: String {
+        get {
+            let distanceText = distance == nil ? "" : "\(CityDistanceSeparator) \(distance!)"
+            return "\(city!) \(distanceText)"
+        }
+    }
+    
+    public var coverImageNSURL: NSURL? {
+        get {
+            return NSURL(string: coverImageUrl!)
+        }
+    }
+    
     public init(business: Business) {
         objectId = business.objectId
-        remoteCreatedAt = NSDate(timeIntervalSince1970: business.remoteCreatedAt)
-        remoteUpdatedAt = NSDate(timeIntervalSince1970: business.remoteUpdatedAt)
+        createdAt = business.createdAt
+        updatedAt = business.updatedAt
         
         nameSChinese = business.nameSChinese
         nameTChinese = business.nameTChinese
@@ -79,11 +105,11 @@ public class BusinessViewModel {
         imageUrl = business.imageUrl
         reviewCount = business.reviewCount
         rating = business.rating
-        coverImageUrl = business.coverImageUrl
+        coverImageUrl = business.cover?.url
         
         featured = business.featured
-        timeStart = NSDate(timeIntervalSince1970: business.timeStart)
-        timeEnd = NSDate(timeIntervalSince1970: business.timeEnd)
+        timeStart = business.timeStart
+        timeEnd = business.timeEnd
         
         unit = business.unit
         address = business.address
@@ -93,14 +119,25 @@ public class BusinessViewModel {
         country = business.country
         postalCode = business.postalCode
         crossStreets = business.crossStreets
-        latitude = business.latitude
-        longitude = business.longitude
+        latitude = business.geopoint?.latitude
+        longitude = business.geopoint?.longitude
+        
+        wantToGoCounter = business.wantToGoCounter
         
         coverImageUrl = "http://www.afroglobe.net/wp-content/uploads/2015/03/Wonderful-Life-With-Fantastic-Chinese-Restaurant-Design-Idea-2.jpg"
+        
+        super.init()
     }
     
-    public convenience init(business: Business, distanceInMeter: CLLocationDistance) {
+    deinit {
+        println("deinit from businessViewModel")
+    }
+    
+    public convenience init(business: Business, currentLocation: CLLocation) {
         self.init(business: business)
+
+        let busCLLocation = CLLocation(latitude: (business.geopoint?.latitude)!, longitude: (business.geopoint?.longitude)!)
+        let distanceInMeter = currentLocation.distanceFromLocation(busCLLocation)
         
         let formatter = NSNumberFormatter()
         formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
@@ -113,11 +150,37 @@ public class BusinessViewModel {
             self.distance = formatter.stringFromNumber(distanceInMeter)! + 米
         }
     }
+    
+    public func getWantToGoText() -> String {
+        if (wantToGoCounter > 0) {
+            return String(format: "附近有%d人想去", wantToGoCounter)
+        }
+        else {
+            return ""
+        }
+    }
+    
+    public func getOpeningText() -> String {
+        return "营业中"
+    }
+    
+    public func getCLLocation() -> CLLocation {
+        return CLLocation(latitude: latitude!, longitude: longitude!)
+    }
+    
+    public func getNSURL() -> NSURL? {
+        if let url = url {
+            return NSURL(string: url)
+        }
+        else {
+            return nil
+        }
+    }
 }
 
 extension BusinessViewModel : Printable {
     
-    public var description: String {
+    public override var description: String {
         let bdMirror = reflect(self)
         var result = ""
         for var i = 0; i < bdMirror.count; i++ {

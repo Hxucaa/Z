@@ -7,28 +7,35 @@
 //
 
 import Foundation
+import SwiftTask
 
-public class AccountViewModel : IAccountViewModel {
+public final class AccountViewModel : IAccountViewModel {
     
     private let userService: IUserService
     
-    public init(userService: IUserService) {
+    public required init(userService: IUserService) {
         self.userService = userService
-        if UserService.isLoggedInAlready() {
-            println("User is already logged in!")
-        }
-        else {
-            logIn("test1", password: "12345678")
-        }
     }
     
-    public func logIn(username: String, password: String) {
-        userService.logIn(username, password: password)
-            .success { user -> Void in
-                println(user)
-            }
-            .failure { error, isCancelled -> Void in
-                println(error)
-            }
+    public func updateProfile(nickname: String, birthday: NSDate, profileImage: UIImage?) -> Task<Int, Bool, NSError> {
+        let currentUser = userService.currentUser()!
+        currentUser.birthday = birthday
+        currentUser.nickname = nickname
+        let imageData = UIImagePNGRepresentation(profileImage)
+        return userService.save(currentUser)
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -7,30 +7,39 @@
 //
 
 import Foundation
+import ReactKit
+import UIKit
 
-private let AccountViewControllerIdentifier = "AccountViewController"
+private let SignUpViewNibName = "SignUpView"
 
-public class AccountWireframe : BaseWireframe, IAccountWireframe {
+public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     
-    private let accountVM: IAccountViewModel
-    private var accountVC: AccountViewController?
+    private let navigator: INavigator
+    private let userService: IUserService
+    private var signUpVC: SignUpViewController?
     
-    public init(rootWireframe: IRootWireframe, accountVM: IAccountViewModel) {
-        self.accountVM = accountVM
+    public required init(rootWireframe: IRootWireframe, navigator: INavigator, userService: IUserService) {
+        self.navigator = navigator
+        self.userService = userService
+        
         super.init(rootWireframe: rootWireframe)
+        
+        navigator.accountModuleNavigationNotificationSignal! ~> { notification -> Void in
+            self.presentView()
+        }
     }
     
-    private func injectViewModelToViewController() -> AccountViewController {
-        let viewController = getViewControllerFromStoryboard(AccountViewControllerIdentifier) as! AccountViewController
-        viewController.accountVM = accountVM
-        accountVC = viewController
+    private func injectViewModelToViewController() -> SignUpViewController {
+        let viewmodel = AccountViewModel(userService: userService)
+        let viewController = SignUpViewController(accountVM: viewmodel, signUpViewNibName: SignUpViewNibName)
+        signUpVC = viewController
         return viewController
     }
-}
-
-extension AccountWireframe : AccountInterfaceDelegate {
-    public func pushInterface() {
+    
+    
+    private func presentView() {
         let injectedViewController = injectViewModelToViewController()
-        rootWireframe.pushViewController(injectedViewController, animated: true)
+//        rootWireframe.pushViewController(injectedViewController, animated: true)
+        rootWireframe.presentViewController(injectedViewController, animated: true)
     }
 }

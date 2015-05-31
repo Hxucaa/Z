@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol INearbyWireframe : class {
-    var detailInterfaceDelegate: NearbyInterfaceToDetailInterfaceDelegate? { get set }
+    init(rootWireframe: IRootWireframe, navigator: INavigator, businessService: IBusinessService, geoLocationService: IGeoLocationService)
 }
