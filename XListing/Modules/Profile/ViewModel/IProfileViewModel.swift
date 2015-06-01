@@ -3,7 +3,9 @@
 // Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
-import Foundation
+import ReactiveCocoa
 
 public protocol IProfileViewModel : class {
+    init(userService: IUserService)
+    var nickname: ConstantProperty<String> { get }
 }

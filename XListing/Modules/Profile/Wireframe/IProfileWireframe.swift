@@ -6,5 +6,5 @@
 import Foundation
 
 public protocol IProfileWireframe : class {
-
+    init(rootWireframe: IRootWireframe, navigator: INavigator, userService: IUserService)
 }

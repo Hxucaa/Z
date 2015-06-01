@@ -12,6 +12,7 @@ import SwiftTask
 import MapKit
 
 public protocol INearbyViewModel : class {
+    init(navigator: INavigator, businessService: IBusinessService, geoLocationService: IGeoLocationService)
     var businessDynamicArr: DynamicArray { get }
     func getCurrentLocation() -> Stream<CLLocation>
     func getBusiness() -> Stream<Void>

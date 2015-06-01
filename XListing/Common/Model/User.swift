@@ -9,7 +9,7 @@
 import Foundation
 import AVOSCloud
 
-public class User: AVUser, AVSubclassing {
+public final class User: AVUser, AVSubclassing {
     
     // MARK: Constructors
     public override class func registerSubclass() {
@@ -18,8 +18,6 @@ public class User: AVUser, AVSubclassing {
             super.registerSubclass()
         }
     }
-    
-
     
     @NSManaged public var birthday: NSDate?
 //    public dynamic var birthday: NSDate? {
@@ -30,5 +28,5 @@ public class User: AVUser, AVSubclassing {
 //            setObject(newValue, forKey: "birthday")
 //        }
 //    }
-    @NSManaged public var nickname: String
+    @NSManaged public var nickname: String?
 }

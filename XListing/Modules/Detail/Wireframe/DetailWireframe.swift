@@ -11,16 +11,18 @@ import ReactKit
 
 private let DetailViewControllerIdentifier = "DetailViewController"
 
-public class DetailWireframe : BaseWireframe, IDetailWireframe {
+public final class DetailWireframe : BaseWireframe, IDetailWireframe {
     
     private let navigator: INavigator
-    private let detailVM: IDetailViewModel
+    private let wantToGoService: IWantToGoService
+    private let geoLocationService: IGeoLocationService
     private var detailViewController: DetailViewController?
     
-    public init(rootWireframe: IRootWireframe, navigator: INavigator, detailViewModel: IDetailViewModel) {
+    public required init(rootWireframe: IRootWireframe, navigator: INavigator, wantToGoService: IWantToGoService, geoLocationService: IGeoLocationService) {
         
         self.navigator = navigator
-        detailVM = detailViewModel
+        self.wantToGoService = wantToGoService
+        self.geoLocationService = geoLocationService
         
         super.init(rootWireframe: rootWireframe)
         
@@ -35,18 +37,18 @@ public class DetailWireframe : BaseWireframe, IDetailWireframe {
     
     :returns: Properly configured DetailViewController.
     */
-    private func injectViewModelToViewController() -> DetailViewController {
+    private func injectViewModelToViewController(businessModel: Business) -> DetailViewController {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(DetailViewControllerIdentifier) as! DetailViewController
-        viewController.detailVM = detailVM
+        let detailViewModel = DetailViewModel(navigator: navigator, wantToGoService: wantToGoService, geoLocationService: geoLocationService, businessModel: businessModel)
+        viewController.bindToViewModel(detailViewModel)
         
         detailViewController = viewController
         return viewController
     }
     
     private func pushView(businessModel: Business) {
-        let injectedViewController = injectViewModelToViewController()
-        detailVM.business = businessModel
+        let injectedViewController = injectViewModelToViewController(businessModel)
         rootWireframe.pushViewController(injectedViewController, animated: true)
     }
 }

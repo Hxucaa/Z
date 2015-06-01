@@ -9,10 +9,11 @@
 import UIKit
 
 @UIApplicationMain
-public class AppDelegate: UIResponder, UIApplicationDelegate {
+public final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public var window: UIWindow?
-    private var appDependencies: AppDependencies?
+    private var appDependencies: AppDependencies!
+    private let backgroundOperationsWorkerFactory: IBackgroundOperationsWorkerFactory = BackgroundOperationsWorkerFactory()
     
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -20,11 +21,14 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
         // connect to Parse
         LeanCloudClient.initializeClient()
         
+        // start background workers
+        backgroundOperationsWorkerFactory.startSignUpAndLogInWorker()
+        
         // start dependency injector
         appDependencies = AppDependencies(window: window!)
         
         // initialize root view
-        appDependencies!.installRootViewControllerIntoWindow()
+        appDependencies.installRootViewControllerIntoWindow()
         
         return true
     }

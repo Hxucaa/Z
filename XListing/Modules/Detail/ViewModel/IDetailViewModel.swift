@@ -11,7 +11,7 @@ import SwiftTask
 import ReactKit
 
 public protocol IDetailViewModel : class {
-    var business: Business! { get set }
+    init(navigator: INavigator, wantToGoService: IWantToGoService, geoLocationService: IGeoLocationService, businessModel: Business)
     var detailBusinessInfoVM: DetailBusinessInfoViewModel! { get set }
     func goingToBusiness(#thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGo, NSError>
     func pushProfileModule()

@@ -10,14 +10,14 @@ import Foundation
 import AVOSCloudCrashReporting
 import AVOSCloud
 
-public class LeanCloudClient {
+public struct LeanCloudClient {
     
-    public class func initializeClient() {
+    public static func initializeClient() {
         prepareClient()
         initialize()
     }
     
-    private class func prepareClient() {
+    private static func prepareClient() {
         Parse.useAVCloudUS()
         
         AVOSCloudCrashReporting.enable()
@@ -32,7 +32,7 @@ public class LeanCloudClient {
         WantToGo.registerSubclass()
     }
     
-    private class func initialize() {
+    private static func initialize() {
         var id: String?
         var key: String?
         

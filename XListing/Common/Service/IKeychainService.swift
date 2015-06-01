@@ -8,8 +8,14 @@
 
 import Foundation
 import SwiftTask
+import ReactKit
 
 public protocol IKeychainService {
-    func loadData(account: String, service: String) -> (NSDictionary?, NSError?)
-    func storeStringData(key: String, data: String, account: String, service: String) -> NSError?
+    func clearKeychain() -> Bool
+    func credentialsHaveRegistered() -> Bool
+    func updateHasRegistered(registered: Bool) -> Task<Int, Bool, NSError>
+    func saveUserCredentials(username: String, password: String) -> Stream<Bool>
+    func loadUserCredentialsTask() -> Task<Int, (username: String, password: String), NSError>
+    func loadUserCredentials() -> Stream<(username: String, password: String)>
+    func updateUserCredentials(username: String, password: String) -> Stream<Bool>
 }

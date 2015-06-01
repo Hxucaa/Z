@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftTask
+import ReactKit
 
 public protocol IUserService : IObjectService {
     func isLoggedInAlready() -> Bool

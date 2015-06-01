@@ -13,7 +13,7 @@ private let NumberOfRowsPerSection = 1
 private let CellIdentifier = "Cell"
 private let SegueIdentifier = "FromFeaturedToNearby"
 
-public class FeaturedListViewController: UIViewController {
+public final class FeaturedListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -22,12 +22,12 @@ public class FeaturedListViewController: UIViewController {
     public var refreshControl: UIRefreshControl!
     
     /// ViewModel
-    public var featuredListVM: IFeaturedListViewModel?
+    private var featuredListVM: IFeaturedListViewModel!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        featuredListVM!.getBusiness()
+        featuredListVM.getBusiness()
         
         // Setup delegates
         tableView.delegate = self
@@ -51,7 +51,11 @@ public class FeaturedListViewController: UIViewController {
     }
     
     public override func viewDidAppear(animated: Bool) {
-        //featuredListVM?.presentAccountModule()
+        featuredListVM.presentAccountModule()
+    }
+    
+    public func bindToViewModel(viewmodel: IFeaturedListViewModel) {
+        featuredListVM = viewmodel
     }
     
     private func setUpRefresh() {
@@ -107,7 +111,7 @@ public class FeaturedListViewController: UIViewController {
     private func setupNearbyButton() {
         let nearbyButtonSignal = nearbyButton.stream().ownedBy(self)
         nearbyButtonSignal ~> { [unowned self] button -> Void in
-            featuredListVM?.pushNearbyModule()
+            self.featuredListVM.pushNearbyModule()
         }
     }
 
@@ -117,7 +121,7 @@ public class FeaturedListViewController: UIViewController {
     private func setupProfileButton() {
         let profileButtonSignal = profileButton.stream().ownedBy(self)
         profileButtonSignal ~> { [unowned self] button -> Void in
-            featuredListVM?.pushProfileModule()
+            self.featuredListVM.pushProfileModule()
         }
     }
 }
@@ -134,7 +138,7 @@ extension FeaturedListViewController : UITableViewDataSource {
     :returns: The number of sections in tableView. The default value is 1.
     */
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return featuredListVM!.businessDynamicArr.proxy.count
+        return featuredListVM.businessDynamicArr.proxy.count
     }
     
     /**
@@ -173,7 +177,7 @@ extension FeaturedListViewController : UITableViewDataSource {
         var openingLabel: UILabel? = cell.viewWithTag(6) as? UILabel
         var coverImageView = cell.viewWithTag(3) as? UIImageView
         
-        let arr = featuredListVM!.businessDynamicArr.proxy
+        let arr = featuredListVM.businessDynamicArr.proxy
         if (arr.count > section){
 //            let businessVM = arr[section] as! FeaturedListCellViewModel
             let businessVM = arr[section] as! FeaturedListCellViewModel
@@ -215,6 +219,6 @@ extension FeaturedListViewController : UITableViewDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
  
         // pass business info to detail view and push it
-        featuredListVM?.pushDetailModule(indexPath.section)
+        featuredListVM.pushDetailModule(indexPath.section)
     }
 }

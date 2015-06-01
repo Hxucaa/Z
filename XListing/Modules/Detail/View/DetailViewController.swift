@@ -13,9 +13,9 @@ import WebKit
 
 private let CityDistanceSeparator = " • "
 
-public class DetailViewController : UIViewController, MKMapViewDelegate {
+public final class DetailViewController : UIViewController, MKMapViewDelegate {
     
-    public var detailVM: IDetailViewModel!
+    private var detailVM: IDetailViewModel!
     
     public var mapView = MKMapView()
     
@@ -54,6 +54,15 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
         shareButtonStream = nil
         
     }
+    
+    public func bindToViewModel(detailViewModel: IDetailViewModel) {
+        detailVM = detailViewModel
+    }
+    
+//    public override func viewDidAppear(animated: Bool) {
+//        tableView.reloadData()
+//        println("did appear")
+//    }
     
     @IBAction func shareButtonTapped(sender: AnyObject) {
         self.shareSheetAction()

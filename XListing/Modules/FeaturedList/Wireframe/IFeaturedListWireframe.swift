@@ -9,5 +9,6 @@
 import Foundation
 
 public protocol IFeaturedListWireframe {
+    init(rootWireframe: IRootWireframe, navigator: INavigator, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService)
     func showFeaturedListAsRootViewController()
 }

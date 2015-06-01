@@ -9,7 +9,7 @@
 import UIKit
 import ReactKit
 
-public class SignUpViewController: UIViewController {
+public final class SignUpViewController: UIViewController {
     
     private let accountVM: IAccountViewModel
     private let signUpViewNibName: String

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import ReactKit
 
-public class SignUpView : UIView {
+public final class SignUpView : UIView {
     
     private let imagePicker = UIImagePickerController()
     
