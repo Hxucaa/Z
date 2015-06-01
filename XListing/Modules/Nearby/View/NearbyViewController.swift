@@ -156,6 +156,7 @@ public class NearbyViewController: UIViewController , UITableViewDelegate, UITab
         var biz = nearbyVM.businessDynamicArr.proxy[pageNumber] as! NearbyHorizontalScrollCellViewModel
         
         var cell = tView.dequeueReusableCellWithIdentifier(CellIdentifier) as! NearbyTableViewCell
+        cell.selectionStyle = UITableViewCellSelectionStyle.None
         
         cell.bizName.text = biz.businessName
         cell.bizDetail.text = "130+ 人想去 ｜ 开车25分钟"

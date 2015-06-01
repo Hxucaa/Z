@@ -20,7 +20,7 @@ public class ProfileViewController : UIViewController {
         println("I'm in ProfileViewController")
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.navigationItem.title = "人个"
+        self.navigationItem.title = "个人"
     }
 
     public override func didReceiveMemoryWarning() {

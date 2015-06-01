@@ -31,7 +31,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="逛一逛" id="lVv-eu-6qo">
-                        <barButtonItem key="rightBarButtonItem" image="597F7D2B-0CAB-40BE-BE75-D520BED91BB9" id="LOC-Av-aAC"/>
+                        <barButtonItem key="rightBarButtonItem" image="2755A37E-C48A-49D7-8843-4F61AF524BEC" id="LOC-Av-aAC"/>
                     </navigationItem>
                     <connections>
                         <outlet property="profileButton" destination="LOC-Av-aAC" id="Fx8-Pt-Igr"/>
@@ -58,7 +58,7 @@
                                 <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImageCell" rowHeight="225" id="2o2-Xg-q9I">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImageCell" rowHeight="225" id="2o2-Xg-q9I" customClass="DetailImageTableViewCell" customModule="XListing" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2o2-Xg-q9I" id="QPs-GR-T4N">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -75,8 +75,11 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <connections>
+                                            <outlet property="detailImageView" destination="vR5-4B-AKt" id="wNY-1O-MxT"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BizInfoCell" rowHeight="65" id="GNA-3B-fdp">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BizInfoCell" rowHeight="65" id="GNA-3B-fdp" customClass="DetailBizInfoTableViewCell" customModule="XListing" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GNA-3B-fdp" id="k8M-vG-EXB">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -121,6 +124,11 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <connections>
+                                            <outlet property="businessNameLabel" destination="2ST-xf-XWm" id="gU6-eO-3kU"/>
+                                            <outlet property="cityAndDistanceLabel" destination="wdQ-wZ-Vrh" id="9bt-60-4Yl"/>
+                                            <outlet property="participateButton" destination="cAs-kD-kmH" id="lh3-d4-jbz"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ButtonCell" rowHeight="88" id="U5J-na-GvL">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -461,7 +469,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddressCell" rowHeight="44" id="Sdt-oU-OR0">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddressCell" rowHeight="44" id="Sdt-oU-OR0" customClass="DetailAddressTableViewCell" customModule="XListing" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Sdt-oU-OR0" id="NZE-gI-p0y">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -482,8 +490,11 @@
                                                 <constraint firstItem="Cny-kR-C07" firstAttribute="top" secondItem="NZE-gI-p0y" secondAttribute="top" id="cd7-AT-vil"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="addressButton" destination="Cny-kR-C07" id="HiC-Yl-egj"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PhoneWebSplitCell" rowHeight="44" id="XKe-jh-EXx">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PhoneWebSplitCell" rowHeight="44" id="XKe-jh-EXx" customClass="DetailPhoneWebTableViewCell" customModule="XListing" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XKe-jh-EXx" id="qIe-JI-ja7">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -528,6 +539,10 @@
                                                 <constraint firstItem="TyB-m1-dEg" firstAttribute="top" secondItem="qIe-JI-ja7" secondAttribute="top" id="wVI-7a-cEk"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="phoneButton" destination="TyB-m1-dEg" id="wf3-Jj-Tv8"/>
+                                            <outlet property="websiteButton" destination="bB6-WV-6Re" id="Z0A-CH-3RE"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DescriptionCell" rowHeight="91" id="8He-Xp-7Du">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -550,7 +565,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MapCell" rowHeight="225" id="mdO-Fv-QRU">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MapCell" rowHeight="225" id="mdO-Fv-QRU" customClass="DetailMapTableViewCell" customModule="XListing" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mdO-Fv-QRU" id="Gbg-lk-HXv">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -566,6 +581,9 @@
                                                 <constraint firstItem="Kwd-ls-Hsg" firstAttribute="centerY" secondItem="Gbg-lk-HXv" secondAttribute="centerY" id="rLD-HA-Mfe"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="mapView" destination="Kwd-ls-Hsg" id="19x-Vs-4o2"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Placeholder" textLabel="Nhz-kK-D7g" rowHeight="44" style="IBUITableViewCellStyleDefault" id="Rb6-40-yeW">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -893,7 +911,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="597F7D2B-0CAB-40BE-BE75-D520BED91BB9" width="22" height="22">
+        <image name="2755A37E-C48A-49D7-8843-4F61AF524BEC" width="22" height="22">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

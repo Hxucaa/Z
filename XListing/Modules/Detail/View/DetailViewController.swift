@@ -30,7 +30,7 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
     internal var wantToGoButtonStream: Stream<String>!
     internal var shareButtonStream: Stream<String>!
     internal var coverImageNSURLStream: Stream<AnyObject?>!
-
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -52,13 +52,13 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
         cityAndDistanceStream = nil
         wantToGoButtonStream = nil
         shareButtonStream = nil
-    
+        
     }
     
     @IBAction func shareButtonTapped(sender: AnyObject) {
         self.shareSheetAction()
     }
-
+    
     /**
     React to Profile Button and present ProfileViewController.
     */
@@ -68,29 +68,6 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
             detailVM?.pushProfileModule()
         }
         
-    }
-    
-    public func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
-        if (annotation is MKUserLocation) {
-            //if annotation is not an MKPointAnnotation (eg. MKUserLocation),
-            //return nil so map draws default view for it (eg. blue dot)...
-            return nil
-        }
-        
-        let reuseId = "test"
-        
-        var anView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId)
-        if anView == nil {
-            anView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            anView.image = UIImage(named:"mapPin")
-            anView.canShowCallout = true
-        }
-        else {
-            //we are re-using a view, update its annotation reference...
-            anView.annotation = annotation
-        }
-        
-        return anView
     }
     
     public func wantToGoPopover(){
@@ -107,7 +84,7 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
             })
         
         alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil))
- 
+        
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
@@ -146,6 +123,29 @@ public class DetailViewController : UIViewController, MKMapViewDelegate {
         self.presentViewController(navController, animated: true, completion: nil)
     }
 }
+
+    func reduceMargins(cell:UITableViewCell) {
+        cell.layoutMargins = UIEdgeInsetsZero;
+        cell.preservesSuperviewLayoutMargins = false;
+    }
+
+    func defaultCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
+        return placeHolderCell
+    }
+
+    func headerCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, withTitle title: String) -> UITableViewCell {
+        var headerCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
+        headerCell.textLabel?.text = title
+        reduceMargins(headerCell)
+        return headerCell
+    }
+
+    func createCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, withIdentifier id:String) -> UITableViewCell{
+        var cell =  tableView.dequeueReusableCellWithIdentifier(id, forIndexPath: indexPath) as! UITableViewCell
+        reduceMargins(cell)
+        return cell
+    }
 
 /**
 *  UITableViewDataSource
@@ -186,7 +186,7 @@ extension DetailViewController : UITableViewDataSource {
         default: return 1
         }
     }
-
+    
     /**
     Asks the data source for a cell to insert in a particular location of the table view. (required)
     
@@ -196,12 +196,126 @@ extension DetailViewController : UITableViewDataSource {
     :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-
-       var cell = DetailTableViewCell()
-        return cell.createDetailViewCell(tableView, cellForRowAtIndexPath: indexPath, fromVC: self)
         
+        let row = indexPath.row
+        let section = indexPath.section
+        
+        switch (section){
+            
+        case 0:
+            switch (row){
+            case 0:
+                var imageCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "ImageCell") as! DetailImageTableViewCell
+                
+                coverImageNSURLStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "coverImageNSURL")
+                coverImageNSURLStream ~> { url in
+                    if let url = url as? NSURL{
+                        imageCell.detailImageView.sd_setImageWithURL(url)
+                    }
+                }
+                
+                return imageCell
+            case 1:
+                
+                var bizInfoCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "BizInfoCell") as! DetailBizInfoTableViewCell
+                
+                bizInfoCell.delegate = self
+                
+                if (isGoing){
+                    bizInfoCell.participateButton.setTitle("\u{f004} 我想去", forState: UIControlState.Normal)
+                }else{
+                    bizInfoCell.participateButton.setTitle("\u{f08a} 我想去", forState: UIControlState.Normal)
+                }
+                
+                businessNameStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "businessName")
+                (bizInfoCell.businessNameLabel!, "text") <~ businessNameStream
+                
+                cityAndDistanceStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "cityAndDistance")
+                (bizInfoCell.cityAndDistanceLabel!, "text") <~ cityAndDistanceStream
+                
+                //TODO:
+                //Temp addition of ETA until the distance stream comes through
+                bizInfoCell.cityAndDistanceLabel.text = bizInfoCell.cityAndDistanceLabel.text! + " • 开车15分钟"
+                
+                return bizInfoCell
+                
+            case 2: return createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "NumPeopleGoingCell")
+            default: return defaultCell(tableView, cellForRowAtIndexPath: indexPath)
+            }
+            
+        case 1:
+            switch (row) {
+            case 0: return headerCell(tableView, cellForRowAtIndexPath: indexPath, withTitle: "推荐物品")
+            case 1: return createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "WhatsGoodCell")
+            default: return defaultCell(tableView, cellForRowAtIndexPath: indexPath)
+            }
+            
+        case 2:
+            switch (row) {
+            case 0: return headerCell(tableView, cellForRowAtIndexPath: indexPath, withTitle: "营业时间")
+            case 1:
+                if (expandHours){ return createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "HoursCell")
+                }else{
+                    var hourCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "CurrentHoursCell")
+                    hourCell.accessoryView = UIImageView(image: UIImage(named:"downArrow"))
+                    hourCell.textLabel?.text = "今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM"
+                    return hourCell
+                }
+            default: return defaultCell(tableView, cellForRowAtIndexPath: indexPath)
+            }
+            
+        case 3:
+            switch (row) {
+            case 0: return headerCell(tableView, cellForRowAtIndexPath: indexPath, withTitle: "特设介绍")
+            case 1: return createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "DescriptionCell")
+            default: return defaultCell(tableView, cellForRowAtIndexPath: indexPath)
+            }
+            
+        case 4:
+            switch (row){
+            case 0: return headerCell(tableView, cellForRowAtIndexPath: indexPath, withTitle: "地址和信息")
+            case 1:
+                var mapCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "MapCell") as! DetailMapTableViewCell
+                
+                let annotation = detailVM.detailBusinessInfoVM.mapAnnotation
+                
+                mapCell.mapView.addAnnotation(annotation)
+                
+                let span = MKCoordinateSpanMake(0.01, 0.01)
+                let region = MKCoordinateRegion(center: detailVM.detailBusinessInfoVM.cllocation.coordinate, span: span)
+                mapCell.mapView.setRegion(region, animated: false)
+                
+                return mapCell
+            case 2:
+                var addressCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "AddressCell") as! DetailAddressTableViewCell
+                
+                let fullAddress = detailVM.detailBusinessInfoVM.fullAddress
+                
+                addressCell.addressButton.setTitle(fullAddress, forState: UIControlState.Normal)
+                return addressCell
+                
+            case 3:
+                
+                var phoneWebCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "PhoneWebSplitCell") as! DetailPhoneWebTableViewCell
+                
+                phoneWebCell.phoneButton?.setTitle("   \u{f095}   " + (detailVM.detailBusinessInfoVM.phone)!, forState: UIControlState.Normal)
+                
+                phoneWebCell.delegate = self
+                
+                if (detailVM.detailBusinessInfoVM.websiteURL != nil){
+                    phoneWebCell.websiteButton?.setTitle("   \u{f0ac}   访问网站", forState: UIControlState.Normal)
+                } else{
+                    phoneWebCell.websiteButton?.setTitle("   \u{f0ac}   没有网站", forState: UIControlState.Normal)
+                }
+                
+                return phoneWebCell
+            default: return defaultCell(tableView, cellForRowAtIndexPath: indexPath)
+            }
+        default:return defaultCell(tableView, cellForRowAtIndexPath: indexPath)
+        }
     }
-
+    
+    
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         let row = indexPath.row
@@ -276,7 +390,7 @@ extension DetailViewController : UITableViewDelegate {
             if (expandHours){
                 expandHours = false
             }else{
-               expandHours = true
+                expandHours = true
             }
             
             tableView.reloadData()
@@ -286,7 +400,21 @@ extension DetailViewController : UITableViewDelegate {
             println("in here")
             
         }
-        
-        
+    }
+}
+
+extension DetailViewController : DetailBizInfoCellDelegate{
+    func participate() {
+        wantToGoPopover()
+    }
+}
+
+extension DetailViewController : DetailPhoneWebCellDelegate {
+    func goToWebsite() {
+        goToWebsiteUrl()
+    }
+    
+    func callPhone() {
+        callBusiness()
     }
 }

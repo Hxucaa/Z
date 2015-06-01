@@ -51,7 +51,7 @@ public class FeaturedListViewController: UIViewController {
     }
     
     public override func viewDidAppear(animated: Bool) {
-        featuredListVM?.presentAccountModule()
+        //featuredListVM?.presentAccountModule()
     }
     
     private func setUpRefresh() {
