@@ -8,14 +8,14 @@
 
 import UIKit
 
-class WantToGoTableViewController: UITableViewController {
+public final class WantToGoTableViewController: UITableViewController {
         
     @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
     
     var selectedPplArrayM : NSMutableArray = []
     var selectedPplArrayW : NSMutableArray = []
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         self.loadTestArray()
@@ -38,20 +38,20 @@ class WantToGoTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
 
-    override func didReceiveMemoryWarning() {
+    public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         return 8
@@ -65,7 +65,7 @@ class WantToGoTableViewController: UITableViewController {
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("wantToGoCell", forIndexPath: indexPath) as! UITableViewCell
         
         var profilePicImageView = cell.viewWithTag(1) as? UIImageView

@@ -258,7 +258,7 @@
 				2A9A9BA31B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift */,
 				2A9A9BA51B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift */,
 			);
-			name = DetailCellViews;
+			path = DetailCellViews;
 			sourceTree = "<group>";
 		};
 		2A9A9BAA1B1C4AD10010EDA9 /* DetailCellDelegates */ = {
@@ -267,7 +267,7 @@
 				2A9A9B9F1B1C341B0010EDA9 /* DetailBizInfoCellDelegate.swift */,
 				2A9A9BA71B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift */,
 			);
-			name = DetailCellDelegates;
+			path = DetailCellDelegates;
 			sourceTree = "<group>";
 		};
 		45CBB0ED9FE439192D088D2F /* ViewModel */ = {

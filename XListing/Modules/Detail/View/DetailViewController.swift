@@ -68,17 +68,6 @@ public final class DetailViewController : UIViewController, MKMapViewDelegate {
         self.shareSheetAction()
     }
     
-    /**
-    React to Profile Button and present ProfileViewController.
-    */
-    private func setupProfileButton() {
-        let profileButtonSignal = profileButton.stream().ownedBy(self)
-        profileButtonSignal ~> { [unowned self] button -> Void in
-            detailVM?.pushProfileModule()
-        }
-        
-    }
-    
     public func wantToGoPopover(){
         var alert = UIAlertController(title: "请选一种", message: "", preferredStyle: UIAlertControllerStyle.Alert)
         
@@ -413,17 +402,17 @@ extension DetailViewController : UITableViewDelegate {
 }
 
 extension DetailViewController : DetailBizInfoCellDelegate{
-    func participate() {
+    public func participate() {
         wantToGoPopover()
     }
 }
 
 extension DetailViewController : DetailPhoneWebCellDelegate {
-    func goToWebsite() {
+    public func goToWebsite() {
         goToWebsiteUrl()
     }
     
-    func callPhone() {
+    public func callPhone() {
         callBusiness()
     }
 }

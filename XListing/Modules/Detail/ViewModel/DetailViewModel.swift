@@ -39,9 +39,4 @@ public final class DetailViewModel : NSObject, IDetailViewModel {
     public func goingToBusiness(#thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGo, NSError> {
         return wantToGoService.goingToBusiness(business.objectId!, thisWeek: thisWeek, thisMonth: thisMonth, later: later)
     }
-    
-    public func pushProfileModule() {
-        navigator.navigateToProfileModule()
-        
-    }
 }
