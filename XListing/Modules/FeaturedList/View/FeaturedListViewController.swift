@@ -8,6 +8,7 @@
 
 import UIKit
 import ReactKit
+import SDWebImage
 
 private let NumberOfRowsPerSection = 1
 private let CellIdentifier = "Cell"

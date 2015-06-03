@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import ReactKit
 import SwiftTask
+import SDWebImage
 
 private let NearbyTableViewCellXIB = "NearbyTableViewCell"
 private let CellIdentifier = "NearbyCell"
