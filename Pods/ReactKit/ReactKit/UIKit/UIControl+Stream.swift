@@ -52,6 +52,8 @@ public extension UIControl
                 }
             }
             
-        }.name("\(NSStringFromClass(self.dynamicType))-\(controlEvents)") |> takeUntil(self.deinitStream)
+            configure.resume?()
+            
+        }.name("\(_summary(self))-\(controlEvents)") |> takeUntil(self.deinitStream)
     }
 }

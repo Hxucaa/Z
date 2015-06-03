@@ -42,7 +42,9 @@ public extension UIBarButtonItem
                 removeTargetAction()
             }
             
-        }.name("\(NSStringFromClass(self.dynamicType))") |> takeUntil(self.deinitStream)
+            configure.resume?()
+            
+        }.name("\(_summary(self))") |> takeUntil(self.deinitStream)
     }
     
     public func stream<T>(mappedValue: T) -> Stream<T>
