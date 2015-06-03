@@ -10,6 +10,7 @@ import UIKit
 import ReactKit
 import MapKit
 import WebKit
+import SDWebImage
 
 private let CityDistanceSeparator = " • "
 
@@ -23,7 +24,6 @@ public final class DetailViewController : UIViewController, MKMapViewDelegate {
     public var isGoing: Bool = false
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var profileButton: UIBarButtonItem!
     
     internal var businessNameStream: Stream<AnyObject?>!
     internal var cityAndDistanceStream: Stream<AnyObject?>!
