@@ -65,8 +65,6 @@
 		B47E15C81B181E370028E07E /* IBackgroundOperationsWorkerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47E15C71B181E370028E07E /* IBackgroundOperationsWorkerFactory.swift */; };
 		B47E15CB1B18209B0028E07E /* SignUpAndLogInWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47E15CA1B18209B0028E07E /* SignUpAndLogInWorker.swift */; };
 		B47E15CD1B1821950028E07E /* ISignUpAndLogInWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47E15CC1B1821950028E07E /* ISignUpAndLogInWorker.swift */; };
-		B47E15CF1B18419D0028E07E /* LoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47E15CE1B18419D0028E07E /* LoggingService.swift */; };
-		B47E15D11B1841AA0028E07E /* ILoggingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47E15D01B1841AA0028E07E /* ILoggingService.swift */; };
 		B48AB2761AEC0D00008D05D9 /* WantToGo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48AB2751AEC0D00008D05D9 /* WantToGo.swift */; };
 		B48C99121ADA56F70045BCA9 /* NearbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48C99111ADA56F70045BCA9 /* NearbyViewController.swift */; };
 		B48C99141ADA573C0045BCA9 /* HorizontalScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48C99131ADA573C0045BCA9 /* HorizontalScrollView.swift */; };
@@ -187,8 +185,6 @@
 		B47E15C71B181E370028E07E /* IBackgroundOperationsWorkerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBackgroundOperationsWorkerFactory.swift; sourceTree = "<group>"; };
 		B47E15CA1B18209B0028E07E /* SignUpAndLogInWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpAndLogInWorker.swift; sourceTree = "<group>"; };
 		B47E15CC1B1821950028E07E /* ISignUpAndLogInWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ISignUpAndLogInWorker.swift; sourceTree = "<group>"; };
-		B47E15CE1B18419D0028E07E /* LoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingService.swift; sourceTree = "<group>"; };
-		B47E15D01B1841AA0028E07E /* ILoggingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ILoggingService.swift; sourceTree = "<group>"; };
 		B48AB2751AEC0D00008D05D9 /* WantToGo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WantToGo.swift; sourceTree = "<group>"; };
 		B48C99111ADA56F70045BCA9 /* NearbyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyViewController.swift; sourceTree = "<group>"; };
 		B48C99131ADA573C0045BCA9 /* HorizontalScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalScrollView.swift; sourceTree = "<group>"; };
@@ -400,8 +396,6 @@
 				3DE38A7D1B11BB3000DFA128 /* IKeychainService.swift */,
 				B4DB9AC11AF954AC009FBFE1 /* GeoLocationService.swift */,
 				B4DB9AC31AF954C8009FBFE1 /* IGeoLocationService.swift */,
-				B47E15CE1B18419D0028E07E /* LoggingService.swift */,
-				B47E15D01B1841AA0028E07E /* ILoggingService.swift */,
 				7EF371401AB8C1E8009AA3B9 /* LeanCloud */,
 			);
 			name = Service;
@@ -945,7 +939,6 @@
 				B48C99141ADA573C0045BCA9 /* HorizontalScrollView.swift in Sources */,
 				B48C99161ADA57800045BCA9 /* HorizontalScrollContentView.swift in Sources */,
 				B4E70B3C1AF1709400A7418F /* WantToGoService.swift in Sources */,
-				B47E15CF1B18419D0028E07E /* LoggingService.swift in Sources */,
 				B48C991F1ADA62E70045BCA9 /* INearbyViewModel.swift in Sources */,
 				B47E15BD1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift in Sources */,
 				B4B665421ADF8D070084DBE7 /* DetailViewModel.swift in Sources */,
@@ -993,7 +986,6 @@
 				B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */,
 				7EF3714E1AB8C1E8009AA3B9 /* LeanCloudClient.swift in Sources */,
 				B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */,
-				B47E15D11B1841AA0028E07E /* ILoggingService.swift in Sources */,
 				B4E70B3E1AF1735C00A7418F /* IWantToGoService.swift in Sources */,
 				B44E35011AD5D0AE00657A31 /* IFeaturedListViewModel.swift in Sources */,
 				B4FCC72E1AE9D35C009B4DF6 /* IAccountWireframe.swift in Sources */,
