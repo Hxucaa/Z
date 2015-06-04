@@ -75,6 +75,29 @@ public final class SignUpView : UIView {
     private func setupBirthdayPicker() {
         // React to date change
         birthdayPickerSignal = birthdayPicker.dateChangedStream()
+        
+        // Restrict birthdays
+        let currentDate = NSDate()
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components(NSCalendarUnit.CalendarUnitDay | NSCalendarUnit.CalendarUnitMonth | NSCalendarUnit.CalendarUnitYear, fromDate: currentDate)
+        let currentYear = components.year
+        let currentMonth = components.month
+        let currentDay = components.day
+        
+        let maximumAgeComponents = NSDateComponents()
+        maximumAgeComponents.year = currentYear - 17
+        maximumAgeComponents.month = currentMonth
+        maximumAgeComponents.day = currentDay
+        let maximumDate = calendar.dateFromComponents(maximumAgeComponents)
+        
+        let minimumAgeComponents = NSDateComponents()
+        minimumAgeComponents.year = currentYear - 90
+        minimumAgeComponents.month = currentMonth
+        minimumAgeComponents.day = currentDay
+        let minimumDate = calendar.dateFromComponents(minimumAgeComponents)
+        
+        birthdayPicker.minimumDate = minimumDate
+        birthdayPicker.maximumDate = maximumDate
     }
     
     private func setupSubtmitButton() {
