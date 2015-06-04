@@ -1,5 +1,5 @@
 PODS:
-  - AVOSCloud (3.1.2.1)
+  - AVOSCloud (3.1.2.2)
   - AVOSCloudCrashReporting (3.1.1.1):
     - AVOSCloud
   - AVOSCloudIM (3.1.2.1):
@@ -7,6 +7,18 @@ PODS:
   - AVOSCloudSNS (3.1.2.1):
     - AVOSCloud
   - Box (1.2.2)
+  - CocoaLumberjack (2.0.0):
+    - CocoaLumberjack/Default (= 2.0.0)
+    - CocoaLumberjack/Extensions (= 2.0.0)
+  - CocoaLumberjack/Core (2.0.0)
+  - CocoaLumberjack/Default (2.0.0):
+    - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.0.0):
+    - CocoaLumberjack/Default
+  - Dollar (3.0.1)
+  - JSQMessagesViewController (7.1.0):
+    - JSQSystemSoundPlayer (~> 2.0.1)
+  - JSQSystemSoundPlayer (2.0.1)
   - Locksmith (1.2.2)
   - Nimble (0.4.2)
   - Quick (0.3.1)
@@ -25,44 +37,51 @@ PODS:
     - Box (~> 1.2.0)
     - ReactiveCocoa/Core
     - Result (~> 0.4.1)
-  - ReactKit (0.10.0):
-    - SwiftTask (~> 3.0.0)
+  - ReactKit (0.11.0):
+    - SwiftTask (~> 3.3.0)
   - Result (0.4.3):
     - Box (~> 1.2)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
-  - SnapKit (0.11.0)
-  - SwiftTask (3.0.0)
+  - SnapKit (0.12.0)
+  - SwiftTask (3.3.0)
 
 DEPENDENCIES:
   - AVOSCloud (~> 3.1)
   - AVOSCloudCrashReporting (~> 3.1)
   - AVOSCloudIM (~> 3.1)
   - AVOSCloudSNS (~> 3.1)
+  - CocoaLumberjack (~> 2.0)
+  - Dollar (~> 3.0)
+  - JSQMessagesViewController (~> 7.0)
   - Locksmith (~> 1.2)
   - Nimble
   - Quick
   - ReactiveCocoa (= 3.0-beta.6)
-  - ReactKit (~> 0.10.0)
+  - ReactKit (~> 0.11.0)
   - SDWebImage
-  - SnapKit (~> 0.11.0)
+  - SnapKit (~> 0.12.0)
   - SwiftTask (~> 3.0)
 
 SPEC CHECKSUMS:
-  AVOSCloud: 26962b8cf4a5bf9a77a78ce86893b6ebd1fa43e6
+  AVOSCloud: bdcd5f3ad4e56bc9027006b4d40f19d16998d1ba
   AVOSCloudCrashReporting: 5add5ca29ec9f585010ecda3a643108c7e376e86
   AVOSCloudIM: 95fb4e5dc58c052f9e9ec25fcb43e8014d1f2622
   AVOSCloudSNS: 1ee3c049725efd2e61f7fa8e5dbc14e96269054e
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
+  CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
+  Dollar: abd25582c46a218d7af38ff8762abbc4d8466d73
+  JSQMessagesViewController: ca11f86fa68ca70835f05e169df9244147c1dc40
+  JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   ReactiveCocoa: 859d1dd9dd38d6f2fa4a6917259bb2b512f3c5f7
-  ReactKit: 914b50142021e558669d6870a6a35e6e7bb14f30
+  ReactKit: 6e2a21ad61ba62f02d83485337b4e2bd7f6b1d47
   Result: 910839ce03c5c573ec94026678b7cecb69ee862e
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
-  SnapKit: 5194d53cee209d337a989919ff66a70b7aa3dda3
-  SwiftTask: 2f2c0a7db83def1d1e3bad518169be3f61c603f4
+  SnapKit: 00c388aa3bf1944c1b55472f31e841f75bd83882
+  SwiftTask: 8bc1ec4e0348ce8a40436af737992174485f8996
 
 COCOAPODS: 0.36.4

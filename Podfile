@@ -4,11 +4,13 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'XListing' do
-  pod 'ReactKit', '~> 0.10.0'
+  pod 'CocoaLumberjack', '~> 2.0'
+  pod 'ReactKit', '~> 0.11.0'
   pod 'SwiftTask', '~> 3.0'
   pod 'ReactiveCocoa', '= 3.0-beta.6'
-  pod 'SnapKit', '~> 0.11.0'
-#  pod 'JSQMessagesViewController', '~> 7.0'
+  pod 'SnapKit', '~> 0.12.0'
+  pod 'JSQMessagesViewController', '~> 7.0'
+  pod 'Dollar', '~> 3.0'
   pod 'SDWebImage'
   pod 'Locksmith', '~> 1.2'
   pod 'AVOSCloud', '~> 3.1'

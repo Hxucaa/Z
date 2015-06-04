@@ -35,6 +35,8 @@ public extension UIGestureRecognizer
                 }
             }
             
-        }.name("\(NSStringFromClass(self.dynamicType))") |> takeUntil(self.deinitStream)
+            configure.resume?()
+            
+        }.name("\(_summary(self))") |> takeUntil(self.deinitStream)
     }
 }
