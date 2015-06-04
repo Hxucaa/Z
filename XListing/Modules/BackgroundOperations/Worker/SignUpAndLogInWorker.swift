@@ -29,7 +29,7 @@ public struct SignUpAndLogInWorker : ISignUpAndLogInWorker {
         
         if userService.isLoggedInAlready() {
             // User Already Logged in
-            BOLogInfo("Current user logged in is " + userService.currentUser()!.username)
+            BOLogInfo("Current user logged in is \(self.userService.currentUser()!.username)")
         }
         else {
             // Load credentials from Keychain
