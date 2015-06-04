@@ -236,10 +236,10 @@ extension ProfileViewController : UITableViewDelegate {
     public override func setEditing(editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         if (editing){
-            println("EDITING")
+            ProfileLogDebug("EDITING")
             self.tableView.setEditing(true, animated: true)
         }else{
-            println("DONE")
+            ProfileLogDebug("DONE")
             self.tableView.setEditing(false, animated: false)
         }
     

@@ -92,7 +92,7 @@ public final class DetailViewController : UIViewController, MKMapViewDelegate {
     }
     
     deinit {
-        println("deinit from detailviewcontroller")
+        DetailLogDebug("deinit from detailviewcontroller")
     }
     
     public func shareSheetAction() {
@@ -395,7 +395,7 @@ extension DetailViewController : UITableViewDelegate {
         }
         
         if (indexPath.section == 0 && indexPath.row == 2){
-            println("in here")
+            DetailLogDebug("in here")
             
         }
     }
