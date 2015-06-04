@@ -30,12 +30,14 @@ public final class DetailViewController : UIViewController, MKMapViewDelegate {
     internal var wantToGoButtonStream: Stream<String>!
     internal var shareButtonStream: Stream<String>!
     internal var coverImageNSURLStream: Stream<AnyObject?>!
+    internal var userLocation: CLLocation!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         self.navigationItem.title = detailVM.detailBusinessInfoVM.navigationTitle
+        setUserLocation()
     }
     
     public override func didReceiveMemoryWarning() {
@@ -55,14 +57,16 @@ public final class DetailViewController : UIViewController, MKMapViewDelegate {
         
     }
     
+    public func setUserLocation() {
+        let locationStream = detailVM.getCurrentLocation() ~> { [unowned self] location -> Void in
+            self.userLocation = location
+        }
+        locationStream.ownedBy(self)
+    }
+    
     public func bindToViewModel(detailViewModel: IDetailViewModel) {
         detailVM = detailViewModel
     }
-    
-//    public override func viewDidAppear(animated: Bool) {
-//        tableView.reloadData()
-//        println("did appear")
-//    }
     
     @IBAction func shareButtonTapped(sender: AnyObject) {
         self.shareSheetAction()
@@ -276,12 +280,14 @@ extension DetailViewController : UITableViewDataSource {
                 var mapCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "MapCell") as! DetailMapTableViewCell
                 
                 let annotation = detailVM.detailBusinessInfoVM.mapAnnotation
-                
                 mapCell.mapView.addAnnotation(annotation)
-                
+       
                 let span = MKCoordinateSpanMake(0.01, 0.01)
                 let region = MKCoordinateRegion(center: detailVM.detailBusinessInfoVM.cllocation.coordinate, span: span)
                 mapCell.mapView.setRegion(region, animated: false)
+                
+                var tapGesture = UITapGestureRecognizer(target: self, action: "goToMapVC")
+                mapCell.mapView.addGestureRecognizer(tapGesture)
                 
                 return mapCell
             case 2:
@@ -393,11 +399,6 @@ extension DetailViewController : UITableViewDelegate {
             
             tableView.reloadData()
         }
-        
-        if (indexPath.section == 0 && indexPath.row == 2){
-            println("in here")
-            
-        }
     }
 }
 
@@ -414,5 +415,19 @@ extension DetailViewController : DetailPhoneWebCellDelegate {
     
     public func callPhone() {
         callBusiness()
+    }
+}
+
+extension DetailViewController : DetailAddressCellDelegate {
+    public func goToMapVC() {
+        var businessMapVC = DetailBusinessMapViewController(nibName: "DetailBusinessMapViewController", bundle: nil)
+        var distance = detailVM.detailBusinessInfoVM.cllocation.distanceFromLocation(self.userLocation)
+        var spanFactor = distance / 55000.00
+        let span = MKCoordinateSpanMake(spanFactor, spanFactor)
+        let region = MKCoordinateRegion(center: detailVM.detailBusinessInfoVM.cllocation.coordinate, span: span)
+        let annotation = detailVM.detailBusinessInfoVM.mapAnnotation
+        businessMapVC.region = region
+        businessMapVC.businessAnnotation = annotation
+        self.navigationController?.pushViewController(businessMapVC, animated: true)
     }
 }

@@ -9,6 +9,7 @@
 import Foundation
 import SwiftTask
 import ReactKit
+import MapKit
 
 public final class DetailViewModel : NSObject, IDetailViewModel {
     
@@ -38,5 +39,20 @@ public final class DetailViewModel : NSObject, IDetailViewModel {
     
     public func goingToBusiness(#thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGo, NSError> {
         return wantToGoService.goingToBusiness(business.objectId!, thisWeek: thisWeek, thisMonth: thisMonth, later: later)
+    }
+    
+    /**
+    Get current geo location. If location service fails for any reason, use hardcoded geo location instead.
+    
+    :returns: A Task that contains a geo location.
+    */
+    public func getCurrentLocation() -> Stream<CLLocation> {
+        return Stream<CLLocation>.fromTask(geoLocationService.getCurrentLocation().failure { [unowned self] (error, isCancelled) -> CLLocation in
+            // with hardcoded location
+            //TODO: better support for hardcoded location
+            println("Location service failed! Using default Vancouver location.")
+            return CLLocation(latitude: 49.27623, longitude: -123.12941)
+            }
+        )
     }
 }
