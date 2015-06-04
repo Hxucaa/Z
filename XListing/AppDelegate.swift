@@ -17,7 +17,10 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-                
+        
+        // configure CocoaLumberjack
+        Logger.configure()
+        
         // connect to Parse
         LeanCloudClient.initializeClient()
         
