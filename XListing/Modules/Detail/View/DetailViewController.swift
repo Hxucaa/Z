@@ -421,6 +421,5 @@ extension DetailViewController : DetailAddressCellDelegate {
             self.navigationController?.pushViewController(businessMapVC, animated: true)
         }
         locationStream.ownedBy(self)
-
     }
 }
