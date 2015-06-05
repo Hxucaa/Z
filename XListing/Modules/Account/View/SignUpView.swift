@@ -28,6 +28,7 @@ public final class SignUpView : UIView {
     
     // Profile imaged picked by user
     private var profileImage: UIImage?
+    public var profileImageSignal: Stream<UIImage?>?
     
     public weak var delegate: SignUpViewDelegate?
     
@@ -40,6 +41,9 @@ public final class SignUpView : UIView {
         setupBirthdayPicker()
         setupSubtmitButton()
         setupImagePickerButton()
+        
+        profileImageSignal = KVO.stream(self, "profileImage")
+            |> asStream(UIImage?)
     }
     
     private func setupImagePicker() {
@@ -122,21 +126,21 @@ public final class SignUpView : UIView {
             |> startWith(false)
         
         // Combine two signals into one
-        let enableSubmitButtonSignal = [nicknameFieldHasValueSignal, birthdayPickerHasValueSignal]
-            // merge signals and combine their latest values
-            |> merge2All
-            |> map { [unowned self] (values, changedValues) -> NSNumber? in
-                if let v0 = values[0], v1 = values[1] {
-                    return v0 && v1
-                }
-                return false
-            }
-        
-        // Declare ownership of the signal
-        enableSubmitButtonSignal.ownedBy(self)
-        
-        // Submit Button reacts to the signal to be enabled/disabled
-        (submitButton, "enabled") <~ enableSubmitButtonSignal
+//        let enableSubmitButtonSignal = [nicknameFieldHasValueSignal, birthdayPickerHasValueSignal]
+//            // merge signals and combine their latest values
+//            |> merge2All
+//            |> map { [unowned self] (values, changedValues) -> NSNumber? in
+//                if let v0 = values[0], v1 = values[1] {
+//                    return v0 && v1
+//                }
+//                return false
+//            }
+//        
+//        // Declare ownership of the signal
+//        enableSubmitButtonSignal.ownedBy(self)
+//        
+//        // Submit Button reacts to the signal to be enabled/disabled
+//        (submitButton, "enabled") <~ enableSubmitButtonSignal
     }
 }
 

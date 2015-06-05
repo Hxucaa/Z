@@ -41,7 +41,11 @@ public final class SignUpViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         signUpView.delegate = self
-        
+        (accountVM as! AccountViewModel, "nickname") <~ signUpView.nicknameFieldSignal!
+//        signUpView.nicknameFieldSignal! ~> println
+        (accountVM as! AccountViewModel, "birthday") <~ signUpView.birthdayPickerSignal!
+        (accountVM as! AccountViewModel, "profileImage") <~ signUpView.profileImageSignal!
+        (signUpView.submitButton, "enabled") <~ (accountVM as! AccountViewModel).areValidInputSignal
     }
 
     public override func didReceiveMemoryWarning() {

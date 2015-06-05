@@ -95,10 +95,10 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     
     public func presentAccountModule() {
         
-        let nickname = userService.currentUser()?.nickname
-        let birthday = userService.currentUser()?.birthday
-        if birthday == nil || nickname == nil {
+//        let nickname = userService.currentUser()?.nickname
+//        let birthday = userService.currentUser()?.birthday
+//        if birthday == nil || nickname == nil {
             navigator.navigateToAccountModule()
-        }
+//        }
     }
 }
