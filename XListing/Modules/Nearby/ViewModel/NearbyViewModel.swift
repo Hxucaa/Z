@@ -82,7 +82,7 @@ public final class NearbyViewModel : INearbyViewModel {
         return Stream<CLLocation>.fromTask(geoLocationService.getCurrentLocation().failure { [unowned self] (error, isCancelled) -> CLLocation in
                 // with hardcoded location
                 //TODO: better support for hardcoded location
-                println("Location service failed! Using default Vancouver location.")
+                NearbyLogWarning("Location service failed! Using default Vancouver location.")
                 return CLLocation(latitude: 49.27623, longitude: -123.12941)
             }
         )

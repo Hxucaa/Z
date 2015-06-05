@@ -30,7 +30,7 @@ final class EditProfileTableViewController: UITableViewController {
     }
     
     internal func saveChanges() {
-        println("SAVE DATA TO DB")
+        ProfileLogDebug("SAVE DATA TO DB")
     }
 
     override func didReceiveMemoryWarning() {

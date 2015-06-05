@@ -38,7 +38,7 @@ public struct LeanCloudClient {
         
         let env = NSProcessInfo.processInfo().environment
         if let mode = env["exec_mode"] as? String {
-            println("We are in \(mode.uppercaseString) mode!")
+            LSLogInfo("We are in \(mode.uppercaseString) mode!")
             
             let path = NSBundle.mainBundle().pathForResource("Parse", ofType: "plist")
             let dict: AnyObject = NSDictionary(contentsOfFile: path!)!
@@ -62,11 +62,11 @@ public struct LeanCloudClient {
                 Parse.setApplicationId(_id, clientKey: _key)
             }
             else {
-                println(errorMessage)
+                LSLogError(errorMessage)
             }
         }
         else {
-            println(errorMessage)
+            LSLogError(errorMessage)
         }
     }
 }

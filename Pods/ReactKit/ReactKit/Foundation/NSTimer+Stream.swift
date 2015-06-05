@@ -39,6 +39,8 @@ public extension NSTimer
                 timer = nil
             }
             
-        }.name("\(NSStringFromClass(self))")
+            configure.resume?()
+            
+        }.name("\(_summary(self))")
     }
 }

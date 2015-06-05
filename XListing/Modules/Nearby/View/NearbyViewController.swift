@@ -36,10 +36,10 @@ public final class NearbyViewController: UIViewController , UITableViewDelegate,
         initScrollView()
     
         // Process the signal to do something else. That's why you need to have a reference to the signal.
-        let locationStream = nearbyVM.getCurrentLocation() ~> { [unowned self] location -> Void in
+        let locationStream = nearbyVM.getCurrentLocation().ownedBy(self)
+        locationStream ~> { [unowned self] location -> Void in
             self.shiftMapCenter(location)
         }
-        locationStream.ownedBy(self)
 
         setupMapViewSignal()
         
