@@ -28,6 +28,7 @@ public final class DetailViewController : UIViewController, MKMapViewDelegate {
     internal var wantToGoButtonStream: Stream<String>!
     internal var shareButtonStream: Stream<String>!
     internal var coverImageNSURLStream: Stream<AnyObject?>!
+    internal var userLocation: CLLocation!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -421,6 +422,5 @@ extension DetailViewController : DetailAddressCellDelegate {
             self.navigationController?.pushViewController(businessMapVC, animated: true)
         }
         locationStream.ownedBy(self)
-
     }
 }

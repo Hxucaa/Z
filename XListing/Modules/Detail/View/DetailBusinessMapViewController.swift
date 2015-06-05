@@ -12,6 +12,7 @@ import MapKit
 public final class DetailBusinessMapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+
     internal var region : MKCoordinateRegion!
     internal var businessAnnotation: MKPointAnnotation!
     internal var businessLocation: CLLocation!
