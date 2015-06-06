@@ -18,8 +18,6 @@ public final class DetailViewController : UIViewController, MKMapViewDelegate {
     
     private var detailVM: IDetailViewModel!
     
-    public var mapView = MKMapView()
-    
     public var expandHours: Bool = false
     public var isGoing: Bool = false
     
@@ -59,11 +57,6 @@ public final class DetailViewController : UIViewController, MKMapViewDelegate {
         detailVM = detailViewModel
     }
     
-//    public override func viewDidAppear(animated: Bool) {
-//        tableView.reloadData()
-//        println("did appear")
-//    }
-    
     @IBAction func shareButtonTapped(sender: AnyObject) {
         self.shareSheetAction()
     }
@@ -89,10 +82,6 @@ public final class DetailViewController : UIViewController, MKMapViewDelegate {
     public func alertAction(){
         self.isGoing = true
         self.tableView.reloadData();
-    }
-    
-    deinit {
-        DetailLogDebug("deinit from detailviewcontroller")
     }
     
     public func shareSheetAction() {
@@ -276,12 +265,14 @@ extension DetailViewController : UITableViewDataSource {
                 var mapCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "MapCell") as! DetailMapTableViewCell
                 
                 let annotation = detailVM.detailBusinessInfoVM.mapAnnotation
-                
                 mapCell.mapView.addAnnotation(annotation)
-                
+       
                 let span = MKCoordinateSpanMake(0.01, 0.01)
                 let region = MKCoordinateRegion(center: detailVM.detailBusinessInfoVM.cllocation.coordinate, span: span)
                 mapCell.mapView.setRegion(region, animated: false)
+                
+                var tapGesture = UITapGestureRecognizer(target: self, action: "goToMapVC")
+                mapCell.mapView.addGestureRecognizer(tapGesture)
                 
                 return mapCell
             case 2:
@@ -393,7 +384,6 @@ extension DetailViewController : UITableViewDelegate {
             
             tableView.reloadData()
         }
-        
         if (indexPath.section == 0 && indexPath.row == 2){
             DetailLogDebug("in here")
             
@@ -414,5 +404,23 @@ extension DetailViewController : DetailPhoneWebCellDelegate {
     
     public func callPhone() {
         callBusiness()
+    }
+}
+
+extension DetailViewController : DetailAddressCellDelegate {
+    public func goToMapVC() {
+        let locationStream = detailVM.getCurrentLocation()
+        locationStream.ownedBy(self)
+        locationStream ~> { [unowned self] location -> Void in
+            var businessMapVC = DetailBusinessMapViewController(nibName: "DetailBusinessMapViewController", bundle: nil)
+            var distance = self.detailVM.detailBusinessInfoVM.cllocation.distanceFromLocation(location)
+            var spanFactor = distance / 55000.00
+            let span = MKCoordinateSpanMake(spanFactor, spanFactor)
+            let region = MKCoordinateRegion(center: self.detailVM.detailBusinessInfoVM.cllocation.coordinate, span: span)
+            let annotation = self.detailVM.detailBusinessInfoVM.mapAnnotation
+            businessMapVC.region = region
+            businessMapVC.businessAnnotation = annotation
+            self.navigationController?.pushViewController(businessMapVC, animated: true)
+        }
     }
 }
