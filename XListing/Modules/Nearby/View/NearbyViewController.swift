@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import ReactKit
 import SwiftTask
+import SDWebImage
 
 private let NearbyTableViewCellXIB = "NearbyTableViewCell"
 private let CellIdentifier = "NearbyCell"
@@ -35,10 +36,11 @@ public final class NearbyViewController: UIViewController , UITableViewDelegate,
         initScrollView()
     
         // Process the signal to do something else. That's why you need to have a reference to the signal.
-        let locationStream = nearbyVM.getCurrentLocation() ~> { [unowned self] location -> Void in
+        let locationStream = nearbyVM.getCurrentLocation()
+        locationStream.ownedBy(self)
+        locationStream ~> { [unowned self] location -> Void in
             self.setInitialCenter(location)
         }
-        locationStream.ownedBy(self)
 
         setupMapViewSignal()
         
@@ -147,12 +149,6 @@ public final class NearbyViewController: UIViewController , UITableViewDelegate,
     
     :param: location The geolocation.
     */
-    private func shiftMapCenter(location: CLLocation){
-        let span = MKCoordinateSpanMake(0.07, 0.07)
-        let region = MKCoordinateRegion(center: location.coordinate, span: span)
-        mapView.setRegion(region, animated: true)
-    }
-    
     private func setInitialCenter(location: CLLocation){
         let span = MKCoordinateSpanMake(0.07, 0.07)
         let region = MKCoordinateRegion(center: location.coordinate, span: span)

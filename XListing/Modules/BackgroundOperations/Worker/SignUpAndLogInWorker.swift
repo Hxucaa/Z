@@ -29,7 +29,7 @@ public struct SignUpAndLogInWorker : ISignUpAndLogInWorker {
         
         if userService.isLoggedInAlready() {
             // User Already Logged in
-            println("Current user logged in is " + userService.currentUser()!.username)
+            BOLogInfo("Current user logged in is \(self.userService.currentUser()!.username)")
         }
         else {
             // Load credentials from Keychain
@@ -46,30 +46,30 @@ public struct SignUpAndLogInWorker : ISignUpAndLogInWorker {
                     }
                 }
                 |> peek { (username: String, password: String) -> Void in
-                    println("Username \(username) is loaded from Keychain.")
+                    BOLogInfo("Username \(username) is loaded from Keychain.")
                 }
                 |> flatMap { (username, password) -> Stream<Bool> in
                     if self.keychainService.credentialsHaveRegistered() {
-                        println("Log in user...")
+                        BOLogInfo("Log in user...")
                         let logInTask = self.userService.logIn(username, password: password)
                             .success { user -> Bool in
-                                println("Operation succeed!")
+                                BOLogInfo("Operation succeed!")
                                 return true
                             }
                             .failure({ (error, isCancelled) -> Bool in
-                                println("Operation failed!")
+                                BOLogInfo("Operation failed!")
                                 return false
                             })
                         return Stream<Bool>.fromTask(logInTask)
                     }
                     else {
-                        println("Sign up user...")
+                        BOLogInfo("Sign up user...")
                         var user = User()
                         user.username = username
                         user.password = password
                         let signUpTask = self.userService.signUp(user)
                             .success { success -> Bool in
-                                println("Operation succeed!")
+                                BOLogInfo("Operation succeed!")
                                 return true
                             }
                             .failure({ (error, isCancelled) -> Bool in
@@ -78,7 +78,7 @@ public struct SignUpAndLogInWorker : ISignUpAndLogInWorker {
                             })
                         let updateHasRegisteredTask = signUpTask
                             .success { _ -> Task<Int, Bool, NSError> in
-                                println("Status saved to Keychain!")
+                                BOLogInfo("Status saved to Keychain!")
                                 return self.keychainService.updateHasRegistered(true)
                         }
                         return Stream<Bool>.fromTask(updateHasRegisteredTask)

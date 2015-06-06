@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public protocol SignUpViewDelegate : class {
     func submitUpdate(#nickname: String, birthday: NSDate, profileImage: UIImage?)

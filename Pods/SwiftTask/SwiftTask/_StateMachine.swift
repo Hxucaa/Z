@@ -20,133 +20,187 @@ internal class _StateMachine<Progress, Value, Error>
     internal typealias ProgressTupleHandler = Task<Progress, Value, Error>._ProgressTupleHandler
     
     internal let weakified: Bool
-    internal private(set) var state: TaskState
+    internal let state: _Atomic<TaskState>
     
-    internal private(set) var progress: Progress?    // NOTE: always nil if `weakified = true`
-    internal private(set) var value: Value?
-    internal private(set) var errorInfo: ErrorInfo?
+    internal let progress: _Atomic<Progress?> = _Atomic(nil)    // NOTE: always nil if `weakified = true`
+    internal let value: _Atomic<Value?> = _Atomic(nil)
+    internal let errorInfo: _Atomic<ErrorInfo?> = _Atomic(nil)
+    
+    internal let configuration = TaskConfiguration()
     
     /// wrapper closure for `_initClosure` to invoke only once when started `.Running`,
     /// and will be set to `nil` afterward
-    internal var initResumeClosure: (Void -> Void)?
+    internal var initResumeClosure: _Atomic<(Void -> Void)?> = _Atomic(nil)
     
-    internal private(set) var progressTupleHandlers: [ProgressTupleHandler] = []
-    internal private(set) var completionHandlers: [Void -> Void] = []
+    private lazy var _progressTupleHandlers = _Handlers<ProgressTupleHandler>()
+    private lazy var _completionHandlers = _Handlers<Void -> Void>()
     
-    internal let configuration = TaskConfiguration()
+    private var _lock = _RecursiveLock()
     
     internal init(weakified: Bool, paused: Bool)
     {
         self.weakified = weakified
-        self.state = paused ? .Paused : .Running
+        self.state = _Atomic(paused ? .Paused : .Running)
     }
     
-    internal func addProgressTupleHandler(progressTupleHandler: ProgressTupleHandler)
+    internal func addProgressTupleHandler(inout token: _HandlerToken?, _ progressTupleHandler: ProgressTupleHandler) -> Bool
     {
-        self.progressTupleHandlers.append(progressTupleHandler)
+        self._lock.lock()
+        if self.state.rawValue == .Running || self.state.rawValue == .Paused {
+            token = self._progressTupleHandlers.append(progressTupleHandler)
+            self._lock.unlock()
+            return token != nil
+        }
+        else {
+            self._lock.unlock()
+            return false
+        }
     }
     
-    internal func addCompletionHandler(completionHandler: Void -> Void)
+    internal func removeProgressTupleHandler(handlerToken: _HandlerToken?) -> Bool
     {
-        self.completionHandlers.append(completionHandler)
+        self._lock.lock()
+        if let handlerToken = handlerToken {
+            let removedHandler = self._progressTupleHandlers.remove(handlerToken)
+            self._lock.unlock()
+            return removedHandler != nil
+        }
+        else {
+            self._lock.unlock()
+            return false
+        }
+    }
+    
+    internal func addCompletionHandler(inout token: _HandlerToken?, _ completionHandler: Void -> Void) -> Bool
+    {
+        self._lock.lock()
+        if self.state.rawValue == .Running || self.state.rawValue == .Paused {
+            token = self._completionHandlers.append(completionHandler)
+            self._lock.unlock()
+            return token != nil
+        }
+        else {
+            self._lock.unlock()
+            return false
+        }
+    }
+    
+    internal func removeCompletionHandler(handlerToken: _HandlerToken?) -> Bool
+    {
+        self._lock.lock()
+        if let handlerToken = handlerToken {
+            let removedHandler = self._completionHandlers.remove(handlerToken)
+            self._lock.unlock()
+            return removedHandler != nil
+        }
+        else {
+            self._lock.unlock()
+            return false
+        }
     }
     
     internal func handleProgress(progress: Progress)
     {
-        if self.state == .Running {
+        self._lock.lock()
+        if self.state.rawValue == .Running {
             
-            let oldProgress = self.progress
+            let oldProgress = self.progress.rawValue
             
             // NOTE: if `weakified = false`, don't store progressValue for less memory footprint
             if !self.weakified {
-                self.progress = progress
+                self.progress.rawValue = progress
             }
             
-            for handler in self.progressTupleHandlers {
+            for handler in self._progressTupleHandlers {
                 handler(oldProgress: oldProgress, newProgress: progress)
             }
+            self._lock.unlock()
+        }
+        else {
+            self._lock.unlock()
         }
     }
     
     internal func handleFulfill(value: Value)
     {
-        if self.state == .Running {
-            self.state = .Fulfilled
-            self.value = value
-            self.finish()
+        self._lock.lock()
+        let (_, updated) = self.state.tryUpdate { $0 == .Running ? (.Fulfilled, true) : ($0, false) }
+        if updated {
+            self.value.rawValue = value
+            self._finish()
+            self._lock.unlock()
+        }
+        else {
+            self._lock.unlock()
         }
     }
     
     internal func handleRejectInfo(errorInfo: ErrorInfo)
     {
-        if self.state == .Running || self.state == .Paused {
-            self.state = errorInfo.isCancelled ? .Cancelled : .Rejected
-            self.errorInfo = errorInfo
-            self.finish()
+        self._lock.lock()
+        let toState = errorInfo.isCancelled ? TaskState.Cancelled : .Rejected
+        let (_, updated) = self.state.tryUpdate { $0 == .Running || $0 == .Paused ? (toState, true) : ($0, false) }
+        if updated {
+            self.errorInfo.rawValue = errorInfo
+            self._finish()
+            self._lock.unlock()
+        }
+        else {
+            self._lock.unlock()
         }
     }
     
     internal func handlePause() -> Bool
     {
-        if self.state == .Running {
+        self._lock.lock()
+        let (_, updated) = self.state.tryUpdate { $0 == .Running ? (.Paused, true) : ($0, false) }
+        if updated {
             self.configuration.pause?()
-            self.state = .Paused
+            self._lock.unlock()
             return true
         }
         else {
+            self._lock.unlock()
             return false
         }
     }
     
     internal func handleResume() -> Bool
     {
-        //
-        // NOTE:
-        // `initResumeClosure` should be invoked first before `configure.resume()`
-        // to let downstream prepare setting upstream's progress/fulfill/reject handlers
-        // before upstream actually starts sending values, which often happens
-        // when downstream's `configure.resume()` is configured to call upstream's `task.resume()`
-        // which eventually calls upstream's `initResumeClosure`
-        // and thus upstream starts sending values.
-        //
-        self._handleInitResumeIfNeeded()
-        
-        return _handleResume()
-    }
-    
-    ///
-    /// Invokes `initResumeClosure` on 1st resume (only once).
-    ///
-    /// If initial state is `.Paused`, `state` will be temporarily switched to `.Running`
-    /// during `initResumeClosure` execution, so that Task can call progress/fulfill/reject handlers safely.
-    ///
-    private func _handleInitResumeIfNeeded()
-    {
-        if (self.initResumeClosure != nil) {
+        self._lock.lock()
+        if let initResumeClosure = self.initResumeClosure.update({ _ in nil }) {
             
-            let isInitPaused = (self.state == .Paused)
+            self.state.rawValue = .Running
+            self._lock.unlock()
             
-            if isInitPaused {
-                self.state = .Running  // switch `.Paused` => `.Resume` temporarily without invoking `configure.resume()`
-            }
+            //
+            // NOTE:
+            // Don't use `_lock` here so that dispatch_async'ed `handleProgress` inside `initResumeClosure()`
+            // will be safely called even when current thread goes into sleep.
+            //
+            initResumeClosure()
             
-            // NOTE: performing `initResumeClosure` might change `state` to `.Fulfilled` or `.Rejected` **immediately**
-            self.initResumeClosure?()
-            self.initResumeClosure = nil
+            //
+            // Comment-Out:
+            // Don't call `configuration.resume()` when lazy starting.
+            // This prevents inapropriate starting of upstream in ReactKit.
+            //
+            //self.configuration.resume?()
             
-            // switch back to `.Paused` if temporary `.Running` has not changed
-            // so that consecutive `_handleResume()` can perform `configure.resume()`
-            if isInitPaused && self.state == .Running {
-                self.state = .Paused
-            }
+            return true
+        }
+        else {
+            let resumed = _handleResume()
+            self._lock.unlock()
+            return resumed
         }
     }
     
     private func _handleResume() -> Bool
     {
-        if self.state == .Paused {
+        let (_, updated) = self.state.tryUpdate { $0 == .Paused ? (.Running, true) : ($0, false) }
+        if updated {
             self.configuration.resume?()
-            self.state = .Running
             return true
         }
         else {
@@ -156,29 +210,78 @@ internal class _StateMachine<Progress, Value, Error>
     
     internal func handleCancel(error: Error? = nil) -> Bool
     {
-        if self.state == .Running || self.state == .Paused {
-            self.state = .Cancelled
-            self.errorInfo = ErrorInfo(error: error, isCancelled: true)
-            self.finish()
+        self._lock.lock()
+        let (_, updated) = self.state.tryUpdate { $0 == .Running || $0 == .Paused ? (.Cancelled, true) : ($0, false) }
+        if updated {
+            self.errorInfo.rawValue = ErrorInfo(error: error, isCancelled: true)
+            self._finish()
+            self._lock.unlock()
             return true
         }
         else {
+            self._lock.unlock()
             return false
         }
     }
     
-    internal func finish()
+    private func _finish()
     {
-        for handler in self.completionHandlers {
+        for handler in self._completionHandlers {
             handler()
         }
         
-        self.progressTupleHandlers.removeAll()
-        self.completionHandlers.removeAll()
+        self._progressTupleHandlers.removeAll()
+        self._completionHandlers.removeAll()
         
         self.configuration.finish()
         
-        self.initResumeClosure = nil
-        self.progress = nil
+        self.initResumeClosure.rawValue = nil
+        self.progress.rawValue = nil
+    }
+}
+
+//--------------------------------------------------
+// MARK: - Utility
+//--------------------------------------------------
+
+internal struct _HandlerToken
+{
+    internal let key: Int
+}
+
+internal struct _Handlers<T>: SequenceType
+{
+    internal typealias KeyValue = (key: Int, value: T)
+    
+    private var currentKey: Int = 0
+    private var elements = [KeyValue]()
+    
+    internal mutating func append(value: T) -> _HandlerToken
+    {
+        self.currentKey = self.currentKey &+ 1
+        
+        self.elements += [(key: self.currentKey, value: value)]
+        
+        return _HandlerToken(key: self.currentKey)
+    }
+    
+    internal mutating func remove(token: _HandlerToken) -> T?
+    {
+        for var i = 0; i < self.elements.count; i++ {
+            if self.elements[i].key == token.key {
+                return self.elements.removeAtIndex(i).value
+            }
+        }
+        return nil
+    }
+    
+    internal mutating func removeAll(keepCapacity: Bool = false)
+    {
+        self.elements.removeAll(keepCapacity: keepCapacity)
+    }
+    
+    internal func generate() -> GeneratorOf<T>
+    {
+        return GeneratorOf(self.elements.map { $0.value }.generate())
     }
 }

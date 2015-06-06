@@ -10,6 +10,7 @@ import UIKit
 import ReactKit
 import MapKit
 import WebKit
+import SDWebImage
 
 private let CityDistanceSeparator = " • "
 
@@ -21,7 +22,6 @@ public final class DetailViewController : UIViewController, MKMapViewDelegate {
     public var isGoing: Bool = false
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var profileButton: UIBarButtonItem!
     
     internal var businessNameStream: Stream<AnyObject?>!
     internal var cityAndDistanceStream: Stream<AnyObject?>!
@@ -82,10 +82,6 @@ public final class DetailViewController : UIViewController, MKMapViewDelegate {
     public func alertAction(){
         self.isGoing = true
         self.tableView.reloadData();
-    }
-    
-    deinit {
-        println("deinit from detailviewcontroller")
     }
     
     public func shareSheetAction() {
@@ -388,6 +384,10 @@ extension DetailViewController : UITableViewDelegate {
             
             tableView.reloadData()
         }
+        if (indexPath.section == 0 && indexPath.row == 2){
+            DetailLogDebug("in here")
+            
+        }
     }
 }
 
@@ -409,7 +409,9 @@ extension DetailViewController : DetailPhoneWebCellDelegate {
 
 extension DetailViewController : DetailAddressCellDelegate {
     public func goToMapVC() {
-        let locationStream = detailVM.getCurrentLocation() ~> { [unowned self] location -> Void in
+        let locationStream = detailVM.getCurrentLocation()
+        locationStream.ownedBy(self)
+        locationStream ~> { [unowned self] location -> Void in
             var businessMapVC = DetailBusinessMapViewController(nibName: "DetailBusinessMapViewController", bundle: nil)
             var distance = self.detailVM.detailBusinessInfoVM.cllocation.distanceFromLocation(location)
             var spanFactor = distance / 55000.00
@@ -420,6 +422,5 @@ extension DetailViewController : DetailAddressCellDelegate {
             businessMapVC.businessAnnotation = annotation
             self.navigationController?.pushViewController(businessMapVC, animated: true)
         }
-        locationStream.ownedBy(self)
     }
 }
