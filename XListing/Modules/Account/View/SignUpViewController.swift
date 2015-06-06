@@ -32,6 +32,7 @@ public final class SignUpViewController: UIViewController {
         
         // Load nib as view
         signUpView = NSBundle.mainBundle().loadNibNamed(signUpViewNibName, owner: self, options: nil).first as? SignUpView
+        signUpView.delegate = self
         
         // Put view to display
         self.view = signUpView
@@ -39,13 +40,13 @@ public final class SignUpViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view.
-        signUpView.delegate = self
         (accountVM as! AccountViewModel, "nickname") <~ signUpView.nicknameFieldSignal!
-//        signUpView.nicknameFieldSignal! ~> println
         (accountVM as! AccountViewModel, "birthday") <~ signUpView.birthdayPickerSignal!
         (accountVM as! AccountViewModel, "profileImage") <~ signUpView.profileImageSignal!
-        (signUpView.submitButton, "enabled") <~ (accountVM as! AccountViewModel).areValidInputSignal
+//        signUpView.testImage! ~> { _ in println("hihihi") }
+        (signUpView.submitButton, "enabled") <~ (accountVM as! AccountViewModel).areInputsValidSignal
     }
 
     public override func didReceiveMemoryWarning() {
@@ -77,5 +78,11 @@ extension SignUpViewController : SignUpViewDelegate {
     
     public func dismissViewController() {
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    public var ageLimit: AgeLimit {
+        get {
+            return accountVM.ageLimit
+        }
     }
 }
