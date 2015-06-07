@@ -10,6 +10,7 @@ import Foundation
 import SwiftTask
 import AVOSCloud
 
+public typealias CompletionHandler = (() -> Void)
 public typealias SaveTask = Task<Int, Bool, NSError>
 public typealias PFUser = AVUser
 public typealias PFObject = AVObject

@@ -10,14 +10,6 @@ import ReactKit
 import SwiftTask
 
 public protocol IAccountViewModel {
-    var birthday: NSDate? { get set }
-    var nickname: NSString? { get set }
-    var profileImage: UIImage? { get set }
-    var ageLimit: AgeLimit { get }
-    var isNicknameValidSignal: Stream<Bool>! { get }
-    var isBirthdayValidSignal: Stream<Bool>! { get }
-    var isProfileImageValidSignal: Stream<Bool>! { get }
-    var areInputsValidSignal: Stream<NSNumber?>! { get }
+    var signUpViewModel: SignUpViewModel { get }
     init(userService: IUserService)
-    func updateProfile(nickname: String, birthday: NSDate, profileImage: UIImage?) -> Task<Int, Bool, NSError>
 }
