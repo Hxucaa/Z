@@ -40,7 +40,7 @@ internal final class ConsoleFormatter: DDDispatchQueueLogFormatter, DDLogFormatt
             logLevel = "?"
         }
         
-        let formattedLog = "\(dateAndTime) |\(logLevel)| [\(logMessage.queueLabel) \(logMessage.threadID)] [\(logMessage.fileName) \(logMessage.function)] #\(logMessage.line): \(logMessage.message)"
+        let formattedLog = "\(dateAndTime) |\(logLevel)| [\(logMessage.fileName) \(logMessage.function)] #\(logMessage.line): \(logMessage.message)"
         
         return formattedLog
     }

@@ -20,11 +20,11 @@ public final class SignUpView : UIView {
     @IBOutlet weak var birthdayPicker: UIDatePicker!
     @IBOutlet weak var submitButton: UIButton!
     
-    private var dismissViewButtonSignal: Stream<NSString?>?
+    private var dismissViewButtonSignal: Stream<String?>?
     private var nicknameFieldSignal: Stream<NSString?>?
     private var birthdayPickerSignal: Stream<NSDate?>?
-    private var submitButtonSignal: Stream<NSString?>?
-    public var imagePickerButtonSignal: Stream<NSString?>?
+    private var submitButtonSignal: Stream<String?>?
+    public var imagePickerButtonSignal: Stream<String?>?
     
     public weak var delegate: SignUpViewDelegate?
     

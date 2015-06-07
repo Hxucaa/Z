@@ -10,8 +10,6 @@ import Foundation
 import SwiftTask
 import ReactKit
 
-public typealias AgeLimit = (floor: NSDate, ceil: NSDate)
-
 public final class AccountViewModel : NSObject, IAccountViewModel {
     
     private let userService: IUserService

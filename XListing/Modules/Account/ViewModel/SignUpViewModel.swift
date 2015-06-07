@@ -10,41 +10,41 @@ import Foundation
 import SwiftTask
 import ReactKit
 
+public typealias AgeLimit = (floor: NSDate, ceil: NSDate)
+
 public final class SignUpViewModel : NSObject {
     
     private let userService: IUserService
-    public var nickname: NSString?
+    
+    public var nickname: String?
     public var birthday: NSDate?
     public var profileImage: UIImage?
     
     public var ageLimit: AgeLimit {
         get {
+            func calDate(currentDate: NSDate, age: Int) -> NSDate {
+                let calendar = NSCalendar.currentCalendar()
+                let components = calendar.components(NSCalendarUnit.CalendarUnitDay | NSCalendarUnit.CalendarUnitMonth | NSCalendarUnit.CalendarUnitYear, fromDate: currentDate)
+                let currentYear = components.year
+                let currentMonth = components.month
+                let currentDay = components.day
+                
+                let ageComponents = NSDateComponents()
+                ageComponents.year = currentYear - MIN_AGE
+                ageComponents.month = currentMonth
+                ageComponents.day = currentDay
+                return calendar.dateFromComponents(ageComponents)!
+            }
+            
             // Restrict birthdays
             let currentDate = NSDate()
-            let calendar = NSCalendar.currentCalendar()
-            let components = calendar.components(NSCalendarUnit.CalendarUnitDay | NSCalendarUnit.CalendarUnitMonth | NSCalendarUnit.CalendarUnitYear, fromDate: currentDate)
-            let currentYear = components.year
-            let currentMonth = components.month
-            let currentDay = components.day 
             
-            let maximumAgeComponents = NSDateComponents()
-            maximumAgeComponents.year = currentYear - MIN_AGE
-            maximumAgeComponents.month = currentMonth
-            maximumAgeComponents.day = currentDay
-            let maximumDate = calendar.dateFromComponents(maximumAgeComponents)
-            
-            let minimumAgeComponents = NSDateComponents()
-            minimumAgeComponents.year = currentYear - MAX_AGE
-            minimumAgeComponents.month = currentMonth
-            minimumAgeComponents.day = currentDay
-            let minimumDate = calendar.dateFromComponents(minimumAgeComponents)
-            
-            return (floor: minimumDate!, ceil: maximumDate!)
+            return (floor: calDate(currentDate, MAX_AGE), ceil: calDate(currentDate, MIN_AGE))
         }
     }
     
     private var birthdaySignal: Stream<NSDate?>!
-    private var nicknameSignal: Stream<NSString?>!
+    private var nicknameSignal: Stream<String?>!
     private var profileImageSignal: Stream<UIImage?>!
     
     /// Nickname validity signal
@@ -69,10 +69,9 @@ public final class SignUpViewModel : NSObject {
     }
     
     public func updateProfile() -> Stream<Bool> {
-        println("wtf")
         if let currentUser = userService.currentUser() {
             currentUser.birthday = birthday
-            currentUser.nickname = nickname as? String
+            currentUser.nickname = nickname
             let imageData = UIImagePNGRepresentation(profileImage)
             return Stream<Bool>.fromTask(userService.save(currentUser))
         }
@@ -84,9 +83,9 @@ public final class SignUpViewModel : NSObject {
     
     private func setupNickname() {
         nicknameSignal = KVO.stream(self, "nickname")
-            |> map { $0 as? NSString }
+            |> map { $0 as? String }
             // TODO: add regex to allow only a subset of characters
-            |> filter { $0!.length > 0 }
+            |> filter { count($0!) > 0 }
         
         isNicknameValidSignal = nicknameSignal
             // starting value as false
@@ -123,12 +122,15 @@ public final class SignUpViewModel : NSObject {
             isProfileImageValidSignal
         ]
             |> merge2All
+            |> peek { AccountLogDebug($0.values.description) }
             |> map { (values, changedValues) -> NSNumber? in
-                if let v0 = values[0], v1 = values[1], v2 = values[2] {
-                    return v0 && v1 && v2
+                return values.reduce(Optional<Bool>.Some(true)) { v1, v2 in
+                    if let v1 = v1, v2 = v2 {
+                        return v1 && v2
+                    }
+                    return false
                 }
-                return false
-        }
+            }
     }
     
     private func isValidAge(age: NSDate) -> Bool {
