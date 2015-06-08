@@ -68,29 +68,6 @@ public final class DetailViewController : UIViewController, MKMapViewDelegate {
         self.shareSheetAction()
     }
     
-    public func wantToGoPopover(){
-        var alert = UIAlertController(title: "请选一种", message: "", preferredStyle: UIAlertControllerStyle.Alert)
-        
-        alert.addAction(UIAlertAction(title: "我想去", style: UIAlertActionStyle.Default) { alert in
-            self.alertAction()
-            })
-        alert.addAction(UIAlertAction(title: "我想请客", style: UIAlertActionStyle.Default) { alert in
-            self.alertAction()
-            })
-        alert.addAction(UIAlertAction(title: "我想 AA", style: UIAlertActionStyle.Default) { alert in
-            self.alertAction()
-            })
-        
-        alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil))
-        
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    public func alertAction(){
-        self.isGoing = true
-        self.tableView.reloadData();
-    }
-    
     deinit {
         DetailLogDebug("deinit from detailviewcontroller")
     }
@@ -403,7 +380,17 @@ extension DetailViewController : UITableViewDelegate {
 
 extension DetailViewController : DetailBizInfoCellDelegate{
     public func participate() {
-        wantToGoPopover()
+        var popover = ParticipationPopover()
+        popover.delegate = self
+        var alert: (UIAlertController) = popover.createPopover()
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+}
+
+extension DetailViewController : ParticipationPopoverDelegate {
+    public func alertAction(choiceTag: Int) {
+        self.isGoing = true;
+        self.tableView.reloadData()
     }
 }
 
