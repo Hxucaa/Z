@@ -9,6 +9,7 @@
 import Foundation
 import SwiftTask
 import ReactKit
+import AVOSCloud
 
 public typealias AgeLimit = (floor: NSDate, ceil: NSDate)
 
@@ -30,7 +31,7 @@ public final class SignUpViewModel : NSObject {
                 let currentDay = components.day
                 
                 let ageComponents = NSDateComponents()
-                ageComponents.year = currentYear - MIN_AGE
+                ageComponents.year = currentYear - age
                 ageComponents.month = currentMonth
                 ageComponents.day = currentDay
                 return calendar.dateFromComponents(ageComponents)!
@@ -68,11 +69,20 @@ public final class SignUpViewModel : NSObject {
         
     }
     
+    /**
+    Update user's profile. Data should already be present on the view model via signaling.
+    
+    :returns: Stream<Bool> which indicate whether the operation was successful.
+    */
     public func updateProfile() -> Stream<Bool> {
         if let currentUser = userService.currentUser() {
-            currentUser.birthday = birthday
-            currentUser.nickname = nickname
             let imageData = UIImagePNGRepresentation(profileImage)
+            let file = AVFile.fileWithName("profile.png", data: imageData) as! AVFile
+            
+            currentUser.profileImg = file
+            currentUser.nickname = nickname
+            currentUser.birthday = birthday
+            
             return Stream<Bool>.fromTask(userService.save(currentUser))
         }
         else {
@@ -82,18 +92,20 @@ public final class SignUpViewModel : NSObject {
     }
     
     private func setupNickname() {
+        // KVO instance variable nickname
         nicknameSignal = KVO.stream(self, "nickname")
             |> map { $0 as? String }
             // TODO: add regex to allow only a subset of characters
             |> filter { count($0!) > 0 }
         
         isNicknameValidSignal = nicknameSignal
-            // starting value as false
             |> map { _ in return true }
+            // starting value as false
             |> startWith(false)
     }
     
     private func setupBirthday() {
+        // KVO instance variable birthday
         birthdaySignal = KVO.stream(self, "birthday")
             |> map { $0 as? NSDate }
         
@@ -105,10 +117,9 @@ public final class SignUpViewModel : NSObject {
     }
     
     private func setupProfileImage() {
+        // KVO instance variable profileImage
         profileImageSignal = KVO.stream(self, "profileImage")
             |> map { $0 as? UIImage }
-            // TODO: manipulate image
-            |> map { $0 }
         
         isProfileImageValidSignal = profileImageSignal
             |> map { _ in return true }

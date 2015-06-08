@@ -11,6 +11,11 @@ import AVOSCloud
 
 public final class User: AVUser, AVSubclassing {
     
+    // Class Name
+    public class func parseClassName() -> String {
+        return "_User"
+    }
+    
     // MARK: Constructors
     public override class func registerSubclass() {
         var onceToken : dispatch_once_t = 0;
@@ -20,13 +25,10 @@ public final class User: AVUser, AVSubclassing {
     }
     
     @NSManaged public var birthday: NSDate?
-//    public dynamic var birthday: NSDate? {
-//        get {
-//            return objectForKey("birthday") as? NSDate
-//        }
-//        set {
-//            setObject(newValue, forKey: "birthday")
-//        }
-//    }
+    
     @NSManaged public var nickname: String?
+    
+    @NSManaged public var profileImg: AVFile?
+    
+    @NSManaged public var profile: Profile
 }

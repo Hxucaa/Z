@@ -9,6 +9,7 @@
 import Foundation
 import SwiftTask
 import ReactKit
+import AVOSCloud
 
 public final class FeaturedListViewModel : IFeaturedListViewModel {
     public let businessDynamicArr = DynamicArray()
@@ -94,11 +95,12 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     public func presentAccountModule() {
-        
-//        let nickname = userService.currentUser()?.nickname
-//        let birthday = userService.currentUser()?.birthday
-//        if birthday == nil || nickname == nil {
-            navigator.navigateToAccountModule()
-//        }
+        if let currentUser = userService.currentUser() {
+            let nickname = userService.currentUser()?.nickname
+            let birthday = userService.currentUser()?.birthday
+            if birthday == nil || nickname == nil {
+                navigator.navigateToAccountModule()
+            }
+        }
     }
 }

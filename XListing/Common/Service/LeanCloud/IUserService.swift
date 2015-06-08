@@ -10,11 +10,12 @@ import Foundation
 import SwiftTask
 import ReactKit
 
-public protocol IUserService : IObjectService {
+public protocol IUserService {
     func isLoggedInAlready() -> Bool
     func currentUser() -> User?
     func signUp(user: User) -> Task<Int, Bool, NSError>
     func logIn(username: String, password: String) -> Task<Int, User, NSError>
     func logOut()
     func logInAnonymously() -> Task<Int, User, NSError>
+    func save(user: User) -> Task<Int, Bool, NSError>
 }
