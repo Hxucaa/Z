@@ -264,6 +264,7 @@
 				2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */,
 			);
 			name = View;
+			path = Common/View;
 			sourceTree = "<group>";
 		};
 		2A9A9BA91B1C4ABF0010EDA9 /* DetailCellViews */ = {
