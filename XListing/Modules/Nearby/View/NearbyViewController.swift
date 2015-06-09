@@ -207,7 +207,7 @@ extension NearbyViewController : UIScrollViewDelegate {
         var tView = tableArray[self.pageNumber]
         tView.reloadData()
         var biz = nearbyVM.businessDynamicArr.proxy[self.pageNumber] as! NearbyHorizontalScrollCellViewModel
-        shiftMapCenter(biz.cllocation)
+        setInitialCenter(biz.cllocation)
         
         targetContentOffset.memory.x = pageNumber * pageWidth!
         
