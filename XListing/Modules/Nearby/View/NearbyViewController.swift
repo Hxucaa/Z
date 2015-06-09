@@ -36,9 +36,10 @@ public final class NearbyViewController: UIViewController , UITableViewDelegate,
         initScrollView()
     
         // Process the signal to do something else. That's why you need to have a reference to the signal.
-        let locationStream = nearbyVM.getCurrentLocation().ownedBy(self)
+        let locationStream = nearbyVM.getCurrentLocation()
+        locationStream.ownedBy(self)
         locationStream ~> { [unowned self] location -> Void in
-            self.shiftMapCenter(location)
+            self.setInitialCenter(location)
         }
 
         setupMapViewSignal()
@@ -148,10 +149,10 @@ public final class NearbyViewController: UIViewController , UITableViewDelegate,
     
     :param: location The geolocation.
     */
-    private func shiftMapCenter(location: CLLocation){
+    private func setInitialCenter(location: CLLocation){
         let span = MKCoordinateSpanMake(0.07, 0.07)
         let region = MKCoordinateRegion(center: location.coordinate, span: span)
-        mapView.setRegion(region, animated: true)
+        mapView.setRegion(region, animated: false)
     }
     
     
@@ -206,7 +207,7 @@ extension NearbyViewController : UIScrollViewDelegate {
         var tView = tableArray[self.pageNumber]
         tView.reloadData()
         var biz = nearbyVM.businessDynamicArr.proxy[self.pageNumber] as! NearbyHorizontalScrollCellViewModel
-        shiftMapCenter(biz.cllocation)
+        setInitialCenter(biz.cllocation)
         
         targetContentOffset.memory.x = pageNumber * pageWidth!
         
