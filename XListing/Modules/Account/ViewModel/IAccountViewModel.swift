@@ -10,6 +10,6 @@ import ReactKit
 import SwiftTask
 
 public protocol IAccountViewModel {
-    var signUpViewModel: SignUpViewModel { get }
+    var editProfileViewModel: EditProfileViewModel { get }
     init(userService: IUserService)
 }

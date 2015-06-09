@@ -13,7 +13,7 @@ import AVOSCloud
 
 public typealias AgeLimit = (floor: NSDate, ceil: NSDate)
 
-public final class SignUpViewModel : NSObject {
+public final class EditProfileViewModel : NSObject {
     
     // MARK: - Services
     private let userService: IUserService

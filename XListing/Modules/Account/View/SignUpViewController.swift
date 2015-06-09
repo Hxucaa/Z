@@ -12,13 +12,13 @@ import ReactKit
 public final class SignUpViewController: UIViewController {
     
     private let accountVM: IAccountViewModel
-    private let signUpViewNibName: String
+    private let editProfileViewNibName: String
     
-    private var signUpView: SignUpView!
+    private var editProfileView: EditProfileView!
     
-    public init(accountVM: IAccountViewModel, signUpViewNibName: String) {
+    public init(accountVM: IAccountViewModel, editProfileViewNibName: String) {
         self.accountVM = accountVM
-        self.signUpViewNibName = signUpViewNibName
+        self.editProfileViewNibName = editProfileViewNibName
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -31,7 +31,7 @@ public final class SignUpViewController: UIViewController {
         super.loadView()
         
         // Load nib as view
-        signUpView = NSBundle.mainBundle().loadNibNamed(signUpViewNibName, owner: self, options: nil).first as? SignUpView
+        editProfileView = NSBundle.mainBundle().loadNibNamed(editProfileViewNibName, owner: self, options: nil).first as? EditProfileView
     }
     
     public override func viewDidLoad() {
@@ -47,11 +47,11 @@ public final class SignUpViewController: UIViewController {
     }
     
     private func displaySignUpView() {
-        signUpView.delegate = self
-        signUpView.bindToViewModel(accountVM.signUpViewModel)
+        editProfileView.delegate = self
+        editProfileView.bindToViewModel(accountVM.editProfileViewModel)
         
         // Put view to display
-        self.view = signUpView
+        self.view = editProfileView
     }
 }
 

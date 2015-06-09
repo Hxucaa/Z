@@ -35,7 +35,7 @@
 		6355331D984FC626C0650774 /* Pods_XListing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		7E0173831B13F2B9002E154B /* UIDatePicker+stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0173821B13F2B9002E154B /* UIDatePicker+stream.swift */; };
 		7E0173861B13FB44002E154B /* SignUpViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0173851B13FB44002E154B /* SignUpViewDelegate.swift */; };
-		7E0173881B146473002E154B /* SignUpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E0173871B146473002E154B /* SignUpView.xib */; };
+		7E0173881B146473002E154B /* EditProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E0173871B146473002E154B /* EditProfileView.xib */; };
 		7E01738E1B1525DB002E154B /* EditProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E01738D1B1525DB002E154B /* EditProfileTableViewController.swift */; };
 		7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */; };
 		7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */; };
@@ -51,9 +51,9 @@
 		7EF371571AB8C9B3009AA3B9 /* BusinessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371551AB8C9B3009AA3B9 /* BusinessSpec.swift */; };
 		7EF371581AB8C9B3009AA3B9 /* BusinessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */; };
 		7EFEF7421B124B060043E076 /* INavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7411B124B060043E076 /* INavigator.swift */; };
-		7EFEF7461B13D0900043E076 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7451B13D0900043E076 /* SignUpView.swift */; };
+		7EFEF7461B13D0900043E076 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7451B13D0900043E076 /* EditProfileView.swift */; };
 		B40A0D8B1B22455700036986 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8A1B22455700036986 /* Constants.swift */; };
-		B40A0D8D1B23BD2900036986 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8C1B23BD2900036986 /* SignUpViewModel.swift */; };
+		B40A0D8D1B23BD2900036986 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8C1B23BD2900036986 /* EditProfileViewModel.swift */; };
 		B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */; };
 		B42797431AFD463500AE5A90 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42797421AFD463500AE5A90 /* Navigator.swift */; };
 		B430323F1AE361350068E8DF /* ObjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B430323E1AE361350068E8DF /* ObjectService.swift */; };
@@ -155,7 +155,7 @@
 		45CBB717784EC301CD7D042E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7E0173821B13F2B9002E154B /* UIDatePicker+stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDatePicker+stream.swift"; sourceTree = "<group>"; };
 		7E0173851B13FB44002E154B /* SignUpViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewDelegate.swift; sourceTree = "<group>"; };
-		7E0173871B146473002E154B /* SignUpView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpView.xib; sourceTree = "<group>"; };
+		7E0173871B146473002E154B /* EditProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileView.xib; sourceTree = "<group>"; };
 		7E01738D1B1525DB002E154B /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
 		7E3A1C021B1EF84500E84ABE /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = "Pods/../build/Debug-iphoneos/Pods-XListing/CocoaLumberjack.framework"; sourceTree = "<group>"; };
 		7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CocoaLumberjack+extension.swift"; sourceTree = "<group>"; };
@@ -178,10 +178,10 @@
 		7EF371551AB8C9B3009AA3B9 /* BusinessSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessSpec.swift; sourceTree = "<group>"; };
 		7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessTests.swift; sourceTree = "<group>"; };
 		7EFEF7411B124B060043E076 /* INavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = INavigator.swift; sourceTree = "<group>"; };
-		7EFEF7451B13D0900043E076 /* SignUpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		7EFEF7451B13D0900043E076 /* EditProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		B409438F1B164C5600D9BDEF /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = "Pods/../build/Debug-iphoneos/Pods-XListing/ReactiveCocoa.framework"; sourceTree = "<group>"; };
 		B40A0D8A1B22455700036986 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		B40A0D8C1B23BD2900036986 /* SignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		B40A0D8C1B23BD2900036986 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleFormatter.swift; sourceTree = "<group>"; };
 		B42797421AFD463500AE5A90 /* Navigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 		B430323E1AE361350068E8DF /* ObjectService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectService.swift; sourceTree = "<group>"; };
@@ -720,7 +720,7 @@
 			children = (
 				B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */,
 				B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */,
-				B40A0D8C1B23BD2900036986 /* SignUpViewModel.swift */,
+				B40A0D8C1B23BD2900036986 /* EditProfileViewModel.swift */,
 				B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */,
 			);
 			path = ViewModel;
@@ -740,8 +740,8 @@
 			children = (
 				2A714B101B085C63007A8FBB /* SignUpViewController.swift */,
 				7E0173851B13FB44002E154B /* SignUpViewDelegate.swift */,
-				7EFEF7451B13D0900043E076 /* SignUpView.swift */,
-				7E0173871B146473002E154B /* SignUpView.xib */,
+				7EFEF7451B13D0900043E076 /* EditProfileView.swift */,
+				7E0173871B146473002E154B /* EditProfileView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -848,7 +848,7 @@
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				2AC9D8C01AF735A600C51DB3 /* NearbyTableViewCell.xib in Resources */,
 				2ADF3E661B1ECBA200C2971E /* DetailBusinessMapViewController.xib in Resources */,
-				7E0173881B146473002E154B /* SignUpView.xib in Resources */,
+				7E0173881B146473002E154B /* EditProfileView.xib in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
 				2A41A30E1AF3133F0086D24B /* fontawesome-webfont.ttf in Resources */,
 				7EF371501AB8C1E8009AA3B9 /* Parse.plist in Resources */,
@@ -990,7 +990,7 @@
 				B47E15C61B181E160028E07E /* BackgroundOperationsWorkerFactory.swift in Sources */,
 				B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */,
 				2A41A3131AF337350086D24B /* NearbyTableViewCell.swift in Sources */,
-				7EFEF7461B13D0900043E076 /* SignUpView.swift in Sources */,
+				7EFEF7461B13D0900043E076 /* EditProfileView.swift in Sources */,
 				B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */,
 				2A9A9B9E1B1C31870010EDA9 /* DetailImageTableViewCell.swift in Sources */,
 				B48C99241ADBA4280045BCA9 /* IFeaturedListWireframe.swift in Sources */,
@@ -1000,7 +1000,7 @@
 				B47E15CD1B1821950028E07E /* ISignUpAndLogInWorker.swift in Sources */,
 				B44E35041AD63F6000657A31 /* BusinessService.swift in Sources */,
 				B430323F1AE361350068E8DF /* ObjectService.swift in Sources */,
-				B40A0D8D1B23BD2900036986 /* SignUpViewModel.swift in Sources */,
+				B40A0D8D1B23BD2900036986 /* EditProfileViewModel.swift in Sources */,
 				B4B665481ADF8DC60084DBE7 /* IDetailWireframe.swift in Sources */,
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,
 				B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */,

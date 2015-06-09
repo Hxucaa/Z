@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import ReactKit
 
-public final class SignUpView : UIView {
+public final class EditProfileView : UIView {
     
     private let imagePicker = UIImagePickerController()
     
@@ -32,7 +32,7 @@ public final class SignUpView : UIView {
     public weak var delegate: SignUpViewDelegate?
     
     // MARK: - Viewmodel
-    private var viewmodel: SignUpViewModel!
+    private var viewmodel: EditProfileViewModel!
     
     // MARK: - Setup Code
     public override func awakeFromNib() {
@@ -44,7 +44,7 @@ public final class SignUpView : UIView {
     
     :param: viewmodel The viewmodel
     */
-    public func bindToViewModel(viewmodel: SignUpViewModel) {
+    public func bindToViewModel(viewmodel: EditProfileViewModel) {
         self.viewmodel = viewmodel
         
         setupImagePicker()
@@ -152,7 +152,7 @@ public final class SignUpView : UIView {
     }
 }
 
-extension SignUpView : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension EditProfileView : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     /**
     Tells the delegate that the user picked a still image or movie.
@@ -177,7 +177,7 @@ extension SignUpView : UIImagePickerControllerDelegate, UINavigationControllerDe
     }
 }
 
-extension SignUpView : UITextFieldDelegate {
+extension EditProfileView : UITextFieldDelegate {
     /**
     The text field calls this method whenever the user taps the return button. You can use this method to implement any custom behavior when the button is tapped.
     

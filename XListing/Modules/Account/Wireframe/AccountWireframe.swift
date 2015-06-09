@@ -10,7 +10,7 @@ import Foundation
 import ReactKit
 import UIKit
 
-private let SignUpViewNibName = "SignUpView"
+private let EditProfileViewNibName = "EditProfileView"
 
 public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     
@@ -31,7 +31,7 @@ public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     
     private func injectViewModelToViewController() -> SignUpViewController {
         let viewmodel = AccountViewModel(userService: userService)
-        let viewController = SignUpViewController(accountVM: viewmodel, signUpViewNibName: SignUpViewNibName)
+        let viewController = SignUpViewController(accountVM: viewmodel, editProfileViewNibName: EditProfileViewNibName)
         signUpVC = viewController
         return viewController
     }
@@ -39,7 +39,6 @@ public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     
     private func presentView() {
         let injectedViewController = injectViewModelToViewController()
-//        rootWireframe.pushViewController(injectedViewController, animated: true)
         rootWireframe.presentViewController(injectedViewController, animated: true)
     }
 }
