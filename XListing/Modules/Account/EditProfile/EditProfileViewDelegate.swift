@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public protocol SignUpViewDelegate : class {
+public protocol EditProfileViewDelegate : class {
     func presentUIImagePickerController(imagePicker: UIImagePickerController)
     var dismissSignUpView: CompletionHandler? -> Void { get }
 }

@@ -29,7 +29,7 @@ public final class EditProfileView : UIView {
     private var imagePickerButtonSignal: Stream<String?>?
     
     // MARK: - Delegate
-    public weak var delegate: SignUpViewDelegate?
+    public weak var delegate: EditProfileViewDelegate?
     
     // MARK: - Viewmodel
     private var viewmodel: EditProfileViewModel!

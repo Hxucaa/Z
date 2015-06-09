@@ -55,7 +55,7 @@ public final class AccountViewController: UIViewController {
     }
 }
 
-extension AccountViewController : SignUpViewDelegate {
+extension AccountViewController : EditProfileViewDelegate {
     
     public func presentUIImagePickerController(imagePicker: UIImagePickerController) {
         self.presentViewController(imagePicker, animated: true, completion: nil)

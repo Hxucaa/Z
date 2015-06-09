@@ -34,7 +34,7 @@
 		45CBBDCF399C77A93D0B1C1E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB2272E6DA7ED3BDD24AE /* ProfileViewModel.swift */; };
 		6355331D984FC626C0650774 /* Pods_XListing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		7E0173831B13F2B9002E154B /* UIDatePicker+stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0173821B13F2B9002E154B /* UIDatePicker+stream.swift */; };
-		7E0173861B13FB44002E154B /* SignUpViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0173851B13FB44002E154B /* SignUpViewDelegate.swift */; };
+		7E0173861B13FB44002E154B /* EditProfileViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0173851B13FB44002E154B /* EditProfileViewDelegate.swift */; };
 		7E0173881B146473002E154B /* EditProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E0173871B146473002E154B /* EditProfileView.xib */; };
 		7E01738E1B1525DB002E154B /* EditProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E01738D1B1525DB002E154B /* EditProfileTableViewController.swift */; };
 		7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */; };
@@ -154,7 +154,7 @@
 		45CBB6EB1EBF881F9EB25C64 /* IProfileWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IProfileWireframe.swift; sourceTree = "<group>"; };
 		45CBB717784EC301CD7D042E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7E0173821B13F2B9002E154B /* UIDatePicker+stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDatePicker+stream.swift"; sourceTree = "<group>"; };
-		7E0173851B13FB44002E154B /* SignUpViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewDelegate.swift; sourceTree = "<group>"; };
+		7E0173851B13FB44002E154B /* EditProfileViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewDelegate.swift; sourceTree = "<group>"; };
 		7E0173871B146473002E154B /* EditProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileView.xib; sourceTree = "<group>"; };
 		7E01738D1B1525DB002E154B /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
 		7E3A1C021B1EF84500E84ABE /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = "Pods/../build/Debug-iphoneos/Pods-XListing/CocoaLumberjack.framework"; sourceTree = "<group>"; };
@@ -705,25 +705,52 @@
 			path = Common/Wireframe;
 			sourceTree = "<group>";
 		};
+		B4F1957C1B27871F00B8C519 /* Landing */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Landing;
+			sourceTree = "<group>";
+		};
+		B4F1957D1B27872D00B8C519 /* LogIn */ = {
+			isa = PBXGroup;
+			children = (
+				B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */,
+			);
+			path = LogIn;
+			sourceTree = "<group>";
+		};
+		B4F1957E1B27873500B8C519 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		B4F1957F1B27873E00B8C519 /* EditProfile */ = {
+			isa = PBXGroup;
+			children = (
+				7E0173851B13FB44002E154B /* EditProfileViewDelegate.swift */,
+				7EFEF7451B13D0900043E076 /* EditProfileView.swift */,
+				B40A0D8C1B23BD2900036986 /* EditProfileViewModel.swift */,
+				7E0173871B146473002E154B /* EditProfileView.xib */,
+			);
+			path = EditProfile;
+			sourceTree = "<group>";
+		};
 		B4FCC7231AE9C627009B4DF6 /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				B4FCC7291AE9D2FB009B4DF6 /* Wireframe */,
-				B4FCC72A1AE9D302009B4DF6 /* View */,
-				B4FCC7241AE9C675009B4DF6 /* ViewModel */,
-			);
-			path = Account;
-			sourceTree = "<group>";
-		};
-		B4FCC7241AE9C675009B4DF6 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
+				2A714B101B085C63007A8FBB /* AccountViewController.swift */,
 				B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */,
 				B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */,
-				B40A0D8C1B23BD2900036986 /* EditProfileViewModel.swift */,
-				B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */,
+				B4F1957F1B27873E00B8C519 /* EditProfile */,
+				B4F1957E1B27873500B8C519 /* SignUp */,
+				B4F1957D1B27872D00B8C519 /* LogIn */,
+				B4F1957C1B27871F00B8C519 /* Landing */,
+				B4FCC7291AE9D2FB009B4DF6 /* Wireframe */,
 			);
-			path = ViewModel;
+			path = Account;
 			sourceTree = "<group>";
 		};
 		B4FCC7291AE9D2FB009B4DF6 /* Wireframe */ = {
@@ -733,17 +760,6 @@
 				B4FCC72D1AE9D35C009B4DF6 /* IAccountWireframe.swift */,
 			);
 			path = Wireframe;
-			sourceTree = "<group>";
-		};
-		B4FCC72A1AE9D302009B4DF6 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				2A714B101B085C63007A8FBB /* AccountViewController.swift */,
-				7E0173851B13FB44002E154B /* SignUpViewDelegate.swift */,
-				7EFEF7451B13D0900043E076 /* EditProfileView.swift */,
-				7E0173871B146473002E154B /* EditProfileView.xib */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		CEFE73BB6B4CAA9AA89661B3 /* Pods */ = {
@@ -967,7 +983,7 @@
 				7EACBA181B01A37C009D8CA6 /* DetailBusinessInfoViewModel.swift in Sources */,
 				B43032471AE4281D0068E8DF /* TypeAliases.swift in Sources */,
 				2ADF3E681B1ECEFF00C2971E /* DetailAddressCellDelegate.swift in Sources */,
-				7E0173861B13FB44002E154B /* SignUpViewDelegate.swift in Sources */,
+				7E0173861B13FB44002E154B /* EditProfileViewDelegate.swift in Sources */,
 				B48C99221ADA6A640045BCA9 /* NearbyWireframe.swift in Sources */,
 				B4FCC7411AEB0080009B4DF6 /* IRootWireframe.swift in Sources */,
 				B48C991D1ADA62DA0045BCA9 /* NearbyViewModel.swift in Sources */,
