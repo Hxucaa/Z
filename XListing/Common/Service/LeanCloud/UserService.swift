@@ -10,7 +10,7 @@ import Foundation
 import SwiftTask
 import ReactKit
 
-public final class UserService : ObjectService, IUserService {
+public final class UserService : IUserService {
     
     public func isLoggedInAlready() -> Bool {
         if let currentUser = currentUser() {
@@ -63,6 +63,19 @@ public final class UserService : ObjectService, IUserService {
             PFAnonymousUtils.logInWithBlock { user, error -> Void in
                 if error == nil {
                     fulfill(user as! User)
+                }
+                else {
+                    reject(error!)
+                }
+            }
+        }
+    }
+    
+    public func save(user: User) -> Task<Int, Bool, NSError> {
+        return Task<Int, Bool, NSError> { fulfill, reject -> Void in
+            user.saveInBackgroundWithBlock { (success, error) -> Void in
+                if error == nil {
+                    fulfill(success)
                 }
                 else {
                     reject(error!)

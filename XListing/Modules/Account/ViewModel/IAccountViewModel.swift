@@ -6,9 +6,10 @@
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
+import ReactKit
 import SwiftTask
 
 public protocol IAccountViewModel {
+    var signUpViewModel: SignUpViewModel { get }
     init(userService: IUserService)
-    func updateProfile(nickname: String, birthday: NSDate, profileImage: UIImage?) -> Task<Int, Bool, NSError>
 }

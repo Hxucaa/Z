@@ -32,16 +32,13 @@ public final class SignUpViewController: UIViewController {
         
         // Load nib as view
         signUpView = NSBundle.mainBundle().loadNibNamed(signUpViewNibName, owner: self, options: nil).first as? SignUpView
-        
-        // Put view to display
-        self.view = signUpView
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        signUpView.delegate = self
         
+        displaySignUpView()
     }
 
     public override func didReceiveMemoryWarning() {
@@ -49,29 +46,24 @@ public final class SignUpViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    private func displaySignUpView() {
+        signUpView.delegate = self
+        signUpView.bindToViewModel(accountVM.signUpViewModel)
+        
+        // Put view to display
+        self.view = signUpView
+    }
 }
 
 extension SignUpViewController : SignUpViewDelegate {
-    public func submitUpdate(#nickname: String, birthday: NSDate, profileImage: UIImage?) {
-        accountVM.updateProfile(nickname, birthday: birthday, profileImage: profileImage)
-            .success { [unowned self] success -> Void in
-                self.dismissViewControllerAnimated(true, completion: nil)
-            }
-            .failure { (error, isCancelled) -> Void in
-                if error == nil {
-                    println("Operation is cancelled")
-                }
-                else {
-                    println(error)
-                }
-            }
-    }
     
     public func presentUIImagePickerController(imagePicker: UIImagePickerController) {
         self.presentViewController(imagePicker, animated: true, completion: nil)
     }
     
-    public func dismissViewController() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    public var dismissSignUpView: CompletionHandler? -> Void {
+        return { (completionHandler: CompletionHandler?) -> Void in
+            self.dismissViewControllerAnimated(true, completion: completionHandler)
+        }
     }
 }

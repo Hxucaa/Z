@@ -14,25 +14,38 @@ public final class SignUpView : UIView {
     
     private let imagePicker = UIImagePickerController()
     
+    // MARK: - UI
     @IBOutlet weak var dismissViewButton: UIButton!
     @IBOutlet weak var nicknameField: UITextField!
     @IBOutlet weak var imagePickerButton: UIButton!
     @IBOutlet weak var birthdayPicker: UIDatePicker!
     @IBOutlet weak var submitButton: UIButton!
     
-    private var dismissViewButtonSignal: Stream<NSString?>?
-    public var nicknameFieldSignal: Stream<NSString?>?
-    public var birthdayPickerSignal: Stream<NSDate?>?
-    public var submitButtonSignal: Stream<NSString?>?
-    private var imagePickerButtonSignal: Stream<NSString?>?
+    // MARK: - UI Observer Signals
+    private var dismissViewButtonSignal: Stream<String?>?
+    private var nicknameFieldSignal: Stream<NSString?>?
+    private var birthdayPickerSignal: Stream<NSDate?>?
+    private var submitButtonSignal: Stream<String?>?
+    private var imagePickerButtonSignal: Stream<String?>?
     
-    // Profile imaged picked by user
-    private var profileImage: UIImage?
-    
+    // MARK: - Delegate
     public weak var delegate: SignUpViewDelegate?
     
+    // MARK: - Viewmodel
+    private var viewmodel: SignUpViewModel!
+    
+    // MARK: - Setup Code
     public override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    /**
+    Bind viewmodel to view.
+    
+    :param: viewmodel The viewmodel
+    */
+    public func bindToViewModel(viewmodel: SignUpViewModel) {
+        self.viewmodel = viewmodel
         
         setupImagePicker()
         setupDismissViewButton()
@@ -44,7 +57,7 @@ public final class SignUpView : UIView {
     
     private func setupImagePicker() {
         imagePicker.delegate = self
-        imagePicker.allowsEditing = false
+        imagePicker.allowsEditing = true
         imagePicker.sourceType = .PhotoLibrary
     }
     
@@ -52,15 +65,20 @@ public final class SignUpView : UIView {
         // React to button press
         dismissViewButtonSignal = dismissViewButton.buttonStream("Dismiss View Button")
         
-        dismissViewButtonSignal! ~> { [unowned self] _ in
-            self.delegate?.dismissViewController()
-        }
+        // Create completion handler for dismissal of view
+        let dismissSignal = dismissViewButtonSignal!
+            |> flatMap { [unowned self] _ in self.completeSignal() }
+        
+        dismissSignal.ownedBy(self)
+        // Dismiss view
+        dismissSignal ~> self.delegate!.dismissSignUpView
     }
     
     private func setupImagePickerButton() {
         // React to button press
         imagePickerButtonSignal = imagePickerButton.buttonStream("Image Picker Button")
         
+        // Present image picker controller
         imagePickerButtonSignal! ~> { [unowned self] _ in
             self.delegate?.presentUIImagePickerController(self.imagePicker)
         }
@@ -70,65 +88,92 @@ public final class SignUpView : UIView {
         nicknameField.delegate = self
         // React to text change
         nicknameFieldSignal = nicknameField.textChangedStream()
+        
+        /// bind nickname field to nickname in viewmodel
+        (viewmodel, "nickname") <~ nicknameFieldSignal!
     }
     
     private func setupBirthdayPicker() {
         // React to date change
         birthdayPickerSignal = birthdayPicker.dateChangedStream()
+        
+        // Limit the choices on date picker
+        let ageLimit = viewmodel.ageLimit
+        birthdayPicker.minimumDate = ageLimit.floor
+        birthdayPicker.maximumDate = ageLimit.ceil
+        
+        /// bind birthday picker to birthday in viewmodel
+        (self.viewmodel, "birthday") <~ birthdayPickerSignal!
     }
     
     private func setupSubtmitButton() {
+        submitButton.enabled = false
         // React to button press
         submitButtonSignal = submitButton.buttonStream("Submit Button")
         
-        submitButtonSignal! ~> { [unowned self] _ in self.delegate?.submitUpdate(nickname: nicknameField.text, birthday: birthdayPicker.date, profileImage: profileImage) }
-        
-        /**
-        *   Enable or diable submit button
-        */
-        // Map text value to boolean
-        let nicknameFieldHasValueSignal = nicknameFieldSignal!
-            // if text length is greater than 1 return true, otherwise false
-            |> map { $0!.length > 0 }
-            // starting value as false
-            |> startWith(false)
-        
-        // Map date value to boolean
-        let birthdayPickerHasValueSignal = birthdayPickerSignal!
-            |> map { _ in true }
-            |> startWith(false)
-        
-        // Combine two signals into one
-        let enableSubmitButtonSignal = [nicknameFieldHasValueSignal, birthdayPickerHasValueSignal]
-            // merge signals and combine their latest values
-            |> merge2All
-            |> map { [unowned self] (values, changedValues) -> NSNumber? in
-                if let v0 = values[0], v1 = values[1] {
-                    return v0 && v1
-                }
-                return false
+        /// bind areInputsValidSignal to submit button's enabled attribute
+        let nsnumberSignal = self.viewmodel.allInputsValidSignal
+            |> map {
+                Optional<NSNumber>(NSNumber(bool: $0!))
             }
-        
-        // Declare ownership of the signal
-        enableSubmitButtonSignal.ownedBy(self)
-        
-        // Submit Button reacts to the signal to be enabled/disabled
-        (submitButton, "enabled") <~ enableSubmitButtonSignal
+        nsnumberSignal.ownedBy(self)
+        (submitButton, "enabled") <~ nsnumberSignal
+
+        /// Bind submit button to updateProfile from viewmodel
+        let updateProfileSignal = submitButtonSignal!
+            // Update profile
+            |> flatMap { [unowned self] _ -> Stream<Bool> in
+                return self.viewmodel.updateProfile()
+            }
+            // Create completion handler for dismissal of view
+            |> flatMap { [unowned self] success -> Stream<CompletionHandler?> in
+                if success {
+                    return self.completeSignal()
+                }
+                else {
+                    AccountLogError("Update profile failed.")
+                    return Stream<CompletionHandler?>.error(NSError(domain: "Sign up view", code: 899, userInfo: nil))
+                }
+            }
+        updateProfileSignal.ownedBy(self)
+        // Dismiss view
+        updateProfileSignal ~> self.delegate!.dismissSignUpView
+    }
+    
+    /**
+    Create a signal which contains the completion handler.
+    
+    :param: completion CompletionHandler? The callback handler.
+    
+    :returns: A signal which contains the completion handler.
+    */
+    private func completeSignal(completion: CompletionHandler? = nil) -> Stream<CompletionHandler?> {
+        return Stream<CompletionHandler?>.just(completion)
     }
 }
 
 extension SignUpView : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    /**
+    Tells the delegate that the user picked a still image or movie.
+    
+    :param: picker The controller object managing the image picker interface.
+    :param: info   A dictionary containing the original image and the edited image, if an image was picked; or a filesystem URL for the movie, if a movie was picked. The dictionary also contains any relevant editing information. The keys for this dictionary are listed in Editing Information Keys.
+    */
     public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            profileImage = pickedImage
-            
+            (viewmodel, "profileImage") <~ Stream<UIImage?>.just(pickedImage)
         }
-        delegate?.dismissViewController()
+        self.completeSignal() ~> delegate!.dismissSignUpView
     }
     
+    /**
+    Tells the delegate that the user cancelled the pick operation.
+    
+    :param: picker The controller object managing the image picker interface.
+    */
     public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        delegate?.dismissViewController()
+        self.completeSignal() ~> delegate!.dismissSignUpView
     }
 }
 

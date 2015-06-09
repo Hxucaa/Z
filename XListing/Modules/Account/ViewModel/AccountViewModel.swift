@@ -8,34 +8,17 @@
 
 import Foundation
 import SwiftTask
+import ReactKit
 
-public final class AccountViewModel : IAccountViewModel {
+public final class AccountViewModel : NSObject, IAccountViewModel {
     
     private let userService: IUserService
     
+    public lazy var signUpViewModel: SignUpViewModel = SignUpViewModel(userService: self.userService)
+    
     public required init(userService: IUserService) {
         self.userService = userService
-    }
-    
-    public func updateProfile(nickname: String, birthday: NSDate, profileImage: UIImage?) -> Task<Int, Bool, NSError> {
-        let currentUser = userService.currentUser()!
-        currentUser.birthday = birthday
-        currentUser.nickname = nickname
-        let imageData = UIImagePNGRepresentation(profileImage)
-        return userService.save(currentUser)
+        
+        super.init()
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
