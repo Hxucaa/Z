@@ -100,6 +100,7 @@
 		B4E36BBB1ACE543C000F260E /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E36BBA1ACE543C000F260E /* Business.swift */; };
 		B4E70B3C1AF1709400A7418F /* WantToGoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E70B3B1AF1709400A7418F /* WantToGoService.swift */; };
 		B4E70B3E1AF1735C00A7418F /* IWantToGoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E70B3D1AF1735C00A7418F /* IWantToGoService.swift */; };
+		B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */; };
 		B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */; };
 		B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */; };
 		B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */; };
@@ -227,6 +228,7 @@
 		B4E36BBA1ACE543C000F260E /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
 		B4E70B3B1AF1709400A7418F /* WantToGoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WantToGoService.swift; sourceTree = "<group>"; };
 		B4E70B3D1AF1735C00A7418F /* IWantToGoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IWantToGoService.swift; sourceTree = "<group>"; };
+		B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
 		B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessService.swift; sourceTree = "<group>"; };
 		B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAccountViewModel.swift; sourceTree = "<group>"; };
@@ -719,6 +721,7 @@
 				B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */,
 				B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */,
 				B40A0D8C1B23BD2900036986 /* SignUpViewModel.swift */,
+				B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -977,6 +980,7 @@
 				7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */,
 				2A714B121B085C63007A8FBB /* SignUpViewController.swift in Sources */,
 				B48AB2761AEC0D00008D05D9 /* WantToGo.swift in Sources */,
+				B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */,
 				7E01738E1B1525DB002E154B /* EditProfileTableViewController.swift in Sources */,
 				B48C991A1ADA592A0045BCA9 /* NearbyTableView.swift in Sources */,
 				B48C99121ADA56F70045BCA9 /* NearbyViewController.swift in Sources */,

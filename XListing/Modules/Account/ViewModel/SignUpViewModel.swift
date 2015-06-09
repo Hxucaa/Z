@@ -32,17 +32,17 @@ public final class SignUpViewModel : NSObject {
     private var transformedNicknameProducer: (Void -> Stream<String?>)!
     private var transformedBirthdayProducer: (Void -> Stream<NSDate?>)!
     private var transformedProfileImageProducer: (Void -> Stream<UIImage?>)!
-    private var AllInputsValidProduer: (Void -> Stream<Bool?>)!
+    private var allInputsValidProduer: (Void -> Stream<Bool?>)!
     
     // MARK: - Output Signals
     /// Nickname validity signal
-    public var isNicknameValidSignal: Stream<Bool>!
+    public private(set) var isNicknameValidSignal: Stream<Bool>!
     /// Birthday validity signal
-    public var isBirthdayValidSignal: Stream<Bool>!
+    public private(set) var isBirthdayValidSignal: Stream<Bool>!
     /// Profile image validity signal
-    public var isProfileImageValidSignal: Stream<Bool>!
+    public private(set) var isProfileImageValidSignal: Stream<Bool>!
     /// All inputs validity signal
-    public var allInputsValidSignal: Stream<Bool?>!
+    public private(set) var allInputsValidSignal: Stream<Bool?>!
     
     // MARK: - Initializers
     
@@ -121,7 +121,7 @@ public final class SignUpViewModel : NSObject {
             |> startWith(false)
         
         // save the latest result
-        AllInputsValidProduer = self.allInputsValidSignal |>> replay(capacity: 1)
+        allInputsValidProduer = self.allInputsValidSignal |>> replay(capacity: 1)
     }
 
     // MARK: - Public Functions
@@ -134,10 +134,9 @@ public final class SignUpViewModel : NSObject {
             if let currentUser = self.userService.currentUser() {
                 
                 // Make sure all inputs are valid
-                return self.AllInputsValidProduer()
+                return self.allInputsValidProduer()
                     // FlatMap to all inputs
                     |> flatMap { success -> Stream<[AnyObject?]> in
-//                        let valid = success as! Bool
                         if success! {
                             // Combine all inputs
                             return [

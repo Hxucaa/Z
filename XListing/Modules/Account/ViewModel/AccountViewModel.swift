@@ -16,6 +16,8 @@ public final class AccountViewModel : NSObject, IAccountViewModel {
     
     public lazy var signUpViewModel: SignUpViewModel = SignUpViewModel(userService: self.userService)
     
+    public lazy var logInViewModel: LogInViewModel = LogInViewModel(userService: self.userService)
+    
     public required init(userService: IUserService) {
         self.userService = userService
         
