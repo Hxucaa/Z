@@ -9,7 +9,7 @@
 import UIKit
 import ReactKit
 
-public final class SignUpViewController: UIViewController {
+public final class AccountViewController: UIViewController {
     
     private let accountVM: IAccountViewModel
     private let editProfileViewNibName: String
@@ -55,7 +55,7 @@ public final class SignUpViewController: UIViewController {
     }
 }
 
-extension SignUpViewController : SignUpViewDelegate {
+extension AccountViewController : SignUpViewDelegate {
     
     public func presentUIImagePickerController(imagePicker: UIImagePickerController) {
         self.presentViewController(imagePicker, animated: true, completion: nil)

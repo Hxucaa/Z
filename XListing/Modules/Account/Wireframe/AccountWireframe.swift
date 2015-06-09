@@ -16,7 +16,7 @@ public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     
     private let navigator: INavigator
     private let userService: IUserService
-    private var signUpVC: SignUpViewController?
+    private var signUpVC: AccountViewController?
     
     public required init(rootWireframe: IRootWireframe, navigator: INavigator, userService: IUserService) {
         self.navigator = navigator
@@ -29,9 +29,9 @@ public final class AccountWireframe : BaseWireframe, IAccountWireframe {
         }
     }
     
-    private func injectViewModelToViewController() -> SignUpViewController {
+    private func injectViewModelToViewController() -> AccountViewController {
         let viewmodel = AccountViewModel(userService: userService)
-        let viewController = SignUpViewController(accountVM: viewmodel, editProfileViewNibName: EditProfileViewNibName)
+        let viewController = AccountViewController(accountVM: viewmodel, editProfileViewNibName: EditProfileViewNibName)
         signUpVC = viewController
         return viewController
     }
