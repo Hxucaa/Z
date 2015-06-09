@@ -14,22 +14,27 @@ public final class SignUpView : UIView {
     
     private let imagePicker = UIImagePickerController()
     
+    // MARK: - UI
     @IBOutlet weak var dismissViewButton: UIButton!
     @IBOutlet weak var nicknameField: UITextField!
     @IBOutlet weak var imagePickerButton: UIButton!
     @IBOutlet weak var birthdayPicker: UIDatePicker!
     @IBOutlet weak var submitButton: UIButton!
     
+    // MARK: - UI Observer Signals
     private var dismissViewButtonSignal: Stream<String?>?
     private var nicknameFieldSignal: Stream<NSString?>?
     private var birthdayPickerSignal: Stream<NSDate?>?
     private var submitButtonSignal: Stream<String?>?
-    public var imagePickerButtonSignal: Stream<String?>?
+    private var imagePickerButtonSignal: Stream<String?>?
     
+    // MARK: - Delegate
     public weak var delegate: SignUpViewDelegate?
     
+    // MARK: - Viewmodel
     private var viewmodel: SignUpViewModel!
     
+    // MARK: - Setup Code
     public override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -97,12 +102,18 @@ public final class SignUpView : UIView {
     }
     
     private func setupSubtmitButton() {
+        submitButton.enabled = false
         // React to button press
         submitButtonSignal = submitButton.buttonStream("Submit Button")
         
         /// bind areInputsValidSignal to submit button's enabled attribute
-        (submitButton, "enabled") <~ self.viewmodel.areInputsValidSignal
-        
+        let nsnumberSignal = self.viewmodel.allInputsValidSignal
+            |> map {
+                Optional<NSNumber>(NSNumber(bool: $0!))
+            }
+        nsnumberSignal.ownedBy(self)
+        (submitButton, "enabled") <~ nsnumberSignal
+
         /// Bind submit button to updateProfile from viewmodel
         let updateProfileSignal = submitButtonSignal!
             // Update profile

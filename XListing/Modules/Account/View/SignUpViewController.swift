@@ -62,10 +62,8 @@ extension SignUpViewController : SignUpViewDelegate {
     }
     
     public var dismissSignUpView: CompletionHandler? -> Void {
-        get {
-            return { (completionHandler: CompletionHandler?) -> Void in
-                self.dismissViewControllerAnimated(true, completion: completionHandler)
-            }
+        return { (completionHandler: CompletionHandler?) -> Void in
+            self.dismissViewControllerAnimated(true, completion: completionHandler)
         }
     }
 }
