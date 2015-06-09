@@ -67,6 +67,7 @@ public final class SignUpViewModel : NSObject {
             // TODO: add regex to allow only a subset of characters
             |> filter { count($0!) > 0 }
         
+        // save the latest result
         transformedNicknameProducer = self.nicknameSignal |>> replay(capacity: 1)
         
         isNicknameValidSignal = nicknameSignal
@@ -78,6 +79,7 @@ public final class SignUpViewModel : NSObject {
         birthdaySignal = KVO.stream(self, "birthday")
             |> map { $0 as? NSDate }
         
+        // save the latest result
         transformedBirthdayProducer = self.birthdaySignal |>> replay(capacity: 1)
         
         isBirthdayValidSignal = birthdaySignal
@@ -90,9 +92,8 @@ public final class SignUpViewModel : NSObject {
         // KVO instance variable profileImage
         profileImageSignal = KVO.stream(self, "profileImage")
             |> map { $0 as? UIImage }
-            // transform image
-            |> map { $0 }
         
+        // save the latest result
         transformedProfileImageProducer = self.profileImageSignal |>> replay(capacity: 1)
         
         isProfileImageValidSignal = profileImageSignal
@@ -105,8 +106,10 @@ public final class SignUpViewModel : NSObject {
             isBirthdayValidSignal,
             isProfileImageValidSignal
         ]
+            // Combine latest events from the signals
             |> merge2All
             |> peek { AccountLogDebug($0.values.description) }
+            // Map them to a single boolean value
             |> map { (values, changedValues) -> Bool? in
                 return values.reduce(Optional<Bool>.Some(true)) { v1, v2 in
                     if let v1 = v1, v2 = v2 {
@@ -117,6 +120,7 @@ public final class SignUpViewModel : NSObject {
             }
             |> startWith(false)
         
+        // save the latest result
         AllInputsValidProduer = self.allInputsValidSignal |>> replay(capacity: 1)
     }
 

@@ -39,6 +39,11 @@ public final class SignUpView : UIView {
         super.awakeFromNib()
     }
     
+    /**
+    Bind viewmodel to view.
+    
+    :param: viewmodel The viewmodel
+    */
     public func bindToViewModel(viewmodel: SignUpViewModel) {
         self.viewmodel = viewmodel
         
@@ -52,7 +57,7 @@ public final class SignUpView : UIView {
     
     private func setupImagePicker() {
         imagePicker.delegate = self
-        imagePicker.allowsEditing = false
+        imagePicker.allowsEditing = true
         imagePicker.sourceType = .PhotoLibrary
     }
     
