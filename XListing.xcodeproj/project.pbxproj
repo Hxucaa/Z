@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A1B3A201B2574EF003E70E0 /* ParticipationPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */; };
+		2A1B3A221B25751A003E70E0 /* ParticipationPopoverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */; };
 		2A41A30E1AF3133F0086D24B /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */; };
 		2A41A3131AF337350086D24B /* NearbyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A41A3111AF337350086D24B /* NearbyTableViewCell.swift */; };
 		2A714B121B085C63007A8FBB /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A714B101B085C63007A8FBB /* SignUpViewController.swift */; };
@@ -120,6 +122,8 @@
 		1764137F392722E0F7D6FA70 /* Pods-XListingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListingTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XListing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26AB479389256B6B20922161 /* Pods-XListingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests.release.xcconfig"; sourceTree = "<group>"; };
+		2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationPopover.swift; sourceTree = "<group>"; };
+		2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationPopoverDelegate.swift; sourceTree = "<group>"; };
 		2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		2A41A3111AF337350086D24B /* NearbyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyTableViewCell.swift; sourceTree = "<group>"; };
 		2A714B101B085C63007A8FBB /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -257,6 +261,16 @@
 				3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2A1B3A1C1B256BCF003E70E0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */,
+				2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */,
+			);
+			name = View;
+			path = Common/View;
 			sourceTree = "<group>";
 		};
 		2A9A9BA91B1C4ABF0010EDA9 /* DetailCellViews */ = {
@@ -647,6 +661,7 @@
 		B4CC82671AC1662900E85CEA /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				2A1B3A1C1B256BCF003E70E0 /* View */,
 				B4117CFA1B1F8F06001700C8 /* Logging */,
 				B43032451AE427D50068E8DF /* Utility */,
 				B44E34FD1AD5A20700657A31 /* ViewModel */,
@@ -979,6 +994,8 @@
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,
 				B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */,
 				B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */,
+				2A1B3A221B25751A003E70E0 /* ParticipationPopoverDelegate.swift in Sources */,
+				2A1B3A201B2574EF003E70E0 /* ParticipationPopover.swift in Sources */,
 				B4D5707C1B02AC1600D2C06C /* NearbyHorizontalScrollCellViewModel.swift in Sources */,
 				7EF371111AB8C012009AA3B9 /* AppDelegate.swift in Sources */,
 				B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */,
