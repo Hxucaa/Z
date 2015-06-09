@@ -11,12 +11,13 @@ import ReactKit
 import UIKit
 
 private let EditProfileViewNibName = "EditProfileView"
+private let AccountViewControllerIdentifier = "AccountViewController"
 
 public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     
     private let navigator: INavigator
     private let userService: IUserService
-    private var signUpVC: AccountViewController?
+    private var accountVC: AccountViewController?
     
     public required init(rootWireframe: IRootWireframe, navigator: INavigator, userService: IUserService) {
         self.navigator = navigator
@@ -30,9 +31,10 @@ public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     }
     
     private func injectViewModelToViewController() -> AccountViewController {
+        let viewController = getViewControllerFromStoryboard(AccountViewControllerIdentifier, storyboardName: "Account") as! AccountViewController
         let viewmodel = AccountViewModel(userService: userService)
-        let viewController = AccountViewController(accountVM: viewmodel, editProfileViewNibName: EditProfileViewNibName)
-        signUpVC = viewController
+        viewController.bindToViewModel(viewmodel, editProfileViewNibName: EditProfileViewNibName)
+        accountVC = viewController
         return viewController
     }
     

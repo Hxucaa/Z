@@ -11,20 +11,14 @@ import ReactKit
 
 public final class AccountViewController: UIViewController {
     
-    private let accountVM: IAccountViewModel
-    private let editProfileViewNibName: String
+    private var accountVM: IAccountViewModel!
+    private var editProfileViewNibName: String!
     
     private var editProfileView: EditProfileView!
     
-    public init(accountVM: IAccountViewModel, editProfileViewNibName: String) {
-        self.accountVM = accountVM
+    public func bindToViewModel(accountViewModel: IAccountViewModel, editProfileViewNibName: String) {
+        self.accountVM = accountViewModel
         self.editProfileViewNibName = editProfileViewNibName
-        
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    public required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     public override func loadView() {

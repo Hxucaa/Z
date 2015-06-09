@@ -101,6 +101,11 @@
 		B4E70B3C1AF1709400A7418F /* WantToGoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E70B3B1AF1709400A7418F /* WantToGoService.swift */; };
 		B4E70B3E1AF1735C00A7418F /* IWantToGoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E70B3D1AF1735C00A7418F /* IWantToGoService.swift */; };
 		B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */; };
+		B4F195811B2789A100B8C519 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F195801B2789A100B8C519 /* Account.storyboard */; };
+		B4F195831B27A31500B8C519 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195821B27A31500B8C519 /* LogInViewController.swift */; };
+		B4F195851B27A41400B8C519 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195841B27A41400B8C519 /* SignUpViewController.swift */; };
+		B4F195871B27A6B200B8C519 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195861B27A6B200B8C519 /* EditProfileViewController.swift */; };
+		B4F195891B27A6FF00B8C519 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */; };
 		B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */; };
 		B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */; };
 		B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */; };
@@ -229,6 +234,11 @@
 		B4E70B3B1AF1709400A7418F /* WantToGoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WantToGoService.swift; sourceTree = "<group>"; };
 		B4E70B3D1AF1735C00A7418F /* IWantToGoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IWantToGoService.swift; sourceTree = "<group>"; };
 		B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
+		B4F195801B2789A100B8C519 /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
+		B4F195821B27A31500B8C519 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		B4F195841B27A41400B8C519 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		B4F195861B27A6B200B8C519 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessService.swift; sourceTree = "<group>"; };
 		B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAccountViewModel.swift; sourceTree = "<group>"; };
@@ -705,16 +715,10 @@
 			path = Common/Wireframe;
 			sourceTree = "<group>";
 		};
-		B4F1957C1B27871F00B8C519 /* Landing */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Landing;
-			sourceTree = "<group>";
-		};
 		B4F1957D1B27872D00B8C519 /* LogIn */ = {
 			isa = PBXGroup;
 			children = (
+				B4F195821B27A31500B8C519 /* LogInViewController.swift */,
 				B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */,
 			);
 			path = LogIn;
@@ -723,6 +727,8 @@
 		B4F1957E1B27873500B8C519 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				B4F195841B27A41400B8C519 /* SignUpViewController.swift */,
+				B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -730,8 +736,9 @@
 		B4F1957F1B27873E00B8C519 /* EditProfile */ = {
 			isa = PBXGroup;
 			children = (
-				7E0173851B13FB44002E154B /* EditProfileViewDelegate.swift */,
+				B4F195861B27A6B200B8C519 /* EditProfileViewController.swift */,
 				7EFEF7451B13D0900043E076 /* EditProfileView.swift */,
+				7E0173851B13FB44002E154B /* EditProfileViewDelegate.swift */,
 				B40A0D8C1B23BD2900036986 /* EditProfileViewModel.swift */,
 				7E0173871B146473002E154B /* EditProfileView.xib */,
 			);
@@ -741,14 +748,14 @@
 		B4FCC7231AE9C627009B4DF6 /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				B4FCC7291AE9D2FB009B4DF6 /* Wireframe */,
 				2A714B101B085C63007A8FBB /* AccountViewController.swift */,
 				B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */,
 				B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */,
+				B4F195801B2789A100B8C519 /* Account.storyboard */,
 				B4F1957F1B27873E00B8C519 /* EditProfile */,
 				B4F1957E1B27873500B8C519 /* SignUp */,
 				B4F1957D1B27872D00B8C519 /* LogIn */,
-				B4F1957C1B27871F00B8C519 /* Landing */,
-				B4FCC7291AE9D2FB009B4DF6 /* Wireframe */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -863,6 +870,7 @@
 			files = (
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				2AC9D8C01AF735A600C51DB3 /* NearbyTableViewCell.xib in Resources */,
+				B4F195811B2789A100B8C519 /* Account.storyboard in Resources */,
 				2ADF3E661B1ECBA200C2971E /* DetailBusinessMapViewController.xib in Resources */,
 				7E0173881B146473002E154B /* EditProfileView.xib in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
@@ -1018,6 +1026,7 @@
 				B430323F1AE361350068E8DF /* ObjectService.swift in Sources */,
 				B40A0D8D1B23BD2900036986 /* EditProfileViewModel.swift in Sources */,
 				B4B665481ADF8DC60084DBE7 /* IDetailWireframe.swift in Sources */,
+				B4F195831B27A31500B8C519 /* LogInViewController.swift in Sources */,
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,
 				B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */,
 				B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */,
@@ -1029,11 +1038,13 @@
 				B4DB9AC41AF954C8009FBFE1 /* IGeoLocationService.swift in Sources */,
 				2A9A9B9C1B1C31510010EDA9 /* DetailBizInfoTableViewCell.swift in Sources */,
 				B4B665401ADF88DB0084DBE7 /* DetailViewController.swift in Sources */,
+				B4F195851B27A41400B8C519 /* SignUpViewController.swift in Sources */,
 				2A9A9BA01B1C341B0010EDA9 /* DetailBizInfoCellDelegate.swift in Sources */,
 				B4B665461ADF8D5C0084DBE7 /* DetailWireframe.swift in Sources */,
 				3DB8AC301B06D0DF00E51F0E /* Profile.swift in Sources */,
 				B4A3C16D1AD44B7E00B9D699 /* FeaturedListViewModel.swift in Sources */,
 				B4DB9AC21AF954AC009FBFE1 /* GeoLocationService.swift in Sources */,
+				B4F195871B27A6B200B8C519 /* EditProfileViewController.swift in Sources */,
 				2ADF3E651B1ECBA200C2971E /* DetailBusinessMapViewController.swift in Sources */,
 				B47E15C81B181E370028E07E /* IBackgroundOperationsWorkerFactory.swift in Sources */,
 				B4E1384C1AE1BD0D0082DCA3 /* UserService.swift in Sources */,
@@ -1047,6 +1058,7 @@
 				B4FCC72E1AE9D35C009B4DF6 /* IAccountWireframe.swift in Sources */,
 				7E0173831B13F2B9002E154B /* UIDatePicker+stream.swift in Sources */,
 				B4B665441ADF8D2F0084DBE7 /* IDetailViewModel.swift in Sources */,
+				B4F195891B27A6FF00B8C519 /* SignUpViewModel.swift in Sources */,
 				7EFEF7421B124B060043E076 /* INavigator.swift in Sources */,
 				B47E15CB1B18209B0028E07E /* SignUpAndLogInWorker.swift in Sources */,
 				B446A61C1B1FBE9000106CAF /* ASLFormatter.swift in Sources */,

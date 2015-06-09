@@ -73,7 +73,6 @@
 		1B2A820F78C5F5847BA44C1D /* Failure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44E663079A14CA933DA682 /* Failure.swift */; };
 		1C52251D1AC848C2A4A20950 /* NSIndexSet+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6D967D2A450723777748FF /* NSIndexSet+Helper.swift */; };
 		1CA946E4B2E5739FA667CB02 /* JSQMessagesAvatarImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 870A28C6A08D310F727AFB76 /* JSQMessagesAvatarImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1D28A4050C98701CD8F9E383 /* Box.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73828CBDD916EC743FD4373A /* Box.framework */; };
 		1D38AC54D5E695898474A1C9 /* RACStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F4BBD26F17D39535911D691 /* RACStream.m */; };
 		1D75610D8C69D9BDC2B0B33F /* SDWebImageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FE29828280B2229620647814 /* SDWebImageManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1D7CCBFDD7AB22336E5E1DA2 /* JSQMessagesComposerTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A652023FD5D04ED669CB7F6 /* JSQMessagesComposerTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -253,7 +252,6 @@
 		5EF0148D1819BA840C49942C /* RACSubscriptionScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = F4451F825F0A1C59B10968EB /* RACSubscriptionScheduler.m */; };
 		5F1E76405B1C42BC619C9BD0 /* AVAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 22FB546E2248AA474520643C /* AVAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FAE44C995038269D3EF850B /* EXTScope.h in Headers */ = {isa = PBXBuildFile; fileRef = C8C099B19434E009DC7E64C4 /* EXTScope.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FEC4B8C6F5C7D977FDA3E55 /* Box.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73828CBDD916EC743FD4373A /* Box.framework */; };
 		602DEDA6EA962D0191C40639 /* JSQMessagesInputToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = EB62DD219B9CF10F4FA4D876 /* JSQMessagesInputToolbar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		60ED8B963E97CD3583E9F345 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CCC6106905D02748A52B6C /* UIButton+WebCache.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		6121EF9754F2C252AAF3D5EF /* RACUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CFD8BC57AEA6918E1667A70 /* RACUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -352,7 +350,6 @@
 		85C9D08CFA363158BB228786 /* Pods-XListing-AVOSCloud-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 576015CA6AB1EE1896CC2138 /* Pods-XListing-AVOSCloud-dummy.m */; };
 		863C3BF608ECBF3AE8A57C76 /* AVLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 91E7BC68339707C77D83604B /* AVLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		867F376713DC40B401C396F1 /* UIDevice+JSQMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 279F079EEB71198E92CA67F7 /* UIDevice+JSQMessages.m */; };
-		868AD3E1E931EC5314AC0051 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76D50BAD9326CFC897949274 /* Result.framework */; };
 		868F6E529F8032E26554D53D /* AVSearchQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = 37AA3A82BE6C87FECB39505E /* AVSearchQuery.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		869F44DF7C2C14CA8AF7D9BA /* AssertionRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE378624C9E8D4A3F5EBC81 /* AssertionRecorder.swift */; };
 		870FF6BB57B4DB9FCDB6B041 /* NSString+RACSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = B2D8DE19A6428AD2A49FF97B /* NSString+RACSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -413,7 +410,6 @@
 		9D1239F7E77895E53D4DE91A /* JSQMessagesBubbleImage.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD5C4F24120A0F8657BC236 /* JSQMessagesBubbleImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9DADBB44FE8C7698AB00EB3D /* AllPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A4F0EFBC9BB3F79C1AF52 /* AllPass.swift */; };
 		9DB16A29381C8C186856DE2A /* Pods-XListing-Locksmith-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E260B9AB9C778F0D6A8DADB /* Pods-XListing-Locksmith-dummy.m */; };
-		9DCAFA657197B300444C944E /* Box.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73828CBDD916EC743FD4373A /* Box.framework */; };
 		9DE1A8597C40EB651DA3809F /* AVOSCloudIM.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EFEB73E69C89D72A411F307 /* AVOSCloudIM.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9DFD3329F5D4106C7DA5E14D /* AVGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = D16DDFF021A9D099799B237A /* AVGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9E05FB06550112CA2B569A79 /* JSQMessagesViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = F78AF9BA8B4726C32EBD6F40 /* JSQMessagesViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -485,7 +481,6 @@
 		B77FDCDFCE78C6F37BB8042E /* JSQMessagesCollectionViewDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 55E7BB3C85D4DEE0E69A3284 /* JSQMessagesCollectionViewDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B824316E88A2DA7BCF82ECC9 /* Pods-XListingTests-AVOSCloud-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C145D80B665C9FB7DFA7278 /* Pods-XListingTests-AVOSCloud-dummy.m */; };
 		B8ABDAE69685C12AC8A2B99B /* RACGroupedSignal.m in Sources */ = {isa = PBXBuildFile; fileRef = 7689CE281E4F8ED4BD51DA94 /* RACGroupedSignal.m */; };
-		B8AFCA6DD4C046140C68411C /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76D50BAD9326CFC897949274 /* Result.framework */; };
 		B9DDAF5625C0074719A18406 /* AVSubclassing.h in Headers */ = {isa = PBXBuildFile; fileRef = 182D208B621F1A18E396EE28 /* AVSubclassing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BAF4929B5312205C25F14DF1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D2696473786E100383F71AF /* Foundation.framework */; };
 		BB31699916B688E66BC42065 /* BeAnInstanceOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E6F7C46DD53A46EF179DA4 /* BeAnInstanceOf.swift */; };
@@ -671,7 +666,6 @@
 		FAE1A0E3A99BE610AAD5F1AD /* ReactKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A5F1CF2F540E2E99A6C0D016 /* ReactKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FB2FDAC66288FBFFBB811E37 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4745FB98DB83400FC6E83AA /* CoreGraphics.framework */; };
 		FB657223EA5B1F9D4B5059CC /* RACStream.h in Headers */ = {isa = PBXBuildFile; fileRef = CE84371AC96A4E7EAF9649C8 /* RACStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FBDC0342C8DF19D00BB06331 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76D50BAD9326CFC897949274 /* Result.framework */; };
 		FCB0B7721569B18030E93E05 /* AVCloudQueryResult.h in Headers */ = {isa = PBXBuildFile; fileRef = B125F90641312FFD1554E678 /* AVCloudQueryResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD0615445A7011B4BB6B97D2 /* UIImage+JSQMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E902F00C318E4E4C74F164 /* UIImage+JSQMessages.m */; };
 		FD6BE37A6F66BDB0E855B53D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 154435AF6DC0165A4D6F4F27 /* Security.framework */; };
@@ -1703,14 +1697,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7942CFB616729B99B1178D9C /* Box.framework in Frameworks */,
-				1D28A4050C98701CD8F9E383 /* Box.framework in Frameworks */,
-				5FEC4B8C6F5C7D977FDA3E55 /* Box.framework in Frameworks */,
-				9DCAFA657197B300444C944E /* Box.framework in Frameworks */,
 				C1EB0B3BC3B493CD05D85504 /* Foundation.framework in Frameworks */,
 				89104FE1CD85BD87AD2A6975 /* Result.framework in Frameworks */,
-				B8AFCA6DD4C046140C68411C /* Result.framework in Frameworks */,
-				868AD3E1E931EC5314AC0051 /* Result.framework in Frameworks */,
-				FBDC0342C8DF19D00BB06331 /* Result.framework in Frameworks */,
 				347B9F5A2AC7B0C1B290E0A7 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3905,7 +3893,7 @@
 		76E7EFF4E5EDBAAB02AB68BC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0630;
 			};
 			buildConfigurationList = 501F323B04E21A1E8126C73F /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
