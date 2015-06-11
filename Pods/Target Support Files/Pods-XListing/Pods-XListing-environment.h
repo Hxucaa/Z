@@ -11,7 +11,7 @@
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.2.2.
+// Version: 3.1.2.4.
 
 // AVOSCloudCrashReporting
 #define COCOAPODS_POD_AVAILABLE_AVOSCloudCrashReporting
@@ -32,7 +32,7 @@
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.2.1.
+// Version: 3.1.2.4.
 
 // Box
 #define COCOAPODS_POD_AVAILABLE_Box
@@ -68,7 +68,7 @@
 #define COCOAPODS_POD_AVAILABLE_Dollar
 #define COCOAPODS_VERSION_MAJOR_Dollar 3
 #define COCOAPODS_VERSION_MINOR_Dollar 0
-#define COCOAPODS_VERSION_PATCH_Dollar 1
+#define COCOAPODS_VERSION_PATCH_Dollar 2
 
 // JSQMessagesViewController
 #define COCOAPODS_POD_AVAILABLE_JSQMessagesViewController

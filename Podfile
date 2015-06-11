@@ -23,7 +23,7 @@ end
 target 'XListingTests' do
   pod 'AVOSCloud', '~> 3.1'
   pod 'ReactiveCocoa', '= 3.0-beta.6'
-  pod 'Quick'
-  pod 'Nimble'
+  pod 'Quick', '= 0.3.1'
+  pod 'Nimble', '= 1.0.0-rc.1'
 end
 

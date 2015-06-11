@@ -11,7 +11,7 @@
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.2.2.
+// Version: 3.1.2.4.
 
 // Box
 #define COCOAPODS_POD_AVAILABLE_Box
@@ -21,9 +21,9 @@
 
 // Nimble
 #define COCOAPODS_POD_AVAILABLE_Nimble
-#define COCOAPODS_VERSION_MAJOR_Nimble 0
-#define COCOAPODS_VERSION_MINOR_Nimble 4
-#define COCOAPODS_VERSION_PATCH_Nimble 2
+#define COCOAPODS_VERSION_MAJOR_Nimble 1
+#define COCOAPODS_VERSION_MINOR_Nimble 0
+#define COCOAPODS_VERSION_PATCH_Nimble 0
 
 // Quick
 #define COCOAPODS_POD_AVAILABLE_Quick
