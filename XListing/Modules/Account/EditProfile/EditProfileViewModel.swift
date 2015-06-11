@@ -9,6 +9,7 @@
 import Foundation
 import ReactiveCocoa
 import AVOSCloud
+import SVProgressHUD
 
 public final class EditProfileViewModel : NSObject {
     // MARK: - Public
@@ -23,28 +24,27 @@ public final class EditProfileViewModel : NSObject {
     public var allInputsValidSignal: SignalProducer<Bool, NoError>!
     
     // MARK: Actions
-    public var updateProfile: Action<Void, Bool, NSError> {
-        return Action<Void, Bool, NSError> { _ in
-            return self.allInputsValidSignal
-                |> mapError { _ in NSError() }
-                |> flatMap(FlattenStrategy.Merge) { valid -> SignalProducer<User, NSError> in
-                    if valid {
-                        return self.userService.currentUserSignal()
-                    }
-                    else {
-                        return SignalProducer(error: NSError(domain: "SignUpViewModel", code: 899, userInfo: nil))
-                    }
+    public var updateProfile: SignalProducer<Bool, NSError> {
+        return self.allInputsValidSignal
+            |> mapError { _ in NSError() }
+            |> flatMap(FlattenStrategy.Merge) { valid -> SignalProducer<User, NSError> in
+                if valid {
+                    return self.userService.currentUserSignal()
                 }
-                |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
-                        let imageData = UIImagePNGRepresentation(self.profileImage.value)
-                        let file = AVFile.fileWithName("profile.png", data: imageData) as! AVFile
-                        
-                        user.nickname = self.nickname.value
-                        user.birthday = self.birthday.value
-                        user.profileImg = file
-                        
-                        return self.userService.saveSignal(user)
+                else {
+                    return SignalProducer(error: NSError(domain: "SignUpViewModel", code: 899, userInfo: nil))
                 }
+            }
+            |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
+                
+                let imageData = UIImagePNGRepresentation(self.profileImage.value)
+                let file = AVFile.fileWithName("profile.png", data: imageData) as! AVFile
+                
+                user.nickname = self.nickname.value
+                user.birthday = self.birthday.value
+                user.profileImg = file
+                println(5)
+                return self.userService.saveSignal(user)
         }
     }
     
