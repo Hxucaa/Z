@@ -9,10 +9,9 @@
 import Foundation
 import UIKit
 import ReactiveCocoa
+import SVProgressHUD
 
 public final class EditProfileView : UIView {
-    
-    private let imagePicker = UIImagePickerController()
     
     // MARK: - UI
     // MARK: Controls
@@ -31,8 +30,10 @@ public final class EditProfileView : UIView {
     // MARK: - Delegate
     public weak var delegate: EditProfileViewDelegate?
     
-    // MARK: - Viewmodel
+    // MARK: - Private variables
+    private let imagePicker = UIImagePickerController()
     private var viewmodel: EditProfileViewModel!
+    private var HUDdisposable: Disposable!
     
     // MARK: - Setup Code
     public override func awakeFromNib() {
@@ -47,12 +48,32 @@ public final class EditProfileView : UIView {
     public func bindToViewModel(viewmodel: EditProfileViewModel) {
         self.viewmodel = viewmodel
         
+        setupHUD()
         setupImagePicker()
         setupDismissViewButton()
         setupNicknameField()
         setupBirthdayPicker()
         setupSubtmitButton()
         setupImagePickerButton()
+    }
+    
+    /**
+    Setup HUD
+    */
+    private func setupHUD() {
+        HUDdisposable = HUD.didDissappearNotification(
+            interrupted: {
+            },
+            error: {
+            },
+            completed: {
+                // Dismiss view
+                self.delegate?.dismissSignUpView {
+                    // Dispose the notification as it can not be done automatically.
+                    self.HUDdisposable.dispose()
+                }
+            }
+        )
     }
     
     private func setupImagePicker() {
@@ -108,9 +129,19 @@ public final class EditProfileView : UIView {
     }
     
     private func setupSubtmitButton() {
+        // Button enabled react to validity of all inputs
         submitButton.rac_enabled <~ viewmodel.allInputsValidSignal
-
-        submitButtonAction = CocoaAction(viewmodel.updateProfile, input: ())
+        
+        // Button action
+        let action = Action<Void, Bool, NSError> { _ in
+            return HUD.show()
+                |> mapError { _ in NSError() }
+                |> flatMap(FlattenStrategy.Merge) { _ in self.viewmodel.updateProfile }
+                |> HUD.onDismiss()
+        }
+        
+        // Bridging actions to Objective-C
+        submitButtonAction = CocoaAction(action, input: ())
         
         submitButton.addTarget(submitButtonAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
