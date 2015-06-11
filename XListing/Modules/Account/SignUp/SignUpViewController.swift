@@ -9,7 +9,7 @@
 import UIKit
 import ReactKit
 
-public final class SignUpViewController : UIViewController {
+public final class SignUpViewController : XUIViewController {
     private var viewmodel: SignUpViewModel!
     
     @IBOutlet weak var signupButton: UIButton!

@@ -9,7 +9,7 @@
 import UIKit
 import ReactiveCocoa
 
-public final class AccountViewController: UIViewController {
+public final class AccountViewController: XUIViewController {
     
     private var viewmodel: IAccountViewModel!
     
@@ -20,7 +20,6 @@ public final class AccountViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
     }
 
     public override func didReceiveMemoryWarning() {

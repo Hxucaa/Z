@@ -4,6 +4,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'XListing' do
+  pod 'FLEX', '~> 2.0', :configurations => ['DEBUG']
   pod 'SVProgressHUD', :git => 'https://github.com/Hxucaa/SVProgressHUD.git'
   pod 'CocoaLumberjack', '~> 2.0'
   pod 'ReactKit', '~> 0.11.0'

@@ -16,6 +16,7 @@ PODS:
   - CocoaLumberjack/Extensions (2.0.0):
     - CocoaLumberjack/Default
   - Dollar (3.0.2)
+  - FLEX (2.0.3)
   - JSQMessagesViewController (7.1.0):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
@@ -55,6 +56,7 @@ DEPENDENCIES:
   - AVOSCloudSNS (~> 3.1)
   - CocoaLumberjack (~> 2.0)
   - Dollar (~> 3.0)
+  - FLEX (~> 2.0)
   - JSQMessagesViewController (~> 7.0)
   - Locksmith (~> 1.2)
   - Nimble (= 1.0.0-rc.1)
@@ -83,6 +85,7 @@ SPEC CHECKSUMS:
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   Dollar: fa1c277042a5e8208f2276abba056f27a812fcfe
+  FLEX: 4f04fe0b0594163c00879e2b3db888e5ae37c8d5
   JSQMessagesViewController: ca11f86fa68ca70835f05e169df9244147c1dc40
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88

@@ -9,7 +9,7 @@ import ReactiveCocoa
 
 private let NumRowsBeforeData = 2
 
-public final class ProfileViewController : UIViewController {
+public final class ProfileViewController : XUIViewController {
 
     private var profileVM: IProfileViewModel!
 

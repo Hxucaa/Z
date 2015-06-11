@@ -109,6 +109,7 @@
 		B4F1958B1B2938FC00B8C519 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F1958A1B2938FC00B8C519 /* HUD.swift */; };
 		B4F1958F1B29790100B8C519 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F1958E1B29790100B8C519 /* UIColor+extension.swift */; };
 		B4F195931B2995FA00B8C519 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F195921B2995FA00B8C519 /* libicucore.dylib */; };
+		B4F195951B2A276C00B8C519 /* XUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195941B2A276C00B8C519 /* XUIViewController.swift */; };
 		B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */; };
 		B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */; };
 		B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */; };
@@ -245,6 +246,7 @@
 		B4F1958A1B2938FC00B8C519 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		B4F1958E1B29790100B8C519 /* UIColor+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
 		B4F195921B2995FA00B8C519 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		B4F195941B2A276C00B8C519 /* XUIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XUIViewController.swift; sourceTree = "<group>"; };
 		B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessService.swift; sourceTree = "<group>"; };
 		B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAccountViewModel.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */,
 				2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */,
 				B4F1958A1B2938FC00B8C519 /* HUD.swift */,
+				B4F195941B2A276C00B8C519 /* XUIViewController.swift */,
 			);
 			name = View;
 			path = Common/View;
@@ -1037,6 +1040,7 @@
 				B430323F1AE361350068E8DF /* ObjectService.swift in Sources */,
 				B40A0D8D1B23BD2900036986 /* EditProfileViewModel.swift in Sources */,
 				B4B665481ADF8DC60084DBE7 /* IDetailWireframe.swift in Sources */,
+				B4F195951B2A276C00B8C519 /* XUIViewController.swift in Sources */,
 				B4F195831B27A31500B8C519 /* LogInViewController.swift in Sources */,
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,
 				B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */,
@@ -1239,6 +1243,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited) -D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "XListing-Bridging-Header.h";
 			};
@@ -1257,6 +1262,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "XListing-Bridging-Header.h";
 			};

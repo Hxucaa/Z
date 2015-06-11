@@ -158,3 +158,13 @@
 #define COCOAPODS_VERSION_MINOR_SwiftTask 3
 #define COCOAPODS_VERSION_PATCH_SwiftTask 0
 
+// Debug build configuration
+#ifdef DEBUG
+
+  // FLEX
+  #define COCOAPODS_POD_AVAILABLE_FLEX
+  #define COCOAPODS_VERSION_MAJOR_FLEX 2
+  #define COCOAPODS_VERSION_MINOR_FLEX 0
+  #define COCOAPODS_VERSION_PATCH_FLEX 3
+
+#endif

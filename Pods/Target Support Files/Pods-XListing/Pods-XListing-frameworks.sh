@@ -52,6 +52,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Box.framework'
   install_framework 'CocoaLumberjack.framework'
   install_framework 'Dollar.framework'
+  install_framework 'FLEX.framework'
   install_framework 'JSQMessagesViewController.framework'
   install_framework 'JSQSystemSoundPlayer.framework'
   install_framework 'Locksmith.framework'

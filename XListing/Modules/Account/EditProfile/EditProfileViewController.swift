@@ -12,7 +12,7 @@ import Foundation
 
 private let EditProfileViewNibName = "EditProfileView"
 
-public final class EditProfileViewController : UIViewController {
+public final class EditProfileViewController : XUIViewController {
     private var viewmodel: EditProfileViewModel!
     private var editProfileView: EditProfileView!
     

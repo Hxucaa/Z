@@ -9,7 +9,7 @@
 import UIKit
 import ReactKit
 
-public final class LogInViewController: UIViewController {
+public final class LogInViewController: XUIViewController {
     
     private var viewmodel: LogInViewModel!
     @IBOutlet weak var loginButton: UIButton!

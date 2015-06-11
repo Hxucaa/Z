@@ -18,11 +18,11 @@ public class RootWireframe : IRootWireframe {
         navigationController.navigationBar.barStyle = UIBarStyle.Black
     }
     
-    public func showRootViewController(viewController: UIViewController) {
+    public func showRootViewController<T: UIViewController>(viewController: T) {
         navigationController.viewControllers = [viewController]
     }
     
-    public func pushViewController(viewController: UIViewController, animated: Bool) {
+    public func pushViewController<T: UIViewController>(viewController: T, animated: Bool) {
         navigationController.pushViewController(viewController, animated: animated)
     }
     
