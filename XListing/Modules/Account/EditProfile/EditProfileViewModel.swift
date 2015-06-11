@@ -7,169 +7,48 @@
 //
 
 import Foundation
-import SwiftTask
-import ReactKit
+import ReactiveCocoa
 import AVOSCloud
 
-public typealias AgeLimit = (floor: NSDate, ceil: NSDate)
-
 public final class EditProfileViewModel : NSObject {
+    // MARK: - Public
+    public typealias AgeLimit = (floor: NSDate, ceil: NSDate)
     
-    // MARK: - Services
-    private let userService: IUserService
+    // MARK: Input Properties
+    public let nickname = MutableProperty<String>("")
+    public let birthday = MutableProperty<NSDate>(NSDate())
+    public let profileImage = MutableProperty<UIImage?>(nil)
     
-    // MARK: - Input Receivers
-    public var nickname: String?
-    public var birthday: NSDate?
-    public var profileImage: UIImage?
+    // MARK: Output Signals
+    public var allInputsValidSignal: SignalProducer<Bool, NoError>!
     
-    // MARK: - Input Observer Signals
-    private var birthdaySignal: Stream<NSDate?>!
-    private var nicknameSignal: Stream<String?>!
-    private var profileImageSignal: Stream<UIImage?>!
-    
-    // MARK: - Latest Valid Input Signals
-    private var transformedNicknameProducer: (Void -> Stream<String?>)!
-    private var transformedBirthdayProducer: (Void -> Stream<NSDate?>)!
-    private var transformedProfileImageProducer: (Void -> Stream<UIImage?>)!
-    private var allInputsValidProduer: (Void -> Stream<Bool?>)!
-    
-    // MARK: - Output Signals
-    /// Nickname validity signal
-    public private(set) var isNicknameValidSignal: Stream<Bool>!
-    /// Birthday validity signal
-    public private(set) var isBirthdayValidSignal: Stream<Bool>!
-    /// Profile image validity signal
-    public private(set) var isProfileImageValidSignal: Stream<Bool>!
-    /// All inputs validity signal
-    public private(set) var allInputsValidSignal: Stream<Bool?>!
-    
-    // MARK: - Initializers
-    
-    public required init(userService: IUserService) {
-        self.userService = userService
-        
-        super.init()
-        
-        setupNickname()
-        setupBirthday()
-        setupProfileImage()
-        setupAllInputsValid()
-        
-    }
-    
-    // MARK: - Setup Functions
-    
-    private func setupNickname() {
-        // KVO instance variable nickname
-        nicknameSignal = KVO.stream(self, "nickname")
-            |> map { $0 as? String }
-            // TODO: add regex to allow only a subset of characters
-            |> filter { count($0!) > 0 }
-        
-        // save the latest result
-        transformedNicknameProducer = self.nicknameSignal |>> replay(capacity: 1)
-        
-        isNicknameValidSignal = nicknameSignal
-            |> map { _ in return true }
-    }
-    
-    private func setupBirthday() {
-        // KVO instance variable birthday
-        birthdaySignal = KVO.stream(self, "birthday")
-            |> map { $0 as? NSDate }
-        
-        // save the latest result
-        transformedBirthdayProducer = self.birthdaySignal |>> replay(capacity: 1)
-        
-        isBirthdayValidSignal = birthdaySignal
-            |> map { [unowned self] age -> Bool in
-                return self.isValidAge(age!)
-            }
-    }
-    
-    private func setupProfileImage() {
-        // KVO instance variable profileImage
-        profileImageSignal = KVO.stream(self, "profileImage")
-            |> map { $0 as? UIImage }
-        
-        // save the latest result
-        transformedProfileImageProducer = self.profileImageSignal |>> replay(capacity: 1)
-        
-        isProfileImageValidSignal = profileImageSignal
-            |> map { _ in return true }
-    }
-    
-    private func setupAllInputsValid() {
-        allInputsValidSignal = [
-            isNicknameValidSignal,
-            isBirthdayValidSignal,
-            isProfileImageValidSignal
-        ]
-            // Combine latest events from the signals
-            |> merge2All
-            |> peek { AccountLogDebug($0.values.description) }
-            // Map them to a single boolean value
-            |> map { (values, changedValues) -> Bool? in
-                return values.reduce(Optional<Bool>.Some(true)) { v1, v2 in
-                    if let v1 = v1, v2 = v2 {
-                        return v1 && v2
+    // MARK: Actions
+    public var updateProfile: Action<Void, Bool, NSError> {
+        return Action<Void, Bool, NSError> { _ in
+            return self.allInputsValidSignal
+                |> mapError { _ in NSError() }
+                |> flatMap(FlattenStrategy.Merge) { valid -> SignalProducer<User, NSError> in
+                    if valid {
+                        return self.userService.currentUserSignal()
                     }
-                    return false
+                    else {
+                        return SignalProducer(error: NSError(domain: "SignUpViewModel", code: 899, userInfo: nil))
+                    }
                 }
-            }
-            |> startWith(false)
-        
-        // save the latest result
-        allInputsValidProduer = self.allInputsValidSignal |>> replay(capacity: 1)
-    }
-
-    // MARK: - Public Functions
-    
-    /**
-    Update user's profile. Data should already be present on the view model via signaling.
-    */
-    public var updateProfile: Void -> Stream<Bool> {
-        return {
-            if let currentUser = self.userService.currentUser() {
-                
-                // Make sure all inputs are valid
-                return self.allInputsValidProduer()
-                    // FlatMap to all inputs
-                    |> flatMap { success -> Stream<[AnyObject?]> in
-                        if success! {
-                            // Combine all inputs
-                            return [
-                                    self.transformedNicknameProducer() |> map { $0 as? AnyObject },
-                                    self.transformedBirthdayProducer() |> map { $0 as? AnyObject },
-                                    self.transformedProfileImageProducer() |> map { $0 as? AnyObject }
-                                ]
-                                |> zipAll
-                        }
-                        else {
-                            return Stream.error(NSError(domain: "SignUpViewModel", code: 899, userInfo: nil))
-                        }
-                    }
-                    // Initiate network request
-                    |> flatMap { values in
-                        let imageData = UIImagePNGRepresentation(values[2] as? UIImage)
+                |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
+                        let imageData = UIImagePNGRepresentation(self.profileImage.value)
                         let file = AVFile.fileWithName("profile.png", data: imageData) as! AVFile
                         
-                        currentUser.nickname = values[0] as? String
-                        currentUser.birthday = values[1] as? NSDate
-                        currentUser.profileImg = file
+                        user.nickname = self.nickname.value
+                        user.birthday = self.birthday.value
+                        user.profileImg = file
                         
-                        return Stream<Bool>.fromTask(self.userService.save(currentUser))
-                    }
-                    // Logging
-                    |> peek { _ in AccountLogVerbose("Request sent!") }
-            }
-            else {
-                AccountLogError("Function called while user is not logged in")
-                return Stream<Bool>.error(NSError(domain: "SignUpViewModel", code: 899, userInfo: nil))
-            }
+                        return self.userService.saveSignal(user)
+                }
         }
     }
+    
+    // MARK: API
     
     /// Age restriction.
     public var ageLimit: AgeLimit {
@@ -193,7 +72,55 @@ public final class EditProfileViewModel : NSObject {
         return (floor: calDate(currentDate, MAX_AGE), ceil: calDate(currentDate, MIN_AGE))
     }
     
-    // MARKL - Private Methods
+    // MARK: - Initializers
+    
+    public required init(userService: IUserService) {
+        self.userService = userService
+        
+        super.init()
+        
+        setupNickname()
+        setupBirthday()
+        setupProfileImage()
+        setupAllInputsValid()
+    }
+    
+    // MARK: - Private
+    private var isNicknameValid: SignalProducer<Bool, NoError>!
+    private var isBirthdayValid: SignalProducer<Bool, NoError>!
+    private var isProfileImageValid: SignalProducer<Bool, NoError>!
+    
+    // MARK: Services
+    private let userService: IUserService
+    
+    // MARK: Setup
+    
+    private func setupNickname() {
+        isNicknameValid = nickname.producer
+            // TODO: regex
+            |> filter { count($0) > 0 }
+            |> map { _ in return true }
+    }
+    
+    private func setupBirthday() {
+        isBirthdayValid = birthday.producer
+            |> map { self.isValidAge($0) }
+    }
+    
+    private func setupProfileImage() {
+        isProfileImageValid = profileImage.producer
+            |> map { $0 == nil ? false : true }
+    }
+    
+    private func setupAllInputsValid() {
+        allInputsValidSignal = combineLatest(isNicknameValid, isBirthdayValid, isProfileImageValid)
+            |> on(next: { value in AccountLogDebug("(\(value.0) \(value.1) \(value.2))") })
+            |> map { values -> Bool in
+                return values.0 && values.1 && values.2
+            }
+    }
+    
+    // MARK: Private Methods
     
     /**
     Check whether age is within the restriction

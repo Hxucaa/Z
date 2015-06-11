@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import ReactKit
+import ReactiveCocoa
 
 public final class AccountViewController: UIViewController {
     
@@ -55,9 +55,7 @@ extension AccountViewController : EditProfileViewDelegate {
         self.presentViewController(imagePicker, animated: true, completion: nil)
     }
     
-    public var dismissSignUpView: CompletionHandler? -> Void {
-        return { (completionHandler: CompletionHandler?) -> Void in
-            self.dismissViewControllerAnimated(true, completion: completionHandler)
-        }
+    public func dismissSignUpView(_ handler: CompletionHandler? = nil) {
+        self.dismissViewControllerAnimated(true, completion: handler)
     }
 }

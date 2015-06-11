@@ -8,25 +8,25 @@
 
 import Foundation
 import UIKit
-import ReactKit
+import ReactiveCocoa
 
 public final class EditProfileView : UIView {
     
     private let imagePicker = UIImagePickerController()
     
     // MARK: - UI
+    // MARK: Controls
     @IBOutlet weak var dismissViewButton: UIButton!
     @IBOutlet weak var nicknameField: UITextField!
     @IBOutlet weak var imagePickerButton: UIButton!
     @IBOutlet weak var birthdayPicker: UIDatePicker!
     @IBOutlet weak var submitButton: UIButton!
     
-    // MARK: - UI Observer Signals
-    private var dismissViewButtonSignal: Stream<String?>?
-    private var nicknameFieldSignal: Stream<NSString?>?
-    private var birthdayPickerSignal: Stream<NSDate?>?
-    private var submitButtonSignal: Stream<String?>?
-    private var imagePickerButtonSignal: Stream<String?>?
+    // MARK: Actions
+    private var dismissViewButtonAction: CocoaAction!
+    private var submitButtonAction: CocoaAction!
+    private var imagePickerButtonAction: CocoaAction!
+    private var imagePickerCancelAction: CocoaAction!
     
     // MARK: - Delegate
     public weak var delegate: EditProfileViewDelegate?
@@ -62,93 +62,57 @@ public final class EditProfileView : UIView {
     }
     
     private func setupDismissViewButton() {
-        // React to button press
-        dismissViewButtonSignal = dismissViewButton.buttonStream("Dismiss View Button")
+        // Action to an UI event
+        let dismissView = Action<Void, Void, NoError> {
+            return SignalProducer { sink, disposable in
+                self.delegate?.dismissSignUpView(nil)
+            }
+        }
         
-        // Create completion handler for dismissal of view
-        let dismissSignal = dismissViewButtonSignal!
-            |> flatMap { [unowned self] _ in self.completeSignal() }
+        // Bridging
+        dismissViewButtonAction = CocoaAction(dismissView, input: ())
         
-        dismissSignal.ownedBy(self)
-        // Dismiss view
-        dismissSignal ~> self.delegate!.dismissSignUpView
+        dismissViewButton.addTarget(dismissViewButtonAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
     
     private func setupImagePickerButton() {
-        // React to button press
-        imagePickerButtonSignal = imagePickerButton.buttonStream("Image Picker Button")
-        
-        // Present image picker controller
-        imagePickerButtonSignal! ~> { [unowned self] _ in
-            self.delegate?.presentUIImagePickerController(self.imagePicker)
+        /// Action to an UI event
+        let presentUIImagePicker = Action<Void, Void, NoError> {
+            return SignalProducer { sink, disposable in
+                self.delegate?.presentUIImagePickerController(self.imagePicker)
+                sendCompleted(sink)
+            }
         }
+        
+        // Bridging actions to Objective-C
+        imagePickerButtonAction = CocoaAction(presentUIImagePicker, input: ())
+        
+        // Link UIControl event to actions
+        imagePickerButton.addTarget(imagePickerButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     private func setupNicknameField() {
         nicknameField.delegate = self
         // React to text change
-        nicknameFieldSignal = nicknameField.textChangedStream()
-        
-        /// bind nickname field to nickname in viewmodel
-        (viewmodel, "nickname") <~ nicknameFieldSignal!
+        viewmodel.nickname <~ nicknameField.rac_text
     }
     
     private func setupBirthdayPicker() {
         // React to date change
-        birthdayPickerSignal = birthdayPicker.dateChangedStream()
+        viewmodel.birthday <~ birthdayPicker.rac_date
         
         // Limit the choices on date picker
         let ageLimit = viewmodel.ageLimit
         birthdayPicker.minimumDate = ageLimit.floor
         birthdayPicker.maximumDate = ageLimit.ceil
-        
-        /// bind birthday picker to birthday in viewmodel
-        (self.viewmodel, "birthday") <~ birthdayPickerSignal!
     }
     
     private func setupSubtmitButton() {
-        submitButton.enabled = false
-        // React to button press
-        submitButtonSignal = submitButton.buttonStream("Submit Button")
-        
-        /// bind areInputsValidSignal to submit button's enabled attribute
-        let nsnumberSignal = self.viewmodel.allInputsValidSignal
-            |> map {
-                Optional<NSNumber>(NSNumber(bool: $0!))
-            }
-        nsnumberSignal.ownedBy(self)
-        (submitButton, "enabled") <~ nsnumberSignal
+        submitButton.rac_enabled <~ viewmodel.allInputsValidSignal
 
-        /// Bind submit button to updateProfile from viewmodel
-        let updateProfileSignal = submitButtonSignal!
-            // Update profile
-            |> flatMap { [unowned self] _ -> Stream<Bool> in
-                return self.viewmodel.updateProfile()
-            }
-            // Create completion handler for dismissal of view
-            |> flatMap { [unowned self] success -> Stream<CompletionHandler?> in
-                if success {
-                    return self.completeSignal()
-                }
-                else {
-                    AccountLogError("Update profile failed.")
-                    return Stream<CompletionHandler?>.error(NSError(domain: "Sign up view", code: 899, userInfo: nil))
-                }
-            }
-        updateProfileSignal.ownedBy(self)
-        // Dismiss view
-        updateProfileSignal ~> self.delegate!.dismissSignUpView
-    }
-    
-    /**
-    Create a signal which contains the completion handler.
-    
-    :param: completion CompletionHandler? The callback handler.
-    
-    :returns: A signal which contains the completion handler.
-    */
-    private func completeSignal(completion: CompletionHandler? = nil) -> Stream<CompletionHandler?> {
-        return Stream<CompletionHandler?>.just(completion)
+        submitButtonAction = CocoaAction(viewmodel.updateProfile, input: ())
+        
+        submitButton.addTarget(submitButtonAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
 }
 
@@ -162,9 +126,9 @@ extension EditProfileView : UIImagePickerControllerDelegate, UINavigationControl
     */
     public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            (viewmodel, "profileImage") <~ Stream<UIImage?>.just(pickedImage)
+            viewmodel.profileImage <~ MutableProperty<UIImage?>(pickedImage)
         }
-        self.completeSignal() ~> delegate!.dismissSignUpView
+        self.delegate?.dismissSignUpView(nil)
     }
     
     /**
@@ -173,7 +137,7 @@ extension EditProfileView : UIImagePickerControllerDelegate, UINavigationControl
     :param: picker The controller object managing the image picker interface.
     */
     public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.completeSignal() ~> delegate!.dismissSignUpView
+        self.delegate?.dismissSignUpView(nil)
     }
 }
 

@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftTask
-import ReactKit
+import ReactiveCocoa
 
 public final class UserService : IUserService {
     
@@ -26,6 +26,18 @@ public final class UserService : IUserService {
     
     public func currentUser() -> User? {
         return User.currentUser()
+    }
+    
+    public func currentUserSignal() -> SignalProducer<User, NSError> {
+        return SignalProducer { sink, disposable in
+            if let currentUser = User.currentUser() {
+                sendNext(sink, currentUser)
+                sendCompleted(sink)
+            }
+            else {
+                sendError(sink, NSError(domain: "UserService", code: 899, userInfo: nil))
+            }
+        }
     }
     
     public func signUp(user: User) -> Task<Int, Bool, NSError> {
@@ -79,6 +91,19 @@ public final class UserService : IUserService {
                 }
                 else {
                     reject(error!)
+                }
+            }
+        }
+    }
+    
+    public func saveSignal<T: User>(user: T) -> SignalProducer<Bool, NSError> {
+        return SignalProducer { sink, disposable in
+            user.saveInBackgroundWithBlock { (success, error) -> Void in
+                if error == nil {
+                    sendNext(sink, success)
+                }
+                else {
+                    sendError(sink, error)
                 }
             }
         }

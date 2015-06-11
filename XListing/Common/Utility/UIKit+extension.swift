@@ -13,6 +13,8 @@ struct AssociationKey {
     static var hidden: UInt8 = 1
     static var alpha: UInt8 = 2
     static var text: UInt8 = 3
+    static var date: UInt8 = 4
+    static var enabled: UInt8 = 5
 }
 
 // lazily creates a gettable associated property via the given factory
@@ -36,6 +38,12 @@ func lazyMutableProperty<T>(host: AnyObject, key: UnsafePointer<Void>, setter: T
     }
 }
 
+extension UIControl {
+    public var rac_enabled: MutableProperty<Bool> {
+        return lazyMutableProperty(self, &AssociationKey.enabled, { self.enabled = $0 }, { self.enabled })
+    }
+}
+
 extension UIView {
     public var rac_alpha: MutableProperty<CGFloat> {
         return lazyMutableProperty(self, &AssociationKey.alpha, { self.alpha = $0 }, { self.alpha  })
@@ -49,6 +57,25 @@ extension UIView {
 extension UILabel {
     public var rac_text: MutableProperty<String> {
         return lazyMutableProperty(self, &AssociationKey.text, { self.text = $0 }, { self.text ?? "" })
+    }
+}
+
+extension UIDatePicker {
+    public var rac_date: MutableProperty<NSDate> {
+        return lazyAssociatedProperty(self, &AssociationKey.date) {
+            
+            self.addTarget(self, action: "changed", forControlEvents: UIControlEvents.ValueChanged)
+            
+            var property = MutableProperty<NSDate>(self.date ?? NSDate())
+            property.producer
+                .start(next: { self.date = $0 })
+            
+            return property
+        }
+    }
+    
+    func changed() {
+        rac_date.value = self.date
     }
 }
 
