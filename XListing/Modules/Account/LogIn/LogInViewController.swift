@@ -12,6 +12,23 @@ import ReactKit
 public final class LogInViewController: UIViewController {
     
     private var viewmodel: LogInViewModel!
+    @IBOutlet weak var loginButton: UIButton!
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        loginButton.addTarget(self, action: "loginButtonPressed", forControlEvents: UIControlEvents.TouchUpInside)
+        
+    }
+    
+    public func loginButtonPressed () {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    public override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
     
     public func bindToViewModel(viewmodel: LogInViewModel) {
         self.viewmodel = viewmodel

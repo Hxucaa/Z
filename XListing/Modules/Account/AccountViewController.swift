@@ -24,8 +24,8 @@ public final class AccountViewController: UIViewController {
     public override func loadView() {
         super.loadView()
         
-        // Load nib as view
-        editProfileView = NSBundle.mainBundle().loadNibNamed(editProfileViewNibName, owner: self, options: nil).first as? EditProfileView
+        // Load nib as viewbut
+        // editProfileView = NSBundle.mainBundle().loadNibNamed(editProfileViewNibName, owner: self, options: nil).first as? EditProfileView
     }
     
     public override func viewDidLoad() {
@@ -41,11 +41,11 @@ public final class AccountViewController: UIViewController {
     }
     
     private func displaySignUpView() {
-        editProfileView.delegate = self
-        editProfileView.bindToViewModel(accountVM.editProfileViewModel)
+        //editProfileView.delegate = self
+        //editProfileView.bindToViewModel(accountVM.editProfileViewModel)
         
         // Put view to display
-        self.view = editProfileView
+        //self.view = editProfileView
     }
 }
 

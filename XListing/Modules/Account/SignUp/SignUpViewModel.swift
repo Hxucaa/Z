@@ -12,4 +12,13 @@ import SwiftTask
 
 public final class SignUpViewModel : NSObject {
     
+    private let userService: IUserService
+    
+    public private(set) lazy var editProfileViewModel: EditProfileViewModel = EditProfileViewModel(userService: self.userService)
+    
+    public required init(userService: IUserService) {
+        self.userService = userService
+        
+        super.init()
+    }
 }
