@@ -63,8 +63,17 @@ DEPENDENCIES:
   - ReactKit (~> 0.11.0)
   - SDWebImage
   - SnapKit (~> 0.12.0)
-  - SVProgressHUD (~> 1.1)
+  - SVProgressHUD (from `https://github.com/Hxucaa/SVProgressHUD.git`)
   - SwiftTask (~> 3.0)
+
+EXTERNAL SOURCES:
+  SVProgressHUD:
+    :git: https://github.com/Hxucaa/SVProgressHUD.git
+
+CHECKOUT OPTIONS:
+  SVProgressHUD:
+    :commit: 4cbf1de2f9becbdfe38257bf9129f2930a2668ab
+    :git: https://github.com/Hxucaa/SVProgressHUD.git
 
 SPEC CHECKSUMS:
   AVOSCloud: bdcd5f3ad4e56bc9027006b4d40f19d16998d1ba

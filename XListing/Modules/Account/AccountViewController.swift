@@ -11,51 +11,20 @@ import ReactiveCocoa
 
 public final class AccountViewController: UIViewController {
     
-    private var accountVM: IAccountViewModel!
-    private var editProfileViewNibName: String!
+    private var viewmodel: IAccountViewModel!
     
-    private var editProfileView: EditProfileView!
-    
-    public func bindToViewModel(accountViewModel: IAccountViewModel, editProfileViewNibName: String) {
-        self.accountVM = accountViewModel
-        self.editProfileViewNibName = editProfileViewNibName
-    }
-    
-    public override func loadView() {
-        super.loadView()
-        
-        // Load nib as viewbut
-        // editProfileView = NSBundle.mainBundle().loadNibNamed(editProfileViewNibName, owner: self, options: nil).first as? EditProfileView
+    public func bindToViewModel(viewModel: IAccountViewModel) {
+        self.viewmodel = viewModel
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        displaySignUpView()
     }
 
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    private func displaySignUpView() {
-        //editProfileView.delegate = self
-        //editProfileView.bindToViewModel(accountVM.editProfileViewModel)
-        
-        // Put view to display
-        //self.view = editProfileView
-    }
-}
-
-extension AccountViewController : EditProfileViewDelegate {
-    
-    public func presentUIImagePickerController(imagePicker: UIImagePickerController) {
-        self.presentViewController(imagePicker, animated: true, completion: nil)
-    }
-    
-    public func dismissSignUpView(_ handler: CompletionHandler? = nil) {
-        self.dismissViewControllerAnimated(true, completion: handler)
     }
 }

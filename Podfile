@@ -4,7 +4,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'XListing' do
-  pod 'SVProgressHUD', '~> 1.1'
+  pod 'SVProgressHUD', :git => 'https://github.com/Hxucaa/SVProgressHUD.git'
   pod 'CocoaLumberjack', '~> 2.0'
   pod 'ReactKit', '~> 0.11.0'
   pod 'SwiftTask', '~> 3.0'

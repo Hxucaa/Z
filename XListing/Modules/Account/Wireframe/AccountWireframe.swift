@@ -10,8 +10,8 @@ import Foundation
 import ReactKit
 import UIKit
 
-private let EditProfileViewNibName = "EditProfileView"
 private let AccountViewControllerIdentifier = "AccountViewController"
+private let AccountStoryboardName = "Account"
 
 public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     
@@ -31,9 +31,9 @@ public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     }
     
     private func injectViewModelToViewController() -> AccountViewController {
-        let viewController = getViewControllerFromStoryboard(AccountViewControllerIdentifier, storyboardName: "Account") as! AccountViewController
+        let viewController = getViewControllerFromStoryboard(AccountViewControllerIdentifier, storyboardName: AccountStoryboardName) as! AccountViewController
         let viewmodel = AccountViewModel(userService: userService)
-        viewController.bindToViewModel(viewmodel, editProfileViewNibName: EditProfileViewNibName)
+        viewController.bindToViewModel(viewmodel)
         accountVC = viewController
         return viewController
     }

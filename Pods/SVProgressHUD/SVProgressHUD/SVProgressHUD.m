@@ -25,6 +25,7 @@ NSString * const SVProgressHUDStatusUserInfoKey = @"SVProgressHUDStatusUserInfoK
 
 static UIColor *SVProgressHUDBackgroundColor;
 static UIColor *SVProgressHUDForegroundColor;
+static CGFloat SVProgressHUDCornerRadius;
 static CGFloat SVProgressHUDRingThickness;
 static UIFont *SVProgressHUDFont;
 static UIImage *SVProgressHUDInfoImage;
@@ -98,6 +99,11 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
 + (void)setForegroundColor:(UIColor *)color {
     [self sharedView];
     SVProgressHUDForegroundColor = color;
+}
+
++ (void)setCornerRadius:(CGFloat)cornerRadius {
+    [self sharedView].hudView.layer.cornerRadius = cornerRadius;
+    SVProgressHUDCornerRadius = cornerRadius;
 }
 
 + (void)setFont:(UIFont *)font {
@@ -245,15 +251,16 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
 
 #pragma mark - Instance Methods
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
 		self.userInteractionEnabled = NO;
         self.backgroundColor = [UIColor clearColor];
 		self.alpha = 0.0f;
-        self.activityCount = 0;
+        _activityCount = 0;
         
         SVProgressHUDBackgroundColor = [UIColor whiteColor];
         SVProgressHUDForegroundColor = [UIColor blackColor];
+        SVProgressHUDCornerRadius = 14;
         if ([UIFont respondsToSelector:@selector(preferredFontForTextStyle:)]) {
             SVProgressHUDFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
         } else {
@@ -262,7 +269,7 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
             SVProgressHUDForegroundColor = [UIColor whiteColor];
         }
         
-        NSBundle *bundle = [NSBundle bundleForClass:self.class];
+        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
         NSURL *url = [bundle URLForResource:@"SVProgressHUD" withExtension:@"bundle"];
         NSBundle *imageBundle = [NSBundle bundleWithURL:url];
         
@@ -341,37 +348,36 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
     if(string) {
         CGSize constraintSize = CGSizeMake(200.0f, 300.0f);
         CGRect stringRect;
-        if ([string respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
-          stringRect = [string boundingRectWithSize:constraintSize
-                                            options:(NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin)
-                                         attributes:@{NSFontAttributeName: self.stringLabel.font}
-                                            context:NULL];
+        if ([string respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]){
+            stringRect = [string boundingRectWithSize:constraintSize
+                                              options:(NSStringDrawingOptions)(NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin)
+                                           attributes:@{NSFontAttributeName: self.stringLabel.font}
+                                              context:NULL];
         } else {
             CGSize stringSize;
-            
-            if ([string respondsToSelector:@selector(sizeWithAttributes:)])
+            if ([string respondsToSelector:@selector(sizeWithAttributes:)]){
                 stringSize = [string sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:self.stringLabel.font.fontName size:self.stringLabel.font.pointSize]}];
-            else
+            } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
                 stringSize = [string sizeWithFont:self.stringLabel.font constrainedToSize:CGSizeMake(200.0f, 300.0f)];
 #pragma clang diagnostic pop
-            
+            }
             stringRect = CGRectMake(0.0f, 0.0f, stringSize.width, stringSize.height);
         }
         stringWidth = stringRect.size.width;
         stringHeight = ceil(CGRectGetHeight(stringRect));
         
-        if (imageUsed || progressUsed)
+        if (imageUsed || progressUsed){
             hudHeight = stringAndContentHeightBuffer + stringHeight;
-        else
+        } else {
             hudHeight = stringHeightBuffer + stringHeight;
-        
-        if(stringWidth > hudWidth)
-            hudWidth = ceil(stringWidth/2)*2;
+        }
+        if(stringWidth > hudWidth){
+            hudWidth = ceil(stringWidth/2) * 2;
+        }
         
         CGFloat labelRectY = (imageUsed || progressUsed) ? 68.0f : 9.0f;
-        
         if(hudHeight > 100.0f) {
             labelRect = CGRectMake(12.0f, labelRectY, hudWidth, stringHeight);
             hudWidth += 24.0f;
@@ -380,17 +386,17 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
             labelRect = CGRectMake(0.0f, labelRectY, hudWidth, stringHeight);
         }
     }
-	
-	self.hudView.bounds = CGRectMake(0.0f, 0.0f, hudWidth, hudHeight);
+    self.hudView.bounds = CGRectMake(0.0f, 0.0f, hudWidth, hudHeight);
     
-    if(string)
+    if(string){
         self.imageView.center = CGPointMake(CGRectGetWidth(self.hudView.bounds)/2, 36.0f);
-	else
+    } else {
        	self.imageView.center = CGPointMake(CGRectGetWidth(self.hudView.bounds)/2, CGRectGetHeight(self.hudView.bounds)/2);
-	
+    }
 	self.stringLabel.hidden = NO;
 	self.stringLabel.frame = labelRect;
     
+    // Animate value update
     [CATransaction begin];
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
 	
@@ -401,8 +407,9 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
         CGPoint center = CGPointMake((CGRectGetWidth(self.hudView.bounds)/2), 36.0f);
         self.indefiniteAnimatedView.center = center;
         
-        if(self.progress != SVProgressHUDUndefinedProgress)
+        if(self.progress != SVProgressHUDUndefinedProgress){
             self.backgroundRingLayer.position = self.ringLayer.position = CGPointMake((CGRectGetWidth(self.hudView.bounds)/2), 36.0f);
+        }
 	} else {
         self.indefiniteAnimatedView.radius = SVProgressHUDRingNoTextRadius;
         [self.indefiniteAnimatedView sizeToFit];
@@ -410,8 +417,9 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
         CGPoint center = CGPointMake((CGRectGetWidth(self.hudView.bounds)/2), CGRectGetHeight(self.hudView.bounds)/2);
         self.indefiniteAnimatedView.center = center;
         
-        if(self.progress != SVProgressHUDUndefinedProgress)
+        if(self.progress != SVProgressHUDUndefinedProgress){
             self.backgroundRingLayer.position = self.ringLayer.position = CGPointMake((CGRectGetWidth(self.hudView.bounds)/2), CGRectGetHeight(self.hudView.bounds)/2);
+        }
     }
     
     [CATransaction commit];
@@ -487,8 +495,8 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
 
     if(notification) {
         NSDictionary* keyboardInfo = [notification userInfo];
-        CGRect keyboardFrame = [[keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-        animationDuration = [[keyboardInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+        CGRect keyboardFrame = [keyboardInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+        animationDuration = [keyboardInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
         
         if(notification.name == UIKeyboardWillShowNotification || notification.name == UIKeyboardDidShowNotification) {
             if(ignoreOrientation || UIInterfaceOrientationIsPortrait(orientation))
@@ -614,6 +622,9 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
     if(!self.superview)
         [self.overlayView addSubview:self];
     
+    if(self.fadeOutTimer){
+        self.activityCount = 0;
+    }
     self.fadeOutTimer = nil;
     self.imageView.hidden = YES;
     self.maskType = hudMaskType;
@@ -647,7 +658,7 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
         self.hudView.isAccessibilityElement = YES;
     }
     
-    [self.overlayView setHidden:NO];
+    self.overlayView.hidden = NO;
     self.overlayView.backgroundColor = [UIColor clearColor];
     [self positionHUD:nil];
     
@@ -707,8 +718,8 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
     self.maskType = hudMaskType;
     [self cancelRingLayerAnimation];
     
-    if(![self.class isVisible])
-        [self.class showWithMaskType:self.maskType];
+    if(![[self class] isVisible])
+        [[self class] showWithMaskType:self.maskType];
   
     if ([self.imageView respondsToSelector:@selector(setTintColor:)]) {
         self.imageView.tintColor = SVProgressHUDForegroundColor;
@@ -880,8 +891,8 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
     // Original
 //    return MIN((float)string.length*0.06 + 0.5, 5.0);
     
-    // Chinese character
-    return MIN((float)string.length * 0.18 + 0.5, 5.0);
+    // Chinese
+    return MIN((float)string.length*0.18 + 0.5, 5.0);
 }
 
 - (BOOL)isClear { // used for iOS 7 and above
@@ -902,7 +913,7 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
     if(!_hudView) {
         _hudView = [[UIView alloc] initWithFrame:CGRectZero];
         _hudView.backgroundColor = SVProgressHUDBackgroundColor;
-        _hudView.layer.cornerRadius = 14;
+        _hudView.layer.cornerRadius = SVProgressHUDCornerRadius;
         _hudView.layer.masksToBounds = YES;
 
         _hudView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin |
