@@ -49,11 +49,17 @@ code_sign() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'AVOSCloud.framework'
+  install_framework 'Box.framework'
   install_framework 'Nimble.framework'
   install_framework 'Quick.framework'
+  install_framework 'ReactiveCocoa.framework'
+  install_framework 'Result.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'AVOSCloud.framework'
+  install_framework 'Box.framework'
   install_framework 'Nimble.framework'
   install_framework 'Quick.framework'
+  install_framework 'ReactiveCocoa.framework'
+  install_framework 'Result.framework'
 fi

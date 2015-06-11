@@ -4,6 +4,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'XListing' do
+  pod 'SVProgressHUD', '~> 1.1'
   pod 'CocoaLumberjack', '~> 2.0'
   pod 'ReactKit', '~> 0.11.0'
   pod 'SwiftTask', '~> 3.0'
@@ -21,6 +22,7 @@ end
 
 target 'XListingTests' do
   pod 'AVOSCloud', '~> 3.1'
+  pod 'ReactiveCocoa', '= 3.0-beta.6'
   pod 'Quick'
   pod 'Nimble'
 end
