@@ -130,7 +130,7 @@ public final class EditProfileView : UIView {
     
     private func setupSubtmitButton() {
         // Button enabled react to validity of all inputs
-        submitButton.rac_enabled <~ viewmodel.allInputsValidSignal
+        submitButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
         // Button action
         let action = Action<Void, Bool, NSError> { _ in

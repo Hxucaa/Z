@@ -9,23 +9,24 @@
 import Foundation
 import ReactiveCocoa
 import AVOSCloud
-import SVProgressHUD
 
 public final class EditProfileViewModel : NSObject {
     // MARK: - Public
     public typealias AgeLimit = (floor: NSDate, ceil: NSDate)
     
-    // MARK: Input Properties
+    // MARK: Input
     public let nickname = MutableProperty<String>("")
     public let birthday = MutableProperty<NSDate>(NSDate())
     public let profileImage = MutableProperty<UIImage?>(nil)
     
-    // MARK: Output Signals
-    public var allInputsValidSignal: SignalProducer<Bool, NoError>!
+    // MARK: Output
+    public let allInputsValid = MutableProperty<Bool>(false)
     
     // MARK: Actions
     public var updateProfile: SignalProducer<Bool, NSError> {
-        return self.allInputsValidSignal
+        return self.allInputsValid.producer
+            // only allow TRUE value
+            |> filter { $0 }
             |> mapError { _ in NSError() }
             |> flatMap(FlattenStrategy.Merge) { valid -> SignalProducer<User, NSError> in
                 if valid {
@@ -43,7 +44,6 @@ public final class EditProfileViewModel : NSObject {
                 user.nickname = self.nickname.value
                 user.birthday = self.birthday.value
                 user.profileImg = file
-                println(5)
                 return self.userService.saveSignal(user)
         }
     }
@@ -72,7 +72,7 @@ public final class EditProfileViewModel : NSObject {
         return (floor: calDate(currentDate, MAX_AGE), ceil: calDate(currentDate, MIN_AGE))
     }
     
-    // MARK: - Initializers
+    // MARK: Initializers
     
     public required init(userService: IUserService) {
         self.userService = userService
@@ -113,7 +113,7 @@ public final class EditProfileViewModel : NSObject {
     }
     
     private func setupAllInputsValid() {
-        allInputsValidSignal = combineLatest(isNicknameValid, isBirthdayValid, isProfileImageValid)
+        allInputsValid <~ combineLatest(isNicknameValid, isBirthdayValid, isProfileImageValid)
             |> on(next: { value in AccountLogDebug("(\(value.0) \(value.1) \(value.2))") })
             |> map { values -> Bool in
                 return values.0 && values.1 && values.2

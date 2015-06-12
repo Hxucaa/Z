@@ -63,6 +63,20 @@ public final class UserService : IUserService {
         }
     }
     
+    public func signUpSignal(user: User) -> SignalProducer<Bool, NSError> {
+        return SignalProducer { sink, disposable in
+            user.signUpInBackgroundWithBlock { success, error -> Void in
+                if error == nil {
+                    sendNext(sink, success)
+                    sendCompleted(sink)
+                }
+                else {
+                    sendError(sink, error)
+                }
+            }
+        }
+    }
+    
     public func logIn(username: String, password: String) -> Task<Int, User, NSError> {
         return Task<Int, User, NSError> { fulfill, reject -> Void in
             User.logInWithUsernameInBackground(username, password: password) { user, error -> Void in
@@ -71,6 +85,20 @@ public final class UserService : IUserService {
                 }
                 else {
                     reject(error!)
+                }
+            }
+        }
+    }
+    
+    public func logInSignal(username: String, password: String) -> SignalProducer<User, NSError> {
+        return SignalProducer { sink, disposable in
+            User.logInWithUsernameInBackground(username, password: password) { user, error -> Void in
+                if error == nil {
+                    sendNext(sink, user as! User)
+                    sendCompleted(sink)
+                }
+                else {
+                    sendError(sink, error)
                 }
             }
         }

@@ -15,7 +15,9 @@ public protocol IUserService {
     func currentUser() -> User?
     func currentUserSignal() -> SignalProducer<User, NSError>
     func signUp(user: User) -> Task<Int, Bool, NSError>
+    func signUpSignal(user: User) -> SignalProducer<Bool, NSError>
     func logIn(username: String, password: String) -> Task<Int, User, NSError>
+    func logInSignal(username: String, password: String) -> SignalProducer<User, NSError>
     func logOut()
     func logInAnonymously() -> Task<Int, User, NSError>
     func save(user: User) -> Task<Int, Bool, NSError>
