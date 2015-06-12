@@ -1,5 +1,5 @@
 //
-//  INavigator.swift
+//  IRouter.swift
 //  XListing
 //
 //  Created by Lance on 2015-05-24.
@@ -9,7 +9,7 @@
 import Foundation
 import ReactKit
 
-public protocol INavigator {
+public protocol IRouter {
     var nearbyModuleNavigationNotificationSignal: Stream<NSNotification?>? { get }
     var profileModuleNavigationNotificationSignal: Stream<NSNotification?>? { get }
     var detailModuleNavigationNotificationSignal: Stream<NSNotification?>? { get }

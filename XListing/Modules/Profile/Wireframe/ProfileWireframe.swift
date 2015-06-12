@@ -11,16 +11,16 @@ private let StoryboardName = "Profile"
 
 public final class ProfileWireframe : BaseWireframe, IProfileWireframe {
     
-    private let navigator: INavigator
+    private let router: IRouter
     private let userService: IUserService
     private var profileVC: ProfileViewController?
 
-    public required init(rootWireframe: IRootWireframe, navigator: INavigator, userService: IUserService) {
-        self.navigator = navigator
+    public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService) {
+        self.router = router
         self.userService = userService
         super.init(rootWireframe: rootWireframe)
         
-        navigator.profileModuleNavigationNotificationSignal! ~> { notification -> Void in
+        router.profileModuleNavigationNotificationSignal! ~> { notification -> Void in
             self.pushView()
         }
     }

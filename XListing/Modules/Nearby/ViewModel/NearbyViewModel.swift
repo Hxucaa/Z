@@ -14,14 +14,14 @@ import MapKit
 public final class NearbyViewModel : INearbyViewModel {
     public let businessDynamicArr = DynamicArray()
     
-    private let navigator: INavigator
+    private let router: IRouter
     private let businessService: IBusinessService
     private let geoLocationService: IGeoLocationService
     
     private var businessModelArr: [Business]!
     
-    public required init(navigator: INavigator, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
-        self.navigator = navigator
+    public required init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+        self.router = router
         self.businessService = businessService
         self.geoLocationService = geoLocationService
     }
@@ -70,7 +70,7 @@ public final class NearbyViewModel : INearbyViewModel {
     public func pushDetailModule(section: Int) {
         let model: Business = businessModelArr[section]
         
-        navigator.navigateToDetailModule(["BusinessModel" : model])
+        router.navigateToDetailModule(["BusinessModel" : model])
     }
     
     /**
@@ -89,7 +89,7 @@ public final class NearbyViewModel : INearbyViewModel {
     }
     
     public func pushProfileModule() {
-        navigator.navigateToProfileModule()
+        router.navigateToProfileModule()
         
     }
 }

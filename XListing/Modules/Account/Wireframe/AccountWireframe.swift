@@ -15,17 +15,17 @@ private let AccountStoryboardName = "Account"
 
 public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     
-    private let navigator: INavigator
+    private let router: IRouter
     private let userService: IUserService
     private var accountVC: AccountViewController?
     
-    public required init(rootWireframe: IRootWireframe, navigator: INavigator, userService: IUserService) {
-        self.navigator = navigator
+    public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService) {
+        self.router = router
         self.userService = userService
         
         super.init(rootWireframe: rootWireframe)
         
-        navigator.accountModuleNavigationNotificationSignal! ~> { notification -> Void in
+        router.accountModuleNavigationNotificationSignal! ~> { notification -> Void in
             self.presentView()
         }
     }

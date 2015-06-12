@@ -21,7 +21,7 @@ public class AppDependencies {
     private var profileWireframe: IProfileWireframe?
     
     public init(window: UIWindow) {
-        let navigator: INavigator = Navigator()
+        let router: IRouter = Router()
         let rootWireframe: IRootWireframe = RootWireframe(inWindow: window)
         let gs: IGeoLocationService = GeoLocationService()
         let us: IUserService = UserService()
@@ -29,11 +29,11 @@ public class AppDependencies {
         let wtg: IWantToGoService = WantToGoService()
         let ks: IKeychainService = KeychainService()
         
-        configureAccountDependencies(rootWireframe, navigator: navigator, userService: us)
-        configureFeaturedListDependencies(rootWireframe, navigator: navigator, businessService: bs, userService: us, geoLocationService: gs)
-        configureNearbyDependencies(rootWireframe, navigator: navigator, businessService: bs, geoLocationService: gs)
-        configureDetailDependencies(rootWireframe, navigator: navigator, wantToGoService: wtg, geoLocationService: gs)
-        configureProfileDependencies(rootWireframe, navigator: navigator, userService: us)
+        configureAccountDependencies(rootWireframe, router: router, userService: us)
+        configureFeaturedListDependencies(rootWireframe, router: router, businessService: bs, userService: us, geoLocationService: gs)
+        configureNearbyDependencies(rootWireframe, router: router, businessService: bs, geoLocationService: gs)
+        configureDetailDependencies(rootWireframe, router: router, wantToGoService: wtg, geoLocationService: gs)
+        configureProfileDependencies(rootWireframe, router: router, userService: us)
     }
     
     /**
@@ -50,9 +50,9 @@ public class AppDependencies {
 
         :param: rootWireframe The RootWireframe.
     */
-    private func configureFeaturedListDependencies(rootWireframe: IRootWireframe, navigator: INavigator, businessService bs: IBusinessService, userService us: IUserService, geoLocationService gs: IGeoLocationService) {
+    private func configureFeaturedListDependencies(rootWireframe: IRootWireframe, router: IRouter, businessService bs: IBusinessService, userService us: IUserService, geoLocationService gs: IGeoLocationService) {
         
-        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, navigator: navigator, businessService: bs, userService: us, geoLocationService: gs)
+        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, router: router, businessService: bs, userService: us, geoLocationService: gs)
     }
     
     /**
@@ -60,9 +60,9 @@ public class AppDependencies {
     
     :param: rootWireframe The RootWireframe.
     */
-    private func configureNearbyDependencies(rootWireframe: IRootWireframe, navigator: INavigator, businessService bs: IBusinessService, geoLocationService gs: IGeoLocationService) {
+    private func configureNearbyDependencies(rootWireframe: IRootWireframe, router: IRouter, businessService bs: IBusinessService, geoLocationService gs: IGeoLocationService) {
         
-        nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, navigator: navigator, businessService: bs, geoLocationService: gs)
+        nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, router: router, businessService: bs, geoLocationService: gs)
     }
     
     /**
@@ -70,18 +70,18 @@ public class AppDependencies {
     
     :param: rootWireframe The RootWireframe.
     */
-    private func configureDetailDependencies(rootWireframe: IRootWireframe, navigator: INavigator, wantToGoService wtg: IWantToGoService, geoLocationService gs: IGeoLocationService) {
+    private func configureDetailDependencies(rootWireframe: IRootWireframe, router: IRouter, wantToGoService wtg: IWantToGoService, geoLocationService gs: IGeoLocationService) {
         
-        detailWireframe = DetailWireframe(rootWireframe: rootWireframe, navigator: navigator, wantToGoService: wtg, geoLocationService: gs)
+        detailWireframe = DetailWireframe(rootWireframe: rootWireframe, router: router, wantToGoService: wtg, geoLocationService: gs)
     }
     
-    private func configureAccountDependencies(rootWireframe: IRootWireframe, navigator: INavigator, userService us: IUserService) {
+    private func configureAccountDependencies(rootWireframe: IRootWireframe, router: IRouter, userService us: IUserService) {
         
-        accountWireframe = AccountWireframe(rootWireframe: rootWireframe, navigator: navigator, userService: us)
+        accountWireframe = AccountWireframe(rootWireframe: rootWireframe, router: router, userService: us)
     }
 
-    private func configureProfileDependencies(rootWireframe: IRootWireframe, navigator: INavigator, userService us: IUserService) {
+    private func configureProfileDependencies(rootWireframe: IRootWireframe, router: IRouter, userService us: IUserService) {
 
-        profileWireframe = ProfileWireframe(rootWireframe: rootWireframe, navigator: navigator, userService: us)
+        profileWireframe = ProfileWireframe(rootWireframe: rootWireframe, router: router, userService: us)
     }
 }

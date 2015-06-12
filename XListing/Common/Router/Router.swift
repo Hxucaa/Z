@@ -1,5 +1,5 @@
 //
-//  NavigationNotificationCenter.swift
+//  Router.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-05-08.
@@ -9,7 +9,7 @@
 import Foundation
 import ReactKit
 
-public struct Navigator : INavigator {
+public struct Router : IRouter {
     
     private class Token {}
 

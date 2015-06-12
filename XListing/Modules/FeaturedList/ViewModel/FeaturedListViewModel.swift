@@ -14,15 +14,15 @@ import AVOSCloud
 public final class FeaturedListViewModel : IFeaturedListViewModel {
     public let businessDynamicArr = DynamicArray()
     
-    private let navigator: INavigator
+    private let router: IRouter
     private let businessService: IBusinessService
     private let userService: IUserService
     private let geoLocationService: IGeoLocationService
     
     private var businessModelArr: [Business]!
     
-    public required init(navigator: INavigator, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService) {
-        self.navigator = navigator
+    public required init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService) {
+        self.router = router
         self.businessService = businessService
         self.userService = userService
         self.geoLocationService = geoLocationService
@@ -81,17 +81,17 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     public func pushNearbyModule() {
-        navigator.navigateToNearbyModule()
+        router.navigateToNearbyModule()
     }
     
     public func pushDetailModule(section: Int) {
         let model = businessModelArr[section]
         
-        navigator.navigateToDetailModule(["BusinessModel" : model])
+        router.navigateToDetailModule(["BusinessModel" : model])
     }
     
     public func pushProfileModule() {
-        navigator.navigateToProfileModule()
+        router.navigateToProfileModule()
     }
     
     public func presentAccountModule() {
@@ -99,7 +99,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
 //            let nickname = userService.currentUser()?.nickname
 //            let birthday = userService.currentUser()?.birthday
 //            if birthday == nil || nickname == nil {
-                navigator.navigateToAccountModule()
+                router.navigateToAccountModule()
 //            }
 //        }
     }

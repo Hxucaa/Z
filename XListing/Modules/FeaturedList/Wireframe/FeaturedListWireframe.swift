@@ -12,14 +12,14 @@ private let FeaturedListViewControllerIdentifier = "FeaturedListViewController"
 
 public final class FeaturedListWireframe : BaseWireframe {
     
-    private let navigator: INavigator
+    private let router: IRouter
     private let businessService: IBusinessService
     private let userService: IUserService
     private let geoLocationService: IGeoLocationService
     private var featuredListViewController: FeaturedListViewController?
     
-    public required init(rootWireframe: IRootWireframe, navigator: INavigator, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService) {
-        self.navigator = navigator
+    public required init(rootWireframe: IRootWireframe, router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService) {
+        self.router = router
         self.businessService = businessService
         self.userService = userService
         self.geoLocationService = geoLocationService
@@ -35,7 +35,7 @@ public final class FeaturedListWireframe : BaseWireframe {
     private func initViewController() -> FeaturedListViewController {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
-        let viewmodel = FeaturedListViewModel(navigator: navigator, businessService: businessService, userService: userService, geoLocationService: geoLocationService)
+        let viewmodel = FeaturedListViewModel(router: router, businessService: businessService, userService: userService, geoLocationService: geoLocationService)
         viewController.bindToViewModel(viewmodel)
         
         featuredListViewController = viewController

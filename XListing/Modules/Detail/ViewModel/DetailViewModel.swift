@@ -13,7 +13,7 @@ import MapKit
 
 public final class DetailViewModel : NSObject, IDetailViewModel {
     
-    private let navigator: INavigator
+    private let router: IRouter
     private let wantToGoService: IWantToGoService
     private let geoLocationService: IGeoLocationService
     
@@ -23,8 +23,8 @@ public final class DetailViewModel : NSObject, IDetailViewModel {
     
     public var detailBusinessInfoVM: DetailBusinessInfoViewModel!
     
-    public required init(navigator: INavigator, wantToGoService: IWantToGoService, geoLocationService: IGeoLocationService, businessModel: Business) {
-        self.navigator = navigator
+    public required init(router: IRouter, wantToGoService: IWantToGoService, geoLocationService: IGeoLocationService, businessModel: Business) {
+        self.router = router
         self.wantToGoService = wantToGoService
         self.geoLocationService = geoLocationService
         self.business = businessModel
