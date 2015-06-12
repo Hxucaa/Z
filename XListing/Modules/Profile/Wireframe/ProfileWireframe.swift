@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import ReactKit
 
 private let ProfileViewControllerIdentifier = "ProfileViewController"
 private let StoryboardName = "Profile"
@@ -19,10 +18,6 @@ public final class ProfileWireframe : BaseWireframe, IProfileWireframe {
         self.router = router
         self.userService = userService
         super.init(rootWireframe: rootWireframe)
-        
-        router.profileModuleNavigationNotificationSignal! ~> { notification -> Void in
-            self.pushView()
-        }
     }
 
     private func initViewController() -> ProfileViewController {
@@ -31,8 +26,10 @@ public final class ProfileWireframe : BaseWireframe, IProfileWireframe {
         profileVC = viewController
         return viewController
     }
-    
-    public func pushView() {
+}
+
+extension ProfileWireframe : ProfileRoute {
+    public func push() {
         let injectedViewController = initViewController()
         rootWireframe.pushViewController(injectedViewController, animated: true)
     }

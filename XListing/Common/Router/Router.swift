@@ -7,65 +7,71 @@
 //
 
 import Foundation
-import ReactKit
 
-public struct Router : IRouter {
+public final class Router : IRouter {
     
-    private class Token {}
-
-    private struct Module {
-        let token: AnyObject
-        let name: String
-
-        init(token: AnyObject, name: String) {
-            self.token = token
-            self.name = name
+    public class var sharedInstance : Router {
+        struct Static {
+            static var onceToken : dispatch_once_t = 0
+            static var instance : Router? = nil
+        }
+        dispatch_once(&Static.onceToken) {
+            Static.instance = Router()
+        }
+        return Static.instance!
+    }
+    
+    private let userService: IUserService = UserService()
+    
+    public weak var nearbyRouteDelegate: NearbyRoute!
+    public weak var featuredRouteDelegate: FeaturedRoute!
+    public weak var detailRouteDelegate: DetailRoute!
+    public weak var accountRouteDelegate: AccountRoute!
+    public weak var profileRouteDelegate: ProfileRoute!
+    
+    public func pushNearby() {
+        nearbyRouteDelegate.push()
+    }
+    
+    public func pushFeatured() {
+        featuredRouteDelegate.push()
+    }
+    
+    public func pushDetail<T: Business>(business: T) {
+        detailRouteDelegate.pushWithData(business)
+    }
+    
+    public func pushAccount() {
+        accountRouteDelegate.push()
+    }
+    
+    public func presentAccount(completion: CompletionHandler? = nil) {
+        accountRouteDelegate.present(completion, dismissCallback: nil)
+    }
+    
+    public func pushProfile() {
+        requiredToManageAccountBeforeProceeding { [unowned self] in
+            self.profileRouteDelegate.push()
         }
     }
     
-    private let nearbyModule: Module
-    private let profileModule: Module
-    private let detailModule: Module
-    private let accountModule: Module
+    /**
+    If user is not logged in yet, reroute to another view. Once that view is done, continue with original routing.
     
-    public var nearbyModuleNavigationNotificationSignal: Stream<NSNotification?>?
-    public var profileModuleNavigationNotificationSignal: Stream<NSNotification?>?
-    public var detailModuleNavigationNotificationSignal: Stream<NSNotification?>?
-    public var accountModuleNavigationNotificationSignal: Stream<NSNotification?>?
-
-    public init() {
-        nearbyModule = Module(token: Token(), name: "WillPushNearbyModuleNotification")
-        profileModule = Module(token: Token(), name: "WillPushProfileModuleNotification")
-        detailModule = Module(token: Token(), name: "WillPushDetailModuleNotification")
-        accountModule = Module(token: Token(), name: "WillPushAccountModuleNotification")
+    :param: closure Original route.
+    */
+    private func requiredToManageAccountBeforeProceeding(closure: () -> ()) {
         
-        nearbyModuleNavigationNotificationSignal = Notification.stream(nearbyModule.name, nearbyModule.token)
-        profileModuleNavigationNotificationSignal = Notification.stream(profileModule.name, profileModule.token)
-        detailModuleNavigationNotificationSignal = Notification.stream(detailModule.name, detailModule.token)
-        accountModuleNavigationNotificationSignal = Notification.stream(accountModule.name, accountModule.token)
-    }
-    
-    private func postNotificationName(module: Module) {
-        NSNotificationCenter.defaultCenter().postNotificationName(module.name, object: module.token)
-    }
-    
-    private func postNotificationName(module: Module, userInfo: [String: Business]) {
-        NSNotificationCenter.defaultCenter().postNotificationName(module.name, object: module.token, userInfo: userInfo)
-    }
-    
-    public func navigateToNearbyModule() {
-        postNotificationName(nearbyModule)
-    }
-    
-    public func navigateToProfileModule() {
-        postNotificationName(profileModule)
-    }
-    
-    public func navigateToDetailModule(data: [String: Business]) {
-        postNotificationName(detailModule, userInfo: data)
-    }
-    
-    public func navigateToAccountModule() {
-        postNotificationName(accountModule)
+        if userService.isLoggedInAlready() {
+            closure()
+        }
+        else {
+            accountRouteDelegate.present(nil,
+                dismissCallback: {
+                    closure()
+                }
+            )
+            
+        }
     }
 }

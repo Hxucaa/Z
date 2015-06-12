@@ -81,26 +81,21 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     public func pushNearbyModule() {
-        router.navigateToNearbyModule()
+        router.pushNearby()
     }
     
     public func pushDetailModule(section: Int) {
         let model = businessModelArr[section]
-        
-        router.navigateToDetailModule(["BusinessModel" : model])
+        router.pushDetail(model)
     }
     
     public func pushProfileModule() {
-        router.navigateToProfileModule()
+        router.pushProfile()
     }
     
     public func presentAccountModule() {
-//        if let currentUser = userService.currentUser() {
-//            let nickname = userService.currentUser()?.nickname
-//            let birthday = userService.currentUser()?.birthday
-//            if birthday == nil || nickname == nil {
-                router.navigateToAccountModule()
-//            }
-//        }
+        if userService.isLoggedInAlready() {
+            router.presentAccount(completion: nil)
+        }
     }
 }

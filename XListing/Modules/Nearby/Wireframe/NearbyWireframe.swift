@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ReactKit
 
 private let NearbyViewControllerIdentifier = "NearbyViewController"
 
@@ -24,11 +23,6 @@ public final class NearbyWireframe : BaseWireframe, INearbyWireframe {
         self.geoLocationService = geoLocationService
         
         super.init(rootWireframe: rootWireframe)
-        
-        router.nearbyModuleNavigationNotificationSignal! ~> { notification -> Void in
-            self.pushView()
-        }
-        
     }
     
     /**
@@ -46,8 +40,10 @@ public final class NearbyWireframe : BaseWireframe, INearbyWireframe {
         nearbyVC = viewController
         return viewController
     }
-    
-    private func pushView() {
+}
+
+extension NearbyWireframe : NearbyRoute {
+    public func push() {
         let injectedViewController = initViewController()
         rootWireframe.pushViewController(injectedViewController, animated: true)
     }

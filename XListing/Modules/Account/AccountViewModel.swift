@@ -13,14 +13,20 @@ import ReactKit
 public final class AccountViewModel : NSObject, IAccountViewModel {
     
     private let userService: IUserService
+    private let router: IRouter
     
     public private(set) lazy var editProfileViewModel: EditProfileViewModel = EditProfileViewModel(userService: self.userService)
     
     public private(set) lazy var logInViewModel: LogInViewModel = LogInViewModel(userService: self.userService)
     
-    public required init(userService: IUserService) {
+    public required init(userService: IUserService, router: IRouter) {
         self.userService = userService
+        self.router = router
         
         super.init()
+    }
+    
+    public func pushFeaturedModule() {
+        router.pushFeatured()
     }
 }

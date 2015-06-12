@@ -11,5 +11,6 @@ import SwiftTask
 
 public protocol IAccountViewModel {
     var editProfileViewModel: EditProfileViewModel { get }
-    init(userService: IUserService)
+    init(userService: IUserService, router: IRouter)
+    func pushFeaturedModule()
 }

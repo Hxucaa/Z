@@ -26,10 +26,7 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // start background workers
         backgroundOperationsWorkerFactory.startSignUpAndLogInWorker()
-        
-        // init HUD
-        HUD.sharedInstance
-        
+                
         // start dependency injector
         appDependencies = AppDependencies(window: window!)
         

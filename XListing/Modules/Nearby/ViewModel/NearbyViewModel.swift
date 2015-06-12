@@ -69,8 +69,7 @@ public final class NearbyViewModel : INearbyViewModel {
     */
     public func pushDetailModule(section: Int) {
         let model: Business = businessModelArr[section]
-        
-        router.navigateToDetailModule(["BusinessModel" : model])
+        router.pushDetail(model)
     }
     
     /**
@@ -89,7 +88,6 @@ public final class NearbyViewModel : INearbyViewModel {
     }
     
     public func pushProfileModule() {
-        router.navigateToProfileModule()
-        
+        router.pushProfile()
     }
 }

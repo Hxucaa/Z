@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ReactKit
 
 private let DetailViewControllerIdentifier = "DetailViewController"
 
@@ -25,11 +24,6 @@ public final class DetailWireframe : BaseWireframe, IDetailWireframe {
         self.geoLocationService = geoLocationService
         
         super.init(rootWireframe: rootWireframe)
-        
-        router.detailModuleNavigationNotificationSignal! ~> { notification -> Void in
-            let vm = (notification?.userInfo)!["BusinessModel"] as! Business
-            self.pushView(vm)
-        }
     }
     
     /**
@@ -46,9 +40,11 @@ public final class DetailWireframe : BaseWireframe, IDetailWireframe {
         detailViewController = viewController
         return viewController
     }
-    
-    private func pushView(businessModel: Business) {
-        let injectedViewController = injectViewModelToViewController(businessModel)
+}
+
+extension DetailWireframe : DetailRoute {
+    public func pushWithData<T : Business>(business: T) {
+        let injectedViewController = injectViewModelToViewController(business)
         rootWireframe.pushViewController(injectedViewController, animated: true)
     }
 }

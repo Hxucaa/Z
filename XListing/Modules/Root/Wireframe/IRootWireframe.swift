@@ -12,5 +12,5 @@ import UIKit
 public protocol IRootWireframe : class {
     func showRootViewController<T: UIViewController>(viewController: T)
     func pushViewController<T: UIViewController>(viewController: T, animated: Bool)
-    func presentViewController<T: UIViewController>(viewController: T, animated: Bool)
+    func presentViewController<T: UIViewController>(viewController: T, animated: Bool, completion: (() -> ())?)
 }

@@ -10,7 +10,7 @@ import Foundation
 
 private let FeaturedListViewControllerIdentifier = "FeaturedListViewController"
 
-public final class FeaturedListWireframe : BaseWireframe {
+public final class FeaturedListWireframe : BaseWireframe, IFeaturedListWireframe {
     
     private let router: IRouter
     private let businessService: IBusinessService
@@ -43,12 +43,8 @@ public final class FeaturedListWireframe : BaseWireframe {
     }
 }
 
-extension FeaturedListWireframe : IFeaturedListWireframe {
-    
-    /**
-    Show FeaturedList as root view controller.
-    */
-    public func showFeaturedListAsRootViewController() {
+extension FeaturedListWireframe : FeaturedRoute {
+    public func push() {
         
         let injectedViewController = initViewController()
         rootWireframe.showRootViewController(injectedViewController)

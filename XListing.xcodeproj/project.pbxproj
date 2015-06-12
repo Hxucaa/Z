@@ -110,6 +110,14 @@
 		B4F1958F1B29790100B8C519 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F1958E1B29790100B8C519 /* UIColor+extension.swift */; };
 		B4F195931B2995FA00B8C519 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F195921B2995FA00B8C519 /* libicucore.dylib */; };
 		B4F195951B2A276C00B8C519 /* XUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195941B2A276C00B8C519 /* XUIViewController.swift */; };
+		B4F195981B2AA1BF00B8C519 /* NearbyRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195971B2AA1BF00B8C519 /* NearbyRoute.swift */; };
+		B4F1959A1B2AA32700B8C519 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195991B2AA32700B8C519 /* Route.swift */; };
+		B4F1959C1B2AA3B400B8C519 /* WithDataRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F1959B1B2AA3B400B8C519 /* WithDataRoute.swift */; };
+		B4F1959E1B2AA3C400B8C519 /* WithoutDataRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F1959D1B2AA3C400B8C519 /* WithoutDataRoute.swift */; };
+		B4F195A11B2AA47300B8C519 /* FeaturedRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195A01B2AA47300B8C519 /* FeaturedRoute.swift */; };
+		B4F195A31B2AA4BA00B8C519 /* DetailRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195A21B2AA4BA00B8C519 /* DetailRoute.swift */; };
+		B4F195A51B2ABE0500B8C519 /* AccountRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195A41B2ABE0500B8C519 /* AccountRoute.swift */; };
+		B4F195A71B2ADA9700B8C519 /* ProfileRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195A61B2ADA9700B8C519 /* ProfileRoute.swift */; };
 		B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */; };
 		B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */; };
 		B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */; };
@@ -247,6 +255,14 @@
 		B4F1958E1B29790100B8C519 /* UIColor+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
 		B4F195921B2995FA00B8C519 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		B4F195941B2A276C00B8C519 /* XUIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XUIViewController.swift; sourceTree = "<group>"; };
+		B4F195971B2AA1BF00B8C519 /* NearbyRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NearbyRoute.swift; path = ../NearbyRoute.swift; sourceTree = "<group>"; };
+		B4F195991B2AA32700B8C519 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Route.swift; path = XListing/Common/Router/Route.swift; sourceTree = SOURCE_ROOT; };
+		B4F1959B1B2AA3B400B8C519 /* WithDataRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WithDataRoute.swift; path = ../WithDataRoute.swift; sourceTree = "<group>"; };
+		B4F1959D1B2AA3C400B8C519 /* WithoutDataRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WithoutDataRoute.swift; path = ../WithoutDataRoute.swift; sourceTree = "<group>"; };
+		B4F195A01B2AA47300B8C519 /* FeaturedRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedRoute.swift; sourceTree = "<group>"; };
+		B4F195A21B2AA4BA00B8C519 /* DetailRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailRoute.swift; sourceTree = "<group>"; };
+		B4F195A41B2ABE0500B8C519 /* AccountRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountRoute.swift; sourceTree = "<group>"; };
+		B4F195A61B2ADA9700B8C519 /* ProfileRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileRoute.swift; sourceTree = "<group>"; };
 		B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessService.swift; sourceTree = "<group>"; };
 		B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAccountViewModel.swift; sourceTree = "<group>"; };
@@ -760,11 +776,27 @@
 		B4F195961B2A9E2100B8C519 /* Router */ = {
 			isa = PBXGroup;
 			children = (
+				B4F1959F1B2AA3FF00B8C519 /* Route */,
 				B42797421AFD463500AE5A90 /* Router.swift */,
 				7EFEF7411B124B060043E076 /* IRouter.swift */,
 			);
 			name = Router;
 			path = Common/Router;
+			sourceTree = "<group>";
+		};
+		B4F1959F1B2AA3FF00B8C519 /* Route */ = {
+			isa = PBXGroup;
+			children = (
+				B4F195991B2AA32700B8C519 /* Route.swift */,
+				B4F1959B1B2AA3B400B8C519 /* WithDataRoute.swift */,
+				B4F1959D1B2AA3C400B8C519 /* WithoutDataRoute.swift */,
+				B4F195971B2AA1BF00B8C519 /* NearbyRoute.swift */,
+				B4F195A01B2AA47300B8C519 /* FeaturedRoute.swift */,
+				B4F195A21B2AA4BA00B8C519 /* DetailRoute.swift */,
+				B4F195A41B2ABE0500B8C519 /* AccountRoute.swift */,
+				B4F195A61B2ADA9700B8C519 /* ProfileRoute.swift */,
+			);
+			path = Route;
 			sourceTree = "<group>";
 		};
 		B4FCC7231AE9C627009B4DF6 /* Account */ = {
@@ -1027,6 +1059,7 @@
 				2A714B121B085C63007A8FBB /* AccountViewController.swift in Sources */,
 				B48AB2761AEC0D00008D05D9 /* WantToGo.swift in Sources */,
 				B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */,
+				B4F195A11B2AA47300B8C519 /* FeaturedRoute.swift in Sources */,
 				7E01738E1B1525DB002E154B /* EditProfileTableViewController.swift in Sources */,
 				B48C991A1ADA592A0045BCA9 /* NearbyTableView.swift in Sources */,
 				B48C99121ADA56F70045BCA9 /* NearbyViewController.swift in Sources */,
@@ -1038,6 +1071,7 @@
 				B4F1958B1B2938FC00B8C519 /* HUD.swift in Sources */,
 				2A41A3131AF337350086D24B /* NearbyTableViewCell.swift in Sources */,
 				7EFEF7461B13D0900043E076 /* EditProfileView.swift in Sources */,
+				B4F1959C1B2AA3B400B8C519 /* WithDataRoute.swift in Sources */,
 				B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */,
 				2A9A9B9E1B1C31870010EDA9 /* DetailImageTableViewCell.swift in Sources */,
 				B48C99241ADBA4280045BCA9 /* IFeaturedListWireframe.swift in Sources */,
@@ -1045,12 +1079,14 @@
 				7EACBA161B019A64009D8CA6 /* FeaturedListCellViewModel.swift in Sources */,
 				3DE38A801B11BB3D00DFA128 /* KeychainService.swift in Sources */,
 				B47E15CD1B1821950028E07E /* ISignUpAndLogInWorker.swift in Sources */,
+				B4F195A71B2ADA9700B8C519 /* ProfileRoute.swift in Sources */,
 				B44E35041AD63F6000657A31 /* BusinessService.swift in Sources */,
 				B430323F1AE361350068E8DF /* ObjectService.swift in Sources */,
 				B40A0D8D1B23BD2900036986 /* EditProfileViewModel.swift in Sources */,
 				B4B665481ADF8DC60084DBE7 /* IDetailWireframe.swift in Sources */,
 				B4F195951B2A276C00B8C519 /* XUIViewController.swift in Sources */,
 				B4F195831B27A31500B8C519 /* LogInViewController.swift in Sources */,
+				B4F195A51B2ABE0500B8C519 /* AccountRoute.swift in Sources */,
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,
 				B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */,
 				B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */,
@@ -1062,6 +1098,7 @@
 				B4DB9AC41AF954C8009FBFE1 /* IGeoLocationService.swift in Sources */,
 				2A9A9B9C1B1C31510010EDA9 /* DetailBizInfoTableViewCell.swift in Sources */,
 				B4B665401ADF88DB0084DBE7 /* DetailViewController.swift in Sources */,
+				B4F195A31B2AA4BA00B8C519 /* DetailRoute.swift in Sources */,
 				B4F195851B27A41400B8C519 /* SignUpViewController.swift in Sources */,
 				2A9A9BA01B1C341B0010EDA9 /* DetailBizInfoCellDelegate.swift in Sources */,
 				B4B665461ADF8D5C0084DBE7 /* DetailWireframe.swift in Sources */,
@@ -1075,6 +1112,7 @@
 				B4E1384C1AE1BD0D0082DCA3 /* UserService.swift in Sources */,
 				B4E1384A1AE1B94C0082DCA3 /* User.swift in Sources */,
 				2A9A9BA41B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift in Sources */,
+				B4F1959E1B2AA3C400B8C519 /* WithoutDataRoute.swift in Sources */,
 				B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */,
 				7EF3714E1AB8C1E8009AA3B9 /* LeanCloudClient.swift in Sources */,
 				B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */,
@@ -1092,12 +1130,14 @@
 				B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */,
 				B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */,
 				B42797431AFD463500AE5A90 /* Router.swift in Sources */,
+				B4F195981B2AA1BF00B8C519 /* NearbyRoute.swift in Sources */,
 				B4C6EA231AFE845B00A166AD /* DetailWebViewViewController.swift in Sources */,
 				2A9A9BA61B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift in Sources */,
 				7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */,
 				B47E15BF1B17AD790028E07E /* UIKit&ReactiveCocoa+extension.swift in Sources */,
 				B4E1384E1AE1CA9D0082DCA3 /* IUserService.swift in Sources */,
 				45CBB368E7FE3FD3551D6C35 /* ProfileWireframe.swift in Sources */,
+				B4F1959A1B2AA32700B8C519 /* Route.swift in Sources */,
 				45CBB1BF173283F19EC8C446 /* IProfileWireframe.swift in Sources */,
 				2A9A9BA21B1C40610010EDA9 /* DetailMapTableViewCell.swift in Sources */,
 				45CBBB3CCC6E72DCE005EE35 /* IProfileViewModel.swift in Sources */,

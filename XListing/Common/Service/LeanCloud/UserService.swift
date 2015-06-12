@@ -13,14 +13,24 @@ import ReactiveCocoa
 public final class UserService : IUserService {
     
     public func isLoggedInAlready() -> Bool {
-        if let currentUser = currentUser() {
-            if currentUser.isAuthenticated() {
-                return true
-            }
-            return false
+        if let currentUser = currentUser() where currentUser.isAuthenticated() {
+            return true
         }
         else {
-            return true
+            return false
+        }
+    }
+    
+    public func isLoggedInAlready() -> SignalProducer<Bool, NSError> {
+        return SignalProducer { sink, disposable in
+            if let currentUser = self.currentUser() where currentUser.isAuthenticated() {
+                sendNext(sink, true)
+                sendCompleted(sink)
+            }
+            else {
+                sendNext(sink, false)
+                sendCompleted(sink)
+            }
         }
     }
     

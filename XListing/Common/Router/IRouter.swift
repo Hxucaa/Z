@@ -10,13 +10,10 @@ import Foundation
 import ReactKit
 
 public protocol IRouter {
-    var nearbyModuleNavigationNotificationSignal: Stream<NSNotification?>? { get }
-    var profileModuleNavigationNotificationSignal: Stream<NSNotification?>? { get }
-    var detailModuleNavigationNotificationSignal: Stream<NSNotification?>? { get }
-    var accountModuleNavigationNotificationSignal: Stream<NSNotification?>? { get }
-    
-    func navigateToNearbyModule()
-    func navigateToProfileModule()
-    func navigateToDetailModule(data: [String: Business])
-    func navigateToAccountModule()
+    func pushNearby()
+    func pushFeatured()
+    func pushDetail<T: Business>(business: T)
+    func pushAccount()
+    func presentAccount(#completion: CompletionHandler?)
+    func pushProfile()
 }
