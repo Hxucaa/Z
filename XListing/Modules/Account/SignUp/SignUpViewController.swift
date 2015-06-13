@@ -13,6 +13,7 @@ public final class SignUpViewController : XUIViewController {
     private var viewmodel: SignUpViewModel!
     
     @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet weak var backButton: UIButton!
     
     private var editProfileViewNibName: String!
     
@@ -22,6 +23,7 @@ public final class SignUpViewController : XUIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         signupButton.addTarget(self, action: "signupButtonPressed", forControlEvents: UIControlEvents.TouchUpInside)
+        backButton.addTarget(self, action: "goBackToLanding", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     public func signupButtonPressed () {
@@ -35,6 +37,10 @@ public final class SignUpViewController : XUIViewController {
     
     public func bindToViewModel(viewmodel: SignUpViewModel) {
         self.viewmodel = viewmodel
+    }
+    
+    public func goBackToLanding () {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
 

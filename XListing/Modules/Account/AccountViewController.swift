@@ -13,6 +13,7 @@ public final class AccountViewController: XUIViewController {
     
     private var viewmodel: IAccountViewModel!
     private var dismissCallback: CompletionHandler?
+    public var containerVC : ContainerViewController!
     
     public func bindToViewModel(viewModel: IAccountViewModel, dismissCallback: CompletionHandler? = nil) {
         self.viewmodel = viewModel
@@ -39,5 +40,15 @@ public final class AccountViewController: XUIViewController {
     */
     public func dismissViewController() {
         self.dismissViewControllerAnimated(true, completion: dismissCallback)
+    }
+    
+    public override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+        return true
+    }
+    
+    public override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "embedSegue") {
+            self.containerVC = segue.destinationViewController as! ContainerViewController;
+        }
     }
 }
