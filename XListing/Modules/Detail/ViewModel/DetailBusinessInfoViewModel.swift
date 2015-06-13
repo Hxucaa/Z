@@ -7,60 +7,38 @@
 //
 
 import Foundation
-import ReactKit
-import SwiftTask
+import ReactiveCocoa
 import MapKit
 
 private let 公里 = "公里"
 private let 米 = "米"
 private let CityDistanceSeparator = " • "
 
-public final class DetailBusinessInfoViewModel : NSObject {
-    public let navigationTitle: String
-    public let businessName: String
-    public let websiteURL: NSURL?
-    public let phone: String?
-    public let coverImageNSURL: NSURL?
-    public let cityAndDistance: String
-    public var distance: String?
-    public let cllocation: CLLocation
-    public let fullAddress: String
-    public let mapAnnotation: MKPointAnnotation
-//    public let objectId: String
-//    public let phone: String?
-//    public let url: String?
-//    
-//    public let unit: String?
-//    public let address: String?
-//    public let district: String?
-//    public let city: String?
-//    public let state: String?
-//    public let country: String?
-//    public let postalCode: String?
-
+public struct DetailBusinessInfoViewModel {
+    public let navigationTitle: ConstantProperty<String>
+    public let businessName: ConstantProperty<String>
+    public let websiteURL: ConstantProperty<NSURL?>
+    public let phone: ConstantProperty<String?>
+    public let phoneURL: ConstantProperty<NSURL?>
+    public let cityAndDistance: ConstantProperty<String>
+    public let distance: ConstantProperty<String?>
+    public let cllocation: ConstantProperty<CLLocation>
     
     public init(business: Business, currentLocation: CLLocation? = nil) {
-        navigationTitle = business.nameSChinese!
+        navigationTitle = ConstantProperty<String>(business.nameSChinese!)
         
-        businessName = business.nameSChinese!
+        businessName = ConstantProperty<String>(business.nameSChinese!)
         
         if let url = business.url {
-            websiteURL = NSURL(string: url)
+            websiteURL = ConstantProperty<NSURL?>(NSURL(string: url))
         }
         else {
-            websiteURL = nil
+            websiteURL = ConstantProperty<NSURL?>(nil)
         }
         
-        phone = business.phone
+        phone = ConstantProperty<String?>(business.phone!)
         
-        if let url = business.cover?.url {
-            coverImageNSURL = NSURL(string: url)
-        }
-        else {
-            // TODO: fix temp image
-            coverImageNSURL = NSURL(string: "http://www.phoenixpalace.co.uk/images/background/aboutus.jpg")
-//            coverImageNSURL = nil
-        }
+        phoneURL = ConstantProperty<NSURL?>(NSURL(string: "tel:\(business.phone!)"))
         
         if let currentLocation = currentLocation {
             
@@ -71,29 +49,23 @@ public final class DetailBusinessInfoViewModel : NSObject {
             formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
             if(distanceInMeter >= 1000) {
                 formatter.maximumFractionDigits = 1
-                distance = formatter.stringFromNumber(distanceInMeter / 1000)! + 公里
+                let d = formatter.stringFromNumber(distanceInMeter / 1000)! + 公里
+                distance = ConstantProperty<String?>(d)
             }
             else {
                 formatter.maximumFractionDigits = 0
-                distance = formatter.stringFromNumber(distanceInMeter)! + 米
+                let d = formatter.stringFromNumber(distanceInMeter)! + 米
+                distance = ConstantProperty<String?>(d)
             }
             
         }
         else {
-            distance = nil
+            distance = ConstantProperty<String?>(nil)
         }
         
-        let distanceText = distance == nil ? "" : "\(CityDistanceSeparator) \(distance)"
-        cityAndDistance = "\(business.city!) \(distanceText)"
+        let distanceText = distance.value == nil ? "" : "\(CityDistanceSeparator) \(distance.value)"
+        cityAndDistance = ConstantProperty<String>("\(business.city!) \(distanceText)")
         
-        cllocation = CLLocation(latitude: (business.geopoint?.latitude)!, longitude: (business.geopoint?.longitude)!)
-        
-        fullAddress = "   \u{f124}   \(business.address!), \(business.city!), \(business.state!)"
-        
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = cllocation.coordinate
-        annotation.title = businessName
-        annotation.subtitle = distance
-        mapAnnotation = annotation
+        cllocation = ConstantProperty<CLLocation>(CLLocation(latitude: (business.geopoint?.latitude)!, longitude: (business.geopoint?.longitude)!))
     }
 }

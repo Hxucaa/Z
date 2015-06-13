@@ -8,10 +8,12 @@
 
 import Foundation
 import SwiftTask
+import ReactiveCocoa
 import MapKit
 
 public protocol IGeoLocationService : class {
     var defaultGeoPoint: PFGeoPoint! { get }
     func getCurrentLocation() -> Task<Int, CLLocation, NSError>
+    func getCurrentLocationSignal() -> SignalProducer<CLLocation, NSError>
     func getCurrentGeoPoint() -> Task<Int, PFGeoPoint, NSError>
 }

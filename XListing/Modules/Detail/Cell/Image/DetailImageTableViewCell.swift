@@ -7,9 +7,15 @@
 //
 
 import UIKit
+import ReactiveCocoa
+import SDWebImage
 
 public final class DetailImageTableViewCell: UITableViewCell {
-
+    
+    @IBOutlet weak var detailImageView: UIImageView!
+    
+    private var viewmodel: DetailImageViewModel!
+    
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -21,5 +27,13 @@ public final class DetailImageTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    @IBOutlet weak var detailImageView: UIImageView!
+    public func bindToViewModel(viewmodel: DetailImageViewModel) {
+        self.viewmodel = viewmodel
+        
+        
+        viewmodel.coverImageNSURL.producer
+            |> filter { $0 != nil }
+            |> start(next: { self.detailImageView.sd_setImageWithURL($0!) })
+    }
+    
 }

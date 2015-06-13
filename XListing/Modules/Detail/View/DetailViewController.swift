@@ -7,33 +7,26 @@
 //
 
 import UIKit
-import ReactKit
+import ReactiveCocoa
 import MapKit
 import WebKit
-import SDWebImage
 
 private let CityDistanceSeparator = " • "
 
 public final class DetailViewController : XUIViewController, MKMapViewDelegate {
     
-    private var detailVM: IDetailViewModel!
+    private var viewmodel: IDetailViewModel!
     
     public var expandHours: Bool = false
     public var isGoing: Bool = false
     
     @IBOutlet weak var tableView: UITableView!
     
-    internal var businessNameStream: Stream<AnyObject?>!
-    internal var cityAndDistanceStream: Stream<AnyObject?>!
-    internal var wantToGoButtonStream: Stream<String>!
-    internal var shareButtonStream: Stream<String>!
-    internal var coverImageNSURLStream: Stream<AnyObject?>!
-    
     public override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        self.navigationItem.title = detailVM.detailBusinessInfoVM.navigationTitle
+        self.navigationItem.title = viewmodel.detailBusinessInfoVM.navigationTitle.value
     }
     
     public override func didReceiveMemoryWarning() {
@@ -43,18 +36,11 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
     public override func viewDidDisappear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        /**
-        Set streams to nil.
-        */
-        businessNameStream = nil
-        cityAndDistanceStream = nil
-        wantToGoButtonStream = nil
-        shareButtonStream = nil
         
     }
     
     public func bindToViewModel(detailViewModel: IDetailViewModel) {
-        detailVM = detailViewModel
+        viewmodel = detailViewModel
     }
     
     @IBAction func shareButtonTapped(sender: AnyObject) {
@@ -74,13 +60,15 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
     }
     
     public func callBusiness(){
-        var phoneNumber = "tel:" + detailVM.detailBusinessInfoVM.phone!
-        UIApplication.sharedApplication().openURL(NSURL (string: phoneNumber)!)
+        viewmodel.detailBusinessInfoVM.phoneURL.producer
+            |> filter { $0 != nil }
+            |> start(next: { UIApplication.sharedApplication().openURL($0!) })
+        
     }
     
     public func goToWebsiteUrl(){
-        let businessName = detailVM.detailBusinessInfoVM.businessName
-        let url = detailVM.detailBusinessInfoVM.websiteURL!
+        let businessName = viewmodel.detailBusinessInfoVM.businessName.value
+        let url = viewmodel.detailBusinessInfoVM.websiteURL.value!
         let navController = UINavigationController()
         let webVC = DetailWebViewViewController(url: url, businessName: businessName)
         navController.pushViewController(webVC, animated: true)
@@ -88,24 +76,24 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
     }
 }
 
-    func reduceMargins(cell:UITableViewCell) {
+    private func reduceMargins(cell:UITableViewCell) {
         cell.layoutMargins = UIEdgeInsetsZero;
         cell.preservesSuperviewLayoutMargins = false;
     }
 
-    func defaultCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    private func defaultCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
         return placeHolderCell
     }
 
-    func headerCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, withTitle title: String) -> UITableViewCell {
+    private func headerCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, withTitle title: String) -> UITableViewCell {
         var headerCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
         headerCell.textLabel?.text = title
         reduceMargins(headerCell)
         return headerCell
     }
 
-    func createCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, withIdentifier id:String) -> UITableViewCell{
+    private func createCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, withIdentifier id:String) -> UITableViewCell {
         var cell =  tableView.dequeueReusableCellWithIdentifier(id, forIndexPath: indexPath) as! UITableViewCell
         reduceMargins(cell)
         return cell
@@ -169,15 +157,8 @@ extension DetailViewController : UITableViewDataSource {
         case 0:
             switch (row){
             case 0:
-                var imageCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "ImageCell") as! DetailImageTableViewCell
-                
-                coverImageNSURLStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "coverImageNSURL")
-                coverImageNSURLStream ~> { url in
-                    if let url = url as? NSURL{
-                        imageCell.detailImageView.sd_setImageWithURL(url)
-                    }
-                }
-                
+                let imageCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "ImageCell") as! DetailImageTableViewCell
+                imageCell.bindToViewModel(viewmodel.detailImageViewModel)
                 return imageCell
             case 1:
                 
@@ -191,11 +172,8 @@ extension DetailViewController : UITableViewDataSource {
                     bizInfoCell.participateButton.setTitle("\u{f08a} 我想去", forState: UIControlState.Normal)
                 }
                 
-                businessNameStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "businessName")
-                (bizInfoCell.businessNameLabel!, "text") <~ businessNameStream
-                
-                cityAndDistanceStream = KVO.startingStream(detailVM.detailBusinessInfoVM, "cityAndDistance")
-                (bizInfoCell.cityAndDistanceLabel!, "text") <~ cityAndDistanceStream
+                bizInfoCell.businessNameLabel.text = viewmodel.detailBusinessInfoVM.businessName.value
+                bizInfoCell.cityAndDistanceLabel.text = viewmodel.detailBusinessInfoVM.cityAndDistance.value
                 
                 //TODO:
                 //Temp addition of ETA until the distance stream comes through
@@ -237,38 +215,27 @@ extension DetailViewController : UITableViewDataSource {
             
         case 4:
             switch (row){
-            case 0: return headerCell(tableView, cellForRowAtIndexPath: indexPath, withTitle: "地址和信息")
+            case 0:
+                return headerCell(tableView, cellForRowAtIndexPath: indexPath, withTitle: "地址和信息")
             case 1:
-                var mapCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "MapCell") as! DetailMapTableViewCell
-                
-                let annotation = detailVM.detailBusinessInfoVM.mapAnnotation
-                mapCell.mapView.addAnnotation(annotation)
-       
-                let span = MKCoordinateSpanMake(0.01, 0.01)
-                let region = MKCoordinateRegion(center: detailVM.detailBusinessInfoVM.cllocation.coordinate, span: span)
-                mapCell.mapView.setRegion(region, animated: false)
-                
-                var tapGesture = UITapGestureRecognizer(target: self, action: "goToMapVC")
-                mapCell.mapView.addGestureRecognizer(tapGesture)
-                
+                let mapCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "MapCell") as! DetailMapTableViewCell
+                mapCell.delegate = self
+                mapCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
                 return mapCell
             case 2:
-                var addressCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "AddressCell") as! DetailAddressTableViewCell
-                
-                let fullAddress = detailVM.detailBusinessInfoVM.fullAddress
-                
-                addressCell.addressButton.setTitle(fullAddress, forState: UIControlState.Normal)
+                let addressCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "AddressCell") as! DetailAddressTableViewCell
+                addressCell.delegate = self
+                addressCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
                 return addressCell
-                
             case 3:
                 
                 var phoneWebCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "PhoneWebSplitCell") as! DetailPhoneWebTableViewCell
                 
-                phoneWebCell.phoneButton?.setTitle("   \u{f095}   " + (detailVM.detailBusinessInfoVM.phone)!, forState: UIControlState.Normal)
+                phoneWebCell.phoneButton?.setTitle("   \u{f095}   " + (viewmodel.detailBusinessInfoVM.phone.value)!, forState: UIControlState.Normal)
                 
                 phoneWebCell.delegate = self
                 
-                if (detailVM.detailBusinessInfoVM.websiteURL != nil){
+                if (viewmodel.detailBusinessInfoVM.websiteURL.value != nil){
                     phoneWebCell.websiteButton?.setTitle("   \u{f0ac}   访问网站", forState: UIControlState.Normal)
                 } else{
                     phoneWebCell.websiteButton?.setTitle("   \u{f0ac}   没有网站", forState: UIControlState.Normal)
@@ -394,20 +361,8 @@ extension DetailViewController : DetailPhoneWebCellDelegate {
     }
 }
 
-extension DetailViewController : DetailAddressCellDelegate {
-    public func goToMapVC() {
-        let locationStream = detailVM.getCurrentLocation()
-        locationStream.ownedBy(self)
-        locationStream ~> { [unowned self] location -> Void in
-            var businessMapVC = DetailBusinessMapViewController(nibName: "DetailBusinessMapViewController", bundle: nil)
-            var distance = self.detailVM.detailBusinessInfoVM.cllocation.distanceFromLocation(location)
-            var spanFactor = distance / 55000.00
-            let span = MKCoordinateSpanMake(spanFactor, spanFactor)
-            let region = MKCoordinateRegion(center: self.detailVM.detailBusinessInfoVM.cllocation.coordinate, span: span)
-            let annotation = self.detailVM.detailBusinessInfoVM.mapAnnotation
-            businessMapVC.region = region
-            businessMapVC.businessAnnotation = annotation
-            self.navigationController?.pushViewController(businessMapVC, animated: true)
-        }
+extension DetailViewController : AddressAndMapDelegate {
+    public func pushNavigationMapViewController<T: UIViewController>(viewController: T) {
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

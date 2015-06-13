@@ -8,7 +8,9 @@
 
 import Foundation
 import SwiftTask
+import ReactiveCocoa
 import MapKit
+import AVOSCloud
 
 public class GeoLocationService : IGeoLocationService {
     
@@ -17,7 +19,7 @@ public class GeoLocationService : IGeoLocationService {
     public func getCurrentLocation() -> Task<Int, CLLocation, NSError> {
         let task = Task<Int, CLLocation, NSError> { [unowned self] progress, fulfill, reject, configure in
             // get current location
-            PFGeoPoint.geoPointForCurrentLocationInBackground({ (geopoint, error) -> Void in
+            AVGeoPoint.geoPointForCurrentLocationInBackground { (geopoint, error) -> Void in
                 if error == nil {
                     let t = geopoint!
                     fulfill(CLLocation(latitude: t.latitude, longitude: t.longitude))
@@ -25,16 +27,31 @@ public class GeoLocationService : IGeoLocationService {
                 else {
                     reject(error!)
                 }
-            })
+            }
         }
         
         return task
     }
     
+    public func getCurrentLocationSignal() -> SignalProducer<CLLocation, NSError> {
+        return SignalProducer<CLLocation, NSError> { sink, disposable in
+            // get current location
+            AVGeoPoint.geoPointForCurrentLocationInBackground { (geopoint, error) -> Void in
+                if error == nil {
+                    sendNext(sink, CLLocation(latitude: geopoint!.latitude, longitude: geopoint!.longitude))
+                    sendCompleted(sink)
+                }
+                else {
+                    sendError(sink, error)
+                }
+            }
+        }
+    }
+    
     public func getCurrentGeoPoint() -> Task<Int, PFGeoPoint, NSError> {
         let task = Task<Int, PFGeoPoint, NSError> { [unowned self] progress, fulfill, reject, configure in
             // get current location
-            PFGeoPoint.geoPointForCurrentLocationInBackground({ (geopoint, error) -> Void in
+            AVGeoPoint.geoPointForCurrentLocationInBackground { (geopoint, error) -> Void in
                 if error == nil {
                     
                     fulfill(geopoint!)
@@ -42,7 +59,7 @@ public class GeoLocationService : IGeoLocationService {
                 else {
                     reject(error!)
                 }
-            })
+            }
         }
         
         return task

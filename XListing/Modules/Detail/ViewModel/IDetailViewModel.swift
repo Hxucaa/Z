@@ -7,13 +7,14 @@
 //
 
 import Foundation
-import SwiftTask
-import ReactKit
+import ReactiveCocoa
 import MapKit
 
-public protocol IDetailViewModel : class {
+public protocol IDetailViewModel {
+    var detailBusinessInfoVM: DetailBusinessInfoViewModel { get }
+    var detailImageViewModel: DetailImageViewModel { mutating get }
+    var detailAddressAndMapViewModel: DetailAddressAndMapViewModel { mutating get }
     init(router: IRouter, wantToGoService: IWantToGoService, geoLocationService: IGeoLocationService, businessModel: Business)
-    var detailBusinessInfoVM: DetailBusinessInfoViewModel! { get set }
-    func goingToBusiness(#thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGo, NSError>
-    func getCurrentLocation() -> Stream<CLLocation>
+//    func goingToBusiness(#thisWeek: Bool, thisMonth: Bool, later: Bool) -> Task<Int, WantToGo, NSError>
+//    func getCurrentLocation() -> Stream<CLLocation>
 }

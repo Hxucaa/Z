@@ -21,9 +21,9 @@
 		2A9A9BA61B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9BA51B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift */; };
 		2A9A9BA81B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9BA71B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift */; };
 		2AC9D8C01AF735A600C51DB3 /* NearbyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AC9D8BF1AF735A600C51DB3 /* NearbyTableViewCell.xib */; };
-		2ADF3E651B1ECBA200C2971E /* DetailBusinessMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF3E631B1ECBA200C2971E /* DetailBusinessMapViewController.swift */; };
-		2ADF3E661B1ECBA200C2971E /* DetailBusinessMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ADF3E641B1ECBA200C2971E /* DetailBusinessMapViewController.xib */; };
-		2ADF3E681B1ECEFF00C2971E /* DetailAddressCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF3E671B1ECEFF00C2971E /* DetailAddressCellDelegate.swift */; };
+		2ADF3E651B1ECBA200C2971E /* DetailNavigationMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF3E631B1ECBA200C2971E /* DetailNavigationMapViewController.swift */; };
+		2ADF3E661B1ECBA200C2971E /* DetailNavigationMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ADF3E641B1ECBA200C2971E /* DetailNavigationMapViewController.xib */; };
+		2ADF3E681B1ECEFF00C2971E /* AddressAndMapDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF3E671B1ECEFF00C2971E /* AddressAndMapDelegate.swift */; };
 		3DB8AC301B06D0DF00E51F0E /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB8AC2F1B06D0DF00E51F0E /* Profile.swift */; };
 		3DE38A7E1B11BB3000DFA128 /* IKeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE38A7D1B11BB3000DFA128 /* IKeychainService.swift */; };
 		3DE38A801B11BB3D00DFA128 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE38A7F1B11BB3D00DFA128 /* KeychainService.swift */; };
@@ -118,6 +118,9 @@
 		B4F195A31B2AA4BA00B8C519 /* DetailRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195A21B2AA4BA00B8C519 /* DetailRoute.swift */; };
 		B4F195A51B2ABE0500B8C519 /* AccountRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195A41B2ABE0500B8C519 /* AccountRoute.swift */; };
 		B4F195A71B2ADA9700B8C519 /* ProfileRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195A61B2ADA9700B8C519 /* ProfileRoute.swift */; };
+		B4F195A91B2B9EC400B8C519 /* DetailImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195A81B2B9EC400B8C519 /* DetailImageViewModel.swift */; };
+		B4F195AB1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195AA1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift */; };
+		B4F195AF1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195AE1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift */; };
 		B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */; };
 		B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */; };
 		B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */; };
@@ -156,9 +159,9 @@
 		2A9A9BA51B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhoneWebTableViewCell.swift; sourceTree = "<group>"; };
 		2A9A9BA71B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhoneWebCellDelegate.swift; sourceTree = "<group>"; };
 		2AC9D8BF1AF735A600C51DB3 /* NearbyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NearbyTableViewCell.xib; sourceTree = "<group>"; };
-		2ADF3E631B1ECBA200C2971E /* DetailBusinessMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBusinessMapViewController.swift; sourceTree = "<group>"; };
-		2ADF3E641B1ECBA200C2971E /* DetailBusinessMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailBusinessMapViewController.xib; sourceTree = "<group>"; };
-		2ADF3E671B1ECEFF00C2971E /* DetailAddressCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAddressCellDelegate.swift; sourceTree = "<group>"; };
+		2ADF3E631B1ECBA200C2971E /* DetailNavigationMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailNavigationMapViewController.swift; sourceTree = "<group>"; };
+		2ADF3E641B1ECBA200C2971E /* DetailNavigationMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailNavigationMapViewController.xib; sourceTree = "<group>"; };
+		2ADF3E671B1ECEFF00C2971E /* AddressAndMapDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressAndMapDelegate.swift; sourceTree = "<group>"; };
 		3274F99E18CB33E02A5ADE6D /* Pods-XListing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListing.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XListing/Pods-XListing.debug.xcconfig"; sourceTree = "<group>"; };
 		3B67513D959F982A4CF98B56 /* Pods-XListing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListing.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListing/Pods-XListing.release.xcconfig"; sourceTree = "<group>"; };
 		3DB8AC2F1B06D0DF00E51F0E /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -263,6 +266,9 @@
 		B4F195A21B2AA4BA00B8C519 /* DetailRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailRoute.swift; sourceTree = "<group>"; };
 		B4F195A41B2ABE0500B8C519 /* AccountRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountRoute.swift; sourceTree = "<group>"; };
 		B4F195A61B2ADA9700B8C519 /* ProfileRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileRoute.swift; sourceTree = "<group>"; };
+		B4F195A81B2B9EC400B8C519 /* DetailImageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailImageViewModel.swift; sourceTree = "<group>"; };
+		B4F195AA1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAddressAndMapViewModel.swift; sourceTree = "<group>"; };
+		B4F195AE1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailNavigationMapViewModel.swift; sourceTree = "<group>"; };
 		B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessService.swift; sourceTree = "<group>"; };
 		B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAccountViewModel.swift; sourceTree = "<group>"; };
@@ -321,10 +327,6 @@
 			isa = PBXGroup;
 			children = (
 				2A9A9B9B1B1C31510010EDA9 /* DetailBizInfoTableViewCell.swift */,
-				2A9A9B9D1B1C31870010EDA9 /* DetailImageTableViewCell.swift */,
-				2A9A9BA11B1C40610010EDA9 /* DetailMapTableViewCell.swift */,
-				2A9A9BA31B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift */,
-				2A9A9BA51B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift */,
 			);
 			path = DetailCellViews;
 			sourceTree = "<group>";
@@ -334,7 +336,6 @@
 			children = (
 				2A9A9B9F1B1C341B0010EDA9 /* DetailBizInfoCellDelegate.swift */,
 				2A9A9BA71B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift */,
-				2ADF3E671B1ECEFF00C2971E /* DetailAddressCellDelegate.swift */,
 			);
 			path = DetailCellDelegates;
 			sourceTree = "<group>";
@@ -627,6 +628,7 @@
 		B4B6653B1ADF88070084DBE7 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				B4F195B31B2BDFB400B8C519 /* Cell */,
 				B4B6653E1ADF88250084DBE7 /* Wireframe */,
 				B4B6653C1ADF88130084DBE7 /* View */,
 				B4B6653D1ADF88180084DBE7 /* ViewModel */,
@@ -642,8 +644,6 @@
 				B4C6EA221AFE845B00A166AD /* DetailWebViewViewController.swift */,
 				2A9A9BA91B1C4ABF0010EDA9 /* DetailCellViews */,
 				2A9A9BAA1B1C4AD10010EDA9 /* DetailCellDelegates */,
-				2ADF3E631B1ECBA200C2971E /* DetailBusinessMapViewController.swift */,
-				2ADF3E641B1ECBA200C2971E /* DetailBusinessMapViewController.xib */,
 			);
 			name = View;
 			path = Detail/View;
@@ -799,6 +799,58 @@
 			path = Route;
 			sourceTree = "<group>";
 		};
+		B4F195B21B2BDF9400B8C519 /* Address&Map */ = {
+			isa = PBXGroup;
+			children = (
+				B4F195B41B2BECCD00B8C519 /* NavigationMap */,
+				2A9A9BA11B1C40610010EDA9 /* DetailMapTableViewCell.swift */,
+				2A9A9BA31B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift */,
+				B4F195AA1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift */,
+				2ADF3E671B1ECEFF00C2971E /* AddressAndMapDelegate.swift */,
+			);
+			name = "Address&Map";
+			path = "Detail/Cell/Address&Map";
+			sourceTree = "<group>";
+		};
+		B4F195B31B2BDFB400B8C519 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B4F195B61B2C04E400B8C519 /* PhoneWeb */,
+				B4F195B51B2C040F00B8C519 /* Image */,
+				B4F195B21B2BDF9400B8C519 /* Address&Map */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		B4F195B41B2BECCD00B8C519 /* NavigationMap */ = {
+			isa = PBXGroup;
+			children = (
+				B4F195AE1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift */,
+				2ADF3E631B1ECBA200C2971E /* DetailNavigationMapViewController.swift */,
+				2ADF3E641B1ECBA200C2971E /* DetailNavigationMapViewController.xib */,
+			);
+			path = NavigationMap;
+			sourceTree = "<group>";
+		};
+		B4F195B51B2C040F00B8C519 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				2A9A9B9D1B1C31870010EDA9 /* DetailImageTableViewCell.swift */,
+				B4F195A81B2B9EC400B8C519 /* DetailImageViewModel.swift */,
+			);
+			name = Image;
+			path = Detail/Cell/Image;
+			sourceTree = "<group>";
+		};
+		B4F195B61B2C04E400B8C519 /* PhoneWeb */ = {
+			isa = PBXGroup;
+			children = (
+				2A9A9BA51B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift */,
+			);
+			name = PhoneWeb;
+			path = Detail/Cell/PhoneWeb;
+			sourceTree = "<group>";
+		};
 		B4FCC7231AE9C627009B4DF6 /* Account */ = {
 			isa = PBXGroup;
 			children = (
@@ -925,7 +977,7 @@
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				2AC9D8C01AF735A600C51DB3 /* NearbyTableViewCell.xib in Resources */,
 				B4F195811B2789A100B8C519 /* Account.storyboard in Resources */,
-				2ADF3E661B1ECBA200C2971E /* DetailBusinessMapViewController.xib in Resources */,
+				2ADF3E661B1ECBA200C2971E /* DetailNavigationMapViewController.xib in Resources */,
 				7E0173881B146473002E154B /* EditProfileView.xib in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
 				2A41A30E1AF3133F0086D24B /* fontawesome-webfont.ttf in Resources */,
@@ -1044,7 +1096,7 @@
 			files = (
 				7EACBA181B01A37C009D8CA6 /* DetailBusinessInfoViewModel.swift in Sources */,
 				B43032471AE4281D0068E8DF /* TypeAliases.swift in Sources */,
-				2ADF3E681B1ECEFF00C2971E /* DetailAddressCellDelegate.swift in Sources */,
+				2ADF3E681B1ECEFF00C2971E /* AddressAndMapDelegate.swift in Sources */,
 				7E0173861B13FB44002E154B /* EditProfileViewDelegate.swift in Sources */,
 				B48C99221ADA6A640045BCA9 /* NearbyWireframe.swift in Sources */,
 				B4FCC7411AEB0080009B4DF6 /* IRootWireframe.swift in Sources */,
@@ -1058,11 +1110,13 @@
 				7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */,
 				2A714B121B085C63007A8FBB /* AccountViewController.swift in Sources */,
 				B48AB2761AEC0D00008D05D9 /* WantToGo.swift in Sources */,
+				B4F195AF1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift in Sources */,
 				B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */,
 				B4F195A11B2AA47300B8C519 /* FeaturedRoute.swift in Sources */,
 				7E01738E1B1525DB002E154B /* EditProfileTableViewController.swift in Sources */,
 				B48C991A1ADA592A0045BCA9 /* NearbyTableView.swift in Sources */,
 				B48C99121ADA56F70045BCA9 /* NearbyViewController.swift in Sources */,
+				B4F195A91B2B9EC400B8C519 /* DetailImageViewModel.swift in Sources */,
 				2A9A9BA81B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift in Sources */,
 				2A8DA55D1B18465D00311382 /* WantToGoTableViewController.swift in Sources */,
 				B44E34FF1AD5A23800657A31 /* BusinessViewModel.swift in Sources */,
@@ -1103,11 +1157,12 @@
 				2A9A9BA01B1C341B0010EDA9 /* DetailBizInfoCellDelegate.swift in Sources */,
 				B4B665461ADF8D5C0084DBE7 /* DetailWireframe.swift in Sources */,
 				3DB8AC301B06D0DF00E51F0E /* Profile.swift in Sources */,
+				B4F195AB1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift in Sources */,
 				B4F1958F1B29790100B8C519 /* UIColor+extension.swift in Sources */,
 				B4A3C16D1AD44B7E00B9D699 /* FeaturedListViewModel.swift in Sources */,
 				B4DB9AC21AF954AC009FBFE1 /* GeoLocationService.swift in Sources */,
 				B4F195871B27A6B200B8C519 /* EditProfileViewController.swift in Sources */,
-				2ADF3E651B1ECBA200C2971E /* DetailBusinessMapViewController.swift in Sources */,
+				2ADF3E651B1ECBA200C2971E /* DetailNavigationMapViewController.swift in Sources */,
 				B47E15C81B181E370028E07E /* IBackgroundOperationsWorkerFactory.swift in Sources */,
 				B4E1384C1AE1BD0D0082DCA3 /* UserService.swift in Sources */,
 				B4E1384A1AE1B94C0082DCA3 /* User.swift in Sources */,
