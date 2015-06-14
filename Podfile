@@ -4,6 +4,8 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'XListing' do
+  pod 'FLEX', '~> 2.0', :configurations => ['DEBUG']
+  pod 'SVProgressHUD', :git => 'https://github.com/Hxucaa/SVProgressHUD.git'
   pod 'CocoaLumberjack', '~> 2.0'
   pod 'ReactKit', '~> 0.11.0'
   pod 'SwiftTask', '~> 3.0'
@@ -21,7 +23,8 @@ end
 
 target 'XListingTests' do
   pod 'AVOSCloud', '~> 3.1'
-  pod 'Quick'
-  pod 'Nimble'
+  pod 'ReactiveCocoa', '= 3.0-beta.6'
+  pod 'Quick', '= 0.3.1'
+  pod 'Nimble', '= 1.0.0-rc.1'
 end
 

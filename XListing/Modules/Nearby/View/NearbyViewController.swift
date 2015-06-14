@@ -15,7 +15,7 @@ import SDWebImage
 private let NearbyTableViewCellXIB = "NearbyTableViewCell"
 private let CellIdentifier = "NearbyCell"
 
-public final class NearbyViewController: UIViewController , UITableViewDelegate, UITableViewDataSource{
+public final class NearbyViewController: XUIViewController , UITableViewDelegate, UITableViewDataSource{
     
     private let mapView = MKMapView()
     private let horizontalScrollContentView = HorizontalScrollContentView()

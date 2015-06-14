@@ -14,7 +14,7 @@ private let NumberOfRowsPerSection = 1
 private let CellIdentifier = "Cell"
 private let SegueIdentifier = "FromFeaturedToNearby"
 
-public final class FeaturedListViewController: UIViewController {
+public final class FeaturedListViewController: XUIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     

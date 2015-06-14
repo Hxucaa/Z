@@ -9,9 +9,11 @@
 import Foundation
 import SwiftTask
 import MapKit
+import CoreLocation
 
 public protocol IGeoLocationService : class {
     var defaultGeoPoint: PFGeoPoint! { get }
+    var locationManager: CLLocationManager! {get}
     func getCurrentLocation() -> Task<Int, CLLocation, NSError>
     func getCurrentGeoPoint() -> Task<Int, PFGeoPoint, NSError>
 }

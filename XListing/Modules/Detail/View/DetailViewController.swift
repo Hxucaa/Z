@@ -14,7 +14,7 @@ import SDWebImage
 
 private let CityDistanceSeparator = " • "
 
-public final class DetailViewController : UIViewController, MKMapViewDelegate {
+public final class DetailViewController : XUIViewController, MKMapViewDelegate {
     
     private var detailVM: IDetailViewModel!
     

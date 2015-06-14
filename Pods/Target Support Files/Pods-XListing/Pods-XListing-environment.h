@@ -11,7 +11,7 @@
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.2.2.
+// Version: 3.1.2.4.
 
 // AVOSCloudCrashReporting
 #define COCOAPODS_POD_AVAILABLE_AVOSCloudCrashReporting
@@ -32,7 +32,7 @@
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.2.1.
+// Version: 3.1.2.4.
 
 // Box
 #define COCOAPODS_POD_AVAILABLE_Box
@@ -68,7 +68,7 @@
 #define COCOAPODS_POD_AVAILABLE_Dollar
 #define COCOAPODS_VERSION_MAJOR_Dollar 3
 #define COCOAPODS_VERSION_MINOR_Dollar 0
-#define COCOAPODS_VERSION_PATCH_Dollar 1
+#define COCOAPODS_VERSION_PATCH_Dollar 2
 
 // JSQMessagesViewController
 #define COCOAPODS_POD_AVAILABLE_JSQMessagesViewController
@@ -140,6 +140,12 @@
 #define COCOAPODS_VERSION_MINOR_SDWebImage_Core 7
 #define COCOAPODS_VERSION_PATCH_SDWebImage_Core 2
 
+// SVProgressHUD
+#define COCOAPODS_POD_AVAILABLE_SVProgressHUD
+#define COCOAPODS_VERSION_MAJOR_SVProgressHUD 1
+#define COCOAPODS_VERSION_MINOR_SVProgressHUD 1
+#define COCOAPODS_VERSION_PATCH_SVProgressHUD 3
+
 // SnapKit
 #define COCOAPODS_POD_AVAILABLE_SnapKit
 #define COCOAPODS_VERSION_MAJOR_SnapKit 0
@@ -152,3 +158,13 @@
 #define COCOAPODS_VERSION_MINOR_SwiftTask 3
 #define COCOAPODS_VERSION_PATCH_SwiftTask 0
 
+// Debug build configuration
+#ifdef DEBUG
+
+  // FLEX
+  #define COCOAPODS_POD_AVAILABLE_FLEX
+  #define COCOAPODS_VERSION_MAJOR_FLEX 2
+  #define COCOAPODS_VERSION_MINOR_FLEX 0
+  #define COCOAPODS_VERSION_PATCH_FLEX 3
+
+#endif

@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-public final class DetailBusinessMapViewController: UIViewController, MKMapViewDelegate {
+public final class DetailBusinessMapViewController: XUIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
 
