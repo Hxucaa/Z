@@ -8,6 +8,7 @@
 
 import Foundation
 import AVOSCloud
+import MapKit
 
 public final class Business: AVObject, AVSubclassing {
     
@@ -129,6 +130,10 @@ public final class Business: AVObject, AVSubclassing {
             }
             return addressString
         }
+    }
+    
+    public var cllocation: CLLocation {
+        return CLLocation(latitude: geopoint!.latitude, longitude: geopoint!.longitude)
     }
     
     public dynamic var unit: String?

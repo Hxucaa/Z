@@ -8,7 +8,7 @@
 
 import UIKit
 
-public final class ParticipationPopover: NSObject {
+public struct ParticipationPopover {
     
     public weak var delegate: ParticipationPopoverDelegate!
    
@@ -32,3 +32,4 @@ public final class ParticipationPopover: NSObject {
 
     }
 }
+

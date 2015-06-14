@@ -11,14 +11,11 @@ import ReactiveCocoa
 import MapKit
 import WebKit
 
-private let CityDistanceSeparator = " • "
-
 public final class DetailViewController : XUIViewController, MKMapViewDelegate {
     
     private var viewmodel: IDetailViewModel!
     
     public var expandHours: Bool = false
-    public var isGoing: Bool = false
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,17 +23,11 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        self.navigationItem.title = viewmodel.detailBusinessInfoVM.navigationTitle.value
+        navigationItem.rac_title <~ viewmodel.businessName
     }
     
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    public override func viewDidDisappear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        
     }
     
     public func bindToViewModel(detailViewModel: IDetailViewModel) {
@@ -49,7 +40,7 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
     
     public func shareSheetAction() {
         var someText = "blah"
-        let google:NSURL = NSURL(string:"http://google.com/")!
+        let google = NSURL(string:"http://google.com/")!
         
         let activityViewController = UIActivityViewController(
             activityItems: [someText, google],
@@ -57,22 +48,6 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
         self.presentViewController(activityViewController,
             animated: true,
             completion: nil)
-    }
-    
-    public func callBusiness(){
-        viewmodel.detailBusinessInfoVM.phoneURL.producer
-            |> filter { $0 != nil }
-            |> start(next: { UIApplication.sharedApplication().openURL($0!) })
-        
-    }
-    
-    public func goToWebsiteUrl(){
-        let businessName = viewmodel.detailBusinessInfoVM.businessName.value
-        let url = viewmodel.detailBusinessInfoVM.websiteURL.value!
-        let navController = UINavigationController()
-        let webVC = DetailWebViewViewController(url: url, businessName: businessName)
-        navController.pushViewController(webVC, animated: true)
-        self.presentViewController(navController, animated: true, completion: nil)
     }
 }
 
@@ -125,12 +100,7 @@ extension DetailViewController : UITableViewDataSource {
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch section {
-        case 0:
-            if (isGoing){
-                return 3
-            }else{
-                return 2
-            }
+        case 0: return 3
         case 1: return 2
         case 2: return 2
         case 3: return 2
@@ -165,19 +135,7 @@ extension DetailViewController : UITableViewDataSource {
                 var bizInfoCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "BizInfoCell") as! DetailBizInfoTableViewCell
                 
                 bizInfoCell.delegate = self
-                
-                if (isGoing){
-                    bizInfoCell.participateButton.setTitle("\u{f004} 我想去", forState: UIControlState.Normal)
-                }else{
-                    bizInfoCell.participateButton.setTitle("\u{f08a} 我想去", forState: UIControlState.Normal)
-                }
-                
-                bizInfoCell.businessNameLabel.text = viewmodel.detailBusinessInfoVM.businessName.value
-                bizInfoCell.cityAndDistanceLabel.text = viewmodel.detailBusinessInfoVM.cityAndDistance.value
-                
-                //TODO:
-                //Temp addition of ETA until the distance stream comes through
-                bizInfoCell.cityAndDistanceLabel.text = bizInfoCell.cityAndDistanceLabel.text! + " • 开车15分钟"
+                bizInfoCell.bindToViewModel(viewmodel.detailBizInfoViewModel)
                 
                 return bizInfoCell
                 
@@ -228,18 +186,10 @@ extension DetailViewController : UITableViewDataSource {
                 addressCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
                 return addressCell
             case 3:
-                
-                var phoneWebCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "PhoneWebSplitCell") as! DetailPhoneWebTableViewCell
-                
-                phoneWebCell.phoneButton?.setTitle("   \u{f095}   " + (viewmodel.detailBusinessInfoVM.phone.value)!, forState: UIControlState.Normal)
+                let phoneWebCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "PhoneWebSplitCell") as! DetailPhoneWebTableViewCell
                 
                 phoneWebCell.delegate = self
-                
-                if (viewmodel.detailBusinessInfoVM.websiteURL.value != nil){
-                    phoneWebCell.websiteButton?.setTitle("   \u{f0ac}   访问网站", forState: UIControlState.Normal)
-                } else{
-                    phoneWebCell.websiteButton?.setTitle("   \u{f0ac}   没有网站", forState: UIControlState.Normal)
-                }
+                phoneWebCell.bindToViewModel(viewmodel.detailPhoneWebViewModel)
                 
                 return phoneWebCell
             default: return defaultCell(tableView, cellForRowAtIndexPath: indexPath)
@@ -336,28 +286,20 @@ extension DetailViewController : UITableViewDelegate {
 }
 
 extension DetailViewController : DetailBizInfoCellDelegate{
-    public func participate() {
-        var popover = ParticipationPopover()
-        popover.delegate = self
-        var alert: (UIAlertController) = popover.createPopover()
-        self.presentViewController(alert, animated: true, completion: nil)
+    public func participate<T: UIViewController>(viewController: T) {
+        self.presentViewController(viewController, animated: true, completion: nil)
     }
 }
 
 extension DetailViewController : ParticipationPopoverDelegate {
     public func alertAction(choiceTag: Int) {
-        self.isGoing = true;
         self.tableView.reloadData()
     }
 }
 
 extension DetailViewController : DetailPhoneWebCellDelegate {
-    public func goToWebsite() {
-        goToWebsiteUrl()
-    }
-    
-    public func callPhone() {
-        callBusiness()
+    public func presentWebView<T: UIViewController>(viewController: T) {
+        self.presentViewController(viewController, animated: true, completion: nil)
     }
 }
 

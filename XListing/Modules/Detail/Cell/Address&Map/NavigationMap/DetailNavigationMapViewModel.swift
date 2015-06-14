@@ -18,7 +18,7 @@ public struct DetailNavigationMapViewModel {
             |> map { current -> (MKPointAnnotation, MKCoordinateRegion) in
                 let anno = self.annotation.value.coordinate
                 let distance = CLLocation(latitude: anno.latitude, longitude: anno.longitude).distanceFromLocation(current)
-                let spanFactor = distance / 55000.00
+                let spanFactor = distance / 45000.00
                 let span = MKCoordinateSpanMake(spanFactor, spanFactor)
                 let region = MKCoordinateRegion(center: anno, span: span)
                 return (self.annotation.value, region)

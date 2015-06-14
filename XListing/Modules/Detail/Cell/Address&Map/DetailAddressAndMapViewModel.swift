@@ -8,7 +8,6 @@
 
 import Foundation
 import ReactiveCocoa
-import AVOSCloud
 import MapKit
 
 public struct DetailAddressAndMapViewModel {
@@ -24,16 +23,15 @@ public struct DetailAddressAndMapViewModel {
     // MARK: API
     
     // MARK: Initializers
-    public init(geoLocationService: IGeoLocationService, businessName: String?, address: String?, city: String?, state: String?, geopoint: AVGeoPoint?) {
+    public init(geoLocationService: IGeoLocationService, businessName: String?, address: String?, city: String?, state: String?, businessLocation: CLLocation) {
         self.geoLocationService = geoLocationService
         
         self.fullAddress = ConstantProperty<String>("   \u{f124}   \(address!), \(city!), \(state!)")
         
-        let cllocation = CLLocation(latitude: geopoint!.latitude, longitude: geopoint!.longitude)
-        businessLocation = ConstantProperty(cllocation)
+        self.businessLocation = ConstantProperty(businessLocation)
         
         let annotation = MKPointAnnotation()
-        annotation.coordinate = cllocation.coordinate
+        annotation.coordinate = businessLocation.coordinate
         annotation.title = businessName
 //            annotation.subtitle = 
         self.annotation = ConstantProperty(annotation)
@@ -42,7 +40,7 @@ public struct DetailAddressAndMapViewModel {
         *  region for the map in cell
         */
         let span = MKCoordinateSpanMake(0.01, 0.01)
-        let region = MKCoordinateRegion(center: cllocation.coordinate, span: span)
+        let region = MKCoordinateRegion(center: businessLocation.coordinate, span: span)
         self.cellMapRegion = ConstantProperty(region)
         
     }

@@ -8,13 +8,12 @@
 
 import Foundation
 import ReactiveCocoa
-import AVOSCloud
 
 public struct DetailImageViewModel {
     public let coverImageNSURL: ConstantProperty<NSURL?>
     
-    public init(coverImage: AVFile?) {
-        if let url = coverImage?.url {
+    public init(coverImageURL: String?) {
+        if let url = coverImageURL {
             coverImageNSURL = ConstantProperty<NSURL?>(NSURL(string: url))
         }
         else {

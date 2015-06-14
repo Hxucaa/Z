@@ -13,14 +13,16 @@ private let DetailViewControllerIdentifier = "DetailViewController"
 public final class DetailWireframe : BaseWireframe, IDetailWireframe {
     
     private let router: IRouter
-    private let wantToGoService: IWantToGoService
+    private let userService: IUserService
+    private let participationService: IParticipationService
     private let geoLocationService: IGeoLocationService
     private var detailViewController: DetailViewController?
     
-    public required init(rootWireframe: IRootWireframe, router: IRouter, wantToGoService: IWantToGoService, geoLocationService: IGeoLocationService) {
+    public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService) {
         
         self.router = router
-        self.wantToGoService = wantToGoService
+        self.userService = userService
+        self.participationService = participationService
         self.geoLocationService = geoLocationService
         
         super.init(rootWireframe: rootWireframe)
@@ -34,7 +36,7 @@ public final class DetailWireframe : BaseWireframe, IDetailWireframe {
     private func injectViewModelToViewController(businessModel: Business) -> DetailViewController {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(DetailViewControllerIdentifier) as! DetailViewController
-        let detailViewModel = DetailViewModel(router: router, wantToGoService: wantToGoService, geoLocationService: geoLocationService, businessModel: businessModel)
+        let detailViewModel = DetailViewModel(router: router, userService: userService, participationService: participationService, geoLocationService: geoLocationService, businessModel: businessModel)
         viewController.bindToViewModel(detailViewModel)
         
         detailViewController = viewController

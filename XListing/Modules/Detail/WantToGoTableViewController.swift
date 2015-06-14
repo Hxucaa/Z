@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ReactiveCocoa
 
 public final class WantToGoTableViewController: UITableViewController {
         

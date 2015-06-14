@@ -12,12 +12,12 @@ import ReactiveCocoa
 import MapKit
 import AVOSCloud
 
-public class GeoLocationService : IGeoLocationService {
+public struct GeoLocationService : IGeoLocationService {
     
-    public let defaultGeoPoint = PFGeoPoint(latitude: 49.27623, longitude: -123.12941)
+    public let defaultGeoPoint = AVGeoPoint(latitude: 49.27623, longitude: -123.12941)
     
     public func getCurrentLocation() -> Task<Int, CLLocation, NSError> {
-        let task = Task<Int, CLLocation, NSError> { [unowned self] progress, fulfill, reject, configure in
+        return Task<Int, CLLocation, NSError> { progress, fulfill, reject, configure in
             // get current location
             AVGeoPoint.geoPointForCurrentLocationInBackground { (geopoint, error) -> Void in
                 if error == nil {
@@ -29,8 +29,6 @@ public class GeoLocationService : IGeoLocationService {
                 }
             }
         }
-        
-        return task
     }
     
     public func getCurrentLocationSignal() -> SignalProducer<CLLocation, NSError> {
@@ -48,8 +46,8 @@ public class GeoLocationService : IGeoLocationService {
         }
     }
     
-    public func getCurrentGeoPoint() -> Task<Int, PFGeoPoint, NSError> {
-        let task = Task<Int, PFGeoPoint, NSError> { [unowned self] progress, fulfill, reject, configure in
+    public func getCurrentGeoPoint() -> Task<Int, AVGeoPoint, NSError> {
+        return Task<Int, AVGeoPoint, NSError> { progress, fulfill, reject, configure in
             // get current location
             AVGeoPoint.geoPointForCurrentLocationInBackground { (geopoint, error) -> Void in
                 if error == nil {
@@ -61,7 +59,27 @@ public class GeoLocationService : IGeoLocationService {
                 }
             }
         }
-        
-        return task
+    }
+    
+    public func calculateETA(destination: CLLocation) -> SignalProducer<NSTimeInterval, NSError> {
+        return SignalProducer<NSTimeInterval, NSError> { sink, disposable in
+            
+            let request = MKDirectionsRequest()
+            request.setSource(MKMapItem.mapItemForCurrentLocation())
+            request.setDestination(MKMapItem(placemark: MKPlacemark(coordinate: destination.coordinate, addressDictionary: nil)))
+            request.requestsAlternateRoutes = false
+            request.transportType = MKDirectionsTransportType.Automobile
+            
+            let direction = MKDirections(request: request)
+            direction.calculateETAWithCompletionHandler { (response, error) -> Void in
+                if error == nil {
+                    sendNext(sink, response.expectedTravelTime)
+                    sendCompleted(sink)
+                }
+                else {
+                    sendError(sink, error)
+                }
+            }
+        }
     }
 }

@@ -1,23 +1,27 @@
 //
-//  UserDAO.swift
+//  ParticipationType.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-04-17.
+//  Created by Lance Zhu on 2015-06-13.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import Foundation
 import AVOSCloud
 
-public final class User: AVUser, AVSubclassing {
+public final class ParticipationType: AVObject, AVSubclassing {
     
     public enum Property : String {
-        case Birthday = "birthday"
+        case Name = "name"
+    }
+    
+    public override init() {
+        super.init()
     }
     
     // Class Name
-    public class func parseClassName() -> String {
-        return "_User"
+    public class func parseClassName() -> String! {
+        return "ParticipationType"
     }
     
     // MARK: Constructors
@@ -28,11 +32,5 @@ public final class User: AVUser, AVSubclassing {
         }
     }
     
-    @NSManaged public var birthday: NSDate?
-    
-    @NSManaged public var nickname: String?
-    
-    @NSManaged public var profileImg: AVFile?
-    
-    @NSManaged public var profile: Profile
+    @NSManaged public var name: String
 }

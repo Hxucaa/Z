@@ -18,7 +18,7 @@ public struct LeanCloudClient {
     }
     
     private static func prepareClient() {
-        Parse.useAVCloudUS()
+        AVOSCloud.useAVCloudUS()
         
         AVOSCloudCrashReporting.enable()
         
@@ -27,9 +27,10 @@ public struct LeanCloudClient {
         User.enableAutomaticUser()
         
         User.registerSubclass()
+        ParticipationType.registerSubclass()
+        User_Business_Participation.registerSubclass()
         Profile.registerSubclass()
         Business.registerSubclass()
-        WantToGo.registerSubclass()
     }
     
     private static func initialize() {
@@ -59,7 +60,7 @@ public struct LeanCloudClient {
         let errorMessage = "Unable to find Parse id and key for initialization"
         if let _id: String = id {
             if let _key: String = key {
-                Parse.setApplicationId(_id, clientKey: _key)
+                AVOSCloud.setApplicationId(_id, clientKey: _key)
             }
             else {
                 LSLogError(errorMessage)
