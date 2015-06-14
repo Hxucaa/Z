@@ -31,4 +31,6 @@ public final class User: AVUser, AVSubclassing {
     @NSManaged public var profileImg: AVFile?
     
     @NSManaged public var profile: Profile
+    
+    @NSManaged public var latestLocation: PFGeoPoint?
 }

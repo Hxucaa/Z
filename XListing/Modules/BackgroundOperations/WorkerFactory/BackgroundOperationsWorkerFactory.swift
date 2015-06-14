@@ -19,7 +19,7 @@ public struct BackgroundOperationsWorkerFactory : IBackgroundOperationsWorkerFac
         let keychainService: IKeychainService = KeychainService()
         
         self.signUpAndLogInWorker = SignUpAndLogInWorker(userService: userService, keychainService: keychainService)
-        self.backgroundLocationWorker = BackgroundLocationWorker(geoService: geoLocationService)
+        self.backgroundLocationWorker = BackgroundLocationWorker(userService: userService, geoService: geoLocationService)
     }
     
     public func startSignUpAndLogInWorker() {

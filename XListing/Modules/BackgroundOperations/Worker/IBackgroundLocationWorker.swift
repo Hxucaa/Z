@@ -9,6 +9,6 @@
 import Foundation
 
 public protocol IBackgroundLocationWorker {
-    init(geoService: IGeoLocationService)
+    init(userService: IUserService, geoService: IGeoLocationService)
     func startLocationUpdates()
 }

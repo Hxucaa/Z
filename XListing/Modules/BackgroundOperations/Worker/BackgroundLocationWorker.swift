@@ -9,19 +9,39 @@
 import Foundation
 import CoreLocation
 
-public struct BackgroundLocationWorker : IBackgroundLocationWorker {
+public class BackgroundLocationWorker : NSObject, IBackgroundLocationWorker, CLLocationManagerDelegate {
     
+    private let userService: IUserService
     private let geoService: IGeoLocationService
     
-    public init(geoService: IGeoLocationService) {
+    public required init(userService: IUserService, geoService: IGeoLocationService) {
+        self.userService = userService
         self.geoService = geoService
     }
     
     public func startLocationUpdates() {
-        println("location updates started");
+        BOLogInfo("Background location updates started");
+        geoService.locationManager.delegate = self
         geoService.locationManager.startMonitoringSignificantLocationChanges()
     }
     
+    public func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
+        
+        let user = userService.currentUser()
+        let latestLocation = PFGeoPoint(location: newLocation)
+        
+        user!.latestLocation = latestLocation
+        
+        let saveLocationTask = self.userService.save(user!)
+            .success { success-> Bool in
+                BOLogInfo("Operation succeed!")
+                return true
+            }
+        .failure({(error, isCancelled) -> Bool in
+            println("Operation failed!")
+            return false
+        })
+    }
 
     
 }
