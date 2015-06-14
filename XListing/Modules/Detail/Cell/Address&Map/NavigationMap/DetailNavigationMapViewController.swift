@@ -1,5 +1,5 @@
 //
-//  DetailBusinessMapViewController.swift
+//  DetailNavigationViewController.swift
 //  XListing
 //
 //  Created by Bruce Li on 2015-06-02.
@@ -8,23 +8,36 @@
 
 import UIKit
 import MapKit
+import ReactiveCocoa
 
-public final class DetailBusinessMapViewController: XUIViewController, MKMapViewDelegate {
+public final class DetailNavigationMapViewController: XUIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
 
     internal var region : MKCoordinateRegion!
     internal var businessAnnotation: MKPointAnnotation!
     internal var businessLocation: CLLocation!
+    
+    private var viewmodel: DetailNavigationMapViewModel!
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        mapView.setRegion(region, animated: false)
-        mapView.addAnnotation(businessAnnotation)
         mapView.delegate = self
 
         var openInMapsButton = UIBarButtonItem(title: "导航", style: UIBarButtonItemStyle.Plain, target: self, action: "openInMapsApp")
         self.navigationItem.rightBarButtonItem = openInMapsButton
+    }
+    
+    public func bindToViewModel(viewmodel: DetailNavigationMapViewModel) {
+        self.viewmodel = viewmodel
+        
+        self.viewmodel.navParams
+            |> start(next: { [unowned self] (annotation, region) in
+                self.region = region
+                self.businessAnnotation = annotation
+                self.mapView.setRegion(region, animated: false)
+                self.mapView.addAnnotation(annotation)
+            })
     }
 
     public override func didReceiveMemoryWarning() {

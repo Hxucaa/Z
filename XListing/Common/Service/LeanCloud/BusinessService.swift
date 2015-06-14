@@ -9,6 +9,7 @@
 import Foundation
 import SwiftTask
 import MapKit
+import AVOSCloud
 
 public final class BusinessService : ObjectService, IBusinessService {
     
@@ -57,12 +58,12 @@ public final class BusinessService : ObjectService, IBusinessService {
         :params: query A PFQuery.
         :returns: a Task containing the result DAO in optional.
     */
-    public func getFirst(var query: PFQuery?) -> Task<Int, Business?, NSError> {
+    public func getFirst(var query: AVQuery?) -> Task<Int, Business?, NSError> {
         if query == nil {
             query = Business.query()
         }
         
-        let task = Task<Int, PFObject, NSError> { progress, fulfill, reject, configure in
+        let task = Task<Int, AVObject, NSError> { progress, fulfill, reject, configure in
             self.enhanceQuery(&query!)
             query!.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
                 if error == nil {
@@ -87,7 +88,7 @@ public final class BusinessService : ObjectService, IBusinessService {
         :params: query A PFQuery.
         :returns: A Task which contains an array of BusinessDTO.
     */
-    public func findBy(var query: PFQuery?) -> Task<Int, [Business], NSError> {
+    public func findBy(var query: AVQuery?) -> Task<Int, [Business], NSError> {
         
         if query == nil {
             query = Business.query()
@@ -112,7 +113,7 @@ public final class BusinessService : ObjectService, IBusinessService {
         return task
     }
     
-    private func enhanceQuery(inout query: PFQuery) {
+    private func enhanceQuery(inout query: AVQuery) {
         
     }
     
@@ -127,7 +128,7 @@ extension BusinessService {
     :params: address A String of the address.
     :returns: a Task containing a GeoPointEntity which contains the location data.
     */
-    private func forwardGeocoding(address: String) -> Task<Int, PFGeoPoint, NSError> {
+    private func forwardGeocoding(address: String) -> Task<Int, AVGeoPoint, NSError> {
         let task = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
             CLGeocoder().geocodeAddressString(address, completionHandler: { (placemarks: [AnyObject]!, error: NSError!) -> Void in
                 if error == nil && placemarks.count > 0 {
@@ -138,11 +139,11 @@ extension BusinessService {
                 }
             })
             }
-            .success { (placemarks: [AnyObject]) -> PFGeoPoint in
+            .success { (placemarks: [AnyObject]) -> AVGeoPoint in
                 // convert to GeoPointEntity
                 let placemark = placemarks[0] as! CLPlacemark
                 let location = placemark.location
-                let geopoint = PFGeoPoint(location: location)
+                let geopoint = AVGeoPoint(location: location)
                 
                 return geopoint
         }

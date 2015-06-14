@@ -6,10 +6,8 @@
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public protocol DetailPhoneWebCellDelegate: class {
-    
-    func goToWebsite()
-    func callPhone()
+    func presentWebView<T: UIViewController>(viewController: T)
 }

@@ -15,6 +15,7 @@ struct AssociationKey {
     static var text: UInt8 = 3
     static var date: UInt8 = 4
     static var enabled: UInt8 = 5
+    static var title: UInt8 = 6
 }
 
 // lazily creates a gettable associated property via the given factory
@@ -57,6 +58,12 @@ extension UIView {
 extension UILabel {
     public var rac_text: MutableProperty<String> {
         return lazyMutableProperty(self, &AssociationKey.text, { self.text = $0 }, { self.text ?? "" })
+    }
+}
+
+extension UINavigationItem {
+    public var rac_title: MutableProperty<String> {
+        return lazyMutableProperty(self, &AssociationKey.title, { self.title = $0 }, { self.title ?? ""})
     }
 }
 

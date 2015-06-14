@@ -12,5 +12,5 @@ import AVOSCloud
 
 public protocol IObjectService {
     func save<T: AVObject>(obj: T) -> Task<Int, Bool, NSError>
-    func getFirst(query: PFQuery?) -> Task<Int, PFObject, NSError>
+    func getFirst(query: AVQuery?) -> Task<Int, AVObject, NSError>
 }

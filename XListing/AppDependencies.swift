@@ -30,13 +30,13 @@ public struct AppDependencies {
         let gs: IGeoLocationService = GeoLocationService()
         let us: IUserService = UserService()
         let bs: IBusinessService = BusinessService()
-        let wtg: IWantToGoService = WantToGoService()
+        let ps: IParticipationService = ParticipationService()
         let ks: IKeychainService = KeychainService()
         
         configureAccountDependencies(rootWireframe, router: router, userService: us)
         configureFeaturedListDependencies(rootWireframe, router: router, businessService: bs, userService: us, geoLocationService: gs)
         configureNearbyDependencies(rootWireframe, router: router, businessService: bs, geoLocationService: gs)
-        configureDetailDependencies(rootWireframe, router: router, wantToGoService: wtg, geoLocationService: gs)
+        configureDetailDependencies(rootWireframe, router: router, userService: us, participationService: ps, geoLocationService: gs)
         configureProfileDependencies(rootWireframe, router: router, userService: us)
     }
     
@@ -76,9 +76,9 @@ public struct AppDependencies {
     
     :param: rootWireframe The RootWireframe.
     */
-    private mutating func configureDetailDependencies(rootWireframe: IRootWireframe, router: IRouter, wantToGoService wtg: IWantToGoService, geoLocationService gs: IGeoLocationService) {
+    private mutating func configureDetailDependencies(rootWireframe: IRootWireframe, router: IRouter, userService us: IUserService, participationService ps: IParticipationService, geoLocationService gs: IGeoLocationService) {
         
-        detailWireframe = DetailWireframe(rootWireframe: rootWireframe, router: router, wantToGoService: wtg, geoLocationService: gs)
+        detailWireframe = DetailWireframe(rootWireframe: rootWireframe, router: router, userService: us, participationService: ps, geoLocationService: gs)
         self.router.detailRouteDelegate = detailWireframe as! DetailRoute
     }
     

@@ -11,6 +11,10 @@ import AVOSCloud
 
 public final class User: AVUser, AVSubclassing {
     
+    public enum Property : String {
+        case Birthday = "birthday"
+    }
+    
     // Class Name
     public class func parseClassName() -> String {
         return "_User"
