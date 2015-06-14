@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ReactiveCocoa
 
 public final class LandingPageViewController: UIViewController {
 
@@ -14,20 +15,25 @@ public final class LandingPageViewController: UIViewController {
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var skipButton: UIButton!
     
-    private var containerVC : ContainerViewController!
+    private var dismissViewButtonAction: CocoaAction!
+    
+    internal var containerVC : ContainerViewController!
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.containerVC = self.parentViewController as! ContainerViewController
-        loginButton.addTarget(self, action: "switchToLoginView", forControlEvents: UIControlEvents.TouchUpInside)
-        signupButton.addTarget(self, action: "switchToSignupView", forControlEvents: UIControlEvents.TouchUpInside)
-        skipButton.addTarget(self, action: "skipToApp", forControlEvents: UIControlEvents.TouchUpInside)
+        setupDismissViewButton()
+        setUpLoginSignupButtons()
         // Do any additional setup after loading the view.
     }
 
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func setUpLoginSignupButtons () {
+        loginButton.addTarget(self, action: "switchToLoginView", forControlEvents: UIControlEvents.TouchUpInside)
+        signupButton.addTarget(self, action: "switchToSignupView", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     func switchToLoginView() {
@@ -38,20 +44,18 @@ public final class LandingPageViewController: UIViewController {
         self.containerVC.switchToSignup()
     }
     
-    func skipToApp() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    private func setupDismissViewButton() {
+        // Action to an UI event
+        let dismissView = Action<Void, Void, NoError> {
+            return SignalProducer { sink, disposable in
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+        }
+        
+        // Bridging
+        dismissViewButtonAction = CocoaAction(dismissView, input: ())
+        
+        skipButton.addTarget(dismissViewButtonAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
-    
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

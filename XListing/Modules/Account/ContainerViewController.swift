@@ -15,16 +15,11 @@ private let EditProfileSegueID = "editProfileSegue"
 
 public final class ContainerViewController: UIViewController {
 
-    public var currentSegueID : String = LandingSegueID
-    
-    internal var landingPageVC : LandingPageViewController!
-    internal var loginPageVC : LogInViewController!
-    internal var signupPageVC : SignUpViewController!
+    internal var viewmodel: IAccountViewModel!
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.currentSegueID = LandingSegueID
-        self.performSegueWithIdentifier(self.currentSegueID, sender: nil)
+        self.performSegueWithIdentifier(LandingSegueID, sender: nil)
         // Do any additional setup after loading the view.
     }
 
@@ -34,16 +29,17 @@ public final class ContainerViewController: UIViewController {
     }
     
     public func switchToLogin () {
-        self.currentSegueID = LoginSegueID
-        self.performSegueWithIdentifier(self.currentSegueID, sender: nil)
+        self.performSegueWithIdentifier(LoginSegueID, sender: nil)
     }
     
     public func switchToSignup () {
-        self.currentSegueID = SignupSegueID
-        self.performSegueWithIdentifier(self.currentSegueID, sender: nil)
+        self.performSegueWithIdentifier(SignupSegueID, sender: nil)
     }
     
-
+    public func switchToLanding () {
+        self.performSegueWithIdentifier(LandingSegueID, sender: nil)
+    }
+    
     
     // MARK: - Navigation
 
@@ -51,26 +47,57 @@ public final class ContainerViewController: UIViewController {
     override public func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
         if (segue.identifier == LandingSegueID) {
-            self.landingPageVC = segue.destinationViewController as! LandingPageViewController
+            var landingPageVC = segue.destinationViewController as! LandingPageViewController
+            landingPageVC.containerVC = self
+            swapToViewController(landingPageVC)
+            
         }
         
         if (segue.identifier == LoginSegueID) {
-            self.loginPageVC = segue.destinationViewController as! LogInViewController
+            var loginPageVC = segue.destinationViewController as! LogInViewController
+            loginPageVC.bindToViewModel(viewmodel.logInViewModel)
+            loginPageVC.containerVC = self
+            swapToViewController(loginPageVC)
             
         }
         
         if (segue.identifier == SignupSegueID) {
-            self.signupPageVC = segue.destinationViewController as! SignUpViewController
+            var signupPageVC = segue.destinationViewController as! SignUpViewController
+            signupPageVC.bindToViewModel(viewmodel.signUpViewModel, editProfileViewmodel: viewmodel.editProfileViewModel)
+            signupPageVC.containerVC = self
+            swapToViewController(signupPageVC)
             
         }
+    }
+    
+    public func swapToViewController(toVC: UIViewController) {
         
-        self.addChildViewController(segue.destinationViewController as! UIViewController)
-        var destView = segue.destinationViewController.view!
-        destView?.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
-        self.view.addSubview(destView!)
-        segue.destinationViewController.didMoveToParentViewController(self)
+        // for initial launch, instantiate a new child view controller
+        // for all other times, just swap out the view controllers
+        if (self.childViewControllers.count > 0) {
+            
+        var fromVC = self.childViewControllers[0] as! UIViewController
         
+        toVC.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+        fromVC.willMoveToParentViewController(nil)
+        self.addChildViewController(toVC)
+        self.transitionFromViewController(fromVC, toViewController: toVC, duration: 1.0, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: nil) { (finished) -> Void in
+            fromVC.removeFromParentViewController()
+            toVC.didMoveToParentViewController(self)
+        }
+        } else {
+            instantiateViewController(toVC)
+        }
+    }
+    
+    public func instantiateViewController (vc: UIViewController) {
+        self.addChildViewController(vc)
+        var destView = vc.view!
+        destView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
+        self.view.addSubview(destView)
+        vc.didMoveToParentViewController(self)
     }
 
 

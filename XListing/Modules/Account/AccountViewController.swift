@@ -27,7 +27,6 @@ public final class AccountViewController: XUIViewController {
     
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-//        self.dismissViewControllerAnimated(true, completion: nil)
     }
 
     public override func didReceiveMemoryWarning() {
@@ -47,8 +46,12 @@ public final class AccountViewController: XUIViewController {
     }
     
     public override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        // initialize the container view
         if (segue.identifier == "embedSegue") {
             self.containerVC = segue.destinationViewController as! ContainerViewController;
+            self.containerVC.viewmodel = viewmodel
+            
         }
     }
 }
