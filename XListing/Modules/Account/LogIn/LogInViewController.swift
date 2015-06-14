@@ -40,11 +40,17 @@ public final class LogInViewController: XUIViewController {
     
     public func setUpLoginButton () {
         
+        let login = Action<Void, User, NoError> {
+            return SignalProducer { sink, disposable in
+                viewmodel.logIn
+            }
+        }
+        
         // Bridging actions to Objective-C
-        //loginButtonAction = CocoaAction(viewmodel.logIn, input: ())
+        loginButtonAction = CocoaAction(login, input: ())
         
         // Link UIControl event to actions
-        //loginButton.addTarget(loginButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        loginButton.addTarget(loginButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     public override func didReceiveMemoryWarning() {

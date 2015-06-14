@@ -157,7 +157,7 @@
                                     <constraint firstAttribute="height" constant="35" id="nQ8-1k-XKx"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="U8g-kP-4Zk"/>
@@ -756,7 +756,7 @@
                                     <constraint firstAttribute="height" constant="35" id="y0T-Fe-43Z"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="eUm-V6-CE2"/>
@@ -784,7 +784,7 @@
                                     <constraint firstAttribute="height" constant="35" id="yCj-dM-sL1"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="lHP-Zr-B6Y"/>

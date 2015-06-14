@@ -39,17 +39,22 @@ public final class SignUpViewController : XUIViewController {
     
     public func setUpSignupButton () {
         
+        let signup = Action<Void, Bool, NoError> {
+            return SignalProducer { sink, disposable in
+                self.viewmodel.signUp
+                //TO DO: check result of sign up first
+                self.goToEditProfileView()
+            }
+        }
+        
         // Bridging actions to Objective-C
-        //signupButtonAction = CocoaAction(viewmodel.signUp, input: ())
+        signupButtonAction = CocoaAction(signup, input: ())
         
         // Link UIControl event to actions
-        //signupButton.addTarget(signupButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-        
-        // switch to the edit profile page
-        signupButton.addTarget(self, action: "signupButtonPressed", forControlEvents: UIControlEvents.TouchUpInside)
+        signupButton.addTarget(signupButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    public func signupButtonPressed () {
+    public func goToEditProfileView () {
         
         // call the signup action in the viewmodel, and if that returns true then proceed
         
