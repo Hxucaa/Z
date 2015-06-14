@@ -9,10 +9,17 @@
 import Foundation
 import SwiftTask
 import MapKit
+import CoreLocation
 
 public class GeoLocationService : IGeoLocationService {
     
     public let defaultGeoPoint = PFGeoPoint(latitude: 49.27623, longitude: -123.12941)
+    public lazy var locationManager: CLLocationManager! = {
+        let manager = CLLocationManager()
+        manager.desiredAccuracy = kCLLocationAccuracyKilometer
+        manager.requestAlwaysAuthorization()
+        return manager
+    }()
     
     public func getCurrentLocation() -> Task<Int, CLLocation, NSError> {
         let task = Task<Int, CLLocation, NSError> { [unowned self] progress, fulfill, reject, configure in

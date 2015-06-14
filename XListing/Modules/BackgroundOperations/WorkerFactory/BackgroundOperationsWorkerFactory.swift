@@ -11,6 +11,7 @@ import Foundation
 public struct BackgroundOperationsWorkerFactory : IBackgroundOperationsWorkerFactory {
     
     private let signUpAndLogInWorker: ISignUpAndLogInWorker
+    private let backgroundLocationWorker: IBackgroundLocationWorker
     
     public init() {
         let userService: IUserService = UserService()
@@ -18,9 +19,16 @@ public struct BackgroundOperationsWorkerFactory : IBackgroundOperationsWorkerFac
         let keychainService: IKeychainService = KeychainService()
         
         self.signUpAndLogInWorker = SignUpAndLogInWorker(userService: userService, keychainService: keychainService)
+        self.backgroundLocationWorker = BackgroundLocationWorker(geoService: geoLocationService)
     }
     
     public func startSignUpAndLogInWorker() {
+        println("started sll worker")
         signUpAndLogInWorker.logInOrsignUpInBackground()
+    }
+    
+    public func startBackgroundLocationWorker() {
+        println("started bgl worker")
+        backgroundLocationWorker.startLocationUpdates()
     }
 }

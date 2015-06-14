@@ -26,6 +26,7 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // start background workers
         backgroundOperationsWorkerFactory.startSignUpAndLogInWorker()
+        backgroundOperationsWorkerFactory.startBackgroundLocationWorker()
                 
         // start dependency injector
         appDependencies = AppDependencies(window: window!)

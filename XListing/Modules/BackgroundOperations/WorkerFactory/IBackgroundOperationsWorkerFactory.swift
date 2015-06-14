@@ -11,4 +11,5 @@ import Foundation
 public protocol IBackgroundOperationsWorkerFactory {
     init()
     func startSignUpAndLogInWorker()
+    func startBackgroundLocationWorker()
 }
