@@ -36,8 +36,12 @@ public struct BackgroundOperationsWorkerFactory : IBackgroundOperationsWorkerFac
     }
     
     public func startBackgroundLocationWorker() {
-        delay(120) {
+        if (NSUserDefaults.standardUserDefaults().boolForKey("NotFirstLaunch")) {
             self.backgroundLocationWorker.startLocationUpdates()
+        } else {
+            delay(120) {
+                self.backgroundLocationWorker.startLocationUpdates()
+            }
         }
     }
 }
