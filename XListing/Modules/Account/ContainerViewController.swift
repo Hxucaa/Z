@@ -8,18 +8,13 @@
 
 import UIKit
 
-private let LandingSegueID = "landingSegue"
-private let LoginSegueID = "loginSegue"
-private let SignupSegueID = "signupSegue"
-private let EditProfileSegueID = "editProfileSegue"
-
 public final class ContainerViewController: UIViewController {
 
     internal var viewmodel: IAccountViewModel!
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.performSegueWithIdentifier(LandingSegueID, sender: nil)
+        self.performSegueWithIdentifier(SegueID.LandingSegueID.rawValue, sender: nil)
         // Do any additional setup after loading the view.
     }
 
@@ -29,15 +24,15 @@ public final class ContainerViewController: UIViewController {
     }
     
     public func switchToLogin () {
-        self.performSegueWithIdentifier(LoginSegueID, sender: nil)
+        self.performSegueWithIdentifier(SegueID.LoginSegueID.rawValue, sender: nil)
     }
     
     public func switchToSignup () {
-        self.performSegueWithIdentifier(SignupSegueID, sender: nil)
+        self.performSegueWithIdentifier(SegueID.SignupSegueID.rawValue, sender: nil)
     }
     
     public func switchToLanding () {
-        self.performSegueWithIdentifier(LandingSegueID, sender: nil)
+        self.performSegueWithIdentifier(SegueID.LandingSegueID.rawValue, sender: nil)
     }
     
     
@@ -48,27 +43,27 @@ public final class ContainerViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        if (segue.identifier == LandingSegueID) {
-            var landingPageVC = segue.destinationViewController as! LandingPageViewController
-            landingPageVC.containerVC = self
-            swapToViewController(landingPageVC)
-            
-        }
-        
-        if (segue.identifier == LoginSegueID) {
-            var loginPageVC = segue.destinationViewController as! LogInViewController
-            loginPageVC.bindToViewModel(viewmodel.logInViewModel)
-            loginPageVC.containerVC = self
-            swapToViewController(loginPageVC)
-            
-        }
-        
-        if (segue.identifier == SignupSegueID) {
-            var signupPageVC = segue.destinationViewController as! SignUpViewController
-            signupPageVC.bindToViewModel(viewmodel.signUpViewModel, editProfileViewmodel: viewmodel.editProfileViewModel)
-            signupPageVC.containerVC = self
-            swapToViewController(signupPageVC)
-            
+        if let identifier = SegueID(rawValue: segue.identifier!) {
+            switch identifier {
+            case .LandingSegueID :
+                var landingPageVC = segue.destinationViewController as! LandingPageViewController
+                landingPageVC.containerVC = self
+                swapToViewController(landingPageVC)
+                
+            case .LoginSegueID :
+                var loginPageVC = segue.destinationViewController as! LogInViewController
+                loginPageVC.bindToViewModel(viewmodel.logInViewModel)
+                loginPageVC.containerVC = self
+                swapToViewController(loginPageVC)
+                
+            case .SignupSegueID :
+                var signupPageVC = segue.destinationViewController as! SignUpViewController
+                signupPageVC.bindToViewModel(viewmodel.signUpViewModel, editProfileViewmodel: viewmodel.editProfileViewModel)
+                signupPageVC.containerVC = self
+                swapToViewController(signupPageVC)
+            default :
+                DDLogError("Invalid segue from container")
+            }
         }
     }
     

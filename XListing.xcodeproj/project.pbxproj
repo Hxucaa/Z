@@ -16,6 +16,7 @@
 		2A8DA55D1B18465D00311382 /* WantToGoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8DA55B1B18465D00311382 /* WantToGoTableViewController.swift */; };
 		2A99785D1B2C260300339265 /* EmptySegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A99785C1B2C260300339265 /* EmptySegue.swift */; };
 		2A9978601B2C29E000339265 /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A99785F1B2C29E000339265 /* LandingPageViewController.swift */; };
+		2A9978621B2D596600339265 /* SegueIDEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9978611B2D596600339265 /* SegueIDEnum.swift */; };
 		2A9A9B9C1B1C31510010EDA9 /* DetailBizInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9B9B1B1C31510010EDA9 /* DetailBizInfoTableViewCell.swift */; };
 		2A9A9B9E1B1C31870010EDA9 /* DetailImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9B9D1B1C31870010EDA9 /* DetailImageTableViewCell.swift */; };
 		2A9A9BA01B1C341B0010EDA9 /* DetailBizInfoCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9B9F1B1C341B0010EDA9 /* DetailBizInfoCellDelegate.swift */; };
@@ -156,9 +157,10 @@
 		2A41A3111AF337350086D24B /* NearbyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyTableViewCell.swift; sourceTree = "<group>"; };
 		2A51153F1B2C230800235C53 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		2A714B101B085C63007A8FBB /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		2A8DA55B1B18465D00311382 /* WantToGoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WantToGoTableViewController.swift; path = Detail/WantToGoTableViewController.swift; sourceTree = "<group>"; };
 		2A99785C1B2C260300339265 /* EmptySegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptySegue.swift; sourceTree = "<group>"; };
 		2A99785F1B2C29E000339265 /* LandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
-		2A8DA55B1B18465D00311382 /* WantToGoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WantToGoTableViewController.swift; path = Detail/WantToGoTableViewController.swift; sourceTree = "<group>"; };
+		2A9978611B2D596600339265 /* SegueIDEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueIDEnum.swift; sourceTree = "<group>"; };
 		2A9A9B9B1B1C31510010EDA9 /* DetailBizInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBizInfoTableViewCell.swift; sourceTree = "<group>"; };
 		2A9A9B9D1B1C31870010EDA9 /* DetailImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailImageTableViewCell.swift; sourceTree = "<group>"; };
 		2A9A9B9F1B1C341B0010EDA9 /* DetailBizInfoCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBizInfoCellDelegate.swift; sourceTree = "<group>"; };
@@ -340,28 +342,6 @@
 			);
 			name = LandingPage;
 			path = LogIn;
-			sourceTree = "<group>";
-		};
-		2A9A9BA91B1C4ABF0010EDA9 /* DetailCellViews */ = {
-			isa = PBXGroup;
-			children = (
-				2A9A9B9B1B1C31510010EDA9 /* DetailBizInfoTableViewCell.swift */,
-				2A9A9B9D1B1C31870010EDA9 /* DetailImageTableViewCell.swift */,
-				2A9A9BA11B1C40610010EDA9 /* DetailMapTableViewCell.swift */,
-				2A9A9BA31B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift */,
-				2A9A9BA51B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift */,
-			);
-			path = DetailCellViews;
-			sourceTree = "<group>";
-		};
-		2A9A9BAA1B1C4AD10010EDA9 /* DetailCellDelegates */ = {
-			isa = PBXGroup;
-			children = (
-				2A9A9B9F1B1C341B0010EDA9 /* DetailBizInfoCellDelegate.swift */,
-				2A9A9BA71B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift */,
-				2ADF3E671B1ECEFF00C2971E /* DetailAddressCellDelegate.swift */,
-			);
-			path = DetailCellDelegates;
 			sourceTree = "<group>";
 		};
 		45CBB0ED9FE439192D088D2F /* ViewModel */ = {
@@ -547,6 +527,7 @@
 				B47E15BE1B17AD790028E07E /* UIKit&ReactiveCocoa+extension.swift */,
 				B40A0D8A1B22455700036986 /* Constants.swift */,
 				B4F1958E1B29790100B8C519 /* UIColor+extension.swift */,
+				2A9978611B2D596600339265 /* SegueIDEnum.swift */,
 			);
 			name = Utility;
 			path = Common/Utility;
@@ -1206,6 +1187,7 @@
 				B47E15CB1B18209B0028E07E /* SignUpAndLogInWorker.swift in Sources */,
 				B4F195BB1B2C331400B8C519 /* DetailBizInfoViewModel.swift in Sources */,
 				B446A61C1B1FBE9000106CAF /* ASLFormatter.swift in Sources */,
+				2A9978621B2D596600339265 /* SegueIDEnum.swift in Sources */,
 				B43032441AE369230068E8DF /* IObjectService.swift in Sources */,
 				B4E36BBB1ACE543C000F260E /* Business.swift in Sources */,
 				B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */,
