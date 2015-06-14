@@ -11,10 +11,18 @@ import SwiftTask
 import ReactiveCocoa
 import MapKit
 import AVOSCloud
+import CoreLocation
 
 public struct GeoLocationService : IGeoLocationService {
     
     public let defaultGeoPoint = AVGeoPoint(latitude: 49.27623, longitude: -123.12941)
+    
+    public lazy var locationManager: CLLocationManager! = {
+        let manager = CLLocationManager()
+        manager.desiredAccuracy = kCLLocationAccuracyKilometer
+        manager.requestAlwaysAuthorization()
+        return manager
+    }()
     
     public func getCurrentLocation() -> Task<Int, CLLocation, NSError> {
         return Task<Int, CLLocation, NSError> { progress, fulfill, reject, configure in

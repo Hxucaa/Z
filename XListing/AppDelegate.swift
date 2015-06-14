@@ -17,7 +17,7 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        
+
         // configure CocoaLumberjack
         Logger.configure()
         
@@ -26,6 +26,7 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // start background workers
         backgroundOperationsWorkerFactory.startSignUpAndLogInWorker()
+        backgroundOperationsWorkerFactory.startBackgroundLocationWorker()
                 
         // start dependency injector
         appDependencies = AppDependencies(window: window!)
@@ -56,6 +57,12 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        
+        // set first launch status
+        if (!NSUserDefaults.standardUserDefaults().boolForKey("NotFirstLaunch")) {
+            BOLogInfo("First launch complete")
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "NotFirstLaunch")
+        }
     }
 
 
