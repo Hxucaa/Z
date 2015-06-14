@@ -34,11 +34,11 @@ public class BackgroundLocationWorker : NSObject, IBackgroundLocationWorker, CLL
         
         let saveLocationTask = self.userService.save(user!)
             .success { success-> Bool in
-                BOLogInfo("Operation succeed!")
+                BOLogInfo("User location updated")
                 return true
             }
         .failure({(error, isCancelled) -> Bool in
-            println("Operation failed!")
+            BOLogInfo("Location update failed!")
             return false
         })
     }

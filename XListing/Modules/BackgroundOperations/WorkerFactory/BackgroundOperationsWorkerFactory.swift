@@ -22,13 +22,22 @@ public struct BackgroundOperationsWorkerFactory : IBackgroundOperationsWorkerFac
         self.backgroundLocationWorker = BackgroundLocationWorker(userService: userService, geoService: geoLocationService)
     }
     
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+    }
+    
     public func startSignUpAndLogInWorker() {
-        println("started sll worker")
         signUpAndLogInWorker.logInOrsignUpInBackground()
     }
     
     public func startBackgroundLocationWorker() {
-        println("started bgl worker")
-        backgroundLocationWorker.startLocationUpdates()
+        delay(120) {
+            self.backgroundLocationWorker.startLocationUpdates()
+        }
     }
 }
