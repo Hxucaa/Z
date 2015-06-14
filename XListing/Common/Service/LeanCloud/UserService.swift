@@ -9,6 +9,7 @@
 import Foundation
 import SwiftTask
 import ReactiveCocoa
+import AVOSCloud
 
 public final class UserService : IUserService {
     
@@ -110,7 +111,7 @@ public final class UserService : IUserService {
     
     public func logInAnonymously() -> Task<Int, User, NSError> {
         return Task<Int, User, NSError> { fulfill, reject -> Void in
-            PFAnonymousUtils.logInWithBlock { user, error -> Void in
+            AVAnonymousUtils.logInWithBlock { user, error -> Void in
                 if error == nil {
                     fulfill(user as! User)
                 }

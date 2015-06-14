@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public protocol DetailBizInfoCellDelegate: class {
     
-    func participate()
+    func participate<T: UIViewController>(viewController: T)
 }

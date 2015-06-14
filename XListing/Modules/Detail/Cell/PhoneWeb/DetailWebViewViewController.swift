@@ -8,12 +8,15 @@
 
 import UIKit
 import WebKit
+import ReactiveCocoa
 
 public final class DetailWebViewViewController : XUIViewController {
     
     private let urlRequest: NSURLRequest
     private let webView = WKWebView()
     private let businessName: String
+    
+    private var navRightBarButtonItemAction: CocoaAction!
     
     public init(url: NSURL, businessName: String) {
         self.urlRequest = NSURLRequest(URL:url)
@@ -33,19 +36,22 @@ public final class DetailWebViewViewController : XUIViewController {
         
         // Setup navigation bar
         self.navigationItem.title = businessName
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: nil, action: nil)
+        
+        let dismiss = Action<Void, Void, NoError> {
+            return SignalProducer { [unowned self] sink, disposable in
+                self.dismissViewControllerAnimated(true, completion: nil)
+                sendCompleted(sink)
+            }
+        }
+        
+        navRightBarButtonItemAction = CocoaAction(dismiss, input:())
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: navRightBarButtonItemAction, action: CocoaAction.selector)
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Setup Dismiss Button stream
-        let dismissButtonStream = self.navigationItem.rightBarButtonItem?.stream("Dismiss Button").ownedBy(self)
-        dismissButtonStream?.react { _ in
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
-        
         // Load request
         webView.loadRequest(urlRequest)
-    }
+        }
 }

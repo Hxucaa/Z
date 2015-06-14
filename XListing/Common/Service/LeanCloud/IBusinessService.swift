@@ -8,9 +8,10 @@
 
 import Foundation
 import SwiftTask
+import AVOSCloud
 
 public protocol IBusinessService {
     func save(business: Business) -> Task<Int, Bool, NSError>
-    func getFirst(query: PFQuery?) -> Task<Int, Business?, NSError>
-    func findBy(query: PFQuery?) -> Task<Int, [Business], NSError>
+    func getFirst(query: AVQuery?) -> Task<Int, Business?, NSError>
+    func findBy(query: AVQuery?) -> Task<Int, [Business], NSError>
 }

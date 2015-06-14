@@ -25,8 +25,8 @@ public class ObjectService : IObjectService {
         }
     }
     
-    public func getFirst(var query: PFQuery?) -> Task<Int, PFObject, NSError> {
-        return Task<Int, PFObject, NSError> { progress, fulfill, reject, configure in
+    public func getFirst(var query: AVQuery?) -> Task<Int, AVObject, NSError> {
+        return Task<Int, AVObject, NSError> { progress, fulfill, reject, configure in
             query!.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
                 if error == nil {
                     fulfill(object!)
@@ -38,7 +38,7 @@ public class ObjectService : IObjectService {
         }
     }
     
-    public func findBy(var query: PFQuery?) -> Task<Int, [PFObject], NSError> {
+    public func findBy(var query: AVQuery?) -> Task<Int, [AVObject], NSError> {
         let task = Task<Int, [AnyObject], NSError> { progress, fulfill, reject, configure in
             query!.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
                 if error == nil {
@@ -49,8 +49,8 @@ public class ObjectService : IObjectService {
                 }
             }
         }
-        .success { objects -> [PFObject] in
-            let businesses = objects as! [PFObject]
+        .success { objects -> [AVObject] in
+            let businesses = objects as! [AVObject]
             
             return businesses
         }

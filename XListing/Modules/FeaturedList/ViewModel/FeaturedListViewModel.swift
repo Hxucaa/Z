@@ -94,8 +94,8 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     public func presentAccountModule() {
-        if userService.isLoggedInAlready() {
-            router.presentAccount(completion: nil)
-        }
+//        if userService.isLoggedInAlready() {
+//            router.presentAccount(completion: nil)
+//        }
     }
 }
