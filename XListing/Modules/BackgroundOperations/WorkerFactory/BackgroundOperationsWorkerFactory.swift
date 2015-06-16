@@ -10,16 +10,13 @@ import Foundation
 
 public struct BackgroundOperationsWorkerFactory : IBackgroundOperationsWorkerFactory {
     
-    private let signUpAndLogInWorker: ISignUpAndLogInWorker
     private let backgroundLocationWorker: IBackgroundLocationWorker
     
     public init() {
         let userService: IUserService = UserService()
-        let geoLocationService: IGeoLocationService = GeoLocationService()
-        let keychainService: IKeychainService = KeychainService()
+        let userDefaultsService: IUserDefaultsService = UserDefaultsService()
         
-        self.signUpAndLogInWorker = SignUpAndLogInWorker(userService: userService, keychainService: keychainService)
-        self.backgroundLocationWorker = BackgroundLocationWorker(userService: userService, geoService: geoLocationService)
+        self.backgroundLocationWorker = BackgroundLocationWorker(userService: userService, userDefaultsService: userDefaultsService)
     }
     
     func delay(delay:Double, closure:()->()) {
@@ -31,11 +28,7 @@ public struct BackgroundOperationsWorkerFactory : IBackgroundOperationsWorkerFac
             dispatch_get_main_queue(), closure)
     }
     
-    public func startSignUpAndLogInWorker() {
-        signUpAndLogInWorker.logInOrsignUpInBackground()
-    }
-    
-    public func startBackgroundLocationWorker() {
+    public func startWorkers() {
         if (NSUserDefaults.standardUserDefaults().boolForKey("NotFirstLaunch")) {
             self.backgroundLocationWorker.startLocationUpdates()
         } else {

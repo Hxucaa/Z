@@ -21,6 +21,9 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
         tableView.delegate = self
         tableView.dataSource = self
         navigationItem.rac_title <~ viewmodel.businessName

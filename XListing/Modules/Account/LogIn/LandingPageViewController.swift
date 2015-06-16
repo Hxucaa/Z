@@ -19,28 +19,34 @@ public final class LandingPageViewController: UIViewController {
     
     internal var containerVC : ContainerViewController!
     
-    override public func viewDidLoad() {
+    private var viewmodel: LandingPageViewModel!
+    
+    public override func viewDidLoad() {
         super.viewDidLoad()
         setupDismissViewButton()
         setUpLoginSignupButtons()
         // Do any additional setup after loading the view.
     }
 
-    override public func didReceiveMemoryWarning() {
+    public func bindToViewModel(viewmodel: LandingPageViewModel) {
+        self.viewmodel = viewmodel
+    }
+    
+    public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    func setUpLoginSignupButtons () {
+    private func setUpLoginSignupButtons () {
         loginButton.addTarget(self, action: "switchToLoginView", forControlEvents: UIControlEvents.TouchUpInside)
         signupButton.addTarget(self, action: "switchToSignupView", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    func switchToLoginView() {
+    private func switchToLoginView() {
         self.containerVC.switchToLogin()
     }
     
-    func switchToSignupView() {
+    private func switchToSignupView() {
         self.containerVC.switchToSignup()
     }
     
@@ -48,7 +54,9 @@ public final class LandingPageViewController: UIViewController {
         // Action to an UI event
         let dismissView = Action<Void, Void, NoError> {
             return SignalProducer { sink, disposable in
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.viewmodel.skipAccount() {
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
             }
         }
         

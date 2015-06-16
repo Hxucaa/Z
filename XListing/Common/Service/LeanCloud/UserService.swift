@@ -51,6 +51,18 @@ public final class UserService : IUserService {
         }
     }
     
+    public func currentLoggedInUser() -> SignalProducer<User, NSError> {
+        return SignalProducer { sink, disposable in
+            if let currentUser = self.currentUser() where currentUser.isAuthenticated() {
+                sendNext(sink, currentUser)
+                sendCompleted(sink)
+            }
+            else {
+                sendError(sink, NSError(domain: "UserService", code: 899, userInfo: nil))
+            }
+        }
+    }
+    
     public func signUp(user: User) -> Task<Int, Bool, NSError> {
         return Task<Int, Bool, NSError> { fulfill, reject -> Void in
             user.signUpInBackgroundWithBlock { success, error -> Void in
@@ -76,6 +88,9 @@ public final class UserService : IUserService {
                 }
             }
         }
+            |> on(completed: {
+                LSLogVerbose("Operation succeed.")
+            })
     }
     
     public func logIn(username: String, password: String) -> Task<Int, User, NSError> {

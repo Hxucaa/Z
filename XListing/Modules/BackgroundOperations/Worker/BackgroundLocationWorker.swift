@@ -8,27 +8,35 @@
 
 import Foundation
 import CoreLocation
+import AVOSCloud
 
-public class BackgroundLocationWorker : NSObject, IBackgroundLocationWorker, CLLocationManagerDelegate {
+public final class BackgroundLocationWorker : NSObject, IBackgroundLocationWorker, CLLocationManagerDelegate {
     
     private let userService: IUserService
-    private let geoService: IGeoLocationService
+    private let userDefaultsService: IUserDefaultsService
     
-    public required init(userService: IUserService, geoService: IGeoLocationService) {
+    public required init(userService: IUserService, userDefaultsService: IUserDefaultsService) {
         self.userService = userService
-        self.geoService = geoService
+        self.userDefaultsService = userDefaultsService
     }
+    
+    private lazy var locationManager: CLLocationManager! = {
+        let manager = CLLocationManager()
+        manager.desiredAccuracy = kCLLocationAccuracyKilometer
+        manager.requestAlwaysAuthorization()
+        return manager
+    }()
     
     public func startLocationUpdates() {
         BOLogInfo("Background location updates started");
-        geoService.locationManager.delegate = self
-        geoService.locationManager.startMonitoringSignificantLocationChanges()
+        locationManager.delegate = self
+        locationManager.startMonitoringSignificantLocationChanges()
     }
     
     public func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
         
         let user = userService.currentUser()
-        let latestLocation = PFGeoPoint(location: newLocation)
+        let latestLocation = AVGeoPoint(location: newLocation)
         
         user!.latestLocation = latestLocation
         

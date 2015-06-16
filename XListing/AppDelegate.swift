@@ -25,8 +25,7 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
         LeanCloudClient.initializeClient()
         
         // start background workers
-        backgroundOperationsWorkerFactory.startSignUpAndLogInWorker()
-        backgroundOperationsWorkerFactory.startBackgroundLocationWorker()
+        backgroundOperationsWorkerFactory.startWorkers()
                 
         // start dependency injector
         appDependencies = AppDependencies(window: window!)

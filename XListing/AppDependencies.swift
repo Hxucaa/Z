@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import UIKit
+import ReactiveCocoa
 
 /**
     Dependency injector.
@@ -20,24 +20,25 @@ public struct AppDependencies {
     private var accountWireframe: IAccountWireframe?
     private var profileWireframe: IProfileWireframe?
     
-    private var router: Router = Router.sharedInstance
+    private let router: Router = Router.sharedInstance
+    private let gs: IGeoLocationService = GeoLocationService()
+    private let bs: IBusinessService = BusinessService()
+    private let ps: IParticipationService = ParticipationService()
+    private let ks: IKeychainService = KeychainService()
+    private let userService: IUserService = UserService()
+    private let userDefaultsService: IUserDefaultsService = UserDefaultsService()
     
     public init(window: UIWindow) {
         // init HUD
         HUD.sharedInstance
 
         let rootWireframe: IRootWireframe = RootWireframe(inWindow: window)
-        let gs: IGeoLocationService = GeoLocationService()
-        let us: IUserService = UserService()
-        let bs: IBusinessService = BusinessService()
-        let ps: IParticipationService = ParticipationService()
-        let ks: IKeychainService = KeychainService()
         
-        configureAccountDependencies(rootWireframe, router: router, userService: us)
-        configureFeaturedListDependencies(rootWireframe, router: router, businessService: bs, userService: us, geoLocationService: gs)
+        configureAccountDependencies(rootWireframe, router: router, userService: userService, userDefaultsService: userDefaultsService)
+        configureFeaturedListDependencies(rootWireframe, router: router, businessService: bs, userService: userService, geoLocationService: gs, userDefaultsService: userDefaultsService)
         configureNearbyDependencies(rootWireframe, router: router, businessService: bs, geoLocationService: gs)
-        configureDetailDependencies(rootWireframe, router: router, userService: us, participationService: ps, geoLocationService: gs)
-        configureProfileDependencies(rootWireframe, router: router, userService: us)
+        configureDetailDependencies(rootWireframe, router: router, userService: userService, participationService: ps, geoLocationService: gs)
+        configureProfileDependencies(rootWireframe, router: router, userService: userService)
     }
     
     /**
@@ -46,7 +47,12 @@ public struct AppDependencies {
         :param: window The UIWindow that needs to have a root view installed.
     */
     public func installRootViewControllerIntoWindow() {
-        router.pushFeatured()
+        if !userDefaultsService.accountModuleSkipped && !userService.isLoggedInAlready() {
+            router.pushAccount()
+        }
+        else {
+            router.pushFeatured()
+        }
     }
     
     /**
@@ -54,9 +60,9 @@ public struct AppDependencies {
 
         :param: rootWireframe The RootWireframe.
     */
-    private mutating func configureFeaturedListDependencies(rootWireframe: IRootWireframe, router: IRouter, businessService bs: IBusinessService, userService us: IUserService, geoLocationService gs: IGeoLocationService) {
+    private mutating func configureFeaturedListDependencies(rootWireframe: IRootWireframe, router: IRouter, businessService bs: IBusinessService, userService us: IUserService, geoLocationService gs: IGeoLocationService, userDefaultsService uds: IUserDefaultsService) {
         
-        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, router: router, businessService: bs, userService: us, geoLocationService: gs)
+        featuredListWireframe = FeaturedListWireframe(rootWireframe: rootWireframe, router: router, businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds)
         self.router.featuredRouteDelegate = featuredListWireframe as! FeaturedRoute
     }
     
@@ -82,9 +88,9 @@ public struct AppDependencies {
         self.router.detailRouteDelegate = detailWireframe as! DetailRoute
     }
     
-    private mutating func configureAccountDependencies(rootWireframe: IRootWireframe, router: IRouter, userService us: IUserService) {
+    private mutating func configureAccountDependencies(rootWireframe: IRootWireframe, router: IRouter, userService us: IUserService, userDefaultsService uds: IUserDefaultsService) {
         
-        accountWireframe = AccountWireframe(rootWireframe: rootWireframe, router: router, userService: us)
+        accountWireframe = AccountWireframe(rootWireframe: rootWireframe, router: router, userService: us, userDefaultsService: uds)
         self.router.accountRouteDelegate = accountWireframe as! AccountRoute
     }
 
