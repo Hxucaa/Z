@@ -2,7 +2,7 @@ PODS:
   - AVOSCloud (3.1.2.4)
   - AVOSCloudCrashReporting (3.1.1.1):
     - AVOSCloud
-  - AVOSCloudIM (3.1.2.1):
+  - AVOSCloudIM (3.1.2.4):
     - AVOSCloud
   - AVOSCloudSNS (3.1.2.4):
     - AVOSCloud
@@ -80,7 +80,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AVOSCloud: 83a2b0753eb784b2f6e5245241a841575dfb3cc6
   AVOSCloudCrashReporting: 5add5ca29ec9f585010ecda3a643108c7e376e86
-  AVOSCloudIM: 95fb4e5dc58c052f9e9ec25fcb43e8014d1f2622
+  AVOSCloudIM: 5aceff9e93780ac7b641ecfab7c53a32eb61a26f
   AVOSCloudSNS: c6f3a3ae1990f115b11e6d6daad306babbdd3b5a
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
