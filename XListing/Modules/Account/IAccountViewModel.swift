@@ -10,9 +10,10 @@ import ReactKit
 import SwiftTask
 
 public protocol IAccountViewModel {
-    var editProfileViewModel: EditProfileViewModel { get }
-    var logInViewModel: LogInViewModel { get }
-    var signUpViewModel: SignUpViewModel { get }
-    init(userService: IUserService, router: IRouter)
+    var editProfileViewModel: EditProfileViewModel { mutating get }
+    var logInViewModel: LogInViewModel { mutating get }
+    var signUpViewModel: SignUpViewModel { mutating get }
+    var landingPageViewModel: LandingPageViewModel { mutating get }
+    init(userService: IUserService, router: IRouter, userDefaultsService: IUserDefaultsService)
     func pushFeaturedModule()
 }
