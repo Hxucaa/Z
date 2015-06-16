@@ -8,12 +8,13 @@
 
 import UIKit
 import ReactKit
+import SDWebImage
 
 private let NumberOfRowsPerSection = 1
 private let CellIdentifier = "Cell"
 private let SegueIdentifier = "FromFeaturedToNearby"
 
-public final class FeaturedListViewController: UIViewController {
+public final class FeaturedListViewController: XUIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,6 +27,8 @@ public final class FeaturedListViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
         
         featuredListVM.getBusiness()
         

@@ -11,8 +11,17 @@ import AVOSCloud
 
 public final class Profile: AVObject, AVSubclassing {
     
+    public enum Property : String {
+        case Nickname = "nickname"
+        case ProfileImg = "profileImg"
+    }
+    
+    public override init() {
+        super.init()
+    }
+    
     // Class Name
-    public func parseClassName() -> String! {
+    public class func parseClassName() -> String! {
         return "Profile"
     }
     
@@ -25,4 +34,22 @@ public final class Profile: AVObject, AVSubclassing {
     }
     
     @NSManaged public var nickname: String?
+//    public var nickname: String? {
+//        get {
+//            return self.objectForKey("nickname") as? String
+//        }
+//        set {
+//            self.setObject(newValue, forKey: "nickname")
+//        }
+//    }
+    
+    @NSManaged public var profileImg: AVFile?
+//    public var profileImg: AVFile? {
+//        get {
+//            return self.objectForKey("profileImg") as? AVFile
+//        }
+//        set {
+//            self.setObject(newValue, forKey: "profileImg")
+//        }
+//    }
 }

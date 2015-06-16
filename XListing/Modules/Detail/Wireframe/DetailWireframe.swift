@@ -7,29 +7,25 @@
 //
 
 import Foundation
-import ReactKit
 
 private let DetailViewControllerIdentifier = "DetailViewController"
 
 public final class DetailWireframe : BaseWireframe, IDetailWireframe {
     
-    private let navigator: INavigator
-    private let wantToGoService: IWantToGoService
+    private let router: IRouter
+    private let userService: IUserService
+    private let participationService: IParticipationService
     private let geoLocationService: IGeoLocationService
     private var detailViewController: DetailViewController?
     
-    public required init(rootWireframe: IRootWireframe, navigator: INavigator, wantToGoService: IWantToGoService, geoLocationService: IGeoLocationService) {
+    public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService) {
         
-        self.navigator = navigator
-        self.wantToGoService = wantToGoService
+        self.router = router
+        self.userService = userService
+        self.participationService = participationService
         self.geoLocationService = geoLocationService
         
         super.init(rootWireframe: rootWireframe)
-        
-        navigator.detailModuleNavigationNotificationSignal! ~> { notification -> Void in
-            let vm = (notification?.userInfo)!["BusinessModel"] as! Business
-            self.pushView(vm)
-        }
     }
     
     /**
@@ -40,15 +36,17 @@ public final class DetailWireframe : BaseWireframe, IDetailWireframe {
     private func injectViewModelToViewController(businessModel: Business) -> DetailViewController {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(DetailViewControllerIdentifier) as! DetailViewController
-        let detailViewModel = DetailViewModel(navigator: navigator, wantToGoService: wantToGoService, geoLocationService: geoLocationService, businessModel: businessModel)
+        let detailViewModel = DetailViewModel(router: router, userService: userService, participationService: participationService, geoLocationService: geoLocationService, businessModel: businessModel)
         viewController.bindToViewModel(detailViewModel)
         
         detailViewController = viewController
         return viewController
     }
-    
-    private func pushView(businessModel: Business) {
-        let injectedViewController = injectViewModelToViewController(businessModel)
+}
+
+extension DetailWireframe : DetailRoute {
+    public func pushWithData<T : Business>(business: T) {
+        let injectedViewController = injectViewModelToViewController(business)
         rootWireframe.pushViewController(injectedViewController, animated: true)
     }
 }

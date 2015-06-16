@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import AVOSCloudCrashReporting
 import AVOSCloud
 
 public struct LeanCloudClient {
@@ -18,18 +17,17 @@ public struct LeanCloudClient {
     }
     
     private static func prepareClient() {
-        Parse.useAVCloudUS()
-        
-        AVOSCloudCrashReporting.enable()
+        AVOSCloud.useAVCloudUS()
         
         AVAnalytics.setAnalyticsEnabled(true)
         
         User.enableAutomaticUser()
         
         User.registerSubclass()
+        ParticipationType.registerSubclass()
+        User_Business_Participation.registerSubclass()
         Profile.registerSubclass()
         Business.registerSubclass()
-        WantToGo.registerSubclass()
     }
     
     private static func initialize() {
@@ -38,7 +36,7 @@ public struct LeanCloudClient {
         
         let env = NSProcessInfo.processInfo().environment
         if let mode = env["exec_mode"] as? String {
-            println("We are in \(mode.uppercaseString) mode!")
+            LSLogInfo("We are in \(mode.uppercaseString) mode!")
             
             let path = NSBundle.mainBundle().pathForResource("Parse", ofType: "plist")
             let dict: AnyObject = NSDictionary(contentsOfFile: path!)!
@@ -59,14 +57,14 @@ public struct LeanCloudClient {
         let errorMessage = "Unable to find Parse id and key for initialization"
         if let _id: String = id {
             if let _key: String = key {
-                Parse.setApplicationId(_id, clientKey: _key)
+                AVOSCloud.setApplicationId(_id, clientKey: _key)
             }
             else {
-                println(errorMessage)
+                LSLogError(errorMessage)
             }
         }
         else {
-            println(errorMessage)
+            LSLogError(errorMessage)
         }
     }
 }

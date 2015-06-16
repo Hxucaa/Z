@@ -14,14 +14,14 @@ import MapKit
 public final class NearbyViewModel : INearbyViewModel {
     public let businessDynamicArr = DynamicArray()
     
-    private let navigator: INavigator
+    private let router: IRouter
     private let businessService: IBusinessService
     private let geoLocationService: IGeoLocationService
     
     private var businessModelArr: [Business]!
     
-    public required init(navigator: INavigator, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
-        self.navigator = navigator
+    public required init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+        self.router = router
         self.businessService = businessService
         self.geoLocationService = geoLocationService
     }
@@ -69,8 +69,7 @@ public final class NearbyViewModel : INearbyViewModel {
     */
     public func pushDetailModule(section: Int) {
         let model: Business = businessModelArr[section]
-        
-        navigator.navigateToDetailModule(["BusinessModel" : model])
+        router.pushDetail(model)
     }
     
     /**
@@ -82,14 +81,13 @@ public final class NearbyViewModel : INearbyViewModel {
         return Stream<CLLocation>.fromTask(geoLocationService.getCurrentLocation().failure { [unowned self] (error, isCancelled) -> CLLocation in
                 // with hardcoded location
                 //TODO: better support for hardcoded location
-                println("Location service failed! Using default Vancouver location.")
+                NearbyLogWarning("Location service failed! Using default Vancouver location.")
                 return CLLocation(latitude: 49.27623, longitude: -123.12941)
             }
         )
     }
     
     public func pushProfileModule() {
-        navigator.navigateToProfileModule()
-        
+        router.pushProfile()
     }
 }
