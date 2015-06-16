@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import AVOSCloudCrashReporting
 import AVOSCloud
 
 public struct LeanCloudClient {
@@ -19,8 +18,6 @@ public struct LeanCloudClient {
     
     private static func prepareClient() {
         AVOSCloud.useAVCloudUS()
-        
-        AVOSCloudCrashReporting.enable()
         
         AVAnalytics.setAnalyticsEnabled(true)
         

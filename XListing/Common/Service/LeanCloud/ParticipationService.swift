@@ -12,12 +12,6 @@ import AVOSCloud
 
 public struct ParticipationService : IParticipationService {
     
-    private let userService: IUserService
-    
-    public init(userService: IUserService) {
-        self.userService = userService
-    }
-    
     public func get(query: AVQuery) -> SignalProducer<Participation, NSError> {
         return SignalProducer { sink, disposable in
             query.getFirstObjectInBackgroundWithBlock { object, error -> Void in
