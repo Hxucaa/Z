@@ -47,6 +47,7 @@ public final class ContainerViewController: UIViewController {
             switch identifier {
             case .LandingSegueID :
                 var landingPageVC = segue.destinationViewController as! LandingPageViewController
+                landingPageVC.bindToViewModel(viewmodel.landingPageViewModel)
                 landingPageVC.containerVC = self
                 swapToViewController(landingPageVC)
                 

@@ -14,6 +14,7 @@ public protocol IUserService {
     func isLoggedInAlready() -> Bool
     func currentUser() -> User?
     func currentUserSignal() -> SignalProducer<User, NSError>
+    func currentLoggedInUser() -> SignalProducer<User, NSError>
     func signUp(user: User) -> Task<Int, Bool, NSError>
     func signUpSignal(user: User) -> SignalProducer<Bool, NSError>
     func logIn(username: String, password: String) -> Task<Int, User, NSError>

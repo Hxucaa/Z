@@ -28,6 +28,8 @@ public final class FeaturedListViewController: XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
         featuredListVM.getBusiness()
         
         // Setup delegates

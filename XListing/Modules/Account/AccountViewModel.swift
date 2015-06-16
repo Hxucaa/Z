@@ -10,19 +10,19 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public final class AccountViewModel : NSObject, IAccountViewModel {
+public struct AccountViewModel : IAccountViewModel {
     
     // MARK: - Public
     
     public private(set) lazy var editProfileViewModel: EditProfileViewModel = EditProfileViewModel(userService: self.userService)
     public private(set) lazy var logInViewModel: LogInViewModel = LogInViewModel(userService: self.userService)
     public private(set) lazy var signUpViewModel: SignUpViewModel = SignUpViewModel(userService: self.userService)
+    public private(set) lazy var landingPageViewModel: LandingPageViewModel = LandingPageViewModel(userDefaultsService: self.userDefaultsService, router: self.router)
     
-    public required init(userService: IUserService, router: IRouter) {
+    public init(userService: IUserService, router: IRouter, userDefaultsService: IUserDefaultsService) {
         self.userService = userService
         self.router = router
-        
-        super.init()
+        self.userDefaultsService = userDefaultsService
     }
     
     public func pushFeaturedModule() {
@@ -34,4 +34,5 @@ public final class AccountViewModel : NSObject, IAccountViewModel {
     // MARK: Services
     private let userService: IUserService
     private let router: IRouter
+    private let userDefaultsService: IUserDefaultsService
 }

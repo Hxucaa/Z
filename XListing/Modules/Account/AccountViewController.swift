@@ -23,10 +23,22 @@ public final class AccountViewController: XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+    }
+    
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     public override func didReceiveMemoryWarning() {

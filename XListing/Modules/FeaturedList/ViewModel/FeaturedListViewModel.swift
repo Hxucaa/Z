@@ -18,14 +18,16 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     private let businessService: IBusinessService
     private let userService: IUserService
     private let geoLocationService: IGeoLocationService
+    private let userDefaultsService: IUserDefaultsService
     
     private var businessModelArr: [Business]!
     
-    public required init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService) {
+    public required init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService) {
         self.router = router
         self.businessService = businessService
         self.userService = userService
         self.geoLocationService = geoLocationService
+        self.userDefaultsService = userDefaultsService
     }
     
     
@@ -94,8 +96,8 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     public func presentAccountModule() {
-//        if userService.isLoggedInAlready() {
-//            router.presentAccount(completion: nil)
-//        }
+        if !userDefaultsService.accountModuleSkipped && !userService.isLoggedInAlready() {
+            router.presentAccount(completion: nil)
+        }
     }
 }

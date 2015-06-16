@@ -16,19 +16,21 @@ public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     
     private let router: IRouter
     private let userService: IUserService
+    private let userDefaultsService: IUserDefaultsService
     private var accountVC: AccountViewController?
     private var dismissCallback: CompletionHandler?
     
-    public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService) {
+    public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService, userDefaultsService: IUserDefaultsService) {
         self.router = router
         self.userService = userService
+        self.userDefaultsService = userDefaultsService
         
         super.init(rootWireframe: rootWireframe)
     }
     
     private func injectViewModelToViewController() -> AccountViewController {
         let viewController = getViewControllerFromStoryboard(AccountViewControllerIdentifier, storyboardName: AccountStoryboardName) as! AccountViewController
-        let viewmodel = AccountViewModel(userService: userService, router: router)
+        let viewmodel = AccountViewModel(userService: userService, router: router, userDefaultsService: userDefaultsService)
         viewController.bindToViewModel(viewmodel, dismissCallback: dismissCallback)
         accountVC = viewController
         return viewController
