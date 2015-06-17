@@ -32,53 +32,53 @@ public final class User: AVUser, AVSubclassing {
         }
     }
     
-    //    @NSManaged public var birthday: NSDate?
-    public var birthday: NSDate? {
-        get {
-            return self[Property.Birthday.rawValue] as? NSDate
-        }
-        set {
-            self[Property.Birthday.rawValue] = newValue
-        }
-    }
+    @NSManaged public var birthday: NSDate?
+//    public var birthday: NSDate? {
+//        get {
+//            return self[Property.Birthday.rawValue] as? NSDate
+//        }
+//        set {
+//            self[Property.Birthday.rawValue] = newValue
+//        }
+//    }
     
-//    @NSManaged public var nickname: String?
-    public var nickname: String? {
-        get {
-            return self[Property.NickName.rawValue] as? String
-        }
-        set {
-            self[Property.NickName.rawValue] = newValue
-        }
-    }
+    @NSManaged public var nickname: String?
+//    public var nickname: String? {
+//        get {
+//            return self[Property.NickName.rawValue] as? String
+//        }
+//        set {
+//            self[Property.NickName.rawValue] = newValue
+//        }
+//    }
 
-//    @NSManaged public var profileImg: AVFile?
-    public var profileImg: AVFile? {
-        get {
-            return self[Property.ProfileImg.rawValue] as? AVFile
-        }
-        set {
-            self[Property.ProfileImg.rawValue] = newValue
-        }
-    }
+    @NSManaged public var profileImg: AVFile?
+//    public var profileImg: AVFile? {
+//        get {
+//            return self[Property.ProfileImg.rawValue] as? AVFile
+//        }
+//        set {
+//            self[Property.ProfileImg.rawValue] = newValue
+//        }
+//    }
     
-//    @NSManaged public var profile: Profile
-    public var profile: Profile {
-        get {
-            return self[Property.Profile.rawValue] as! Profile
-        }
-        set {
-            self[Property.Profile.rawValue] = newValue
-        }
-    }
+    @NSManaged public var profile: Profile
+//    public var profile: Profile {
+//        get {
+//            return self[Property.Profile.rawValue] as! Profile
+//        }
+//        set {
+//            self[Property.Profile.rawValue] = newValue
+//        }
+//    }
     
-//    @NSManaged public var latestLocation: AVGeoPoint?
-    public var latestLocation: AVGeoPoint? {
-        get {
-            return self[Property.LatestLocation.rawValue] as? AVGeoPoint
-        }
-        set {
-            self[Property.LatestLocation.rawValue] = newValue
-        }
-    }
+    @NSManaged public var latestLocation: AVGeoPoint?
+//    public var latestLocation: AVGeoPoint? {
+//        get {
+//            return self[Property.LatestLocation.rawValue] as? AVGeoPoint
+//        }
+//        set {
+//            self[Property.LatestLocation.rawValue] = newValue
+//        }
+//    }
 }
