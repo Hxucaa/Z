@@ -24,6 +24,7 @@ public final class NearbyViewModel : INearbyViewModel {
         self.router = router
         self.businessService = businessService
         self.geoLocationService = geoLocationService
+
     }
     
     public func getBusiness() -> Stream<Void> {
@@ -39,6 +40,7 @@ public final class NearbyViewModel : INearbyViewModel {
                         self.businessModelArr = businessDAOArr
                         
                         for bus in businessDAOArr {
+                            self.setupETAText(bus)
                             let vm = NearbyHorizontalScrollCellViewModel(business: bus, currentLocation: CLLocation(latitude: geopoint.latitude, longitude: geopoint.longitude))
                             // apend BusinessViewModel to DynamicArray for React
                             self.businessDynamicArr.proxy.addObject(vm)
@@ -85,6 +87,23 @@ public final class NearbyViewModel : INearbyViewModel {
                 return CLLocation(latitude: 49.27623, longitude: -123.12941)
             }
         )
+    }
+    
+    /**
+    Setup ETA
+    
+    :param: business The business
+    */
+    private func setupETAText(business: Business) {
+        /**
+        *  Calculate ETA to the business.
+        *
+        self.geoLocationService.calculateETA(business.cllocation)
+            |> start(next: { interval in
+                let minute = Int(ceil(interval / 60))
+                self.locationText.put("\(business.city!) \(CityDistanceSeparator) 开车\(minute)分钟")
+            })
+        */
     }
     
     public func pushProfileModule() {

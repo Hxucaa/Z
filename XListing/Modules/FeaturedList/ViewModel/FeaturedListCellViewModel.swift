@@ -8,12 +8,14 @@
 
 import Foundation
 import MapKit
+import ReactiveCocoa
 
 /**
 *  Constants
 */
 private let 公里 = "公里"
 private let 米 = "米"
+private let CityDistanceSeparator = "•"
 
 public final class FeaturedListCellViewModel : NSObject {
     private let className: String
@@ -24,8 +26,12 @@ public final class FeaturedListCellViewModel : NSObject {
     public let openingText: String
     public let coverImageNSURL: NSURL?
     public private(set) var distance: String?
+    public let etaText: MutableProperty<String> = MutableProperty("")
+    private let geoLocationService: IGeoLocationService
     
-    public init(business: Business) {
+    public init(business: Business, geoService: IGeoLocationService) {
+        geoLocationService = geoService
+        
         className = business.className
         
         objectId = business.objectId!
@@ -54,8 +60,26 @@ public final class FeaturedListCellViewModel : NSObject {
         }
     }
     
-    public convenience init(business: Business, currentLocation: CLLocation) {
-        self.init(business: business)
+    /**
+    Setup ETA text.
+    
+    :param: business The business
+    */
+    private func setupETAText(business: Business) {
+        /**
+        *  Calculate ETA to the business.
+        */
+        self.geoLocationService.calculateETA(business.cllocation)
+            |> start(next: { interval in
+                let minute = Int(ceil(interval / 60))
+                self.etaText.put("\(CityDistanceSeparator) 开车\(minute)分钟")
+            })
+    }
+    
+    public convenience init(business: Business, currentLocation: CLLocation, geoService: IGeoLocationService) {
+        self.init(business: business, geoService: geoService)
+        
+        self.setupETAText(business)
         
         let busCLLocation = CLLocation(latitude: (business.geopoint?.latitude)!, longitude: (business.geopoint?.longitude)!)
         let distanceInMeter = currentLocation.distanceFromLocation(busCLLocation)

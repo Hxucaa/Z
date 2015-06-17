@@ -44,7 +44,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
                         self.businessModelArr = businessDAOArr
                         
                         for bus in businessDAOArr {
-                            let vm = FeaturedListCellViewModel(business: bus, currentLocation: location)
+                            let vm = FeaturedListCellViewModel(business: bus, currentLocation: location, geoService:self.geoLocationService)
                             // apend BusinessViewModel to DynamicArray for React
                             self.businessDynamicArr.proxy.addObject(vm)
                         }
@@ -59,7 +59,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
                         self.businessModelArr = businessDAOArr
                         
                         for bus in businessDAOArr {
-                            let vm = FeaturedListCellViewModel(business: bus)
+                            let vm = FeaturedListCellViewModel(business: bus, geoService: self.geoLocationService)
                             // apend BusinessViewModel to DynamicArray for React
                             self.businessDynamicArr.proxy.addObject(vm)
                         }

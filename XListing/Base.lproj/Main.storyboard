@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="OjV-3x-cL1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E26a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="OjV-3x-cL1">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
@@ -31,7 +31,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="逛一逛" id="lVv-eu-6qo">
-                        <barButtonItem key="rightBarButtonItem" image="1352BC60-BF50-404B-95E8-CB7C168DFF46" id="LOC-Av-aAC"/>
+                        <barButtonItem key="rightBarButtonItem" image="D0FFD31E-9F7D-4A85-8511-E433EE33DB9D" id="LOC-Av-aAC"/>
                     </navigationItem>
                     <connections>
                         <outlet property="profileButton" destination="LOC-Av-aAC" id="Fx8-Pt-Igr"/>
@@ -757,8 +757,8 @@
                                                 <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BM2-2g-CSY">
                                                     <rect key="frame" x="-8" y="-1" width="336" height="224"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Richmond" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dg4-CG-a5C">
-                                                    <rect key="frame" x="8" y="259" width="162" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dg4-CG-a5C">
+                                                    <rect key="frame" x="8" y="259" width="147" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="X6I-xt-u6v"/>
                                                     </constraints>
@@ -838,7 +838,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Wpb-KT-omW" secondAttribute="trailing" constant="1" id="0Og-KJ-Hkc"/>
-                                                <constraint firstItem="c4d-36-RgL" firstAttribute="leading" secondItem="dg4-CG-a5C" secondAttribute="trailing" constant="-7" id="24I-Rd-pZB"/>
+                                                <constraint firstItem="c4d-36-RgL" firstAttribute="leading" secondItem="dg4-CG-a5C" secondAttribute="trailing" constant="8" id="24I-Rd-pZB"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="dg4-CG-a5C" secondAttribute="bottom" constant="-4" id="3oE-zq-0ez"/>
                                                 <constraint firstItem="qnk-Wi-uJ8" firstAttribute="top" secondItem="1DV-Lc-dp7" secondAttribute="topMargin" constant="-40" id="Ea6-K9-Kf2"/>
                                                 <constraint firstItem="6Hz-LC-LvP" firstAttribute="top" secondItem="BM2-2g-CSY" secondAttribute="bottom" constant="8" id="FJq-Sp-jEl"/>
@@ -908,7 +908,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1352BC60-BF50-404B-95E8-CB7C168DFF46" width="22" height="22">
+        <image name="D0FFD31E-9F7D-4A85-8511-E433EE33DB9D" width="22" height="22">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

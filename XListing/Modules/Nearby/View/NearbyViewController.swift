@@ -169,8 +169,20 @@ public final class NearbyViewController: XUIViewController , UITableViewDelegate
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
         cell.bizName.text = biz.businessName
-        cell.bizDetail.text = "130+ 人想去 ｜ 开车25分钟"
+        cell.bizDetail.text = "130+ 人想去"
         cell.bizHours.text = "今天 10:00AM - 10:00PM"
+        
+        let bizDetailNSString : NSString = cell.bizDetail.text! as NSString
+        let detailStrSize : CGSize = bizDetailNSString.sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(13.0)])
+        
+        var etaLabel = UILabel(frame: CGRectMake(cell.bizDetail!.frame.origin.x + detailStrSize.width,cell.bizDetail!.frame.origin.y, 200, cell.bizDetail!.frame.height))
+        
+        etaLabel.text = " • 开车25分钟"
+        //Uncomment line below to update eta with the correct data
+        //etaLabel.rac_text <~ businessVM.etaText
+        etaLabel.font = etaLabel.font.fontWithSize(13.0)
+        cell.addSubview(etaLabel)
+        
         if let url = biz.coverImageNSURL {
             cell.bizImage?.sd_setImageWithURL(url)
         }

@@ -9,6 +9,7 @@
 import UIKit
 import ReactKit
 import SDWebImage
+import ReactiveCocoa
 
 private let NumberOfRowsPerSection = 1
 private let CellIdentifier = "Cell"
@@ -188,11 +189,19 @@ extension FeaturedListViewController : UITableViewDataSource {
             businessNameLabel?.text = businessVM.businessName
             
             wantToGoLabel?.text = businessVM.wantToGoText
+
+            cityLabel?.text = businessVM.city
             
-            //TODO:
-            //city and distance data not set up yet, temporarilily hard coded
-            cityLabel?.text = businessVM.city + " • 开车15分钟"
-            
+            let cityNSString : NSString = businessVM.city as NSString
+            let cityStrSize : CGSize = cityNSString.sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(12.0)])
+
+            var etaLabel = UILabel(frame: CGRectMake(cityLabel!.frame.origin.x + cityStrSize.width,cityLabel!.frame.origin.y, 200, cityLabel!.frame.height))
+            etaLabel.text = " • 开车25分钟"
+            //uncomment the line below to get eta data
+            //etaLabel.rac_text <~ businessVM.etaText
+            etaLabel.font = etaLabel.font.fontWithSize(12.0)
+            etaLabel.textColor = UIColor.grayColor()
+            cell.addSubview(etaLabel)
             
             openingLabel?.text = businessVM.openingText
             
