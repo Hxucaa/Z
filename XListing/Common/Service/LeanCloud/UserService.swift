@@ -11,7 +11,7 @@ import SwiftTask
 import ReactiveCocoa
 import AVOSCloud
 
-public final class UserService : IUserService {
+public struct UserService : IUserService {
     
     public func isLoggedInAlready() -> Bool {
         if let currentUser = currentUser() where currentUser.isAuthenticated() {
@@ -89,7 +89,7 @@ public final class UserService : IUserService {
             }
         }
             |> on(completed: {
-                LSLogVerbose("Operation succeed.")
+                LSLogVerbose("Sign up succeeded.")
             })
     }
     
@@ -163,23 +163,3 @@ public final class UserService : IUserService {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
