@@ -21,7 +21,7 @@ public final class LogInViewController: XUIViewController {
     
     private var HUDdisposable: Disposable!
     
-    internal var containerVC : ContainerViewController!
+    public weak var delegate: LoginViewDelegate!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,11 +33,7 @@ public final class LogInViewController: XUIViewController {
     }
     
     public func setUpBackButton () {
-        backButton.addTarget(self, action: "returnToLanding", forControlEvents: UIControlEvents.TouchUpInside)
-    }
-    
-    public func returnToLanding () {
-       self.containerVC.switchToLanding()
+        backButton.addTarget(delegate, action: "returnToLandingViewFromLogin", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     /**

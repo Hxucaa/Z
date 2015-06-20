@@ -17,7 +17,7 @@ public final class LandingPageViewController: UIViewController {
     
     private var dismissViewButtonAction: CocoaAction!
     
-    internal var containerVC : ContainerViewController!
+    public weak var delegate: LandingViewDelegate!
     
     private var viewmodel: LandingPageViewModel!
     
@@ -38,17 +38,8 @@ public final class LandingPageViewController: UIViewController {
     }
     
     internal func setUpLoginSignupButtons () {
-        loginButton.addTarget(self, action: "switchToLoginView", forControlEvents: UIControlEvents.TouchUpInside)
-        signupButton.addTarget(self, action: "switchToSignupView", forControlEvents: UIControlEvents.TouchUpInside)
-    }
-    
-
-    internal func switchToLoginView() {
-        self.containerVC.switchToLogin()
-    }
-    
-    internal func switchToSignupView() {
-        self.containerVC.switchToSignup()
+        loginButton.addTarget(delegate, action: "switchToLoginView", forControlEvents: UIControlEvents.TouchUpInside)
+        signupButton.addTarget(delegate, action: "switchToSignUpView", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     private func setupDismissViewButton() {

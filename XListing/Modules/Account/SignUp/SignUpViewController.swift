@@ -27,12 +27,14 @@ public final class SignUpViewController : XUIViewController {
     
     private var HUDdisposable: Disposable!
     
-    internal var containerVC : ContainerViewController!
+    public weak var delegate: SignUpViewDelegate!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupHUD()
+        setUpUsername()
+        setUpPassword()
         setUpBackButton()
         setUpSignupButton()
     }
@@ -54,7 +56,7 @@ public final class SignUpViewController : XUIViewController {
     }
     
     public func setUpBackButton () {
-        backButton.addTarget(self, action: "returnToLanding", forControlEvents: UIControlEvents.TouchUpInside)
+        backButton.addTarget(delegate, action: "returnToLandingViewFromSignUp", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     public func setUpSignupButton () {
@@ -91,10 +93,6 @@ public final class SignUpViewController : XUIViewController {
         self.editProfileViewmodel = editProfileViewmodel
     }
     
-    public func returnToLanding () {
-        self.containerVC.switchToLanding()
-    }
-    
     public func setUpUsername() {
         usernameField.delegate = self
         viewmodel.username <~ usernameField.rac_text
@@ -104,11 +102,7 @@ public final class SignUpViewController : XUIViewController {
         passwordField.delegate = self
         viewmodel.password <~ passwordField.rac_text
     }
-    
-//    public func setUpConfirmPassword() {
-//        confirmPasswordField.delegate = self
-//        viewmodel.confirmPassword <~ confirmPasswordField.rac_text
-//    }
+
 }
 
 extension SignUpViewController : EditProfileViewDelegate {
