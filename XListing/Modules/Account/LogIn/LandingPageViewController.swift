@@ -37,16 +37,17 @@ public final class LandingPageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    private func setUpLoginSignupButtons () {
+    internal func setUpLoginSignupButtons () {
         loginButton.addTarget(self, action: "switchToLoginView", forControlEvents: UIControlEvents.TouchUpInside)
         signupButton.addTarget(self, action: "switchToSignupView", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    private func switchToLoginView() {
+
+    internal func switchToLoginView() {
         self.containerVC.switchToLogin()
     }
     
-    private func switchToSignupView() {
+    internal func switchToSignupView() {
         self.containerVC.switchToSignup()
     }
     

@@ -19,6 +19,8 @@ public final class LogInViewController: XUIViewController {
     
     private var loginButtonAction: CocoaAction!
     
+    private var HUDdisposable: Disposable!
+    
     internal var containerVC : ContainerViewController!
     
     public override func viewDidLoad() {
@@ -38,12 +40,30 @@ public final class LogInViewController: XUIViewController {
        self.containerVC.switchToLanding()
     }
     
+    /**
+    Setup HUD
+    */
+    private func setupHUD() {
+        HUDdisposable = HUD.didDissappearNotification(
+            interrupted: {
+            },
+            error: {
+            },
+            completed: {
+                self.HUDdisposable.dispose()
+                //move this into a delegate
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+        )
+    }
+    
     public func setUpLoginButton () {
         
-        let login = Action<Void, User, NoError> {
-            return SignalProducer { sink, disposable in
-                viewmodel.logIn
-            }
+        let login = Action<Void, User, NSError> {
+            return HUD.show()
+                |> mapError { _ in NSError() }
+                |> flatMap(FlattenStrategy.Merge) { _ in self.viewmodel.logIn }
+                |> HUD.onDismiss()
         }
         
         // Bridging actions to Objective-C

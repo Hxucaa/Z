@@ -8,6 +8,7 @@
 
 import UIKit
 import ReactiveCocoa
+import SVProgressHUD
 
 public final class SignUpViewController : XUIViewController {
     private var viewmodel: SignUpViewModel!
@@ -24,13 +25,32 @@ public final class SignUpViewController : XUIViewController {
     private var editProfileViewNibName: String!
     private var editProfileView: EditProfileView!
     
+    private var HUDdisposable: Disposable!
+    
     internal var containerVC : ContainerViewController!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        setupHUD()
         setUpBackButton()
         setUpSignupButton()
+    }
+    
+    /**
+    Setup HUD
+    */
+    private func setupHUD() {
+        HUDdisposable = HUD.didDissappearNotification(
+            interrupted: {
+            },
+            error: {
+            },
+            completed: {
+                self.goToEditProfileView()
+                self.HUDdisposable.dispose()
+            }
+        )
     }
     
     public func setUpBackButton () {
@@ -39,13 +59,13 @@ public final class SignUpViewController : XUIViewController {
     
     public func setUpSignupButton () {
         
-        let signup = Action<Void, Bool, NoError> {
-            return SignalProducer { sink, disposable in
-                self.viewmodel.signUp
-                //TO DO: check result of sign up first
-                self.goToEditProfileView()
+        let signup = Action<Void, Bool, NSError> {
+            return HUD.show()
+                |> mapError { _ in NSError() }
+                |> flatMap(FlattenStrategy.Merge) { _ in self.viewmodel.signUp }
+                |> HUD.onDismiss()
             }
-        }
+        
         
         // Bridging actions to Objective-C
         signupButtonAction = CocoaAction(signup, input: ())
