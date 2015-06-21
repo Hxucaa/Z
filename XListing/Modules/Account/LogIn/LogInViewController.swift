@@ -67,9 +67,13 @@ public final class LogInViewController: XUIViewController{
         loginButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
         let login = Action<Void, User, NSError> {
+            // display HUD to indicate work in progress
             return HUD.show()
+                // map error to the same type as other signal
                 |> mapError { _ in NSError() }
-                |> flatMap(FlattenStrategy.Merge) { _ in self.viewmodel.logIn }
+                // log in
+                |> then(self.viewmodel.logIn)
+                // dismiss HUD based on the result of log in signal
                 |> HUD.onDismiss()
         }
         

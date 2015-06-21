@@ -23,6 +23,7 @@ public final class HUD {
         return SignalProducer<Void, NoError> { sink, disposable in
             SVProgressHUD.show()
             sendNext(sink, ())
+            sendCompleted(sink)
         }
     }
     

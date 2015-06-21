@@ -25,7 +25,7 @@ public final class SignUpViewController : XUIViewController {
     private var editProfileViewNibName: String!
     private var editProfileView: EditProfileView!
     
-    public var HUDdisposable: Disposable!
+    private var HUDdisposable: Disposable!
     
     public weak var delegate: SignUpViewDelegate!
     
@@ -70,9 +70,13 @@ public final class SignUpViewController : XUIViewController {
         signupButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
         let signup = Action<Void, Bool, NSError> {
+            // display HUD to indicate work in progress
             return HUD.show()
+                // map error to the same type as other signal
                 |> mapError { _ in NSError() }
-                |> flatMap(FlattenStrategy.Merge) { _ in self.viewmodel.signUp }
+                // sign up
+                |> then(self.viewmodel.signUp)
+                // dismiss HUD based on the result of sign up signal
                 |> HUD.onDismiss()
             }
         
