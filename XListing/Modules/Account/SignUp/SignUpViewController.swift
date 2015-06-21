@@ -25,6 +25,7 @@ public final class SignUpViewController : XUIViewController {
     private var editProfileViewNibName: String!
     private var editProfileView: EditProfileView!
     
+    private let hud = HUD.sharedInstance
     private var HUDdisposable: Disposable!
     
     public weak var delegate: SignUpViewDelegate!
@@ -43,12 +44,12 @@ public final class SignUpViewController : XUIViewController {
     Setup HUD
     */
     private func setupHUD() {
-        HUDdisposable = HUD.didDissappearNotification(
-            interrupted: {
+        HUDdisposable = hud.didDissappearNotification(
+            interrupted: { _ in
             },
-            error: {
+            error: { errorMessage in
             },
-            completed: {
+            completed: { _ in
                 self.goToEditProfileView()
                 self.HUDdisposable.dispose()
             }
@@ -67,22 +68,18 @@ public final class SignUpViewController : XUIViewController {
     private func setUpSignupButton () {
         signupButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
-        let signup = Action<Void, Bool, NSError> {
+        let signup = Action<Void, Bool, NSError> { [unowned self] in
             // display HUD to indicate work in progress
-            return HUD.show()
+            return self.hud.show()
                 // map error to the same type as other signal
                 |> mapError { _ in NSError() }
                 // sign up
                 |> then(self.viewmodel.signUp)
                 // dismiss HUD based on the result of sign up signal
-                |> HUD.onDismiss(
-                    errorHandler: {() -> String in
-                        return "失败了..."
-                    },
-                    successHandler: { () -> String in
-                        return "成功了！"
+                |> self.hud.onDismiss(errorHandler: { error -> String in
+                    return "失败了..."
                 })
-            }
+        }
         
         // Bridging actions to Objective-C
         signupButtonAction = CocoaAction(signup, input: ())

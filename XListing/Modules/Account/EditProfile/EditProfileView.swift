@@ -33,6 +33,7 @@ public final class EditProfileView : UIView {
     // MARK: - Private variables
     private let imagePicker = UIImagePickerController()
     private var viewmodel: EditProfileViewModel!
+    private let hud = HUD.sharedInstance
     private var HUDdisposable: Disposable!
     
     // MARK: - Setup Code
@@ -61,12 +62,12 @@ public final class EditProfileView : UIView {
     Setup HUD
     */
     private func setupHUD() {
-        HUDdisposable = HUD.didDissappearNotification(
-            interrupted: {
+        HUDdisposable = hud.didDissappearNotification(
+            interrupted: { _ in
             },
-            error: {
+            error: { errorMessage in
             },
-            completed: {
+            completed: { _ in
                 // Dismiss view
                 self.viewmodel.dismissAccountView() {
                     self.HUDdisposable.dispose()
@@ -132,11 +133,13 @@ public final class EditProfileView : UIView {
         submitButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
         // Button action
-        let action = Action<Void, Bool, NSError> { _ in
-            return HUD.show()
+        let action = Action<Void, Bool, NSError> { [unowned self] in
+            return self.hud.show()
                 |> mapError { _ in NSError() }
                 |> flatMap(FlattenStrategy.Merge) { _ in self.viewmodel.updateProfile }
-                |> HUD.onDismiss()
+                |> self.hud.onDismiss(errorHandler: { error -> String in
+                    return "失败了..."
+                })
         }
         
         // Bridging actions to Objective-C

@@ -20,6 +20,7 @@ public final class LogInViewController: XUIViewController{
     private var loginButtonAction: CocoaAction!
     private var dismissViewButtonAction: CocoaAction!
     
+    private let hud = HUD.sharedInstance
     private var HUDdisposable: Disposable!
     
     public weak var delegate: LoginViewDelegate!
@@ -47,12 +48,12 @@ public final class LogInViewController: XUIViewController{
     Setup HUD
     */
     private func setupHUD() {
-        HUDdisposable = HUD.didDissappearNotification(
-            interrupted: {
+        HUDdisposable = hud.didDissappearNotification(
+            interrupted: { _ in
             },
-            error: {
+            error: { errorMessage in
             },
-            completed: {
+            completed: { _ in
                 //move this into a delegate
                 self.viewmodel.dismissAccountView() {
                     self.HUDdisposable.dispose()
@@ -64,20 +65,16 @@ public final class LogInViewController: XUIViewController{
     public func setUpLoginButton () {
         loginButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
-        let login = Action<Void, User, NSError> {
+        let login = Action<Void, User, NSError> { [unowned self] in
             // display HUD to indicate work in progress
-            return HUD.show()
+            return self.hud.show()
                 // map error to the same type as other signal
                 |> mapError { _ in NSError() }
                 // log in
                 |> then(self.viewmodel.logIn)
                 // dismiss HUD based on the result of log in signal
-                |> HUD.onDismiss(
-                    errorHandler: {() -> String in
-                        return "失败了..."
-                    },
-                    successHandler: { () -> String in
-                        return "成功了！"
+                |> self.hud.onDismiss(errorHandler: { error -> String in
+                    return "失败了..."
                 })
         }
         
