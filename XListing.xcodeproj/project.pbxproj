@@ -17,6 +17,9 @@
 		2A99785D1B2C260300339265 /* EmptySegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A99785C1B2C260300339265 /* EmptySegue.swift */; };
 		2A9978601B2C29E000339265 /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A99785F1B2C29E000339265 /* LandingPageViewController.swift */; };
 		2A9978621B2D596600339265 /* SegueIDEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9978611B2D596600339265 /* SegueIDEnum.swift */; };
+		2A9978641B3551A500339265 /* SignUpViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9978631B3551A500339265 /* SignUpViewDelegate.swift */; };
+		2A9978661B3551BA00339265 /* LoginViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9978651B3551BA00339265 /* LoginViewDelegate.swift */; };
+		2A99786A1B3551F100339265 /* LandingViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9978691B3551F100339265 /* LandingViewDelegate.swift */; };
 		2A9A9B9C1B1C31510010EDA9 /* DetailBizInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9B9B1B1C31510010EDA9 /* DetailBizInfoTableViewCell.swift */; };
 		2A9A9B9E1B1C31870010EDA9 /* DetailImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9B9D1B1C31870010EDA9 /* DetailImageTableViewCell.swift */; };
 		2A9A9BA01B1C341B0010EDA9 /* DetailBizInfoCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9B9F1B1C341B0010EDA9 /* DetailBizInfoCellDelegate.swift */; };
@@ -163,6 +166,9 @@
 		2A99785C1B2C260300339265 /* EmptySegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptySegue.swift; sourceTree = "<group>"; };
 		2A99785F1B2C29E000339265 /* LandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
 		2A9978611B2D596600339265 /* SegueIDEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueIDEnum.swift; sourceTree = "<group>"; };
+		2A9978631B3551A500339265 /* SignUpViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewDelegate.swift; sourceTree = "<group>"; };
+		2A9978651B3551BA00339265 /* LoginViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewDelegate.swift; sourceTree = "<group>"; };
+		2A9978691B3551F100339265 /* LandingViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingViewDelegate.swift; sourceTree = "<group>"; };
 		2A9A9B9B1B1C31510010EDA9 /* DetailBizInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBizInfoTableViewCell.swift; sourceTree = "<group>"; };
 		2A9A9B9D1B1C31870010EDA9 /* DetailImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailImageTableViewCell.swift; sourceTree = "<group>"; };
 		2A9A9B9F1B1C341B0010EDA9 /* DetailBizInfoCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBizInfoCellDelegate.swift; sourceTree = "<group>"; };
@@ -344,6 +350,7 @@
 			children = (
 				2A99785F1B2C29E000339265 /* LandingPageViewController.swift */,
 				B462BC7D1B2FA50E00070BE5 /* LandingPageViewModel.swift */,
+				2A9978691B3551F100339265 /* LandingViewDelegate.swift */,
 			);
 			name = LandingPage;
 			path = LogIn;
@@ -738,6 +745,7 @@
 			children = (
 				B4F195821B27A31500B8C519 /* LogInViewController.swift */,
 				B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */,
+				2A9978651B3551BA00339265 /* LoginViewDelegate.swift */,
 			);
 			path = LogIn;
 			sourceTree = "<group>";
@@ -746,6 +754,7 @@
 			isa = PBXGroup;
 			children = (
 				B4F195841B27A41400B8C519 /* SignUpViewController.swift */,
+				2A9978631B3551A500339265 /* SignUpViewDelegate.swift */,
 				B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */,
 			);
 			path = SignUp;
@@ -1122,6 +1131,7 @@
 				B4B665421ADF8D070084DBE7 /* DetailViewModel.swift in Sources */,
 				7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */,
 				2A714B121B085C63007A8FBB /* AccountViewController.swift in Sources */,
+				2A9978641B3551A500339265 /* SignUpViewDelegate.swift in Sources */,
 				B4F195AF1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift in Sources */,
 				B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */,
 				3D211E861B2C1AB000161E09 /* IBackgroundLocationWorker.swift in Sources */,
@@ -1152,6 +1162,7 @@
 				B4F195A71B2ADA9700B8C519 /* ProfileRoute.swift in Sources */,
 				B44E35041AD63F6000657A31 /* BusinessService.swift in Sources */,
 				B462BC7C1B2F94E800070BE5 /* IUserDefaultsService.swift in Sources */,
+				2A9978661B3551BA00339265 /* LoginViewDelegate.swift in Sources */,
 				B40A0D8D1B23BD2900036986 /* EditProfileViewModel.swift in Sources */,
 				B4B665481ADF8DC60084DBE7 /* IDetailWireframe.swift in Sources */,
 				B4F195951B2A276C00B8C519 /* XUIViewController.swift in Sources */,
@@ -1177,6 +1188,7 @@
 				B4F195AB1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift in Sources */,
 				B4F1958F1B29790100B8C519 /* UIColor+extension.swift in Sources */,
 				B4A3C16D1AD44B7E00B9D699 /* FeaturedListViewModel.swift in Sources */,
+				2A99786A1B3551F100339265 /* LandingViewDelegate.swift in Sources */,
 				B4DB9AC21AF954AC009FBFE1 /* GeoLocationService.swift in Sources */,
 				2A99785D1B2C260300339265 /* EmptySegue.swift in Sources */,
 				B4F195871B27A6B200B8C519 /* EditProfileViewController.swift in Sources */,

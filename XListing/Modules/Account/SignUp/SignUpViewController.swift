@@ -8,6 +8,7 @@
 
 import UIKit
 import ReactiveCocoa
+import SVProgressHUD
 
 public final class SignUpViewController : XUIViewController {
     private var viewmodel: SignUpViewModel!
@@ -24,27 +25,60 @@ public final class SignUpViewController : XUIViewController {
     private var editProfileViewNibName: String!
     private var editProfileView: EditProfileView!
     
-    internal var containerVC : ContainerViewController!
+    private let hud = HUD.sharedInstance
+    private var HUDdisposable: Disposable!
+    
+    public weak var delegate: SignUpViewDelegate!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        setupHUD()
+        setUpUsername()
+        setUpPassword()
         setUpBackButton()
         setUpSignupButton()
     }
     
-    public func setUpBackButton () {
-        backButton.addTarget(self, action: "returnToLanding", forControlEvents: UIControlEvents.TouchUpInside)
+    /**
+    Setup HUD
+    */
+    private func setupHUD() {
+        HUDdisposable = hud.didDissappearNotification(
+            interrupted: { _ in
+            },
+            error: { errorMessage in
+            },
+            completed: { _ in
+                self.goToEditProfileView()
+                self.HUDdisposable.dispose()
+            }
+        )
     }
     
-    public func setUpSignupButton () {
+    private func setUpBackButton () {
+        backButton.addTarget(self, action: "returnToLandingView", forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
+    public func returnToLandingView () {
+        //self.HUDdisposable.dispose()
+        self.delegate.returnToLandingViewFromSignUp()
+    }
+    
+    private func setUpSignupButton () {
+        signupButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
-        let signup = Action<Void, Bool, NoError> {
-            return SignalProducer { sink, disposable in
-                self.viewmodel.signUp
-                //TO DO: check result of sign up first
-                self.goToEditProfileView()
-            }
+        let signup = Action<Void, Bool, NSError> { [unowned self] in
+            // display HUD to indicate work in progress
+            return self.hud.show()
+                // map error to the same type as other signal
+                |> mapError { _ in NSError() }
+                // sign up
+                |> then(self.viewmodel.signUp)
+                // dismiss HUD based on the result of sign up signal
+                |> self.hud.onDismiss(errorHandler: { error -> String in
+                    return "失败了..."
+                })
         }
         
         // Bridging actions to Objective-C
@@ -71,24 +105,16 @@ public final class SignUpViewController : XUIViewController {
         self.editProfileViewmodel = editProfileViewmodel
     }
     
-    public func returnToLanding () {
-        self.containerVC.switchToLanding()
-    }
-    
-    public func setUpUsername() {
+    private func setUpUsername() {
         usernameField.delegate = self
         viewmodel.username <~ usernameField.rac_text
     }
     
-    public func setUpPassword() {
+    private func setUpPassword() {
         passwordField.delegate = self
         viewmodel.password <~ passwordField.rac_text
     }
-    
-//    public func setUpConfirmPassword() {
-//        confirmPasswordField.delegate = self
-//        viewmodel.confirmPassword <~ confirmPasswordField.rac_text
-//    }
+
 }
 
 extension SignUpViewController : EditProfileViewDelegate {

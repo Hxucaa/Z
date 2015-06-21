@@ -9,7 +9,7 @@
 import UIKit
 import ReactiveCocoa
 
-public final class LogInViewController: XUIViewController {
+public final class LogInViewController: XUIViewController{
     
     private var viewmodel: LogInViewModel!
     @IBOutlet weak var loginButton: UIButton!
@@ -18,12 +18,17 @@ public final class LogInViewController: XUIViewController {
     @IBOutlet weak var passwordField: UITextField!
     
     private var loginButtonAction: CocoaAction!
+    private var dismissViewButtonAction: CocoaAction!
     
-    internal var containerVC : ContainerViewController!
+    private let hud = HUD.sharedInstance
+    private var HUDdisposable: Disposable!
+    
+    public weak var delegate: LoginViewDelegate!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        setupHUD()
         setUpUsername()
         setUpPassword()
         setUpLoginButton()
@@ -31,19 +36,46 @@ public final class LogInViewController: XUIViewController {
     }
     
     public func setUpBackButton () {
-        backButton.addTarget(self, action: "returnToLanding", forControlEvents: UIControlEvents.TouchUpInside)
+        backButton.addTarget(self, action: "returnToLandingView", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    public func returnToLanding () {
-       self.containerVC.switchToLanding()
+    public func returnToLandingView () {
+        self.HUDdisposable.dispose()
+        self.delegate.returnToLandingViewFromLogin()
+    }
+    
+    /**
+    Setup HUD
+    */
+    private func setupHUD() {
+        HUDdisposable = hud.didDissappearNotification(
+            interrupted: { _ in
+            },
+            error: { errorMessage in
+            },
+            completed: { _ in
+                //move this into a delegate
+                self.viewmodel.dismissAccountView() {
+                    self.HUDdisposable.dispose()
+                }
+            }
+        )
     }
     
     public func setUpLoginButton () {
+        loginButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
-        let login = Action<Void, User, NoError> {
-            return SignalProducer { sink, disposable in
-                viewmodel.logIn
-            }
+        let login = Action<Void, User, NSError> { [unowned self] in
+            // display HUD to indicate work in progress
+            return self.hud.show()
+                // map error to the same type as other signal
+                |> mapError { _ in NSError() }
+                // log in
+                |> then(self.viewmodel.logIn)
+                // dismiss HUD based on the result of log in signal
+                |> self.hud.onDismiss(errorHandler: { error -> String in
+                    return "失败了..."
+                })
         }
         
         // Bridging actions to Objective-C
