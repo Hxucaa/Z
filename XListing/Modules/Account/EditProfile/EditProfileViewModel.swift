@@ -141,7 +141,7 @@ public struct EditProfileViewModel {
         return r1 && r2
     }
     
-    public func dismissAccountView(dismiss: () -> ()) {
+    public func dismissAccountView() {
         router.pushFeatured()
     }
 
