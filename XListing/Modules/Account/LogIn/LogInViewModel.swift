@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public final class LogInViewModel : NSObject {
+public struct LogInViewModel {
     
     // MARK: - Public
     
@@ -31,21 +31,16 @@ public final class LogInViewModel : NSObject {
             // only allow TRUE value
             |> filter { $0 }
             |> mapError { _ in NSError() }
-            |> flatMap(FlattenStrategy.Merge) { [unowned self] valid -> SignalProducer<User, NSError> in
-                if (valid) {
+            |> flatMap(FlattenStrategy.Merge) { valid -> SignalProducer<User, NSError> in
                     return self.userService.logInSignal(self.username.value, password: self.password.value)
-                }else {
-                    return SignalProducer(error: NSError(domain: "LogInViewModel", code: 899, userInfo: nil))
-                }
         }
     }
     
     // MARK: Initializers
     
-    public required init(userService: IUserService, router: IRouter) {
+    public init(userService: IUserService, router: IRouter) {
         self.userService = userService
         self.router = router
-        super.init()
         
         setupUsername()
         setupPassword()

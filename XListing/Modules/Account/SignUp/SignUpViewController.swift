@@ -47,8 +47,6 @@ public final class SignUpViewController : XUIViewController {
             interrupted: {
             },
             error: {
-                let alert: UIAlertView = UIAlertView(title: "Sign up failed", message: "Please try a new username", delegate: self, cancelButtonTitle: "Ok")
-                alert.show()
             },
             completed: {
                 self.goToEditProfileView()
@@ -57,7 +55,7 @@ public final class SignUpViewController : XUIViewController {
         )
     }
     
-    public func setUpBackButton () {
+    private func setUpBackButton () {
         backButton.addTarget(self, action: "returnToLandingView", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
@@ -66,7 +64,7 @@ public final class SignUpViewController : XUIViewController {
         self.delegate.returnToLandingViewFromSignUp()
     }
     
-    public func setUpSignupButton () {
+    private func setUpSignupButton () {
         signupButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
         let signup = Action<Void, Bool, NSError> {
@@ -77,7 +75,13 @@ public final class SignUpViewController : XUIViewController {
                 // sign up
                 |> then(self.viewmodel.signUp)
                 // dismiss HUD based on the result of sign up signal
-                |> HUD.onDismiss()
+                |> HUD.onDismiss(
+                    errorHandler: {() -> String in
+                        return "失败了..."
+                    },
+                    successHandler: { () -> String in
+                        return "成功了！"
+                })
             }
         
         // Bridging actions to Objective-C
@@ -104,12 +108,12 @@ public final class SignUpViewController : XUIViewController {
         self.editProfileViewmodel = editProfileViewmodel
     }
     
-    public func setUpUsername() {
+    private func setUpUsername() {
         usernameField.delegate = self
         viewmodel.username <~ usernameField.rac_text
     }
     
-    public func setUpPassword() {
+    private func setUpPassword() {
         passwordField.delegate = self
         viewmodel.password <~ passwordField.rac_text
     }

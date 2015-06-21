@@ -20,7 +20,7 @@ public final class LogInViewController: XUIViewController{
     private var loginButtonAction: CocoaAction!
     private var dismissViewButtonAction: CocoaAction!
     
-    public var HUDdisposable: Disposable!
+    private var HUDdisposable: Disposable!
     
     public weak var delegate: LoginViewDelegate!
     
@@ -51,8 +51,6 @@ public final class LogInViewController: XUIViewController{
             interrupted: {
             },
             error: {
-                let alert: UIAlertView = UIAlertView(title: "Login failed", message: "Please double check your username and password and try again", delegate: self, cancelButtonTitle: "Ok")
-                alert.show()
             },
             completed: {
                 //move this into a delegate
@@ -74,7 +72,13 @@ public final class LogInViewController: XUIViewController{
                 // log in
                 |> then(self.viewmodel.logIn)
                 // dismiss HUD based on the result of log in signal
-                |> HUD.onDismiss()
+                |> HUD.onDismiss(
+                    errorHandler: {() -> String in
+                        return "失败了..."
+                    },
+                    successHandler: { () -> String in
+                        return "成功了！"
+                })
         }
         
         // Bridging actions to Objective-C

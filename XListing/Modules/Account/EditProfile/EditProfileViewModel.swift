@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public final class EditProfileViewModel : NSObject {
+public struct EditProfileViewModel {
     // MARK: - Public
     public typealias AgeLimit = (floor: NSDate, ceil: NSDate)
     
@@ -75,10 +75,9 @@ public final class EditProfileViewModel : NSObject {
     
     // MARK: Initializers
     
-    public required init(userService: IUserService, router: IRouter) {
+    public init(userService: IUserService, router: IRouter) {
         self.userService = userService
         self.router = router
-        super.init()
         
         setupNickname()
         setupBirthday()
@@ -87,9 +86,9 @@ public final class EditProfileViewModel : NSObject {
     }
     
     // MARK: - Private
-    private var isNicknameValid: SignalProducer<Bool, NoError>!
-    private var isBirthdayValid: SignalProducer<Bool, NoError>!
-    private var isProfileImageValid: SignalProducer<Bool, NoError>!
+    private var isNicknameValid = MutableProperty<Bool>(false)
+    private var isBirthdayValid = MutableProperty<Bool>(false)
+    private var isProfileImageValid = MutableProperty<Bool>(false)
     
     // MARK: Services
     private let userService: IUserService
@@ -97,24 +96,24 @@ public final class EditProfileViewModel : NSObject {
     // MARK: Setup
     
     private func setupNickname() {
-        isNicknameValid = nickname.producer
+        isNicknameValid <~ nickname.producer
             // TODO: regex
             |> filter { count($0) > 0 }
             |> map { _ in return true }
     }
     
     private func setupBirthday() {
-        isBirthdayValid = birthday.producer
+        isBirthdayValid <~ birthday.producer
             |> map { self.isValidAge($0) }
     }
     
     private func setupProfileImage() {
-        isProfileImageValid = profileImage.producer
+        isProfileImageValid <~ profileImage.producer
             |> map { $0 == nil ? false : true }
     }
     
     private func setupAllInputsValid() {
-        allInputsValid <~ combineLatest(isNicknameValid, isBirthdayValid, isProfileImageValid)
+        allInputsValid <~ combineLatest(isNicknameValid.producer, isBirthdayValid.producer, isProfileImageValid.producer)
             |> on(next: { value in AccountLogDebug("(\(value.0) \(value.1) \(value.2))") })
             |> map { values -> Bool in
                 return values.0 && values.1 && values.2

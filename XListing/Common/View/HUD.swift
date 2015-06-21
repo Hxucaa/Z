@@ -44,23 +44,34 @@ public final class HUD {
     /**
     Inject dismissal of HUD as side effects.
     */
-    public class func onDismiss<T, E>() -> SignalProducer<T, E> -> SignalProducer<T, E> {
+    public class func onDismiss<T, E>(interruptHandler: (() -> String)?=nil, errorHandler: (() -> String)?=nil, successHandler: (() -> String)?=nil) -> SignalProducer<T, E> -> SignalProducer<T, E> {
         return { producer in
             return producer
-                |> on(interrupted: { _ in
+                |> on(interrupted: { interrupt in
+                    if let interruptHandler = interruptHandler {
+                        SVProgressHUD.showInfoWithStatus(interruptHandler())
+                    } else {
                         SVProgressHUD.showInfoWithStatus(InterruptMessage)
+                    }
                     },
                     error: { error in
-                        SVProgressHUD.showErrorWithStatus(ErrorMessage)
+                        if let errorHandler = errorHandler {
+                            SVProgressHUD.showErrorWithStatus(errorHandler())
+                        } else {
+                            SVProgressHUD.showErrorWithStatus(ErrorMessage)
+                        }
                     },
-                    completed: { _ in
-                        SVProgressHUD.showSuccessWithStatus(SuccessMessage)
+                    completed: { success in
+                        if let successHandler = successHandler {
+                            SVProgressHUD.showSuccessWithStatus(successHandler())
+                        } else {
+                            SVProgressHUD.showSuccessWithStatus(SuccessMessage)
+                        }
                     },
                     next: { value in
                         SVProgressHUD.showSuccessWithStatus(SuccessMessage)
                     }
                 )
-
         }
     }
     

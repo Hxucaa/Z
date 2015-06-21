@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public final class SignUpViewModel : NSObject {
+public struct SignUpViewModel {
     
     // MARK: - Public
     
@@ -31,23 +31,17 @@ public final class SignUpViewModel : NSObject {
             // only allow TRUE value
             |> filter { $0 }
             |> mapError { _ in NSError() }
-            |> flatMap(FlattenStrategy.Merge) { [unowned self] valid -> SignalProducer<Bool, NSError> in
-                if (valid) {
-                    let user = User()
-                    user.username = self.username.value
-                    user.password = self.password.value
-                    return self.userService.signUpSignal(user)
-                }else {
-                    return SignalProducer(error: NSError(domain: "SignUpViewModel", code: 899, userInfo: nil))
-                }
+            |> flatMap(FlattenStrategy.Merge) { valid -> SignalProducer<Bool, NSError> in
+                let user = User()
+                user.username = self.username.value
+                user.password = self.password.value
+                return self.userService.signUpSignal(user)
         }
     }
     
     // MARK: Initializers
-    public required init(userService: IUserService) {
+    public init(userService: IUserService) {
         self.userService = userService
-        
-        super.init()
         
         setupUsername()
         setupPassword()
