@@ -25,7 +25,7 @@ public final class SignUpViewController : XUIViewController {
     private var editProfileViewNibName: String!
     private var editProfileView: EditProfileView!
     
-    private var HUDdisposable: Disposable!
+    public var HUDdisposable: Disposable!
     
     public weak var delegate: SignUpViewDelegate!
     
@@ -47,6 +47,8 @@ public final class SignUpViewController : XUIViewController {
             interrupted: {
             },
             error: {
+                let alert: UIAlertView = UIAlertView(title: "Sign up failed", message: "Please try a new username", delegate: self, cancelButtonTitle: "Ok")
+                alert.show()
             },
             completed: {
                 self.goToEditProfileView()
@@ -56,10 +58,16 @@ public final class SignUpViewController : XUIViewController {
     }
     
     public func setUpBackButton () {
-        backButton.addTarget(delegate, action: "returnToLandingViewFromSignUp", forControlEvents: UIControlEvents.TouchUpInside)
+        backButton.addTarget(self, action: "returnToLandingView", forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
+    public func returnToLandingView () {
+        //self.HUDdisposable.dispose()
+        self.delegate.returnToLandingViewFromSignUp()
     }
     
     public func setUpSignupButton () {
+        signupButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
         let signup = Action<Void, Bool, NSError> {
             return HUD.show()
@@ -67,7 +75,6 @@ public final class SignUpViewController : XUIViewController {
                 |> flatMap(FlattenStrategy.Merge) { _ in self.viewmodel.signUp }
                 |> HUD.onDismiss()
             }
-        
         
         // Bridging actions to Objective-C
         signupButtonAction = CocoaAction(signup, input: ())

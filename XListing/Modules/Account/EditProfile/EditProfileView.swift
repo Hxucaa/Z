@@ -68,8 +68,7 @@ public final class EditProfileView : UIView {
             },
             completed: {
                 // Dismiss view
-                self.delegate?.dismissSignUpView {
-                    // Dispose the notification as it can not be done automatically.
+                self.viewmodel.dismissAccountView() {
                     self.HUDdisposable.dispose()
                 }
             }

@@ -9,7 +9,7 @@
 import UIKit
 import ReactiveCocoa
 
-public final class LogInViewController: XUIViewController {
+public final class LogInViewController: XUIViewController{
     
     private var viewmodel: LogInViewModel!
     @IBOutlet weak var loginButton: UIButton!
@@ -18,14 +18,16 @@ public final class LogInViewController: XUIViewController {
     @IBOutlet weak var passwordField: UITextField!
     
     private var loginButtonAction: CocoaAction!
+    private var dismissViewButtonAction: CocoaAction!
     
-    private var HUDdisposable: Disposable!
+    public var HUDdisposable: Disposable!
     
     public weak var delegate: LoginViewDelegate!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        setupHUD()
         setUpUsername()
         setUpPassword()
         setUpLoginButton()
@@ -33,7 +35,12 @@ public final class LogInViewController: XUIViewController {
     }
     
     public func setUpBackButton () {
-        backButton.addTarget(delegate, action: "returnToLandingViewFromLogin", forControlEvents: UIControlEvents.TouchUpInside)
+        backButton.addTarget(self, action: "returnToLandingView", forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
+    public func returnToLandingView () {
+        self.HUDdisposable.dispose()
+        self.delegate.returnToLandingViewFromLogin()
     }
     
     /**
@@ -44,16 +51,20 @@ public final class LogInViewController: XUIViewController {
             interrupted: {
             },
             error: {
+                let alert: UIAlertView = UIAlertView(title: "Login failed", message: "Please double check your username and password and try again", delegate: self, cancelButtonTitle: "Ok")
+                alert.show()
             },
             completed: {
-                self.HUDdisposable.dispose()
                 //move this into a delegate
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.viewmodel.dismissAccountView() {
+                    self.HUDdisposable.dispose()
+                }
             }
         )
     }
     
     public func setUpLoginButton () {
+        loginButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
         let login = Action<Void, User, NSError> {
             return HUD.show()

@@ -18,6 +18,7 @@ public final class EditProfileViewModel : NSObject {
     public let nickname = MutableProperty<String>("")
     public let birthday = MutableProperty<NSDate>(NSDate())
     public let profileImage = MutableProperty<UIImage?>(nil)
+    private let router: IRouter
     
     // MARK: Output
     public let allInputsValid = MutableProperty<Bool>(false)
@@ -74,9 +75,9 @@ public final class EditProfileViewModel : NSObject {
     
     // MARK: Initializers
     
-    public required init(userService: IUserService) {
+    public required init(userService: IUserService, router: IRouter) {
         self.userService = userService
-        
+        self.router = router
         super.init()
         
         setupNickname()
@@ -139,6 +140,10 @@ public final class EditProfileViewModel : NSObject {
         let r2 = age.compare(ageLimit.floor) == .OrderedDescending
         
         return r1 && r2
+    }
+    
+    public func dismissAccountView(dismiss: () -> ()) {
+        router.pushFeatured()
     }
 
 }

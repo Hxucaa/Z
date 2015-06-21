@@ -23,6 +23,8 @@ public final class LogInViewModel : NSObject {
     public let isPasswordValid = MutableProperty<Bool>(false)
     public let allInputsValid = MutableProperty<Bool>(false)
     
+    private let router: IRouter
+    
     // MARK: Actions
     public var logIn: SignalProducer<User, NSError> {
         return self.allInputsValid.producer
@@ -30,15 +32,19 @@ public final class LogInViewModel : NSObject {
             |> filter { $0 }
             |> mapError { _ in NSError() }
             |> flatMap(FlattenStrategy.Merge) { [unowned self] valid -> SignalProducer<User, NSError> in
-                return self.userService.logInSignal(self.username.value, password: self.password.value)
-            }
+                if (valid) {
+                    return self.userService.logInSignal(self.username.value, password: self.password.value)
+                }else {
+                    return SignalProducer(error: NSError(domain: "LogInViewModel", code: 899, userInfo: nil))
+                }
+        }
     }
     
     // MARK: Initializers
     
-    public required init(userService: IUserService) {
+    public required init(userService: IUserService, router: IRouter) {
         self.userService = userService
-        
+        self.router = router
         super.init()
         
         setupUsername()
@@ -73,5 +79,9 @@ public final class LogInViewModel : NSObject {
             |> map { values -> Bool in
                 return values.0 && values.1
         }
+    }
+    
+    public func dismissAccountView(dismiss: () -> ()) {
+        router.pushFeatured()
     }
 }

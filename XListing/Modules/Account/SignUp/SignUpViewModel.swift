@@ -22,8 +22,8 @@ public final class SignUpViewModel : NSObject {
     public let isUsernameValid = MutableProperty<Bool>(false)
     public let isPasswordValid = MutableProperty<Bool>(false)
     public let allInputsValid = MutableProperty<Bool>(false)
-//    public private(set) var usernameValidSignal: SignalProducer<Bool, NoError>!
-//    public private(set) var passwordValidSignal: SignalProducer<Bool, NoError>!
+    //    public private(set) var usernameValidSignal: SignalProducer<Bool, NoError>!
+    //    public private(set) var passwordValidSignal: SignalProducer<Bool, NoError>!
     
     // MARK: Actions
     public var signUp: SignalProducer<Bool, NSError> {
@@ -32,11 +32,15 @@ public final class SignUpViewModel : NSObject {
             |> filter { $0 }
             |> mapError { _ in NSError() }
             |> flatMap(FlattenStrategy.Merge) { [unowned self] valid -> SignalProducer<Bool, NSError> in
-                let user = User()
-                user.username = self.username.value
-                user.password = self.password.value
-                return self.userService.signUpSignal(user)
-            }
+                if (valid) {
+                    let user = User()
+                    user.username = self.username.value
+                    user.password = self.password.value
+                    return self.userService.signUpSignal(user)
+                }else {
+                    return SignalProducer(error: NSError(domain: "SignUpViewModel", code: 899, userInfo: nil))
+                }
+        }
     }
     
     // MARK: Initializers
@@ -73,6 +77,6 @@ public final class SignUpViewModel : NSObject {
         allInputsValid <~ combineLatest(isUsernameValid.producer, isPasswordValid.producer)
             |> map { values -> Bool in
                 return values.0 && values.1
-            }
+        }
     }
 }

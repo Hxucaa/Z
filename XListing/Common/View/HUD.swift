@@ -97,8 +97,8 @@ public final class HUD {
             |> start(next: { notification in
                 if let dict = notification.userInfo {
                     for (key, value) in dict {
-                        if let key = key as? String {
-                            switch(key) {
+                        if let value = value as? String {
+                            switch(value) {
                             case SuccessMessage:
                                 completed()
                             case ErrorMessage:
