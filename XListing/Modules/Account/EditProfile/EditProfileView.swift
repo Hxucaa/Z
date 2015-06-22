@@ -33,8 +33,6 @@ public final class EditProfileView : UIView {
     // MARK: - Private variables
     private let imagePicker = UIImagePickerController()
     private var viewmodel: EditProfileViewModel!
-    private let hud = HUD.sharedInstance
-    private var HUDdisposable: Disposable!
     
     // MARK: - Setup Code
     public override func awakeFromNib() {
@@ -49,31 +47,12 @@ public final class EditProfileView : UIView {
     public func bindToViewModel(viewmodel: EditProfileViewModel) {
         self.viewmodel = viewmodel
         
-        setupHUD()
         setupImagePicker()
         setupDismissViewButton()
         setupNicknameField()
         setupBirthdayPicker()
         setupSubtmitButton()
         setupImagePickerButton()
-    }
-    
-    /**
-    Setup HUD
-    */
-    private func setupHUD() {
-        HUDdisposable = hud.didDissappearNotification(
-            interrupted: { _ in
-            },
-            error: { errorMessage in
-            },
-            completed: { _ in
-                // Dismiss view
-                self.viewmodel.dismissAccountView() {
-                    self.HUDdisposable.dispose()
-                }
-            }
-        )
     }
     
     private func setupImagePicker() {
@@ -134,12 +113,24 @@ public final class EditProfileView : UIView {
         
         // Button action
         let action = Action<Void, Bool, NSError> { [unowned self] in
-            return self.hud.show()
+            let updateProfileAndHUD = HUD.show()
                 |> mapError { _ in NSError() }
-                |> flatMap(FlattenStrategy.Merge) { _ in self.viewmodel.updateProfile }
-                |> self.hud.onDismiss(errorHandler: { error -> String in
-                    return "失败了..."
+                |> then(self.viewmodel.updateProfile)
+                // dismiss HUD based on the result of update profile signal
+                |> HUD.onDismissWithStatusMessage(errorHandler: { error -> String in
+                    AccountLogError(error.description)
+                    return error.customErrorDescription
                 })
+            
+            let HUDDisappear = HUD.didDissappearNotification() |> mapError { _ in NSError() }
+            
+            // combine the latest signal of update profile and hud dissappear notification
+            // once update profile is done properly and HUD is disappeared, proceed to next step
+            return combineLatest(updateProfileAndHUD, HUDDisappear)
+                |> map { success, notificationMessage -> Bool in
+                    self.viewmodel.dismissAccountView()
+                    return success
+            }
         }
         
         // Bridging actions to Objective-C

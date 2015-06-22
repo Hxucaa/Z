@@ -22,6 +22,7 @@ public struct LogInViewModel {
     public let isUsernameValid = MutableProperty<Bool>(false)
     public let isPasswordValid = MutableProperty<Bool>(false)
     public let allInputsValid = MutableProperty<Bool>(false)
+//    public let 
     
     private let router: IRouter
     
@@ -76,7 +77,7 @@ public struct LogInViewModel {
         }
     }
     
-    public func dismissAccountView(dismiss: () -> ()) {
+    public func dismissAccountView() {
         router.pushFeatured()
     }
 }

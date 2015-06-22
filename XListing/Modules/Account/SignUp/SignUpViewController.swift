@@ -11,49 +11,35 @@ import ReactiveCocoa
 import SVProgressHUD
 
 public final class SignUpViewController : XUIViewController {
-    private var viewmodel: SignUpViewModel!
-    private var editProfileViewmodel: EditProfileViewModel!
     
+    // MARK: - UI
+    // MARK: Controls
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var confirmPasswordField: UITextField!
     
+    // MARK: Actions
     private var signupButtonAction: CocoaAction!
     
+    // MARK: Private variables
     private var editProfileViewNibName: String!
     private var editProfileView: EditProfileView!
+    private var viewmodel: SignUpViewModel!
+    private var editProfileViewmodel: EditProfileViewModel!
     
-    private let hud = HUD.sharedInstance
-    private var HUDdisposable: Disposable!
-    
+    // MARK: Delegate
     public weak var delegate: SignUpViewDelegate!
     
+    // MARK: Setup Code
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        setupHUD()
         setUpUsername()
         setUpPassword()
         setUpBackButton()
         setUpSignupButton()
-    }
-    
-    /**
-    Setup HUD
-    */
-    private func setupHUD() {
-        HUDdisposable = hud.didDissappearNotification(
-            interrupted: { _ in
-            },
-            error: { errorMessage in
-            },
-            completed: { _ in
-                self.goToEditProfileView()
-                self.HUDdisposable.dispose()
-            }
-        )
     }
     
     private func setUpBackButton () {
@@ -61,7 +47,6 @@ public final class SignUpViewController : XUIViewController {
     }
     
     public func returnToLandingView () {
-        //self.HUDdisposable.dispose()
         self.delegate.returnToLandingViewFromSignUp()
     }
     
@@ -70,15 +55,26 @@ public final class SignUpViewController : XUIViewController {
         
         let signup = Action<Void, Bool, NSError> { [unowned self] in
             // display HUD to indicate work in progress
-            return self.hud.show()
+            let signUpAndHUD = HUD.show()
                 // map error to the same type as other signal
                 |> mapError { _ in NSError() }
                 // sign up
                 |> then(self.viewmodel.signUp)
                 // dismiss HUD based on the result of sign up signal
-                |> self.hud.onDismiss(errorHandler: { error -> String in
-                    return "失败了..."
+                |> HUD.onDismissWithStatusMessage(errorHandler: { error -> String in
+                    AccountLogError(error.description)
+                    return error.customErrorDescription
                 })
+            
+            let HUDDisappear = HUD.didDissappearNotification() |> mapError { _ in NSError() }
+            
+            // combine the latest signal of sign up and hud dissappear notification
+            // once sign up is done properly and HUD is disappeared, proceed to next step
+            return combineLatest(signUpAndHUD, HUDDisappear)
+                |> map { success, notificationMessage -> Bool in
+                    self.goToEditProfileView()
+                    return success
+            }
         }
         
         // Bridging actions to Objective-C
