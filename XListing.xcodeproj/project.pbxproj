@@ -49,7 +49,6 @@
 		7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */; };
 		7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */; };
 		7EACBA111AFBDC15009D8CA6 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */; };
-		7EACBA161B019A64009D8CA6 /* FeaturedListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EACBA151B019A64009D8CA6 /* FeaturedListCellViewModel.swift */; };
 		7EF371111AB8C012009AA3B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371101AB8C012009AA3B9 /* AppDelegate.swift */; };
 		7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EF371141AB8C012009AA3B9 /* Main.storyboard */; };
 		7EF371181AB8C012009AA3B9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7EF371171AB8C012009AA3B9 /* Images.xcassets */; };
@@ -71,6 +70,9 @@
 		B44E35011AD5D0AE00657A31 /* IFeaturedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */; };
 		B44E35041AD63F6000657A31 /* BusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E35031AD63F6000657A31 /* BusinessService.swift */; };
 		B45582001B37670500C4D965 /* NSError+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45581FF1B37670500C4D965 /* NSError+extension.swift */; };
+		B45581F81B33E89D00C4D965 /* FeaturedBusinessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45581F71B33E89D00C4D965 /* FeaturedBusinessViewModel.swift */; };
+		B45581FA1B367F7300C4D965 /* TableViewBindingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45581F91B367F7300C4D965 /* TableViewBindingHelper.swift */; };
+		B45581FC1B3689AB00C4D965 /* FeaturedListBusinessTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45581FB1B3689AB00C4D965 /* FeaturedListBusinessTableViewCell.swift */; };
 		B462BC7A1B2F94DE00070BE5 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B462BC791B2F94DE00070BE5 /* UserDefaultsService.swift */; };
 		B462BC7C1B2F94E800070BE5 /* IUserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B462BC7B1B2F94E800070BE5 /* IUserDefaultsService.swift */; };
 		B462BC7E1B2FA50E00070BE5 /* LandingPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B462BC7D1B2FA50E00070BE5 /* LandingPageViewModel.swift */; };
@@ -202,7 +204,6 @@
 		7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CocoaLumberjack+extension.swift"; sourceTree = "<group>"; };
 		7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewController.swift; sourceTree = "<group>"; };
 		7EACBA141AFBDDCF009D8CA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
-		7EACBA151B019A64009D8CA6 /* FeaturedListCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListCellViewModel.swift; sourceTree = "<group>"; };
 		7EF3710B1AB8C012009AA3B9 /* XListing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XListing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EF3710F1AB8C012009AA3B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EF371101AB8C012009AA3B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -231,6 +232,9 @@
 		B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListViewModel.swift; sourceTree = "<group>"; };
 		B44E35031AD63F6000657A31 /* BusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessService.swift; sourceTree = "<group>"; };
 		B45581FF1B37670500C4D965 /* NSError+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+extension.swift"; sourceTree = "<group>"; };
+		B45581F71B33E89D00C4D965 /* FeaturedBusinessViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedBusinessViewModel.swift; sourceTree = "<group>"; };
+		B45581F91B367F7300C4D965 /* TableViewBindingHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewBindingHelper.swift; sourceTree = "<group>"; };
+		B45581FB1B3689AB00C4D965 /* FeaturedListBusinessTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListBusinessTableViewCell.swift; sourceTree = "<group>"; };
 		B462BC791B2F94DE00070BE5 /* UserDefaultsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
 		B462BC7B1B2F94E800070BE5 /* IUserDefaultsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IUserDefaultsService.swift; sourceTree = "<group>"; };
 		B462BC7D1B2FA50E00070BE5 /* LandingPageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageViewModel.swift; sourceTree = "<group>"; };
@@ -544,6 +548,7 @@
 				B4F1958E1B29790100B8C519 /* UIColor+extension.swift */,
 				2A9978611B2D596600339265 /* SegueIDEnum.swift */,
 				B45581FF1B37670500C4D965 /* NSError+extension.swift */,
+				B45581F91B367F7300C4D965 /* TableViewBindingHelper.swift */,
 			);
 			name = Utility;
 			path = Common/Utility;
@@ -642,7 +647,7 @@
 			children = (
 				B4A3C16C1AD44B7E00B9D699 /* FeaturedListViewModel.swift */,
 				B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */,
-				7EACBA151B019A64009D8CA6 /* FeaturedListCellViewModel.swift */,
+				B45581F71B33E89D00C4D965 /* FeaturedBusinessViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -698,6 +703,7 @@
 			isa = PBXGroup;
 			children = (
 				7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */,
+				B45581FB1B3689AB00C4D965 /* FeaturedListBusinessTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1160,7 +1166,7 @@
 				2A9A9B9E1B1C31870010EDA9 /* DetailImageTableViewCell.swift in Sources */,
 				B48C99241ADBA4280045BCA9 /* IFeaturedListWireframe.swift in Sources */,
 				3DE38A7E1B11BB3000DFA128 /* IKeychainService.swift in Sources */,
-				7EACBA161B019A64009D8CA6 /* FeaturedListCellViewModel.swift in Sources */,
+				B45581F81B33E89D00C4D965 /* FeaturedBusinessViewModel.swift in Sources */,
 				3DE38A801B11BB3D00DFA128 /* KeychainService.swift in Sources */,
 				2A5115401B2C230800235C53 /* ContainerViewController.swift in Sources */,
 				B4F195A71B2ADA9700B8C519 /* ProfileRoute.swift in Sources */,
@@ -1200,6 +1206,7 @@
 				B47E15C81B181E370028E07E /* IBackgroundOperationsWorkerFactory.swift in Sources */,
 				B4E1384C1AE1BD0D0082DCA3 /* UserService.swift in Sources */,
 				B4E1384A1AE1B94C0082DCA3 /* User.swift in Sources */,
+				B45581FA1B367F7300C4D965 /* TableViewBindingHelper.swift in Sources */,
 				2A9A9BA41B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift in Sources */,
 				B4F1959E1B2AA3C400B8C519 /* WithoutDataRoute.swift in Sources */,
 				B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */,
@@ -1233,6 +1240,7 @@
 				45CBB1BF173283F19EC8C446 /* IProfileWireframe.swift in Sources */,
 				2A9A9BA21B1C40610010EDA9 /* DetailMapTableViewCell.swift in Sources */,
 				45CBBB3CCC6E72DCE005EE35 /* IProfileViewModel.swift in Sources */,
+				B45581FC1B3689AB00C4D965 /* FeaturedListBusinessTableViewCell.swift in Sources */,
 				B4C6EA251AFF318400A166AD /* KVO+extension.swift in Sources */,
 				B446A61A1B1FA88000106CAF /* Logger.swift in Sources */,
 				45CBBDCF399C77A93D0B1C1E /* ProfileViewModel.swift in Sources */,

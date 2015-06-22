@@ -7,68 +7,51 @@
 //
 
 import Foundation
-import SwiftTask
-import ReactKit
+import ReactiveCocoa
 import AVOSCloud
 
-public final class FeaturedListViewModel : IFeaturedListViewModel {
-    public let businessDynamicArr = DynamicArray()
+public struct FeaturedListViewModel : IFeaturedListViewModel {
+    
+    public let featuredBusinessViewModelArr: MutableProperty<[FeaturedBusinessViewModel]> = MutableProperty([FeaturedBusinessViewModel]())
+    
+    public init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService) {
+        self.router = router
+        self.businessService = businessService
+        self.userService = userService
+        self.geoLocationService = geoLocationService
+        self.userDefaultsService = userDefaultsService
+        
+        getFeaturedBusinesses()
+    }
+    
+    /**
+    Retrieve featured business from database
+    */
+    private func getFeaturedBusinesses() {
+        let query = Business.query()!
+        query.whereKey("featured", equalTo: true)
+        
+        businessService.findBySignal(query)
+            |> on(next: { businesses in
+                self.businessArr.put(businesses)
+            })
+            |> map { businesses -> [FeaturedBusinessViewModel] in
+                return businesses.map { FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint) }
+            }
+            |> start(
+                next: { response in
+                    self.featuredBusinessViewModelArr.put(response)
+                },
+                error: { FeaturedLogError($0.description) }
+            )
+    }
     
     private let router: IRouter
     private let businessService: IBusinessService
     private let userService: IUserService
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
-    
-    private var businessModelArr: [Business]!
-    
-    public required init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService) {
-        self.router = router
-        self.businessService = businessService
-        self.userService = userService
-        self.geoLocationService = geoLocationService
-        self.userDefaultsService = userDefaultsService
-    }
-    
-    
-    public func getBusiness() {
-        let query = Business.query()!
-        query.whereKey("featured", equalTo: true);
-        //TODO: support for offline usage.
-        //Fetch current location. Create BusinessViewModel with embedded distance data. And finally add the BusinessViewModels to dynamicArray for the view to consume the signal.
-        geoLocationService.getCurrentLocation()
-            .success { [unowned self] location -> Task<Int, Void, NSError> in
-                return self.businessService.findBy(query)
-                    .success { businessDAOArr -> Void in
-                        
-                        self.businessModelArr = businessDAOArr
-                        
-                        for bus in businessDAOArr {
-                            let vm = FeaturedListCellViewModel(business: bus, currentLocation: location, geoService:self.geoLocationService)
-                            // apend BusinessViewModel to DynamicArray for React
-                            self.businessDynamicArr.proxy.addObject(vm)
-                        }
-                        
-                        self.shuffle(self.businessDynamicArr.proxy)
-                        
-                }
-            }
-            .failure { (error: NSError?, isCancelled: Bool) -> Void in
-                return self.businessService.findBy(query)
-                    .success { businessDAOArr -> Void in
-                        self.businessModelArr = businessDAOArr
-                        
-                        for bus in businessDAOArr {
-                            let vm = FeaturedListCellViewModel(business: bus, geoService: self.geoLocationService)
-                            // apend BusinessViewModel to DynamicArray for React
-                            self.businessDynamicArr.proxy.addObject(vm)
-                        }
-                        
-                        self.shuffle(self.businessDynamicArr.proxy)
-                        
-                }
-        }
-    }
+    private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
     
     private func shuffle(array: NSMutableArray){
         let c = array.count
@@ -87,8 +70,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     public func pushDetailModule(section: Int) {
-        let model = businessModelArr[section]
-        router.pushDetail(model)
+        router.pushDetail(businessArr.value[section])
     }
     
     public func pushProfileModule() {

@@ -19,4 +19,5 @@ public protocol IGeoLocationService {
     func getCurrentLocationSignal() -> SignalProducer<CLLocation, NSError>
     func getCurrentGeoPoint() -> Task<Int, AVGeoPoint, NSError>
     func calculateETA(destination: CLLocation) -> SignalProducer<NSTimeInterval, NSError>
+    func calculateETA(destination: CLLocation, currentLocation: CLLocation) -> SignalProducer<NSTimeInterval, NSError>
 }

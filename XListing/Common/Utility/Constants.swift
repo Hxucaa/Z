@@ -10,3 +10,6 @@ import Foundation
 
 public var MIN_AGE = 17
 public var MAX_AGE = 90
+
+
+public let CITY_DISTANCE_SEPARATOR = "•"

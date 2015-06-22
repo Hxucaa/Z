@@ -8,11 +8,25 @@
 
 import Foundation
 import SwiftTask
+import ReactiveCocoa
 import MapKit
 import AVOSCloud
 
 public struct BusinessService : IBusinessService {
     
+    public func findBySignal(query: AVQuery) -> SignalProducer<[Business], NSError> {
+        return SignalProducer<[Business], NSError> { sink, disposable in
+            query.findObjectsInBackgroundWithBlock { (object, error) -> Void in
+                if error == nil {
+                    sendNext(sink, object as! [Business])
+                    sendCompleted(sink)
+                }
+                else {
+                    sendError(sink, error)
+                }
+            }
+        }
+    }
     
     /**
         This function finds the BusinessDAO based on the query.

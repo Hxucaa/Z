@@ -7,38 +7,33 @@
 //
 
 import UIKit
-import ReactKit
 import SDWebImage
 import ReactiveCocoa
 
-private let NumberOfRowsPerSection = 1
 private let CellIdentifier = "Cell"
-private let SegueIdentifier = "FromFeaturedToNearby"
 
 public final class FeaturedListViewController: XUIViewController {
 
+    // MARK: - UI
+    // MARK: Controls
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var nearbyButton: UIBarButtonItem!
     @IBOutlet weak var profileButton: UIBarButtonItem!
     public var refreshControl: UIRefreshControl!
     
-    /// ViewModel
-    private var featuredListVM: IFeaturedListViewModel!
+    // MARK: Actions
+    private var nearbyButtonAction: CocoaAction!
+    private var profileButtonAction: CocoaAction!
     
+    // MARK: - Private variables
+    private var viewmodel: IFeaturedListViewModel!
+    private var bindingHelper: TableViewBindingHelper<FeaturedBusinessViewModel>!
+    
+    // MARK: - Setup Code
     public override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationController?.setNavigationBarHidden(false, animated: false)
-        
-        featuredListVM.getBusiness()
-        
-        // Setup delegates
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        // Setup table
-        setupTable()
         
         // Set up pull to refresh
         setUpRefresh()
@@ -47,6 +42,8 @@ public final class FeaturedListViewController: XUIViewController {
         setupNearbyButton()
         // Setup profileButton
         setupProfileButton()
+        
+        bindingHelper = TableViewBindingHelper(tableView: tableView, sourceSignal: viewmodel.featuredBusinessViewModelArr.producer, identifier: CellIdentifier, selectionCommand: nil)
     }
 
     public override func didReceiveMemoryWarning() {
@@ -55,11 +52,11 @@ public final class FeaturedListViewController: XUIViewController {
     }
     
     public override func viewDidAppear(animated: Bool) {
-        featuredListVM.presentAccountModule()
+        viewmodel.presentAccountModule()
     }
     
     public func bindToViewModel(viewmodel: IFeaturedListViewModel) {
-        featuredListVM = viewmodel
+        self.viewmodel = viewmodel
     }
     
     private func setUpRefresh() {
@@ -73,7 +70,6 @@ public final class FeaturedListViewController: XUIViewController {
     }
     
     public func reorderTable (){
-        shuffle(featuredListVM!.businessDynamicArr.proxy)
         self.tableView.reloadData()
         self.refreshControl.endRefreshing()
     }
@@ -89,148 +85,38 @@ public final class FeaturedListViewController: XUIViewController {
         }
         return
     }
-    /**
-    React to signal coming from view model and update table accordingly.
-    */
-    private func setupTable() {
-        // Setup signal
-        let businessVMArrSignal = featuredListVM!.businessDynamicArr.stream().ownedBy(self)
-        businessVMArrSignal ~> { [unowned self] changedValues, change, indexSet in
-            /**
-            *  Programatically insert each business view model to the table
-            */
-            
-            if change == .Insertion {
-                self.tableView.beginUpdates()
-                self.tableView.insertSections(indexSet, withRowAnimation: UITableViewRowAnimation.Automatic)
-                self.tableView.endUpdates()
-            }
-            
-        }
-    }
     
     /**
     React to Nearby Button and present NearbyViewController.
     */
     private func setupNearbyButton() {
-        let nearbyButtonSignal = nearbyButton.stream().ownedBy(self)
-        nearbyButtonSignal ~> { [unowned self] button -> Void in
-            self.featuredListVM.pushNearbyModule()
+        let pushNearby = Action<Void, Void, NoError> {
+            return SignalProducer<Void, NoError> { sink, disposable in
+                self.viewmodel.pushNearbyModule()
+                sendCompleted(sink)
+            }
         }
+        
+        nearbyButtonAction = CocoaAction(pushNearby, input: ())
+        
+        nearbyButton.target = nearbyButtonAction
+        nearbyButton.action = CocoaAction.selector
     }
 
     /**
     React to Profile Button and present ProfileViewController.
     */
     private func setupProfileButton() {
-        let profileButtonSignal = profileButton.stream().ownedBy(self)
-        profileButtonSignal ~> { [unowned self] button -> Void in
-            self.featuredListVM.pushProfileModule()
-        }
-    }
-}
-
-/**
-*  UITableViewDataSource
-*/
-extension FeaturedListViewController : UITableViewDataSource {
-    /**
-    Asks the data source to return the number of sections in the table view.
-    
-    :param: tableView An object representing the table view requesting this information.
-    
-    :returns: The number of sections in tableView. The default value is 1.
-    */
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return featuredListVM.businessDynamicArr.proxy.count
-    }
-    
-    /**
-    Tells the data source to return the number of rows in a given section of a table view. (required)
-    
-    :param: tableView The table-view object requesting this information.
-    :param: section   An index number identifying a section in tableView.
-    
-    :returns: The number of rows in section.
-    */
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return NumberOfRowsPerSection
-    }
-    
-    /**
-    Asks the data source for a cell to insert in a particular location of the table view. (required)
-    
-    :param: tableView A table-view object requesting the cell.
-    :param: indexPath An index path locating a row in tableView.
-    
-    :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
-    */
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as! UITableViewCell
-        
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
-        
-        cell.layoutMargins = UIEdgeInsetsZero;
-        cell.preservesSuperviewLayoutMargins = false;
-        
-        let section = indexPath.section
-        
-        var businessNameLabel : UILabel? = cell.viewWithTag(1) as? UILabel
-        var wantToGoLabel: UILabel? = cell.viewWithTag(2) as? UILabel
-        var cityLabel : UILabel? = cell.viewWithTag(4) as? UILabel
-        var openingLabel: UILabel? = cell.viewWithTag(6) as? UILabel
-        var coverImageView = cell.viewWithTag(3) as? UIImageView
-        
-        let arr = featuredListVM.businessDynamicArr.proxy
-        if (arr.count > section){
-//            let businessVM = arr[section] as! FeaturedListCellViewModel
-            let businessVM = arr[section] as! FeaturedListCellViewModel
-            
-            businessNameLabel?.text = businessVM.businessName
-            
-            wantToGoLabel?.text = businessVM.wantToGoText
-
-            cityLabel?.text = businessVM.city
-            
-            let cityNSString : NSString = businessVM.city as NSString
-            let cityStrSize : CGSize = cityNSString.sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(12.0)])
-
-            var etaLabel = UILabel(frame: CGRectMake(cityLabel!.frame.origin.x + cityStrSize.width,cityLabel!.frame.origin.y, 200, cityLabel!.frame.height))
-            etaLabel.text = " • 开车25分钟"
-            //uncomment the line below to get eta data
-            //etaLabel.rac_text <~ businessVM.etaText
-            etaLabel.font = etaLabel.font.fontWithSize(12.0)
-            etaLabel.textColor = UIColor.grayColor()
-            cell.addSubview(etaLabel)
-            
-            openingLabel?.text = businessVM.openingText
-            
-            if let url = businessVM.coverImageNSURL {
-                coverImageView?.sd_setImageWithURL(url)
+        let pushProfile = Action<Void, Void, NoError> {
+            return SignalProducer<Void, NoError> { sink, disposable in
+                self.viewmodel.pushProfileModule()
+                sendCompleted(sink)
             }
-            
-            //TO DO:
-            //temp restaurant image; remove once cover image is linked properly
-//            coverImageView?.image = UIImage (named: "tempRestImage")
         }
-        return cell
-    }
-}
-
-/**
-*  UITableViewDelegate
-*/
-extension FeaturedListViewController : UITableViewDelegate {
-    /**
-    Tells the delegate that the specified row is now selected.
-    
-    :param: tableView A table-view object informing the delegate about the new row selection.
-    :param: indexPath An index path locating the new selected row in tableView.
-    */
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
- 
-        // pass business info to detail view and push it
-        featuredListVM.pushDetailModule(indexPath.section)
+        
+        profileButtonAction = CocoaAction(pushProfile, input: ())
+        
+        profileButton.target = profileButtonAction
+        profileButton.action = CocoaAction.selector
     }
 }
