@@ -29,7 +29,7 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     */
     private func getFeaturedBusinesses() {
         let query = Business.query()!
-        query.whereKey("featured", equalTo: true)
+        query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
         
         businessService.findBySignal(query)
             |> on(next: { businesses in
