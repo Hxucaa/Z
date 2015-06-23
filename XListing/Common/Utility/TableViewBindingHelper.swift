@@ -14,39 +14,32 @@ public protocol ReactiveTableCellViewModel : class {
     
 }
 
-protocol ReactiveView {
+public protocol ReactiveTabelCellView : class {
     func bindViewModel(viewmodel: ReactiveTableCellViewModel)
 }
 
 // a helper that makes it easier to bind to UITableView instances
 // see: http://www.scottlogic.com/blog/2014/05/11/reactivecocoa-tableview-binding.html
-class TableViewBindingHelper<T: ReactiveTableCellViewModel> {
+class ReactiveTableBindingHelper<T: ReactiveTableCellViewModel> {
     
     //MARK: Properties
-    
-    var delegate: UITableViewDelegate?
-    
     private let tableView: UITableView
-//    private let templateCell: UITableViewCell
-    private let selectionCommand: RACCommand?
-    private let dataSource: GenericDataSource<T>
+    private let dataSource: DataSource
     
     //MARK: Public API
     
-    init(tableView: UITableView, sourceSignal: SignalProducer<[T], NoError>, identifier: String, selectionCommand: RACCommand? = nil) {
+    /**
+    Bind to a storyboard based interface.
+    
+    :param: tableView            The UITableView.
+    :param: sourceSignal         Data source.
+    :param: storyboardIdentifier Storyboard identifier for the cell.
+    :param: selectionCommand     What to do when a cell is selected.
+    */
+    init(tableView: UITableView, sourceSignal: SignalProducer<[T], NoError>, storyboardIdentifier: String, selectionCommand: (Int -> ())? = nil) {
         self.tableView = tableView
-        self.selectionCommand = selectionCommand
         
-//        if let nibName = nibName {
-//            let nib = UINib(nibName: nibName, bundle: nil)
-//            
-//            // create an instance of the template cell and register with the table view
-//            templateCell = nib.instantiateWithOwner(nil, options: nil)[0] as! UITableViewCell
-//            tableView.registerNib(nib, forCellReuseIdentifier: templateCell.reuseIdentifier!)
-//        }
-//        templateCell
-//        dataSource = DataSource(data: [AnyObject](), templateCell: templateCell)
-        dataSource = GenericDataSource<T>(identifier: identifier)
+        dataSource = DataSource(storyboardIdentifier: storyboardIdentifier, selectionCommand: selectionCommand)
         
         sourceSignal.start(next: { data in
             self.dataSource.data = data as [AnyObject]
@@ -57,43 +50,55 @@ class TableViewBindingHelper<T: ReactiveTableCellViewModel> {
         tableView.delegate = dataSource
     }
     
-//    convenience init(tableView: UITableView, sourceSignal: SignalProducer<[T], NoError>, identifier: String, selectionCommand: RACCommand? = nil) {
-//        self.init(tableView: tableView, )
-//    }
-}
-
-class GenericDataSource<T: ReactiveTableCellViewModel> : DataSource {
+    /**
+    Bind to a XIB based interface.
     
-    override init(identifier: String) {
-        super.init(identifier: identifier)
+    :param: tableView            The UITableView.
+    :param: sourceSignal         Data source.
+    :param: storyboardIdentifier Storyboard identifier for the cell.
+    :param: selectionCommand     What to do when a cell is selected.
+    */
+    init(tableView: UITableView, sourceSignal: SignalProducer<[T], NoError>, nibName: String, selectionCommand: (Int -> ())? = nil) {
+        self.tableView = tableView
+        
+        let nib = UINib(nibName: nibName, bundle: nil)
+        // create an instance of the template cell and register with the table view
+        let templateCell = nib.instantiateWithOwner(nil, options: nil)[0] as! UITableViewCell
+        tableView.registerNib(nib, forCellReuseIdentifier: templateCell.reuseIdentifier!)
+        
+        dataSource = DataSource(templateCell: templateCell, selectionCommand: selectionCommand)
+        
+        sourceSignal.start(next: { data in
+            self.dataSource.data = data as [AnyObject]
+            self.tableView.reloadData()
+        })
+        
+        tableView.dataSource = dataSource
+        tableView.delegate = dataSource
     }
 }
 
 class DataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
     
-//    private let templateCell: UITableViewCell
-    private let identifier: String
+    private var templateCell: UITableViewCell?
+    private var storyboardIdentifier: String?
+    private let selectionCommand: (Int -> ())?
     var data: [AnyObject] = [AnyObject]()
     
-    
-//    init(data: [AnyObject], templateCell: UITableViewCell) {
-//        self.data = data
-//        self.templateCell = templateCell
-//    }
-    
-    init(identifier: String) {
-        self.identifier = identifier
+    convenience init(storyboardIdentifier: String, selectionCommand: (Int -> ())? = nil) {
+        self.init(selectionCommand: selectionCommand)
+        self.storyboardIdentifier = storyboardIdentifier
     }
     
-    /**
-    If you are using storyboard for TableViewCell, use this version and provide cell identifier.
+    private init(selectionCommand: (Int -> ())? = nil) {
+        self.selectionCommand = selectionCommand
+    }
     
-    :param: data       Data view model array.
-    :param: identifier Cell identifier.
-    */
-//    convenience init(data: [AnyObject], identifier: String) {
-//        
-//    }
+    convenience init(templateCell: UITableViewCell, selectionCommand: (Int -> ())? = nil) {
+        self.init(selectionCommand: selectionCommand)
+        self.templateCell = templateCell
+    }
+    
     /**
     Tells the data source to return the number of rows in a given section of a table view. (required)
     
@@ -116,10 +121,16 @@ class DataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
     */
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let item: AnyObject = data[indexPath.row]
-//        let cell = tableView.dequeueReusableCellWithIdentifier(templateCell.reuseIdentifier!) as! UITableViewCell
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(identifier) as! UITableViewCell
-        if let reactiveView = cell as? ReactiveView {
+        var cell: UITableViewCell
+        if let identifier = storyboardIdentifier {
+            cell = tableView.dequeueReusableCellWithIdentifier(identifier) as! UITableViewCell
+        }
+        else {
+            cell = tableView.dequeueReusableCellWithIdentifier(templateCell!.reuseIdentifier!) as! UITableViewCell
+        }
+        
+        if let reactiveView = cell as? ReactiveTabelCellView {
             reactiveView.bindViewModel(item as! ReactiveTableCellViewModel)
         }
         else {
@@ -128,10 +139,6 @@ class DataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        return templateCell.frame.size.height
-//    }
-    
     /**
     Tells the delegate that the specified row is now selected.
     
@@ -139,9 +146,9 @@ class DataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
     :param: indexPath An index path locating the new selected row in tableView.
     */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        /* if selectionCommand != nil {
-        selectionCommand?.execute(data[indexPath.row])
-        }*/
+        if selectionCommand != nil {
+            selectionCommand!(indexPath.row)
+        }
     }
     
 }

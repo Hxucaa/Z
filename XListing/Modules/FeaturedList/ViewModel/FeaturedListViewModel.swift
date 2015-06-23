@@ -9,60 +9,48 @@
 import Foundation
 import ReactiveCocoa
 import AVOSCloud
+import Dollar
 
 public struct FeaturedListViewModel : IFeaturedListViewModel {
     
-    public let featuredBusinessViewModelArr: MutableProperty<[FeaturedBusinessViewModel]> = MutableProperty([FeaturedBusinessViewModel]())
+    // MARK: - Public
     
-    public init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService) {
-        self.router = router
-        self.businessService = businessService
-        self.userService = userService
-        self.geoLocationService = geoLocationService
-        self.userDefaultsService = userDefaultsService
-        
-        getFeaturedBusinesses()
-    }
+    // MARK: Input
+    
+    // MARK: Output
+    public let featuredBusinessViewModelArr: MutableProperty<[FeaturedBusinessViewModel]> = MutableProperty([FeaturedBusinessViewModel]())
+    public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
+    
+    // MARK: Actions
+    
+    // MARK: API
     
     /**
     Retrieve featured business from database
     */
-    private func getFeaturedBusinesses() {
+    public func getFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
         let query = Business.query()!
         query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
         
-        businessService.findBySignal(query)
+        return businessService.findBySignal(query)
             |> on(next: { businesses in
+                self.fetchingData.put(true)
                 self.businessArr.put(businesses)
             })
             |> map { businesses -> [FeaturedBusinessViewModel] in
-                return businesses.map { FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint) }
+                return $.shuffle(
+                    businesses.map {
+                        FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint)
+                    }
+                )
             }
-            |> start(
+            |> on(
                 next: { response in
+                    self.fetchingData.put(false)
                     self.featuredBusinessViewModelArr.put(response)
                 },
                 error: { FeaturedLogError($0.description) }
             )
-    }
-    
-    private let router: IRouter
-    private let businessService: IBusinessService
-    private let userService: IUserService
-    private let geoLocationService: IGeoLocationService
-    private let userDefaultsService: IUserDefaultsService
-    private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
-    
-    private func shuffle(array: NSMutableArray){
-        let c = array.count
-        
-        if (c > 0){
-            for i in 0..<(c - 1) {
-                let j = Int(arc4random_uniform(UInt32(c - i))) + i
-                swap(&array[i], &array[j])
-            }
-        }
-        return
     }
     
     public func pushNearbyModule() {
@@ -82,4 +70,26 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
             router.presentAccount(completion: nil)
         }
     }
+    
+    // MARK: Initializers
+    public init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService) {
+        self.router = router
+        self.businessService = businessService
+        self.userService = userService
+        self.geoLocationService = geoLocationService
+        self.userDefaultsService = userDefaultsService
+        
+        getFeaturedBusinesses()
+            |> start()
+    }
+    
+    // MARK: - Private
+    
+    // MARK: Private variables
+    private let router: IRouter
+    private let businessService: IBusinessService
+    private let userService: IUserService
+    private let geoLocationService: IGeoLocationService
+    private let userDefaultsService: IUserDefaultsService
+    private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
 }

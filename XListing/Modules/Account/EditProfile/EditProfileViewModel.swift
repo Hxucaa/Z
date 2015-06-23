@@ -18,7 +18,6 @@ public struct EditProfileViewModel {
     public let nickname = MutableProperty<String>("")
     public let birthday = MutableProperty<NSDate>(NSDate())
     public let profileImage = MutableProperty<UIImage?>(nil)
-    private let router: IRouter
     
     // MARK: Output
     public let allInputsValid = MutableProperty<Bool>(false)
@@ -50,6 +49,9 @@ public struct EditProfileViewModel {
     }
     
     // MARK: API
+    public func dismissAccountView() {
+        router.pushFeatured()
+    }
     
     /// Age restriction.
     public var ageLimit: AgeLimit {
@@ -92,6 +94,7 @@ public struct EditProfileViewModel {
     
     // MARK: Services
     private let userService: IUserService
+    private let router: IRouter
     
     // MARK: Setup
     
@@ -140,9 +143,4 @@ public struct EditProfileViewModel {
         
         return r1 && r2
     }
-    
-    public func dismissAccountView() {
-        router.pushFeatured()
-    }
-
 }

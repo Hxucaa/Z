@@ -19,15 +19,16 @@ public final class FeaturedListViewController: XUIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var nearbyButton: UIBarButtonItem!
     @IBOutlet weak var profileButton: UIBarButtonItem!
-    public var refreshControl: UIRefreshControl!
+    private var refreshControl: UIRefreshControl!
     
     // MARK: Actions
     private var nearbyButtonAction: CocoaAction!
     private var profileButtonAction: CocoaAction!
+    private var refreshControlAction: CocoaAction!
     
     // MARK: - Private variables
     private var viewmodel: IFeaturedListViewModel!
-    private var bindingHelper: TableViewBindingHelper<FeaturedBusinessViewModel>!
+    private var bindingHelper: ReactiveTableBindingHelper<FeaturedBusinessViewModel>!
     
     // MARK: - Setup Code
     public override func viewDidLoad() {
@@ -35,15 +36,10 @@ public final class FeaturedListViewController: XUIViewController {
         
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         
-        // Set up pull to refresh
-        setUpRefresh()
-        
-        // Setup nearbyButton
+        setupRefresh()
         setupNearbyButton()
-        // Setup profileButton
         setupProfileButton()
-        
-        bindingHelper = TableViewBindingHelper(tableView: tableView, sourceSignal: viewmodel.featuredBusinessViewModelArr.producer, identifier: CellIdentifier, selectionCommand: nil)
+        setupTableView()
     }
 
     public override func didReceiveMemoryWarning() {
@@ -59,31 +55,36 @@ public final class FeaturedListViewController: XUIViewController {
         self.viewmodel = viewmodel
     }
     
-    private func setUpRefresh() {
-        var refreshControl = UIRefreshControl()
-        self.tableView.addSubview(refreshControl)
-        refreshControl.addTarget(self, action: "reorderTable", forControlEvents:UIControlEvents.ValueChanged)
-        refreshControl.attributedTitle = NSAttributedString(string: "Reordering Listings")
-
-        self.refreshControl = refreshControl
-        
-    }
-    
-    public func reorderTable (){
-        self.tableView.reloadData()
-        self.refreshControl.endRefreshing()
-    }
-    
-    private func shuffle(array: NSMutableArray){
-        let c = array.count
-        
-        if (c > 0){
-            for i in 0..<(c - 1) {
-                let j = Int(arc4random_uniform(UInt32(c - i))) + i
-                swap(&array[i], &array[j])
-            }
+    private func setupTableView() {
+        bindingHelper = ReactiveTableBindingHelper(
+            tableView: tableView,
+            sourceSignal: viewmodel.featuredBusinessViewModelArr.producer,
+            storyboardIdentifier: CellIdentifier
+            )
+            { [unowned self] pos in
+                self.viewmodel.pushDetailModule(pos)
         }
-        return
+    }
+    
+    private func setupRefresh() {
+        var refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "刷新中")
+        
+        let refresh = Action<Void, Void, NSError> {
+            return self.viewmodel.getFeaturedBusinesses()
+                |> map { _ -> Void in }
+                |> on(next: { [unowned self] _ in
+                    self.tableView.reloadData()
+                    self.refreshControl.endRefreshing()
+                })
+        }
+        
+        refreshControlAction = CocoaAction(refresh, input: ())
+        
+        refreshControl.addTarget(refreshControlAction, action: CocoaAction.selector, forControlEvents: .ValueChanged)
+        
+        self.tableView.addSubview(refreshControl)
+        self.refreshControl = refreshControl
     }
     
     /**
@@ -91,7 +92,7 @@ public final class FeaturedListViewController: XUIViewController {
     */
     private func setupNearbyButton() {
         let pushNearby = Action<Void, Void, NoError> {
-            return SignalProducer<Void, NoError> { sink, disposable in
+            return SignalProducer<Void, NoError> { [unowned self] sink, disposable in
                 self.viewmodel.pushNearbyModule()
                 sendCompleted(sink)
             }
@@ -108,7 +109,7 @@ public final class FeaturedListViewController: XUIViewController {
     */
     private func setupProfileButton() {
         let pushProfile = Action<Void, Void, NoError> {
-            return SignalProducer<Void, NoError> { sink, disposable in
+            return SignalProducer<Void, NoError> { [unowned self] sink, disposable in
                 self.viewmodel.pushProfileModule()
                 sendCompleted(sink)
             }
