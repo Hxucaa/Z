@@ -360,6 +360,22 @@
 			path = LogIn;
 			sourceTree = "<group>";
 		};
+		3D5D8FA11B393B3E00EA4ADA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		3D5D8FA21B393B4600EA4ADA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B4B6653F1ADF88DB0084DBE7 /* DetailViewController.swift */,
+				2A8DA55B1B18465D00311382 /* WantToGoTableViewController.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		45CBB0ED9FE439192D088D2F /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -652,11 +668,11 @@
 		B4B6653B1ADF88070084DBE7 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				B4B6653F1ADF88DB0084DBE7 /* DetailViewController.swift */,
-				2A8DA55B1B18465D00311382 /* WantToGoTableViewController.swift */,
+				B4B6653E1ADF88250084DBE7 /* Wireframe */,
+				3D5D8FA21B393B4600EA4ADA /* View */,
+				3D5D8FA11B393B3E00EA4ADA /* ViewModel */,
 				B4B665411ADF8D070084DBE7 /* DetailViewModel.swift */,
 				B4B665431ADF8D2F0084DBE7 /* IDetailViewModel.swift */,
-				B4B6653E1ADF88250084DBE7 /* Wireframe */,
 				B4F195B31B2BDFB400B8C519 /* Cell */,
 			);
 			name = Detail;

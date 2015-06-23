@@ -13,11 +13,18 @@ import WebKit
 
 public final class DetailViewController : XUIViewController, MKMapViewDelegate {
     
+    // MARK: - UI
+    
+    // MARK: Controls
+    @IBOutlet weak var tableView: UITableView!
+    
+    // MARK: Actions
+    
+    // MARK: - Private Variables
     private var viewmodel: IDetailViewModel!
     
+    // MARK: - Setup Code
     public var expandHours: Bool = false
-    
-    @IBOutlet weak var tableView: UITableView!
     
     public override func viewDidLoad() {
         super.viewDidLoad()

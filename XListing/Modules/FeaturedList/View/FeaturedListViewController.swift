@@ -26,7 +26,7 @@ public final class FeaturedListViewController: XUIViewController {
     private var profileButtonAction: CocoaAction!
     private var refreshControlAction: CocoaAction!
     
-    // MARK: - Private variables
+    // MARK: - Private Variables
     private var viewmodel: IFeaturedListViewModel!
     private var bindingHelper: ReactiveTableBindingHelper<FeaturedBusinessViewModel>!
     
