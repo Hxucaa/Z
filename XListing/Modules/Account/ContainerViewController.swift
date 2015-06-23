@@ -48,19 +48,19 @@ public final class ContainerViewController: UIViewController {
             case .LandingSegueID :
                 var landingPageVC = segue.destinationViewController as! LandingPageViewController
                 landingPageVC.bindToViewModel(viewmodel.landingPageViewModel)
-                landingPageVC.containerVC = self
+                landingPageVC.delegate = self
                 swapToViewController(landingPageVC)
                 
             case .LoginSegueID :
                 var loginPageVC = segue.destinationViewController as! LogInViewController
                 loginPageVC.bindToViewModel(viewmodel.logInViewModel)
-                loginPageVC.containerVC = self
+                loginPageVC.delegate = self
                 swapToViewController(loginPageVC)
                 
             case .SignupSegueID :
                 var signupPageVC = segue.destinationViewController as! SignUpViewController
                 signupPageVC.bindToViewModel(viewmodel.signUpViewModel, editProfileViewmodel: viewmodel.editProfileViewModel)
-                signupPageVC.containerVC = self
+                signupPageVC.delegate = self
                 swapToViewController(signupPageVC)
             default :
                 DDLogError("Invalid segue from container")
@@ -97,4 +97,26 @@ public final class ContainerViewController: UIViewController {
     }
 
 
+}
+
+extension ContainerViewController : LandingViewDelegate {
+    public func switchToLoginView () {
+        self.performSegueWithIdentifier(SegueID.LoginSegueID.rawValue, sender: nil)
+    }
+    
+    public func switchToSignUpView () {
+        self.performSegueWithIdentifier(SegueID.SignupSegueID.rawValue, sender: nil)
+    }
+}
+
+extension ContainerViewController : SignUpViewDelegate {
+    public func returnToLandingViewFromSignUp () {
+        self.performSegueWithIdentifier(SegueID.LandingSegueID.rawValue, sender: nil)
+    }
+}
+
+extension ContainerViewController: LoginViewDelegate {
+    public func returnToLandingViewFromLogin () {
+        self.performSegueWithIdentifier(SegueID.LandingSegueID.rawValue, sender: nil)
+    }
 }

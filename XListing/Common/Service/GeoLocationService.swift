@@ -62,11 +62,39 @@ public struct GeoLocationService : IGeoLocationService {
         }
     }
     
+    /**
+    Calculate ETA from current location to destination location. Current location is automatically acquired.
+    
+    :param: destination Destination location.
+    
+    :returns: A SignalProducer containing time interval expressed in NSTimeInterval.
+    */
     public func calculateETA(destination: CLLocation) -> SignalProducer<NSTimeInterval, NSError> {
+        return calETA(destination, currentLocation: nil)
+    }
+    
+    /**
+    Calculate ETA from current location to destination location. User has to provide current location.
+    
+    :param: destination     Destination location.
+    :param: currentLocation Current location provided by user.
+    
+    :returns: A SignalProducer containing time interval expressed in NSTimeInterval.
+    */
+    public func calculateETA(destination: CLLocation, currentLocation: CLLocation) -> SignalProducer<NSTimeInterval, NSError> {
+        return calETA(destination, currentLocation: currentLocation)
+    }
+    
+    private func calETA(destination: CLLocation, currentLocation: CLLocation? = nil) -> SignalProducer<NSTimeInterval, NSError> {
         return SignalProducer<NSTimeInterval, NSError> { sink, disposable in
             
             let request = MKDirectionsRequest()
-            request.setSource(MKMapItem.mapItemForCurrentLocation())
+            if let currentLocation = currentLocation {
+                request.setSource(MKMapItem(placemark: MKPlacemark(coordinate: currentLocation.coordinate, addressDictionary: nil)))
+            }
+            else {
+                request.setSource(MKMapItem.mapItemForCurrentLocation())
+            }
             request.setDestination(MKMapItem(placemark: MKPlacemark(coordinate: destination.coordinate, addressDictionary: nil)))
             request.requestsAlternateRoutes = false
             request.transportType = MKDirectionsTransportType.Automobile

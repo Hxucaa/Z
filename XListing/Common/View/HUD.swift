@@ -10,12 +10,13 @@ import Foundation
 import SVProgressHUD
 import ReactiveCocoa
 
-private let WIPMessage = "努力跑..."
-private let SuccessMessage = "成功了！"
-private let ErrorMessage = "失败了..."
-private let InterruptMessage = "中断了..."
+private let DefaultWIPMessage = "努力跑..."
+private let DefaultSuccessMessage = "成功了！"
+private let DefaultErrorMessage = "失败了..."
+private let DefaultInterruptMessage = "中断了..."
 
 public final class HUD {
+    
     /**
     Show HUD.
     */
@@ -23,40 +24,52 @@ public final class HUD {
         return SignalProducer<Void, NoError> { sink, disposable in
             SVProgressHUD.show()
             sendNext(sink, ())
+            sendCompleted(sink)
         }
     }
     
     /**
     Inject display of HUD as side effects.
+    
+    :param: message The work in progress message. Has a default implementation if you do not provide one.
+    
+    :returns: A SignalProducer which can be continued with the next function.
     */
-    public class func onShow<T, E>() -> SignalProducer<T, E> -> SignalProducer<T, E> {
+    public class func onShow<T, E>(message: String? = DefaultWIPMessage) -> SignalProducer<T, E> -> SignalProducer<T, E> {
         return { producer in
             return producer
                 |> on(
                     next: { value in
-                        SVProgressHUD.showWithStatus(WIPMessage)
+                        SVProgressHUD.showWithStatus(message!)
                     }
                 )
         }
     }
     
+
     /**
-    Inject dismissal of HUD as side effects.
+    Dismiss the HUD on one of the four events: interrupted, error, completed, next. You can customize the status message for each event. Note that the error event takes a errorHandler closure which provides an error and expects to return a message string.
+    
+    :param: successMessage   Status message for success.
+    :param: interruptedMessage Status message for interruption.
+    :param: errorHandler       Error handler which provides the error and expects a message string.
+    
+    :returns: A SignalProducer which can be continued with the next function.
     */
-    public class func onDismiss<T, E>() -> SignalProducer<T, E> -> SignalProducer<T, E> {
+    public class func onDismissWithStatusMessage<T, E>(successMessage: String? = DefaultSuccessMessage, interruptedMessage: String? = DefaultInterruptMessage, errorHandler: (E -> String)? = { _ in DefaultErrorMessage }) -> SignalProducer<T, E> -> SignalProducer<T, E> {
         return { producer in
             return producer
                 |> on(interrupted: { _ in
-                        SVProgressHUD.showInfoWithStatus(InterruptMessage)
+                        SVProgressHUD.showInfoWithStatus(interruptedMessage)
                     },
                     error: { error in
-                        SVProgressHUD.showErrorWithStatus(ErrorMessage)
+                        SVProgressHUD.showErrorWithStatus(errorHandler!(error))
                     },
                     completed: { _ in
-                        SVProgressHUD.showSuccessWithStatus(SuccessMessage)
+                        SVProgressHUD.showSuccessWithStatus(successMessage)
                     },
                     next: { value in
-                        SVProgressHUD.showSuccessWithStatus(SuccessMessage)
+                        SVProgressHUD.showSuccessWithStatus(successMessage)
                     }
                 )
 
@@ -84,49 +97,23 @@ public final class HUD {
     
     /**
     
-    Subcribe to HUD disappear notification. Must dispose of this signal.
+    Subcribe to HUD disappear notification. Must manually dispose of this signal.
     
-    :param: interrupted Callback for Interruption.
-    :param: error       Callback for Error.
-    :param: completed   Callback For Completion.
-    
-    :returns: Disposable.
+    :returns: A SignalProducer containing the statu message displayed by the HUD.
     */
-    public class func didDissappearNotification(#interrupted: (() -> ()), error: (() -> ()), completed: (() -> ())) -> Disposable {
+    public class func didDissappearNotification() -> SignalProducer<String, NoError> {
         return notification(SVProgressHUDDidDisappearNotification)
-            |> start(next: { notification in
-                if let dict = notification.userInfo {
-                    for (key, value) in dict {
-                        if let key = key as? String {
-                            switch(key) {
-                            case SuccessMessage:
-                                completed()
-                            case ErrorMessage:
-                                error()
-                            case InterruptMessage:
-                                interrupted()
-                            default:
-                                completed()
-                            }
-                        }
-                    }
-                    
-                }
-            })
+            |> map { ($0.userInfo as! [String : String])[SVProgressHUDStatusUserInfoKey]! }
     }
     
     /**
-    Subscribe to a touch event on the HUD directly.
+    Subscribe to a touch down inside on the HUD.
     
-    :param: callback Callback.
-    
-    :returns: Disposable.
+    :returns: A SignalProducer.
     */
-    public class func didTouchDownInsideNotification(callback: () -> ()) -> Disposable {
+    public class func didTouchDownInsideNotification() -> SignalProducer<Void, NoError> {
         return notification(SVProgressHUDDidTouchDownInsideNotification)
-            |> start(next: { notification in
-                callback()
-            })
+            |> map { _ in }
     }
     
     private class func notification(name: String) -> SignalProducer<NSNotification, NoError> {

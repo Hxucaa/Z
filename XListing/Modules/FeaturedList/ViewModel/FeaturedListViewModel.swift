@@ -7,79 +7,50 @@
 //
 
 import Foundation
-import SwiftTask
-import ReactKit
+import ReactiveCocoa
 import AVOSCloud
+import Dollar
 
-public final class FeaturedListViewModel : IFeaturedListViewModel {
-    public let businessDynamicArr = DynamicArray()
+public struct FeaturedListViewModel : IFeaturedListViewModel {
     
-    private let router: IRouter
-    private let businessService: IBusinessService
-    private let userService: IUserService
-    private let geoLocationService: IGeoLocationService
-    private let userDefaultsService: IUserDefaultsService
+    // MARK: - Public
     
-    private var businessModelArr: [Business]!
+    // MARK: Input
     
-    public required init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService) {
-        self.router = router
-        self.businessService = businessService
-        self.userService = userService
-        self.geoLocationService = geoLocationService
-        self.userDefaultsService = userDefaultsService
-    }
+    // MARK: Output
+    public let featuredBusinessViewModelArr: MutableProperty<[FeaturedBusinessViewModel]> = MutableProperty([FeaturedBusinessViewModel]())
+    public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
     
+    // MARK: Actions
     
-    public func getBusiness() {
+    // MARK: API
+    
+    /**
+    Retrieve featured business from database
+    */
+    public func getFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
         let query = Business.query()!
-        query.whereKey("featured", equalTo: true);
-        //TODO: support for offline usage.
-        //Fetch current location. Create BusinessViewModel with embedded distance data. And finally add the BusinessViewModels to dynamicArray for the view to consume the signal.
-        geoLocationService.getCurrentLocation()
-            .success { [unowned self] location -> Task<Int, Void, NSError> in
-                return self.businessService.findBy(query)
-                    .success { businessDAOArr -> Void in
-                        
-                        self.businessModelArr = businessDAOArr
-                        
-                        for bus in businessDAOArr {
-                            let vm = FeaturedListCellViewModel(business: bus, currentLocation: location)
-                            // apend BusinessViewModel to DynamicArray for React
-                            self.businessDynamicArr.proxy.addObject(vm)
-                        }
-                        
-                        self.shuffle(self.businessDynamicArr.proxy)
-                        
-                }
-            }
-            .failure { (error: NSError?, isCancelled: Bool) -> Void in
-                return self.businessService.findBy(query)
-                    .success { businessDAOArr -> Void in
-                        self.businessModelArr = businessDAOArr
-                        
-                        for bus in businessDAOArr {
-                            let vm = FeaturedListCellViewModel(business: bus)
-                            // apend BusinessViewModel to DynamicArray for React
-                            self.businessDynamicArr.proxy.addObject(vm)
-                        }
-                        
-                        self.shuffle(self.businessDynamicArr.proxy)
-                        
-                }
-        }
-    }
-    
-    private func shuffle(array: NSMutableArray){
-        let c = array.count
+        query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
         
-        if (c > 0){
-            for i in 0..<(c - 1) {
-                let j = Int(arc4random_uniform(UInt32(c - i))) + i
-                swap(&array[i], &array[j])
+        return businessService.findBySignal(query)
+            |> on(next: { businesses in
+                self.fetchingData.put(true)
+                self.businessArr.put(businesses)
+            })
+            |> map { businesses -> [FeaturedBusinessViewModel] in
+                return $.shuffle(
+                    businesses.map {
+                        FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint)
+                    }
+                )
             }
-        }
-        return
+            |> on(
+                next: { response in
+                    self.fetchingData.put(false)
+                    self.featuredBusinessViewModelArr.put(response)
+                },
+                error: { FeaturedLogError($0.description) }
+            )
     }
     
     public func pushNearbyModule() {
@@ -87,8 +58,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     public func pushDetailModule(section: Int) {
-        let model = businessModelArr[section]
-        router.pushDetail(model)
+        router.pushDetail(businessArr.value[section])
     }
     
     public func pushProfileModule() {
@@ -100,4 +70,26 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
             router.presentAccount(completion: nil)
         }
     }
+    
+    // MARK: Initializers
+    public init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService) {
+        self.router = router
+        self.businessService = businessService
+        self.userService = userService
+        self.geoLocationService = geoLocationService
+        self.userDefaultsService = userDefaultsService
+        
+        getFeaturedBusinesses()
+            |> start()
+    }
+    
+    // MARK: - Private
+    
+    // MARK: Private variables
+    private let router: IRouter
+    private let businessService: IBusinessService
+    private let userService: IUserService
+    private let geoLocationService: IGeoLocationService
+    private let userDefaultsService: IUserDefaultsService
+    private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
 }

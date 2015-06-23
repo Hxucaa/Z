@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public final class LogInViewModel : NSObject {
+public struct LogInViewModel {
     
     // MARK: - Public
     
@@ -22,6 +22,9 @@ public final class LogInViewModel : NSObject {
     public let isUsernameValid = MutableProperty<Bool>(false)
     public let isPasswordValid = MutableProperty<Bool>(false)
     public let allInputsValid = MutableProperty<Bool>(false)
+//    public let 
+    
+    private let router: IRouter
     
     // MARK: Actions
     public var logIn: SignalProducer<User, NSError> {
@@ -29,17 +32,16 @@ public final class LogInViewModel : NSObject {
             // only allow TRUE value
             |> filter { $0 }
             |> mapError { _ in NSError() }
-            |> flatMap(FlattenStrategy.Merge) { [unowned self] valid -> SignalProducer<User, NSError> in
-                return self.userService.logInSignal(self.username.value, password: self.password.value)
-            }
+            |> flatMap(FlattenStrategy.Merge) { valid -> SignalProducer<User, NSError> in
+                    return self.userService.logInSignal(self.username.value, password: self.password.value)
+        }
     }
     
     // MARK: Initializers
     
-    public required init(userService: IUserService) {
+    public init(userService: IUserService, router: IRouter) {
         self.userService = userService
-        
-        super.init()
+        self.router = router
         
         setupUsername()
         setupPassword()
@@ -73,5 +75,9 @@ public final class LogInViewModel : NSObject {
             |> map { values -> Bool in
                 return values.0 && values.1
         }
+    }
+    
+    public func dismissAccountView() {
+        router.pushFeatured()
     }
 }

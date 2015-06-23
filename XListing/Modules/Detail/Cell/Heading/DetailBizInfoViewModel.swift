@@ -11,7 +11,6 @@ import ReactiveCocoa
 import MapKit
 import AVOSCloud
 
-private let CityDistanceSeparator = "•"
 private let 我想去 = "\u{f08a} 我想去"
 private let 已参与 = "\u{f004} 以参与"
 
@@ -127,7 +126,7 @@ public struct DetailBizInfoViewModel {
         self.geoLocationService.calculateETA(business.cllocation)
             |> start(next: { interval in
                 let minute = Int(ceil(interval / 60))
-                self.locationText.put("\(business.city!) \(CityDistanceSeparator) 开车\(minute)分钟")
+                self.locationText.put("\(business.city!) \(CITY_DISTANCE_SEPARATOR) 开车\(minute)分钟")
             })
     }
     

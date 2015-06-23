@@ -31,7 +31,7 @@ public final class NearbyHorizontalScrollCellViewModel {
         
         businessName = business.nameSChinese!
         
-        let wantToGoCounter = business.wantToGoCounter
+        let wantToGoCounter = business.participationCount
         if (wantToGoCounter > 0) {
             wantToGoText = String(format: "%d+ 人想去", wantToGoCounter)
         }

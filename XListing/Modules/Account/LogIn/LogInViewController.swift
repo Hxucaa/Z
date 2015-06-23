@@ -9,18 +9,26 @@
 import UIKit
 import ReactiveCocoa
 
-public final class LogInViewController: XUIViewController {
+public final class LogInViewController: XUIViewController{
     
-    private var viewmodel: LogInViewModel!
+    // MARK: - UI
+    // MARK: Controls
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     
+    // MARK: Actions
     private var loginButtonAction: CocoaAction!
+    private var dismissViewButtonAction: CocoaAction!
     
-    internal var containerVC : ContainerViewController!
+    // MARK: - Delegate
+    public weak var delegate: LoginViewDelegate!
     
+    // MARK: - Private variables
+    private var viewmodel: LogInViewModel!
+    
+    // MARK: Setup
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -31,18 +39,38 @@ public final class LogInViewController: XUIViewController {
     }
     
     public func setUpBackButton () {
-        backButton.addTarget(self, action: "returnToLanding", forControlEvents: UIControlEvents.TouchUpInside)
+        backButton.addTarget(self, action: "returnToLandingView", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    public func returnToLanding () {
-       self.containerVC.switchToLanding()
+    public func returnToLandingView () {
+        self.delegate.returnToLandingViewFromLogin()
     }
+
     
     public func setUpLoginButton () {
+        loginButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
-        let login = Action<Void, User, NoError> {
-            return SignalProducer { sink, disposable in
-                viewmodel.logIn
+        let login = Action<Void, User, NSError> { [unowned self] in
+            // display HUD to indicate work in progress
+            let logInAndHUD = HUD.show()
+                // map error to the same type as other signal
+                |> mapError { _ in NSError() }
+                // log in
+                |> then(self.viewmodel.logIn)
+                // dismiss HUD based on the result of log in signal
+                |> HUD.onDismissWithStatusMessage(errorHandler: { error -> String in
+                    AccountLogError(error.description)
+                    return error.customErrorDescription
+                })
+            
+            let HUDDisappear = HUD.didDissappearNotification() |> mapError { _ in NSError() }
+            
+            // combine the latest signal of log in and hud dissappear notification
+            // once log in is done properly and HUD is disappeared, proceed to next step
+            return combineLatest(logInAndHUD, HUDDisappear)
+                |> map { user, notificationMessage -> User in
+                    self.viewmodel.dismissAccountView()
+                    return user
             }
         }
         
