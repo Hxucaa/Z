@@ -56,6 +56,8 @@ public final class FeaturedBusinessViewModel : ReactiveTableCellViewModel {
             |> start(next: { interval in
                 let minute = Int(ceil(interval / 60))
                 self.eta.put(" \(CITY_DISTANCE_SEPARATOR) 开车\(minute)分钟")
+            }, error: { error in
+                FeaturedLogError(error.description)
             })
     }
 }

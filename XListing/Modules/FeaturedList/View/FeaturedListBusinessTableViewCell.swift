@@ -25,6 +25,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell, Reactive
         
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
+        
     }
     
     public func bindViewModel(viewmodel: ReactiveTableCellViewModel) {
@@ -42,9 +43,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell, Reactive
                 var etaLabel = UILabel(frame: CGRectMake(self.cityLabel.frame.origin.x + cityStrSize.width, self.cityLabel.frame.origin.y, 200, self.cityLabel.frame.height))
                 etaLabel.text = eta
                 etaLabel.font = etaLabel.font.fontWithSize(12.0)
-                etaLabel.textColor = UIColor.grayColor()
+                etaLabel.textColor = UIColor.darkGrayColor()
                 self.addSubview(etaLabel)
-                })
+            })
         
         self.viewmodel.coverImageNSURL.producer
             |> start(next: { url in
