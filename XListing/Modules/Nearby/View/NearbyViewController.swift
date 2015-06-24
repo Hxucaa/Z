@@ -8,25 +8,29 @@
 
 import UIKit
 import MapKit
-import ReactKit
-import SwiftTask
+import ReactiveCocoa
 import SDWebImage
+import Dollar
 
 private let NearbyTableViewCellXIB = "NearbyTableViewCell"
-private let CellIdentifier = "NearbyCell"
+private let CellIdentifier = "BusinessCell"
+private let NumberOfRowsInCollectionView = 1
+private let MapViewSpan = MKCoordinateSpanMake(0.07, 0.07)
 
-public final class NearbyViewController: XUIViewController , UITableViewDelegate, UITableViewDataSource{
+public final class NearbyViewController: XUIViewController {
     
-    private let mapView = MKMapView()
-    private let horizontalScrollContentView = HorizontalScrollContentView()
-    private var pageNumber: Int = 0
-    
-    private var tableArray = [NearbyTableView]()
-    
+    // MARK: - UI
+    // MARK: Controls
     @IBOutlet weak var profileButton: UIBarButtonItem!
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var businessCollectionView: UICollectionView!
+    
+    // MARK: Actions
+    private var profileButtonAction: CocoaAction!
+    
     
     /// View Model
-    private var nearbyVM: INearbyViewModel!
+    private var viewmodel: INearbyViewModel!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,21 +38,7 @@ public final class NearbyViewController: XUIViewController , UITableViewDelegate
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         
         setupProfileButton()
-        
-        initMapView()
-        initScrollView()
-    
-        // Process the signal to do something else. That's why you need to have a reference to the signal.
-        let locationStream = nearbyVM.getCurrentLocation()
-        locationStream.ownedBy(self)
-        locationStream ~> { [unowned self] location -> Void in
-            self.setInitialCenter(location)
-        }
-
-        setupMapViewSignal()
-        
-        // Don't care about the result. Therefore don't need to hold a reference to the signal.
-        nearbyVM.getBusiness()
+        setupMapView()
     }
     
     public override func didReceiveMemoryWarning() {
@@ -57,175 +47,151 @@ public final class NearbyViewController: XUIViewController , UITableViewDelegate
     }
     
     public func bindToViewModel(viewmodel: INearbyViewModel) {
-        nearbyVM = viewmodel
+        self.viewmodel = viewmodel
     }
     
     /**
     React to Profile Button and present ProfileViewController.
     */
     private func setupProfileButton() {
-        let profileButtonSignal = profileButton.stream().ownedBy(self)
-        profileButtonSignal ~> { [unowned self] button -> Void in
-            nearbyVM?.pushProfileModule()
+        let pushProfile = Action<Void, Void, NoError> {
+            return SignalProducer<Void, NoError> { [unowned self] sink, disposable in
+                self.viewmodel.pushProfileModule()
+                sendCompleted(sink)
+            }
         }
         
+        profileButtonAction = CocoaAction(pushProfile, input: ())
+        
+        profileButton.target = profileButtonAction
+        profileButton.action = CocoaAction.selector
     }
     
     /**
     Initialize map view.
     
     */
-    private func initMapView() {
-        // start a map view focused at a certain location
-        mapView.frame = view.bounds
+    private func setupMapView() {
+        // set the view region
+        viewmodel.currentLocation
+            |> start(next: { [unowned self] location in
+                self.centerOnLocation(location.coordinate, animated: false)
+            })
         
-        mapView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
+        // track user movement
+//        mapView.setUserTrackingMode(.Follow, animated: false)
         
-        view.addSubview(mapView)
+        // add annotation to map view
+        viewmodel.businessViewModelArr.producer
+            |> start(next: { [unowned self] businessArr in
+                self.businessCollectionView.reloadData()
+                for bus in businessArr {
+                    self.mapView.addAnnotation(bus.annotation.value)
+                }
+            })
     }
     
     /**
-    Intialize scroll view.
+    Center the map to a location.
     
+    :param: coordinate The coordinates.
+    :param: animated   Turn on or off animation.
     */
-    private func initScrollView (){
-        let scrollView = HorizontalScrollView()
-        scrollView.frame = view.bounds
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.decelerationRate = UIScrollViewDecelerationRateFast
-        scrollView.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
-        
-        scrollView.addSubview(horizontalScrollContentView)
-        scrollView.delegate = self
-        
-        view.addSubview(scrollView)
+    private func centerOnLocation(coordinate: CLLocationCoordinate2D, animated: Bool) {
+        let span = MapViewSpan
+        let region = MKCoordinateRegion(center: coordinate, span: span)
+        mapView.setRegion(region, animated: animated)
     }
-    
-    private func setupMapViewSignal() {
-
-        let businessVMArrSignal = nearbyVM.businessDynamicArr.stream().ownedBy(self)
-        businessVMArrSignal ~> { [unowned self] changedValues, change, indexSet in
-            if change == .Insertion {
-                let businessVM = changedValues![0] as! NearbyHorizontalScrollCellViewModel
-                
-                // Setup annotation
-                let annotation = MKPointAnnotation()
-                annotation.coordinate = businessVM.cllocation.coordinate
-                annotation.title = businessVM.businessName
-//                annotation.subtitle = businessVM.nameEnglish
-                
-                // Add annotation to map
-                self.mapView.addAnnotation(annotation)
-                
-                self.horizontalScrollContentView.addSubview(self.newTableView())
-            }
-        }
-    }
-    
-    private func newTableView() -> UITableView {
-       
-        var tableView = NearbyTableView()
-        
-        //register the xib file for the custom cell
-        var nib = UINib(nibName: NearbyTableViewCellXIB, bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: CellIdentifier)
-
-        tableView.frame = CGRectZero
-        
-        tableView.backgroundColor = UIColor.clearColor()
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.showsHorizontalScrollIndicator = false
-        tableView.showsVerticalScrollIndicator = false
-        tableView.decelerationRate = UIScrollViewDecelerationRateFast
-        tableView.rowHeight = 80
-        tableView.scrollEnabled = false
-        
-        tableArray.append(tableView)
-        
-        return tableView
-    }
-    
-    /**
-    Move the map view to center on a location.
-    
-    :param: location The geolocation.
-    */
-    private func setInitialCenter(location: CLLocation){
-        let span = MKCoordinateSpanMake(0.07, 0.07)
-        let region = MKCoordinateRegion(center: location.coordinate, span: span)
-        mapView.setRegion(region, animated: false)
-    }
-    
-    
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        var tView = tableArray[pageNumber]
-        
-        var biz = nearbyVM.businessDynamicArr.proxy[pageNumber] as! NearbyHorizontalScrollCellViewModel
-        
-        var cell = tView.dequeueReusableCellWithIdentifier(CellIdentifier) as! NearbyTableViewCell
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
-        
-        cell.bizName.text = biz.businessName
-        cell.bizDetail.text = "130+ 人想去"
-        cell.bizHours.text = "今天 10:00AM - 10:00PM"
-        
-        let bizDetailNSString : NSString = cell.bizDetail.text! as NSString
-        let detailStrSize : CGSize = bizDetailNSString.sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(13.0)])
-        
-        var etaLabel = UILabel(frame: CGRectMake(cell.bizDetail!.frame.origin.x + detailStrSize.width,cell.bizDetail!.frame.origin.y, 200, cell.bizDetail!.frame.height))
-        
-        etaLabel.text = " • 开车25分钟"
-        //Uncomment line below to update eta with the correct data
-        //etaLabel.rac_text <~ businessVM.etaText
-        etaLabel.font = etaLabel.font.fontWithSize(13.0)
-        cell.addSubview(etaLabel)
-        
-        if let url = biz.coverImageNSURL {
-            cell.bizImage?.sd_setImageWithURL(url)
-        }
-        
-        return cell
-        
-    }
-    
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        nearbyVM.pushDetailModule(indexPath.section)
-    }
-    
-    
 }
 
-extension NearbyViewController : UIScrollViewDelegate {
+extension NearbyViewController : MKMapViewDelegate {
+    /**
+    Tells the delegate that one of its annotation views was selected.
     
-    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        var pageWidth = horizontalScrollContentView.pageWidth
-        
-        var pageNumber = targetContentOffset.memory.x/pageWidth!
-        if velocity.x < 0 {
-            pageNumber = floor(pageNumber)
+    :param: mapView The map view containing the annotation view.
+    :param: view    The annotation view that was selected.
+    */
+    public func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
+        /// Scroll the Collection View to the associated business
+        if let annotation = view.annotation as? MKPointAnnotation,
+            index = $.findIndex(viewmodel.businessViewModelArr.value, callback: { $0.annotation.value == annotation }) {
+                // Construct the index path. Note that the collection only has ONE row.
+                let indexPath = NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: index)
+                businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: true)
+                
         }
-        else {
-            pageNumber = ceil(pageNumber)
-        }
-        
-        var count = horizontalScrollContentView.subviews.count
-            
-        self.pageNumber = Int(pageNumber)
-        var tView = tableArray[self.pageNumber]
-        tView.reloadData()
-        var biz = nearbyVM.businessDynamicArr.proxy[self.pageNumber] as! NearbyHorizontalScrollCellViewModel
-        setInitialCenter(biz.cllocation)
-        
-        targetContentOffset.memory.x = pageNumber * pageWidth!
-        
+    }
+}
+
+extension NearbyViewController : UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    
+    /**
+    Asks the data source for the number of sections in the collection view.
+    
+    :param: collectionView An object representing the collection view requesting this information.
+    
+    :returns: The number of sections in collectionView.
+    */
+    public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return viewmodel.businessViewModelArr.value.count
     }
     
+    /**
+    Asks the data source for the number of items in the specified section.
+    
+    :param: collectionView An object representing the collection view requesting this information.
+    :param: section        An index number identifying a section in collectionView. This index value is 0-based.
+    
+    :returns: The number of rows in section.
+    */
+    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return NumberOfRowsInCollectionView
+    }
+    
+    /**
+    Asks the data source for the cell that corresponds to the specified item in the collection view.
+    
+    :param: collectionView An object representing the collection view requesting this information.
+    :param: indexPath      The index path that specifies the location of the item.
+    
+    :returns: A configured cell object. You must not return nil from this method.
+    */
+    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = businessCollectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier, forIndexPath: indexPath) as! NearbyCollectionViewCell
+        let business = viewmodel.businessViewModelArr.value[indexPath.section]
+        cell.bindToViewModel(business)
+        
+        /// Center the map to the annotation.
+        let annotation = business.annotation.value
+        centerOnLocation(annotation.coordinate, animated: true)
+        
+        return cell
+    }
+    
+    /**
+    Tells the delegate that the item at the specified index path was selected.
+    
+    :param: collectionView The collection view object that is notifying you of the selection change.
+    :param: indexPath      The index path of the cell that was selected.
+    */
+    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        viewmodel.pushDetailModule(indexPath.section)
+    }
+}
+
+extension NearbyViewController : UICollectionViewDelegateFlowLayout {
+    
+    /**
+    Asks the delegate for the size of the specified item’s cell.
+    
+    :param: collectionView       The collection view object displaying the flow layout.
+    :param: collectionViewLayout The layout object requesting the information.
+    :param: indexPath            The index path of the item.
+    
+    :returns: The width and height of the specified item. Both values must be greater than 0.
+    */
+    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return collectionView.bounds.size
+    }
 }
