@@ -33,6 +33,7 @@
 		2ADF3E681B1ECEFF00C2971E /* AddressAndMapDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF3E671B1ECEFF00C2971E /* AddressAndMapDelegate.swift */; };
 		3D211E861B2C1AB000161E09 /* IBackgroundLocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D211E851B2C1AAF00161E09 /* IBackgroundLocationWorker.swift */; };
 		3D211E881B2C1ABE00161E09 /* BackgroundLocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D211E871B2C1ABE00161E09 /* BackgroundLocationWorker.swift */; };
+		3D5D8FA41B3A87D900EA4ADA /* WantToGoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D8FA31B3A87D900EA4ADA /* WantToGoTableViewCell.swift */; };
 		3DB8AC301B06D0DF00E51F0E /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB8AC2F1B06D0DF00E51F0E /* Profile.swift */; };
 		3DE38A7E1B11BB3000DFA128 /* IKeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE38A7D1B11BB3000DFA128 /* IKeychainService.swift */; };
 		3DE38A801B11BB3D00DFA128 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE38A7F1B11BB3D00DFA128 /* KeychainService.swift */; };
@@ -186,6 +187,7 @@
 		3B67513D959F982A4CF98B56 /* Pods-XListing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListing.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListing/Pods-XListing.release.xcconfig"; sourceTree = "<group>"; };
 		3D211E851B2C1AAF00161E09 /* IBackgroundLocationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBackgroundLocationWorker.swift; sourceTree = "<group>"; };
 		3D211E871B2C1ABE00161E09 /* BackgroundLocationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundLocationWorker.swift; sourceTree = "<group>"; };
+		3D5D8FA31B3A87D900EA4ADA /* WantToGoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WantToGoTableViewCell.swift; sourceTree = "<group>"; };
 		3DB8AC2F1B06D0DF00E51F0E /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		3DE38A7D1B11BB3000DFA128 /* IKeychainService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IKeychainService.swift; sourceTree = "<group>"; };
 		3DE38A7F1B11BB3D00DFA128 /* KeychainService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 			children = (
 				B4B6653F1ADF88DB0084DBE7 /* DetailViewController.swift */,
 				2A8DA55B1B18465D00311382 /* WantToGoTableViewController.swift */,
+				3D5D8FA31B3A87D900EA4ADA /* WantToGoTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1247,6 +1250,7 @@
 				7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */,
 				B47E15BF1B17AD790028E07E /* UIKit&ReactiveCocoa+extension.swift in Sources */,
 				B4E1384E1AE1CA9D0082DCA3 /* IUserService.swift in Sources */,
+				3D5D8FA41B3A87D900EA4ADA /* WantToGoTableViewCell.swift in Sources */,
 				45CBB368E7FE3FD3551D6C35 /* ProfileWireframe.swift in Sources */,
 				B4F1959A1B2AA32700B8C519 /* Route.swift in Sources */,
 				45CBB1BF173283F19EC8C446 /* IProfileWireframe.swift in Sources */,

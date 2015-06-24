@@ -14,7 +14,7 @@ public protocol ReactiveTableCellViewModel : class {
     
 }
 
-public protocol ReactiveTabelCellView : class {
+public protocol ReactiveTableCellView : class {
     func bindViewModel(viewmodel: ReactiveTableCellViewModel)
 }
 

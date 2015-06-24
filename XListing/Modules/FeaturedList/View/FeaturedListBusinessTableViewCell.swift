@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 
-public final class FeaturedListBusinessTableViewCell : UITableViewCell, ReactiveTabelCellView {
+public final class FeaturedListBusinessTableViewCell : UITableViewCell, ReactiveTableCellView {
     
     // MARK: - UI Controls
     @IBOutlet weak var coverImageView: UIImageView!

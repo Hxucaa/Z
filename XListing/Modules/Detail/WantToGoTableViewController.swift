@@ -7,15 +7,23 @@
 //
 
 import UIKit
+import SDWebImage
 import ReactiveCocoa
 
 public final class WantToGoTableViewController: UITableViewController {
-        
+    
+    // MARK: - UI
     @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
     
+    // MARK: Controls
+    
+    // MARK: Actions
+    
+    // MARK: - Private Variables
     var selectedPplArrayM : NSMutableArray = []
     var selectedPplArrayW : NSMutableArray = []
     
+    // MARK: - Setup Code
     public override func viewDidLoad() {
         super.viewDidLoad()
 

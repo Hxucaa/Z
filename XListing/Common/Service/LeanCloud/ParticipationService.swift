@@ -24,7 +24,7 @@ public struct ParticipationService : IParticipationService {
                 }
             }
         }
-}
+    }
     
     public func get(query: AVQuery) -> SignalProducer<Participation, NSError> {
         return SignalProducer { sink, disposable in
