@@ -5,7 +5,7 @@
 
 import ReactiveCocoa
 
-public protocol IProfileViewModel : class {
+public protocol IProfileViewModel {
     init(userService: IUserService)
-    var nickname: ConstantProperty<String> { get }
+    var nickname: MutableProperty<String> { get }
 }

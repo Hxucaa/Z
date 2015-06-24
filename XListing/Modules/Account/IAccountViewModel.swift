@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
-import ReactKit
-import SwiftTask
 
 public protocol IAccountViewModel {
     var editProfileViewModel: EditProfileViewModel { mutating get }

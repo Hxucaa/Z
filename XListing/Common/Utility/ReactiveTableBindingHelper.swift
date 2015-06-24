@@ -1,5 +1,5 @@
 //
-//  TableViewBindingHelper.swift
+//  ReactiveTableBindingHelper.swift
 //  ReactiveSwiftFlickrSearch
 //
 //  Created by Colin Eberhardt on 15/07/2014.

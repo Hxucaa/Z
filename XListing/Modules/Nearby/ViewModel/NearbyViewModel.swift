@@ -28,7 +28,7 @@ public struct NearbyViewModel : INearbyViewModel {
     :returns: A Task that contains a geo location.
     */
         public var currentLocation: SignalProducer<CLLocation, NSError> {
-        return geoLocationService.getCurrentLocationSignal()
+        return geoLocationService.getCurrentLocation()
             |> catch { error -> SignalProducer<CLLocation, NSError> in
                 
                 return SignalProducer { sink, disposable in
@@ -77,7 +77,7 @@ public struct NearbyViewModel : INearbyViewModel {
         let query = Business.query()!
         
         // TODO: implement default location.
-        return businessService.findBySignal(query)
+        return businessService.findBy(query)
             |> on(next: { businesses in
                 self.fetchingData.put(true)
                 self.businessArr.put(businesses)
