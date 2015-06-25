@@ -33,7 +33,7 @@ public struct LogInViewModel {
             |> filter { $0 }
             |> mapError { _ in NSError() }
             |> flatMap(FlattenStrategy.Merge) { valid -> SignalProducer<User, NSError> in
-                    return self.userService.logInSignal(self.username.value, password: self.password.value)
+                    return self.userService.logIn(self.username.value, password: self.password.value)
         }
     }
     

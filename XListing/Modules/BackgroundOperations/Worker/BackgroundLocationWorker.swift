@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import ReactiveCocoa
 import AVOSCloud
 
 public final class BackgroundLocationWorker : NSObject, IBackgroundLocationWorker, CLLocationManagerDelegate {
@@ -34,22 +35,17 @@ public final class BackgroundLocationWorker : NSObject, IBackgroundLocationWorke
     }
     
     public func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
-        
-        let user = userService.currentUser()
-        let latestLocation = AVGeoPoint(location: newLocation)
-        
-        user!.latestLocation = latestLocation
-        
-        let saveLocationTask = self.userService.save(user!)
-            .success { success-> Bool in
-                BOLogInfo("User location updated")
-                return true
+        userService.currentLoggedInUser()
+            |> flatMap(.Concat) { user -> SignalProducer<Bool, NSError> in
+                
+                let latestLocation = AVGeoPoint(location: newLocation)
+                user.latestLocation = latestLocation
+                return self.userService.save(user)
             }
-        .failure({(error, isCancelled) -> Bool in
-            BOLogInfo("Location update failed!")
-            return false
-        })
+            |> on(
+                next: { _ in BOLogInfo("User location updated") },
+                error: { _ in BOLogInfo("Location update failed!") }
+            )
+            |> start()
     }
-
-    
 }

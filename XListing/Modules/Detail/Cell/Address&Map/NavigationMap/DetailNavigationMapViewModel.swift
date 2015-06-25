@@ -14,7 +14,7 @@ public struct DetailNavigationMapViewModel {
     
     // MARK: - Public
     public var navParams: SignalProducer<(MKPointAnnotation, MKCoordinateRegion), NSError> {
-        return self.geoLocationService.getCurrentLocationSignal()
+        return self.geoLocationService.getCurrentLocation()
             |> map { current -> (MKPointAnnotation, MKCoordinateRegion) in
                 let anno = self.annotation.value.coordinate
                 let distance = CLLocation(latitude: anno.latitude, longitude: anno.longitude).distanceFromLocation(current)

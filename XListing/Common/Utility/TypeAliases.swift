@@ -7,10 +7,7 @@
 //
 
 import Foundation
-import SwiftTask
 import AVOSCloud
 
 public typealias CompletionHandler = (() -> Void)
 public typealias Participation = User_Business_Participation
-
-public typealias SaveTask = Task<Int, Bool, NSError>
