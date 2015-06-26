@@ -107,7 +107,7 @@ private let AVOSCloudErrors = [
     
     kAVErrorUserCanOnlyBeCreatedThroughSignUp: "请点击右上角的个人资料提交注册吧 😊",
     
-    kAVErrorFacebookAccountAlreadyLinked: "Facebook账号已与另一个账号连接 😕",
+//    kAVErrorFacebookAccountAlreadyLinked: "Facebook账号已与另一个账号连接 😕",
     
     kAVErrorAccountAlreadyLinked: "账户已与另一用户关联,请重试 😕",
     
@@ -117,11 +117,11 @@ private let AVOSCloudErrors = [
     
     kAVErrorUserNotFound: "无效用户名或密码错误,请重试 😕",
     
-    kAVErrorFacebookIdMissing: "无效Facebook用户,请重试 😕",
+//    kAVErrorFacebookIdMissing: "无效Facebook用户,请重试 😕",
     
     kAVErrorLinkedIdMissing: "遇到错误啦,请重试 🙏",
     
-    kAVErrorFacebookInvalidSession: "无效的Facebook session,请重试 😕",
+//    kAVErrorFacebookInvalidSession: "无效的Facebook session,请重试 😕",
     
     kAVErrorInvalidLinkedSession: "遇到错误啦,请重试 🙏"
 
