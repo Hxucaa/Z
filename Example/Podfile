@@ -1,0 +1,15 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+
+target 'XAssets_Example', :exclusive => true do
+  pod "XAssets", :path => "../"
+end
+
+target 'XAssets_Tests', :exclusive => true do
+  pod "XAssets", :path => "../"
+
+  pod 'Quick', '~> 0.3.1'
+  pod 'Nimble'
+  pod 'FBSnapshotTestCase'
+  pod 'Nimble-Snapshots'
+end
