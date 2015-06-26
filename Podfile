@@ -1,9 +1,9 @@
-# Uncomment this line to define a global platform for your project
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 use_frameworks!
 
 target 'XListing' do
+  pod 'XAssets', :path => './lib/XAssets'
   pod 'FLEX', '~> 2.0', :configurations => ['DEBUG']
   pod 'SVProgressHUD', :git => 'https://github.com/Hxucaa/SVProgressHUD.git'
   pod 'CocoaLumberjack', '~> 2.0'
