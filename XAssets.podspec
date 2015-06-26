@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.homepage         = "https://bitbucket.org/zenchat/xassets"
   s.license          = 'MIT'
   s.author           = { "Lance Zhu" => "lance.zhu@zenchatapp.com" }
-  s.source           = { :git => "https://hxucaa@bitbucket.org/zenchat/xassets.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://bitbucket.org/zenchat/xassets.git", :tag => s.version.to_s }
 
   s.platform     = :ios, '8.0'
   s.requires_arc = true
