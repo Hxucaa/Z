@@ -1,5 +1,5 @@
 //
-//  WantToGoTableViewController.swift
+//  WantToGoListViewController.swift
 //  XListing
 //
 //  Created by Bruce Li on 2015-05-29.
@@ -10,10 +10,13 @@ import UIKit
 import SDWebImage
 import ReactiveCocoa
 
-public final class WantToGoTableViewController: UITableViewController {
+private let CellIdentifier = "Cell"
+
+public final class WantToGoListViewController: UITableViewController {
     
     // MARK: - UI
     @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
+//    @IBOutlet var tableView: UITableView!
     
     // MARK: Controls
     
@@ -22,6 +25,9 @@ public final class WantToGoTableViewController: UITableViewController {
     // MARK: - Private Variables
     var selectedPplArrayM : NSMutableArray = []
     var selectedPplArrayW : NSMutableArray = []
+    
+    private var viewmodel: IWantToGoListViewModel!
+    private var bindingHelper: ReactiveTableBindingHelper<WantToGoViewModel>!
     
     // MARK: - Setup Code
     public override func viewDidLoad() {
@@ -36,6 +42,27 @@ public final class WantToGoTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
+    public override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    public func bindToViewModel(viewmodel: IWantToGoListViewModel) {
+        self.viewmodel = viewmodel
+    }
+    
+    public func setupTableView() {
+        bindingHelper = ReactiveTableBindingHelper(
+            tableView: tableView,
+            sourceSignal: viewmodel.wantToGoViewModelArr.producer,
+            storyboardIdentifier: CellIdentifier
+            )
+            { [unowned self] pos in
+                println("log something")
+        }
+    }
+    
+    
     func loadTestArray(){
         for i in 0 ... 7{
             selectedPplArrayM.addObject(false)
@@ -43,14 +70,13 @@ public final class WantToGoTableViewController: UITableViewController {
         }
     }
     
+    
+    
     func switchSegment(){
         self.tableView.reloadData()
     }
 
-    public override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+
 
     // MARK: - Table view data source
 

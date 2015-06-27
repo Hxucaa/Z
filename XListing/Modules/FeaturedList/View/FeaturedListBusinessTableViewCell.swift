@@ -18,6 +18,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell, Reactive
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var participationLabel: UILabel!
     
+    // MARK: Private Variables
     private var viewmodel: FeaturedBusinessViewModel!
     
     public override func awakeFromNib() {
@@ -31,8 +32,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell, Reactive
     public func bindViewModel(viewmodel: ReactiveTableCellViewModel) {
         self.viewmodel = viewmodel as! FeaturedBusinessViewModel
         
-        businessNameLabel.rac_text <~ self.viewmodel.businessName
-        cityLabel.rac_text <~ self.viewmodel.city
+        businessNameLabel.rac_text  <~ self.viewmodel.businessName
+        cityLabel.rac_text          <~ self.viewmodel.city
         participationLabel.rac_text <~ self.viewmodel.participation
         
         combineLatest(self.viewmodel.city.producer, self.viewmodel.eta.producer)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="OjV-3x-cL1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="OjV-3x-cL1">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
@@ -31,7 +31,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="逛一逛" id="lVv-eu-6qo">
-                        <barButtonItem key="rightBarButtonItem" image="F1D6CBDD-AACA-4135-B9AE-65ED25E5180C" id="LOC-Av-aAC"/>
+                        <barButtonItem key="rightBarButtonItem" image="5C8756DF-DC18-4A6C-A891-37D75EFB146E" id="LOC-Av-aAC"/>
                     </navigationItem>
                     <connections>
                         <outlet property="profileButton" destination="LOC-Av-aAC" id="Fx8-Pt-Igr"/>
@@ -626,10 +626,10 @@
             </objects>
             <point key="canvasLocation" x="448" y="1542"/>
         </scene>
-        <!--Want To Go Table View Controller-->
+        <!--Want To Go List View Controller-->
         <scene sceneID="klm-c8-M1T">
             <objects>
-                <tableViewController id="XpP-Yc-Wdz" customClass="WantToGoTableViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="WantToGoListViewController" id="XpP-Yc-Wdz" customClass="WantToGoListViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" id="WOx-in-aHt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -640,14 +640,8 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tiv-d3-hxQ" id="jc4-Q5-uJO">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="curry" translatesAutoresizingMaskIntoConstraints="NO" id="L5k-kx-mhu">
-                                            <rect key="frame" x="13" y="6" width="85" height="85"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="85" id="uG0-9r-dxx"/>
-                                            </constraints>
-                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dH2-hM-sdr">
-                                            <rect key="frame" x="106" y="18" width="187" height="21"/>
+                                            <rect key="frame" x="161" y="8" width="187" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -681,6 +675,12 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="curry" translatesAutoresizingMaskIntoConstraints="NO" id="L5k-kx-mhu">
+                                            <rect key="frame" x="13" y="6" width="85" height="85"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="85" id="uG0-9r-dxx"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailingMargin" secondItem="2M2-1R-MSA" secondAttribute="trailing" constant="-7" id="4up-Fz-tEY"/>
@@ -700,6 +700,12 @@
                                         <constraint firstItem="EXT-Bm-aPY" firstAttribute="leading" secondItem="dH2-hM-sdr" secondAttribute="leading" id="xJp-C7-ftK"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="ageGroup" destination="7Gf-jF-OxC" id="jJm-YK-dl7"/>
+                                    <outlet property="displayName" destination="dH2-hM-sdr" id="Ra0-yj-boL"/>
+                                    <outlet property="horoscope" destination="EXT-Bm-aPY" id="hx6-ja-WLH"/>
+                                    <outlet property="profilePicture" destination="L5k-kx-mhu" id="0pT-LE-i6F"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -721,6 +727,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="genderSegmentedControl" destination="9SF-Qs-eTa" id="zmM-xx-XHn"/>
+                        <outlet property="tableView" destination="WOx-in-aHt" id="J72-pg-gDq"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5fO-4s-T5T" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -923,7 +930,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="F1D6CBDD-AACA-4135-B9AE-65ED25E5180C" width="22" height="22">
+        <image name="5C8756DF-DC18-4A6C-A891-37D75EFB146E" width="22" height="22">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
