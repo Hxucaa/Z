@@ -12,11 +12,11 @@ import ReactiveCocoa
 
 private let CellIdentifier = "Cell"
 
-public final class WantToGoListViewController: UITableViewController {
+public final class WantToGoListViewController: XUIViewController {
     
     // MARK: - UI
     @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
-//    @IBOutlet var tableView: UITableView!
+    @IBOutlet var tableView: UITableView!
     
     // MARK: Controls
     
@@ -73,69 +73,69 @@ public final class WantToGoListViewController: UITableViewController {
     
     
     func switchSegment(){
-        self.tableView.reloadData()
+//        self.tableView.reloadData()
     }
 
 
 
-    // MARK: - Table view data source
-
-    public override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 1
-    }
-
-    public override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 8
-    }
-    
-    func convertImgToCircle(imageView: UIImageView){
-        let imgWidth = CGFloat(imageView.frame.width)
-        imageView.layer.cornerRadius = imgWidth / 2
-        imageView.layer.masksToBounds = true;
-        return
-    }
-
-    
-    public override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("wantToGoCell", forIndexPath: indexPath) as! UITableViewCell
-        
-        var profilePicImageView = cell.viewWithTag(1) as? UIImageView
-        var nameLabel : UILabel? = cell.viewWithTag(2) as? UILabel
-        var horoscopeAgeLabel: UILabel? = cell.viewWithTag(3) as? UILabel
-        var cityLabel : UILabel? = cell.viewWithTag(4) as? UILabel
-        var wantToGoButton : UIButton? = cell.viewWithTag(5) as? UIButton
-        
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
-        
-        wantToGoButton?.addTarget(self, action: "tappedButton:", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        var buttonState = false
-        
-        if (genderSegmentedControl.selectedSegmentIndex == 0){
-            profilePicImageView?.image = UIImage( named: "curry")
-            buttonState = selectedPplArrayM.objectAtIndex(indexPath.row) as! Bool
-        }else{
-            profilePicImageView?.image = UIImage( named: "lebron")
-            buttonState = selectedPplArrayW.objectAtIndex(indexPath.row) as! Bool
-        }
- 
-        
-        if (buttonState){
-            wantToGoButton?.setTitle("\u{f004} 一起去", forState: UIControlState.Normal)
-        }else{
-            wantToGoButton?.setTitle("\u{f08a} 一起去", forState: UIControlState.Normal)
-        }
-        
-        
-        
-        self.convertImgToCircle(profilePicImageView!);
-
-        return cell
-    }
+//    // MARK: - Table view data source
+//
+//    public override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+//        // #warning Potentially incomplete method implementation.
+//        // Return the number of sections.
+//        return 1
+//    }
+//
+//    public override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        // #warning Incomplete method implementation.
+//        // Return the number of rows in the section.
+//        return 8
+//    }
+//    
+//    func convertImgToCircle(imageView: UIImageView){
+//        let imgWidth = CGFloat(imageView.frame.width)
+//        imageView.layer.cornerRadius = imgWidth / 2
+//        imageView.layer.masksToBounds = true;
+//        return
+//    }
+//
+//    
+//    public override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCellWithIdentifier("wantToGoCell", forIndexPath: indexPath) as! UITableViewCell
+//        
+//        var profilePicImageView = cell.viewWithTag(1) as? UIImageView
+//        var nameLabel : UILabel? = cell.viewWithTag(2) as? UILabel
+//        var horoscopeAgeLabel: UILabel? = cell.viewWithTag(3) as? UILabel
+//        var cityLabel : UILabel? = cell.viewWithTag(4) as? UILabel
+//        var wantToGoButton : UIButton? = cell.viewWithTag(5) as? UIButton
+//        
+//        cell.selectionStyle = UITableViewCellSelectionStyle.None
+//        
+//        wantToGoButton?.addTarget(self, action: "tappedButton:", forControlEvents: UIControlEvents.TouchUpInside)
+//        
+//        var buttonState = false
+//        
+//        if (genderSegmentedControl.selectedSegmentIndex == 0){
+//            profilePicImageView?.image = UIImage( named: "curry")
+//            buttonState = selectedPplArrayM.objectAtIndex(indexPath.row) as! Bool
+//        }else{
+//            profilePicImageView?.image = UIImage( named: "lebron")
+//            buttonState = selectedPplArrayW.objectAtIndex(indexPath.row) as! Bool
+//        }
+// 
+//        
+//        if (buttonState){
+//            wantToGoButton?.setTitle("\u{f004} 一起去", forState: UIControlState.Normal)
+//        }else{
+//            wantToGoButton?.setTitle("\u{f08a} 一起去", forState: UIControlState.Normal)
+//        }
+//        
+//        
+//        
+//        self.convertImgToCircle(profilePicImageView!);
+//
+//        return cell
+//    }
     
     func tappedButton(sender: UIButton) {
         let tappedCell = sender.superview?.superview as! UITableViewCell
