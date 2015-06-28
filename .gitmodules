@@ -1,0 +1,3 @@
+[submodule "lib/XAssets"]
+	path = lib/XAssets
+	url = https://bitbucket.org/zenchat/xassets.git

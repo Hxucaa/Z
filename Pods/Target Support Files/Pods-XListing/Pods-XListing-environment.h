@@ -146,6 +146,12 @@
 #define COCOAPODS_VERSION_MINOR_SnapKit 12
 #define COCOAPODS_VERSION_PATCH_SnapKit 0
 
+// XAssets
+#define COCOAPODS_POD_AVAILABLE_XAssets
+#define COCOAPODS_VERSION_MAJOR_XAssets 0
+#define COCOAPODS_VERSION_MINOR_XAssets 1
+#define COCOAPODS_VERSION_PATCH_XAssets 0
+
 // Debug build configuration
 #ifdef DEBUG
 
