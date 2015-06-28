@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ReactKit
 import Foundation
 
 private let EditProfileViewNibName = "EditProfileView"

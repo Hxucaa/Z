@@ -88,12 +88,6 @@
 #define COCOAPODS_VERSION_MINOR_Locksmith 2
 #define COCOAPODS_VERSION_PATCH_Locksmith 2
 
-// ReactKit
-#define COCOAPODS_POD_AVAILABLE_ReactKit
-#define COCOAPODS_VERSION_MAJOR_ReactKit 0
-#define COCOAPODS_VERSION_MINOR_ReactKit 11
-#define COCOAPODS_VERSION_PATCH_ReactKit 0
-
 // ReactiveCocoa
 #define COCOAPODS_POD_AVAILABLE_ReactiveCocoa
 // This library does not follow semantic-versioning,
@@ -152,11 +146,11 @@
 #define COCOAPODS_VERSION_MINOR_SnapKit 12
 #define COCOAPODS_VERSION_PATCH_SnapKit 0
 
-// SwiftTask
-#define COCOAPODS_POD_AVAILABLE_SwiftTask
-#define COCOAPODS_VERSION_MAJOR_SwiftTask 3
-#define COCOAPODS_VERSION_MINOR_SwiftTask 3
-#define COCOAPODS_VERSION_PATCH_SwiftTask 0
+// XAssets
+#define COCOAPODS_POD_AVAILABLE_XAssets
+#define COCOAPODS_VERSION_MAJOR_XAssets 0
+#define COCOAPODS_VERSION_MINOR_XAssets 1
+#define COCOAPODS_VERSION_PATCH_XAssets 0
 
 // Debug build configuration
 #ifdef DEBUG

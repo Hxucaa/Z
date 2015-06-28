@@ -32,7 +32,7 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
         let query = Business.query()!
         query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
         
-        return businessService.findBySignal(query)
+        return businessService.findBy(query)
             |> on(next: { businesses in
                 self.fetchingData.put(true)
                 self.businessArr.put(businesses)

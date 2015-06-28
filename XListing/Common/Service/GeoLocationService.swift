@@ -7,32 +7,13 @@
 //
 
 import Foundation
-import SwiftTask
 import ReactiveCocoa
-import MapKit
 import AVOSCloud
 import CoreLocation
 
 public struct GeoLocationService : IGeoLocationService {
     
-    public let defaultGeoPoint = AVGeoPoint(latitude: 49.27623, longitude: -123.12941)
-    
-    public func getCurrentLocation() -> Task<Int, CLLocation, NSError> {
-        return Task<Int, CLLocation, NSError> { progress, fulfill, reject, configure in
-            // get current location
-            AVGeoPoint.geoPointForCurrentLocationInBackground { (geopoint, error) -> Void in
-                if error == nil {
-                    let t = geopoint!
-                    fulfill(CLLocation(latitude: t.latitude, longitude: t.longitude))
-                }
-                else {
-                    reject(error!)
-                }
-            }
-        }
-    }
-    
-    public func getCurrentLocationSignal() -> SignalProducer<CLLocation, NSError> {
+    public func getCurrentLocation() -> SignalProducer<CLLocation, NSError> {
         return SignalProducer<CLLocation, NSError> { sink, disposable in
             // get current location
             AVGeoPoint.geoPointForCurrentLocationInBackground { (geopoint, error) -> Void in
@@ -47,16 +28,16 @@ public struct GeoLocationService : IGeoLocationService {
         }
     }
     
-    public func getCurrentGeoPoint() -> Task<Int, AVGeoPoint, NSError> {
-        return Task<Int, AVGeoPoint, NSError> { progress, fulfill, reject, configure in
+    public func getCurrentGeoPoint() -> SignalProducer<AVGeoPoint, NSError> {
+        return SignalProducer { sink, disposable in
             // get current location
             AVGeoPoint.geoPointForCurrentLocationInBackground { (geopoint, error) -> Void in
                 if error == nil {
-                    
-                    fulfill(geopoint!)
+                    sendNext(sink, geopoint)
+                    sendCompleted(sink)
                 }
                 else {
-                    reject(error!)
+                    sendError(sink, error)
                 }
             }
         }

@@ -56,13 +56,12 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'JSQMessagesViewController.framework'
   install_framework 'JSQSystemSoundPlayer.framework'
   install_framework 'Locksmith.framework'
-  install_framework 'ReactKit.framework'
   install_framework 'ReactiveCocoa.framework'
   install_framework 'Result.framework'
   install_framework 'SDWebImage.framework'
   install_framework 'SVProgressHUD.framework'
   install_framework 'SnapKit.framework'
-  install_framework 'SwiftTask.framework'
+  install_framework 'XAssets.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'AVOSCloud.framework'
@@ -72,11 +71,10 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'JSQMessagesViewController.framework'
   install_framework 'JSQSystemSoundPlayer.framework'
   install_framework 'Locksmith.framework'
-  install_framework 'ReactKit.framework'
   install_framework 'ReactiveCocoa.framework'
   install_framework 'Result.framework'
   install_framework 'SDWebImage.framework'
   install_framework 'SVProgressHUD.framework'
   install_framework 'SnapKit.framework'
-  install_framework 'SwiftTask.framework'
+  install_framework 'XAssets.framework'
 fi
