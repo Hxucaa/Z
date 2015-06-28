@@ -28,13 +28,8 @@ public struct EditProfileViewModel {
             // only allow TRUE value
             |> filter { $0 }
             |> mapError { _ in NSError() }
-            |> flatMap(FlattenStrategy.Merge) { valid -> SignalProducer<User, NSError> in
-                if valid {
-                    return self.userService.currentUserSignal()
-                }
-                else {
-                    return SignalProducer(error: NSError(domain: "SignUpViewModel", code: 899, userInfo: nil))
-                }
+            |> flatMap(FlattenStrategy.Merge) { _ -> SignalProducer<User, NSError> in
+                return self.userService.currentLoggedInUser()
             }
             |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
                 
@@ -44,7 +39,7 @@ public struct EditProfileViewModel {
                 user.nickname = self.nickname.value
                 user.birthday = self.birthday.value
                 user.profileImg = file
-                return self.userService.saveSignal(user)
+                return self.userService.save(user)
         }
     }
     

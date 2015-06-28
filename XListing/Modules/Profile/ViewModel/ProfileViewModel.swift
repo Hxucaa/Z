@@ -9,19 +9,21 @@
 import Foundation
 import ReactiveCocoa
 
-public final class ProfileViewModel : IProfileViewModel {
+public struct ProfileViewModel : IProfileViewModel {
     private let userService: IUserService
     
-    public let nickname: ConstantProperty<String>
+    public let nickname: MutableProperty<String> = MutableProperty("")
     
-    public required init(userService: IUserService) {
+    public init(userService: IUserService) {
         self.userService = userService
         
-        if let nickname = userService.currentUser()?.nickname {
-            self.nickname = ConstantProperty(nickname)
-        }
-        else {
-            self.nickname = ConstantProperty("")
-        }
+        self.userService.currentLoggedInUser()
+            |> start(
+                next: { user in
+                    if let nickname = user.nickname {
+                        self.nickname.put(nickname)
+                    }
+                }
+            )
     }
 }

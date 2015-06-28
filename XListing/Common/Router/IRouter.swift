@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ReactKit
 
 public protocol IRouter {
     func pushNearby()

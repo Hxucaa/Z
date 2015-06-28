@@ -35,7 +35,7 @@ public struct SignUpViewModel {
                 let user = User()
                 user.username = self.username.value
                 user.password = self.password.value
-                return self.userService.signUpSignal(user)
+                return self.userService.signUp(user)
         }
     }
     

@@ -32,17 +32,18 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
         let query = Business.query()!
         query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
         
-        return businessService.findBySignal(query)
+        return businessService.findBy(query)
             |> on(next: { businesses in
                 self.fetchingData.put(true)
-                self.businessArr.put(businesses)
             })
             |> map { businesses -> [FeaturedBusinessViewModel] in
-                return $.shuffle(
-                    businesses.map {
+                // shuffle and save the business models
+                self.businessArr.put($.shuffle(businesses))
+                
+                // map the business models to viewmodels
+                return self.businessArr.value.map {
                         FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint)
                     }
-                )
             }
             |> on(
                 next: { response in

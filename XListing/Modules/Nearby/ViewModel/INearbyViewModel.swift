@@ -7,15 +7,13 @@
 //
 
 import Foundation
-import ReactKit
-import SwiftTask
+import ReactiveCocoa
 import MapKit
 
-public protocol INearbyViewModel : class {
+public protocol INearbyViewModel {
+    var businessViewModelArr: MutableProperty<[NearbyTableCellViewModel]> { get }
+    var currentLocation: SignalProducer<CLLocation, NSError> { get }
     init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService)
-    var businessDynamicArr: DynamicArray { get }
-    func getCurrentLocation() -> Stream<CLLocation>
-    func getBusiness() -> Stream<Void>
     func pushDetailModule(section: Int)
     func pushProfileModule()
 }

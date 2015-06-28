@@ -43,7 +43,7 @@ public struct DetailBizInfoViewModel {
     :returns: A SignalProcuer indicating if the operation is successful.
     */
     public func participate(choice: ParticipationChoice) -> SignalProducer<Bool, NSError> {
-        return self.userService.currentUserSignal()
+        return self.userService.currentLoggedInUser()
             |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
                 let p = Participation()
                 p.user = user
@@ -98,7 +98,7 @@ public struct DetailBizInfoViewModel {
         /**
         *  Query database to check if user has already participated in this business.
         */
-        self.userService.currentUserSignal()
+        self.userService.currentLoggedInUser()
             |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Participation, NSError> in
                 typealias Property = Participation.Property
                 let query = Participation.query()
