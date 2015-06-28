@@ -9,6 +9,4 @@
 #ifndef XListing_XListing_Bridging_Header_h
 #define XListing_XListing_Bridging_Header_h
 
-#import <SDWebImage/UIImageView+WebCache.h>
-
 #endif

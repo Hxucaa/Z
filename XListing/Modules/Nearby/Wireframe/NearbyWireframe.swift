@@ -7,28 +7,22 @@
 //
 
 import Foundation
-import ReactKit
 
 private let NearbyViewControllerIdentifier = "NearbyViewController"
 
 public final class NearbyWireframe : BaseWireframe, INearbyWireframe {
     
-    private let navigator: INavigator
+    private let router: IRouter
     private let businessService: IBusinessService
     private let geoLocationService: IGeoLocationService
     private var nearbyVC: NearbyViewController?
     
-    public required init(rootWireframe: IRootWireframe, navigator: INavigator, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
-        self.navigator = navigator
+    public required init(rootWireframe: IRootWireframe, router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+        self.router = router
         self.businessService = businessService
         self.geoLocationService = geoLocationService
         
         super.init(rootWireframe: rootWireframe)
-        
-        navigator.nearbyModuleNavigationNotificationSignal! ~> { notification -> Void in
-            self.pushView()
-        }
-        
     }
     
     /**
@@ -39,15 +33,17 @@ public final class NearbyWireframe : BaseWireframe, INearbyWireframe {
     private func initViewController() -> NearbyViewController {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(NearbyViewControllerIdentifier) as! NearbyViewController
-        let viewmodel = NearbyViewModel(navigator: navigator, businessService: businessService, geoLocationService: geoLocationService)
+        let viewmodel = NearbyViewModel(router: router, businessService: businessService, geoLocationService: geoLocationService)
         
         viewController.bindToViewModel(viewmodel)
         
         nearbyVC = viewController
         return viewController
     }
-    
-    private func pushView() {
+}
+
+extension NearbyWireframe : NearbyRoute {
+    public func push() {
         let injectedViewController = initViewController()
         rootWireframe.pushViewController(injectedViewController, animated: true)
     }

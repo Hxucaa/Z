@@ -10,19 +10,21 @@ import Foundation
 
 private let FeaturedListViewControllerIdentifier = "FeaturedListViewController"
 
-public final class FeaturedListWireframe : BaseWireframe {
+public final class FeaturedListWireframe : BaseWireframe, IFeaturedListWireframe {
     
-    private let navigator: INavigator
+    private let router: IRouter
     private let businessService: IBusinessService
     private let userService: IUserService
     private let geoLocationService: IGeoLocationService
+    private let userDefaultsService: IUserDefaultsService
     private var featuredListViewController: FeaturedListViewController?
     
-    public required init(rootWireframe: IRootWireframe, navigator: INavigator, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService) {
-        self.navigator = navigator
+    public required init(rootWireframe: IRootWireframe, router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService) {
+        self.router = router
         self.businessService = businessService
         self.userService = userService
         self.geoLocationService = geoLocationService
+        self.userDefaultsService = userDefaultsService
         
         super.init(rootWireframe: rootWireframe)
     }
@@ -35,7 +37,7 @@ public final class FeaturedListWireframe : BaseWireframe {
     private func initViewController() -> FeaturedListViewController {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
-        let viewmodel = FeaturedListViewModel(navigator: navigator, businessService: businessService, userService: userService, geoLocationService: geoLocationService)
+        let viewmodel = FeaturedListViewModel(router: router, businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService)
         viewController.bindToViewModel(viewmodel)
         
         featuredListViewController = viewController
@@ -43,12 +45,8 @@ public final class FeaturedListWireframe : BaseWireframe {
     }
 }
 
-extension FeaturedListWireframe : IFeaturedListWireframe {
-    
-    /**
-    Show FeaturedList as root view controller.
-    */
-    public func showFeaturedListAsRootViewController() {
+extension FeaturedListWireframe : FeaturedRoute {
+    public func push() {
         
         let injectedViewController = initViewController()
         rootWireframe.showRootViewController(injectedViewController)

@@ -1,14 +1,27 @@
 PODS:
-  - AVOSCloud (3.1.2.1)
+  - AVOSCloud (3.1.2.4)
   - AVOSCloudCrashReporting (3.1.1.1):
     - AVOSCloud
-  - AVOSCloudIM (3.1.2.1):
+  - AVOSCloudIM (3.1.2.4):
     - AVOSCloud
-  - AVOSCloudSNS (3.1.2.1):
+  - AVOSCloudSNS (3.1.2.4):
     - AVOSCloud
   - Box (1.2.2)
+  - CocoaLumberjack (2.0.0):
+    - CocoaLumberjack/Default (= 2.0.0)
+    - CocoaLumberjack/Extensions (= 2.0.0)
+  - CocoaLumberjack/Core (2.0.0)
+  - CocoaLumberjack/Default (2.0.0):
+    - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.0.0):
+    - CocoaLumberjack/Default
+  - Dollar (3.0.2)
+  - FLEX (2.0.3)
+  - JSQMessagesViewController (7.1.0):
+    - JSQSystemSoundPlayer (~> 2.0.1)
+  - JSQSystemSoundPlayer (2.0.1)
   - Locksmith (1.2.2)
-  - Nimble (0.4.2)
+  - Nimble (1.0.0-rc.1)
   - Quick (0.3.1)
   - ReactiveCocoa (3.0-beta.6):
     - Box (~> 1.2.0)
@@ -25,44 +38,58 @@ PODS:
     - Box (~> 1.2.0)
     - ReactiveCocoa/Core
     - Result (~> 0.4.1)
-  - ReactKit (0.10.0):
-    - SwiftTask (~> 3.0.0)
   - Result (0.4.3):
     - Box (~> 1.2)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
-  - SnapKit (0.11.0)
-  - SwiftTask (3.0.0)
+  - SnapKit (0.12.0)
+  - SVProgressHUD (1.1.3)
 
 DEPENDENCIES:
   - AVOSCloud (~> 3.1)
   - AVOSCloudCrashReporting (~> 3.1)
   - AVOSCloudIM (~> 3.1)
   - AVOSCloudSNS (~> 3.1)
+  - CocoaLumberjack (~> 2.0)
+  - Dollar (~> 3.0)
+  - FLEX (~> 2.0)
+  - JSQMessagesViewController (~> 7.0)
   - Locksmith (~> 1.2)
-  - Nimble
-  - Quick
+  - Nimble (= 1.0.0-rc.1)
+  - Quick (= 0.3.1)
   - ReactiveCocoa (= 3.0-beta.6)
-  - ReactKit (~> 0.10.0)
   - SDWebImage
-  - SnapKit (~> 0.11.0)
-  - SwiftTask (~> 3.0)
+  - SnapKit (~> 0.12.0)
+  - SVProgressHUD (from `https://github.com/Hxucaa/SVProgressHUD.git`)
+
+EXTERNAL SOURCES:
+  SVProgressHUD:
+    :git: https://github.com/Hxucaa/SVProgressHUD.git
+
+CHECKOUT OPTIONS:
+  SVProgressHUD:
+    :commit: 4cbf1de2f9becbdfe38257bf9129f2930a2668ab
+    :git: https://github.com/Hxucaa/SVProgressHUD.git
 
 SPEC CHECKSUMS:
-  AVOSCloud: 26962b8cf4a5bf9a77a78ce86893b6ebd1fa43e6
+  AVOSCloud: 83a2b0753eb784b2f6e5245241a841575dfb3cc6
   AVOSCloudCrashReporting: 5add5ca29ec9f585010ecda3a643108c7e376e86
-  AVOSCloudIM: 95fb4e5dc58c052f9e9ec25fcb43e8014d1f2622
-  AVOSCloudSNS: 1ee3c049725efd2e61f7fa8e5dbc14e96269054e
+  AVOSCloudIM: 5aceff9e93780ac7b641ecfab7c53a32eb61a26f
+  AVOSCloudSNS: c6f3a3ae1990f115b11e6d6daad306babbdd3b5a
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
+  CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
+  Dollar: fa1c277042a5e8208f2276abba056f27a812fcfe
+  FLEX: 4f04fe0b0594163c00879e2b3db888e5ae37c8d5
+  JSQMessagesViewController: ca11f86fa68ca70835f05e169df9244147c1dc40
+  JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88
-  Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
+  Nimble: 23f1dbddf1706172c7d740430858e5dfa93d997a
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   ReactiveCocoa: 859d1dd9dd38d6f2fa4a6917259bb2b512f3c5f7
-  ReactKit: 914b50142021e558669d6870a6a35e6e7bb14f30
   Result: 910839ce03c5c573ec94026678b7cecb69ee862e
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
-  SnapKit: 5194d53cee209d337a989919ff66a70b7aa3dda3
-  SwiftTask: 2f2c0a7db83def1d1e3bad518169be3f61c603f4
+  SnapKit: 00c388aa3bf1944c1b55472f31e841f75bd83882
+  SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
 
-COCOAPODS: 0.36.4
+COCOAPODS: 0.37.2

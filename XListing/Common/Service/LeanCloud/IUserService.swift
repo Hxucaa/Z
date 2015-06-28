@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import SwiftTask
-import ReactKit
+import ReactiveCocoa
 
-public protocol IUserService : IObjectService {
+public protocol IUserService {
     func isLoggedInAlready() -> Bool
-    func currentUser() -> User?
-    func signUp(user: User) -> Task<Int, Bool, NSError>
-    func logIn(username: String, password: String) -> Task<Int, User, NSError>
+    func currentLoggedInUser() -> SignalProducer<User, NSError>
+    func signUp<T: User>(user: T) -> SignalProducer<Bool, NSError>
+    func logIn(username: String, password: String) -> SignalProducer<User, NSError>
     func logOut()
-    func logInAnonymously() -> Task<Int, User, NSError>
+    func save<T: User>(user: T) -> SignalProducer<Bool, NSError>
 }

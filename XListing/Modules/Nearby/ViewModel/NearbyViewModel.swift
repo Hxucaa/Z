@@ -7,59 +7,38 @@
 //
 
 import Foundation
-import SwiftTask
-import ReactKit
+import ReactiveCocoa
 import MapKit
+import AVOSCloud
 
-public final class NearbyViewModel : INearbyViewModel {
-    public let businessDynamicArr = DynamicArray()
+public struct NearbyViewModel : INearbyViewModel {
     
-    private let navigator: INavigator
-    private let businessService: IBusinessService
-    private let geoLocationService: IGeoLocationService
+    // MARK: - Public
+    // MARK: Input
     
-    private var businessModelArr: [Business]!
+    // MARK: Output
+    public let businessViewModelArr: MutableProperty<[NearbyTableCellViewModel]> = MutableProperty([NearbyTableCellViewModel]())
+    public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
     
-    public required init(navigator: INavigator, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
-        self.navigator = navigator
-        self.businessService = businessService
-        self.geoLocationService = geoLocationService
-    }
+    // MARK: API
     
-    public func getBusiness() -> Stream<Void> {
-        let query = Business.query()!
-        
-        //TODO: support for offline usage.
-        //Fetch current location. Create BusinessViewModel with embedded distance data. And finally add the BusinessViewModels to dynamicArray for the view to consume the signal.
-        let task = geoLocationService.getCurrentGeoPoint()
-            .success { [unowned self] geopoint -> Task<Int, Void, NSError> in
-                query.whereKey("geopoint", nearGeoPoint: geopoint)
-                return self.businessService.findBy(query)
-                    .success { businessDAOArr -> Void in
-                        self.businessModelArr = businessDAOArr
-                        
-                        for bus in businessDAOArr {
-                            let vm = NearbyHorizontalScrollCellViewModel(business: bus, currentLocation: CLLocation(latitude: geopoint.latitude, longitude: geopoint.longitude))
-                            // apend BusinessViewModel to DynamicArray for React
-                            self.businessDynamicArr.proxy.addObject(vm)
-                        }
-                        
+    /**
+    Get current geo location. If location service fails for any reason, use hardcoded geo location instead.
+    
+    :returns: A Task that contains a geo location.
+    */
+        public var currentLocation: SignalProducer<CLLocation, NSError> {
+        return geoLocationService.getCurrentLocation()
+            |> catch { error -> SignalProducer<CLLocation, NSError> in
+                
+                return SignalProducer { sink, disposable in
+                    // with hardcoded location
+                    //TODO: better support for hardcoded location
+                    NearbyLogWarning("Location service failed! Using default Vancouver location.")
+                    sendNext(sink, CLLocation(latitude: 49.27623, longitude: -123.12941))
+                    sendCompleted(sink)
                 }
-            }
-//            .failure { (error, isCancelled) -> Void in
-//                query.whereKey("geopoint", nearGeoPoint: self.geoLocationService.defaultGeoPoint)
-//                return self.businessService.findBy(query)
-//                    .success { businessDAOArr -> Void in
-//                        self.businessModelArr = businessDAOArr
-//                        
-//                        for bus in businessDAOArr {
-//                            let vm = NearbyHorizontalScrollCellViewModel(business: bus)
-//                            self.businessDynamicArr.proxy.addObject(vm)
-//                        }
-//                        return
-//                    }
-//            }
-        return Stream<Void>.fromTask(task)
+        }
     }
     
     /**
@@ -68,28 +47,53 @@ public final class NearbyViewModel : INearbyViewModel {
     :param: businessViewModel The business information to pass along.
     */
     public func pushDetailModule(section: Int) {
-        let model: Business = businessModelArr[section]
-        
-        navigator.navigateToDetailModule(["BusinessModel" : model])
-    }
-    
-    /**
-    Get current geo location. If location service fails for any reason, use hardcoded geo location instead.
-    
-    :returns: A Task that contains a geo location.
-    */
-    public func getCurrentLocation() -> Stream<CLLocation> {
-        return Stream<CLLocation>.fromTask(geoLocationService.getCurrentLocation().failure { [unowned self] (error, isCancelled) -> CLLocation in
-                // with hardcoded location
-                //TODO: better support for hardcoded location
-                println("Location service failed! Using default Vancouver location.")
-                return CLLocation(latitude: 49.27623, longitude: -123.12941)
-            }
-        )
+        router.pushDetail(businessArr.value[section])
     }
     
     public func pushProfileModule() {
-        navigator.navigateToProfileModule()
-        
+        router.pushProfile()
     }
+    
+    // MARK: Initializers
+    public init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+        self.router = router
+        self.businessService = businessService
+        self.geoLocationService = geoLocationService
+
+        getBusinesses()
+            |> start()
+    }
+    
+    // MARK: - Private
+    
+    // MARK: Services
+    private let router: IRouter
+    private let businessService: IBusinessService
+    private let geoLocationService: IGeoLocationService
+    
+    private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
+    
+    private func getBusinesses() -> SignalProducer<[NearbyTableCellViewModel], NSError> {
+        let query = Business.query()!
+        
+        // TODO: implement default location.
+        return businessService.findBy(query)
+            |> on(next: { businesses in
+                self.fetchingData.put(true)
+                self.businessArr.put(businesses)
+            })
+            |> map { businesses -> [NearbyTableCellViewModel] in
+                return businesses.map {
+                    NearbyTableCellViewModel(geoLocationService: self.geoLocationService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint)
+                }
+            }
+            |> on(
+                next: { response in
+                    self.fetchingData.put(false)
+                    self.businessViewModelArr.put(response)
+                },
+                error: { NearbyLogError($0.description) }
+            )
+    }
+
 }

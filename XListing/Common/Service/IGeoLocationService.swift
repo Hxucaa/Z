@@ -7,11 +7,13 @@
 //
 
 import Foundation
-import SwiftTask
-import MapKit
+import ReactiveCocoa
+import CoreLocation
+import AVOSCloud
 
-public protocol IGeoLocationService : class {
-    var defaultGeoPoint: PFGeoPoint! { get }
-    func getCurrentLocation() -> Task<Int, CLLocation, NSError>
-    func getCurrentGeoPoint() -> Task<Int, PFGeoPoint, NSError>
+public protocol IGeoLocationService {
+    func getCurrentLocation() -> SignalProducer<CLLocation, NSError>
+    func getCurrentGeoPoint() -> SignalProducer<AVGeoPoint, NSError>
+    func calculateETA(destination: CLLocation) -> SignalProducer<NSTimeInterval, NSError>
+    func calculateETA(destination: CLLocation, currentLocation: CLLocation) -> SignalProducer<NSTimeInterval, NSError>
 }

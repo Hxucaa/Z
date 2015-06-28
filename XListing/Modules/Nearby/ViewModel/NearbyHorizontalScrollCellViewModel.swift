@@ -1,71 +1,74 @@
 //
-//  NearbyHorizontalScrollCellViewModel.swift
+//  NearbyTableCellViewModel.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-05-12.
+//  Created by Lance Zhu on 2015-06-22.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import Foundation
+import ReactiveCocoa
+import AVOSCloud
 import MapKit
 
-/**
-*  Constants
-*/
-private let 公里 = "公里"
-private let 米 = "米"
-
-public final class NearbyHorizontalScrollCellViewModel {
-    private let className: String
-    private let objectId: String
-    public let businessName: String
-    public let wantToGoText: String
-    public let coverImageNSURL: NSURL?
-    public private(set) var distance: String?
-    public let cllocation: CLLocation
+public struct NearbyTableCellViewModel {
+    public let businessName: ConstantProperty<String>
+    public let city: ConstantProperty<String>
+    public let eta: MutableProperty<String> = MutableProperty("")
+    public let district: ConstantProperty<String>
+    public let coverImageNSURL: ConstantProperty<NSURL?>
+    public let participation: MutableProperty<String> = MutableProperty("")
+    public let businessHours: ConstantProperty<String> = ConstantProperty("今天 10:00AM - 10:00PM")
+    public let annotation: ConstantProperty<MKPointAnnotation>
     
-    public init(business: Business) {
-        className = business.className
+    public init(geoLocationService: IGeoLocationService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?) {
+        self.geoLocationService = geoLocationService
         
-        objectId = business.objectId!
+        self.businessName = ConstantProperty(businessName!)
         
-        businessName = business.nameSChinese!
+        self.city = ConstantProperty(city!)
         
-        let wantToGoCounter = business.wantToGoCounter
-        if (wantToGoCounter > 0) {
-            wantToGoText = String(format: "%d+ 人想去", wantToGoCounter)
+        self.district = ConstantProperty(district!)
+        
+        if let url = cover?.url {
+            coverImageNSURL = ConstantProperty<NSURL?>(NSURL(string: url))
         }
         else {
-            wantToGoText = ""
+            // TODO: fix temp image
+            coverImageNSURL = ConstantProperty<NSURL?>(NSURL(string: "http://www.phoenixpalace.co.uk/images/background/aboutus.jpg"))
+            //            coverImageNSURL = nil
         }
         
+        let businessLocation = CLLocation(latitude: geopoint!.latitude, longitude: geopoint!.longitude)
         
-        if let url = (business.cover?.url) {
-            coverImageNSURL = NSURL(string: url)
-        }
-        else {
-            coverImageNSURL = nil
-        }
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = businessLocation.coordinate
+        annotation.title = businessName
+        //            annotation.subtitle =
+        self.annotation = ConstantProperty(annotation)
         
-        cllocation = CLLocation(latitude: (business.geopoint?.latitude)!, longitude: (business.geopoint?.longitude)!)
+        // TODO: implement participation
+        participation.put("150+ 人想去")
+        
+        
+        setupEta(businessLocation)
+        
     }
     
-    public convenience init(business: Business, currentLocation: CLLocation) {
-        self.init(business: business)
-        
-        let busCLLocation = CLLocation(latitude: (business.geopoint?.latitude)!, longitude: (business.geopoint?.longitude)!)
-        let distanceInMeter = currentLocation.distanceFromLocation(busCLLocation)
-        
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        if(distanceInMeter >= 1000) {
-            formatter.maximumFractionDigits = 1
-            distance = formatter.stringFromNumber(distanceInMeter / 1000)! + 公里
-        }
-        else {
-            formatter.maximumFractionDigits = 0
-            distance = formatter.stringFromNumber(distanceInMeter)! + 米
-        }
+    // MARK: - Private
+    
+    // MARK: Services
+    private let geoLocationService: IGeoLocationService
+    
+    // MARK: Setup
+    
+    private func setupEta(destination: CLLocation) {
+        geoLocationService.calculateETA(destination)
+            |> start(next: { interval in
+                let minute = Int(ceil(interval / 60))
+                self.eta.put(" \(CITY_DISTANCE_SEPARATOR) 开车\(minute)分钟")
+                }, error: { error in
+                    FeaturedLogError(error.description)
+            })
     }
-
 }

@@ -17,6 +17,8 @@ final class EditProfileTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -30,7 +32,7 @@ final class EditProfileTableViewController: UITableViewController {
     }
     
     internal func saveChanges() {
-        println("SAVE DATA TO DB")
+        ProfileLogDebug("SAVE DATA TO DB")
     }
 
     override func didReceiveMemoryWarning() {

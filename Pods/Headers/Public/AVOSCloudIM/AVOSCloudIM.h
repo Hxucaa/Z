@@ -1,1 +1,1 @@
-../../../AVOSCloudIM/iOS/release-v3.1.2.1/AVOSCloudIM.framework/Headers/AVOSCloudIM.h
+../../../AVOSCloudIM/iOS/release-v3.1.2.4/AVOSCloudIM.framework/Headers/AVOSCloudIM.h

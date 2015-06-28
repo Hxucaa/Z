@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol IAccountWireframe : class {
-    init(rootWireframe: IRootWireframe, navigator: INavigator, userService: IUserService)
+    init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService, userDefaultsService: IUserDefaultsService)
 }

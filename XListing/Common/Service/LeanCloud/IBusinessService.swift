@@ -7,10 +7,10 @@
 //
 
 import Foundation
-import SwiftTask
+import ReactiveCocoa
+import AVOSCloud
 
 public protocol IBusinessService {
-    func save(business: Business) -> Task<Int, Bool, NSError>
-    func getFirst(query: PFQuery?) -> Task<Int, Business?, NSError>
-    func findBy(query: PFQuery?) -> Task<Int, [Business], NSError>
+    func findBy(query: AVQuery) -> SignalProducer<[Business], NSError>
+    func getFirst(var query: AVQuery) -> SignalProducer<Business, NSError>
 }
