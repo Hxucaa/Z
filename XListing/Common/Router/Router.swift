@@ -28,6 +28,7 @@ public final class Router : IRouter {
     public weak var detailRouteDelegate: DetailRoute!
     public weak var accountRouteDelegate: AccountRoute!
     public weak var profileRouteDelegate: ProfileRoute!
+    public weak var wantToGoListRouteDelegate: WantToGoRoute!
     
     public func pushNearby() {
         nearbyRouteDelegate.push()
@@ -53,6 +54,10 @@ public final class Router : IRouter {
         requiredToManageAccountBeforeProceeding { [unowned self] in
             self.profileRouteDelegate.push()
         }
+    }
+    
+    public func pushWantToGo<T: Business>(business: T) {
+        wantToGoListRouteDelegate.pushWithData(business)
     }
     
     /**

@@ -8,4 +8,6 @@
 
 import Foundation
 
-public protocol WantToGoRoute : WithoutDataRoute {}
+public protocol WantToGoRoute : WithDataRoute {
+    func pushWithData<T: Business>(business: T)
+}

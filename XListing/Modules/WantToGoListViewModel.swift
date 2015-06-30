@@ -13,11 +13,6 @@ import AVOSCloud
 public struct WantToGoListViewModel : IWantToGoListViewModel {
     // MARK: - Public
     
-    // MARK: Private Variables
-    private let router: IRouter
-    private let userService: IUserService
-    private let participationService: IParticipationService
-    
     // MARK: Input
     
     // MARK: Output
@@ -33,20 +28,30 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
         let dummyWTG2 = WantToGoViewModel(participationService: participationService, profilePicture: nil, displayName: "First Last", horoscope: "Animal", ageGroup: "Group")
         let WTGArray = [dummyWTG1, dummyWTG2]
         
-        return SignalProducer {
-            sink, disposable in
+        return SignalProducer { sink, disposable in
             sendNext(sink, WTGArray)
         }
     }
     
     // MARK: Initializers
-    public init(router: IRouter, userService: IUserService, participationService: IParticipationService) {
+    public init(router: IRouter, userService: IUserService, participationService: IParticipationService, business: Business) {
         self.router = router
         self.userService = userService
         self.participationService = participationService
+        self.business = business
         
         getWantToGoUsers()
-            |> start()
+            |> start(next: { data in
+                self.wantToGoViewModelArr.put(data)
+            })
     }
+    
+    // MARK: - Private
+    
+    // MARK: Private Variables
+    private let router: IRouter
+    private let userService: IUserService
+    private let participationService: IParticipationService
+    private let business: Business
 }
 

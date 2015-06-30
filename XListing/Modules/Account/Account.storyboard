@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E26a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -909,9 +909,6 @@
                                 <exclude reference="l1s-70-azV"/>
                                 <exclude reference="CKp-66-078"/>
                                 <exclude reference="JmS-Q7-ngO"/>
-                                <exclude reference="ClB-AW-0F7"/>
-                                <exclude reference="Gfv-eC-vNQ"/>
-                                <exclude reference="TLA-iF-Jl0"/>
                                 <exclude reference="3NC-Y7-nXB"/>
                                 <exclude reference="3yS-IH-Pcq"/>
                                 <exclude reference="8Hd-sq-8LQ"/>
@@ -921,6 +918,9 @@
                                 <exclude reference="tat-Ow-523"/>
                                 <exclude reference="vjk-yh-qrJ"/>
                                 <exclude reference="yFF-LP-GrW"/>
+                                <exclude reference="ClB-AW-0F7"/>
+                                <exclude reference="Gfv-eC-vNQ"/>
+                                <exclude reference="TLA-iF-Jl0"/>
                                 <exclude reference="Kqd-MU-s7k"/>
                                 <exclude reference="T1j-VX-mve"/>
                                 <exclude reference="imC-Qq-Wht"/>
@@ -953,8 +953,6 @@
                                 <include reference="CKp-66-078"/>
                                 <include reference="JmS-Q7-ngO"/>
                                 <exclude reference="WSn-jd-eSH"/>
-                                <include reference="ClB-AW-0F7"/>
-                                <exclude reference="o7M-wO-OTX"/>
                                 <include reference="3yS-IH-Pcq"/>
                                 <exclude reference="Jpk-X7-Wu0"/>
                                 <exclude reference="a2u-73-NuT"/>
@@ -964,6 +962,8 @@
                                 <include reference="tat-Ow-523"/>
                                 <include reference="vjk-yh-qrJ"/>
                                 <include reference="yFF-LP-GrW"/>
+                                <include reference="ClB-AW-0F7"/>
+                                <exclude reference="o7M-wO-OTX"/>
                                 <exclude reference="2Or-Xt-7sf"/>
                                 <include reference="Kqd-MU-s7k"/>
                                 <include reference="imC-Qq-Wht"/>
@@ -988,11 +988,11 @@
                                 <include reference="5Tj-4c-baW"/>
                                 <include reference="ZYI-hj-gUr"/>
                                 <include reference="l1s-70-azV"/>
-                                <include reference="Gfv-eC-vNQ"/>
-                                <include reference="TLA-iF-Jl0"/>
                                 <include reference="3NC-Y7-nXB"/>
                                 <include reference="8Hd-sq-8LQ"/>
                                 <include reference="n5k-P4-5cf"/>
+                                <include reference="Gfv-eC-vNQ"/>
+                                <include reference="TLA-iF-Jl0"/>
                                 <include reference="T1j-VX-mve"/>
                                 <include reference="mlP-ef-otc"/>
                                 <include reference="KPz-lJ-lKg"/>

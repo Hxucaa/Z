@@ -9,6 +9,7 @@
 import Foundation
 
 private let WantToGoListViewControllerIdentifier = "WantToGoListViewController"
+private let WantToGoStoryboardName = "WantToGoList"
 
 public final class WantToGoListWireframe : BaseWireframe, IWantToGoListWireframe {
     
@@ -30,10 +31,10 @@ public final class WantToGoListWireframe : BaseWireframe, IWantToGoListWireframe
     
     :returns: Properly configured FeaturedListViewController.
     */
-    private func initViewController() -> WantToGoListViewController {
+    private func initViewController(business: Business) -> WantToGoListViewController {
         // retrieve view controller from storyboard
-        let viewController = getViewControllerFromStoryboard(WantToGoListViewControllerIdentifier) as! WantToGoListViewController
-        let viewmodel = WantToGoListViewModel(router: router, userService: userService, participationService: participationService)
+        let viewController = getViewControllerFromStoryboard(WantToGoListViewControllerIdentifier, storyboardName: WantToGoStoryboardName) as! WantToGoListViewController
+        let viewmodel = WantToGoListViewModel(router: router, userService: userService, participationService: participationService, business: business)
         viewController.bindToViewModel(viewmodel)
         
         wantToGoListViewController = viewController
@@ -42,8 +43,8 @@ public final class WantToGoListWireframe : BaseWireframe, IWantToGoListWireframe
 }
 
 extension WantToGoListWireframe : WantToGoRoute {
-    public func push() {
-        let injectedViewController = initViewController()
+    public func pushWithData<T: Business>(business: T) {
+        let injectedViewController = initViewController(business)
         rootWireframe.pushViewController(injectedViewController, animated: true)
     }
 }

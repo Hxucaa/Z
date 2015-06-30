@@ -15,4 +15,5 @@ public protocol IRouter {
     func pushAccount()
     func presentAccount(#completion: CompletionHandler?)
     func pushProfile()
+    func pushWantToGo<T: Business>(business: T)
 }

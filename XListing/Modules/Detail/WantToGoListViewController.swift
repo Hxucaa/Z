@@ -16,7 +16,7 @@ public final class WantToGoListViewController: XUIViewController {
     
     // MARK: - UI
     @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!
     
     // MARK: Controls
     
@@ -35,6 +35,7 @@ public final class WantToGoListViewController: XUIViewController {
 
         self.loadTestArray()
         genderSegmentedControl?.addTarget(self, action: "switchSegment", forControlEvents: UIControlEvents.ValueChanged)
+        setupTableView()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -51,7 +52,7 @@ public final class WantToGoListViewController: XUIViewController {
         self.viewmodel = viewmodel
     }
     
-    public func setupTableView() {
+    private func setupTableView() {
         bindingHelper = ReactiveTableBindingHelper(
             tableView: tableView,
             sourceSignal: viewmodel.wantToGoViewModelArr.producer,

@@ -23,6 +23,11 @@ public struct DetailViewModel : IDetailViewModel {
     public let detailPhoneWebViewModel: DetailPhoneWebViewModel
     public let detailBizInfoViewModel: DetailBizInfoViewModel
     
+    // MARK: Actions
+    public func pushWantToGo() {
+        router.pushWantToGo(business)
+    }
+    
     // MARK: Initializers
     public init(router: IRouter, userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, businessModel: Business) {
         self.router = router

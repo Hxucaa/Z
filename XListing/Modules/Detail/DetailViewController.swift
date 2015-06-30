@@ -289,8 +289,7 @@ extension DetailViewController : UITableViewDelegate {
             tableView.reloadData()
         }
         if (indexPath.section == 0 && indexPath.row == 2){
-            DetailLogDebug("in here")
-            
+            viewmodel.pushWantToGo()
         }
     }
 }

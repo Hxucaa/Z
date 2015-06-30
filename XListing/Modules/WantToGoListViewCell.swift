@@ -23,11 +23,8 @@ public final class WantToGoListViewCell : UITableViewCell, ReactiveTableCellView
     private var viewmodel: WantToGoViewModel!
     
     public override func awakeFromNib() {
-        selectionStyle = UITableViewCellSelectionStyle.None
-        
-        layoutMargins = UIEdgeInsetsZero
-        preservesSuperviewLayoutMargins = false
-        
+        profilePicture.layer.cornerRadius = profilePicture.frame.size.height / 2
+        profilePicture.layer.masksToBounds = true
     }
     
     public func bindViewModel(viewmodel: ReactiveTableCellViewModel) {
