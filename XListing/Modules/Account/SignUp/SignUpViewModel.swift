@@ -52,7 +52,6 @@ public struct SignUpViewModel {
     private let userService: IUserService
     
     // MARK: Setup
-    
     private func setupUsername() {
         // only allow usernames with:
         // - between 3 and 30 characters
@@ -79,7 +78,7 @@ public struct SignUpViewModel {
         }
     }
     
-    // MARK: Helpers
+    // MARK: Private Methods
     private func testRegex(input: String, pattern: String) -> Bool {
         let regex = NSRegularExpression(pattern: pattern, options: nil, error: nil)
         let matches = regex!.matchesInString(input, options: nil, range:NSMakeRange(0, count(input)))
