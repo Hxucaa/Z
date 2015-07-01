@@ -62,33 +62,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4PC-GO-MyF">
-                                <rect key="frame" x="185" y="72" width="230" height="230"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" none="YES" image="YES" notEnabled="YES"/>
-                                </accessibility>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mr7-2E-6hq" userLabel="Logo" customClass="LogoView" customModule="XAssets_Example" customModuleProvider="target">
+                                <rect key="frame" x="220" y="82" width="160" height="160"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="230" id="fOi-2G-404"/>
-                                    <constraint firstAttribute="width" constant="230" id="kRR-4R-bd6"/>
+                                    <constraint firstAttribute="width" constant="160" id="EKo-2n-zOX"/>
+                                    <constraint firstAttribute="height" constant="160" id="oar-En-jn0"/>
                                 </constraints>
-                            </imageView>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="4PC-GO-MyF" secondAttribute="centerX" id="8Us-RI-k1o"/>
-                            <constraint firstItem="4PC-GO-MyF" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="rN1-ZA-Mog"/>
+                            <constraint firstAttribute="centerX" secondItem="mr7-2E-6hq" secondAttribute="centerX" id="O1V-OO-9jJ"/>
+                            <constraint firstItem="mr7-2E-6hq" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="18" id="UCy-lS-g8Z"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="logoImageView" destination="4PC-GO-MyF" id="9NF-vc-g3C"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
-                <customObject id="jdV-Gl-gw2" customClass="AssetsKit" customModule="XAssets">
-                    <connections>
-                        <outletCollection property="landingIconTargets" destination="4PC-GO-MyF" collectionClass="NSMutableArray" id="sHR-Pp-bOY"/>
-                    </connections>
-                </customObject>
             </objects>
             <point key="canvasLocation" x="26" y="410"/>
         </scene>
