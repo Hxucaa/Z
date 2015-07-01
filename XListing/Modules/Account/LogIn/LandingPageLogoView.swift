@@ -13,6 +13,6 @@ import XAssets
 public final class LandingPageLogoView: UIView {
     
     public override func drawRect(rect: CGRect) {
-        AssetsKit.drawLandingIcon()
+        AssetsKit.drawLandingIcon(scale:0.5)
     }
 }
