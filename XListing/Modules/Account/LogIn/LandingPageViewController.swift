@@ -15,6 +15,7 @@ public final class LandingPageViewController: UIViewController {
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var skipButton: UIButton!
     
+    @IBOutlet weak var dividerLabel: ShadowLabel!
     @IBOutlet weak var backgroundLabel: UILabel!
     private var dismissViewButtonAction: CocoaAction!
     
@@ -24,7 +25,7 @@ public final class LandingPageViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        makeBackgroundCornersRound()
+        adjustLabelVisuals()
         setupDismissViewButton()
         setUpLoginSignupButtons()
         // Do any additional setup after loading the view.
@@ -39,9 +40,13 @@ public final class LandingPageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    internal func makeBackgroundCornersRound () {
+    internal func adjustLabelVisuals () {
         self.backgroundLabel.layer.masksToBounds = true;
         self.backgroundLabel.layer.cornerRadius = 8;
+        self.dividerLabel.layer.masksToBounds = false
+        self.dividerLabel.layer.shadowRadius = 3.0
+        self.dividerLabel.layer.shadowOpacity = 0.5
+        self.dividerLabel.layer.shadowOffset = CGSizeZero;
     }
     
     internal func setUpLoginSignupButtons () {

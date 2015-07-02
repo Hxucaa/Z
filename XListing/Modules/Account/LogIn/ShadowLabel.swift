@@ -8,12 +8,13 @@
 
 import UIKit
 
+@IBDesignable
 public final class ShadowLabel: UILabel {
 
     
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
-    override public func drawTextInRect(rect: CGRect) {
+    public override func drawTextInRect(rect: CGRect) {
         var context = UIGraphicsGetCurrentContext()
         CGContextSaveGState(context)
         
