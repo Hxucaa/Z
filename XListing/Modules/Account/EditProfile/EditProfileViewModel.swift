@@ -18,6 +18,7 @@ public struct EditProfileViewModel {
     public let nickname = MutableProperty<String>("")
     public let birthday = MutableProperty<NSDate>(NSDate())
     public let profileImage = MutableProperty<UIImage?>(nil)
+    public var gender : String?
     
     // MARK: Output
     public let allInputsValid = MutableProperty<Bool>(false)
@@ -39,6 +40,7 @@ public struct EditProfileViewModel {
                 user.nickname = self.nickname.value
                 user.birthday = self.birthday.value
                 user.profileImg = file
+                user.gender = self.gender
                 return self.userService.save(user)
         }
     }

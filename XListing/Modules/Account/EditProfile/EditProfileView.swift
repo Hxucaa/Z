@@ -20,12 +20,16 @@ public final class EditProfileView : UIView {
     @IBOutlet weak var imagePickerButton: UIButton!
     @IBOutlet weak var birthdayPicker: UIDatePicker!
     @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var maleButton: UIButton!
+    @IBOutlet weak var femaleButton: UIButton!
     
     // MARK: Actions
     private var dismissViewButtonAction: CocoaAction!
     private var submitButtonAction: CocoaAction!
     private var imagePickerButtonAction: CocoaAction!
     private var imagePickerCancelAction: CocoaAction!
+    private var maleButtonAction: CocoaAction!
+    private var femaleButtonAction: CocoaAction!
     
     // MARK: - Delegate
     public weak var delegate: EditProfileViewDelegate?
@@ -47,6 +51,7 @@ public final class EditProfileView : UIView {
     public func bindToViewModel(viewmodel: EditProfileViewModel) {
         self.viewmodel = viewmodel
         
+        setupGenderButtons()
         setupImagePicker()
         setupDismissViewButton()
         setupNicknameField()
@@ -95,6 +100,40 @@ public final class EditProfileView : UIView {
         nicknameField.delegate = self
         // React to text change
         viewmodel.nickname <~ nicknameField.rac_text
+    }
+    
+    private func setupGenderButtons() {
+        
+        self.maleButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
+        self.maleButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
+        self.femaleButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
+        self.femaleButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
+        
+        let maleAction = Action<Void, Void, NoError> {
+            
+            println("male inside genderAction")
+            self.maleButton.selected = true
+            self.femaleButton.selected = false
+            self.viewmodel.gender = self.maleButton.titleLabel!.text!
+            
+            return SignalProducer { sink, disposible in
+            }
+        }
+        
+        let femaleAction = Action<Void, Void, NoError> {
+            self.femaleButton.selected = true
+            self.maleButton.selected = false
+            self.viewmodel.gender = self.femaleButton.titleLabel!.text!
+            return SignalProducer { sink, disposible in
+            }
+        }
+        
+        // Bridging actions to Objective-C
+        maleButtonAction = CocoaAction(maleAction, input: ())
+        femaleButtonAction = CocoaAction(femaleAction, input:())
+        // Link UIControl event to actions
+        maleButton.addTarget(maleButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        femaleButton.addTarget(femaleButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     private func setupBirthdayPicker() {
