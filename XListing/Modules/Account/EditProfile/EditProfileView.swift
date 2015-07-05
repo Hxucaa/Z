@@ -117,6 +117,7 @@ public final class EditProfileView : UIView {
             self.viewmodel.gender = self.maleButton.titleLabel!.text!
             
             return SignalProducer { sink, disposible in
+                sendCompleted(sink)
             }
         }
         
@@ -125,6 +126,7 @@ public final class EditProfileView : UIView {
             self.maleButton.selected = false
             self.viewmodel.gender = self.femaleButton.titleLabel!.text!
             return SignalProducer { sink, disposible in
+                sendCompleted(sink)
             }
         }
         
