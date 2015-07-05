@@ -9,6 +9,7 @@
 import Foundation
 import ReactiveCocoa
 import AVOSCloud
+import Dollar
 
 public struct WantToGoListViewModel : IWantToGoListViewModel {
     // MARK: - Public
@@ -23,15 +24,43 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
     
     // MARK: API
     public func getWantToGoUsers() -> SignalProducer<[WantToGoViewModel], NSError> {
-        // TODO: Replace dummy data with actual API call
-        let dummyWTG1 = WantToGoViewModel(participationService: participationService, profilePicture: nil, displayName: "James Liu", horoscope: "Pony", ageGroup: "swag")
-        let dummyWTG2 = WantToGoViewModel(participationService: participationService, profilePicture: nil, displayName: "First Last", horoscope: "Animal", ageGroup: "Group")
-        let WTGArray = [dummyWTG1, dummyWTG2]
+        let query = Participation.query()!
+        query.whereKey(Participation.Property.Business.rawValue, equalTo: business.objectId)
         
-        return SignalProducer { sink, disposable in
-            sendNext(sink, WTGArray)
-        }
+        return participationService.findBy(query)
+            |> on(next: { participations in
+                self.fetchingData.put(true)
+            })
+            |> map { participations -> [WantToGoViewModel] in
+                self.participationArr.put($.shuffle(participations))
+                
+                return self.participationArr.value.map {
+                    WantToGoViewModel(participationService: self.participationService, profilePicture: nil, displayName: "First Last", horoscope: "Leo", ageGroup: "90s")
+                }
+            }
+            |> on(
+                next: { response in
+                    self.fetchingData.put(false)
+                    self.wantToGoViewModelArr.put(response)
+            },
+                error: {FeaturedLogError($0.description)}
+        )
     }
+    
+    
+    
+//        let WTGUsers = [WantToGoViewModel]()
+//        
+//        let dummyWTG1 = WantToGoViewModel(participationService: participationService, profilePicture: nil, displayName: "James Liu", horoscope: "Pony", ageGroup: "swag")
+//        let dummyWTG2 = WantToGoViewModel(participationService: participationService, profilePicture: nil, displayName: "First Last", horoscope: "Animal", ageGroup: "Group")
+//        let dummyWTG3 = WantToGoViewModel(participationService: participationService, profilePicture: nil, displayName: "William Qi", horoscope: "Leo",
+//            ageGroup: "90s")
+//        let WTGArray = [dummyWTG1, dummyWTG2, dummyWTG3]
+//        
+//        return SignalProducer { sink, disposable in
+//            sendNext(sink, WTGArray)
+//        }
+//    }
     
     // MARK: Initializers
     public init(router: IRouter, userService: IUserService, participationService: IParticipationService, business: Business) {
@@ -41,9 +70,7 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
         self.business = business
         
         getWantToGoUsers()
-            |> start(next: { data in
-                self.wantToGoViewModelArr.put(data)
-            })
+            |> start()
     }
     
     // MARK: - Private
@@ -53,5 +80,6 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
     private let userService: IUserService
     private let participationService: IParticipationService
     private let business: Business
+    private let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
 }
 
