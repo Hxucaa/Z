@@ -12,8 +12,8 @@ import AVOSCloud
 
 public struct ParticipationService : IParticipationService {
     
-    public func getAll(query: AVQuery) -> SignalProducer<[Participation], NSError> {
-        return SignalProducer {sink, disposable in
+    public func findBy(query: AVQuery) -> SignalProducer<[Participation], NSError> {
+        return SignalProducer<[Participation], NSError> {sink, disposable in
             query.findObjectsInBackgroundWithBlock { object, error -> Void in
                 if error == nil {
                     sendNext(sink, object as! [Participation])
