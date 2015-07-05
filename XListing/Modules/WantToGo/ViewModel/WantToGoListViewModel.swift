@@ -26,6 +26,7 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
     public func getWantToGoUsers() -> SignalProducer<[WantToGoViewModel], NSError> {
         let query = Participation.query()!
         query.whereKey(Participation.Property.Business.rawValue, equalTo: business.objectId)
+        query.includeKey(Participation.Property.User.rawValue)
         
         return participationService.findBy(query)
             |> on(next: { participations in
