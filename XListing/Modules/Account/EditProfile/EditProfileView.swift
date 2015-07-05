@@ -111,11 +111,9 @@ public final class EditProfileView : UIView {
         
         let maleAction = Action<Void, Void, NoError> {
             
-            println("male inside genderAction")
             self.maleButton.selected = true
             self.femaleButton.selected = false
             self.viewmodel.gender = self.maleButton.titleLabel!.text!
-            
             return SignalProducer { sink, disposible in
                 sendCompleted(sink)
             }
@@ -133,6 +131,7 @@ public final class EditProfileView : UIView {
         // Bridging actions to Objective-C
         maleButtonAction = CocoaAction(maleAction, input: ())
         femaleButtonAction = CocoaAction(femaleAction, input:())
+        
         // Link UIControl event to actions
         maleButton.addTarget(maleButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         femaleButton.addTarget(femaleButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
