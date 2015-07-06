@@ -24,20 +24,20 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
     
     // MARK: API
     public func getWantToGoUsers() -> SignalProducer<[WantToGoViewModel], NSError> {
-        let query = Participation.query()!
-        query.whereKey(Participation.Property.Business.rawValue, equalTo: business.objectId)
+        let query = Participation.query()
+        query.whereKey(Participation.Property.Business.rawValue, equalTo: business)
         query.includeKey(Participation.Property.User.rawValue)
-        
+        println(business.objectId)
         return participationService.findBy(query)
             |> on(next: { participations in
                 self.fetchingData.put(true)
             })
             |> map { participations -> [WantToGoViewModel] in
                 self.participationArr.put($.shuffle(participations))
-                
-                return self.participationArr.value.map {
-                    WantToGoViewModel(participationService: self.participationService, profilePicture: nil, displayName: "First Last", horoscope: "Leo", ageGroup: "90s")
-                }
+                println(participations.0.count)
+                return self.participationArr.value.map{
+                    return WantToGoViewModel(participationService: self.participationService, profilePicture: $0.user.profileImg, displayName: $0.user.nickname, horoscope: "Placeholder Horoscope", ageGroup: "Placeholder AgeGroup")
+                    }
             }
             |> on(
                 next: { response in
@@ -47,21 +47,7 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
                 error: {FeaturedLogError($0.description)}
         )
     }
-    
-    
-    
-//        let WTGUsers = [WantToGoViewModel]()
-//        
-//        let dummyWTG1 = WantToGoViewModel(participationService: participationService, profilePicture: nil, displayName: "James Liu", horoscope: "Pony", ageGroup: "swag")
-//        let dummyWTG2 = WantToGoViewModel(participationService: participationService, profilePicture: nil, displayName: "First Last", horoscope: "Animal", ageGroup: "Group")
-//        let dummyWTG3 = WantToGoViewModel(participationService: participationService, profilePicture: nil, displayName: "William Qi", horoscope: "Leo",
-//            ageGroup: "90s")
-//        let WTGArray = [dummyWTG1, dummyWTG2, dummyWTG3]
-//        
-//        return SignalProducer { sink, disposable in
-//            sendNext(sink, WTGArray)
-//        }
-//    }
+
     
     // MARK: Initializers
     public init(router: IRouter, userService: IUserService, participationService: IParticipationService, business: Business) {
