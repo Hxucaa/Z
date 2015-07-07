@@ -49,6 +49,9 @@ code_sign() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'AVOSCloud.framework'
+  install_framework 'AVOSCloudCrashReporting.framework'
+  install_framework 'AVOSCloudIM.framework'
+  install_framework 'AVOSCloudSNS.framework'
   install_framework 'Box.framework'
   install_framework 'CocoaLumberjack.framework'
   install_framework 'Dollar.framework'
@@ -65,6 +68,9 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'AVOSCloud.framework'
+  install_framework 'AVOSCloudCrashReporting.framework'
+  install_framework 'AVOSCloudIM.framework'
+  install_framework 'AVOSCloudSNS.framework'
   install_framework 'Box.framework'
   install_framework 'CocoaLumberjack.framework'
   install_framework 'Dollar.framework'

@@ -11,28 +11,28 @@
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.2.4.
+// Version: 3.1.2.6.
 
 // AVOSCloudCrashReporting
 #define COCOAPODS_POD_AVAILABLE_AVOSCloudCrashReporting
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.1.1.
+// Version: 3.1.2.6.
 
 // AVOSCloudIM
 #define COCOAPODS_POD_AVAILABLE_AVOSCloudIM
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.2.4.
+// Version: 3.1.2.6.
 
 // AVOSCloudSNS
 #define COCOAPODS_POD_AVAILABLE_AVOSCloudSNS
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.2.4.
+// Version: 3.1.2.6.
 
 // Box
 #define COCOAPODS_POD_AVAILABLE_Box
@@ -150,7 +150,7 @@
 #define COCOAPODS_POD_AVAILABLE_XAssets
 #define COCOAPODS_VERSION_MAJOR_XAssets 0
 #define COCOAPODS_VERSION_MINOR_XAssets 1
-#define COCOAPODS_VERSION_PATCH_XAssets 0
+#define COCOAPODS_VERSION_PATCH_XAssets 2
 
 // Debug build configuration
 #ifdef DEBUG
