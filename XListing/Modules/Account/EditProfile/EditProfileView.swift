@@ -109,11 +109,13 @@ public final class EditProfileView : UIView {
         self.femaleButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
         self.femaleButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
         
+        
+        
         let maleAction = Action<Void, Void, NoError> {
             
             self.maleButton.selected = true
             self.femaleButton.selected = false
-            self.viewmodel.gender = self.maleButton.titleLabel!.text!
+            self.viewmodel.gender.put(Gender.Male)
             return SignalProducer { sink, disposible in
                 sendCompleted(sink)
             }
@@ -122,7 +124,7 @@ public final class EditProfileView : UIView {
         let femaleAction = Action<Void, Void, NoError> {
             self.femaleButton.selected = true
             self.maleButton.selected = false
-            self.viewmodel.gender = self.femaleButton.titleLabel!.text!
+            self.viewmodel.gender.put(Gender.Female)
             return SignalProducer { sink, disposible in
                 sendCompleted(sink)
             }

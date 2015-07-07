@@ -18,7 +18,7 @@ public struct EditProfileViewModel {
     public let nickname = MutableProperty<String>("")
     public let birthday = MutableProperty<NSDate>(NSDate())
     public let profileImage = MutableProperty<UIImage?>(nil)
-    public var gender : String?
+    public let gender = MutableProperty<Gender?>(nil)
     
     // MARK: Output
     public let allInputsValid = MutableProperty<Bool>(false)
@@ -40,7 +40,7 @@ public struct EditProfileViewModel {
                 user.nickname = self.nickname.value
                 user.birthday = self.birthday.value
                 user.profileImg = file
-                user.gender = self.gender
+                user.gender = self.gender.value?.rawValue
                 return self.userService.save(user)
         }
     }
@@ -79,6 +79,7 @@ public struct EditProfileViewModel {
         self.router = router
         
         setupNickname()
+        setupGender()
         setupBirthday()
         setupProfileImage()
         setupAllInputsValid()
@@ -88,6 +89,7 @@ public struct EditProfileViewModel {
     private var isNicknameValid = MutableProperty<Bool>(false)
     private var isBirthdayValid = MutableProperty<Bool>(false)
     private var isProfileImageValid = MutableProperty<Bool>(false)
+    private var isGenderValid = MutableProperty<Bool>(false)
     
     private let symbols = "~`!@#$%^&*()-_+={[}]|\\:;\"'<,>.?/"
     private let chinese = "\\p{script=Han}"
@@ -119,11 +121,18 @@ public struct EditProfileViewModel {
             |> map { $0 == nil ? false : true }
     }
     
+    private func setupGender() {
+        isGenderValid <~ gender.producer
+            |> map { $0 == nil ? false : true }
+    }
+
+    
     private func setupAllInputsValid() {
-        allInputsValid <~ combineLatest(isNicknameValid.producer, isBirthdayValid.producer, isProfileImageValid.producer)
-            |> on(next: { value in AccountLogDebug("(\(value.0) \(value.1) \(value.2))") })
+        allInputsValid <~ combineLatest(isNicknameValid.producer, isBirthdayValid.producer, isProfileImageValid.producer,
+            isGenderValid.producer)
+            |> on(next: { value in AccountLogDebug("(\(value.0) \(value.1) \(value.2) \(value.3))") })
             |> map { values -> Bool in
-                return values.0 && values.1 && values.2
+                return values.0 && values.1 && values.2 && values.3
             }
     }
     
