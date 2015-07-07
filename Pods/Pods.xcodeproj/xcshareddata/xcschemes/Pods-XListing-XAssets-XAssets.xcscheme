@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E74FFB45200CEC9EAF61FEE5"
+               BlueprintIdentifier = "FAB0709B7866BCBCBE2843D2"
                BuildableName = "XAssets.bundle"
                BlueprintName = "Pods-XListing-XAssets-XAssets"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -39,15 +39,6 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E74FFB45200CEC9EAF61FEE5"
-            BuildableName = "XAssets.bundle"
-            BlueprintName = "Pods-XListing-XAssets-XAssets"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

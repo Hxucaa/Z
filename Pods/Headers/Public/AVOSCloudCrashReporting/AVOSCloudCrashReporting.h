@@ -1,1 +1,1 @@
-../../../AVOSCloudCrashReporting/iOS/release-v3.1.1.1/AVOSCloudCrashReporting.framework/Headers/AVOSCloudCrashReporting.h
+../../../AVOSCloudCrashReporting/iOS/release-v3.1.2.6/AVOSCloudCrashReporting.framework/Headers/AVOSCloudCrashReporting.h

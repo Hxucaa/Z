@@ -1,1 +1,1 @@
-../../../AVOSCloud/iOS/release-v3.1.2.4/AVOSCloud.framework/Headers/AVUserFeedback.h
+../../../AVOSCloud/iOS/release-v3.1.2.6/AVOSCloud.framework/Headers/AVUserFeedback.h

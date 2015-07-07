@@ -1,0 +1,10 @@
+#include "Pods-XListing-AVOSCloudCrashReporting.xcconfig"
+CONFIGURATION_BUILD_DIR = $PODS_FRAMEWORK_BUILD_PATH
+FRAMEWORK_SEARCH_PATHS = "$PODS_FRAMEWORK_BUILD_PATH"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/AVOSCloudCrashReporting" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AVOSCloud" "${PODS_ROOT}/Headers/Public/AVOSCloudCrashReporting" "${PODS_ROOT}/Headers/Public/AVOSCloudIM" "${PODS_ROOT}/Headers/Public/AVOSCloudSNS" "${PODS_ROOT}/Headers/Public/Box" "${PODS_ROOT}/Headers/Public/CocoaLumberjack" "${PODS_ROOT}/Headers/Public/Dollar" "${PODS_ROOT}/Headers/Public/FLEX" "${PODS_ROOT}/Headers/Public/JSQMessagesViewController" "${PODS_ROOT}/Headers/Public/JSQSystemSoundPlayer" "${PODS_ROOT}/Headers/Public/Locksmith" "${PODS_ROOT}/Headers/Public/Nimble" "${PODS_ROOT}/Headers/Public/Quick" "${PODS_ROOT}/Headers/Public/ReactiveCocoa" "${PODS_ROOT}/Headers/Public/ReactiveCocoa/ReactiveCocoa" "${PODS_ROOT}/Headers/Public/Result" "${PODS_ROOT}/Headers/Public/SDWebImage" "${PODS_ROOT}/Headers/Public/SVProgressHUD" "${PODS_ROOT}/Headers/Public/XAssets"
+LIBRARY_SEARCH_PATHS = ${PODS_XLISTING_AVOSCLOUDCRASHREPORTING_LIBRARY_SEARCH_PATHS}
+OTHER_LDFLAGS = ${PODS_XLISTING_AVOSCLOUDCRASHREPORTING_OTHER_LDFLAGS} -ObjC
+PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods-XListing
+PODS_ROOT = ${SRCROOT}
+SKIP_INSTALL = YES
