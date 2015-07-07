@@ -87,7 +87,6 @@
 		12298D72F8FB336A9483263F /* RACBlockTrampoline.m in Sources */ = {isa = PBXBuildFile; fileRef = F76EF8D61B73D3777E3137AC /* RACBlockTrampoline.m */; };
 		12632CC165AC7969163F4762 /* RACSignal.h in Headers */ = {isa = PBXBuildFile; fileRef = B32990C083D4C31A40483828 /* RACSignal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1283746ADC3EAE8689B839B8 /* TupleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3E9A8C81B7B6B16C57679F /* TupleExtensions.swift */; };
-		12ADDECC4C7549845DC84D15 /* Box.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6B171CB0D043106582BE9B /* Box.framework */; };
 		12E3EB28A7BDBC1ADF722F35 /* DSL.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD04B3B9A2851D8F9A667F /* DSL.m */; };
 		1398A07597CC37E45674BE92 /* FLEXSystemLogTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = DB1362089EFC81E6166C5413 /* FLEXSystemLogTableViewCell.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		141712253912ACF6F4D436EA /* RACStringSequence.h in Headers */ = {isa = PBXBuildFile; fileRef = C7ADFEBB09151E7EA21FECC8 /* RACStringSequence.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -164,7 +163,6 @@
 		23DA7AE44EEB91D5AB0678C6 /* FLEXNetworkRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = F31AB862C2730E5EC1F15A1F /* FLEXNetworkRecorder.m */; };
 		242DCA6194B0869B2C28779C /* Pods-XListing-Box-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 856795470FAF9F110F2CE61B /* Pods-XListing-Box-dummy.m */; };
 		249D8E7DAE7F97EBF7BE0EC7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BBA23134EFC16EB8234B3BD /* Foundation.framework */; };
-		24FB5BF0D2694A2AC328504A /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2587C41A5A191816C284C15 /* Result.framework */; };
 		25106FB9FC1B33C7753E285A /* RACDelegateProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 242AE77B8BFA6F97BE9863F4 /* RACDelegateProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2515E786658AC632C2585891 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FB35382946A6B6694E5487 /* DDFileLogger.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		2518BA33398E317E99DF3882 /* AVHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 35C68C3C604B8C59E2C0C3D1 /* AVHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -343,8 +341,6 @@
 		50FDAF2FBEAAC5263034A017 /* RACDynamicSignal.h in Headers */ = {isa = PBXBuildFile; fileRef = 30813CBA3F1CC07090D6816B /* RACDynamicSignal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		510591F773AB2FC4BC42975F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D12AA13A6128BB650C9D875 /* UIKit.framework */; };
 		511D652B6A77B6E4B06080FE /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566AF5FADD0CD11C231468C2 /* Functional.swift */; };
-		5157720879D87F8370E8C9FF /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2587C41A5A191816C284C15 /* Result.framework */; };
-		51FC116D992405989B2F7EC1 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2587C41A5A191816C284C15 /* Result.framework */; };
 		5253550D66406C0F3A0136BF /* RACPassthroughSubscriber.h in Headers */ = {isa = PBXBuildFile; fileRef = 9374BA81DA80A3F333503C3C /* RACPassthroughSubscriber.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		525AC139379340F21EFFAFC0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D12AA13A6128BB650C9D875 /* UIKit.framework */; };
 		52CD6ABD38E321B595E7504A /* BeEmpty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7128C84F52603C5515C075A3 /* BeEmpty.swift */; };
@@ -505,7 +501,6 @@
 		7AEDC5277572566A42B0FB90 /* Pods-XListingTests-Nimble-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D67695216A1D8F87BB12BB8 /* Pods-XListingTests-Nimble-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B5EB1A1752A48BB37D795F9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BBA23134EFC16EB8234B3BD /* Foundation.framework */; };
 		7BA83E455D3DBD0E37DA19CE /* FLEXNetworkTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 310886673B0361BECAB715DC /* FLEXNetworkTransaction.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		7C2FEDBE285AF71A389C4A56 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2587C41A5A191816C284C15 /* Result.framework */; };
 		7C43A50B5527CDA1008C93AA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BBA23134EFC16EB8234B3BD /* Foundation.framework */; };
 		7C61FED32DC21418E87C06CD /* QuickSpec.h in Headers */ = {isa = PBXBuildFile; fileRef = A161EBDBA425C408754736BA /* QuickSpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7CDBF42C36290417B6327D74 /* AVJSONRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = BA8024AA2E146485CEF74338 /* AVJSONRequestOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -524,7 +519,6 @@
 		80E40A6DD39FC1DAA7F7340F /* RACSerialDisposable.h in Headers */ = {isa = PBXBuildFile; fileRef = BE11DB9EAF14797BF56E89F9 /* RACSerialDisposable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		810F48EDF1CD0204D3A78400 /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C8A4BCFDF97B1655B17E5C /* EXTRuntimeExtensions.m */; };
 		814706A37C76DEF0F3073895 /* AVStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CA0B92D39F94103B2D3FBA8 /* AVStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		81D0D8FF8B11B834FF8AD59C /* Box.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6B171CB0D043106582BE9B /* Box.framework */; };
 		81F1FB2E531AB9D8A8CDA280 /* NSSet+RACSequenceAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 79B590C02AD16F108D299657 /* NSSet+RACSequenceAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8230EA49E8A1DFC853520FC1 /* NSObject+RACKVOWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = A935E89CC1FBCCC6D6240DB6 /* NSObject+RACKVOWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82AF01460877C8C308E2A830 /* LCDummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F86A2E49BAD2EFE3576E0508 /* LCDummy.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
@@ -558,7 +552,6 @@
 		89C4826505113202ECF6EA63 /* JSQMessagesToolbarContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75B8536072125399F19F2E23 /* JSQMessagesToolbarContentView.xib */; };
 		8A3070BFCDB6BE5DE11D30D5 /* JSQSystemSoundPlayer+JSQMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = C70B64DA57D2AAF918931C13 /* JSQSystemSoundPlayer+JSQMessages.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8A52234CA45D6DC363BB92C6 /* UISlider+RACSignalSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A0E7F9E5BA51192DD20C1AD /* UISlider+RACSignalSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8A551FEF8C42F725961D494C /* Box.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6B171CB0D043106582BE9B /* Box.framework */; };
 		8AABF595A2FF5E1555250170 /* DSL+Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CDD3258626F40C8AB142B6 /* DSL+Wait.swift */; };
 		8AC372D1840CC0FA03C7D53B /* AVNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 25DC6A4B39736E0D3775CA42 /* AVNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8AF61AB734670CDCCC88EA51 /* NSString+JSQMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = 702E439C208ABFA2DBCAD732 /* NSString+JSQMessages.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -625,7 +618,6 @@
 		9AF42B41E5472367CE44E075 /* SDWebImageDownloaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4238545F2D288BDA4884E3C7 /* SDWebImageDownloaderOperation.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		9B32792E9CBC963A7464F734 /* FLEXNetworkObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 042614195D6F359CA983F37A /* FLEXNetworkObserver.m */; };
 		9B9CFB65642426839593AD32 /* World+DSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F7350A1140F36024B70308 /* World+DSL.swift */; };
-		9BAC3E12760175BD001E4C0F /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2587C41A5A191816C284C15 /* Result.framework */; };
 		9BCDE5CC53194FF68CDF54E5 /* AVNetworkActivityIndicatorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FE3B3EAD4951EC1B89C28E0B /* AVNetworkActivityIndicatorManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9BDF0788F98D5ECD63C89C1E /* RACTuple.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FB16D93A55C4FD132AE7670 /* RACTuple.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9C0CEE15B74FA5C0CA5648B3 /* RACBehaviorSubject.h in Headers */ = {isa = PBXBuildFile; fileRef = F54F39FB8C0AB42DA918ACEF /* RACBehaviorSubject.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -659,7 +651,6 @@
 		A3A12A92DBEE85D179273C4E /* RACCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = ABF3A6E6EF9E552AD545DB48 /* RACCommand.m */; };
 		A3A2E11EA583A2AC7BBEBB29 /* NSDictionary+RACSequenceAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E7037FC371B45FC1F540A5 /* NSDictionary+RACSequenceAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A3FF829BB23F494DDA577C72 /* AVUserFeedbackThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 21B10C495832808344A1C7F1 /* AVUserFeedbackThread.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A4749102B569B2C163A1B129 /* Box.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6B171CB0D043106582BE9B /* Box.framework */; };
 		A4A00834221E34C41FFB4ECB /* FLEXDefaultsExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 084722389216B3C4ACB2AD52 /* FLEXDefaultsExplorerViewController.m */; };
 		A4ADB4B86E619C147C349002 /* RACBlockTrampoline.h in Headers */ = {isa = PBXBuildFile; fileRef = ACF8FDC53E0BF19B1130A06F /* RACBlockTrampoline.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A4BD61EAA295254E18380834 /* JSQMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 502D809FF311DDBE1137B74D /* JSQMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -751,7 +742,6 @@
 		BF5279F01A8152D337D4EACD /* FLEXArrayExplorerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FE7C964010A806E8AB4A2AB /* FLEXArrayExplorerViewController.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		BF6B22172C2CE05DB6D8D756 /* FLEXUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = D839EBDAE3F2CA9442525E0A /* FLEXUtility.m */; };
 		BFACB0A5747A0D7E2DB8AE3D /* AVObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C45DB6757FB53D7D0C72AC9 /* AVObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C04527414CB94723D9F5E594 /* Box.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6B171CB0D043106582BE9B /* Box.framework */; };
 		C0C30A6A814DE0DD2811F1C5 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5681B0E0C8228F1F86E97F99 /* NSData+ImageContentType.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		C10C3E172DF1BB851E0CB532 /* DDLegacyMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 6CF4C76E9CC28683D9322B70 /* DDLegacyMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C14F3B6662AD276854CBCED6 /* NSObject+RACPropertySubscribing.h in Headers */ = {isa = PBXBuildFile; fileRef = 52CBABB36EA4CCE5AFF51DE7 /* NSObject+RACPropertySubscribing.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -910,7 +900,6 @@
 		E882C391DB2679840CF7B5DF /* DSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CFF7BBDC8F98231F336154 /* DSL.swift */; };
 		E8C3DFC515329E7F806DE4C4 /* NSObject+RACSelectorSignal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB5F9B9E03A3CEE5A6DAD73 /* NSObject+RACSelectorSignal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8C4D671004FC5EA84189B75 /* RACTestScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 90571F7429F2DEFBE32C44F7 /* RACTestScheduler.m */; };
-		E8F863CE4F6A2DD64554951A /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2587C41A5A191816C284C15 /* Result.framework */; };
 		E9083E5B5803B3946DE73A8E /* AVHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 35C68C3C604B8C59E2C0C3D1 /* AVHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EA587A4B68B780CF7040CB5F /* FLEXExplorerToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = D069648BEB62A9A74CC46446 /* FLEXExplorerToolbar.m */; };
 		EA724029BA4D3E6E5D114257 /* UIBarButtonItem+RACCommandSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E58498A6D1231E10991BC86 /* UIBarButtonItem+RACCommandSupport.m */; };
@@ -919,7 +908,6 @@
 		EB3B4EC0FBF07AE02A3F3C48 /* AVCloud.h in Headers */ = {isa = PBXBuildFile; fileRef = 580926BA4CE05A4514AD6E02 /* AVCloud.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EBB010D449474AB16A941816 /* ReactiveCocoa-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E57E2AA94779F29B3AA20CF /* ReactiveCocoa-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EBD31BA4F5A6666BAB61C908 /* Pods-XListingTests-ReactiveCocoa-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E95D7E1BCB3C1B5B29C36A /* Pods-XListingTests-ReactiveCocoa-dummy.m */; };
-		EBD63484902055F62DE42C77 /* Box.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6B171CB0D043106582BE9B /* Box.framework */; };
 		EC1FDEDF61FF0F2F7ECC5CE4 /* FLEXLibrariesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9733209D40A185739BB7C121 /* FLEXLibrariesTableViewController.m */; };
 		EC2E3A4409A7417F0336CC5C /* FLEXNetworkObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A71DE7DF55695D71B147FA6 /* FLEXNetworkObserver.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		EC2FDB735D3A9B017B01693B /* FLEXExplorerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = F9745A2F46C5CBB78C65E66B /* FLEXExplorerViewController.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -2142,14 +2130,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1A480F68D8725572D1D1CB1 /* Box.framework in Frameworks */,
-				C04527414CB94723D9F5E594 /* Box.framework in Frameworks */,
-				12ADDECC4C7549845DC84D15 /* Box.framework in Frameworks */,
-				8A551FEF8C42F725961D494C /* Box.framework in Frameworks */,
 				B4F2F3834D5C1CEFE62B01F7 /* Foundation.framework in Frameworks */,
 				F3A13B0A706E4D7290826ED1 /* Result.framework in Frameworks */,
-				51FC116D992405989B2F7EC1 /* Result.framework in Frameworks */,
-				5157720879D87F8370E8C9FF /* Result.framework in Frameworks */,
-				7C2FEDBE285AF71A389C4A56 /* Result.framework in Frameworks */,
 				96733B03E53B260FB2B467E7 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2167,14 +2149,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				69A7C954E21BC03C7E86E4A2 /* Box.framework in Frameworks */,
-				A4749102B569B2C163A1B129 /* Box.framework in Frameworks */,
-				EBD63484902055F62DE42C77 /* Box.framework in Frameworks */,
-				81D0D8FF8B11B834FF8AD59C /* Box.framework in Frameworks */,
 				7B5EB1A1752A48BB37D795F9 /* Foundation.framework in Frameworks */,
 				ED38CA109F0E464377E1FA16 /* Result.framework in Frameworks */,
-				E8F863CE4F6A2DD64554951A /* Result.framework in Frameworks */,
-				9BAC3E12760175BD001E4C0F /* Result.framework in Frameworks */,
-				24FB5BF0D2694A2AC328504A /* Result.framework in Frameworks */,
 				9F79C67037ED11303F88A1CD /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
