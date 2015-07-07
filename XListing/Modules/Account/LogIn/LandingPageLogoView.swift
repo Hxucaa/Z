@@ -13,6 +13,10 @@ import XAssets
 public final class LandingPageLogoView: UIView {
     
     public override func drawRect(rect: CGRect) {
+        var deviceWidth = UIScreen.mainScreen().bounds.size.width
+        var scale = deviceWidth/400.0
+        self.bounds.size.width = rect.width*scale
+        self.bounds.size.height = rect.height*scale
         AssetsKit.drawLandingIcon(scale:0.5)
     }
 }
