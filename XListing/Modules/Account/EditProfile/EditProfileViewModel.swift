@@ -123,7 +123,8 @@ public struct EditProfileViewModel {
     
     private func setupGender() {
         isGenderValid <~ gender.producer
-            |> map { $0 == nil ? false : true }
+            |> ignoreNil
+            |> map { _ in true }
     }
 
     
