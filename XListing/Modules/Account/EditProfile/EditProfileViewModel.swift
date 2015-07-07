@@ -108,7 +108,7 @@ public struct EditProfileViewModel {
         // - emoji, letters, numbers, chinese characters, and standard symbols only
         isNicknameValid <~ nickname.producer
             |> filter { self.testRegex($0, pattern: "^([\(self.symbols)]|[\(self.chinese)]|[\(self.emoji)]|[A-Za-z\\d]){3,15}$")}
-            |> map { _ in return true }
+            |> map { _ in true }
     }
     
     private func setupBirthday() {
@@ -118,7 +118,8 @@ public struct EditProfileViewModel {
     
     private func setupProfileImage() {
         isProfileImageValid <~ profileImage.producer
-            |> map { $0 == nil ? false : true }
+            |> ignoreNil
+            |> map { _ in true }
     }
     
     private func setupGender() {
@@ -129,9 +130,8 @@ public struct EditProfileViewModel {
 
     
     private func setupAllInputsValid() {
-        allInputsValid <~ combineLatest(isNicknameValid.producer, isBirthdayValid.producer, isProfileImageValid.producer,
-            isGenderValid.producer)
-            |> on(next: { value in AccountLogDebug("(\(value.0) \(value.1) \(value.2) \(value.3))") })
+        allInputsValid <~ combineLatest(isNicknameValid.producer, isBirthdayValid.producer, isProfileImageValid.producer, isGenderValid.producer)
+//            |> on(next: { value in AccountLogDebug("(\(value.0) \(value.1) \(value.2) \(value.3))") })
             |> map { values -> Bool in
                 return values.0 && values.1 && values.2 && values.3
             }
