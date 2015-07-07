@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1A8C01624B8EE5E474518EB7"
+               BlueprintIdentifier = "FAB0709B7866BCBCBE2843D2"
                BuildableName = "XAssets.bundle"
                BlueprintName = "Pods-XListing-XAssets-XAssets"
                ReferencedContainer = "container:Pods.xcodeproj">
