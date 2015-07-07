@@ -386,14 +386,14 @@
                                 <exclude reference="cC7-Ba-Knw"/>
                                 <exclude reference="gIk-VA-6qk"/>
                                 <exclude reference="FtP-iM-yeF"/>
+                                <exclude reference="TeE-fr-r9w"/>
+                                <exclude reference="svA-5S-DcM"/>
                                 <exclude reference="LKV-ji-olC"/>
                                 <exclude reference="Ppf-hr-ZPg"/>
                                 <exclude reference="aV2-39-hOa"/>
                                 <exclude reference="dRa-gd-55Q"/>
                                 <exclude reference="qgz-83-soa"/>
                                 <exclude reference="tSk-kW-2II"/>
-                                <exclude reference="TeE-fr-r9w"/>
-                                <exclude reference="svA-5S-DcM"/>
                                 <exclude reference="Ray-sE-gV9"/>
                                 <exclude reference="3Uo-CT-cud"/>
                                 <exclude reference="T9H-rI-uQ8"/>
@@ -462,6 +462,8 @@
                                 <include reference="FtP-iM-yeF"/>
                                 <exclude reference="SSv-bT-hqK"/>
                                 <exclude reference="fc6-my-BVN"/>
+                                <include reference="TeE-fr-r9w"/>
+                                <include reference="svA-5S-DcM"/>
                                 <exclude reference="Ir8-sa-hi6"/>
                                 <exclude reference="LKV-ji-olC"/>
                                 <include reference="Ppf-hr-ZPg"/>
@@ -470,8 +472,6 @@
                                 <exclude reference="pzZ-6V-i0M"/>
                                 <include reference="qgz-83-soa"/>
                                 <exclude reference="tSk-kW-2II"/>
-                                <include reference="TeE-fr-r9w"/>
-                                <include reference="svA-5S-DcM"/>
                                 <exclude reference="359-cq-bF5"/>
                                 <exclude reference="LXc-JE-f3H"/>
                                 <include reference="Ray-sE-gV9"/>
@@ -604,7 +604,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="14"/>
                                 <state key="normal" title="登录">
-                                    <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -621,7 +621,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="14"/>
                                 <state key="normal" title="注册">
-                                    <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -902,6 +902,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="308" id="V0h-35-oYC"/>
                                 </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <variation key="widthClass=compact" misplaced="YES">
@@ -920,6 +921,7 @@
                                     <constraint firstAttribute="height" constant="40" id="DlD-78-VIn"/>
                                     <constraint firstAttribute="height" constant="40" id="hcg-Yx-4Fu"/>
                                 </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <variation key="default">
@@ -1120,21 +1122,21 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="OAl-Hh-1Vv"/>
-                                <exclude reference="kPv-pd-kSr"/>
                                 <exclude reference="CVn-3p-Gxe"/>
                                 <exclude reference="K7K-Yo-VxG"/>
                                 <exclude reference="UPp-un-0YY"/>
                                 <exclude reference="hcp-1y-1fi"/>
                                 <exclude reference="xz6-D4-wab"/>
+                                <exclude reference="OAl-Hh-1Vv"/>
+                                <exclude reference="kPv-pd-kSr"/>
                                 <exclude reference="jnV-NP-B47"/>
                                 <exclude reference="lnp-5X-3IS"/>
                                 <exclude reference="tqS-oF-ulE"/>
+                                <exclude reference="gPy-zr-cHO"/>
+                                <exclude reference="gsa-vB-tdw"/>
                                 <exclude reference="G92-YR-KoC"/>
                                 <exclude reference="aA9-Ra-MlA"/>
                                 <exclude reference="zi5-q6-Q6q"/>
-                                <exclude reference="gPy-zr-cHO"/>
-                                <exclude reference="gsa-vB-tdw"/>
                                 <exclude reference="0Cm-qf-6od"/>
                                 <exclude reference="ILA-ce-amz"/>
                                 <exclude reference="iPu-FH-6Su"/>
@@ -1154,10 +1156,6 @@
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="constraints">
-                                <exclude reference="JtK-8o-RkE"/>
-                                <include reference="OAl-Hh-1Vv"/>
-                                <include reference="kPv-pd-kSr"/>
-                                <exclude reference="oRn-Fz-5P2"/>
                                 <exclude reference="6MZ-9L-KPF"/>
                                 <exclude reference="75P-Fr-mbT"/>
                                 <include reference="CVn-3p-Gxe"/>
@@ -1167,22 +1165,26 @@
                                 <exclude reference="kLc-gp-Ieg"/>
                                 <exclude reference="qW0-UY-vzR"/>
                                 <include reference="xz6-D4-wab"/>
+                                <exclude reference="JtK-8o-RkE"/>
+                                <include reference="OAl-Hh-1Vv"/>
+                                <include reference="kPv-pd-kSr"/>
+                                <exclude reference="oRn-Fz-5P2"/>
                                 <exclude reference="B5K-yV-vqb"/>
                                 <exclude reference="gzL-Q0-vVg"/>
                                 <include reference="jnV-NP-B47"/>
                                 <include reference="lnp-5X-3IS"/>
                                 <exclude reference="qvz-BR-84A"/>
                                 <include reference="tqS-oF-ulE"/>
-                                <include reference="G92-YR-KoC"/>
-                                <exclude reference="Khp-ZW-mIj"/>
-                                <include reference="aA9-Ra-MlA"/>
-                                <include reference="zi5-q6-Q6q"/>
                                 <exclude reference="FwV-as-yRW"/>
                                 <exclude reference="J6E-eY-pJs"/>
                                 <exclude reference="UDs-cE-Qfd"/>
                                 <exclude reference="ZtM-3z-tCU"/>
                                 <include reference="gPy-zr-cHO"/>
                                 <include reference="gsa-vB-tdw"/>
+                                <include reference="G92-YR-KoC"/>
+                                <exclude reference="Khp-ZW-mIj"/>
+                                <include reference="aA9-Ra-MlA"/>
+                                <include reference="zi5-q6-Q6q"/>
                                 <include reference="0Cm-qf-6od"/>
                                 <exclude reference="Gjn-JR-29W"/>
                                 <include reference="ILA-ce-amz"/>
@@ -1243,24 +1245,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uqX-Do-mCR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2892" y="435"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="DIh-fa-qum">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="VcD-IO-MBl" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="c4z-Ma-xR7"/>
-                        <viewControllerLayoutGuide type="bottom" id="jv0-SS-zuH"/>
-                    </layoutGuides>
-                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="iOK-58-cZH" customClass="LandingPageLogoView" customModule="XListing" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="z7N-Pl-feg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
     <resources>
