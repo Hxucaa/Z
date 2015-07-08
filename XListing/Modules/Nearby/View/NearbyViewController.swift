@@ -45,6 +45,11 @@ public final class NearbyViewController: XUIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+    public override func viewDidDisappear(animated: Bool) {
+        // Dealloc actions
+        profileButtonAction = nil
+    }
     
     public func bindToViewModel(viewmodel: INearbyViewModel) {
         self.viewmodel = viewmodel
