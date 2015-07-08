@@ -85,9 +85,7 @@ public final class NearbyViewController: XUIViewController {
         viewmodel.businessViewModelArr.producer
             |> start(next: { [unowned self] businessArr in
                 self.businessCollectionView.reloadData()
-                for bus in businessArr {
-                    self.mapView.addAnnotation(bus.annotation.value)
-                }
+                self.mapView.addAnnotations(businessArr.map { $0.annotation.value })
             })
     }
     
@@ -164,6 +162,9 @@ extension NearbyViewController : UICollectionViewDelegate, UICollectionViewDataS
         
         /// Center the map to the annotation.
         let annotation = business.annotation.value
+        // Select the annotation
+        mapView.selectAnnotation(annotation, animated: false)
+        // Center the map on the annotation
         centerOnLocation(annotation.coordinate, animated: true)
         
         return cell
