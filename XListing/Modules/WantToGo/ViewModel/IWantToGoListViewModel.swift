@@ -13,4 +13,5 @@ public protocol IWantToGoListViewModel {
     var wantToGoViewModelArr: MutableProperty<[WantToGoViewModel]> { get }
     init(router: IRouter, userService: IUserService, participationService: IParticipationService, business: Business)
     func getWantToGoUsers() -> SignalProducer<[WantToGoViewModel], NSError>
+    func showUsers(gender: String)
 }

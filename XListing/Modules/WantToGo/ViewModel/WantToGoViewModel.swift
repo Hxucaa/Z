@@ -17,23 +17,24 @@ public final class WantToGoViewModel : ReactiveTableCellViewModel {
     public let displayName: ConstantProperty<String>
     public let horoscope: ConstantProperty<String>
     public let ageGroup: ConstantProperty<String>
+    public let gender: ConstantProperty<String>
     
     // MARK: Services
     private let participationService: IParticipationService
     
     // MARK: Setup
-    public init(participationService: IParticipationService, profilePicture: AVFile?, displayName: String?, horoscope: String?, ageGroup: String?) {
+    public init(participationService: IParticipationService, profilePicture: AVFile?, displayName: String?, horoscope: String?, ageGroup: String?, gender: String?) {
         self.participationService = participationService
 
         self.displayName = ConstantProperty(displayName!)
         self.horoscope = ConstantProperty(horoscope!)
         self.ageGroup = ConstantProperty(ageGroup!)
+        self.gender = ConstantProperty(gender!)
         
         if let url = profilePicture?.url {
             profilePictureNSURL = ConstantProperty<NSURL?>(NSURL(string: url))
         }
         else {
-            // TODO: temporary fallback
              profilePictureNSURL = ConstantProperty<NSURL?>(NSURL(string: "http://www.phoenixpalace.co.uk/images/background/aboutus.jpg"))
         }
     }

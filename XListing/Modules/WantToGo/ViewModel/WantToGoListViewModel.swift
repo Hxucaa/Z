@@ -27,25 +27,41 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
         let query = Participation.query()
         query.whereKey(Participation.Property.Business.rawValue, equalTo: business)
         query.includeKey(Participation.Property.User.rawValue)
-        println(business.objectId)
         return participationService.findBy(query)
             |> on(next: { participations in
                 self.fetchingData.put(true)
             })
             |> map { participations -> [WantToGoViewModel] in
                 self.participationArr.put($.shuffle(participations))
-                println(participations.0.count)
+                BOLogVerbose("Current Participations: \(participations.0.count)")
                 return self.participationArr.value.map{
-                    return WantToGoViewModel(participationService: self.participationService, profilePicture: $0.user.profileImg, displayName: $0.user.nickname, horoscope: "Placeholder Horoscope", ageGroup: "Placeholder AgeGroup")
+                    return WantToGoViewModel(participationService: self.participationService, profilePicture: $0.user.profileImg, displayName: $0.user.nickname, horoscope: "Placeholder Horoscope", ageGroup: "Placeholder AgeGroup", gender: $0.user.gender)
                     }
             }
+
             |> on(
                 next: { response in
                     self.fetchingData.put(false)
-                    self.wantToGoViewModelArr.put(response)
+                    self.allUsersArr.put(response)
+                    // default segment is male
+                    self.showUsers("male")
             },
                 error: {FeaturedLogError($0.description)}
         )
+    }
+    
+    public func showUsers(gender: String) {
+        if (gender == "male") {
+            self.wantToGoViewModelArr.put( allUsersArr.value.filter{
+                    $0.gender.value == "male"
+                }
+            )
+        } else if (gender == "female") {
+            self.wantToGoViewModelArr.put( allUsersArr.value.filter{
+                    $0.gender.value == "female"
+                }
+            )
+        }
     }
 
     
@@ -68,5 +84,6 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
     private let participationService: IParticipationService
     private let business: Business
     private let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
+    private let allUsersArr: MutableProperty<[WantToGoViewModel]> = MutableProperty([WantToGoViewModel]())
 }
 
