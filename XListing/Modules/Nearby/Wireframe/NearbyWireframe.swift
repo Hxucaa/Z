@@ -15,7 +15,6 @@ public final class NearbyWireframe : BaseWireframe, INearbyWireframe {
     private let router: IRouter
     private let businessService: IBusinessService
     private let geoLocationService: IGeoLocationService
-    private var nearbyVC: NearbyViewController?
     
     public required init(rootWireframe: IRootWireframe, router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
         self.router = router
@@ -37,7 +36,6 @@ public final class NearbyWireframe : BaseWireframe, INearbyWireframe {
         
         viewController.bindToViewModel(viewmodel)
         
-        nearbyVC = viewController
         return viewController
     }
 }
