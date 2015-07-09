@@ -44,6 +44,11 @@ public final class SignUpViewController : XUIViewController {
         setUpSignupButton()
     }
     
+    public override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        signupButtonAction = nil
+    }
+    
     private func setUpBackButton () {
         backButton.addTarget(self, action: "returnToLandingView", forControlEvents: UIControlEvents.TouchUpInside)
     }

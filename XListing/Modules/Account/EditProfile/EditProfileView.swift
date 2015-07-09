@@ -23,14 +23,6 @@ public final class EditProfileView : UIView {
     @IBOutlet weak var maleButton: UIButton!
     @IBOutlet weak var femaleButton: UIButton!
     
-    // MARK: Actions
-    private var dismissViewButtonAction: CocoaAction!
-    private var submitButtonAction: CocoaAction!
-    private var imagePickerButtonAction: CocoaAction!
-    private var imagePickerCancelAction: CocoaAction!
-    private var maleButtonAction: CocoaAction!
-    private var femaleButtonAction: CocoaAction!
-    
     // MARK: - Delegate
     public weak var delegate: EditProfileViewDelegate?
     
@@ -68,32 +60,25 @@ public final class EditProfileView : UIView {
     
     private func setupDismissViewButton() {
         // Action to an UI event
-        let dismissView = Action<Void, Void, NoError> {
+        let dismissView = Action<UIButton, Void, NoError> { [unowned self] button in
             return SignalProducer { sink, disposable in
                 self.delegate?.dismissSignUpView(nil)
             }
         }
         
-        // Bridging
-        dismissViewButtonAction = CocoaAction(dismissView, input: ())
-        
-        dismissViewButton.addTarget(dismissViewButtonAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        dismissViewButton.addTarget(dismissView.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
     
     private func setupImagePickerButton() {
         /// Action to an UI event
-        let presentUIImagePicker = Action<Void, Void, NoError> {
+        let presentUIImagePicker = Action<UIButton, Void, NoError> { [unowned self] button in
             return SignalProducer { sink, disposable in
                 self.delegate?.presentUIImagePickerController(self.imagePicker)
                 sendCompleted(sink)
             }
         }
-        
-        // Bridging actions to Objective-C
-        imagePickerButtonAction = CocoaAction(presentUIImagePicker, input: ())
-        
         // Link UIControl event to actions
-        imagePickerButton.addTarget(imagePickerButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        imagePickerButton.addTarget(presentUIImagePicker.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     private func setupNicknameField() {
@@ -111,32 +96,28 @@ public final class EditProfileView : UIView {
         
         
         
-        let maleAction = Action<Void, Void, NoError> {
+        let maleAction = Action<UIButton, Void, NoError> { [unowned self] button in
             
             self.maleButton.selected = true
             self.femaleButton.selected = false
             self.viewmodel.gender.put(Gender.Male)
-            return SignalProducer { sink, disposible in
+            return SignalProducer { [unowned self] sink, disposible in
                 sendCompleted(sink)
             }
         }
         
-        let femaleAction = Action<Void, Void, NoError> {
+        let femaleAction = Action<UIButton, Void, NoError> { [unowned self] button in
             self.femaleButton.selected = true
             self.maleButton.selected = false
             self.viewmodel.gender.put(Gender.Female)
-            return SignalProducer { sink, disposible in
+            return SignalProducer { [unowned self] sink, disposible in
                 sendCompleted(sink)
             }
         }
         
-        // Bridging actions to Objective-C
-        maleButtonAction = CocoaAction(maleAction, input: ())
-        femaleButtonAction = CocoaAction(femaleAction, input:())
-        
         // Link UIControl event to actions
-        maleButton.addTarget(maleButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-        femaleButton.addTarget(femaleButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        maleButton.addTarget(maleAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        femaleButton.addTarget(femaleAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     private func setupBirthdayPicker() {
@@ -154,7 +135,7 @@ public final class EditProfileView : UIView {
         submitButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
         // Button action
-        let action = Action<Void, Bool, NSError> { [unowned self] in
+        let submitAction = Action<UIButton, Bool, NSError> { [unowned self] button in
             let updateProfileAndHUD = HUD.show()
                 |> mapError { _ in NSError() }
                 |> then(self.viewmodel.updateProfile)
@@ -175,10 +156,7 @@ public final class EditProfileView : UIView {
             }
         }
         
-        // Bridging actions to Objective-C
-        submitButtonAction = CocoaAction(action, input: ())
-        
-        submitButton.addTarget(submitButtonAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        submitButton.addTarget(submitAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
 }
 

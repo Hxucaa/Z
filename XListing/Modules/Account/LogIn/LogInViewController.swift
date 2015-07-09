@@ -40,6 +40,12 @@ public final class LogInViewController: XUIViewController{
         setUpBackButton()
     }
     
+    public override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        loginButtonAction = nil
+        dismissViewButtonAction = nil
+    }
+    
     public func setUpBackButton () {
         backButton.addTarget(self, action: "returnToLandingView", forControlEvents: UIControlEvents.TouchUpInside)
     }

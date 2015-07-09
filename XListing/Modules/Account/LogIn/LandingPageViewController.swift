@@ -14,9 +14,10 @@ public final class LandingPageViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var skipButton: UIButton!
-    
     @IBOutlet weak var dividerLabel: ShadowLabel!
     @IBOutlet weak var backgroundLabel: UILabel!
+    
+    // MARK: Actions
     private var dismissViewButtonAction: CocoaAction!
     
     public weak var delegate: LandingViewDelegate!
@@ -29,6 +30,11 @@ public final class LandingPageViewController: UIViewController {
         setupDismissViewButton()
         setUpLoginSignupButtons()
         // Do any additional setup after loading the view.
+    }
+    
+    public override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        dismissViewButtonAction = nil
     }
 
     public func bindToViewModel(viewmodel: LandingPageViewModel) {
