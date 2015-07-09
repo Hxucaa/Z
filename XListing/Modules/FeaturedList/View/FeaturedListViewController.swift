@@ -21,11 +21,6 @@ public final class FeaturedListViewController: XUIViewController {
     @IBOutlet weak var profileButton: UIBarButtonItem!
     private var refreshControl: UIRefreshControl!
     
-    // MARK: Actions
-    private var nearbyButtonAction: CocoaAction!
-    private var profileButtonAction: CocoaAction!
-    private var refreshControlAction: CocoaAction!
-    
     // MARK: - Private variables
     private var viewmodel: IFeaturedListViewModel!
     private var bindingHelper: ReactiveTableBindingHelper<FeaturedBusinessViewModel>!
@@ -70,7 +65,7 @@ public final class FeaturedListViewController: XUIViewController {
         var refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "刷新中")
         
-        let refresh = Action<Void, Void, NSError> {
+        let refresh = Action<UIRefreshControl, Void, NSError> { [unowned self] refreshControl in
             return self.viewmodel.getFeaturedBusinesses()
                 |> map { _ -> Void in }
                 |> on(next: { [unowned self] _ in
@@ -79,9 +74,7 @@ public final class FeaturedListViewController: XUIViewController {
                 })
         }
         
-        refreshControlAction = CocoaAction(refresh, input: ())
-        
-        refreshControl.addTarget(refreshControlAction, action: CocoaAction.selector, forControlEvents: .ValueChanged)
+        refreshControl.addTarget(refresh.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .ValueChanged)
         
         self.tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
@@ -91,16 +84,14 @@ public final class FeaturedListViewController: XUIViewController {
     React to Nearby Button and present NearbyViewController.
     */
     private func setupNearbyButton() {
-        let pushNearby = Action<Void, Void, NoError> {
+        let pushNearby = Action<UIBarButtonItem, Void, NoError> { [unowned self] button in
             return SignalProducer<Void, NoError> { [unowned self] sink, disposable in
                 self.viewmodel.pushNearbyModule()
                 sendCompleted(sink)
             }
         }
         
-        nearbyButtonAction = CocoaAction(pushNearby, input: ())
-        
-        nearbyButton.target = nearbyButtonAction
+        nearbyButton.target = pushNearby.unsafeCocoaAction
         nearbyButton.action = CocoaAction.selector
     }
 
@@ -108,16 +99,14 @@ public final class FeaturedListViewController: XUIViewController {
     React to Profile Button and present ProfileViewController.
     */
     private func setupProfileButton() {
-        let pushProfile = Action<Void, Void, NoError> {
+        let pushProfile = Action<UIBarButtonItem, Void, NoError> { [unowned self] button in
             return SignalProducer<Void, NoError> { [unowned self] sink, disposable in
                 self.viewmodel.pushProfileModule()
                 sendCompleted(sink)
             }
         }
         
-        profileButtonAction = CocoaAction(pushProfile, input: ())
-        
-        profileButton.target = profileButtonAction
+        profileButton.target = pushProfile.unsafeCocoaAction
         profileButton.action = CocoaAction.selector
     }
 }
