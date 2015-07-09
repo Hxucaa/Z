@@ -37,7 +37,7 @@ public final class SignUpViewController : XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        makeBackgroundCornersRound()
+        setUpBackgroundLabel()
         setUpUsername()
         setUpPassword()
         setUpBackButton()
@@ -53,7 +53,7 @@ public final class SignUpViewController : XUIViewController {
         backButton.addTarget(self, action: "returnToLandingView", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    internal func makeBackgroundCornersRound () {
+    private func setUpBackgroundLabel () {
         self.backgroundLabel.layer.masksToBounds = true;
         self.backgroundLabel.layer.cornerRadius = 8;
     }

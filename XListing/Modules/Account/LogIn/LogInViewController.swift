@@ -33,7 +33,7 @@ public final class LogInViewController: XUIViewController{
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        makeBackgroundCornersRound()
+        setUpBackgroundLabel()
         setUpUsername()
         setUpPassword()
         setUpLoginButton()
@@ -54,7 +54,7 @@ public final class LogInViewController: XUIViewController{
         self.delegate.returnToLandingViewFromLogin()
     }
     
-    internal func makeBackgroundCornersRound () {
+    private func setUpBackgroundLabel () {
         self.backgroundLabel.layer.masksToBounds = true;
         self.backgroundLabel.layer.cornerRadius = 8;
     }

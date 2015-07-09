@@ -26,7 +26,7 @@ public final class LandingPageViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        adjustLabelVisuals()
+        setUpLabels()
         setupDismissViewButton()
         setUpLoginSignupButtons()
         // Do any additional setup after loading the view.
@@ -46,7 +46,7 @@ public final class LandingPageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    internal func adjustLabelVisuals () {
+    private func setUpLabels () {
         self.backgroundLabel.layer.masksToBounds = true;
         self.backgroundLabel.layer.cornerRadius = 8;
         self.dividerLabel.layer.masksToBounds = false
@@ -55,7 +55,7 @@ public final class LandingPageViewController: UIViewController {
         self.dividerLabel.layer.shadowOffset = CGSizeZero;
     }
     
-    internal func setUpLoginSignupButtons () {
+    private func setUpLoginSignupButtons () {
         loginButton.addTarget(delegate, action: "switchToLoginView", forControlEvents: UIControlEvents.TouchUpInside)
         signupButton.addTarget(delegate, action: "switchToSignUpView", forControlEvents: UIControlEvents.TouchUpInside)
     }
