@@ -19,6 +19,7 @@ public final class SignUpViewController : XUIViewController {
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var confirmPasswordField: UITextField!
+    @IBOutlet weak var backgroundLabel: UILabel!
     
     // MARK: Actions
     private var signupButtonAction: CocoaAction!
@@ -36,14 +37,25 @@ public final class SignUpViewController : XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        setUpBackgroundLabel()
         setUpUsername()
         setUpPassword()
         setUpBackButton()
         setUpSignupButton()
     }
     
+    public override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        signupButtonAction = nil
+    }
+    
     private func setUpBackButton () {
         backButton.addTarget(self, action: "returnToLandingView", forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
+    private func setUpBackgroundLabel () {
+        self.backgroundLabel.layer.masksToBounds = true;
+        self.backgroundLabel.layer.cornerRadius = 8;
     }
     
     public func returnToLandingView () {
