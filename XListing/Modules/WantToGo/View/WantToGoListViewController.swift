@@ -22,10 +22,7 @@ public final class WantToGoListViewController: XUIViewController {
     
     // MARK: Actions
     
-    // MARK: - Private Variables
-    var selectedPplArrayM : NSMutableArray = []
-    var selectedPplArrayW : NSMutableArray = []
-    
+    // MARK: - Private Variables    
     private var viewmodel: IWantToGoListViewModel!
     private var bindingHelper: ReactiveTableBindingHelper<WantToGoViewModel>!
     
