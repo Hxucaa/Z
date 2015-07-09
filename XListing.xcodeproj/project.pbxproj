@@ -138,6 +138,8 @@
 		B4F195BF1B2CE2C300B8C519 /* ParticipationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195BE1B2CE2C300B8C519 /* ParticipationType.swift */; };
 		B4F195C61B2E0F0000B8C519 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4F195C51B2E0F0000B8C519 /* Default-568h@2x.png */; };
 		B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */; };
+		B4F38AC31B4DF8D10018F9E3 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F38AC21B4DF8D10018F9E3 /* ReactiveCocoa.framework */; };
+		B4F38AC41B4DF8D10018F9E3 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F38AC21B4DF8D10018F9E3 /* ReactiveCocoa.framework */; };
 		B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */; };
 		B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */; };
 		B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */; };
@@ -228,7 +230,6 @@
 		7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessTests.swift; sourceTree = "<group>"; };
 		7EFEF7411B124B060043E076 /* IRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRouter.swift; sourceTree = "<group>"; };
 		7EFEF7451B13D0900043E076 /* EditProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
-		B409438F1B164C5600D9BDEF /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = "Pods/../build/Debug-iphoneos/Pods-XListing/ReactiveCocoa.framework"; sourceTree = "<group>"; };
 		B40A0D8A1B22455700036986 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B40A0D8C1B23BD2900036986 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleFormatter.swift; sourceTree = "<group>"; };
@@ -302,6 +303,7 @@
 		B4F195BE1B2CE2C300B8C519 /* ParticipationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationType.swift; sourceTree = "<group>"; };
 		B4F195C51B2E0F0000B8C519 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessService.swift; sourceTree = "<group>"; };
+		B4F38AC21B4DF8D10018F9E3 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAccountViewModel.swift; sourceTree = "<group>"; };
 		B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountWireframe.swift; sourceTree = "<group>"; };
@@ -316,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4F195931B2995FA00B8C519 /* libicucore.dylib in Frameworks */,
+				B4F38AC31B4DF8D10018F9E3 /* ReactiveCocoa.framework in Frameworks */,
 				6355331D984FC626C0650774 /* Pods_XListing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -325,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */,
+				B4F38AC41B4DF8D10018F9E3 /* ReactiveCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,8 +339,8 @@
 			isa = PBXGroup;
 			children = (
 				B4F195921B2995FA00B8C519 /* libicucore.dylib */,
+				B4F38AC21B4DF8D10018F9E3 /* ReactiveCocoa.framework */,
 				7E3A1C021B1EF84500E84ABE /* CocoaLumberjack.framework */,
-				B409438F1B164C5600D9BDEF /* ReactiveCocoa.framework */,
 				1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */,
 				3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */,
 			);
@@ -978,6 +982,7 @@
 				7EF371091AB8C012009AA3B9 /* Resources */,
 				872140BEE6FAF6010C9C14C0 /* Embed Pods Frameworks */,
 				187EF1DAD031175ED64B73E2 /* Copy Pods Resources */,
+				B4F38AC11B4DF8150018F9E3 /* Copy Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1156,6 +1161,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-XListing/Pods-XListing-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		B4F38AC11B4DF8150018F9E3 /* Copy Carthage Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Box.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework",
+			);
+			name = "Copy Carthage Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 		D91A9543E432F83B6EF4216D /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1441,7 +1463,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				INFOPLIST_FILE = XListing/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1460,7 +1485,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INFOPLIST_FILE = XListing/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1482,6 +1510,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1507,6 +1536,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INFOPLIST_FILE = XListingTests/Info.plist;

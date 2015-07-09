@@ -6,9 +6,7 @@ target 'XListing' do
   pod 'XAssets', :path => './lib/XAssets'
   pod 'FLEX', '~> 2.0', :configurations => ['DEBUG']
   pod 'SVProgressHUD', :git => 'https://github.com/Hxucaa/SVProgressHUD.git'
-  pod 'CocoaLumberjack', '~> 2.0'
-  pod 'ReactiveCocoa', '= 3.0-beta.6'
-  pod 'SnapKit', '~> 0.12.0'
+  pod 'CocoaLumberjack', '= 2.0.0'
   pod 'JSQMessagesViewController', '~> 7.0'
   pod 'Dollar', '~> 3.0'
   pod 'SDWebImage'
@@ -21,7 +19,6 @@ end
 
 target 'XListingTests' do
   pod 'AVOSCloud', '~> 3.1'
-  pod 'ReactiveCocoa', '= 3.0-beta.6'
   pod 'Quick', '= 0.3.1'
   pod 'Nimble', '= 1.0.0-rc.1'
 end

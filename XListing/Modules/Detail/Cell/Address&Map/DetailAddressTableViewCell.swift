@@ -17,9 +17,6 @@ public final class DetailAddressTableViewCell: UITableViewCell {
     // MARK: Controls
     @IBOutlet weak var addressButton: UIButton!
     
-    // MARK: Actions
-    private var addressButtonAction: CocoaAction!
-    
     // MARK: Delegate
     internal weak var delegate: AddressAndMapDelegate!
     
@@ -30,8 +27,8 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         // Initialization code
         
         // Action
-        let pushNavMap = Action<Void, Void, NoError> {
-            return SignalProducer { sink, disposable in
+        let pushNavMap = Action<UIButton, Void, NoError> { [unowned self] button in
+            return SignalProducer { [unowned self] sink, disposable in
                 
                 let navVC = DetailNavigationMapViewController(nibName: DetailNavigationMapViewControllerXib, bundle: nil)
                 navVC.bindToViewModel(self.viewmodel.detailNavigationMapViewModel)
@@ -40,10 +37,7 @@ public final class DetailAddressTableViewCell: UITableViewCell {
             }
         }
         
-        // Bridging
-        addressButtonAction = CocoaAction(pushNavMap, input: ())
-        
-        addressButton.addTarget(addressButtonAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        addressButton.addTarget(pushNavMap.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {

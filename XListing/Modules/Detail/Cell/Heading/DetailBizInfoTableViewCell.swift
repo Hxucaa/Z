@@ -16,9 +16,6 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var cityAndDistanceLabel: UILabel!
     @IBOutlet weak var participateButton: UIButton!
     
-    // MARK: Actions
-    private var participateButtonAction: CocoaAction!
-    
     internal weak var delegate: DetailBizInfoCellDelegate!
     
     private var viewmodel: DetailBizInfoViewModel!
@@ -27,20 +24,14 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         // Initialization code
-        let popover = Action<Void, Void, NoError> {
+        let popover = Action<UIButton, Void, NoError> { [unowned self] button in
             return SignalProducer { [unowned self] sink, disposable in
                 self.delegate.participate(self.popover)
                 sendCompleted(sink)
             }
         }
-        participateButtonAction = CocoaAction(popover, input: ())
-        participateButton.addTarget(participateButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-    }
-
-    public override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        
+        participateButton.addTarget(popover.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
 
     public func bindToViewModel(viewmodel: DetailBizInfoViewModel) {
@@ -61,15 +52,15 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
         
         var alert = UIAlertController(title: "请选一种", message: "", preferredStyle: UIAlertControllerStyle.Alert)
         
-        alert.addAction(UIAlertAction(title: Choice.我想去.rawValue, style: .Default) { alert in
+        alert.addAction(UIAlertAction(title: Choice.我想去.rawValue, style: .Default) { [unowned self] alert in
             self.viewmodel.participate(Choice.我想去)
                 |> start()
             })
-        alert.addAction(UIAlertAction(title: Choice.我想请客.rawValue, style: .Default) { alert in
+        alert.addAction(UIAlertAction(title: Choice.我想请客.rawValue, style: .Default) { [unowned self] alert in
             self.viewmodel.participate(Choice.我想请客)
                 |> start()
             })
-        alert.addAction(UIAlertAction(title: Choice.我想AA.rawValue, style: .Default) { alert in
+        alert.addAction(UIAlertAction(title: Choice.我想AA.rawValue, style: .Default) { [unowned self] alert in
             self.viewmodel.participate(Choice.我想AA)
                 |> start()
             })

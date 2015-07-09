@@ -17,7 +17,6 @@ public final class FeaturedListWireframe : BaseWireframe, IFeaturedListWireframe
     private let userService: IUserService
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
-    private var featuredListViewController: FeaturedListViewController?
     
     public required init(rootWireframe: IRootWireframe, router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService) {
         self.router = router
@@ -40,7 +39,6 @@ public final class FeaturedListWireframe : BaseWireframe, IFeaturedListWireframe
         let viewmodel = FeaturedListViewModel(router: router, businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService)
         viewController.bindToViewModel(viewmodel)
         
-        featuredListViewController = viewController
         return viewController
     }
 }

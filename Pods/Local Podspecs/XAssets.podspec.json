@@ -1,6 +1,6 @@
 {
   "name": "XAssets",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "summary": "Assets for iOS.",
   "description": "                       Assets repo for iOS app.\n",
   "homepage": "https://bitbucket.org/zenchat/xassets",
@@ -9,8 +9,8 @@
     "Lance Zhu": "lance.zhu@zenchatapp.com"
   },
   "source": {
-    "git": "https://bitbucket.org/zenchat/xassets.git",
-    "tag": "0.1.0"
+    "git": "git@bitbucket.org:zenchat/xassets.git",
+    "tag": "0.1.2"
   },
   "platforms": {
     "ios": "8.0"
