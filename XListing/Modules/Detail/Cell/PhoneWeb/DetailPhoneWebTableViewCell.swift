@@ -15,10 +15,6 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
     @IBOutlet weak var phoneButton: UIButton!
     @IBOutlet weak var websiteButton: UIButton!
     
-    // MARK: Actions
-    private var phoneButtonAction: CocoaAction!
-    private var websiteButtonAction: CocoaAction!
-    
     internal weak var delegate: DetailPhoneWebCellDelegate!
     
     private var viewmodel: DetailPhoneWebViewModel!
@@ -45,24 +41,27 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
     private func setupWebsiteButton() {
         websiteButton?.setTitle(viewmodel.webSiteDisplay.value, forState: .Normal)
         
-        let goToWebsite = Action<Void, Void, NoError> { [unowned self] in
+        let goToWebsite = Action<UIButton, Void, NoError> { [unowned self] button in
             return self.viewmodel.webSiteURL.producer
                 |> filter { $0 != nil }
-                |> map { url -> Void in
+                |> map { [unowned self] url -> Void in
                     let webVC = DetailWebViewViewController(url: url!, businessName: self.viewmodel.businessName.value)
                     let navController = UINavigationController()
                     navController.pushViewController(webVC, animated: true)
                     self.delegate.presentWebView(navController)
                 }
         }
-        websiteButtonAction = CocoaAction(goToWebsite, input: ())
-        websiteButton.addTarget(websiteButtonAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        
+        websiteButton.addTarget(goToWebsite.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
     
     private func setupPhoneButton() {
         phoneButton?.setTitle(viewmodel.phoneDisplay.value, forState: .Normal)
         
-        phoneButtonAction = CocoaAction(viewmodel.callPhone, input: ())
-        phoneButton.addTarget(phoneButtonAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        let callPhone = Action<UIButton, Void, NoError> { [unowned self] button in
+            return self.viewmodel.callPhone
+        }
+        
+        phoneButton.addTarget(callPhone.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
 }

@@ -16,7 +16,6 @@ public final class DetailWireframe : BaseWireframe, IDetailWireframe {
     private let userService: IUserService
     private let participationService: IParticipationService
     private let geoLocationService: IGeoLocationService
-    private var detailViewController: DetailViewController?
     
     public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService) {
         
@@ -39,7 +38,6 @@ public final class DetailWireframe : BaseWireframe, IDetailWireframe {
         let detailViewModel = DetailViewModel(router: router, userService: userService, participationService: participationService, geoLocationService: geoLocationService, businessModel: businessModel)
         viewController.bindToViewModel(detailViewModel)
         
-        detailViewController = viewController
         return viewController
     }
 }
