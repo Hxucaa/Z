@@ -16,7 +16,6 @@ public final class WantToGoListWireframe : BaseWireframe, IWantToGoListWireframe
     private let router: IRouter
     private let userService: IUserService
     private let participationService: IParticipationService
-    private var wantToGoListViewController: WantToGoListViewController?
     
     public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService, participationService: IParticipationService) {
         self.router = router
@@ -37,7 +36,6 @@ public final class WantToGoListWireframe : BaseWireframe, IWantToGoListWireframe
         let viewmodel = WantToGoListViewModel(router: router, userService: userService, participationService: participationService, business: business)
         viewController.bindToViewModel(viewmodel)
         
-        wantToGoListViewController = viewController
         return viewController
     }
 }
