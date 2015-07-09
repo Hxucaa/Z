@@ -61,10 +61,10 @@ public final class WantToGoListViewController: XUIViewController {
     func switchSegment(){
         if (genderSegmentedControl.selectedSegmentIndex == 0) {
             // Male Segment
-            viewmodel.showUsers("male")
+            viewmodel.showMaleUsers()
         } else if (genderSegmentedControl.selectedSegmentIndex == 1) {
             // Female Segment
-            viewmodel.showUsers("female")
+            viewmodel.showFemaleUsers()
         }
         
         self.tableView.reloadData()

@@ -44,25 +44,26 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
                     self.fetchingData.put(false)
                     self.allUsersArr.put(response)
                     // default segment is male
-                    self.showUsers("male")
+                    self.showMaleUsers()
             },
                 error: {FeaturedLogError($0.description)}
         )
     }
     
-    public func showUsers(gender: String) {
-        if (gender == "male") {
-            self.wantToGoViewModelArr.put( allUsersArr.value.filter{
-                    $0.gender.value == "male"
-                }
-            )
-        } else if (gender == "female") {
-            self.wantToGoViewModelArr.put( allUsersArr.value.filter{
-                    $0.gender.value == "female"
-                }
-            )
-        }
+    public func showMaleUsers() {
+        self.wantToGoViewModelArr.put( allUsersArr.value.filter{
+                $0.gender.value == "male"
+            }
+        )
     }
+    
+    public func showFemaleUsers() {
+        self.wantToGoViewModelArr.put( allUsersArr.value.filter{
+            $0.gender.value == "female"
+            }
+        )
+    }
+    
 
     
     // MARK: Initializers
