@@ -41,8 +41,17 @@ public struct UserService : IUserService {
     public func currentLoggedInUser() -> SignalProducer<User, NSError> {
         return SignalProducer { sink, disposable in
             if let currentUser = self.currentUser where currentUser.isAuthenticated() {
-                sendNext(sink, currentUser)
-                sendCompleted(sink)
+//                let query = User.query()
+//                query.getObjectInBackgroundWithId(currentUser.objectId)
+                currentUser.fetchInBackgroundWithBlock { object, error -> Void in
+                    if error == nil {
+                        sendNext(sink, object as! User)
+                        sendCompleted(sink)
+                    }
+                    else {
+                        sendError(sink, error)
+                    }
+                }
             }
             else {
                 sendError(sink, NSError(domain: "UserService", code: 899, userInfo: nil))

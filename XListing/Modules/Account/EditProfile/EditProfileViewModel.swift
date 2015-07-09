@@ -107,7 +107,7 @@ public struct EditProfileViewModel {
         // - between 3 and 15 characters
         // - emoji, letters, numbers, chinese characters, and standard symbols only
         isNicknameValid <~ nickname.producer
-            |> filter { self.testRegex($0, pattern: "^([\(self.symbols)]|[\(self.chinese)]|[\(self.emoji)]|[A-Za-z\\d]){3,15}$")}
+//            |> filter { self.testRegex($0, pattern: "^([\(self.symbols)]|[\(self.chinese)]|[\(self.emoji)]|[A-Za-z\\d]){3,15}$")}
             |> map { _ in true }
     }
     

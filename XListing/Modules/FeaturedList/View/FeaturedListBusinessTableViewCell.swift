@@ -19,6 +19,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     @IBOutlet weak var participationLabel: UILabel!
     @IBOutlet weak var etaLabel: UILabel!
     
+    // MARK: Private Variables
     private let viewmodel = MutableProperty<FeaturedBusinessViewModel?>(nil)
     
     public override func awakeFromNib() {

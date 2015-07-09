@@ -57,7 +57,7 @@ public struct SignUpViewModel {
         // - between 3 and 30 characters
         // - letters, numbers, dashes, periods, and underscores only
         isUsernameValid <~ username.producer
-            |> filter { self.testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
+//            |> filter { self.testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
             |> map { _ in return true }
     }
     
@@ -67,7 +67,7 @@ public struct SignUpViewModel {
         // - letters, numbers, and most standard symbols
         // - at least one number, capital letter, or special character
         isPasswordValid <~ password.producer
-            |> filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
+//            |> filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
             |> map { _ in return true }
     }
     
