@@ -16,9 +16,6 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var cityAndDistanceLabel: UILabel!
     @IBOutlet weak var participateButton: UIButton!
     
-    // MARK: Actions
-    private var participateButtonAction: CocoaAction!
-    
     internal weak var delegate: DetailBizInfoCellDelegate!
     
     private var viewmodel: DetailBizInfoViewModel!
@@ -27,15 +24,14 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         // Initialization code
-        let popover = Action<Void, Void, NoError> {
+        let popover = Action<UIButton, Void, NoError> { [unowned self] button in
             return SignalProducer { [unowned self] sink, disposable in
                 self.delegate.participate(self.popover)
                 sendCompleted(sink)
             }
         }
         
-        participateButtonAction = CocoaAction(popover, input: ())
-        participateButton.addTarget(participateButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        participateButton.addTarget(popover.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
 
     public func bindToViewModel(viewmodel: DetailBizInfoViewModel) {

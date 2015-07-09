@@ -18,9 +18,6 @@ public final class DetailMapTableViewCell: UITableViewCell {
     // MARK: Controls
     @IBOutlet weak var mapView: MKMapView!
     
-    // MARK: Actions
-    private var mapViewAction: CocoaAction!
-    
     // MARK: Delegate
     public weak var delegate: AddressAndMapDelegate!
     
@@ -31,7 +28,7 @@ public final class DetailMapTableViewCell: UITableViewCell {
         mapView.delegate = self
         
         // Action
-        let pushNavMap = Action<Void, Void, NoError> {
+        let pushNavMap = Action<UITapGestureRecognizer, Void, NoError> { [unowned self] gesture in
             return SignalProducer { [unowned self] sink, disposable in
                 
                 let navVC = DetailNavigationMapViewController(nibName: DetailNavigationMapViewControllerXib, bundle: nil)
@@ -41,10 +38,7 @@ public final class DetailMapTableViewCell: UITableViewCell {
             }
         }
         
-        // Bridging
-        mapViewAction = CocoaAction(pushNavMap, input: ())
-        
-        let tapGesture = UITapGestureRecognizer(target: mapViewAction, action: CocoaAction.selector)
+        let tapGesture = UITapGestureRecognizer(target: pushNavMap.unsafeCocoaAction, action: CocoaAction.selector)
         mapView.addGestureRecognizer(tapGesture)
     }
 

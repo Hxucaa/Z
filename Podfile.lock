@@ -6,7 +6,6 @@ PODS:
     - AVOSCloud
   - AVOSCloudSNS (3.1.2.6):
     - AVOSCloud
-  - Box (1.2.2)
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
     - CocoaLumberjack/Extensions (= 2.0.0)
@@ -23,23 +22,6 @@ PODS:
   - Locksmith (1.2.2)
   - Nimble (1.0.0-rc.1)
   - Quick (0.3.1)
-  - ReactiveCocoa (3.0-beta.6):
-    - Box (~> 1.2.0)
-    - ReactiveCocoa/UI (= 3.0-beta.6)
-    - Result (~> 0.4.1)
-  - ReactiveCocoa/Core (3.0-beta.6):
-    - Box (~> 1.2.0)
-    - ReactiveCocoa/no-arc
-    - Result (~> 0.4.1)
-  - ReactiveCocoa/no-arc (3.0-beta.6):
-    - Box (~> 1.2.0)
-    - Result (~> 0.4.1)
-  - ReactiveCocoa/UI (3.0-beta.6):
-    - Box (~> 1.2.0)
-    - ReactiveCocoa/Core
-    - Result (~> 0.4.1)
-  - Result (0.4.3):
-    - Box (~> 1.2)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
@@ -58,7 +40,6 @@ DEPENDENCIES:
   - Locksmith (~> 1.2)
   - Nimble (= 1.0.0-rc.1)
   - Quick (= 0.3.1)
-  - ReactiveCocoa (= 3.0-beta.6)
   - SDWebImage
   - SVProgressHUD (from `https://github.com/Hxucaa/SVProgressHUD.git`)
   - XAssets (from `./lib/XAssets`)
@@ -79,7 +60,6 @@ SPEC CHECKSUMS:
   AVOSCloudCrashReporting: 6ea22bf56093c9bb2939680fd88989333ef12f0d
   AVOSCloudIM: f8610c1139eb143f8260c984b6de83b93d7cca57
   AVOSCloudSNS: 2310d5a478bfb31e1a2af85a93f5dcbe82d83023
-  Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   Dollar: fa1c277042a5e8208f2276abba056f27a812fcfe
   FLEX: 4f04fe0b0594163c00879e2b3db888e5ae37c8d5
@@ -88,8 +68,6 @@ SPEC CHECKSUMS:
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88
   Nimble: 23f1dbddf1706172c7d740430858e5dfa93d997a
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
-  ReactiveCocoa: 859d1dd9dd38d6f2fa4a6917259bb2b512f3c5f7
-  Result: 910839ce03c5c573ec94026678b7cecb69ee862e
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   XAssets: c6abd2ac56696dd0001fe7cb07f0d831f0be89ed
