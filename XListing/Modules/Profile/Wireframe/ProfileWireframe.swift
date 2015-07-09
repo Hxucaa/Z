@@ -12,7 +12,6 @@ public final class ProfileWireframe : BaseWireframe, IProfileWireframe {
     
     private let router: IRouter
     private let userService: IUserService
-    private var profileVC: ProfileViewController?
 
     public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService) {
         self.router = router
@@ -23,7 +22,7 @@ public final class ProfileWireframe : BaseWireframe, IProfileWireframe {
     private func initViewController() -> ProfileViewController {
         let viewController = getViewControllerFromStoryboard(ProfileViewControllerIdentifier, storyboardName: StoryboardName) as! ProfileViewController
         viewController.bindToViewModel(ProfileViewModel(userService: userService))
-        profileVC = viewController
+        
         return viewController
     }
 }
