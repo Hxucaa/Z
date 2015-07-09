@@ -10,6 +10,7 @@ import Foundation
 
 public let MIN_AGE = 17
 public let MAX_AGE = 90
+public let LOGO_SCALE_BASE_FACTOR = 400.0
 
 
 public let CITY_DISTANCE_SEPARATOR = "•"

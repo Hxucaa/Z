@@ -17,6 +17,7 @@ public final class LogInViewController: XUIViewController{
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var backgroundLabel: UILabel!
     
     // MARK: Actions
     private var loginButtonAction: CocoaAction!
@@ -32,10 +33,17 @@ public final class LogInViewController: XUIViewController{
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        setUpBackgroundLabel()
         setUpUsername()
         setUpPassword()
         setUpLoginButton()
         setUpBackButton()
+    }
+    
+    public override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        loginButtonAction = nil
+        dismissViewButtonAction = nil
     }
     
     public func setUpBackButton () {
@@ -44,6 +52,11 @@ public final class LogInViewController: XUIViewController{
     
     public func returnToLandingView () {
         self.delegate.returnToLandingViewFromLogin()
+    }
+    
+    private func setUpBackgroundLabel () {
+        self.backgroundLabel.layer.masksToBounds = true;
+        self.backgroundLabel.layer.cornerRadius = 8;
     }
 
     
