@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 
-public final class FeaturedListBusinessTableViewCell : UITableViewCell, ReactiveTabelCellView {
+public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     // MARK: - UI Controls
     @IBOutlet weak var coverImageView: UIImageView!
@@ -19,8 +19,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell, Reactive
     @IBOutlet weak var participationLabel: UILabel!
     @IBOutlet weak var etaLabel: UILabel!
     
-    
-    private var viewmodel: FeaturedBusinessViewModel!
+    private let viewmodel = MutableProperty<FeaturedBusinessViewModel?>(nil)
     
     public override func awakeFromNib() {
         selectionStyle = UITableViewCellSelectionStyle.None
@@ -28,19 +27,22 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell, Reactive
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
         
+        self.viewmodel.producer
+            |> ignoreNil
+            |> start(next: { [unowned self] viewmodel in
+                self.businessNameLabel.rac_text <~ viewmodel.businessName
+                self.cityLabel.rac_text <~ viewmodel.city
+                self.participationLabel.rac_text <~ viewmodel.participation
+                self.etaLabel.rac_text <~ viewmodel.eta
+                
+                viewmodel.coverImageNSURL.producer
+                    |> start(next: { url in
+                        self.coverImageView.sd_setImageWithURL(url)
+                    })
+                })
     }
     
-    public func bindViewModel(viewmodel: ReactiveTableCellViewModel) {
-        self.viewmodel = viewmodel as! FeaturedBusinessViewModel
-        
-        businessNameLabel.rac_text <~ self.viewmodel.businessName
-        cityLabel.rac_text <~ self.viewmodel.city
-        participationLabel.rac_text <~ self.viewmodel.participation
-        etaLabel.rac_text <~ self.viewmodel.eta
-        
-        self.viewmodel.coverImageNSURL.producer
-            |> start(next: { url in
-                self.coverImageView.sd_setImageWithURL(url)
-            })
+    public func bindViewModel(viewmodel: FeaturedBusinessViewModel) {
+        self.viewmodel.put(viewmodel)
     }
 }
