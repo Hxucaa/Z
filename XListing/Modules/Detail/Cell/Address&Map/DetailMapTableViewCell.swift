@@ -22,7 +22,7 @@ public final class DetailMapTableViewCell: UITableViewCell {
     private var mapViewAction: CocoaAction!
     
     // MARK: Delegate
-    public var delegate: AddressAndMapDelegate!
+    public weak var delegate: AddressAndMapDelegate!
     
     private var viewmodel: DetailAddressAndMapViewModel!
     
@@ -32,7 +32,7 @@ public final class DetailMapTableViewCell: UITableViewCell {
         
         // Action
         let pushNavMap = Action<Void, Void, NoError> {
-            return SignalProducer { sink, disposable in
+            return SignalProducer { [unowned self] sink, disposable in
                 
                 let navVC = DetailNavigationMapViewController(nibName: DetailNavigationMapViewControllerXib, bundle: nil)
                 navVC.bindToViewModel(self.viewmodel.detailNavigationMapViewModel)

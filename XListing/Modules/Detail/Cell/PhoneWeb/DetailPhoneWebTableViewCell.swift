@@ -48,7 +48,7 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         let goToWebsite = Action<Void, Void, NoError> { [unowned self] in
             return self.viewmodel.webSiteURL.producer
                 |> filter { $0 != nil }
-                |> map { url -> Void in
+                |> map { [unowned self] url -> Void in
                     let webVC = DetailWebViewViewController(url: url!, businessName: self.viewmodel.businessName.value)
                     let navController = UINavigationController()
                     navController.pushViewController(webVC, animated: true)

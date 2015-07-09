@@ -31,7 +31,7 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         
         // Action
         let pushNavMap = Action<Void, Void, NoError> {
-            return SignalProducer { sink, disposable in
+            return SignalProducer { [unowned self] sink, disposable in
                 
                 let navVC = DetailNavigationMapViewController(nibName: DetailNavigationMapViewControllerXib, bundle: nil)
                 navVC.bindToViewModel(self.viewmodel.detailNavigationMapViewModel)

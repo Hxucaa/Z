@@ -28,7 +28,7 @@ public struct DetailPhoneWebViewModel {
     
     // MARK: Actions    
     public var callPhone: Action<Void, Void, NoError> {
-        return Action<Void, Void, NoError> {
+        return Action<Void, Void, NoError> { 
             self.phoneURL.producer
                 |> filter { $0 != nil }
                 |> map { url -> Void in
