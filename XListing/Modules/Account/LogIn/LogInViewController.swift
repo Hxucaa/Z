@@ -46,21 +46,27 @@ public final class LogInViewController: XUIViewController{
         dismissViewButtonAction = nil
     }
     
-    public func setUpBackButton () {
-        backButton.addTarget(self, action: "returnToLandingView", forControlEvents: UIControlEvents.TouchUpInside)
-    }
-    
-    public func returnToLandingView () {
-        self.delegate.returnToLandingViewFromLogin()
+    public override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     private func setUpBackgroundLabel () {
         self.backgroundLabel.layer.masksToBounds = true;
         self.backgroundLabel.layer.cornerRadius = 8;
     }
-
     
-    public func setUpLoginButton () {
+    private func setUpUsername() {
+        usernameField.delegate = self
+        viewmodel.username <~ usernameField.rac_text
+    }
+    
+    private func setUpPassword() {
+        passwordField.delegate = self
+        viewmodel.password <~ passwordField.rac_text
+    }
+    
+    private func setUpLoginButton () {
         loginButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
         let login = Action<Void, User, NSError> { [unowned self] in
@@ -94,9 +100,12 @@ public final class LogInViewController: XUIViewController{
         loginButton.addTarget(loginButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    public override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    private func setUpBackButton () {
+        backButton.addTarget(self, action: "returnToLandingView", forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
+    public func returnToLandingView () {
+        self.delegate.returnToLandingViewFromLogin()
     }
     
     public func bindToViewModel(viewmodel: LogInViewModel) {
@@ -104,15 +113,6 @@ public final class LogInViewController: XUIViewController{
         
     }
     
-    public func setUpUsername() {
-        usernameField.delegate = self
-        viewmodel.username <~ usernameField.rac_text
-    }
-    
-    public func setUpPassword() {
-        passwordField.delegate = self
-        viewmodel.password <~ passwordField.rac_text
-    }
 }
 
 extension LogInViewController : UITextFieldDelegate {
