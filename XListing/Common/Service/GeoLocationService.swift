@@ -13,11 +13,11 @@ import CoreLocation
 
 public struct GeoLocationService : IGeoLocationService {
     
-    public final class LocationManager : NSObject, CLLocationManagerDelegate {
+    private final class LocationManager : NSObject, CLLocationManagerDelegate {
         
         private let locationManager = CLLocationManager()
         
-        public override init() {
+        private override init() {
             super.init()
             locationManager.delegate = self
         }
