@@ -48,7 +48,7 @@ public struct NearbyTableCellViewModel {
         self.annotation = ConstantProperty(annotation)
         
         // TODO: implement participation
-        participation.put("150+ 人想去")
+        participation.put("\(arc4random_uniform(100))+ 人想去")
         
         
         setupEta(businessLocation)
