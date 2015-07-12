@@ -25,11 +25,27 @@ public final class WantToGoViewModel : ReactiveTableCellViewModel {
     // MARK: Setup
     public init(participationService: IParticipationService, profilePicture: AVFile?, displayName: String?, horoscope: String?, ageGroup: String?, gender: String?) {
         self.participationService = participationService
-
-        self.displayName = ConstantProperty(displayName!)
-        self.horoscope = ConstantProperty(horoscope!)
-        self.ageGroup = ConstantProperty(ageGroup! + "后")
-        self.gender = ConstantProperty(gender!)
+        
+        if let displayName = displayName {
+            self.displayName = ConstantProperty(displayName)
+        } else {
+            self.displayName = ConstantProperty("")
+        }
+        if let horoscope = horoscope {
+            self.horoscope = ConstantProperty(horoscope)
+        } else {
+            self.horoscope = ConstantProperty("")
+        }
+        if let ageGroup = ageGroup {
+            self.ageGroup = ConstantProperty(ageGroup + " 后")
+        } else {
+            self.ageGroup = ConstantProperty("")
+        }
+        if let gender = gender {
+            self.gender = ConstantProperty(gender)
+        } else {
+            self.gender = ConstantProperty("")
+        }
         
         if let url = profilePicture?.url {
             profilePictureNSURL = ConstantProperty<NSURL?>(NSURL(string: url))
