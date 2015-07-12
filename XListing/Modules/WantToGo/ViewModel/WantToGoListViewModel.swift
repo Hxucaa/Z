@@ -35,7 +35,7 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
                 self.participationArr.put($.shuffle(participations))
                 BOLogVerbose("Current Participations: \(participations.0.count)")
                 return self.participationArr.value.map{
-                    return WantToGoViewModel(participationService: self.participationService, profilePicture: $0.user.profileImg, displayName: $0.user.nickname, horoscope: "Placeholder Horoscope", ageGroup: "Placeholder AgeGroup", gender: $0.user.gender)
+                    return WantToGoViewModel(participationService: self.participationService, profilePicture: $0.user.profileImg, displayName: $0.user.nickname, horoscope: $0.user.horoscope, ageGroup: $0.user.ageGroup, gender: $0.user.gender)
                     }
             }
 
