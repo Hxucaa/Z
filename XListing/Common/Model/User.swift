@@ -18,6 +18,8 @@ public final class User: AVUser, AVSubclassing {
         case Profile = "profile"
         case LatestLocation = "latestLocation"
         case Gender = "gender"
+        case Horoscope = "horoscope"
+        case AgeGroup = "ageGroup"
     }
     
     // Class Name
@@ -83,5 +85,6 @@ public final class User: AVUser, AVSubclassing {
 //        }
 //    }
     @NSManaged public var gender: String?
-
+    @NSManaged public var horoscope: String?
+    @NSManaged public var ageGroup: String?
 }

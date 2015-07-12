@@ -28,7 +28,7 @@ public final class WantToGoViewModel : ReactiveTableCellViewModel {
 
         self.displayName = ConstantProperty(displayName!)
         self.horoscope = ConstantProperty(horoscope!)
-        self.ageGroup = ConstantProperty(ageGroup!)
+        self.ageGroup = ConstantProperty(ageGroup! + "s")
         self.gender = ConstantProperty(gender!)
         
         if let url = profilePicture?.url {
