@@ -14,4 +14,5 @@ public protocol IAccountViewModel {
     var landingPageViewModel: LandingPageViewModel { mutating get }
     init(userService: IUserService, router: IRouter, userDefaultsService: IUserDefaultsService)
     func pushFeaturedModule()
+    func skipAccount(dismiss: () -> ())
 }

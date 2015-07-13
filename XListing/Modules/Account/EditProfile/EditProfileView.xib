@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
@@ -11,22 +11,15 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入昵称" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tXM-sB-jC0">
-                    <rect key="frame" x="110" y="128" width="380" height="30"/>
+                    <rect key="frame" x="8" y="129" width="167" height="30"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="380" id="XJJ-2n-qYc"/>
+                        <constraint firstAttribute="width" constant="167" id="XJJ-2n-qYc"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IGX-AL-KU5">
-                    <rect key="frame" x="271" y="486" width="58" height="34"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                    <state key="normal" title="Submit">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
                 <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="puY-N8-AEU">
-                    <rect key="frame" x="140" y="316" width="320" height="162"/>
+                    <rect key="frame" x="-57" y="310" width="320" height="162"/>
                     <date key="date" timeIntervalSinceReferenceDate="453693096.86290503">
                         <!--2015-05-19 01:51:36 +0000-->
                     </date>
@@ -35,7 +28,7 @@
                     </date>
                 </datePicker>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Up" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ir-Cj-4MG">
-                    <rect key="frame" x="262" y="80" width="77" height="32"/>
+                    <rect key="frame" x="24" y="60" width="77" height="32"/>
                     <accessibility key="accessibilityConfiguration">
                         <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
                     </accessibility>
@@ -48,7 +41,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="30e-pB-QrA">
-                    <rect key="frame" x="227" y="178" width="146" height="30"/>
+                    <rect key="frame" x="8" y="167" width="146" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="146" id="pUY-or-6hI"/>
                     </constraints>
@@ -57,7 +50,7 @@
                     </state>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Birthday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZs-dp-Caw">
-                    <rect key="frame" x="243" y="289" width="114" height="21"/>
+                    <rect key="frame" x="24" y="281" width="114" height="21"/>
                     <accessibility key="accessibilityConfiguration">
                         <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
                     </accessibility>
@@ -69,8 +62,8 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="td6-7m-VY6">
-                    <rect key="frame" x="255" y="28" width="91" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="td6-7m-VY6">
+                    <rect key="frame" x="30" y="0.0" width="91" height="30"/>
                     <state key="normal" title="Dismiss View">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -79,14 +72,21 @@
                     </variation>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eux-Tx-xRs">
-                    <rect key="frame" x="255" y="233" width="30" height="30"/>
+                    <rect key="frame" x="8" y="227" width="30" height="30"/>
                     <state key="normal" title="男">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gkG-Sb-cII">
-                    <rect key="frame" x="316" y="233" width="30" height="30"/>
+                    <rect key="frame" x="71" y="227" width="30" height="30"/>
                     <state key="normal" title="女">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IGX-AL-KU5">
+                    <rect key="frame" x="30" y="480" width="58" height="34"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <state key="normal" title="Submit">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
@@ -94,31 +94,32 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="IGX-AL-KU5" firstAttribute="top" secondItem="puY-N8-AEU" secondAttribute="bottom" constant="8" symbolic="YES" id="5fX-l4-AMD"/>
-                <constraint firstItem="tXM-sB-jC0" firstAttribute="centerX" secondItem="3ir-Cj-4MG" secondAttribute="centerX" id="9H5-Fn-7uW"/>
-                <constraint firstItem="puY-N8-AEU" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="9gx-H2-Wyg"/>
-                <constraint firstItem="puY-N8-AEU" firstAttribute="centerX" secondItem="IGX-AL-KU5" secondAttribute="centerX" id="Fpu-E8-07N"/>
+                <constraint firstItem="tXM-sB-jC0" firstAttribute="centerX" secondItem="3ir-Cj-4MG" secondAttribute="centerX" constant="29" id="9H5-Fn-7uW"/>
+                <constraint firstItem="puY-N8-AEU" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" constant="-197" id="9gx-H2-Wyg"/>
+                <constraint firstItem="puY-N8-AEU" firstAttribute="centerX" secondItem="IGX-AL-KU5" secondAttribute="centerX" constant="44" id="Fpu-E8-07N"/>
                 <constraint firstItem="Eux-Tx-xRs" firstAttribute="baseline" secondItem="gkG-Sb-cII" secondAttribute="baseline" id="G2Z-MQ-mqx"/>
-                <constraint firstItem="gkG-Sb-cII" firstAttribute="trailing" secondItem="td6-7m-VY6" secondAttribute="trailing" id="JYK-GV-i26">
+                <constraint firstItem="td6-7m-VY6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="HCh-09-wDL"/>
+                <constraint firstItem="gkG-Sb-cII" firstAttribute="trailing" secondItem="td6-7m-VY6" secondAttribute="trailing" constant="-20" id="JYK-GV-i26">
                     <variation key="heightClass=regular-widthClass=compact" constant="93"/>
                 </constraint>
                 <constraint firstItem="dZs-dp-Caw" firstAttribute="centerX" secondItem="30e-pB-QrA" secondAttribute="centerX" id="JZt-TS-lAK"/>
-                <constraint firstItem="dZs-dp-Caw" firstAttribute="centerX" secondItem="tXM-sB-jC0" secondAttribute="centerX" id="OQC-TR-X1Y"/>
-                <constraint firstItem="tXM-sB-jC0" firstAttribute="top" secondItem="3ir-Cj-4MG" secondAttribute="bottom" constant="16" id="QVJ-Ti-jA5"/>
-                <constraint firstAttribute="trailing" secondItem="gkG-Sb-cII" secondAttribute="trailing" constant="254" id="UAT-oN-Aeg">
+                <constraint firstItem="dZs-dp-Caw" firstAttribute="centerX" secondItem="tXM-sB-jC0" secondAttribute="centerX" constant="-10.5" id="OQC-TR-X1Y"/>
+                <constraint firstItem="tXM-sB-jC0" firstAttribute="top" secondItem="3ir-Cj-4MG" secondAttribute="bottom" constant="37" id="QVJ-Ti-jA5"/>
+                <constraint firstAttribute="trailing" secondItem="gkG-Sb-cII" secondAttribute="trailing" constant="499" id="UAT-oN-Aeg">
                     <variation key="heightClass=regular-widthClass=compact" constant="161"/>
                 </constraint>
-                <constraint firstItem="dZs-dp-Caw" firstAttribute="top" secondItem="30e-pB-QrA" secondAttribute="bottom" constant="81" id="Xb7-df-h2k"/>
-                <constraint firstItem="Eux-Tx-xRs" firstAttribute="leading" secondItem="td6-7m-VY6" secondAttribute="leading" id="eIG-oY-zS1">
+                <constraint firstItem="dZs-dp-Caw" firstAttribute="top" secondItem="30e-pB-QrA" secondAttribute="bottom" constant="84" id="Xb7-df-h2k"/>
+                <constraint firstItem="Eux-Tx-xRs" firstAttribute="leading" secondItem="td6-7m-VY6" secondAttribute="leading" constant="-22" id="eIG-oY-zS1">
                     <variation key="heightClass=regular-widthClass=compact" constant="99"/>
                 </constraint>
-                <constraint firstItem="3ir-Cj-4MG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="kJH-Qs-aYo"/>
-                <constraint firstItem="30e-pB-QrA" firstAttribute="top" secondItem="tXM-sB-jC0" secondAttribute="bottom" constant="20" id="lu1-4U-dPV"/>
-                <constraint firstItem="Eux-Tx-xRs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="255" id="o8h-Tm-iGL">
+                <constraint firstItem="3ir-Cj-4MG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="60" id="kJH-Qs-aYo"/>
+                <constraint firstItem="30e-pB-QrA" firstAttribute="top" secondItem="tXM-sB-jC0" secondAttribute="bottom" constant="8" id="lu1-4U-dPV"/>
+                <constraint firstItem="Eux-Tx-xRs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="o8h-Tm-iGL">
                     <variation key="heightClass=regular-widthClass=compact" constant="154"/>
                 </constraint>
-                <constraint firstItem="Eux-Tx-xRs" firstAttribute="top" secondItem="30e-pB-QrA" secondAttribute="bottom" constant="25" id="omV-Mv-eAM"/>
-                <constraint firstItem="dZs-dp-Caw" firstAttribute="centerX" secondItem="puY-N8-AEU" secondAttribute="centerX" id="sLV-bw-alN"/>
-                <constraint firstItem="puY-N8-AEU" firstAttribute="top" secondItem="dZs-dp-Caw" secondAttribute="bottom" constant="6" id="zhA-SJ-CNU"/>
+                <constraint firstItem="Eux-Tx-xRs" firstAttribute="top" secondItem="30e-pB-QrA" secondAttribute="bottom" constant="30" id="omV-Mv-eAM"/>
+                <constraint firstItem="dZs-dp-Caw" firstAttribute="centerX" secondItem="puY-N8-AEU" secondAttribute="centerX" constant="-22" id="sLV-bw-alN"/>
+                <constraint firstItem="puY-N8-AEU" firstAttribute="top" secondItem="dZs-dp-Caw" secondAttribute="bottom" constant="8" id="zhA-SJ-CNU"/>
             </constraints>
             <connections>
                 <outlet property="birthdayPicker" destination="puY-N8-AEU" id="GGQ-u6-xud"/>

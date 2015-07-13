@@ -12,4 +12,5 @@ import ReactiveCocoa
 public protocol LandingViewDelegate : class {
     func switchToLoginView()
     func switchToSignUpView()
+    func skip()
 }

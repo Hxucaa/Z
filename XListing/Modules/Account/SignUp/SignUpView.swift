@@ -1,16 +1,16 @@
 //
-//  SignUpViewController.swift
+//  SignUpView.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-06-09.
+//  Created by Lance Zhu on 2015-07-12.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import ReactiveCocoa
-import SVProgressHUD
 
-public final class SignUpViewController : XUIViewController {
+public final class SignUpView : UIView {
     
     // MARK: - UI
     // MARK: Controls
@@ -18,48 +18,36 @@ public final class SignUpViewController : XUIViewController {
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
-    @IBOutlet weak var confirmPasswordField: UITextField!
     @IBOutlet weak var backgroundLabel: UILabel!
     
     // MARK: Actions
     private var signupButtonAction: CocoaAction!
     
     // MARK: Private variables
-    private var editProfileViewNibName: String!
-    private var editProfileView: EditProfileView!
     private var viewmodel: SignUpViewModel!
-    private var editProfileViewmodel: EditProfileViewModel!
     
     // MARK: Delegate
     public weak var delegate: SignUpViewDelegate!
     
     // MARK: Setup Code
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        setUpBackgroundLabel()
-        setUpUsername()
-        setUpPassword()
-        setUpBackButton()
-        setUpSignupButton()
-    }
-    
-    public override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        signupButtonAction = nil
+    public override func awakeFromNib() {
+        super.awakeFromNib()
     }
     
     private func setUpBackButton () {
-        backButton.addTarget(self, action: "returnToLandingView", forControlEvents: UIControlEvents.TouchUpInside)
+        let goBackAction = Action<UIButton, Void, NoError> { [unowned self] button in
+            return SignalProducer { sink, disposable in
+                self.delegate.returnToLandingViewFromSignUp()
+                sendCompleted(sink)
+            }
+        }
+        
+        backButton.addTarget(goBackAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     private func setUpBackgroundLabel () {
         self.backgroundLabel.layer.masksToBounds = true;
         self.backgroundLabel.layer.cornerRadius = 8;
-    }
-    
-    public func returnToLandingView () {
-        self.delegate.returnToLandingViewFromSignUp()
     }
     
     private func setUpSignupButton () {
@@ -69,7 +57,7 @@ public final class SignUpViewController : XUIViewController {
             // display HUD to indicate work in progress
             let signUpAndHUD = HUD.show()
                 // map error to the same type as other signal
-                |> mapError { _ in NSError() }
+                |> promoteErrors(NSError)
                 // sign up
                 |> then(self.viewmodel.signUp)
                 // dismiss HUD based on the result of sign up signal
@@ -78,13 +66,13 @@ public final class SignUpViewController : XUIViewController {
                     return error.customErrorDescription
                 })
             
-            let HUDDisappear = HUD.didDissappearNotification() |> mapError { _ in NSError() }
+            let HUDDisappear = HUD.didDissappearNotification() |> promoteErrors(NSError)
             
             // combine the latest signal of sign up and hud dissappear notification
             // once sign up is done properly and HUD is disappeared, proceed to next step
             return combineLatest(signUpAndHUD, HUDDisappear)
-                |> map { success, notificationMessage -> Bool in
-                    self.goToEditProfileView()
+                |> map { [unowned self] success, notificationMessage -> Bool in
+                    self.delegate.gotoEditInfoView()
                     return success
             }
         }
@@ -96,21 +84,14 @@ public final class SignUpViewController : XUIViewController {
         signupButton.addTarget(signupButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    public func goToEditProfileView () {
-        
-        // call the signup action in the viewmodel, and if that returns true then proceed
-        
-        editProfileView = NSBundle.mainBundle().loadNibNamed("EditProfileView", owner: self, options: nil).first as? EditProfileView
-        editProfileView.delegate = self
-        editProfileView.bindToViewModel(editProfileViewmodel)
-    
-    // Put view to display
-        self.view = editProfileView
-    }
-    
-    public func bindToViewModel(viewmodel: SignUpViewModel, editProfileViewmodel: EditProfileViewModel) {
+    public func bindToViewModel(viewmodel: SignUpViewModel) {
         self.viewmodel = viewmodel
-        self.editProfileViewmodel = editProfileViewmodel
+        
+        //        setUpBackgroundLabel()
+        setUpUsername()
+        setUpPassword()
+        setUpBackButton()
+        setUpSignupButton()
     }
     
     private func setUpUsername() {
@@ -122,22 +103,10 @@ public final class SignUpViewController : XUIViewController {
         passwordField.delegate = self
         viewmodel.password <~ passwordField.rac_text
     }
-
+    
 }
 
-extension SignUpViewController : EditProfileViewDelegate {
-    
-    public func presentUIImagePickerController(imagePicker: UIImagePickerController) {
-        self.presentViewController(imagePicker, animated: true, completion: nil)
-    }
-    
-    public func dismissSignUpView (handler: CompletionHandler?) {
-        self.dismissViewControllerAnimated(true, completion: handler)
-        
-    }
-}
-
-extension SignUpViewController : UITextFieldDelegate {
+extension SignUpView : UITextFieldDelegate {
     /**
     The text field calls this method whenever the user taps the return button. You can use this method to implement any custom behavior when the button is tapped.
     
@@ -146,7 +115,7 @@ extension SignUpViewController : UITextFieldDelegate {
     :returns: YES if the text field should implement its default behavior for the return button; otherwise, NO.
     */
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.view.endEditing(true)
+        endEditing(true)
         return false
     }
 }

@@ -28,7 +28,7 @@ public struct EditProfileViewModel {
         return self.allInputsValid.producer
             // only allow TRUE value
             |> filter { $0 }
-            |> mapError { _ in NSError() }
+            |> promoteErrors(NSError)
             |> flatMap(FlattenStrategy.Merge) { _ -> SignalProducer<User, NSError> in
                 return self.userService.currentLoggedInUser()
             }

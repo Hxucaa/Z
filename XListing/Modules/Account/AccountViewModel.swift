@@ -29,6 +29,18 @@ public struct AccountViewModel : IAccountViewModel {
         router.pushFeatured()
     }
     
+    public func skipAccount(dismiss: () -> ()) {
+        // if accountModuleSkipped is true, then this function has been called from other module. Call dismiss function to dismiss the current view.
+        if userDefaultsService.accountModuleSkipped {
+            dismiss()
+        }
+            // else it must be the first time the app is run on device. Go straight to featured list.
+        else {
+            router.pushFeatured()
+            userDefaultsService.accountModuleSkipped = true
+        }
+    }
+    
     // MARK: - Private
     
     // MARK: Services

@@ -30,7 +30,7 @@ public struct SignUpViewModel {
         return self.allInputsValid.producer
             // only allow TRUE value
             |> filter { $0 }
-            |> mapError { _ in NSError() }
+            |> promoteErrors(NSError)
             |> flatMap(FlattenStrategy.Merge) { valid -> SignalProducer<Bool, NSError> in
                 let user = User()
                 user.username = self.username.value
@@ -58,7 +58,7 @@ public struct SignUpViewModel {
         // - letters, numbers, dashes, periods, and underscores only
         isUsernameValid <~ username.producer
 //            |> filter { self.testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
-            |> map { _ in return true }
+            |> map { _ in true }
     }
     
     private func setupPassword() {
@@ -68,7 +68,7 @@ public struct SignUpViewModel {
         // - at least one number, capital letter, or special character
         isPasswordValid <~ password.producer
 //            |> filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
-            |> map { _ in return true }
+            |> map { _ in true }
     }
     
     private func setupAllInputsValid() {

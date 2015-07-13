@@ -1,15 +1,16 @@
 //
-//  LogInViewController.swift
+//  LogInView.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-06-09.
+//  Created by Lance Zhu on 2015-07-12.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import ReactiveCocoa
 
-public final class LogInViewController: XUIViewController{
+public final class LogInView : UIView {
     
     // MARK: - UI
     // MARK: Controls
@@ -17,105 +18,97 @@ public final class LogInViewController: XUIViewController{
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
-    @IBOutlet weak var backgroundLabel: UILabel!
-    
-    // MARK: Actions
-    private var loginButtonAction: CocoaAction!
-    private var dismissViewButtonAction: CocoaAction!
     
     // MARK: - Delegate
     public weak var delegate: LoginViewDelegate!
     
     // MARK: - Private variables
-    private var viewmodel: LogInViewModel!
+    private let viewmodel = MutableProperty<LogInViewModel?>(nil)
     
-    // MARK: Setup
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        setUpBackgroundLabel()
-        setUpUsername()
-        setUpPassword()
-        setUpLoginButton()
-        setUpBackButton()
+    public override func awakeFromNib() {
+        super.awakeFromNib()
+        
+//        setUpBackgroundLabel()
+//        setUpUsername()
+//        setUpPassword()
+//        setUpLoginButton()
+        setupBackButton()
+        
+        viewmodel.producer
+            |> ignoreNil
+            |> start(next: { [unowned self] viewmodel in
+                self.setupUsername(viewmodel)
+                self.setupPassword(viewmodel)
+                self.setupLoginButton(viewmodel)
+            })
     }
     
-    public override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        loginButtonAction = nil
-        dismissViewButtonAction = nil
-    }
+//    private func setUpBackgroundLabel () {
+//        self.backgroundLabel.layer.masksToBounds = true;
+//        self.backgroundLabel.layer.cornerRadius = 8;
+//    }
     
-    public override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    private func setUpBackgroundLabel () {
-        self.backgroundLabel.layer.masksToBounds = true;
-        self.backgroundLabel.layer.cornerRadius = 8;
-    }
-    
-    private func setUpUsername() {
+    private func setupUsername(viewmodel: LogInViewModel) {
         usernameField.delegate = self
         viewmodel.username <~ usernameField.rac_text
     }
     
-    private func setUpPassword() {
+    private func setupPassword(viewmodel: LogInViewModel) {
         passwordField.delegate = self
         viewmodel.password <~ passwordField.rac_text
     }
     
-    private func setUpLoginButton () {
+    private func setupLoginButton(viewmodel: LogInViewModel) {
         loginButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
-        let login = Action<Void, User, NSError> { [unowned self] in
+        let login = Action<UIButton, User, NSError> { [unowned self] button in
             // display HUD to indicate work in progress
             let logInAndHUD = HUD.show()
                 // map error to the same type as other signal
-                |> mapError { _ in NSError() }
+                |> promoteErrors(NSError)
                 // log in
-                |> then(self.viewmodel.logIn)
+                |> then(viewmodel.logIn)
                 // dismiss HUD based on the result of log in signal
                 |> HUD.onDismissWithStatusMessage(errorHandler: { error -> String in
                     AccountLogError(error.description)
                     return error.customErrorDescription
                 })
             
-            let HUDDisappear = HUD.didDissappearNotification() |> mapError { _ in NSError() }
+            let HUDDisappear = HUD.didDissappearNotification() |> promoteErrors(NSError)
             
             // combine the latest signal of log in and hud dissappear notification
             // once log in is done properly and HUD is disappeared, proceed to next step
             return combineLatest(logInAndHUD, HUDDisappear)
                 |> map { user, notificationMessage -> User in
-                    self.viewmodel.dismissAccountView()
+                    viewmodel.dismissAccountView()
                     return user
             }
         }
         
-        // Bridging actions to Objective-C
-        loginButtonAction = CocoaAction(login, input: ())
-        
         // Link UIControl event to actions
-        loginButton.addTarget(loginButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        loginButton.addTarget(login.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    private func setUpBackButton () {
-        backButton.addTarget(self, action: "returnToLandingView", forControlEvents: UIControlEvents.TouchUpInside)
-    }
-    
-    public func returnToLandingView () {
-        self.delegate.returnToLandingViewFromLogin()
+    private func setupBackButton () {
+        let backAction = Action<UIButton, Void, NoError> { [unowned self] button in
+            return SignalProducer { sink, disposable in
+                self.delegate.goBackToPreviousView()
+                sendCompleted(sink)
+            }
+        }
+        
+        backButton.addTarget(backAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     public func bindToViewModel(viewmodel: LogInViewModel) {
-        self.viewmodel = viewmodel
+//        self.viewmodel = viewmodel
+        self.viewmodel.put(viewmodel)
         
     }
-    
+
 }
 
-extension LogInViewController : UITextFieldDelegate {
+extension LogInView : UITextFieldDelegate {
     /**
     The text field calls this method whenever the user taps the return button. You can use this method to implement any custom behavior when the button is tapped.
     
@@ -124,8 +117,7 @@ extension LogInViewController : UITextFieldDelegate {
     :returns: YES if the text field should implement its default behavior for the return button; otherwise, NO.
     */
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.view.endEditing(true)
+        endEditing(true)
         return false
     }
 }
-
