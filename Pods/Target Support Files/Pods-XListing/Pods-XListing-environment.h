@@ -11,34 +11,28 @@
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.2.4.
+// Version: 3.1.2.6.
 
 // AVOSCloudCrashReporting
 #define COCOAPODS_POD_AVAILABLE_AVOSCloudCrashReporting
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.1.1.
+// Version: 3.1.2.6.
 
 // AVOSCloudIM
 #define COCOAPODS_POD_AVAILABLE_AVOSCloudIM
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.2.4.
+// Version: 3.1.2.6.
 
 // AVOSCloudSNS
 #define COCOAPODS_POD_AVAILABLE_AVOSCloudSNS
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.2.4.
-
-// Box
-#define COCOAPODS_POD_AVAILABLE_Box
-#define COCOAPODS_VERSION_MAJOR_Box 1
-#define COCOAPODS_VERSION_MINOR_Box 2
-#define COCOAPODS_VERSION_PATCH_Box 2
+// Version: 3.1.2.6.
 
 // CocoaLumberjack
 #define COCOAPODS_POD_AVAILABLE_CocoaLumberjack
@@ -88,40 +82,6 @@
 #define COCOAPODS_VERSION_MINOR_Locksmith 2
 #define COCOAPODS_VERSION_PATCH_Locksmith 2
 
-// ReactiveCocoa
-#define COCOAPODS_POD_AVAILABLE_ReactiveCocoa
-// This library does not follow semantic-versioning,
-// so we were not able to define version macros.
-// Please contact the author.
-// Version: 3.0-beta.6.
-
-// ReactiveCocoa/Core
-#define COCOAPODS_POD_AVAILABLE_ReactiveCocoa_Core
-// This library does not follow semantic-versioning,
-// so we were not able to define version macros.
-// Please contact the author.
-// Version: 3.0-beta.6.
-
-// ReactiveCocoa/UI
-#define COCOAPODS_POD_AVAILABLE_ReactiveCocoa_UI
-// This library does not follow semantic-versioning,
-// so we were not able to define version macros.
-// Please contact the author.
-// Version: 3.0-beta.6.
-
-// ReactiveCocoa/no-arc
-#define COCOAPODS_POD_AVAILABLE_ReactiveCocoa_no_arc
-// This library does not follow semantic-versioning,
-// so we were not able to define version macros.
-// Please contact the author.
-// Version: 3.0-beta.6.
-
-// Result
-#define COCOAPODS_POD_AVAILABLE_Result
-#define COCOAPODS_VERSION_MAJOR_Result 0
-#define COCOAPODS_VERSION_MINOR_Result 4
-#define COCOAPODS_VERSION_PATCH_Result 3
-
 // SDWebImage
 #define COCOAPODS_POD_AVAILABLE_SDWebImage
 #define COCOAPODS_VERSION_MAJOR_SDWebImage 3
@@ -140,11 +100,11 @@
 #define COCOAPODS_VERSION_MINOR_SVProgressHUD 1
 #define COCOAPODS_VERSION_PATCH_SVProgressHUD 3
 
-// SnapKit
-#define COCOAPODS_POD_AVAILABLE_SnapKit
-#define COCOAPODS_VERSION_MAJOR_SnapKit 0
-#define COCOAPODS_VERSION_MINOR_SnapKit 12
-#define COCOAPODS_VERSION_PATCH_SnapKit 0
+// XAssets
+#define COCOAPODS_POD_AVAILABLE_XAssets
+#define COCOAPODS_VERSION_MAJOR_XAssets 0
+#define COCOAPODS_VERSION_MINOR_XAssets 1
+#define COCOAPODS_VERSION_PATCH_XAssets 2
 
 // Debug build configuration
 #ifdef DEBUG

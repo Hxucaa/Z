@@ -1,0 +1,26 @@
+{
+  "name": "XAssets",
+  "version": "0.1.2",
+  "summary": "Assets for iOS.",
+  "description": "                       Assets repo for iOS app.\n",
+  "homepage": "https://bitbucket.org/zenchat/xassets",
+  "license": "MIT",
+  "authors": {
+    "Lance Zhu": "lance.zhu@zenchatapp.com"
+  },
+  "source": {
+    "git": "git@bitbucket.org:zenchat/xassets.git",
+    "tag": "0.1.2"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "source_files": "Pod/Classes/**/*",
+  "resource_bundles": {
+    "XAssets": [
+      "Pod/Assets/*.png"
+    ]
+  },
+  "frameworks": "UIKit"
+}

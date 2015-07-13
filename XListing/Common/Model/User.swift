@@ -17,8 +17,11 @@ public final class User: AVUser, AVSubclassing {
         case ProfileImg = "profileImg"
         case Profile = "profile"
         case LatestLocation = "latestLocation"
+        case Gender = "gender"
+        case Horoscope = "horoscope"
+        case AgeGroup = "ageGroup"
     }
-//    
+    
     // Class Name
 //    public class func parseClassName() -> String {
 //        return "_User"
@@ -81,4 +84,7 @@ public final class User: AVUser, AVSubclassing {
 //            self[Property.LatestLocation.rawValue] = newValue
 //        }
 //    }
+    @NSManaged public var gender: String?
+    @NSManaged public var horoscope: String?
+    @NSManaged public var ageGroup: String?
 }

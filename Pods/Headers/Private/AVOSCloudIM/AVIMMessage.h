@@ -1,1 +1,1 @@
-../../../AVOSCloudIM/iOS/release-v3.1.2.4/AVOSCloudIM.framework/Headers/AVIMMessage.h
+../../../AVOSCloudIM/iOS/release-v3.1.2.6/AVOSCloudIM.framework/Headers/AVIMMessage.h

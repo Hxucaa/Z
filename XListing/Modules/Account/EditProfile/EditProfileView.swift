@@ -20,12 +20,8 @@ public final class EditProfileView : UIView {
     @IBOutlet weak var imagePickerButton: UIButton!
     @IBOutlet weak var birthdayPicker: UIDatePicker!
     @IBOutlet weak var submitButton: UIButton!
-    
-    // MARK: Actions
-    private var dismissViewButtonAction: CocoaAction!
-    private var submitButtonAction: CocoaAction!
-    private var imagePickerButtonAction: CocoaAction!
-    private var imagePickerCancelAction: CocoaAction!
+    @IBOutlet weak var maleButton: UIButton!
+    @IBOutlet weak var femaleButton: UIButton!
     
     // MARK: - Delegate
     public weak var delegate: EditProfileViewDelegate?
@@ -47,11 +43,12 @@ public final class EditProfileView : UIView {
     public func bindToViewModel(viewmodel: EditProfileViewModel) {
         self.viewmodel = viewmodel
         
+        setupGenderButtons()
         setupImagePicker()
         setupDismissViewButton()
         setupNicknameField()
         setupBirthdayPicker()
-        setupSubtmitButton()
+        setupSubmitButton()
         setupImagePickerButton()
     }
     
@@ -63,38 +60,64 @@ public final class EditProfileView : UIView {
     
     private func setupDismissViewButton() {
         // Action to an UI event
-        let dismissView = Action<Void, Void, NoError> {
+        let dismissView = Action<UIButton, Void, NoError> { [unowned self] button in
             return SignalProducer { sink, disposable in
                 self.delegate?.dismissSignUpView(nil)
             }
         }
         
-        // Bridging
-        dismissViewButtonAction = CocoaAction(dismissView, input: ())
-        
-        dismissViewButton.addTarget(dismissViewButtonAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        dismissViewButton.addTarget(dismissView.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
     
     private func setupImagePickerButton() {
         /// Action to an UI event
-        let presentUIImagePicker = Action<Void, Void, NoError> {
+        let presentUIImagePicker = Action<UIButton, Void, NoError> { [unowned self] button in
             return SignalProducer { sink, disposable in
                 self.delegate?.presentUIImagePickerController(self.imagePicker)
                 sendCompleted(sink)
             }
         }
-        
-        // Bridging actions to Objective-C
-        imagePickerButtonAction = CocoaAction(presentUIImagePicker, input: ())
-        
         // Link UIControl event to actions
-        imagePickerButton.addTarget(imagePickerButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        imagePickerButton.addTarget(presentUIImagePicker.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     private func setupNicknameField() {
         nicknameField.delegate = self
         // React to text change
         viewmodel.nickname <~ nicknameField.rac_text
+    }
+    
+    private func setupGenderButtons() {
+        
+        self.maleButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
+        self.maleButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
+        self.femaleButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
+        self.femaleButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
+        
+        
+        
+        let maleAction = Action<UIButton, Void, NoError> { [unowned self] button in
+            
+            self.maleButton.selected = true
+            self.femaleButton.selected = false
+            self.viewmodel.gender.put(Gender.Male)
+            return SignalProducer { [unowned self] sink, disposible in
+                sendCompleted(sink)
+            }
+        }
+        
+        let femaleAction = Action<UIButton, Void, NoError> { [unowned self] button in
+            self.femaleButton.selected = true
+            self.maleButton.selected = false
+            self.viewmodel.gender.put(Gender.Female)
+            return SignalProducer { [unowned self] sink, disposible in
+                sendCompleted(sink)
+            }
+        }
+        
+        // Link UIControl event to actions
+        maleButton.addTarget(maleAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        femaleButton.addTarget(femaleAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     private func setupBirthdayPicker() {
@@ -107,12 +130,12 @@ public final class EditProfileView : UIView {
         birthdayPicker.maximumDate = ageLimit.ceil
     }
     
-    private func setupSubtmitButton() {
+    private func setupSubmitButton() {
         // Button enabled react to validity of all inputs
         submitButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
         // Button action
-        let action = Action<Void, Bool, NSError> { [unowned self] in
+        let submitAction = Action<UIButton, Bool, NSError> { [unowned self] button in
             let updateProfileAndHUD = HUD.show()
                 |> mapError { _ in NSError() }
                 |> then(self.viewmodel.updateProfile)
@@ -133,10 +156,7 @@ public final class EditProfileView : UIView {
             }
         }
         
-        // Bridging actions to Objective-C
-        submitButtonAction = CocoaAction(action, input: ())
-        
-        submitButton.addTarget(submitButtonAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        submitButton.addTarget(submitAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
 }
 
@@ -149,7 +169,7 @@ extension EditProfileView : UIImagePickerControllerDelegate, UINavigationControl
     :param: info   A dictionary containing the original image and the edited image, if an image was picked; or a filesystem URL for the movie, if a movie was picked. The dictionary also contains any relevant editing information. The keys for this dictionary are listed in Editing Information Keys.
     */
     public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
             viewmodel.profileImage <~ MutableProperty<UIImage?>(pickedImage)
         }
         self.delegate?.dismissSignUpView(nil)

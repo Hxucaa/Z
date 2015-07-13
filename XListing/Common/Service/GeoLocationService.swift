@@ -13,6 +13,18 @@ import CoreLocation
 
 public struct GeoLocationService : IGeoLocationService {
     
+    private final class LocationManager : NSObject, CLLocationManagerDelegate {
+        
+        private let locationManager = CLLocationManager()
+        
+        private override init() {
+            super.init()
+            locationManager.delegate = self
+        }
+    }
+    
+    private let locationManager = LocationManager()
+    
     public func getCurrentLocation() -> SignalProducer<CLLocation, NSError> {
         return SignalProducer<CLLocation, NSError> { sink, disposable in
             // get current location
@@ -67,8 +79,10 @@ public struct GeoLocationService : IGeoLocationService {
     }
     
     private func calETA(destination: CLLocation, currentLocation: CLLocation? = nil) -> SignalProducer<NSTimeInterval, NSError> {
+        
+        requestWhenInUseAuthorization()
+        
         return SignalProducer<NSTimeInterval, NSError> { sink, disposable in
-            
             let request = MKDirectionsRequest()
             if let currentLocation = currentLocation {
                 request.setSource(MKMapItem(placemark: MKPlacemark(coordinate: currentLocation.coordinate, addressDictionary: nil)))
@@ -90,6 +104,12 @@ public struct GeoLocationService : IGeoLocationService {
                     sendError(sink, error)
                 }
             }
+        }
+    }
+    
+    private func requestWhenInUseAuthorization() {
+        if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.NotDetermined {
+            locationManager.locationManager.requestWhenInUseAuthorization()
         }
     }
 }

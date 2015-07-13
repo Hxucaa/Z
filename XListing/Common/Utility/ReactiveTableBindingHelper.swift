@@ -14,7 +14,7 @@ public protocol ReactiveTableCellViewModel : class {
     
 }
 
-public protocol ReactiveTabelCellView : class {
+public protocol ReactiveTableCellView : class {
     func bindViewModel(viewmodel: ReactiveTableCellViewModel)
 }
 
@@ -130,7 +130,7 @@ class DataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
             cell = tableView.dequeueReusableCellWithIdentifier(templateCell!.reuseIdentifier!) as! UITableViewCell
         }
         
-        if let reactiveView = cell as? ReactiveTabelCellView {
+        if let reactiveView = cell as? ReactiveTableCellView {
             reactiveView.bindViewModel(item as! ReactiveTableCellViewModel)
         }
         else {

@@ -43,8 +43,8 @@ public final class BackgroundLocationWorker : NSObject, IBackgroundLocationWorke
                 return self.userService.save(user)
             }
             |> on(
-                next: { _ in BOLogInfo("User location updated") },
-                error: { _ in BOLogInfo("Location update failed!") }
+                next: { _ in BOLogVerbose("User location updated") },
+                error: { _ in BOLogError("Location update failed!") }
             )
             |> start()
     }

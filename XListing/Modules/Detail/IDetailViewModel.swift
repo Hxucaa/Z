@@ -17,4 +17,5 @@ public protocol IDetailViewModel {
     var detailPhoneWebViewModel: DetailPhoneWebViewModel { get }
     var detailBizInfoViewModel: DetailBizInfoViewModel { get }
     init(router: IRouter, userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, businessModel: Business)
+    func pushWantToGo()
 }

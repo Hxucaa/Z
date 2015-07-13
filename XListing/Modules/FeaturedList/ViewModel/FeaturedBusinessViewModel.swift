@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public final class FeaturedBusinessViewModel : ReactiveTableCellViewModel {
+public struct FeaturedBusinessViewModel {
     public let businessName: ConstantProperty<String>
     public let city: ConstantProperty<String>
     public let eta: MutableProperty<String> = MutableProperty("")
@@ -41,7 +41,7 @@ public final class FeaturedBusinessViewModel : ReactiveTableCellViewModel {
         }
         
         // TODO: implement participation
-        participation.put("150+ 人想去")
+        participation.put("\(arc4random_uniform(100))+ 人想去")
     }
     
     // MARK: - Private

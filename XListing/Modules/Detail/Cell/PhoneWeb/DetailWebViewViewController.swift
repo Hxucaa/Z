@@ -53,5 +53,10 @@ public final class DetailWebViewViewController : XUIViewController {
         super.viewDidLoad()
         // Load request
         webView.loadRequest(urlRequest)
-        }
+    }
+    
+    public override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        navRightBarButtonItemAction = nil
+    }
 }

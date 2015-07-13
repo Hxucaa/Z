@@ -20,8 +20,8 @@ public struct ProfileViewModel : IProfileViewModel {
         self.userService.currentLoggedInUser()
             |> start(
                 next: { user in
-                    if let nickname = user.nickname {
-                        self.nickname.put(nickname)
+                    if let nickname: AnyObject = user.username {
+                        self.nickname.put(nickname as! String)
                     }
                 }
             )
