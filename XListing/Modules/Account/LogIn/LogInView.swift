@@ -27,11 +27,6 @@ public final class LogInView : UIView {
     
     public override func awakeFromNib() {
         super.awakeFromNib()
-        
-//        setUpBackgroundLabel()
-//        setUpUsername()
-//        setUpPassword()
-//        setUpLoginButton()
         setupBackButton()
         
         viewmodel.producer
@@ -42,11 +37,6 @@ public final class LogInView : UIView {
                 self.setupLoginButton(viewmodel)
             })
     }
-    
-//    private func setUpBackgroundLabel () {
-//        self.backgroundLabel.layer.masksToBounds = true;
-//        self.backgroundLabel.layer.cornerRadius = 8;
-//    }
     
     private func setupUsername(viewmodel: LogInViewModel) {
         usernameField.delegate = self
@@ -59,6 +49,8 @@ public final class LogInView : UIView {
     }
     
     private func setupLoginButton(viewmodel: LogInViewModel) {
+        loginButton.layer.masksToBounds = true
+        loginButton.layer.cornerRadius = 8
         loginButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
         let login = Action<UIButton, User, NSError> { [unowned self] button in
@@ -90,6 +82,7 @@ public final class LogInView : UIView {
     }
     
     private func setupBackButton () {
+        
         let backAction = Action<UIButton, Void, NoError> { [unowned self] button in
             return SignalProducer { sink, disposable in
                 self.delegate.goBackToPreviousView()
@@ -101,7 +94,6 @@ public final class LogInView : UIView {
     }
     
     public func bindToViewModel(viewmodel: LogInViewModel) {
-//        self.viewmodel = viewmodel
         self.viewmodel.put(viewmodel)
         
     }
@@ -117,7 +109,15 @@ extension LogInView : UITextFieldDelegate {
     :returns: YES if the text field should implement its default behavior for the return button; otherwise, NO.
     */
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        endEditing(true)
+        switch textField {
+        case usernameField:
+            passwordField.becomeFirstResponder()
+        case passwordField:
+            passwordField.resignFirstResponder()
+            loginButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+        default:
+            AccountLogError("Unreachable code block")
+        }
         return false
     }
 }

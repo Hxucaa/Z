@@ -130,9 +130,6 @@
                 <constraint firstAttribute="centerX" secondItem="URh-J2-DSn" secondAttribute="centerX" id="qvm-Dj-9J2"/>
                 <constraint firstItem="hcy-qC-2WU" firstAttribute="top" secondItem="0eD-67-s1P" secondAttribute="top" id="yUG-QD-WZh"/>
             </constraints>
-            <userDefinedRuntimeAttributes>
-                <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
-            </userDefinedRuntimeAttributes>
             <connections>
                 <outlet property="dividerLabel" destination="hcy-qC-2WU" id="gDI-FQ-lFp"/>
                 <outlet property="loginButton" destination="Osl-4F-Oyr" id="eeO-Oc-fpY"/>
