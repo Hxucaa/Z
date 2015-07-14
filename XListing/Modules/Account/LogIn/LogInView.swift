@@ -27,7 +27,9 @@ public final class LogInView : UIView {
     
     public override func awakeFromNib() {
         super.awakeFromNib()
+        
         setupBackButton()
+        setupTextFieldDidEndEditing()
         
         viewmodel.producer
             |> ignoreNil
@@ -85,6 +87,7 @@ public final class LogInView : UIView {
         
         let backAction = Action<UIButton, Void, NoError> { [unowned self] button in
             return SignalProducer { sink, disposable in
+                // go back to previous view
                 self.delegate.goBackToPreviousView()
                 sendCompleted(sink)
             }
@@ -93,11 +96,35 @@ public final class LogInView : UIView {
         backButton.addTarget(backAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
+    /**
+    Observe `textFieldDidEndEditing:` function on `UITextFieldDelegate`
+    */
+    private func setupTextFieldDidEndEditing() {
+        // observe `textFieldDidEndEditing:` function on `UITextFieldDelegate`
+        rac_signalForSelector(Selector("textFieldDidEndEditing:"), fromProtocol: UITextFieldDelegate.self).toSignalProducer()
+            |> map { ($0 as! RACTuple).first as! UITextField }
+            // delay the signal due to the animation of retracting keyboard
+            // this cannot be executed on main thread, otherwise UI will be blocked
+            |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+            // return the signal to main/ui thread in order to run UI related code
+            |> observeOn(UIScheduler())
+            |> start(next: { [unowned self] textField in
+                switch textField {
+                case self.usernameField:
+                    break
+                case self.passwordField:
+                    // manually trigger touch event
+                    self.loginButton.sendActionsForControlEvents(.TouchUpInside)
+                default:
+                    break
+                }
+            })
+    }
+    
     public func bindToViewModel(viewmodel: LogInViewModel) {
         self.viewmodel.put(viewmodel)
         
     }
-
 }
 
 extension LogInView : UITextFieldDelegate {
@@ -114,9 +141,9 @@ extension LogInView : UITextFieldDelegate {
             passwordField.becomeFirstResponder()
         case passwordField:
             passwordField.resignFirstResponder()
-            loginButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+            endEditing(true)
         default:
-            AccountLogError("Unreachable code block")
+            break
         }
         return false
     }

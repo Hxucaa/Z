@@ -31,9 +31,14 @@ public final class SignUpView : UIView {
     // MARK: Setup Code
     public override func awakeFromNib() {
         super.awakeFromNib()
+        
+        setupBackButton()
+        setupUsername()
+        setupPassword()
+        setupSignupButton()
     }
     
-    private func setUpBackButton () {
+    private func setupBackButton () {
         let goBackAction = Action<UIButton, Void, NoError> { [unowned self] button in
             return SignalProducer { sink, disposable in
                 self.delegate.returnToLandingViewFromSignUp()
@@ -44,8 +49,7 @@ public final class SignUpView : UIView {
         backButton.addTarget(goBackAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    private func setUpSignupButton () {
-        signupButton.rac_enabled <~ viewmodel.allInputsValid.producer
+    private func setupSignupButton () {
         
         let signup = Action<Void, Bool, NSError> { [unowned self] in
             // display HUD to indicate work in progress
@@ -78,25 +82,22 @@ public final class SignUpView : UIView {
         signupButton.addTarget(signupButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
+    private func setupUsername() {
+        usernameField.delegate = self
+    }
+    
+    private func setupPassword() {
+        passwordField.delegate = self
+    }
+    
     public func bindToViewModel(viewmodel: SignUpViewModel) {
         self.viewmodel = viewmodel
         
-        setUpUsername()
-        setUpPassword()
-        setUpBackButton()
-        setUpSignupButton()
-    }
-    
-    private func setUpUsername() {
-        usernameField.delegate = self
+        // bind signals
         viewmodel.username <~ usernameField.rac_text
-    }
-    
-    private func setUpPassword() {
-        passwordField.delegate = self
         viewmodel.password <~ passwordField.rac_text
+        signupButton.rac_enabled <~ viewmodel.allInputsValid.producer
     }
-    
 }
 
 extension SignUpView : UITextFieldDelegate {
@@ -113,10 +114,35 @@ extension SignUpView : UITextFieldDelegate {
             passwordField.becomeFirstResponder()
         case passwordField:
             passwordField.resignFirstResponder()
-            signupButton.sendActionsForControlEvents(.TouchUpInside)
+            endEditing(true)
         default:
-            AccountLogError("Unreachable code block")
+            break
         }
         return false
+    }
+    
+    /**
+    Tells the delegate that editing began for the specified text field.
+    
+    :param: textField The text field for which an editing session began.
+    */
+    public func textFieldDidEndEditing(textField: UITextField) {
+        switch textField {
+        case usernameField:
+            break
+        case passwordField:
+            // start an empty SignalProducer
+            SignalProducer<Void, NSError>.empty
+                // delay the signal due to the animation of retracting keyboard
+                // this cannot be executed on main thread, otherwise UI will be blocked
+                |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                // return the signal to main/ui thread in order to run UI related code
+                |> observeOn(UIScheduler())
+                |> start(completed: { [unowned self] in
+                    self.signupButton.sendActionsForControlEvents(.TouchUpInside)
+                })
+        default:
+            break
+        }
     }
 }
