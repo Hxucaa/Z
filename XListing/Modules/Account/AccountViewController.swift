@@ -11,14 +11,16 @@ import ReactiveCocoa
 
 private let EditProfileViewNibName = "EditProfileView"
 private let SignUpViewNibName = "SignUpView"
+private let LogInViewNibName = "LogInView"
+private let LandingPageViewNibName = "LandingPageView"
 
 public final class AccountViewController: XUIViewController {
     
     private var viewmodel: IAccountViewModel!
     private var dismissCallback: CompletionHandler?
     
-    private lazy var landingPageView: LandingPageView = NSBundle.mainBundle().loadNibNamed("LandingPageView", owner: self, options: nil).first as! LandingPageView
-    private lazy var logInView: LogInView = NSBundle.mainBundle().loadNibNamed("LogInView", owner: self, options: nil).first as! LogInView
+    private lazy var landingPageView: LandingPageView = NSBundle.mainBundle().loadNibNamed(LandingPageViewNibName, owner: self, options: nil).first as! LandingPageView
+    private lazy var logInView: LogInView = NSBundle.mainBundle().loadNibNamed(LogInViewNibName, owner: self, options: nil).first as! LogInView
     private lazy var signUpView: SignUpView = NSBundle.mainBundle().loadNibNamed(SignUpViewNibName, owner: self, options: nil).first as! SignUpView
     private lazy var editInfoView: EditProfileView = NSBundle.mainBundle().loadNibNamed(EditProfileViewNibName, owner: self, options: nil).first as! EditProfileView
     

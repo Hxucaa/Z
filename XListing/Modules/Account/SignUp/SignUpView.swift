@@ -115,24 +115,8 @@ extension SignUpView : UITextFieldDelegate {
         case passwordField:
             passwordField.resignFirstResponder()
             endEditing(true)
-        default:
-            break
-        }
-        return false
-    }
-    
-    /**
-    Tells the delegate that editing began for the specified text field.
-    
-    :param: textField The text field for which an editing session began.
-    */
-    public func textFieldDidEndEditing(textField: UITextField) {
-        switch textField {
-        case usernameField:
-            break
-        case passwordField:
             // start an empty SignalProducer
-            SignalProducer<Void, NSError>.empty
+            SignalProducer<Void, NoError>.empty
                 // delay the signal due to the animation of retracting keyboard
                 // this cannot be executed on main thread, otherwise UI will be blocked
                 |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
@@ -140,9 +124,10 @@ extension SignUpView : UITextFieldDelegate {
                 |> observeOn(UIScheduler())
                 |> start(completed: { [unowned self] in
                     self.signupButton.sendActionsForControlEvents(.TouchUpInside)
-                })
+                    })
         default:
             break
         }
+        return false
     }
 }

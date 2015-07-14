@@ -15,7 +15,6 @@ public final class EditProfileView : UIView {
     
     // MARK: - UI
     // MARK: Controls
-    @IBOutlet weak var dismissViewButton: UIButton!
     @IBOutlet weak var nicknameField: UITextField!
     @IBOutlet weak var imagePickerButton: UIButton!
     @IBOutlet weak var birthdayPicker: UIDatePicker!
@@ -45,7 +44,6 @@ public final class EditProfileView : UIView {
         
         setupGenderButtons()
         setupImagePicker()
-        setupDismissViewButton()
         setupNicknameField()
         setupBirthdayPicker()
         setupSubmitButton()
@@ -56,17 +54,6 @@ public final class EditProfileView : UIView {
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         imagePicker.sourceType = .PhotoLibrary
-    }
-    
-    private func setupDismissViewButton() {
-        // Action to an UI event
-        let dismissView = Action<UIButton, Void, NoError> { [unowned self] button in
-            return SignalProducer { sink, disposable in
-                self.delegate?.dismissSignUpView(nil)
-            }
-        }
-        
-        dismissViewButton.addTarget(dismissView.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
     
     private func setupImagePickerButton() {
