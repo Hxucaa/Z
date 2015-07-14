@@ -17,15 +17,15 @@ public final class AccountViewController: XUIViewController {
     private var viewmodel: IAccountViewModel!
     private var dismissCallback: CompletionHandler?
     
-    private var landingPageView: LandingPageView!
-    private var logInView: LogInView!
+    private lazy var landingPageView: LandingPageView = NSBundle.mainBundle().loadNibNamed("LandingPageView", owner: self, options: nil).first as! LandingPageView
+    private lazy var logInView: LogInView = NSBundle.mainBundle().loadNibNamed("LogInView", owner: self, options: nil).first as! LogInView
     private lazy var signUpView: SignUpView = NSBundle.mainBundle().loadNibNamed(SignUpViewNibName, owner: self, options: nil).first as! SignUpView
     private lazy var editInfoView: EditProfileView = NSBundle.mainBundle().loadNibNamed(EditProfileViewNibName, owner: self, options: nil).first as! EditProfileView
     
     public override func loadView() {
         super.loadView()
-        logInView = NSBundle.mainBundle().loadNibNamed("LogInView", owner: self, options: nil).first as! LogInView
-        landingPageView = NSBundle.mainBundle().loadNibNamed("LandingPageView", owner: self, options: nil).first as! LandingPageView
+        
+        addLandingViewToSubview()
     }
     
     public override func viewWillDisappear(animated: Bool) {
@@ -48,7 +48,6 @@ public final class AccountViewController: XUIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        addLandingViewToSubview()
     }
     
     /**
@@ -61,7 +60,11 @@ public final class AccountViewController: XUIViewController {
     private func addLandingViewToSubview() {
         landingPageView.bindToViewModel(viewmodel.landingPageViewModel, dismissCallback: nil)
         landingPageView.delegate = self
+        
+        // have to add subview before adding constraints
         view.addSubview(landingPageView)
+        
+        addConstraintsToClipToAllSides(landingPageView)
     }
     
     private func addLogInViewToSubview() {
@@ -69,18 +72,79 @@ public final class AccountViewController: XUIViewController {
         logInView.delegate = self
         view.addSubview(logInView)
         
+        addConstraintsToClipToAllSides(logInView)
     }
     
     private func addSignUpViewToSubview() {
         signUpView.bindToViewModel(viewmodel.signUpViewModel)
         signUpView.delegate = self
         view.addSubview(signUpView)
+        
+        addConstraintsToClipToAllSides(signUpView)
     }
     
     private func addEditInfoViewToSubview() {
         editInfoView.bindToViewModel(viewmodel.editProfileViewModel)
         editInfoView.delegate = self
         view.addSubview(editInfoView)
+        
+        addConstraintsToClipToAllSides(editInfoView)
+    }
+    
+    /**
+    Add constraints that clip to all sides of superview to subview.
+    
+    :param: subview A UIView.
+    */
+    private func addConstraintsToClipToAllSides<V: UIView>(subview: V) {
+        // turn off autoresizing mask off to allow custom autolayout constraints
+        subview.setTranslatesAutoresizingMaskIntoConstraints(false)
+        
+        // add constraints
+        view.addConstraints(
+            [
+                // leading space to view is 0
+                NSLayoutConstraint(
+                    item: subview,
+                    attribute: NSLayoutAttribute.Leading,
+                    relatedBy: NSLayoutRelation.Equal,
+                    toItem: view,
+                    attribute: NSLayoutAttribute.Leading,
+                    multiplier: 1.0,
+                    constant: 0.0
+                ),
+                // top space to view is 0
+                NSLayoutConstraint(
+                    item: subview,
+                    attribute: NSLayoutAttribute.Top,
+                    relatedBy: NSLayoutRelation.Equal,
+                    toItem: view,
+                    attribute: NSLayoutAttribute.Top,
+                    multiplier: 1.0,
+                    constant: 0.0
+                ),
+                // trailing space to view is 0
+                NSLayoutConstraint(
+                    item: subview,
+                    attribute: NSLayoutAttribute.Trailing,
+                    relatedBy: NSLayoutRelation.Equal,
+                    toItem: view,
+                    attribute: NSLayoutAttribute.Trailing,
+                    multiplier: 1.0,
+                    constant: 0.0
+                ),
+                // botom space to view is 0
+                NSLayoutConstraint(
+                    item: subview,
+                    attribute: NSLayoutAttribute.Bottom,
+                    relatedBy: NSLayoutRelation.Equal,
+                    toItem: view,
+                    attribute: NSLayoutAttribute.Bottom,
+                    multiplier: 1.0,
+                    constant: 0.0
+                )
+            ]
+        )
     }
 }
 

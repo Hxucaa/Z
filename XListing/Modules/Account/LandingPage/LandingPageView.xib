@@ -2,7 +2,17 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="NotoSansCJKsc-Medium.otf">
+            <string>NotoSansCJKsc-Medium</string>
+            <string>NotoSansCJKsc-Medium</string>
+            <string>NotoSansCJKsc-Medium</string>
+            <string>NotoSansCJKsc-Medium</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -10,31 +20,128 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pd8-oV-M3F">
-                    <rect key="frame" x="50" y="41" width="43" height="30"/>
-                    <state key="normal" title="Log in">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Low-Polyy" translatesAutoresizingMaskIntoConstraints="NO" id="8hz-e1-YYN" userLabel="Background">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0eD-67-s1P">
+                    <rect key="frame" x="240" y="506" width="30" height="29"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="14"/>
+                    <state key="normal" title="注册">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <variation key="widthClass=compact" misplaced="YES">
+                        <rect key="frame" x="140" y="446" width="30" height="29"/>
+                    </variation>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="afU-Bk-lvQ">
-                    <rect key="frame" x="50" y="105" width="53" height="30"/>
-                    <state key="normal" title="Sign up">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="URh-J2-DSn" userLabel="Logo" customClass="LandingPageLogoView" customModule="XListing" customModuleProvider="target">
+                    <rect key="frame" x="220" y="49" width="160" height="160"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="URh-J2-DSn" secondAttribute="height" multiplier="1:1" id="agJ-V4-yzr"/>
+                        <constraint firstAttribute="height" constant="160" id="f9E-FM-ERQ">
+                            <variation key="heightClass=regular-widthClass=compact" constant="162"/>
+                        </constraint>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="“找 地 方 ， 约 起 来”" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XAZ-vG-qje">
+                    <rect key="frame" x="145" y="224" width="310" height="23"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="23" id="HSb-PL-B3R"/>
+                        <constraint firstAttribute="width" constant="310" id="Vzr-fT-iet"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="15"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="|" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcy-qC-2WU" userLabel="divider">
+                    <rect key="frame" x="298" y="506" width="5" height="29"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="5" id="lu2-uc-Ymc"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="22"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="0.0"/>
+                    <variation key="widthClass=compact" misplaced="YES">
+                        <rect key="frame" x="198" y="446" width="5" height="29"/>
+                    </variation>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Osl-4F-Oyr">
+                    <rect key="frame" x="331" y="506" width="30" height="29"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="14"/>
+                    <state key="normal" title="登录">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <variation key="widthClass=compact" misplaced="YES">
+                        <rect key="frame" x="230" y="446" width="30" height="29"/>
+                    </variation>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fr2-3N-jpc">
-                    <rect key="frame" x="50" y="169" width="31" height="30"/>
-                    <state key="normal" title="Skip">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgY-P5-hxK">
+                    <rect key="frame" x="177" y="451" width="247" height="47"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.14999999999999999" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="47" id="oFD-vB-73i"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="19"/>
+                    <state key="normal" title="立即体验">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <variation key="heightClass=regular" misplaced="YES">
+                        <rect key="frame" x="295" y="591" width="12" height="47"/>
+                    </variation>
+                    <variation key="widthClass=compact" misplaced="YES">
+                        <rect key="frame" x="82" y="391" width="237" height="47"/>
+                    </variation>
+                    <variation key="widthClass=regular" ambiguous="YES" misplaced="YES">
+                        <rect key="frame" x="246" y="330" width="309" height="47"/>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact">
+                        <mask key="constraints">
+                            <exclude reference="oFD-vB-73i"/>
+                        </mask>
+                    </variation>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="8hz-e1-YYN" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="0ey-U4-DRp"/>
+                <constraint firstAttribute="bottom" secondItem="8hz-e1-YYN" secondAttribute="bottom" id="1iY-S2-EcI"/>
+                <constraint firstItem="8hz-e1-YYN" firstAttribute="top" secondItem="URh-J2-DSn" secondAttribute="bottom" constant="-209" id="88D-8W-fDT"/>
+                <constraint firstItem="hcy-qC-2WU" firstAttribute="top" secondItem="hgY-P5-hxK" secondAttribute="bottom" constant="8" id="9fR-5K-jd3"/>
+                <constraint firstItem="hcy-qC-2WU" firstAttribute="leading" secondItem="0eD-67-s1P" secondAttribute="trailing" constant="28" id="BYq-9D-R3C"/>
+                <constraint firstAttribute="centerX" secondItem="hcy-qC-2WU" secondAttribute="centerX" id="CMl-w7-6l1"/>
+                <constraint firstAttribute="centerX" secondItem="hgY-P5-hxK" secondAttribute="centerX" id="DS2-lq-HRv"/>
+                <constraint firstItem="hcy-qC-2WU" firstAttribute="top" secondItem="Osl-4F-Oyr" secondAttribute="top" id="Kcy-Gc-rUp"/>
+                <constraint firstItem="8hz-e1-YYN" firstAttribute="width" secondItem="hgY-P5-hxK" secondAttribute="width" multiplier="50" constant="-11750" id="LWL-dX-2PC"/>
+                <constraint firstItem="XAZ-vG-qje" firstAttribute="centerX" secondItem="URh-J2-DSn" secondAttribute="centerX" id="X1e-9z-V6H"/>
+                <constraint firstItem="8hz-e1-YYN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="agF-l6-GPg"/>
+                <constraint firstItem="hcy-qC-2WU" firstAttribute="height" secondItem="Osl-4F-Oyr" secondAttribute="height" id="brG-sh-upI"/>
+                <constraint firstItem="hcy-qC-2WU" firstAttribute="height" secondItem="0eD-67-s1P" secondAttribute="height" id="d4y-po-lwL"/>
+                <constraint firstAttribute="trailing" secondItem="8hz-e1-YYN" secondAttribute="trailing" id="dAl-D9-B3U"/>
+                <constraint firstItem="hgY-P5-hxK" firstAttribute="top" secondItem="8hz-e1-YYN" secondAttribute="bottom" multiplier="1.1" constant="-209" id="hWX-Hv-tCB"/>
+                <constraint firstItem="XAZ-vG-qje" firstAttribute="top" secondItem="URh-J2-DSn" secondAttribute="bottom" constant="15" id="jwa-bf-45m"/>
+                <constraint firstItem="Osl-4F-Oyr" firstAttribute="leading" secondItem="hcy-qC-2WU" secondAttribute="trailing" constant="28" id="ndV-88-ePo"/>
+                <constraint firstAttribute="centerX" secondItem="URh-J2-DSn" secondAttribute="centerX" id="qvm-Dj-9J2"/>
+                <constraint firstItem="hcy-qC-2WU" firstAttribute="top" secondItem="0eD-67-s1P" secondAttribute="top" id="yUG-QD-WZh"/>
+            </constraints>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
+            </userDefinedRuntimeAttributes>
             <connections>
-                <outlet property="loginButton" destination="Pd8-oV-M3F" id="ltx-9J-q76"/>
-                <outlet property="signupButton" destination="afU-Bk-lvQ" id="UfW-mY-Dup"/>
-                <outlet property="skipButton" destination="Fr2-3N-jpc" id="Akp-o0-Lyz"/>
+                <outlet property="dividerLabel" destination="hcy-qC-2WU" id="gDI-FQ-lFp"/>
+                <outlet property="loginButton" destination="Osl-4F-Oyr" id="eeO-Oc-fpY"/>
+                <outlet property="signupButton" destination="0eD-67-s1P" id="d4w-n9-g1s"/>
+                <outlet property="skipButton" destination="hgY-P5-hxK" id="WfS-FU-JkJ"/>
             </connections>
         </view>
     </objects>
+    <resources>
+        <image name="Low-Polyy" width="358" height="565"/>
+    </resources>
 </document>

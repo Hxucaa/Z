@@ -23,7 +23,6 @@
 		2A9A9BA41B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9BA31B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift */; };
 		2A9A9BA61B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9BA51B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift */; };
 		2A9A9BA81B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9BA71B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift */; };
-		2AB9EE461B42812400FA5106 /* ShadowLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB9EE451B42812400FA5106 /* ShadowLabel.swift */; };
 		2ADF3E651B1ECBA200C2971E /* DetailNavigationMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF3E631B1ECBA200C2971E /* DetailNavigationMapViewController.swift */; };
 		2ADF3E661B1ECBA200C2971E /* DetailNavigationMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ADF3E641B1ECBA200C2971E /* DetailNavigationMapViewController.xib */; };
 		2ADF3E681B1ECEFF00C2971E /* AddressAndMapDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF3E671B1ECEFF00C2971E /* AddressAndMapDelegate.swift */; };
@@ -66,6 +65,7 @@
 		B40A0D8B1B22455700036986 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8A1B22455700036986 /* Constants.swift */; };
 		B40A0D8D1B23BD2900036986 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8C1B23BD2900036986 /* EditProfileViewModel.swift */; };
 		B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */; };
+		B41334E31B5483F800B5F22D /* LandingPageLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334E21B5483F800B5F22D /* LandingPageLogoView.swift */; };
 		B42797431AFD463500AE5A90 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42797421AFD463500AE5A90 /* Router.swift */; };
 		B43032471AE4281D0068E8DF /* TypeAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43032461AE4281D0068E8DF /* TypeAliases.swift */; };
 		B446A61A1B1FA88000106CAF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B446A6191B1FA88000106CAF /* Logger.swift */; };
@@ -180,7 +180,6 @@
 		2A9A9BA31B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAddressTableViewCell.swift; sourceTree = "<group>"; };
 		2A9A9BA51B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhoneWebTableViewCell.swift; sourceTree = "<group>"; };
 		2A9A9BA71B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhoneWebCellDelegate.swift; sourceTree = "<group>"; };
-		2AB9EE451B42812400FA5106 /* ShadowLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShadowLabel.swift; sourceTree = "<group>"; };
 		2ADF3E631B1ECBA200C2971E /* DetailNavigationMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailNavigationMapViewController.swift; sourceTree = "<group>"; };
 		2ADF3E641B1ECBA200C2971E /* DetailNavigationMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailNavigationMapViewController.xib; sourceTree = "<group>"; };
 		2ADF3E671B1ECEFF00C2971E /* AddressAndMapDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressAndMapDelegate.swift; sourceTree = "<group>"; };
@@ -232,6 +231,7 @@
 		B40A0D8A1B22455700036986 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B40A0D8C1B23BD2900036986 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleFormatter.swift; sourceTree = "<group>"; };
+		B41334E21B5483F800B5F22D /* LandingPageLogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageLogoView.swift; sourceTree = "<group>"; };
 		B42797421AFD463500AE5A90 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		B43032461AE4281D0068E8DF /* TypeAliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeAliases.swift; sourceTree = "<group>"; };
 		B446A6191B1FA88000106CAF /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -364,11 +364,11 @@
 		2A99785E1B2C29B700339265 /* LandingPage */ = {
 			isa = PBXGroup;
 			children = (
+				B4E7C18F1B5387DF0038260E /* LandingPageView.swift */,
+				B4E7C18D1B5387880038260E /* LandingPageView.xib */,
+				B41334E21B5483F800B5F22D /* LandingPageLogoView.swift */,
 				B462BC7D1B2FA50E00070BE5 /* LandingPageViewModel.swift */,
 				2A9978691B3551F100339265 /* LandingViewDelegate.swift */,
-				2AB9EE451B42812400FA5106 /* ShadowLabel.swift */,
-				B4E7C18D1B5387880038260E /* LandingPageView.xib */,
-				B4E7C18F1B5387DF0038260E /* LandingPageView.swift */,
 			);
 			path = LandingPage;
 			sourceTree = "<group>";
@@ -810,10 +810,10 @@
 		B4F1957D1B27872D00B8C519 /* LogIn */ = {
 			isa = PBXGroup;
 			children = (
-				B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */,
-				2A9978651B3551BA00339265 /* LoginViewDelegate.swift */,
-				B4E7C1911B53893E0038260E /* LogInView.xib */,
 				B4E7C1931B5389710038260E /* LogInView.swift */,
+				B4E7C1911B53893E0038260E /* LogInView.xib */,
+				2A9978651B3551BA00339265 /* LoginViewDelegate.swift */,
+				B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */,
 			);
 			path = LogIn;
 			sourceTree = "<group>";
@@ -821,10 +821,10 @@
 		B4F1957E1B27873500B8C519 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
-				2A9978631B3551A500339265 /* SignUpViewDelegate.swift */,
-				B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */,
 				B4E7C1951B5390200038260E /* SignUpView.swift */,
 				B4E7C1971B53904D0038260E /* SignUpView.xib */,
+				2A9978631B3551A500339265 /* SignUpViewDelegate.swift */,
+				B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -833,9 +833,9 @@
 			isa = PBXGroup;
 			children = (
 				7EFEF7451B13D0900043E076 /* EditProfileView.swift */,
+				7E0173871B146473002E154B /* EditProfileView.xib */,
 				7E0173851B13FB44002E154B /* EditProfileViewDelegate.swift */,
 				B40A0D8C1B23BD2900036986 /* EditProfileViewModel.swift */,
-				7E0173871B146473002E154B /* EditProfileView.xib */,
 				2661B91F1B4B72C9005D9C41 /* GenderEnum.swift */,
 			);
 			path = EditProfile;
@@ -1209,7 +1209,6 @@
 				B43032471AE4281D0068E8DF /* TypeAliases.swift in Sources */,
 				B4E7C1901B5387E00038260E /* LandingPageView.swift in Sources */,
 				2ADF3E681B1ECEFF00C2971E /* AddressAndMapDelegate.swift in Sources */,
-				2AB9EE461B42812400FA5106 /* ShadowLabel.swift in Sources */,
 				7E0173861B13FB44002E154B /* EditProfileViewDelegate.swift in Sources */,
 				B48C99221ADA6A640045BCA9 /* NearbyWireframe.swift in Sources */,
 				B4FCC7411AEB0080009B4DF6 /* IRootWireframe.swift in Sources */,
@@ -1244,6 +1243,7 @@
 				3DE38A7E1B11BB3000DFA128 /* IKeychainService.swift in Sources */,
 				B45581F81B33E89D00C4D965 /* FeaturedBusinessViewModel.swift in Sources */,
 				3DE38A801B11BB3D00DFA128 /* KeychainService.swift in Sources */,
+				B41334E31B5483F800B5F22D /* LandingPageLogoView.swift in Sources */,
 				B4F195A71B2ADA9700B8C519 /* ProfileRoute.swift in Sources */,
 				3DFA2F971B43C11800058930 /* IWantToGoListWireframe.swift in Sources */,
 				B44E35041AD63F6000657A31 /* BusinessService.swift in Sources */,
