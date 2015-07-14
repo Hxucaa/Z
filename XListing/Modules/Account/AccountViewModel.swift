@@ -14,15 +14,17 @@ public struct AccountViewModel : IAccountViewModel {
     
     // MARK: - Public
     
-    public private(set) lazy var editProfileViewModel: EditProfileViewModel = EditProfileViewModel(userService: self.userService, router: self.router)
-    public private(set) lazy var logInViewModel: LogInViewModel = LogInViewModel(userService: self.userService, router: self.router)
+    public private(set) lazy var editProfileViewModel: EditProfileViewModel = EditProfileViewModel(userService: self.userService)
+    public private(set) lazy var logInViewModel: LogInViewModel = LogInViewModel(userService: self.userService)
     public private(set) lazy var signUpViewModel: SignUpViewModel = SignUpViewModel(userService: self.userService)
-    public private(set) lazy var landingPageViewModel: LandingPageViewModel = LandingPageViewModel(userDefaultsService: self.userDefaultsService, router: self.router)
+    public private(set) lazy var landingPageViewModel: LandingPageViewModel = LandingPageViewModel()
+    public private(set) var gotoNextModuleCallback: (() -> ())?
     
-    public init(userService: IUserService, router: IRouter, userDefaultsService: IUserDefaultsService) {
+    public init(userService: IUserService, router: IRouter, userDefaultsService: IUserDefaultsService, dismissCallback: (() -> ())? = nil) {
         self.userService = userService
         self.router = router
         self.userDefaultsService = userDefaultsService
+        self.gotoNextModuleCallback = dismissCallback
     }
     
     public func pushFeaturedModule() {

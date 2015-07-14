@@ -12,7 +12,8 @@ public protocol IAccountViewModel {
     var logInViewModel: LogInViewModel { mutating get }
     var signUpViewModel: SignUpViewModel { mutating get }
     var landingPageViewModel: LandingPageViewModel { mutating get }
-    init(userService: IUserService, router: IRouter, userDefaultsService: IUserDefaultsService)
+    var gotoNextModuleCallback: (() -> ())? { get }
+    init(userService: IUserService, router: IRouter, userDefaultsService: IUserDefaultsService, dismissCallback: (() -> ())?)
     func pushFeaturedModule()
     func skipAccount(dismiss: () -> ())
 }

@@ -11,4 +11,5 @@ import ReactiveCocoa
 
 public protocol LoginViewDelegate : class {
     func goBackToPreviousView()
+    func loginViewFinished()
 }

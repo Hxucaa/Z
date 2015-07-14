@@ -41,7 +41,6 @@ public final class FeaturedListViewController: XUIViewController {
     }
     
     public override func viewDidAppear(animated: Bool) {
-        viewmodel.presentAccountModule()
         setupTableView()
     }
     

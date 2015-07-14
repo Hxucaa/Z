@@ -22,9 +22,6 @@ public struct LogInViewModel {
     public let isUsernameValid = MutableProperty<Bool>(false)
     public let isPasswordValid = MutableProperty<Bool>(false)
     public let allInputsValid = MutableProperty<Bool>(false)
-//    public let 
-    
-    private let router: IRouter
     
     // MARK: Actions
     public var logIn: SignalProducer<User, NSError> {
@@ -39,9 +36,8 @@ public struct LogInViewModel {
     
     // MARK: Initializers
     
-    public init(userService: IUserService, router: IRouter) {
+    public init(userService: IUserService) {
         self.userService = userService
-        self.router = router
         
         setupUsername()
         setupPassword()
@@ -75,9 +71,5 @@ public struct LogInViewModel {
             |> map { values -> Bool in
                 return values.0 && values.1
         }
-    }
-    
-    public func dismissAccountView() {
-        router.pushFeatured()
     }
 }

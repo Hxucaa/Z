@@ -71,9 +71,8 @@ public struct EditProfileViewModel {
     
     // MARK: Initializers
     
-    public init(userService: IUserService, router: IRouter) {
+    public init(userService: IUserService) {
         self.userService = userService
-        self.router = router
         
         setupNickname()
         setupGender()
@@ -95,7 +94,6 @@ public struct EditProfileViewModel {
     
     // MARK: Services
     private let userService: IUserService
-    private let router: IRouter
     
     // MARK: Setup
     

@@ -20,7 +20,7 @@ public final class LogInView : UIView {
     @IBOutlet weak var passwordField: UITextField!
     
     // MARK: - Delegate
-    public weak var delegate: LoginViewDelegate!
+    public weak var delegate: LoginViewDelegate?
     
     // MARK: - Private variables
     private let viewmodel = MutableProperty<LogInViewModel?>(nil)
@@ -74,7 +74,7 @@ public final class LogInView : UIView {
             // once log in is done properly and HUD is disappeared, proceed to next step
             return combineLatest(logInAndHUD, HUDDisappear)
                 |> map { user, notificationMessage -> User in
-                    viewmodel.dismissAccountView()
+                    self.delegate?.loginViewFinished()
                     return user
             }
         }
@@ -88,7 +88,7 @@ public final class LogInView : UIView {
         let backAction = Action<UIButton, Void, NoError> { [unowned self] button in
             return SignalProducer { sink, disposable in
                 // go back to previous view
-                self.delegate.goBackToPreviousView()
+                self.delegate?.goBackToPreviousView()
                 sendCompleted(sink)
             }
         }
@@ -126,7 +126,7 @@ extension LogInView : UITextFieldDelegate {
                 |> observeOn(UIScheduler())
                 |> start(completed: { [unowned self] in
                     self.loginButton.sendActionsForControlEvents(.TouchUpInside)
-                    })
+                })
         default:
             break
         }

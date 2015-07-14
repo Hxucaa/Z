@@ -23,7 +23,6 @@ public final class LandingPageView : UIView {
     public weak var delegate: LandingViewDelegate!
     
     private var viewmodel: LandingPageViewModel!
-    private var dismissCallback: CompletionHandler?
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,9 +32,8 @@ public final class LandingPageView : UIView {
         setupDividerLabel()
     }
     
-    public func bindToViewModel(viewmodel: LandingPageViewModel, dismissCallback: CompletionHandler? = nil) {
+    public func bindToViewModel(viewmodel: LandingPageViewModel) {
         self.viewmodel = viewmodel
-        self.dismissCallback = dismissCallback
     }
     
     private func setupLoginButton() {

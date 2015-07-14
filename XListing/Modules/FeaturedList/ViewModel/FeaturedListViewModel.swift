@@ -66,12 +66,6 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
         router.pushProfile()
     }
     
-    public func presentAccountModule() {
-        if !userDefaultsService.accountModuleSkipped && !userService.isLoggedInAlready() {
-            router.presentAccount(completion: nil)
-        }
-    }
-    
     // MARK: Initializers
     public init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService) {
         self.router = router

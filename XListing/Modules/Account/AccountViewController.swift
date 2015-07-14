@@ -16,14 +16,17 @@ private let LandingPageViewNibName = "LandingPageView"
 
 public final class AccountViewController: XUIViewController {
     
-    private var viewmodel: IAccountViewModel!
-    private var dismissCallback: CompletionHandler?
-    
+    // MARK: - UI
+    // MARK: Controls
     private var landingPageView: LandingPageView!
     private var logInView: LogInView!
     private var signUpView: SignUpView!
     private var editInfoView: EditProfileView!
     
+    // MARK: Variables
+    private var viewmodel: IAccountViewModel!
+    
+    // MARK: Setup
     public override func loadView() {
         super.loadView()
         
@@ -32,31 +35,19 @@ public final class AccountViewController: XUIViewController {
         addLandingViewToSubview()
     }
     
-    public override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    public func bindToViewModel(viewModel: IAccountViewModel, dismissCallback: CompletionHandler? = nil) {
-        self.viewmodel = viewModel
-        self.dismissCallback = dismissCallback
-    }
-    
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-    /**
-    Call this to dismiss the view controller
-    */
-    public func dismissViewController() {
-        self.dismissViewControllerAnimated(true, completion: dismissCallback)
+    public override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     private func addLandingViewToSubview() {
-        landingPageView.bindToViewModel(viewmodel.landingPageViewModel, dismissCallback: nil)
+        landingPageView.bindToViewModel(viewmodel.landingPageViewModel)
         landingPageView.delegate = self
         
         // have to add subview before adding constraints
@@ -147,6 +138,10 @@ public final class AccountViewController: XUIViewController {
             ]
         )
     }
+    
+    public func bindToViewModel(viewModel: IAccountViewModel, dismissCallback: CompletionHandler? = nil) {
+        self.viewmodel = viewModel
+    }
 }
 
 extension AccountViewController : LandingViewDelegate {
@@ -161,6 +156,7 @@ extension AccountViewController : LandingViewDelegate {
     public func skip() {
         viewmodel.skipAccount { [unowned self] in
             self.navigationController?.setNavigationBarHidden(true, animated: false)
+            // dismiss account module, but no callback
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
@@ -169,6 +165,17 @@ extension AccountViewController : LandingViewDelegate {
 extension AccountViewController : LoginViewDelegate {
     public func goBackToPreviousView() {
         logInView.removeFromSuperview()
+    }
+    
+    public func loginViewFinished() {
+        if viewmodel.gotoNextModuleCallback == nil {
+            viewmodel.pushFeaturedModule()
+        }
+        else {
+            // dismiss account module, and go to the next module
+            self.dismissViewControllerAnimated(true, completion: viewmodel.gotoNextModuleCallback)
+        }
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 }
 
@@ -185,15 +192,21 @@ extension AccountViewController : SignUpViewDelegate {
 extension AccountViewController : EditProfileViewDelegate {
     
     public func presentUIImagePickerController(imagePicker: UIImagePickerController) {
-        navigationController?.presentViewController(imagePicker, animated: true, completion: nil)
+        self.presentViewController(imagePicker, animated: true, completion: nil)
     }
     
     public func dismissUIImagePickerController(_ handler: CompletionHandler? = nil) {
-        navigationController?.dismissViewControllerAnimated(true, completion: handler)
+        self.dismissViewControllerAnimated(true, completion: handler)
     }
     
     public func editProfileViewFinished() {
-        viewmodel.pushFeaturedModule()
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        if viewmodel.gotoNextModuleCallback == nil {
+            viewmodel.pushFeaturedModule()
+        }
+        else {
+            // dismiss account module, and go to the next module
+            self.dismissViewControllerAnimated(true, completion: viewmodel.gotoNextModuleCallback)
+        }
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 }

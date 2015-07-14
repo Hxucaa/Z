@@ -11,11 +11,6 @@ import ReactiveCocoa
 
 public struct LandingPageViewModel {
     
-    private let userDefaultsService: IUserDefaultsService
-    private let router: IRouter
-    
-    public init(userDefaultsService: IUserDefaultsService, router: IRouter) {
-        self.userDefaultsService = userDefaultsService
-        self.router = router
+    public init() {
     }
 }
