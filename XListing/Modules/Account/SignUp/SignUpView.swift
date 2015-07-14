@@ -18,7 +18,6 @@ public final class SignUpView : UIView {
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
-    @IBOutlet weak var backgroundLabel: UILabel!
     
     // MARK: Actions
     private var signupButtonAction: CocoaAction!
@@ -43,11 +42,6 @@ public final class SignUpView : UIView {
         }
         
         backButton.addTarget(goBackAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-    }
-    
-    private func setUpBackgroundLabel () {
-        self.backgroundLabel.layer.masksToBounds = true;
-        self.backgroundLabel.layer.cornerRadius = 8;
     }
     
     private func setUpSignupButton () {
@@ -87,7 +81,6 @@ public final class SignUpView : UIView {
     public func bindToViewModel(viewmodel: SignUpViewModel) {
         self.viewmodel = viewmodel
         
-        //        setUpBackgroundLabel()
         setUpUsername()
         setUpPassword()
         setUpBackButton()
@@ -115,7 +108,15 @@ extension SignUpView : UITextFieldDelegate {
     :returns: YES if the text field should implement its default behavior for the return button; otherwise, NO.
     */
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        endEditing(true)
+        switch textField {
+        case usernameField:
+            passwordField.becomeFirstResponder()
+        case passwordField:
+            passwordField.resignFirstResponder()
+            signupButton.sendActionsForControlEvents(.TouchUpInside)
+        default:
+            AccountLogError("Unreachable code block")
+        }
         return false
     }
 }
