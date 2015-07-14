@@ -51,7 +51,8 @@ public final class WantToGoViewModel : ReactiveTableCellViewModel {
             profilePictureNSURL = ConstantProperty<NSURL?>(NSURL(string: url))
         }
         else {
-             profilePictureNSURL = ConstantProperty<NSURL?>(NSURL(string: "http://www.phoenixpalace.co.uk/images/background/aboutus.jpg"))
+            // should never get here
+            profilePictureNSURL = ConstantProperty<NSURL?>(NSURL(string: ""))
         }
     }
 }

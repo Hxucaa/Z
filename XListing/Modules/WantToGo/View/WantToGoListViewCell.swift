@@ -36,9 +36,12 @@ public final class WantToGoListViewCell : UITableViewCell, ReactiveTableCellView
         
         self.viewmodel.profilePictureNSURL.producer
             |> start(next: { url in
-                self.profilePicture.sd_setImageWithURL(url)
+                if (url != "") {
+                    ImageUtils.setSDWebImageWithAnimation(self.profilePicture, imageURL: url, placeholder: UIImage(named: ImageAssets.profilepicture)!)
+
+                } else {
+                    self.profilePicture.image = UIImage(named: ImageAssets.profilepicture)
+                }
             })
     }
-
-    
 }
