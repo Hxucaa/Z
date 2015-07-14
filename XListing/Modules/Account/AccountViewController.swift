@@ -19,20 +19,17 @@ public final class AccountViewController: XUIViewController {
     private var viewmodel: IAccountViewModel!
     private var dismissCallback: CompletionHandler?
     
-    private lazy var landingPageView: LandingPageView = NSBundle.mainBundle().loadNibNamed(LandingPageViewNibName, owner: self, options: nil).first as! LandingPageView
-    private lazy var logInView: LogInView = NSBundle.mainBundle().loadNibNamed(LogInViewNibName, owner: self, options: nil).first as! LogInView
-    private lazy var signUpView: SignUpView = NSBundle.mainBundle().loadNibNamed(SignUpViewNibName, owner: self, options: nil).first as! SignUpView
-    private lazy var editInfoView: EditProfileView = NSBundle.mainBundle().loadNibNamed(EditProfileViewNibName, owner: self, options: nil).first as! EditProfileView
+    private var landingPageView: LandingPageView!
+    private var logInView: LogInView!
+    private var signUpView: SignUpView!
+    private var editInfoView: EditProfileView!
     
     public override func loadView() {
         super.loadView()
         
-        addLandingViewToSubview()
-    }
-    
-    public override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
+        landingPageView = NSBundle.mainBundle().loadNibNamed(LandingPageViewNibName, owner: self, options: nil).first as! LandingPageView
         
+        addLandingViewToSubview()
     }
     
     public override func didReceiveMemoryWarning() {
@@ -69,6 +66,7 @@ public final class AccountViewController: XUIViewController {
     }
     
     private func addLogInViewToSubview() {
+        logInView = NSBundle.mainBundle().loadNibNamed(LogInViewNibName, owner: self, options: nil).first as! LogInView
         logInView.bindToViewModel(viewmodel.logInViewModel)
         logInView.delegate = self
         view.addSubview(logInView)
@@ -77,6 +75,7 @@ public final class AccountViewController: XUIViewController {
     }
     
     private func addSignUpViewToSubview() {
+        signUpView = NSBundle.mainBundle().loadNibNamed(SignUpViewNibName, owner: self, options: nil).first as! SignUpView
         signUpView.bindToViewModel(viewmodel.signUpViewModel)
         signUpView.delegate = self
         view.addSubview(signUpView)
@@ -85,6 +84,7 @@ public final class AccountViewController: XUIViewController {
     }
     
     private func addEditInfoViewToSubview() {
+        editInfoView = NSBundle.mainBundle().loadNibNamed(EditProfileViewNibName, owner: self, options: nil).first as! EditProfileView
         editInfoView.bindToViewModel(viewmodel.editProfileViewModel)
         editInfoView.delegate = self
         view.addSubview(editInfoView)

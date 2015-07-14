@@ -19,7 +19,7 @@ public final class FeaturedListViewController: XUIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var nearbyButton: UIBarButtonItem!
     @IBOutlet weak var profileButton: UIBarButtonItem!
-    private var refreshControl: UIRefreshControl!
+    private let refreshControl = UIRefreshControl()
     
     // MARK: - Private variables
     private var viewmodel: IFeaturedListViewModel!
@@ -60,7 +60,6 @@ public final class FeaturedListViewController: XUIViewController {
     }
     
     private func setupRefresh() {
-        var refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "刷新中")
         
         let refresh = Action<UIRefreshControl, Void, NSError> { [unowned self] refreshControl in
@@ -75,7 +74,6 @@ public final class FeaturedListViewController: XUIViewController {
         refreshControl.addTarget(refresh.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .ValueChanged)
         
         self.tableView.addSubview(refreshControl)
-        self.refreshControl = refreshControl
     }
     
     /**

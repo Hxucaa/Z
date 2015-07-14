@@ -76,10 +76,10 @@ public final class EditProfileView : UIView {
     
     private func setupGenderButtons() {
         
-        self.maleButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
-        self.maleButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
-        self.femaleButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
-        self.femaleButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
+        maleButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
+        maleButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
+        femaleButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
+        femaleButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
         
         
         
@@ -159,7 +159,7 @@ extension EditProfileView : UIImagePickerControllerDelegate, UINavigationControl
         if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
             viewmodel.profileImage <~ MutableProperty<UIImage?>(pickedImage)
         }
-        self.delegate?.dismissUIImagePickerController(nil)
+        delegate?.dismissUIImagePickerController(nil)
     }
     
     /**
@@ -168,7 +168,7 @@ extension EditProfileView : UIImagePickerControllerDelegate, UINavigationControl
     :param: picker The controller object managing the image picker interface.
     */
     public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.delegate?.dismissUIImagePickerController(nil)
+        delegate?.dismissUIImagePickerController(nil)
     }
 }
 
@@ -181,7 +181,7 @@ extension EditProfileView : UITextFieldDelegate {
     :returns: YES if the text field should implement its default behavior for the return button; otherwise, NO.
     */
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.endEditing(true)
+        endEditing(true)
         return false
     }
 }
