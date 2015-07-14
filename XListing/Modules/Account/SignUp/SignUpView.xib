@@ -74,11 +74,11 @@
                             </variation>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gQ3-ub-tYf">
-                            <rect key="frame" x="100" y="268" width="150" height="47"/>
+                            <rect key="frame" x="75" y="268" width="200" height="60"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.14999999999999999" colorSpace="calibratedRGB"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="150" id="Gja-d5-PZC"/>
-                                <constraint firstAttribute="height" constant="47" id="ZE9-f1-Lky"/>
+                                <constraint firstAttribute="width" constant="200" id="Gja-d5-PZC"/>
+                                <constraint firstAttribute="height" constant="60" id="ZE9-f1-Lky"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="19"/>
                             <state key="normal" title="注 册">
@@ -100,11 +100,11 @@
                             </variation>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hvk-UC-Zor" userLabel="Divider">
-                            <rect key="frame" x="100" y="208" width="150" height="1"/>
+                            <rect key="frame" x="75" y="208" width="200" height="1"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="STy-q1-AWA"/>
-                                <constraint firstAttribute="width" constant="150" id="sRP-Bh-JdL"/>
+                                <constraint firstAttribute="width" constant="200" id="sRP-Bh-JdL"/>
                             </constraints>
                         </view>
                     </subviews>

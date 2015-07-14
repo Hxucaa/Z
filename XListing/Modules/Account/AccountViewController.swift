@@ -33,7 +33,6 @@ public final class AccountViewController: XUIViewController {
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     public override func didReceiveMemoryWarning() {
@@ -152,7 +151,6 @@ public final class AccountViewController: XUIViewController {
 
 extension AccountViewController : LandingViewDelegate {
     public func switchToLoginView() {
-//        landingPageView.removeFromSuperview()
         addLogInViewToSubview()
     }
     
@@ -162,6 +160,7 @@ extension AccountViewController : LandingViewDelegate {
     
     public func skip() {
         viewmodel.skipAccount { [unowned self] in
+            self.navigationController?.setNavigationBarHidden(true, animated: false)
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
@@ -186,10 +185,15 @@ extension AccountViewController : SignUpViewDelegate {
 extension AccountViewController : EditProfileViewDelegate {
     
     public func presentUIImagePickerController(imagePicker: UIImagePickerController) {
-        self.presentViewController(imagePicker, animated: true, completion: nil)
+        navigationController?.presentViewController(imagePicker, animated: true, completion: nil)
     }
     
-    public func dismissSignUpView(_ handler: CompletionHandler? = nil) {
-        self.dismissViewControllerAnimated(true, completion: handler)
+    public func dismissUIImagePickerController(_ handler: CompletionHandler? = nil) {
+        navigationController?.dismissViewControllerAnimated(true, completion: handler)
+    }
+    
+    public func editProfileViewFinished() {
+        viewmodel.pushFeaturedModule()
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 }

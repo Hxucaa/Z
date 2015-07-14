@@ -46,9 +46,6 @@ public struct EditProfileViewModel {
     }
     
     // MARK: API
-    public func dismissAccountView() {
-        router.pushFeatured()
-    }
     
     /// Age restriction.
     public var ageLimit: AgeLimit {

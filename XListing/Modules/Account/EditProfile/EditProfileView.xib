@@ -42,13 +42,13 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eux-Tx-xRs">
-                    <rect key="frame" x="228" y="227" width="30" height="30"/>
+                    <rect key="frame" x="235" y="227" width="30" height="30"/>
                     <state key="normal" title="男">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gkG-Sb-cII">
-                    <rect key="frame" x="353" y="227" width="30" height="30"/>
+                    <rect key="frame" x="335" y="227" width="30" height="30"/>
                     <state key="normal" title="女">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -79,7 +79,7 @@
                         <constraint firstAttribute="width" constant="167" id="XJJ-2n-qYc"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
+                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                 </textField>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -87,16 +87,16 @@
                 <constraint firstAttribute="centerX" secondItem="tXM-sB-jC0" secondAttribute="centerX" id="5Yd-KJ-1in"/>
                 <constraint firstItem="Eux-Tx-xRs" firstAttribute="top" secondItem="30e-pB-QrA" secondAttribute="bottom" constant="19" id="6gd-oh-SMJ"/>
                 <constraint firstItem="dZs-dp-Caw" firstAttribute="top" secondItem="30e-pB-QrA" secondAttribute="bottom" constant="74" id="7Fh-IS-3KI"/>
-                <constraint firstItem="gkG-Sb-cII" firstAttribute="leading" secondItem="Eux-Tx-xRs" secondAttribute="trailing" constant="95" id="EuH-wd-8lV"/>
                 <constraint firstItem="puY-N8-AEU" firstAttribute="top" secondItem="dZs-dp-Caw" secondAttribute="bottom" constant="8" id="FYm-am-Fd7"/>
                 <constraint firstItem="tXM-sB-jC0" firstAttribute="top" secondItem="3ir-Cj-4MG" secondAttribute="bottom" constant="29" id="MKX-Ql-6Yd"/>
                 <constraint firstAttribute="centerX" secondItem="dZs-dp-Caw" secondAttribute="centerX" id="N5h-g0-1iW"/>
                 <constraint firstItem="3ir-Cj-4MG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="79" id="WsV-Vn-JoA"/>
                 <constraint firstAttribute="centerX" secondItem="3ir-Cj-4MG" secondAttribute="centerX" id="d9m-IO-0a1"/>
                 <constraint firstItem="gkG-Sb-cII" firstAttribute="top" secondItem="30e-pB-QrA" secondAttribute="bottom" constant="19" id="gmp-Px-k2c"/>
+                <constraint firstAttribute="centerX" secondItem="gkG-Sb-cII" secondAttribute="centerX" constant="-50" id="gul-75-KA1"/>
                 <constraint firstAttribute="centerX" secondItem="30e-pB-QrA" secondAttribute="centerX" id="iMd-81-a1U"/>
                 <constraint firstAttribute="centerX" secondItem="puY-N8-AEU" secondAttribute="centerX" id="jH2-8g-F3C"/>
-                <constraint firstItem="Eux-Tx-xRs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="228" id="rG9-pZ-aZc"/>
+                <constraint firstAttribute="centerX" secondItem="Eux-Tx-xRs" secondAttribute="centerX" constant="50" id="jvn-Oi-E1l"/>
                 <constraint firstAttribute="centerX" secondItem="IGX-AL-KU5" secondAttribute="centerX" id="s8z-wR-fwl"/>
                 <constraint firstItem="IGX-AL-KU5" firstAttribute="top" secondItem="puY-N8-AEU" secondAttribute="bottom" constant="16" id="w45-tI-TqH"/>
                 <constraint firstItem="30e-pB-QrA" firstAttribute="top" secondItem="tXM-sB-jC0" secondAttribute="bottom" constant="8" id="zDF-4Y-mKr"/>

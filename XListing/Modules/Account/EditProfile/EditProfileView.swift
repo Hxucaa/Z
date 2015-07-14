@@ -138,7 +138,7 @@ public final class EditProfileView : UIView {
             // once update profile is done properly and HUD is disappeared, proceed to next step
             return combineLatest(updateProfileAndHUD, HUDDisappear)
                 |> map { success, notificationMessage -> Bool in
-                    self.viewmodel.dismissAccountView()
+                    self.delegate?.editProfileViewFinished()
                     return success
             }
         }
@@ -159,7 +159,7 @@ extension EditProfileView : UIImagePickerControllerDelegate, UINavigationControl
         if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
             viewmodel.profileImage <~ MutableProperty<UIImage?>(pickedImage)
         }
-        self.delegate?.dismissSignUpView(nil)
+        self.delegate?.dismissUIImagePickerController(nil)
     }
     
     /**
@@ -168,7 +168,7 @@ extension EditProfileView : UIImagePickerControllerDelegate, UINavigationControl
     :param: picker The controller object managing the image picker interface.
     */
     public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.delegate?.dismissSignUpView(nil)
+        self.delegate?.dismissUIImagePickerController(nil)
     }
 }
 
