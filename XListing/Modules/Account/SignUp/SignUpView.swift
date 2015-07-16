@@ -94,9 +94,9 @@ public final class SignUpView : UIView {
         self.viewmodel = viewmodel
         
         // bind signals
-        viewmodel.username <~ usernameField.rac_text
-        viewmodel.password <~ passwordField.rac_text
-        signupButton.rac_enabled <~ viewmodel.allInputsValid.producer
+        viewmodel.username <~ usernameField.rac_optionalText
+        viewmodel.password <~ passwordField.rac_optionalText
+        signupButton.rac_enabled <~ viewmodel.allInputsValid
     }
 }
 

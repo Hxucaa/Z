@@ -32,6 +32,12 @@ public final class EditProfileView : UIView {
     // MARK: - Setup Code
     public override func awakeFromNib() {
         super.awakeFromNib()
+        
+        setupGenderButtons()
+        setupImagePicker()
+        setupNicknameField()
+        setupSubmitButton()
+        setupImagePickerButton()
     }
     
     /**
@@ -42,12 +48,18 @@ public final class EditProfileView : UIView {
     public func bindToViewModel(viewmodel: EditProfileViewModel) {
         self.viewmodel = viewmodel
         
-        setupGenderButtons()
-        setupImagePicker()
-        setupNicknameField()
-        setupBirthdayPicker()
-        setupSubmitButton()
-        setupImagePickerButton()
+        // Button enabled react to validity of all inputs
+        submitButton.rac_enabled <~ self.viewmodel.allInputsValid
+        // React to date change
+        self.viewmodel.birthday <~ birthdayPicker.rac_date
+        // React to text change
+        self.viewmodel.nickname <~ nicknameField.rac_optionalText
+        
+        // Limit the choices on date picker
+        self.viewmodel.年龄上限.producer
+            |> start(next: { [unowned self] in self.birthdayPicker.maximumDate = $0 })
+        self.viewmodel.年龄下限.producer
+            |> start(next: { [unowned self] in self.birthdayPicker.minimumDate = $0 })
     }
     
     private func setupImagePicker() {
@@ -70,8 +82,6 @@ public final class EditProfileView : UIView {
     
     private func setupNicknameField() {
         nicknameField.delegate = self
-        // React to text change
-        viewmodel.nickname <~ nicknameField.rac_text
     }
     
     private func setupGenderButtons() {
@@ -80,8 +90,6 @@ public final class EditProfileView : UIView {
         maleButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
         femaleButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
         femaleButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
-        
-        
         
         let maleAction = Action<UIButton, Void, NoError> { [unowned self] button in
             
@@ -107,24 +115,12 @@ public final class EditProfileView : UIView {
         femaleButton.addTarget(femaleAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    private func setupBirthdayPicker() {
-        // React to date change
-        viewmodel.birthday <~ birthdayPicker.rac_date
-        
-        // Limit the choices on date picker
-        let ageLimit = viewmodel.ageLimit
-        birthdayPicker.minimumDate = ageLimit.floor
-        birthdayPicker.maximumDate = ageLimit.ceil
-    }
-    
     private func setupSubmitButton() {
-        // Button enabled react to validity of all inputs
-        submitButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
         // Button action
         let submitAction = Action<UIButton, Bool, NSError> { [unowned self] button in
             let updateProfileAndHUD = HUD.show()
-                |> mapError { _ in NSError() }
+                |> promoteErrors(NSError)
                 |> then(self.viewmodel.updateProfile)
                 // dismiss HUD based on the result of update profile signal
                 |> HUD.onDismissWithStatusMessage(errorHandler: { error -> String in
@@ -132,7 +128,8 @@ public final class EditProfileView : UIView {
                     return error.customErrorDescription
                 })
             
-            let HUDDisappear = HUD.didDissappearNotification() |> mapError { _ in NSError() }
+            let HUDDisappear = HUD.didDissappearNotification()
+                |> promoteErrors(NSError)
             
             // combine the latest signal of update profile and hud dissappear notification
             // once update profile is done properly and HUD is disappeared, proceed to next step

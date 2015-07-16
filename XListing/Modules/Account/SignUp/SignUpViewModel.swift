@@ -15,26 +15,25 @@ public struct SignUpViewModel {
     // MARK: - Public
     
     // MARK: Input
-    public let username = MutableProperty<String>("")
-    public let password = MutableProperty<String>("")
+    public let username = MutableProperty<String?>(nil)
+    public let password = MutableProperty<String?>(nil)
     
     // MARK: Output
     public let isUsernameValid = MutableProperty<Bool>(false)
     public let isPasswordValid = MutableProperty<Bool>(false)
     public let allInputsValid = MutableProperty<Bool>(false)
-    //    public private(set) var usernameValidSignal: SignalProducer<Bool, NoError>!
-    //    public private(set) var passwordValidSignal: SignalProducer<Bool, NoError>!
     
     // MARK: Actions
     public var signUp: SignalProducer<Bool, NSError> {
         return self.allInputsValid.producer
             // only allow TRUE value
             |> filter { $0 }
+            |> flatMap(.Concat) { _ in combineLatest(self.validUsernameSignal, self.validPasswordSignal) }
             |> promoteErrors(NSError)
-            |> flatMap(FlattenStrategy.Merge) { valid -> SignalProducer<Bool, NSError> in
+            |> flatMap(FlattenStrategy.Merge) { username, password -> SignalProducer<Bool, NSError> in
                 let user = User()
-                user.username = self.username.value
-                user.password = self.password.value
+                user.username = username
+                user.password = password
                 return self.userService.signUp(user)
         }
     }
@@ -47,35 +46,44 @@ public struct SignUpViewModel {
         setupPassword()
         setupAllInputsValid()
     }
+    // MARK: - Private
     
-    // MARK: Services
+    // MARK: Variables
     private let userService: IUserService
+    /// Signal containing a valid username
+    private var validUsernameSignal: SignalProducer<String, NoError>!
+    /// Signal containing a valid password
+    private var validPasswordSignal: SignalProducer<String, NoError>!
     
     // MARK: Setup
-    private func setupUsername() {
+    private mutating func setupUsername() {
         // only allow usernames with:
         // - between 3 and 30 characters
         // - letters, numbers, dashes, periods, and underscores only
-        isUsernameValid <~ username.producer
+        validUsernameSignal = username.producer
+            |> ignoreNil
 //            |> filter { self.testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
+
+        isUsernameValid <~ validUsernameSignal
             |> map { _ in true }
     }
     
-    private func setupPassword() {
+    private mutating func setupPassword() {
         // only allow passwords with:
         // - more than 8 characters
         // - letters, numbers, and most standard symbols
         // - at least one number, capital letter, or special character
-        isPasswordValid <~ password.producer
+        validPasswordSignal = password.producer
+            |> ignoreNil
 //            |> filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
+        
+        isPasswordValid <~ validPasswordSignal
             |> map { _ in true }
     }
     
     private func setupAllInputsValid() {
         allInputsValid <~ combineLatest(isUsernameValid.producer, isPasswordValid.producer)
-            |> map { values -> Bool in
-                return values.0 && values.1
-        }
+            |> map { $0.0 && $0.1 }
     }
     
     // MARK: Private Methods

@@ -20,7 +20,7 @@ public final class LandingPageView : UIView {
     // MARK: Actions
     private var dismissViewButtonAction: CocoaAction!
     
-    public weak var delegate: LandingViewDelegate!
+    public weak var delegate: LandingViewDelegate?
     
     private var viewmodel: LandingPageViewModel!
     
@@ -39,7 +39,7 @@ public final class LandingPageView : UIView {
     private func setupLoginButton() {
         let gotoLogin = Action<UIButton, Void, NoError> { [unowned self] button in
             return SignalProducer { [unowned self] sink, disposable in
-                self.delegate.switchToLoginView()
+                self.delegate?.switchToLoginView()
                 sendCompleted(sink)
             }
         }
@@ -50,7 +50,7 @@ public final class LandingPageView : UIView {
     private func setupSignUpButton() {
         let gotoSignup = Action<UIButton, Void, NoError> { [unowned self] button in
             return SignalProducer { [unowned self] sink, disposable in
-                self.delegate.switchToSignUpView()
+                self.delegate?.switchToSignUpView()
                 sendCompleted(sink)
             }
         }
@@ -65,7 +65,7 @@ public final class LandingPageView : UIView {
         // Action to an UI event
         let skip = Action<UIButton, Void, NoError> { [unowned self] button in
             return SignalProducer { [unowned self] sink, disposable in
-                self.delegate.skip()
+                self.delegate?.skip()
                 sendCompleted(sink)
             }
         }

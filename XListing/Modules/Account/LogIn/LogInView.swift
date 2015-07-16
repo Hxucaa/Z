@@ -29,7 +29,6 @@ public final class LogInView : UIView {
         super.awakeFromNib()
         
         setupBackButton()
-//        setupTextFieldDidEndEditing()
         
         viewmodel.producer
             |> ignoreNil
@@ -42,12 +41,12 @@ public final class LogInView : UIView {
     
     private func setupUsername(viewmodel: LogInViewModel) {
         usernameField.delegate = self
-        viewmodel.username <~ usernameField.rac_text
+        viewmodel.username <~ usernameField.rac_optionalText
     }
     
     private func setupPassword(viewmodel: LogInViewModel) {
         passwordField.delegate = self
-        viewmodel.password <~ passwordField.rac_text
+        viewmodel.password <~ passwordField.rac_optionalText
     }
     
     private func setupLoginButton(viewmodel: LogInViewModel) {
