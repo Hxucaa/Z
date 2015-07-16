@@ -20,30 +20,26 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     @IBOutlet weak var etaLabel: UILabel!
     
     // MARK: Private Variables
-    private let viewmodel = MutableProperty<FeaturedBusinessViewModel?>(nil)
+    private var viewmodel: FeaturedBusinessViewModel!
     
     public override func awakeFromNib() {
         selectionStyle = UITableViewCellSelectionStyle.None
         
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
-        
-        self.viewmodel.producer
-            |> ignoreNil
-            |> start(next: { [unowned self] viewmodel in
-                self.businessNameLabel.rac_text <~ viewmodel.businessName
-                self.cityLabel.rac_text <~ viewmodel.city
-                self.participationLabel.rac_text <~ viewmodel.participation
-                self.etaLabel.rac_text <~ viewmodel.eta
-                
-                viewmodel.coverImageNSURL.producer
-                    |> start(next: { url in
-                        self.coverImageView.sd_setImageWithURL(url)
-                    })
-                })
     }
     
     public func bindViewModel(viewmodel: FeaturedBusinessViewModel) {
-        self.viewmodel.put(viewmodel)
+        self.viewmodel = viewmodel
+        
+        businessNameLabel.rac_text <~ viewmodel.businessName
+        cityLabel.rac_text <~ viewmodel.city
+        participationLabel.rac_text <~ viewmodel.participation
+        etaLabel.rac_text <~ viewmodel.eta
+        
+        viewmodel.coverImageNSURL.producer
+            |> start(next: { [weak self] url in
+                self?.coverImageView.sd_setImageWithURL(url)
+            })
     }
 }

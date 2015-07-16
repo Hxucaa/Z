@@ -35,8 +35,8 @@ public final class WantToGoListViewCell : UITableViewCell, ReactiveTableCellView
         ageGroup.rac_text    <~ self.viewmodel.ageGroup
         
         self.viewmodel.profilePictureNSURL.producer
-            |> start(next: { url in
-                self.profilePicture.sd_setImageWithURL(url)
+            |> start(next: { [weak self] url in
+                self?.profilePicture.sd_setImageWithURL(url)
             })
     }
 

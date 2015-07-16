@@ -39,9 +39,9 @@ public final class LandingPageView : UIView {
     }
     
     private func setupLoginButton() {
-        let gotoLogin = Action<UIButton, Void, NoError> { [unowned self] button in
-            return SignalProducer { [unowned self] sink, disposable in
-                self.delegate?.switchToLoginView()
+        let gotoLogin = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { [weak self] sink, disposable in
+                self?.delegate?.switchToLoginView()
                 sendCompleted(sink)
             }
         }
@@ -50,9 +50,9 @@ public final class LandingPageView : UIView {
     }
     
     private func setupSignUpButton() {
-        let gotoSignup = Action<UIButton, Void, NoError> { [unowned self] button in
-            return SignalProducer { [unowned self] sink, disposable in
-                self.delegate?.switchToSignUpView()
+        let gotoSignup = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { [weak self] sink, disposable in
+                self?.delegate?.switchToSignUpView()
                 sendCompleted(sink)
             }
         }
@@ -65,9 +65,9 @@ public final class LandingPageView : UIView {
         skipButton.layer.cornerRadius = 8
         
         // Action to an UI event
-        let skip = Action<UIButton, Void, NoError> { [unowned self] button in
-            return SignalProducer { [unowned self] sink, disposable in
-                self.delegate?.skip()
+        let skip = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { [weak self] sink, disposable in
+                self?.delegate?.skip()
                 sendCompleted(sink)
             }
         }

@@ -154,10 +154,10 @@ extension AccountViewController : LandingViewDelegate {
     }
     
     public func skip() {
-        viewmodel.skipAccount { [unowned self] in
-            self.navigationController?.setNavigationBarHidden(true, animated: false)
+        viewmodel.skipAccount { [weak self] in
+            self?.navigationController?.setNavigationBarHidden(true, animated: false)
             // dismiss account module, but no callback
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self?.dismissViewControllerAnimated(true, completion: nil)
         }
     }
 }
