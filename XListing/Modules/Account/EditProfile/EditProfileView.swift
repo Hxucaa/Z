@@ -71,7 +71,7 @@ public final class EditProfileView : UIView {
     private func setupImagePickerButton() {
         /// Action to an UI event
         let presentUIImagePicker = Action<UIButton, Void, NoError> { [unowned self] button in
-            return SignalProducer { sink, disposable in
+            return SignalProducer { [unowned self] sink, disposable in
                 self.delegate?.presentUIImagePickerController(self.imagePicker)
                 sendCompleted(sink)
             }
@@ -134,7 +134,7 @@ public final class EditProfileView : UIView {
             // combine the latest signal of update profile and hud dissappear notification
             // once update profile is done properly and HUD is disappeared, proceed to next step
             return combineLatest(updateProfileAndHUD, HUDDisappear)
-                |> map { success, notificationMessage -> Bool in
+                |> map { [unowned self] success, notificationMessage -> Bool in
                     self.delegate?.editProfileViewFinished()
                     return success
             }

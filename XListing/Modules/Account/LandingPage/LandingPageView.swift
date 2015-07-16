@@ -10,12 +10,14 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 
+@IBDesignable
 public final class LandingPageView : UIView {
     
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var skipButton: UIButton!
     @IBOutlet weak var dividerLabel: UILabel!
+    @IBOutlet weak var logoView: LandingPageLogoView!
     
     // MARK: Actions
     private var dismissViewButtonAction: CocoaAction!
