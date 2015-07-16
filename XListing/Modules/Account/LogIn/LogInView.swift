@@ -32,10 +32,10 @@ public final class LogInView : UIView {
         
         viewmodel.producer
             |> ignoreNil
-            |> start(next: { [unowned self] viewmodel in
-                self.setupUsername(viewmodel)
-                self.setupPassword(viewmodel)
-                self.setupLoginButton(viewmodel)
+            |> start(next: { [weak self] viewmodel in
+                self?.setupUsername(viewmodel)
+                self?.setupPassword(viewmodel)
+                self?.setupLoginButton(viewmodel)
             })
     }
     
@@ -54,7 +54,7 @@ public final class LogInView : UIView {
         loginButton.layer.cornerRadius = 8
         loginButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
-        let login = Action<UIButton, User, NSError> { [unowned self] button in
+        let login = Action<UIButton, User, NSError> { button in
             // display HUD to indicate work in progress
             let logInAndHUD = HUD.show()
                 // map error to the same type as other signal
@@ -72,8 +72,8 @@ public final class LogInView : UIView {
             // combine the latest signal of log in and hud dissappear notification
             // once log in is done properly and HUD is disappeared, proceed to next step
             return combineLatest(logInAndHUD, HUDDisappear)
-                |> map { user, notificationMessage -> User in
-                    self.delegate?.loginViewFinished()
+                |> map { [weak self] user, notificationMessage -> User in
+                    self?.delegate?.loginViewFinished()
                     return user
             }
         }
@@ -84,10 +84,10 @@ public final class LogInView : UIView {
     
     private func setupBackButton () {
         
-        let backAction = Action<UIButton, Void, NoError> { [unowned self] button in
-            return SignalProducer { sink, disposable in
+        let backAction = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { [weak self] sink, disposable in
                 // go back to previous view
-                self.delegate?.goBackToPreviousView()
+                self?.delegate?.goBackToPreviousView()
                 sendCompleted(sink)
             }
         }
@@ -123,8 +123,8 @@ extension LogInView : UITextFieldDelegate {
                 |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
                 // return the signal to main/ui thread in order to run UI related code
                 |> observeOn(UIScheduler())
-                |> start(completed: { [unowned self] in
-                    self.loginButton.sendActionsForControlEvents(.TouchUpInside)
+                |> start(completed: { [weak self] in
+                    self?.loginButton.sendActionsForControlEvents(.TouchUpInside)
                 })
         default:
             break

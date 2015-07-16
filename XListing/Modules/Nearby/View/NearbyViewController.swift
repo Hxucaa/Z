@@ -60,8 +60,8 @@ public final class NearbyViewController: XUIViewController {
     */
     private func setupProfileButton() {
         let pushProfile = Action<Void, Void, NoError> {
-            return SignalProducer<Void, NoError> { [unowned self] sink, disposable in
-                self.viewmodel.pushProfileModule()
+            return SignalProducer<Void, NoError> { [weak self] sink, disposable in
+                self?.viewmodel.pushProfileModule()
                 sendCompleted(sink)
             }
         }
@@ -79,8 +79,8 @@ public final class NearbyViewController: XUIViewController {
     private func setupMapView() {
         // set the view region
         viewmodel.currentLocation
-            |> start(next: { [unowned self] location in
-                self.centerOnLocation(location.coordinate, animated: false)
+            |> start(next: { [weak self] location in
+                self?.centerOnLocation(location.coordinate, animated: false)
             })
         
         // track user movement
@@ -88,9 +88,9 @@ public final class NearbyViewController: XUIViewController {
         
         // add annotation to map view
         viewmodel.businessViewModelArr.producer
-            |> start(next: { [unowned self] businessArr in
-                self.businessCollectionView.reloadData()
-                self.mapView.addAnnotations(businessArr.map { $0.annotation.value })
+            |> start(next: { [weak self] businessArr in
+                self?.businessCollectionView.reloadData()
+                self?.mapView.addAnnotations(businessArr.map { $0.annotation.value })
             })
     }
     

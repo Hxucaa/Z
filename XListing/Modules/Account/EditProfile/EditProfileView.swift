@@ -57,9 +57,9 @@ public final class EditProfileView : UIView {
         
         // Limit the choices on date picker
         self.viewmodel.年龄上限.producer
-            |> start(next: { [unowned self] in self.birthdayPicker.maximumDate = $0 })
+            |> start(next: { [weak self] in self?.birthdayPicker.maximumDate = $0 })
         self.viewmodel.年龄下限.producer
-            |> start(next: { [unowned self] in self.birthdayPicker.minimumDate = $0 })
+            |> start(next: { [weak self] in self?.birthdayPicker.minimumDate = $0 })
     }
     
     private func setupImagePicker() {
@@ -70,9 +70,11 @@ public final class EditProfileView : UIView {
     
     private func setupImagePickerButton() {
         /// Action to an UI event
-        let presentUIImagePicker = Action<UIButton, Void, NoError> { [unowned self] button in
-            return SignalProducer { [unowned self] sink, disposable in
-                self.delegate?.presentUIImagePickerController(self.imagePicker)
+        let presentUIImagePicker = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { [weak self] sink, disposable in
+                if let imagePicker = self?.imagePicker {
+                    self?.delegate?.presentUIImagePickerController(imagePicker)
+                }
                 sendCompleted(sink)
             }
         }
@@ -91,21 +93,21 @@ public final class EditProfileView : UIView {
         femaleButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
         femaleButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
         
-        let maleAction = Action<UIButton, Void, NoError> { [unowned self] button in
+        let maleAction = Action<UIButton, Void, NoError> { [weak self] button in
             
-            self.maleButton.selected = true
-            self.femaleButton.selected = false
-            self.viewmodel.gender.put(Gender.Male)
-            return SignalProducer { [unowned self] sink, disposible in
+            self?.maleButton.selected = true
+            self?.femaleButton.selected = false
+            self?.viewmodel.gender.put(Gender.Male)
+            return SignalProducer { [weak self] sink, disposible in
                 sendCompleted(sink)
             }
         }
         
-        let femaleAction = Action<UIButton, Void, NoError> { [unowned self] button in
-            self.femaleButton.selected = true
-            self.maleButton.selected = false
-            self.viewmodel.gender.put(Gender.Female)
-            return SignalProducer { [unowned self] sink, disposible in
+        let femaleAction = Action<UIButton, Void, NoError> { [weak self] button in
+            self?.femaleButton.selected = true
+            self?.maleButton.selected = false
+            self?.viewmodel.gender.put(Gender.Female)
+            return SignalProducer { [weak self] sink, disposible in
                 sendCompleted(sink)
             }
         }
@@ -118,7 +120,7 @@ public final class EditProfileView : UIView {
     private func setupSubmitButton() {
         
         // Button action
-        let submitAction = Action<UIButton, Bool, NSError> { [unowned self] button in
+        let submitAction = Action<UIButton, Bool, NSError> { button in
             let updateProfileAndHUD = HUD.show()
                 |> promoteErrors(NSError)
                 |> then(self.viewmodel.updateProfile)
@@ -134,8 +136,8 @@ public final class EditProfileView : UIView {
             // combine the latest signal of update profile and hud dissappear notification
             // once update profile is done properly and HUD is disappeared, proceed to next step
             return combineLatest(updateProfileAndHUD, HUDDisappear)
-                |> map { [unowned self] success, notificationMessage -> Bool in
-                    self.delegate?.editProfileViewFinished()
+                |> map { [weak self] success, notificationMessage -> Bool in
+                    self?.delegate?.editProfileViewFinished()
                     return success
             }
         }

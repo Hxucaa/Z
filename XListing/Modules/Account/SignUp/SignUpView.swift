@@ -39,9 +39,9 @@ public final class SignUpView : UIView {
     }
     
     private func setupBackButton () {
-        let goBackAction = Action<UIButton, Void, NoError> { [unowned self] button in
-            return SignalProducer { sink, disposable in
-                self.delegate.returnToLandingViewFromSignUp()
+        let goBackAction = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { [weak self] sink, disposable in
+                self?.delegate.returnToLandingViewFromSignUp()
                 sendCompleted(sink)
             }
         }
@@ -51,7 +51,7 @@ public final class SignUpView : UIView {
     
     private func setupSignupButton () {
         
-        let signup = Action<Void, Bool, NSError> { [unowned self] in
+        let signup = Action<Void, Bool, NSError> {
             // display HUD to indicate work in progress
             let signUpAndHUD = HUD.show()
                 // map error to the same type as other signal
@@ -59,7 +59,7 @@ public final class SignUpView : UIView {
                 // sign up
                 |> then(self.viewmodel.signUp)
                 // dismiss HUD based on the result of sign up signal
-                |> HUD.onDismissWithStatusMessage(errorHandler: { error -> String in
+                |> HUD.onDismissWithStatusMessage(errorHandler: { [weak self] error -> String in
                     AccountLogError(error.description)
                     return error.customErrorDescription
                 })
@@ -69,8 +69,8 @@ public final class SignUpView : UIView {
             // combine the latest signal of sign up and hud dissappear notification
             // once sign up is done properly and HUD is disappeared, proceed to next step
             return combineLatest(signUpAndHUD, HUDDisappear)
-                |> map { [unowned self] success, notificationMessage -> Bool in
-                    self.delegate.gotoEditInfoView()
+                |> map { [weak self] success, notificationMessage -> Bool in
+                    self?.delegate.gotoEditInfoView()
                     return success
             }
         }
@@ -122,8 +122,8 @@ extension SignUpView : UITextFieldDelegate {
                 |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
                 // return the signal to main/ui thread in order to run UI related code
                 |> observeOn(UIScheduler())
-                |> start(completed: { [unowned self] in
-                    self.signupButton.sendActionsForControlEvents(.TouchUpInside)
+                |> start(completed: { [weak self] in
+                    self?.signupButton.sendActionsForControlEvents(.TouchUpInside)
                     })
         default:
             break

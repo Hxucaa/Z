@@ -32,11 +32,11 @@ public final class DetailNavigationMapViewController: XUIViewController, MKMapVi
         self.viewmodel = viewmodel
         
         self.viewmodel.navParams
-            |> start(next: { [unowned self] (annotation, region) in
-                self.region = region
-                self.businessAnnotation = annotation
-                self.mapView.setRegion(region, animated: false)
-                self.mapView.addAnnotation(annotation)
+            |> start(next: { [weak self] (annotation, region) in
+                self?.region = region
+                self?.businessAnnotation = annotation
+                self?.mapView.setRegion(region, animated: false)
+                self?.mapView.addAnnotation(annotation)
             })
     }
 

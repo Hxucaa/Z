@@ -33,7 +33,7 @@ public final class DetailImageTableViewCell: UITableViewCell {
         
         viewmodel.coverImageNSURL.producer
             |> filter { $0 != nil }
-            |> start(next: { self.detailImageView.sd_setImageWithURL($0!) })
+            |> start(next: { [weak self] in self?.detailImageView.sd_setImageWithURL($0!) })
     }
     
 }
