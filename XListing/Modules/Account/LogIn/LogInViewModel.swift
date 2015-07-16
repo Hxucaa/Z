@@ -15,8 +15,8 @@ public struct LogInViewModel {
     // MARK: - Public
     
     // MARK: Input
-    public let username = MutableProperty<String?>(nil)
-    public let password = MutableProperty<String?>(nil)
+    public let username = MutableProperty<String>("")
+    public let password = MutableProperty<String>("")
     
     // MARK: Output
     public let isUsernameValid = MutableProperty<Bool>(false)
@@ -63,7 +63,6 @@ public struct LogInViewModel {
     
     private mutating func setupUsername() {
         validUsernameSignal = username.producer
-            |> ignoreNil
             // TODO: regex
             |> filter { count($0) > 0 }
             
@@ -73,7 +72,6 @@ public struct LogInViewModel {
     
     private mutating func setupPassword() {
         validPasswordSignal = password.producer
-            |> ignoreNil
             // TODO: regex
             |> filter { count($0) > 0 }
         

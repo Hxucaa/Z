@@ -58,9 +58,6 @@ extension UIView {
 }
 
 extension UILabel {
-    public var rac_optionalText: MutableProperty<String?> {
-        return lazyMutableProperty(self, &AssociationKey.text, { self.text = $0 }, { self.text })
-    }
     
     public var rac_text: MutableProperty<String> {
         return lazyMutableProperty(self, &AssociationKey.text, { self.text = $0 }, { self.text ?? "" })
@@ -93,20 +90,6 @@ extension UIDatePicker {
 }
 
 extension UITextField {
-    public var rac_optionalText: MutableProperty<String?> {
-        return lazyAssociatedProperty(self, &AssociationKey.text) {
-            
-            self.addTarget(self, action: "optionalChanged", forControlEvents: UIControlEvents.EditingChanged)
-            
-            var property = MutableProperty<String?>(self.text)
-            property.producer
-                .start(next: {
-                    newValue in
-                    self.text = newValue
-                })
-            return property
-        }
-    }
     
     public var rac_text: MutableProperty<String> {
         return lazyAssociatedProperty(self, &AssociationKey.text) {
@@ -121,10 +104,6 @@ extension UITextField {
                 })
             return property
         }
-    }
-    
-    func optionalChanged() {
-        rac_optionalText.value = self.text
     }
     
     func changed() {

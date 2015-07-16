@@ -53,7 +53,7 @@ public final class EditProfileView : UIView {
         // React to date change
         self.viewmodel.birthday <~ birthdayPicker.rac_date
         // React to text change
-        self.viewmodel.nickname <~ nicknameField.rac_optionalText
+        self.viewmodel.nickname <~ nicknameField.rac_text
         
         // Limit the choices on date picker
         self.viewmodel.年龄上限.producer

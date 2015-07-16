@@ -13,7 +13,7 @@ import AVOSCloud
 public struct EditProfileViewModel {
     
     // MARK: Input
-    public let nickname = MutableProperty<String?>(nil)
+    public let nickname = MutableProperty<String>("")
     public let birthday = MutableProperty<NSDate>(NSDate())
     public let profileImage = MutableProperty<UIImage?>(nil)
     public let gender = MutableProperty<Gender?>(nil)
@@ -117,7 +117,7 @@ public struct EditProfileViewModel {
         // - between 3 and 15 characters
         // - emoji, letters, numbers, chinese characters, and standard symbols only
         validNicknameSignal = nickname.producer
-            |> ignoreNil
+            |> filter { count($0) > 0 }
 //            |> filter { self.testRegex($0, pattern: "^([\(self.symbols)]|[\(self.chinese)]|[\(self.emoji)]|[A-Za-z\\d]){3,15}$")}
         
         isNicknameValid <~ validNicknameSignal
