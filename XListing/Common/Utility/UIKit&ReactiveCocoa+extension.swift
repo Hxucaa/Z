@@ -106,3 +106,11 @@ extension UITextField {
         rac_text.value = self.text
     }
 }
+
+extension UIImageView {
+    public var rac_image: MutableProperty<UIImage?> {
+        return lazyMutableProperty(self, &AssociationKey.text, { self.image = $0 }, { self.image })
+    }
+}
+
+
