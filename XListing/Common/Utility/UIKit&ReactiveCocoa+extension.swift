@@ -16,6 +16,8 @@ struct AssociationKey {
     static var date: UInt8 = 4
     static var enabled: UInt8 = 5
     static var title: UInt8 = 6
+    static var minimumDate: UInt = 7
+    static var maximumDate: UInt = 8
 }
 
 // lazily creates a gettable associated property via the given factory
@@ -56,6 +58,7 @@ extension UIView {
 }
 
 extension UILabel {
+    
     public var rac_text: MutableProperty<String> {
         return lazyMutableProperty(self, &AssociationKey.text, { self.text = $0 }, { self.text ?? "" })
     }
@@ -73,7 +76,7 @@ extension UIDatePicker {
             
             self.addTarget(self, action: "changed", forControlEvents: UIControlEvents.ValueChanged)
             
-            var property = MutableProperty<NSDate>(self.date ?? NSDate())
+            var property = MutableProperty<NSDate>(self.date)
             property.producer
                 .start(next: { self.date = $0 })
             
@@ -87,6 +90,7 @@ extension UIDatePicker {
 }
 
 extension UITextField {
+    
     public var rac_text: MutableProperty<String> {
         return lazyAssociatedProperty(self, &AssociationKey.text) {
             
