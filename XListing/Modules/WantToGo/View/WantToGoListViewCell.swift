@@ -36,7 +36,7 @@ public final class WantToGoListViewCell : UITableViewCell, ReactiveTableCellView
         
         self.viewmodel.profilePicture.producer
             |> start (next: {
-                self.profilePicture.setImageWithAnimation($0!, placeholder: self.profilePicture.image!)
+                self.profilePicture.setImageWithAnimation($0!)
             })
     }
 }

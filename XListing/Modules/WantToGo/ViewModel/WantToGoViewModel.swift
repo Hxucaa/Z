@@ -13,7 +13,7 @@ import AVOSCloud
 public final class WantToGoViewModel : ReactiveTableCellViewModel {
     
     // MARK: Properties
-    public let profilePicture: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.profilepicture)!)
+    public let profilePicture: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.profilepicture))
     public let displayName: ConstantProperty<String>
     public let horoscope: ConstantProperty<String>
     public let ageGroup: ConstantProperty<String>

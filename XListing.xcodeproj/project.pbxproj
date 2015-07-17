@@ -34,7 +34,6 @@
 		3D211E881B2C1ABE00161E09 /* BackgroundLocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D211E871B2C1ABE00161E09 /* BackgroundLocationWorker.swift */; };
 		3D5D8FB41B3F520000EA4ADA /* WantToGoRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D8FB31B3F520000EA4ADA /* WantToGoRoute.swift */; };
 		3D70CCDF1B54E43E004588EC /* ImageAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D70CCDE1B54E43E004588EC /* ImageAssets.swift */; };
-		3D70CCE51B54F8EE004588EC /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D70CCE41B54F8EE004588EC /* ImageUtils.swift */; };
 		3D70CCE71B562AE3004588EC /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D70CCE61B562AE3004588EC /* ImageService.swift */; };
 		3D70CCEB1B562AFD004588EC /* IImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D70CCEA1B562AFD004588EC /* IImageService.swift */; };
 		3D70CCED1B57A951004588EC /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D70CCEC1B57A951004588EC /* UIImageView+extension.swift */; };
@@ -198,7 +197,6 @@
 		3D211E871B2C1ABE00161E09 /* BackgroundLocationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundLocationWorker.swift; sourceTree = "<group>"; };
 		3D5D8FB31B3F520000EA4ADA /* WantToGoRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WantToGoRoute.swift; sourceTree = "<group>"; };
 		3D70CCDE1B54E43E004588EC /* ImageAssets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAssets.swift; sourceTree = "<group>"; };
-		3D70CCE41B54F8EE004588EC /* ImageUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUtils.swift; sourceTree = "<group>"; };
 		3D70CCE61B562AE3004588EC /* ImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		3D70CCEA1B562AFD004588EC /* IImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IImageService.swift; sourceTree = "<group>"; };
 		3D70CCEC1B57A951004588EC /* UIImageView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
@@ -627,7 +625,6 @@
 				B45581FF1B37670500C4D965 /* NSError+extension.swift */,
 				B45581F91B367F7300C4D965 /* ReactiveTableBindingHelper.swift */,
 				3D70CCDE1B54E43E004588EC /* ImageAssets.swift */,
-				3D70CCE41B54F8EE004588EC /* ImageUtils.swift */,
 				3D70CCEC1B57A951004588EC /* UIImageView+extension.swift */,
 			);
 			name = Utility;
@@ -1258,7 +1255,6 @@
 				3DE38A7E1B11BB3000DFA128 /* IKeychainService.swift in Sources */,
 				B45581F81B33E89D00C4D965 /* FeaturedBusinessViewModel.swift in Sources */,
 				3DE38A801B11BB3D00DFA128 /* KeychainService.swift in Sources */,
-				3D70CCE51B54F8EE004588EC /* ImageUtils.swift in Sources */,
 				2A5115401B2C230800235C53 /* ContainerViewController.swift in Sources */,
 				B4F195A71B2ADA9700B8C519 /* ProfileRoute.swift in Sources */,
 				3DFA2F971B43C11800058930 /* IWantToGoListWireframe.swift in Sources */,

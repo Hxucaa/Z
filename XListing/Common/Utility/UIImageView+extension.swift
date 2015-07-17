@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension UIImageView {
-    public func setImageWithAnimation(image: UIImage, placeholder: UIImage) {
+    public func setImageWithAnimation(image: UIImage) {
         UIView.transitionWithView(self, duration: 1.0, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {() -> Void in
             self.image = image
             self.alpha = 1}
