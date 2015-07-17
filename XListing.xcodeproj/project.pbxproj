@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		2661B9201B4B72C9005D9C41 /* GenderEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2661B91F1B4B72C9005D9C41 /* GenderEnum.swift */; };
+		26645ACB1B54C4F200ADDCD1 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */; };
+		26645ACD1B54F11F00ADDCD1 /* LandingPageLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ACC1B54F11F00ADDCD1 /* LandingPageLogoView.swift */; };
+		26645ACF1B57956600ADDCD1 /* GenderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */; };
+		26645AD11B57957700ADDCD1 /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645AD01B57957700ADDCD1 /* TextFieldTableViewCell.swift */; };
+		26645AD31B58B58200ADDCD1 /* ProfileEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645AD21B58B58200ADDCD1 /* ProfileEditViewModel.swift */; };
 		2A1B3A201B2574EF003E70E0 /* ParticipationPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */; };
 		2A1B3A221B25751A003E70E0 /* ParticipationPopoverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */; };
 		2A41A30E1AF3133F0086D24B /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */; };
@@ -164,6 +169,11 @@
 		1764137F392722E0F7D6FA70 /* Pods-XListingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListingTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XListing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2661B91F1B4B72C9005D9C41 /* GenderEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderEnum.swift; sourceTree = "<group>"; };
+		26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
+		26645ACC1B54F11F00ADDCD1 /* LandingPageLogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageLogoView.swift; sourceTree = "<group>"; };
+		26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderTableViewCell.swift; sourceTree = "<group>"; };
+		26645AD01B57957700ADDCD1 /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
+		26645AD21B58B58200ADDCD1 /* ProfileEditViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewModel.swift; sourceTree = "<group>"; };
 		26AB479389256B6B20922161 /* Pods-XListingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests.release.xcconfig"; sourceTree = "<group>"; };
 		2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationPopover.swift; sourceTree = "<group>"; };
 		2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationPopoverDelegate.swift; sourceTree = "<group>"; };
@@ -364,10 +374,10 @@
 		2A99785E1B2C29B700339265 /* LandingPage */ = {
 			isa = PBXGroup;
 			children = (
+				26645ACC1B54F11F00ADDCD1 /* LandingPageLogoView.swift */,
 				2A99785F1B2C29E000339265 /* LandingPageViewController.swift */,
 				B462BC7D1B2FA50E00070BE5 /* LandingPageViewModel.swift */,
 				2A9978691B3551F100339265 /* LandingViewDelegate.swift */,
-				2A73BD521B425D7A00EAE1FD /* LandingPageLogoView.swift */,
 				2AB9EE451B42812400FA5106 /* ShadowLabel.swift */,
 			);
 			name = LandingPage;
@@ -436,6 +446,7 @@
 				45CBB2272E6DA7ED3BDD24AE /* ProfileViewModel.swift */,
 				45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */,
 				B47E15BC1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift */,
+				26645AD21B58B58200ADDCD1 /* ProfileEditViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -446,6 +457,9 @@
 				7E01738D1B1525DB002E154B /* EditProfileTableViewController.swift */,
 				45CBB717784EC301CD7D042E /* ProfileViewController.swift */,
 				7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */,
+				26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */,
+				26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */,
+				26645AD01B57957700ADDCD1 /* TextFieldTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -523,7 +537,6 @@
 		7EF3710E1AB8C012009AA3B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				2A1F71E51B3CB1020068A4C8 /* NotoSansCJKSC-hinted */,
 				2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */,
 				7EF371431AB8C1E8009AA3B9 /* Parse.plist */,
 				7EF3710F1AB8C012009AA3B9 /* Info.plist */,
@@ -1069,7 +1082,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
-				2A1F71E61B3CB1020068A4C8 /* NotoSansCJKSC-hinted in Resources */,
 				B4F195C61B2E0F0000B8C519 /* Default-568h@2x.png in Resources */,
 				B4F195811B2789A100B8C519 /* Account.storyboard in Resources */,
 				2ADF3E661B1ECBA200C2971E /* DetailNavigationMapViewController.xib in Resources */,
@@ -1207,6 +1219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26645ACD1B54F11F00ADDCD1 /* LandingPageLogoView.swift in Sources */,
 				B43032471AE4281D0068E8DF /* TypeAliases.swift in Sources */,
 				2ADF3E681B1ECEFF00C2971E /* AddressAndMapDelegate.swift in Sources */,
 				2AB9EE461B42812400FA5106 /* ShadowLabel.swift in Sources */,
@@ -1230,6 +1243,7 @@
 				7E01738E1B1525DB002E154B /* EditProfileTableViewController.swift in Sources */,
 				B48C99121ADA56F70045BCA9 /* NearbyViewController.swift in Sources */,
 				2A9978601B2C29E000339265 /* LandingPageViewController.swift in Sources */,
+				26645AD11B57957700ADDCD1 /* TextFieldTableViewCell.swift in Sources */,
 				B4F195A91B2B9EC400B8C519 /* DetailImageViewModel.swift in Sources */,
 				2A9A9BA81B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift in Sources */,
 				B47E15C61B181E160028E07E /* BackgroundOperationsWorkerFactory.swift in Sources */,
@@ -1283,6 +1297,7 @@
 				2A99786A1B3551F100339265 /* LandingViewDelegate.swift in Sources */,
 				B4DB9AC21AF954AC009FBFE1 /* GeoLocationService.swift in Sources */,
 				2A99785D1B2C260300339265 /* EmptySegue.swift in Sources */,
+				26645ACB1B54C4F200ADDCD1 /* ProfileEditViewController.swift in Sources */,
 				B4F195871B27A6B200B8C519 /* EditProfileViewController.swift in Sources */,
 				2ADF3E651B1ECBA200C2971E /* DetailNavigationMapViewController.swift in Sources */,
 				B47E15C81B181E370028E07E /* IBackgroundOperationsWorkerFactory.swift in Sources */,
@@ -1292,6 +1307,7 @@
 				B45581FA1B367F7300C4D965 /* ReactiveTableBindingHelper.swift in Sources */,
 				2A9A9BA41B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift in Sources */,
 				B4F1959E1B2AA3C400B8C519 /* WithoutDataRoute.swift in Sources */,
+				26645AD31B58B58200ADDCD1 /* ProfileEditViewModel.swift in Sources */,
 				B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */,
 				7EF3714E1AB8C1E8009AA3B9 /* LeanCloudClient.swift in Sources */,
 				B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */,
@@ -1310,7 +1326,6 @@
 				B4E36BBB1ACE543C000F260E /* Business.swift in Sources */,
 				B462BC7A1B2F94DE00070BE5 /* UserDefaultsService.swift in Sources */,
 				B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */,
-				2A73BD531B425D7A00EAE1FD /* LandingPageLogoView.swift in Sources */,
 				B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */,
 				B42797431AFD463500AE5A90 /* Router.swift in Sources */,
 				3DFA2F9B1B43C13700058930 /* WantToGoListViewCell.swift in Sources */,
@@ -1324,6 +1339,7 @@
 				B4F1959A1B2AA32700B8C519 /* Route.swift in Sources */,
 				45CBB1BF173283F19EC8C446 /* IProfileWireframe.swift in Sources */,
 				2A9A9BA21B1C40610010EDA9 /* DetailMapTableViewCell.swift in Sources */,
+				26645ACF1B57956600ADDCD1 /* GenderTableViewCell.swift in Sources */,
 				45CBBB3CCC6E72DCE005EE35 /* IProfileViewModel.swift in Sources */,
 				B499E7371B3A28EA00C966E5 /* NearbyCollectionViewCell.swift in Sources */,
 				B45581FC1B3689AB00C4D965 /* FeaturedListBusinessTableViewCell.swift in Sources */,
