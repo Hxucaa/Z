@@ -1,5 +1,5 @@
 //
-//  GenderEnum.swift
+//  Gender.swift
 //  XListing
 //
 //  Created by Bruce Li on 2015-07-06.

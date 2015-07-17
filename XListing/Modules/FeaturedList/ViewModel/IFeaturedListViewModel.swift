@@ -16,5 +16,4 @@ public protocol IFeaturedListViewModel {
     func pushNearbyModule()
     func pushDetailModule(section: Int)
     func pushProfileModule()
-    func presentAccountModule()
 }

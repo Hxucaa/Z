@@ -27,8 +27,8 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         // Initialization code
         
         // Action
-        let pushNavMap = Action<UIButton, Void, NoError> { [unowned self] button in
-            return SignalProducer { [unowned self] sink, disposable in
+        let pushNavMap = Action<UIButton, Void, NoError> { button in
+            return SignalProducer { sink, disposable in
                 
                 let navVC = DetailNavigationMapViewController(nibName: DetailNavigationMapViewControllerXib, bundle: nil)
                 navVC.bindToViewModel(self.viewmodel.detailNavigationMapViewModel)

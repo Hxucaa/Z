@@ -53,7 +53,7 @@ public final class WantToGoListViewController: XUIViewController {
             sourceSignal: viewmodel.wantToGoViewModelArr.producer,
             storyboardIdentifier: CellIdentifier
             )
-            { [unowned self] pos in
+            { [weak self] pos in
                 println("log something")
         }
     }
@@ -67,7 +67,7 @@ public final class WantToGoListViewController: XUIViewController {
             viewmodel.showFemaleUsers()
         }
         
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
     
 }

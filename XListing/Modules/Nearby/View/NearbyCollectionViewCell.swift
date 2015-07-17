@@ -24,7 +24,7 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
     
     // MARK: Setups
     public override func awakeFromNib() {
-        
+        super.awakeFromNib()
     }
     
     public func bindToViewModel(viewmodel: NearbyTableCellViewModel) {
@@ -32,8 +32,8 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
         
         
         self.viewmodel.coverImageNSURL.producer
-            |> start(next: { url in
-                self.coverImageView.sd_setImageWithURL(url)
+            |> start(next: { [weak self] url in
+                self?.coverImageView.sd_setImageWithURL(url)
             })
         businessNameLabel.rac_text <~ self.viewmodel.businessName
         cityLabel.rac_text <~ self.viewmodel.city

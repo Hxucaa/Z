@@ -11,5 +11,6 @@ import ReactiveCocoa
 
 public protocol EditProfileViewDelegate : class {
     func presentUIImagePickerController(imagePicker: UIImagePickerController)
-    func dismissSignUpView(handler: CompletionHandler?)
+    func dismissUIImagePickerController(handler: CompletionHandler?)
+    func editProfileViewFinished()
 }
