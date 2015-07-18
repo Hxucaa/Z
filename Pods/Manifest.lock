@@ -20,11 +20,11 @@ PODS:
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
   - Locksmith (1.2.2)
-  - Nimble (1.0.0-rc.1)
+  - Nimble (1.0.0)
   - Quick (0.3.1)
-  - SDWebImage (3.7.2):
-    - SDWebImage/Core (= 3.7.2)
-  - SDWebImage/Core (3.7.2)
+  - SDWebImage (3.7.3):
+    - SDWebImage/Core (= 3.7.3)
+  - SDWebImage/Core (3.7.3)
   - SVProgressHUD (1.1.3)
   - XAssets (0.1.2)
 
@@ -38,7 +38,7 @@ DEPENDENCIES:
   - FLEX (~> 2.0)
   - JSQMessagesViewController (~> 7.0)
   - Locksmith (~> 1.2)
-  - Nimble (= 1.0.0-rc.1)
+  - Nimble (~> 1.0)
   - Quick (= 0.3.1)
   - SDWebImage
   - SVProgressHUD (from `https://github.com/Hxucaa/SVProgressHUD.git`)
@@ -49,6 +49,7 @@ EXTERNAL SOURCES:
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
     :path: "./lib/XAssets"
+    :tag: 0.1.2
 
 CHECKOUT OPTIONS:
   SVProgressHUD:
@@ -66,9 +67,9 @@ SPEC CHECKSUMS:
   JSQMessagesViewController: ca11f86fa68ca70835f05e169df9244147c1dc40
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88
-  Nimble: 23f1dbddf1706172c7d740430858e5dfa93d997a
+  Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
-  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
+  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   XAssets: c6abd2ac56696dd0001fe7cb07f0d831f0be89ed
 
