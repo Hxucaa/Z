@@ -35,8 +35,9 @@ public final class WantToGoListViewCell : UITableViewCell, ReactiveTableCellView
         ageGroup.rac_text    <~ self.viewmodel.ageGroup
         
         self.viewmodel.profilePicture.producer
+            |> ignoreNil
             |> start (next: {
-                self.profilePicture.setImageWithAnimation($0!)
+                self.profilePicture.setImageWithAnimation($0)
             })
     }
 }
