@@ -17,6 +17,6 @@ public final class LandingPageLogoView: UIView {
         var scale = deviceWidth/CGFloat(LOGO_SCALE_BASE_FACTOR)
         self.bounds.size.width = rect.width * scale
         self.bounds.size.height = rect.height * scale
-        AssetsKit.drawLandingIcon()
+        AssetsKit.drawLandingIcon(scale: 0.5)
     }
 }
