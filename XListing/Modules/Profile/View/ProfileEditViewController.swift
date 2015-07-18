@@ -86,10 +86,10 @@ public final class ProfileEditViewController: XUIViewController {
     
     private func setupSaveButton() {
         // Button action
-        let submitAction = Action<UIBarButtonItem, Bool, NSError> { [unowned self] button in
+        let submitAction = Action<UIBarButtonItem, Bool, NSError> { [weak self] button in
             let updateProfileAndHUD = HUD.show()
                 |> mapError { _ in NSError() }
-                |> then(self.viewmodel.updateProfile)
+                |> then(self!.viewmodel.updateProfile)
                 // dismiss HUD based on the result of update profile signal
                 |> HUD.onDismissWithStatusMessage(errorHandler: { error -> String in
                     AccountLogError(error.description)
@@ -102,7 +102,7 @@ public final class ProfileEditViewController: XUIViewController {
             // once update profile is done properly and HUD is disappeared, proceed to next step
             return combineLatest(updateProfileAndHUD, HUDDisappear)
                 |> map { success, notificationMessage -> Bool in
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    self?.dismissViewControllerAnimated(true, completion: nil)
                     return success
             }
         }
