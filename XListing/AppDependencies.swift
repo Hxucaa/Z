@@ -26,6 +26,7 @@ public struct AppDependencies {
     private let bs: IBusinessService = BusinessService()
     private let ps: IParticipationService = ParticipationService()
     private let ks: IKeychainService = KeychainService()
+    private let imageService: IImageService = ImageService()
     private let userService: IUserService = UserService()
     private let userDefaultsService: IUserDefaultsService = UserDefaultsService()
     
@@ -104,7 +105,7 @@ public struct AppDependencies {
     
     private mutating func configureWantToGoListDependencies(rootWireframe: IRootWireframe, router: IRouter, userService us: IUserService, participationService ps: IParticipationService) {
         
-        wantToGoListWireframe = WantToGoListWireframe(rootWireframe: rootWireframe, router: router, userService: us, participationService: ps)
+        wantToGoListWireframe = WantToGoListWireframe(rootWireframe: rootWireframe, router: router, userService: us, participationService: ps, imageService: imageService)
         self.router.wantToGoListRouteDelegate = wantToGoListWireframe as! WantToGoRoute
     }
 }

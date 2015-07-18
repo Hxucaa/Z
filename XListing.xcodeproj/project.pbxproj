@@ -28,6 +28,10 @@
 		3D211E861B2C1AB000161E09 /* IBackgroundLocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D211E851B2C1AAF00161E09 /* IBackgroundLocationWorker.swift */; };
 		3D211E881B2C1ABE00161E09 /* BackgroundLocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D211E871B2C1ABE00161E09 /* BackgroundLocationWorker.swift */; };
 		3D5D8FB41B3F520000EA4ADA /* WantToGoRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D8FB31B3F520000EA4ADA /* WantToGoRoute.swift */; };
+		3D70CCDF1B54E43E004588EC /* ImageAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D70CCDE1B54E43E004588EC /* ImageAssets.swift */; };
+		3D70CCE71B562AE3004588EC /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D70CCE61B562AE3004588EC /* ImageService.swift */; };
+		3D70CCEB1B562AFD004588EC /* IImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D70CCEA1B562AFD004588EC /* IImageService.swift */; };
+		3D70CCED1B57A951004588EC /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D70CCEC1B57A951004588EC /* UIImageView+extension.swift */; };
 		3DB8AC301B06D0DF00E51F0E /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB8AC2F1B06D0DF00E51F0E /* Profile.swift */; };
 		3DE38A7E1B11BB3000DFA128 /* IKeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE38A7D1B11BB3000DFA128 /* IKeychainService.swift */; };
 		3DE38A801B11BB3D00DFA128 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE38A7F1B11BB3D00DFA128 /* KeychainService.swift */; };
@@ -186,6 +190,10 @@
 		3D211E851B2C1AAF00161E09 /* IBackgroundLocationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBackgroundLocationWorker.swift; sourceTree = "<group>"; };
 		3D211E871B2C1ABE00161E09 /* BackgroundLocationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundLocationWorker.swift; sourceTree = "<group>"; };
 		3D5D8FB31B3F520000EA4ADA /* WantToGoRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WantToGoRoute.swift; sourceTree = "<group>"; };
+		3D70CCDE1B54E43E004588EC /* ImageAssets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAssets.swift; sourceTree = "<group>"; };
+		3D70CCE61B562AE3004588EC /* ImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
+		3D70CCEA1B562AFD004588EC /* IImageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IImageService.swift; sourceTree = "<group>"; };
+		3D70CCEC1B57A951004588EC /* UIImageView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
 		3DB8AC2F1B06D0DF00E51F0E /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		3DE38A7D1B11BB3000DFA128 /* IKeychainService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IKeychainService.swift; sourceTree = "<group>"; };
 		3DE38A7F1B11BB3D00DFA128 /* KeychainService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
@@ -554,6 +562,8 @@
 				B4DB9AC31AF954C8009FBFE1 /* IGeoLocationService.swift */,
 				B462BC791B2F94DE00070BE5 /* UserDefaultsService.swift */,
 				B462BC7B1B2F94E800070BE5 /* IUserDefaultsService.swift */,
+				3D70CCE61B562AE3004588EC /* ImageService.swift */,
+				3D70CCEA1B562AFD004588EC /* IImageService.swift */,
 				7EF371401AB8C1E8009AA3B9 /* LeanCloud */,
 			);
 			name = Service;
@@ -612,6 +622,8 @@
 				B4F1958E1B29790100B8C519 /* UIColor+extension.swift */,
 				B45581FF1B37670500C4D965 /* NSError+extension.swift */,
 				B45581F91B367F7300C4D965 /* ReactiveTableBindingHelper.swift */,
+				3D70CCDE1B54E43E004588EC /* ImageAssets.swift */,
+				3D70CCEC1B57A951004588EC /* UIImageView+extension.swift */,
 			);
 			name = Utility;
 			path = Common/Utility;
@@ -1220,6 +1232,7 @@
 				B4F195A91B2B9EC400B8C519 /* DetailImageViewModel.swift in Sources */,
 				2A9A9BA81B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift in Sources */,
 				B47E15C61B181E160028E07E /* BackgroundOperationsWorkerFactory.swift in Sources */,
+				3D70CCED1B57A951004588EC /* UIImageView+extension.swift in Sources */,
 				B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */,
 				B4F1958B1B2938FC00B8C519 /* HUD.swift in Sources */,
 				B4F195BF1B2CE2C300B8C519 /* ParticipationType.swift in Sources */,
@@ -1268,11 +1281,13 @@
 				3DFA2FA21B43C19800058930 /* WantToGoListViewModel.swift in Sources */,
 				B4A3C16D1AD44B7E00B9D699 /* FeaturedListViewModel.swift in Sources */,
 				2A99786A1B3551F100339265 /* LandingViewDelegate.swift in Sources */,
+				3D70CCDF1B54E43E004588EC /* ImageAssets.swift in Sources */,
 				B4DB9AC21AF954AC009FBFE1 /* GeoLocationService.swift in Sources */,
 				2ADF3E651B1ECBA200C2971E /* DetailNavigationMapViewController.swift in Sources */,
 				B47E15C81B181E370028E07E /* IBackgroundOperationsWorkerFactory.swift in Sources */,
 				B4E1384C1AE1BD0D0082DCA3 /* UserService.swift in Sources */,
 				3D5D8FB41B3F520000EA4ADA /* WantToGoRoute.swift in Sources */,
+				3D70CCE71B562AE3004588EC /* ImageService.swift in Sources */,
 				B4E1384A1AE1B94C0082DCA3 /* User.swift in Sources */,
 				B45581FA1B367F7300C4D965 /* ReactiveTableBindingHelper.swift in Sources */,
 				2A9A9BA41B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift in Sources */,
@@ -1310,6 +1325,7 @@
 				B499E7371B3A28EA00C966E5 /* NearbyCollectionViewCell.swift in Sources */,
 				B45581FC1B3689AB00C4D965 /* FeaturedListBusinessTableViewCell.swift in Sources */,
 				B446A61A1B1FA88000106CAF /* Logger.swift in Sources */,
+				3D70CCEB1B562AFD004588EC /* IImageService.swift in Sources */,
 				45CBBDCF399C77A93D0B1C1E /* ProfileViewModel.swift in Sources */,
 				45CBB4D53772AB5C9D2FD37D /* ProfileViewController.swift in Sources */,
 				B40A0D8B1B22455700036986 /* Constants.swift in Sources */,
@@ -1465,6 +1481,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "XListing-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -1487,6 +1504,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "XListing-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
 		};

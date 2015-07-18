@@ -13,7 +13,7 @@ import AVOSCloud
 public final class WantToGoViewModel : ReactiveTableCellViewModel {
     
     // MARK: Properties
-    public let profilePictureNSURL: ConstantProperty<NSURL?>
+    public let profilePicture: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.profilepicture))
     public let displayName: ConstantProperty<String>
     public let horoscope: ConstantProperty<String>
     public let ageGroup: ConstantProperty<String>
@@ -21,10 +21,12 @@ public final class WantToGoViewModel : ReactiveTableCellViewModel {
     
     // MARK: Services
     private let participationService: IParticipationService
+    private let imageService: IImageService
     
     // MARK: Setup
-    public init(participationService: IParticipationService, profilePicture: AVFile?, displayName: String?, horoscope: String?, ageGroup: String?, gender: String?) {
+    public init(participationService: IParticipationService, imageService: IImageService, profilePicture: AVFile?, displayName: String?, horoscope: String?, ageGroup: String?, gender: String?) {
         self.participationService = participationService
+        self.imageService = imageService
         
         if let displayName = displayName {
             self.displayName = ConstantProperty(displayName)
@@ -46,12 +48,25 @@ public final class WantToGoViewModel : ReactiveTableCellViewModel {
         } else {
             self.gender = ConstantProperty("")
         }
+
+        if let stringURL = profilePicture?.url {
+            if let url = NSURL(string: stringURL) {
+                imageService.getImage(url)
+                    |> start(next: {
+                        self.profilePicture.put($0)
+                    })
+            }
+        }
         
-        if let url = profilePicture?.url {
-            profilePictureNSURL = ConstantProperty<NSURL?>(NSURL(string: url))
-        }
-        else {
-             profilePictureNSURL = ConstantProperty<NSURL?>(NSURL(string: "http://www.phoenixpalace.co.uk/images/background/aboutus.jpg"))
-        }
     }
 }
+
+
+
+
+
+
+
+
+
+

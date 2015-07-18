@@ -16,11 +16,13 @@ public final class WantToGoListWireframe : BaseWireframe, IWantToGoListWireframe
     private let router: IRouter
     private let userService: IUserService
     private let participationService: IParticipationService
+    private let imageService: IImageService
     
-    public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService, participationService: IParticipationService) {
+    public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService, participationService: IParticipationService, imageService: IImageService) {
         self.router = router
         self.userService = userService
         self.participationService = participationService
+        self.imageService = imageService
         
         super.init(rootWireframe: rootWireframe)
     }
@@ -33,7 +35,7 @@ public final class WantToGoListWireframe : BaseWireframe, IWantToGoListWireframe
     private func initViewController(business: Business) -> WantToGoListViewController {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(WantToGoListViewControllerIdentifier, storyboardName: WantToGoStoryboardName) as! WantToGoListViewController
-        let viewmodel = WantToGoListViewModel(router: router, userService: userService, participationService: participationService, business: business)
+        let viewmodel = WantToGoListViewModel(router: router, userService: userService, participationService: participationService, imageService: imageService, business: business)
         viewController.bindToViewModel(viewmodel)
         
         return viewController

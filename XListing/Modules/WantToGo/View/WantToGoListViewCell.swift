@@ -34,11 +34,9 @@ public final class WantToGoListViewCell : UITableViewCell, ReactiveTableCellView
         horoscope.rac_text   <~ self.viewmodel.horoscope
         ageGroup.rac_text    <~ self.viewmodel.ageGroup
         
-        self.viewmodel.profilePictureNSURL.producer
-            |> start(next: { [weak self] url in
-                self?.profilePicture.sd_setImageWithURL(url)
+        self.viewmodel.profilePicture.producer
+            |> start (next: {
+                self.profilePicture.setImageWithAnimation($0!)
             })
     }
-
-    
 }
