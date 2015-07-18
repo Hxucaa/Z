@@ -18,7 +18,7 @@ public struct FeaturedBusinessViewModel {
     public let coverImageNSURL: ConstantProperty<NSURL?>
     public let participation: MutableProperty<String> = MutableProperty("")
     
-    public init(geoLocationService: IGeoLocationService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?) {
+    public init(geoLocationService: IGeoLocationService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int) {
         self.geoLocationService = geoLocationService
         
         self.businessName = ConstantProperty(businessName!)
@@ -40,8 +40,7 @@ public struct FeaturedBusinessViewModel {
             setupEta(CLLocation(latitude: geopoint.latitude, longitude: geopoint.longitude))
         }
         
-        // TODO: implement participation
-        participation.put("\(arc4random_uniform(100))+ 人想去")
+        participation.put("\(participationCount)+ 人想去")
     }
     
     // MARK: - Private

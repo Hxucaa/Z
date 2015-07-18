@@ -21,7 +21,7 @@ public struct NearbyTableCellViewModel {
     public let businessHours: ConstantProperty<String> = ConstantProperty("今天 10:00AM - 10:00PM")
     public let annotation: ConstantProperty<MKPointAnnotation>
     
-    public init(geoLocationService: IGeoLocationService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?) {
+    public init(geoLocationService: IGeoLocationService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int) {
         self.geoLocationService = geoLocationService
         
         self.businessName = ConstantProperty(businessName!)
@@ -47,12 +47,9 @@ public struct NearbyTableCellViewModel {
         //            annotation.subtitle =
         self.annotation = ConstantProperty(annotation)
         
-        // TODO: implement participation
-        participation.put("\(arc4random_uniform(100))+ 人想去")
-        
+        participation.put("\(participationCount)+ 人想去")
         
         setupEta(businessLocation)
-        
     }
     
     // MARK: - Private
