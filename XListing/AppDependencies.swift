@@ -76,7 +76,7 @@ public struct AppDependencies {
     */
     private mutating func configureNearbyDependencies(rootWireframe: IRootWireframe, router: IRouter, businessService bs: IBusinessService, geoLocationService gs: IGeoLocationService) {
         
-        nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, router: router, businessService: bs, geoLocationService: gs)
+        nearbyWireframe = NearbyWireframe(rootWireframe: rootWireframe, router: router, businessService: bs, geoLocationService: gs, imageService: imageService)
         self.router.nearbyRouteDelegate = nearbyWireframe as! NearbyRoute
     }
     
@@ -87,7 +87,7 @@ public struct AppDependencies {
     */
     private mutating func configureDetailDependencies(rootWireframe: IRootWireframe, router: IRouter, userService us: IUserService, participationService ps: IParticipationService, geoLocationService gs: IGeoLocationService) {
         
-        detailWireframe = DetailWireframe(rootWireframe: rootWireframe, router: router, userService: us, participationService: ps, geoLocationService: gs)
+        detailWireframe = DetailWireframe(rootWireframe: rootWireframe, router: router, userService: us, participationService: ps, geoLocationService: gs, imageService: imageService)
         self.router.detailRouteDelegate = detailWireframe as! DetailRoute
     }
     

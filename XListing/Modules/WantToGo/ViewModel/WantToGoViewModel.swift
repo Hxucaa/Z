@@ -48,7 +48,6 @@ public final class WantToGoViewModel : ReactiveTableCellViewModel {
         } else {
             self.gender = ConstantProperty("")
         }
-
         if let stringURL = profilePicture?.url {
             if let url = NSURL(string: stringURL) {
                 imageService.getImage(url)
@@ -57,7 +56,6 @@ public final class WantToGoViewModel : ReactiveTableCellViewModel {
                     })
             }
         }
-        
     }
 }
 

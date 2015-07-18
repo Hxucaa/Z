@@ -10,16 +10,24 @@ import Foundation
 import ReactiveCocoa
 
 public struct DetailImageViewModel {
-    public let coverImageNSURL: ConstantProperty<NSURL?>
     
-    public init(coverImageURL: String?) {
-        if let url = coverImageURL {
-            coverImageNSURL = ConstantProperty<NSURL?>(NSURL(string: url))
-        }
-        else {
-            // TODO: fix temp image
-            coverImageNSURL = ConstantProperty<NSURL?>(NSURL(string: "http://www.phoenixpalace.co.uk/images/background/aboutus.jpg"))
-//            coverImageNSURL = nil
+    // MARK: Properties
+    public let coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
+    
+    // MARK: Services
+    private let imageService: IImageService
+    
+    // MARK: Setup
+    public init(imageService: IImageService, coverImageURL: String?) {
+        self.imageService = imageService
+        
+        if let stringURL = coverImageURL {
+            if let url = NSURL(string: stringURL) {
+                imageService.getImage(url)
+                    |> start(next: {
+                        self.coverImage.put($0)
+                    })
+            }
         }
     }
 }

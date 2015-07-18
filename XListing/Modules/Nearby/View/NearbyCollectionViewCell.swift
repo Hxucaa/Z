@@ -30,15 +30,15 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
     public func bindToViewModel(viewmodel: NearbyTableCellViewModel) {
         self.viewmodel = viewmodel
         
-        
-        self.viewmodel.coverImageNSURL.producer
-            |> start(next: { [weak self] url in
-                self?.coverImageView.sd_setImageWithURL(url)
-            })
         businessNameLabel.rac_text <~ self.viewmodel.businessName
         cityLabel.rac_text <~ self.viewmodel.city
         businessHoursLabel.rac_text <~ self.viewmodel.participation
         etaLabel.rac_text <~ self.viewmodel.eta
+        
+        self.viewmodel.coverImage.producer
+            |> start (next: {
+                self.coverImageView.setImageWithAnimation($0!)
+            })
     }
     
     

@@ -12,55 +12,63 @@ import AVOSCloud
 import MapKit
 
 public struct NearbyTableCellViewModel {
+    
+    // MARK: Properties
     public let businessName: ConstantProperty<String>
     public let city: ConstantProperty<String>
     public let eta: MutableProperty<String> = MutableProperty("")
     public let district: ConstantProperty<String>
-    public let coverImageNSURL: ConstantProperty<NSURL?>
+    public let coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
     public let participation: MutableProperty<String> = MutableProperty("")
     public let businessHours: ConstantProperty<String> = ConstantProperty("今天 10:00AM - 10:00PM")
     public let annotation: ConstantProperty<MKPointAnnotation>
     
-    public init(geoLocationService: IGeoLocationService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?) {
+    // MARK: Services
+    private let geoLocationService: IGeoLocationService
+    private let imageService: IImageService
+    
+    // MARK: Setup
+    public init(geoLocationService: IGeoLocationService, imageService: IImageService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?) {
         self.geoLocationService = geoLocationService
+        self.imageService = imageService
         
-        self.businessName = ConstantProperty(businessName!)
-        
-        self.city = ConstantProperty(city!)
-        
-        self.district = ConstantProperty(district!)
-        
-        if let url = cover?.url {
-            coverImageNSURL = ConstantProperty<NSURL?>(NSURL(string: url))
+        if let businessName = businessName {
+            self.businessName = ConstantProperty(businessName)
+        } else {
+            self.businessName = ConstantProperty("")
         }
-        else {
-            // TODO: fix temp image
-            coverImageNSURL = ConstantProperty<NSURL?>(NSURL(string: "http://www.phoenixpalace.co.uk/images/background/aboutus.jpg"))
-            //            coverImageNSURL = nil
+        if let city = city {
+            self.city = ConstantProperty(city)
+        } else {
+            self.city = ConstantProperty("")
         }
-        
+        if let district = district {
+            self.district = ConstantProperty(district)
+        } else {
+            self.district = ConstantProperty("")
+        }
+
         let businessLocation = CLLocation(latitude: geopoint!.latitude, longitude: geopoint!.longitude)
         
         let annotation = MKPointAnnotation()
         annotation.coordinate = businessLocation.coordinate
         annotation.title = businessName
-        //            annotation.subtitle =
         self.annotation = ConstantProperty(annotation)
+        
+        if let stringURL = cover?.url {
+            if let url = NSURL(string: stringURL) {
+                imageService.getImage(url)
+                    |> start(next: {
+                        self.coverImage.put($0)
+                    })
+            }
+        }
         
         // TODO: implement participation
         participation.put("\(arc4random_uniform(100))+ 人想去")
         
-        
         setupEta(businessLocation)
-        
     }
-    
-    // MARK: - Private
-    
-    // MARK: Services
-    private let geoLocationService: IGeoLocationService
-    
-    // MARK: Setup
     
     private func setupEta(destination: CLLocation) {
         geoLocationService.calculateETA(destination)

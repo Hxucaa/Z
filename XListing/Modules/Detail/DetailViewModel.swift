@@ -29,14 +29,15 @@ public struct DetailViewModel : IDetailViewModel {
     }
     
     // MARK: Initializers
-    public init(router: IRouter, userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, businessModel: Business) {
+    public init(router: IRouter, userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, businessModel: Business) {
         self.router = router
         self.userService = userService
         self.participationService = participationService
         self.geoLocationService = geoLocationService
+        self.imageService = imageService
         self.business = businessModel
         
-        detailImageViewModel = DetailImageViewModel(coverImageURL: business.cover?.url)
+        detailImageViewModel = DetailImageViewModel(imageService: imageService, coverImageURL: business.cover?.url)
         detailAddressAndMapViewModel = DetailAddressAndMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, address: business.address, city: business.city, state: business.state, businessLocation: business.cllocation)
         detailPhoneWebViewModel = DetailPhoneWebViewModel(businessName: business.nameSChinese, phone: business.phone, website: business.url)
         detailBizInfoViewModel = DetailBizInfoViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, business: businessModel)
@@ -51,6 +52,7 @@ public struct DetailViewModel : IDetailViewModel {
     private let userService: IUserService
     private let participationService: IParticipationService
     private let geoLocationService: IGeoLocationService
+    private let imageService: IImageService
     private let business: Business
     
 }
