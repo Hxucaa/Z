@@ -36,8 +36,9 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
         etaLabel.rac_text <~ self.viewmodel.eta
         
         self.viewmodel.coverImage.producer
-            |> start (next: {
-                self.coverImageView.setImageWithAnimation($0!)
+            |> ignoreNil
+            |> start (next: { [weak self] in
+                self?.coverImageView.setImageWithAnimation($0)
             })
     }
     

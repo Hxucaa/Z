@@ -32,8 +32,9 @@ public final class DetailImageTableViewCell: UITableViewCell {
         
         
         self.viewmodel.coverImage.producer
+            |> ignoreNil
             |> start (next: {
-                self.detailImageView.setImageWithAnimation($0!)
+                self.detailImageView.setImageWithAnimation($0)
             })
     }
     

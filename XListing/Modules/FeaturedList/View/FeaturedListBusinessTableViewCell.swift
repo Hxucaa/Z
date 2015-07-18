@@ -38,8 +38,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         etaLabel.rac_text <~ viewmodel.eta
         
         self.viewmodel.coverImage.producer
-            |> start (next: {
-                self.coverImageView.setImageWithAnimation($0!)
+            |> ignoreNil
+            |> start (next: { [weak self] in
+                self?.coverImageView.setImageWithAnimation($0)
             })
     }
 }
