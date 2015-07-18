@@ -9,6 +9,7 @@
         <mutableArray key="fontawesome-webfont.ttf">
             <string>FontAwesome</string>
             <string>FontAwesome</string>
+            <string>FontAwesome</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -354,7 +355,7 @@
                                             <outlet property="textField" destination="HLR-gw-WUf" id="9t3-FC-Wtj"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell tag="2" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LabelCell" rowHeight="60" id="Qh3-z3-MzB" customClass="GenderTableViewCell" customModule="XListing" customModuleProvider="target">
+                                    <tableViewCell tag="2" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GenderCell" rowHeight="60" id="Qh3-z3-MzB" customClass="GenderTableViewCell" customModule="XListing" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qh3-z3-MzB" id="32I-H9-Ono">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -406,15 +407,56 @@
                                             <outlet property="genderIcon" destination="WjG-JF-ysE" id="snz-LD-tei"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell tag="2" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DatePicker" rowHeight="162" id="Pxh-mY-LUJ">
+                                    <tableViewCell tag="2" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BirthdayCell" rowHeight="60" id="DNw-41-IhN" customClass="BirthdayTableViewCell" customModule="XListing" customModuleProvider="target">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DNw-41-IhN" id="k0y-FD-cYP">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Icon" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZDb-fX-cTm">
+                                                    <rect key="frame" x="8" y="0.0" width="58" height="60"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="58" id="s6i-FR-4To"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="23"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" tag="3" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ajT-Te-ycT">
+                                                    <rect key="frame" x="73" y="8" width="501" height="44"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <state key="normal">
+                                                        <color key="titleColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ajT-Te-ycT" secondAttribute="bottom" constant="-0.5" id="1kR-uc-3zU"/>
+                                                <constraint firstItem="ZDb-fX-cTm" firstAttribute="top" secondItem="k0y-FD-cYP" secondAttribute="top" id="FuK-w9-Pt4"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="ajT-Te-ycT" secondAttribute="trailing" constant="18" id="YmU-Ab-Qyq"/>
+                                                <constraint firstItem="ZDb-fX-cTm" firstAttribute="leading" secondItem="k0y-FD-cYP" secondAttribute="leadingMargin" constant="-7" id="flZ-sN-dYa"/>
+                                                <constraint firstItem="ajT-Te-ycT" firstAttribute="centerY" secondItem="ZDb-fX-cTm" secondAttribute="centerY" id="lp9-Nc-ZMs"/>
+                                                <constraint firstItem="ajT-Te-ycT" firstAttribute="top" secondItem="k0y-FD-cYP" secondAttribute="topMargin" id="ngx-8t-GnF"/>
+                                                <constraint firstItem="ajT-Te-ycT" firstAttribute="leading" secondItem="ZDb-fX-cTm" secondAttribute="trailing" constant="7" id="qhZ-dw-Kpq"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="birthdayButton" destination="ajT-Te-ycT" id="jTq-cn-vnf"/>
+                                            <outlet property="icon" destination="ZDb-fX-cTm" id="iVx-KH-iqL"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell tag="2" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DatePicker" rowHeight="162" id="Pxh-mY-LUJ" customClass="DatePickerTableViewCell" customModule="XListing" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Pxh-mY-LUJ" id="hr1-m0-cQA">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <datePicker tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="7je-Y0-4DZ">
+                                                <datePicker tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7je-Y0-4DZ">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="162"/>
-                                                    <date key="date" timeIntervalSinceReferenceDate="458723314.67174298">
-                                                        <!--2015-07-16 07:08:34 +0000-->
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="162" id="32T-K1-e8d"/>
+                                                    </constraints>
+                                                    <date key="date" timeIntervalSinceReferenceDate="-203964685.32825702">
+                                                        <!--1994-07-16 07:08:34 +0000-->
                                                     </date>
                                                 </datePicker>
                                             </subviews>
@@ -424,6 +466,9 @@
                                                 <constraint firstAttribute="trailing" secondItem="7je-Y0-4DZ" secondAttribute="trailing" id="ulK-5P-Vfh"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="datePicker" destination="7je-Y0-4DZ" id="uPh-qL-bF6"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>

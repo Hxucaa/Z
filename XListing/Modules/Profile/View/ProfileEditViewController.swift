@@ -22,9 +22,12 @@ public final class ProfileEditViewController: XUIViewController {
     @IBOutlet weak var tableView: UITableView!
     private var viewmodel: ProfileEditViewModel!
     private var genderTitle: String!
+    private var birthdayTitle: String!
     private var editButton: UIButton!
     private let imagePicker = UIImagePickerController()
     private var profilePicture: UIImageView!
+    private var didExpandDatePicker: Bool = false
+    private var dateFormatter: NSDateFormatter!
 
     
     public override func viewDidLoad() {
@@ -53,6 +56,11 @@ public final class ProfileEditViewController: XUIViewController {
         self.tableView.reloadData()
     }
     
+    public func setUpDateFormatter() {
+        dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+    }
+    
     public func chooseGender() {
         var alert = UIAlertController(title: "Choose a gender", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
         var maleAction = UIAlertAction(title: "男", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
@@ -70,10 +78,6 @@ public final class ProfileEditViewController: XUIViewController {
         alert.addAction(femaleAction)
         alert.addAction(cancelAction)
         self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    public func chooseBirthday() {
-        
     }
     
     public func dismissView() {
@@ -103,13 +107,13 @@ public final class ProfileEditViewController: XUIViewController {
             }
         }
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: UIBarButtonItemStyle.Done, target: submitAction.unsafeCocoaAction, action: CocoaAction.selector)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "提交", style: UIBarButtonItemStyle.Done, target: submitAction.unsafeCocoaAction, action: CocoaAction.selector)
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
         
     }
     
     public func setupDismissButton() {
-        var dismissButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Done, target: self, action: "dismissView")
+        var dismissButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: "dismissView")
         dismissButton.tintColor = UIColor.whiteColor()
         self.navigationItem.leftBarButtonItem = dismissButton
     }
@@ -136,6 +140,12 @@ public final class ProfileEditViewController: XUIViewController {
         self.profilePicture.layer.cornerRadius = CGFloat(self.profilePicture.frame.width) / 2
         self.profilePicture.layer.masksToBounds = true
     }
+    
+    public func chooseBirthday () {
+        didExpandDatePicker = !didExpandDatePicker
+        self.tableView.reloadData()
+    }
+    
 }
 
 extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate {
@@ -150,7 +160,8 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch (section) {
-            case 0: return 4
+            case 0:
+                if (didExpandDatePicker) {return 5 } else { return 4}
             case 1: return 2
             default: return 0
         }
@@ -171,7 +182,9 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var labelCell = tableView.dequeueReusableCellWithIdentifier("TextCell") as! TextFieldTableViewCell
-        var genderCell = tableView.dequeueReusableCellWithIdentifier("LabelCell") as! GenderTableViewCell
+        var genderCell = tableView.dequeueReusableCellWithIdentifier("GenderCell") as! GenderTableViewCell
+        var birthdayCell = tableView.dequeueReusableCellWithIdentifier("BirthdayCell") as! BirthdayTableViewCell
+        var datePickerCell = tableView.dequeueReusableCellWithIdentifier("DatePicker") as! DatePickerTableViewCell
         
         switch (indexPath.section) {
             case 0:
@@ -193,13 +206,30 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
                     genderCell.editProfilePicButton.addTarget(self, action: "presentUIImagePicker", forControlEvents: UIControlEvents.TouchUpInside)
                     return genderCell
                 case 2:
-                    labelCell.icon.text = BirthdayIcon
-                    labelCell.textField.placeholder = "生日"
-                    //viewmodel.birthday <~ labelCell.textField.rac_text
-                    
-                case 3:
                     labelCell.icon.text = StatusIcon
                     labelCell.textField.placeholder = "心情"
+                    
+                case 3:
+                    birthdayCell.icon.text = BirthdayIcon
+                    //TODO: allow label to change based on selected bday
+                    //birthdayTitle = dateFormatter.stringFromDate(viewmodel.birthday.value)
+                    if (birthdayTitle == nil) {
+                        birthdayTitle = "生日"
+                    } else {
+                        birthdayCell.birthdayButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+                    }
+                    birthdayCell.birthdayButton.setTitle(birthdayTitle, forState: UIControlState.Normal)
+                    birthdayCell.birthdayButton.addTarget(self, action: "chooseBirthday", forControlEvents: UIControlEvents.TouchUpInside)
+                    return birthdayCell
+                case 4:
+                    // React to date change
+                    viewmodel.birthday <~ datePickerCell.datePicker.rac_date
+                    
+                    // Limit the choices on date picker
+                    let ageLimit = viewmodel.ageLimit
+                    datePickerCell.datePicker.minimumDate = ageLimit.floor
+                    datePickerCell.datePicker.maximumDate = ageLimit.ceil
+                    return datePickerCell
                 default : print("error rendering cell")
                 }
             case 1:
@@ -218,24 +248,29 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
         return labelCell
     }
     
-    /**
-    Tells the delegate that the specified row is now selected.
-    
-    :param: tableView A table-view object informing the delegate about the new row selection.
-    :param: indexPath An index path locating the new selected row in tableView.
-    */
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-       
+    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 1 {return "隐私信息"} else {return ""}
     }
     
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         var deviceWidth = UIScreen.mainScreen().bounds.size.width
-        var profilePicView: UIView = UIView(frame: CGRectMake(deviceWidth-100, -235, 75, 100))
+        var picYCoord: CGFloat
+        if (didExpandDatePicker) {picYCoord = -397} else {picYCoord = -235}
+        var profilePicView: UIView = UIView(frame: CGRectMake(deviceWidth-100, picYCoord, 75, 100))
         profilePicView.addSubview(self.profilePicture)
         
         let header: UITableViewHeaderFooterView =  UITableViewHeaderFooterView(frame: CGRectMake(100, 0, 100, 100))
         header.addSubview(profilePicView)
         return header
+    }
+    
+    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if (indexPath.section == 0 && indexPath.row == 4) {
+            return 162
+        } else {
+            return 60
+        }
+        
     }
 
 }
