@@ -20,6 +20,6 @@ end
 target 'XListingTests' do
   pod 'AVOSCloud', '~> 3.1'
   pod 'Quick', '= 0.3.1'
-  pod 'Nimble', '= 1.0.0-rc.1'
+  pod 'Nimble', '~> 1.0'
 end
 
