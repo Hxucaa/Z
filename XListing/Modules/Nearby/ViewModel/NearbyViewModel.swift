@@ -55,10 +55,11 @@ public struct NearbyViewModel : INearbyViewModel {
     }
     
     // MARK: Initializers
-    public init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService) {
+    public init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService, imageService: IImageService) {
         self.router = router
         self.businessService = businessService
         self.geoLocationService = geoLocationService
+        self.imageService = imageService
 
         getBusinesses()
             |> start()
@@ -70,6 +71,7 @@ public struct NearbyViewModel : INearbyViewModel {
     private let router: IRouter
     private let businessService: IBusinessService
     private let geoLocationService: IGeoLocationService
+    private let imageService: IImageService
     
     private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
     
@@ -84,7 +86,7 @@ public struct NearbyViewModel : INearbyViewModel {
             })
             |> map { businesses -> [NearbyTableCellViewModel] in
                 return businesses.map {
-                    NearbyTableCellViewModel(geoLocationService: self.geoLocationService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
+                    NearbyTableCellViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
                 }
             }
             |> on(

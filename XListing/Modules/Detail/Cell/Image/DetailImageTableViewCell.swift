@@ -31,9 +31,11 @@ public final class DetailImageTableViewCell: UITableViewCell {
         self.viewmodel = viewmodel
         
         
-        viewmodel.coverImageNSURL.producer
-            |> filter { $0 != nil }
-            |> start(next: { [weak self] in self?.detailImageView.sd_setImageWithURL($0!) })
+        self.viewmodel.coverImage.producer
+            |> ignoreNil
+            |> start (next: {
+                self.detailImageView.setImageWithAnimation($0)
+            })
     }
     
 }

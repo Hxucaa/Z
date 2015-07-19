@@ -18,6 +18,7 @@ struct AssociationKey {
     static var title: UInt8 = 6
     static var minimumDate: UInt = 7
     static var maximumDate: UInt = 8
+    static var image: UInt8 = 9
 }
 
 // lazily creates a gettable associated property via the given factory
@@ -110,3 +111,11 @@ extension UITextField {
         rac_text.value = self.text
     }
 }
+
+extension UIImageView {
+    public var rac_image: MutableProperty<UIImage?> {
+        return lazyMutableProperty(self, &AssociationKey.image, { self.image = $0 }, { self.image })
+    }
+}
+
+
