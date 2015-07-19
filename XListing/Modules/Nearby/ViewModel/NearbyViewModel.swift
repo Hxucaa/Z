@@ -86,7 +86,7 @@ public struct NearbyViewModel : INearbyViewModel {
             })
             |> map { businesses -> [NearbyTableCellViewModel] in
                 return businesses.map {
-                    NearbyTableCellViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint)
+                    NearbyTableCellViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
                 }
             }
             |> on(

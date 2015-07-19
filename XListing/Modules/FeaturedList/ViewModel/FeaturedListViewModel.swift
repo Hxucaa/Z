@@ -42,7 +42,7 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
                 
                 // map the business models to viewmodels
                 return self.businessArr.value.map {
-                    FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint)
+                    FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
                     }
             }
             |> on(

@@ -28,7 +28,7 @@ public struct NearbyTableCellViewModel {
     private let imageService: IImageService
     
     // MARK: Setup
-    public init(geoLocationService: IGeoLocationService, imageService: IImageService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?) {
+        public init(geoLocationService: IGeoLocationService, imageService: IImageService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int) {
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         
@@ -55,20 +55,13 @@ public struct NearbyTableCellViewModel {
         annotation.title = businessName
         self.annotation = ConstantProperty(annotation)
         
+
+        participation.put("\(participationCount)+ 人想去")
+
         imageService.getImage(NSURL(string: "http://lasttear.com/wp-content/uploads/2015/03/interior-design-ideas-furniture-architecture-mesmerizing-chinese-restaurant-interior-with-red-nuance-inspiring.jpg")!)
             |> start(next: {
                 self.coverImage.put($0)
             })
-        
-//        if let stringURL = cover?.url, url = NSURL(string: stringURL) {
-//            imageService.getImage(url)
-//                |> start(next: {
-//                    self.coverImage.put($0)
-//                })
-//        }
-        
-        // TODO: implement participation
-        participation.put("\(arc4random_uniform(100))+ 人想去")
         
         setupEta(businessLocation)
     }
