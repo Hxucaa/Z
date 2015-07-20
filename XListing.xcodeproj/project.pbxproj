@@ -11,10 +11,15 @@
 		26645ACB1B54C4F200ADDCD1 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */; };
 		26645ACD1B54F11F00ADDCD1 /* LandingPageLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ACC1B54F11F00ADDCD1 /* LandingPageLogoView.swift */; };
 		26645ACF1B57956600ADDCD1 /* GenderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */; };
-		26645AD11B57957700ADDCD1 /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645AD01B57957700ADDCD1 /* TextFieldTableViewCell.swift */; };
 		26645AD31B58B58200ADDCD1 /* ProfileEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645AD21B58B58200ADDCD1 /* ProfileEditViewModel.swift */; };
 		26645AD51B5A383A00ADDCD1 /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645AD41B5A383A00ADDCD1 /* DatePickerTableViewCell.swift */; };
 		26645AD71B5A400700ADDCD1 /* BirthdayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645AD61B5A400700ADDCD1 /* BirthdayTableViewCell.swift */; };
+		26645ADB1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ADA1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift */; };
+		26645ADE1B5C677E00ADDCD1 /* NicknameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ADC1B5C677E00ADDCD1 /* NicknameTableViewCell.swift */; };
+		26645ADF1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ADD1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift */; };
+		269163661B5C6B0C005D48FA /* PopDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269163641B5C6B0C005D48FA /* PopDateViewController.swift */; };
+		269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 269163651B5C6B0C005D48FA /* PopDateViewController.xib */; };
+		269163691B5C6C1E005D48FA /* PopoverDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269163681B5C6C1E005D48FA /* PopoverDatePicker.swift */; };
 		2A1B3A201B2574EF003E70E0 /* ParticipationPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */; };
 		2A1B3A221B25751A003E70E0 /* ParticipationPopoverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */; };
 		2A41A30E1AF3133F0086D24B /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */; };
@@ -174,10 +179,15 @@
 		26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
 		26645ACC1B54F11F00ADDCD1 /* LandingPageLogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageLogoView.swift; sourceTree = "<group>"; };
 		26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderTableViewCell.swift; sourceTree = "<group>"; };
-		26645AD01B57957700ADDCD1 /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		26645AD21B58B58200ADDCD1 /* ProfileEditViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewModel.swift; sourceTree = "<group>"; };
 		26645AD41B5A383A00ADDCD1 /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewCell.swift; sourceTree = "<group>"; };
 		26645AD61B5A400700ADDCD1 /* BirthdayTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirthdayTableViewCell.swift; sourceTree = "<group>"; };
+		26645ADA1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneEmailTableViewCell.swift; sourceTree = "<group>"; };
+		26645ADC1B5C677E00ADDCD1 /* NicknameTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicknameTableViewCell.swift; sourceTree = "<group>"; };
+		26645ADD1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsupTableViewCell.swift; sourceTree = "<group>"; };
+		269163641B5C6B0C005D48FA /* PopDateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopDateViewController.swift; sourceTree = "<group>"; };
+		269163651B5C6B0C005D48FA /* PopDateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopDateViewController.xib; sourceTree = "<group>"; };
+		269163681B5C6C1E005D48FA /* PopoverDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverDatePicker.swift; sourceTree = "<group>"; };
 		26AB479389256B6B20922161 /* Pods-XListingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests.release.xcconfig"; sourceTree = "<group>"; };
 		2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationPopover.swift; sourceTree = "<group>"; };
 		2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationPopoverDelegate.swift; sourceTree = "<group>"; };
@@ -461,11 +471,16 @@
 				7E01738D1B1525DB002E154B /* EditProfileTableViewController.swift */,
 				45CBB717784EC301CD7D042E /* ProfileViewController.swift */,
 				7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */,
+				26645ADA1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift */,
 				26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */,
 				26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */,
-				26645AD01B57957700ADDCD1 /* TextFieldTableViewCell.swift */,
 				26645AD41B5A383A00ADDCD1 /* DatePickerTableViewCell.swift */,
 				26645AD61B5A400700ADDCD1 /* BirthdayTableViewCell.swift */,
+				26645ADC1B5C677E00ADDCD1 /* NicknameTableViewCell.swift */,
+				26645ADD1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift */,
+				269163641B5C6B0C005D48FA /* PopDateViewController.swift */,
+				269163681B5C6C1E005D48FA /* PopoverDatePicker.swift */,
+				269163651B5C6B0C005D48FA /* PopDateViewController.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1089,6 +1104,7 @@
 			files = (
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				B4F195C61B2E0F0000B8C519 /* Default-568h@2x.png in Resources */,
+				269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */,
 				B4F195811B2789A100B8C519 /* Account.storyboard in Resources */,
 				2ADF3E661B1ECBA200C2971E /* DetailNavigationMapViewController.xib in Resources */,
 				7E0173881B146473002E154B /* EditProfileView.xib in Resources */,
@@ -1231,9 +1247,12 @@
 				2AB9EE461B42812400FA5106 /* ShadowLabel.swift in Sources */,
 				7E0173861B13FB44002E154B /* EditProfileViewDelegate.swift in Sources */,
 				B48C99221ADA6A640045BCA9 /* NearbyWireframe.swift in Sources */,
+				269163661B5C6B0C005D48FA /* PopDateViewController.swift in Sources */,
 				B4FCC7411AEB0080009B4DF6 /* IRootWireframe.swift in Sources */,
 				B48C991D1ADA62DA0045BCA9 /* NearbyViewModel.swift in Sources */,
+				269163691B5C6C1E005D48FA /* PopoverDatePicker.swift in Sources */,
 				B4E70B3C1AF1709400A7418F /* ParticipationService.swift in Sources */,
+				26645ADB1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift in Sources */,
 				B48C991F1ADA62E70045BCA9 /* INearbyViewModel.swift in Sources */,
 				3DFA2F9D1B43C13C00058930 /* WantToGoListViewController.swift in Sources */,
 				B47E15BD1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift in Sources */,
@@ -1249,7 +1268,6 @@
 				7E01738E1B1525DB002E154B /* EditProfileTableViewController.swift in Sources */,
 				B48C99121ADA56F70045BCA9 /* NearbyViewController.swift in Sources */,
 				2A9978601B2C29E000339265 /* LandingPageViewController.swift in Sources */,
-				26645AD11B57957700ADDCD1 /* TextFieldTableViewCell.swift in Sources */,
 				B4F195A91B2B9EC400B8C519 /* DetailImageViewModel.swift in Sources */,
 				2A9A9BA81B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift in Sources */,
 				B47E15C61B181E160028E07E /* BackgroundOperationsWorkerFactory.swift in Sources */,
@@ -1274,12 +1292,14 @@
 				B40A0D8D1B23BD2900036986 /* EditProfileViewModel.swift in Sources */,
 				B4B665481ADF8DC60084DBE7 /* IDetailWireframe.swift in Sources */,
 				3DFA2FA31B43C19800058930 /* WantToGoViewModel.swift in Sources */,
+				26645ADE1B5C677E00ADDCD1 /* NicknameTableViewCell.swift in Sources */,
 				B4F195951B2A276C00B8C519 /* XUIViewController.swift in Sources */,
 				B4F195831B27A31500B8C519 /* LogInViewController.swift in Sources */,
 				B4F195A51B2ABE0500B8C519 /* AccountRoute.swift in Sources */,
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,
 				B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */,
 				2661B9201B4B72C9005D9C41 /* GenderEnum.swift in Sources */,
+				26645ADF1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift in Sources */,
 				B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */,
 				2A1B3A221B25751A003E70E0 /* ParticipationPopoverDelegate.swift in Sources */,
 				2A1B3A201B2574EF003E70E0 /* ParticipationPopover.swift in Sources */,

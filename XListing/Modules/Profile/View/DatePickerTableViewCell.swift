@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol DataPickerTableViewCellDelegate : class {
+    func setup(date : NSDate?)
+}
+
 public final class DatePickerTableViewCell: UITableViewCell {
     @IBOutlet weak var datePicker: UIDatePicker!
 

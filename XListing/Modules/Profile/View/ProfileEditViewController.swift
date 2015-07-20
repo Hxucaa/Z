@@ -22,12 +22,12 @@ public final class ProfileEditViewController: XUIViewController {
     @IBOutlet weak var tableView: UITableView!
     private var viewmodel: ProfileEditViewModel!
     private var genderTitle: String!
-    private var birthdayTitle: String!
     private var editButton: UIButton!
     private let imagePicker = UIImagePickerController()
     private var profilePicture: UIImageView!
-    private var didExpandDatePicker: Bool = false
     private var dateFormatter: NSDateFormatter!
+    private var popDatePicker : PopoverDatePicker?
+    private var birthdayTextField : UITextField!
 
     
     public override func viewDidLoad() {
@@ -66,12 +66,12 @@ public final class ProfileEditViewController: XUIViewController {
         var maleAction = UIAlertAction(title: "男", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
             self.viewmodel.gender.put(Gender.Male)
             self.genderTitle = "男"
-            self.tableView.reloadData()
+            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.None)
         }
         var femaleAction = UIAlertAction(title: "女", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
             self.viewmodel.gender.put(Gender.Female)
             self.genderTitle = "女"
-            self.tableView.reloadData()
+            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.None)
             }
         var cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
         alert.addAction(maleAction)
@@ -85,6 +85,7 @@ public final class ProfileEditViewController: XUIViewController {
     }
     
     private func setupSaveButton() {
+        
         // Button action
         let submitAction = Action<UIBarButtonItem, Bool, NSError> { [weak self] button in
             let updateProfileAndHUD = HUD.show()
@@ -109,6 +110,7 @@ public final class ProfileEditViewController: XUIViewController {
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "提交", style: UIBarButtonItemStyle.Done, target: submitAction.unsafeCocoaAction, action: CocoaAction.selector)
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
+        self.navigationItem.rightBarButtonItem?.enabled = self.viewmodel.allInputsValid.value
         
     }
     
@@ -134,16 +136,16 @@ public final class ProfileEditViewController: XUIViewController {
     }
     
     private func setUpProfilePicture () {
-        self.profilePicture = UIImageView(frame: CGRectMake(0, 0, 75, 75)) as UIImageView
+        self.profilePicture = UIImageView(frame: CGRectMake(0, 0, 80, 80)) as UIImageView
         var myImage: UIImage = UIImage(named: "curry")!
         self.profilePicture.image = myImage
         self.profilePicture.layer.cornerRadius = CGFloat(self.profilePicture.frame.width) / 2
         self.profilePicture.layer.masksToBounds = true
+        self.profilePicture.userInteractionEnabled = true
     }
     
-    public func chooseBirthday () {
-        didExpandDatePicker = !didExpandDatePicker
-        self.tableView.reloadData()
+    public func chooseBirthday (textField: UITextField) {
+        popDatePicker = PopoverDatePicker(forTextField: textField)
     }
     
 }
@@ -160,8 +162,7 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch (section) {
-            case 0:
-                if (didExpandDatePicker) {return 5 } else { return 4}
+            case 0: return 4
             case 1: return 2
             default: return 0
         }
@@ -181,7 +182,9 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
     :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var labelCell = tableView.dequeueReusableCellWithIdentifier("TextCell") as! TextFieldTableViewCell
+        var nicknameCell = tableView.dequeueReusableCellWithIdentifier("NicknameCell") as! NicknameTableViewCell
+        var whatsupCell = tableView.dequeueReusableCellWithIdentifier("WhatsupCell") as! WhatsupTableViewCell
+        var phoneEmailCell = tableView.dequeueReusableCellWithIdentifier("PhoneEmailCell") as! PhoneEmailTableViewCell
         var genderCell = tableView.dequeueReusableCellWithIdentifier("GenderCell") as! GenderTableViewCell
         var birthdayCell = tableView.dequeueReusableCellWithIdentifier("BirthdayCell") as! BirthdayTableViewCell
         var datePickerCell = tableView.dequeueReusableCellWithIdentifier("DatePicker") as! DatePickerTableViewCell
@@ -190,9 +193,11 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
             case 0:
                 switch(indexPath.row) {
                 case 0:
-                    labelCell.icon.text = UserIcon
-                    labelCell.textField.placeholder = "昵称"
-                    viewmodel.nickname <~ labelCell.textField.rac_text
+                    nicknameCell.textField.placeholder = "昵称"
+                    viewmodel.nickname <~ nicknameCell.textField.rac_text
+                    nicknameCell.editProfilePicButton.addTarget(self, action: "presentUIImagePicker", forControlEvents: UIControlEvents.TouchUpInside)
+                    nicknameCell.textField.delegate = self
+                    return nicknameCell
                     
                 case 1:
                     genderCell.genderIcon.text = GenderIcon
@@ -206,46 +211,34 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
                     genderCell.editProfilePicButton.addTarget(self, action: "presentUIImagePicker", forControlEvents: UIControlEvents.TouchUpInside)
                     return genderCell
                 case 2:
-                    labelCell.icon.text = StatusIcon
-                    labelCell.textField.placeholder = "心情"
-                    
+                    whatsupCell.textField.delegate = self
+                    whatsupCell.textField.placeholder = "心情"
+                    return whatsupCell
                 case 3:
-                    birthdayCell.icon.text = BirthdayIcon
-                    //TODO: allow label to change based on selected bday
-                    //birthdayTitle = dateFormatter.stringFromDate(viewmodel.birthday.value)
-                    if (birthdayTitle == nil) {
-                        birthdayTitle = "生日"
-                    } else {
-                        birthdayCell.birthdayButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-                    }
-                    birthdayCell.birthdayButton.setTitle(birthdayTitle, forState: UIControlState.Normal)
-                    birthdayCell.birthdayButton.addTarget(self, action: "chooseBirthday", forControlEvents: UIControlEvents.TouchUpInside)
+                    birthdayCell.delegate = self
+                    birthdayCell.birthdayTextField.delegate = self
+                    birthdayCell.birthdayTextField.placeholder = "生日"
                     return birthdayCell
-                case 4:
-                    // React to date change
-                    viewmodel.birthday <~ datePickerCell.datePicker.rac_date
-                    
-                    // Limit the choices on date picker
-                    let ageLimit = viewmodel.ageLimit
-                    datePickerCell.datePicker.minimumDate = ageLimit.floor
-                    datePickerCell.datePicker.maximumDate = ageLimit.ceil
-                    return datePickerCell
                 default : print("error rendering cell")
                 }
             case 1:
                 switch(indexPath.row) {
                 case 0:
-                    labelCell.icon.text = EmailIcon
-                    labelCell.textField.placeholder = "邮件"
+                    phoneEmailCell.textField.delegate = self
+                    phoneEmailCell.icon.text = EmailIcon
+                    phoneEmailCell.textField.placeholder = "邮件"
+                    return phoneEmailCell
                 case 1:
-                    labelCell.icon.text = PhoneIcon
-                    labelCell.textField.placeholder = "电话"
+                    phoneEmailCell.textField.delegate = self
+                    phoneEmailCell.icon.text = PhoneIcon
+                    phoneEmailCell.textField.placeholder = "电话"
+                    return phoneEmailCell
                 default: print("error rendering cell")
             }
             default: print("error rendering cell")
         }
         
-        return labelCell
+        return phoneEmailCell
     }
     
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -255,13 +248,22 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         var deviceWidth = UIScreen.mainScreen().bounds.size.width
         var picYCoord: CGFloat
-        if (didExpandDatePicker) {picYCoord = -397} else {picYCoord = -235}
-        var profilePicView: UIView = UIView(frame: CGRectMake(deviceWidth-100, picYCoord, 75, 100))
+        var profilePicView: UIView = UIView(frame: CGRectMake(deviceWidth-100, -245, 85, 100))
         profilePicView.addSubview(self.profilePicture)
         
         let header: UITableViewHeaderFooterView =  UITableViewHeaderFooterView(frame: CGRectMake(100, 0, 100, 100))
         header.addSubview(profilePicView)
         return header
+    }
+    
+    public func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        let header:UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
+        
+        header.textLabel.textColor = UIColor.grayColor()
+        header.textLabel.font = UIFont.boldSystemFontOfSize(18)
+        header.textLabel.frame = header.frame
+        header.textLabel.textAlignment = NSTextAlignment.Left
     }
     
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -287,7 +289,6 @@ extension ProfileEditViewController : UIImagePickerControllerDelegate, UINavigat
         if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
             self.viewmodel.profileImage <~ MutableProperty<UIImage?>(pickedImage)
             self.profilePicture.image = pickedImage
-            self.tableView.reloadData()
         }
         self.dismissViewControllerAnimated(true, completion: nil)
         
@@ -303,3 +304,55 @@ extension ProfileEditViewController : UIImagePickerControllerDelegate, UINavigat
     }
 }
 
+extension ProfileEditViewController : UITextFieldDelegate {
+    
+    public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        
+            textField.resignFirstResponder()
+        if (textField === birthdayTextField) {
+            let formatter = NSDateFormatter()
+            formatter.dateStyle = .MediumStyle
+            formatter.timeStyle = .NoStyle
+            let initDate : NSDate? = formatter.dateFromString(birthdayTextField.text)
+            
+            let dataChangedCallback : PopoverDatePicker.PopDatePickerCallback = { (newDate : NSDate, forTextField : UITextField) -> () in
+    
+                // here we don't use self (no retain cycle)
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "dd-MM-yyyy"
+                forTextField.text = dateFormatter.stringFromDate(newDate)
+            }
+            
+            popDatePicker!.pick(self, initDate: initDate, dataChanged: dataChangedCallback)
+            // Limit the choices on date picker
+            let ageLimit = viewmodel.ageLimit
+            var datePicker : UIDatePicker = popDatePicker!.datePickerVC.datePicker
+            datePicker.minimumDate = ageLimit.floor
+            datePicker.maximumDate = ageLimit.ceil
+            self.viewmodel.birthday <~ datePicker.rac_date
+            self.navigationItem.rightBarButtonItem?.enabled = self.viewmodel.allInputsValid.value
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    
+    public func textFieldDidBeginEditing(textField: UITextField) {
+        self.navigationItem.rightBarButtonItem?.enabled = self.viewmodel.allInputsValid.value
+    }
+}
+
+extension ProfileEditViewController : BirthdayCellTableViewCellDelegate {
+    public func setupBirthdayCell (textField : UITextField) {
+        birthdayTextField = textField
+        if (popDatePicker == nil) {
+            popDatePicker = PopoverDatePicker(forTextField: textField)
+            
+        }
+    }
+}

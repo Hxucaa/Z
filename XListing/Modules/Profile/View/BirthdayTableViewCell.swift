@@ -8,10 +8,15 @@
 
 import UIKit
 
+protocol BirthdayCellTableViewCellDelegate : class {
+    
+    func setupBirthdayCell(textField: UITextField)
+}
+
 public final class BirthdayTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var icon: UILabel!
-    @IBOutlet weak var birthdayButton: UIButton!
+    @IBOutlet weak var birthdayTextField: UITextField!
+    internal weak var delegate: BirthdayCellTableViewCellDelegate!
     
     public override func awakeFromNib() {
         super.awakeFromNib()
@@ -20,7 +25,7 @@ public final class BirthdayTableViewCell: UITableViewCell {
 
     public override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        self.delegate.setupBirthdayCell(birthdayTextField)
         // Configure the view for the selected state
     }
 
