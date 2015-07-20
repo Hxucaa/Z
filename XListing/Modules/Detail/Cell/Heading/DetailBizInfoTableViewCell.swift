@@ -23,17 +23,18 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
-        // Initialization code
-        let popover = Action<UIButton, Void, NoError> { [weak self] button in
+        // Initialization
+        let markWanttoGoAction = Action<UIButton, Void, NoError>{ [weak self] button in
             return SignalProducer { [weak self] sink, disposable in
-                if let this = self {
-                    this.delegate.participate(this.popover)
+                typealias Choice = DetailBizInfoViewModel.ParticipationChoice
+                if let this = self{
+                this.viewmodel.participate(Choice.我想去)
+                    |> start()
                 }
-                sendCompleted(sink)
             }
         }
         
-        participateButton.addTarget(popover.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        participateButton.addTarget(markWanttoGoAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
 
     public func bindToViewModel(viewmodel: DetailBizInfoViewModel) {
