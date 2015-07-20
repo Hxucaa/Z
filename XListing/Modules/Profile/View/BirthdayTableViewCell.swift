@@ -10,7 +10,7 @@ import UIKit
 
 protocol BirthdayCellTableViewCellDelegate : class {
     
-    func setupBirthdayCell(textField: UITextField)
+    func setUpBirthdayPopover(textField: UITextField)
 }
 
 public final class BirthdayTableViewCell: UITableViewCell {
@@ -25,7 +25,7 @@ public final class BirthdayTableViewCell: UITableViewCell {
 
     public override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        self.delegate.setupBirthdayCell(birthdayTextField)
+        self.delegate.setUpBirthdayPopover(birthdayTextField)
         // Configure the view for the selected state
     }
 
