@@ -19,16 +19,13 @@ public final class SignUpView : UIView {
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     
-    // MARK: Actions
-    private var signupButtonAction: CocoaAction!
-    
-    // MARK: Private variables
+    // MARK: Properties
     private var viewmodel: SignUpViewModel!
     
     // MARK: Delegate
-    public weak var delegate: SignUpViewDelegate!
+    public weak var delegate: SignUpViewDelegate?
     
-    // MARK: Setup Code
+    // MARK: Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -41,7 +38,7 @@ public final class SignUpView : UIView {
     private func setupBackButton () {
         let goBackAction = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { [weak self] sink, disposable in
-                self?.delegate.returnToLandingViewFromSignUp()
+                self?.delegate?.returnToLandingViewFromSignUp()
                 sendCompleted(sink)
             }
         }
@@ -51,35 +48,62 @@ public final class SignUpView : UIView {
     
     private func setupSignupButton () {
         
-        let signup = Action<Void, Bool, NSError> {
-            // display HUD to indicate work in progress
-            let signUpAndHUD = HUD.show()
-                // map error to the same type as other signal
-                |> promoteErrors(NSError)
-                // sign up
-                |> then(self.viewmodel.signUp)
-                // dismiss HUD based on the result of sign up signal
-                |> HUD.onDismissWithStatusMessage(errorHandler: { [weak self] error -> String in
-                    AccountLogError(error.description)
-                    return error.customErrorDescription
-                })
-            
-            let HUDDisappear = HUD.didDissappearNotification() |> promoteErrors(NSError)
-            
-            // combine the latest signal of sign up and hud dissappear notification
-            // once sign up is done properly and HUD is disappeared, proceed to next step
-            return combineLatest(signUpAndHUD, HUDDisappear)
-                |> map { [weak self] success, notificationMessage -> Bool in
-                    self?.delegate.gotoEditInfoView()
-                    return success
+        let signup = Action<UIButton, Bool, NSError> { button in
+            return SignalProducer { sink, disposable in
+                // display HUD to indicate work in progress
+                let hudAndSignUp = HUD.show()
+                    // map error to the same type as other signal
+                    |> promoteErrors(NSError)
+                    // sign up
+                    |> then(self.viewmodel.signUp)
+                    // dismiss HUD based on the result of sign up signal
+                    |> HUD.dismissWithStatusMessage(errorHandler: { [weak self] error -> String in
+                        AccountLogError(error.description)
+                        return error.customErrorDescription
+                    })
+                    |> start(
+                        error: { error in
+                            sendError(sink, error)
+                        },
+                        interrupted: { _ in
+                            sendInterrupted(sink)
+                        }
+                    )
+                
+                // Subscribe to disappear notification
+                let didDisappearDisposable = HUD.didDissappearNotification()
+                    |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                    |> start(next: { [weak self] status in
+                        // transition out of this page
+                        self?.delegate?.gotoEditInfoView()
+                        
+                        // completes the action
+                        sendNext(sink, true)
+                        sendCompleted(sink)
+                    })
+                
+                // Subscribe to touch down inside event
+                let touchDownInsideDisposable = HUD.didTouchDownInsideNotification()
+                    |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                    |> start(
+                        next: { _ in
+                            // dismiss HUD
+                            HUD.dismiss()
+                            
+                            // interrupts the action
+                            sendInterrupted(sink)
+                        }
+                    )
+                
+                // Add the signals to CompositeDisposable for automatic memory management
+                disposable.addDisposable(didDisappearDisposable)
+                disposable.addDisposable(touchDownInsideDisposable)
+                disposable.addDisposable(hudAndSignUp)
             }
         }
         
-        // Bridging actions to Objective-C
-        signupButtonAction = CocoaAction(signup, input: ())
-        
         // Link UIControl event to actions
-        signupButton.addTarget(signupButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        signupButton.addTarget(signup.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     private func setupUsername() {
@@ -90,6 +114,7 @@ public final class SignUpView : UIView {
         passwordField.delegate = self
     }
     
+    // MARK: Bindings
     public func bindToViewModel(viewmodel: SignUpViewModel) {
         self.viewmodel = viewmodel
         
@@ -124,7 +149,7 @@ extension SignUpView : UITextFieldDelegate {
                 |> observeOn(UIScheduler())
                 |> start(completed: { [weak self] in
                     self?.signupButton.sendActionsForControlEvents(.TouchUpInside)
-                    })
+                })
         default:
             break
         }

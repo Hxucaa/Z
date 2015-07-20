@@ -11,7 +11,7 @@ import UIKit
 import ReactiveCocoa
 import SVProgressHUD
 
-public final class EditProfileView : UIView {
+public final class EditProfileView : UIView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // MARK: - UI
     // MARK: Controls
@@ -21,15 +21,15 @@ public final class EditProfileView : UIView {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var maleButton: UIButton!
     @IBOutlet weak var femaleButton: UIButton!
+    private var imagePicker = UIImagePickerController()
     
     // MARK: - Delegate
     public weak var delegate: EditProfileViewDelegate?
     
-    // MARK: - Private variables
-    private let imagePicker = UIImagePickerController()
+    // MARK: - Properties
     private var viewmodel: EditProfileViewModel!
     
-    // MARK: - Setup Code
+    // MARK: - Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -38,28 +38,6 @@ public final class EditProfileView : UIView {
         setupNicknameField()
         setupSubmitButton()
         setupImagePickerButton()
-    }
-    
-    /**
-    Bind viewmodel to view.
-    
-    :param: viewmodel The viewmodel
-    */
-    public func bindToViewModel(viewmodel: EditProfileViewModel) {
-        self.viewmodel = viewmodel
-        
-        // Button enabled react to validity of all inputs
-        submitButton.rac_enabled <~ self.viewmodel.allInputsValid
-        // React to date change
-        self.viewmodel.birthday <~ birthdayPicker.rac_date
-        // React to text change
-        self.viewmodel.nickname <~ nicknameField.rac_text
-        
-        // Limit the choices on date picker
-        self.viewmodel.年龄上限.producer
-            |> start(next: { [weak self] in self?.birthdayPicker.maximumDate = $0 })
-        self.viewmodel.年龄下限.producer
-            |> start(next: { [weak self] in self?.birthdayPicker.minimumDate = $0 })
     }
     
     private func setupImagePicker() {
@@ -71,7 +49,7 @@ public final class EditProfileView : UIView {
     private func setupImagePickerButton() {
         /// Action to an UI event
         let presentUIImagePicker = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { [weak self] sink, disposable in
+            return SignalProducer { sink, disposable in
                 if let imagePicker = self?.imagePicker {
                     self?.delegate?.presentUIImagePickerController(imagePicker)
                 }
@@ -95,19 +73,19 @@ public final class EditProfileView : UIView {
         
         let maleAction = Action<UIButton, Void, NoError> { [weak self] button in
             
-            self?.maleButton.selected = true
-            self?.femaleButton.selected = false
-            self?.viewmodel.gender.put(Gender.Male)
-            return SignalProducer { [weak self] sink, disposible in
+            return SignalProducer { sink, disposible in
+                self?.maleButton.selected = true
+                self?.femaleButton.selected = false
+                self?.viewmodel.gender.put(Gender.Male)
                 sendCompleted(sink)
             }
         }
         
         let femaleAction = Action<UIButton, Void, NoError> { [weak self] button in
-            self?.femaleButton.selected = true
-            self?.maleButton.selected = false
-            self?.viewmodel.gender.put(Gender.Female)
-            return SignalProducer { [weak self] sink, disposible in
+            return SignalProducer { sink, disposible in
+                self?.femaleButton.selected = true
+                self?.maleButton.selected = false
+                self?.viewmodel.gender.put(Gender.Female)
                 sendCompleted(sink)
             }
         }
@@ -120,54 +98,109 @@ public final class EditProfileView : UIView {
     private func setupSubmitButton() {
         
         // Button action
-        let submitAction = Action<UIButton, Bool, NSError> { button in
-            let updateProfileAndHUD = HUD.show()
-                |> promoteErrors(NSError)
-                |> then(self.viewmodel.updateProfile)
-                // dismiss HUD based on the result of update profile signal
-                |> HUD.onDismissWithStatusMessage(errorHandler: { error -> String in
-                    AccountLogError(error.description)
-                    return error.customErrorDescription
-                })
-            
-            let HUDDisappear = HUD.didDissappearNotification()
-                |> promoteErrors(NSError)
-            
-            // combine the latest signal of update profile and hud dissappear notification
-            // once update profile is done properly and HUD is disappeared, proceed to next step
-            return combineLatest(updateProfileAndHUD, HUDDisappear)
-                |> map { [weak self] success, notificationMessage -> Bool in
-                    self?.delegate?.editProfileViewFinished()
-                    return success
+        let submitButtonAction = Action<UIButton, Bool, NSError> { button in
+            return SignalProducer { sink, disposable in
+                
+                // Subscribe to disappear notification
+                let didDisappearDisposable = HUD.didDissappearNotification()
+                    |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                    |> start(next: { [weak self] status in
+                        // transition out of this page
+                        self?.delegate?.editProfileViewFinished()
+                        
+                        // completes the action
+                        sendNext(sink, true)
+                        sendCompleted(sink)
+                    })
+                
+                // Subscribe to touch down inside event
+                let touchDownInsideDisposable = HUD.didTouchDownInsideNotification()
+                    |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                    |> start(
+                        next: { _ in
+                            // dismiss HUD
+                            HUD.dismiss()
+                            
+                            // interrupts the action
+                            sendInterrupted(sink)
+                        }
+                    )
+                
+                // Update profile and show the HUD
+                let hudAndUpdate = HUD.show()
+                    |> promoteErrors(NSError)
+                    |> then(self.viewmodel.updateProfile)
+                    // dismiss HUD based on the result of update profile signal
+                    |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
+                        AccountLogError(error.description)
+                        return error.customErrorDescription
+                    })
+                    // does not `sendCompleted` because completion is handled when HUD is disappeared
+                    |> start(
+                        error: { error in
+                            sendError(sink, error)
+                        },
+                        interrupted: { _ in
+                            sendInterrupted(sink)
+                        }
+                    )
+                
+                // Add the signals to CompositeDisposable for automatic memory management
+                disposable.addDisposable(didDisappearDisposable)
+                disposable.addDisposable(touchDownInsideDisposable)
+                disposable.addDisposable(hudAndUpdate)
             }
         }
         
-        submitButton.addTarget(submitAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-    }
-}
-
-extension EditProfileView : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    /**
-    Tells the delegate that the user picked a still image or movie.
-    
-    :param: picker The controller object managing the image picker interface.
-    :param: info   A dictionary containing the original image and the edited image, if an image was picked; or a filesystem URL for the movie, if a movie was picked. The dictionary also contains any relevant editing information. The keys for this dictionary are listed in Editing Information Keys.
-    */
-    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
-            viewmodel.profileImage <~ MutableProperty<UIImage?>(pickedImage)
-        }
-        delegate?.dismissUIImagePickerController(nil)
+        submitButton.addTarget(submitButtonAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
     
-    /**
-    Tells the delegate that the user cancelled the pick operation.
+    // MARK: Bindings
     
-    :param: picker The controller object managing the image picker interface.
+    /**
+    Bind viewmodel to view.
+    
+    :param: viewmodel The viewmodel
     */
-    public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        delegate?.dismissUIImagePickerController(nil)
+    public func bindToViewModel(viewmodel: EditProfileViewModel) {
+        self.viewmodel = viewmodel
+        
+        // Button enabled react to validity of all inputs
+        submitButton.rac_enabled <~ self.viewmodel.allInputsValid
+        // React to date change
+        self.viewmodel.birthday <~ birthdayPicker.rac_date
+        // React to text change
+        self.viewmodel.nickname <~ nicknameField.rac_text
+        
+        // Limit the choices on date picker
+        self.viewmodel.年龄上限.producer
+            |> start(next: { [weak self] in self?.birthdayPicker.maximumDate = $0 })
+        self.viewmodel.年龄下限.producer
+            |> start(next: { [weak self] in self?.birthdayPicker.minimumDate = $0 })
+        
+        bindToImageSelectedSignal()
+    }
+    
+    /**
+    Bind to image selected signal from `UIImagePickerControllerDelegate`.
+    */
+    private func bindToImageSelectedSignal() {
+        // Subscribe to image picker, the signal sends the dictionary with info for the selected image
+        imagePicker.rac_imageSelectedSignal().toSignalProducer()
+            // map to the edited image
+            |> map { ($0 as! [NSObject : AnyObject])[UIImagePickerControllerEditedImage] as? UIImage }
+            |> start(
+                // when an image is selected
+                next: { [weak self] image in
+                    self?.viewmodel.profileImage.put(image)
+                    self?.delegate?.dismissUIImagePickerController(nil)
+                },
+                // when cancel button is pressed
+                completed: { [weak self] in
+                    // after dismissing the controller, has to rebind the signal because cancellation caused the signal to stop
+                    self?.delegate?.dismissUIImagePickerController({ self?.bindToImageSelectedSignal() })
+                }
+        )
     }
 }
 

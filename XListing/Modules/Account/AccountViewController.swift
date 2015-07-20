@@ -8,6 +8,7 @@
 
 import UIKit
 import ReactiveCocoa
+import SDWebImage
 
 private let EditProfileViewNibName = "EditProfileView"
 private let SignUpViewNibName = "SignUpView"
@@ -30,7 +31,6 @@ public final class AccountViewController: XUIViewController {
     public override func loadView() {
         super.loadView()
         
-        landingPageView = NSBundle.mainBundle().loadNibNamed(LandingPageViewNibName, owner: self, options: nil).first as! LandingPageView
         
         addLandingViewToSubview()
     }
@@ -47,6 +47,7 @@ public final class AccountViewController: XUIViewController {
     }
     
     private func addLandingViewToSubview() {
+        landingPageView = NSBundle.mainBundle().loadNibNamed(LandingPageViewNibName, owner: self, options: nil).first as! LandingPageView
         landingPageView.bindToViewModel(viewmodel.landingPageViewModel)
         landingPageView.delegate = self
         
@@ -147,10 +148,12 @@ public final class AccountViewController: XUIViewController {
 extension AccountViewController : LandingViewDelegate {
     public func switchToLoginView() {
         addLogInViewToSubview()
+        landingPageView.removeFromSuperview()
     }
     
     public func switchToSignUpView() {
         addSignUpViewToSubview()
+        landingPageView.removeFromSuperview()
     }
     
     public func skip() {
@@ -165,6 +168,7 @@ extension AccountViewController : LandingViewDelegate {
 extension AccountViewController : LoginViewDelegate {
     public func goBackToPreviousView() {
         logInView.removeFromSuperview()
+        addLandingViewToSubview()
     }
     
     public func loginViewFinished() {
@@ -182,10 +186,12 @@ extension AccountViewController : LoginViewDelegate {
 extension AccountViewController : SignUpViewDelegate {
     public func returnToLandingViewFromSignUp() {
         signUpView.removeFromSuperview()
+        addLandingViewToSubview()
     }
     
     public func gotoEditInfoView() {
         addEditInfoViewToSubview()
+        signUpView.removeFromSuperview()
     }
 }
 

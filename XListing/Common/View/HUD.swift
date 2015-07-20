@@ -35,7 +35,7 @@ public final class HUD {
     
     :returns: A SignalProducer which can be continued with the next function.
     */
-    public class func onShow<T, E>(message: String? = DefaultWIPMessage) -> SignalProducer<T, E> -> SignalProducer<T, E> {
+    public class func showWithStatusMessage<T, E>(message: String? = DefaultWIPMessage) -> SignalProducer<T, E> -> SignalProducer<T, E> {
         return { producer in
             return producer
                 |> on(
@@ -56,12 +56,13 @@ public final class HUD {
     
     :returns: A SignalProducer which can be continued with the next function.
     */
-    public class func onDismissWithStatusMessage<T, E>(successMessage: String? = DefaultSuccessMessage, interruptedMessage: String? = DefaultInterruptMessage, errorHandler: (E -> String)? = { _ in DefaultErrorMessage }) -> SignalProducer<T, E> -> SignalProducer<T, E> {
+    public class func dismissWithStatusMessage<T, E>(successMessage: String? = DefaultSuccessMessage, interruptedMessage: String? = DefaultInterruptMessage, errorHandler: (E -> String)? = { _ in DefaultErrorMessage }) -> SignalProducer<T, E> -> SignalProducer<T, E> {
         return { producer in
             return producer
-                |> on(interrupted: { _ in
-                        SVProgressHUD.showInfoWithStatus(interruptedMessage)
-                    },
+                |> on(
+//                    interrupted: { _ in
+//                        SVProgressHUD.showInfoWithStatus(interruptedMessage)
+//                    },
                     error: { error in
                         SVProgressHUD.showErrorWithStatus(errorHandler!(error))
                     },
@@ -111,9 +112,14 @@ public final class HUD {
     
     :returns: A SignalProducer.
     */
-    public class func didTouchDownInsideNotification() -> SignalProducer<Void, NoError> {
+    public class func didTouchDownInsideNotification() -> SignalProducer<UIEvent, NoError> {
         return notification(SVProgressHUDDidTouchDownInsideNotification)
-            |> map { _ in }
+            |> map { $0.object as! UIEvent }
+    }
+    
+    /// Dismiss the HUD.
+    public class func dismiss() {
+        SVProgressHUD.dismiss()
     }
     
     private class func notification(name: String) -> SignalProducer<NSNotification, NoError> {

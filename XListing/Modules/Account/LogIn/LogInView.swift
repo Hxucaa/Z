@@ -22,9 +22,10 @@ public final class LogInView : UIView {
     // MARK: - Delegate
     public weak var delegate: LoginViewDelegate?
     
-    // MARK: - Private variables
+    // MARK: - Properties
     private let viewmodel = MutableProperty<LogInViewModel?>(nil)
     
+    // MARK: Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -54,27 +55,58 @@ public final class LogInView : UIView {
         loginButton.layer.cornerRadius = 8
         loginButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
-        let login = Action<UIButton, User, NSError> { button in
-            // display HUD to indicate work in progress
-            let logInAndHUD = HUD.show()
-                // map error to the same type as other signal
-                |> promoteErrors(NSError)
-                // log in
-                |> then(viewmodel.logIn)
-                // dismiss HUD based on the result of log in signal
-                |> HUD.onDismissWithStatusMessage(errorHandler: { error -> String in
-                    AccountLogError(error.description)
-                    return error.customErrorDescription
-                })
-            
-            let HUDDisappear = HUD.didDissappearNotification() |> promoteErrors(NSError)
-            
-            // combine the latest signal of log in and hud dissappear notification
-            // once log in is done properly and HUD is disappeared, proceed to next step
-            return combineLatest(logInAndHUD, HUDDisappear)
-                |> map { [weak self] user, notificationMessage -> User in
-                    self?.delegate?.loginViewFinished()
-                    return user
+        let login = Action<UIButton, Void, NSError> { button in
+            return SignalProducer { sink, disposable in
+                
+                // display HUD to indicate work in progress
+                let logInAndHUD = HUD.show()
+                    // map error to the same type as other signal
+                    |> promoteErrors(NSError)
+                    // log in
+                    |> then(viewmodel.logIn)
+                    // dismiss HUD based on the result of log in signal
+                    |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
+                        AccountLogError(error.description)
+                        return error.customErrorDescription
+                    })
+                    |> start(
+                        error: { error in
+                            sendError(sink, error)
+                        },
+                        interrupted: { _ in
+                            sendInterrupted(sink)
+                        }
+                    )
+                
+                // Subscribe to touch down inside event
+                let touchDownInsideDisposable = HUD.didTouchDownInsideNotification()
+                    |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                    |> start(
+                        next: { _ in
+                            // dismiss HUD
+                            HUD.dismiss()
+                            
+                            // interrupts the action
+                            sendInterrupted(sink)
+                        }
+                )
+                
+                // Subscribe to disappear notification
+                let didDisappearDisposable = HUD.didDissappearNotification()
+                    |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                    |> start(next: { [weak self] status in
+                        // transition out of this page
+                        self?.delegate?.loginViewFinished()
+                        
+                        // completes the action
+                        sendNext(sink, ())
+                        sendCompleted(sink)
+                    })
+                
+                // Add the signals to CompositeDisposable for automatic memory management
+                disposable.addDisposable(didDisappearDisposable)
+                disposable.addDisposable(touchDownInsideDisposable)
+                disposable.addDisposable(logInAndHUD)
             }
         }
         
@@ -85,7 +117,7 @@ public final class LogInView : UIView {
     private func setupBackButton () {
         
         let backAction = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { [weak self] sink, disposable in
+            return SignalProducer { sink, disposable in
                 // go back to previous view
                 self?.delegate?.goBackToPreviousView()
                 sendCompleted(sink)
@@ -95,6 +127,7 @@ public final class LogInView : UIView {
         backButton.addTarget(backAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
+    // MARK: Bindings
     public func bindToViewModel(viewmodel: LogInViewModel) {
         self.viewmodel.put(viewmodel)
         
