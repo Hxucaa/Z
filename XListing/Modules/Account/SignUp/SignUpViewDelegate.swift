@@ -12,4 +12,5 @@ import ReactiveCocoa
 
 public protocol SignUpViewDelegate : class {
     func returnToLandingViewFromSignUp()
+    func gotoEditInfoView()
 }

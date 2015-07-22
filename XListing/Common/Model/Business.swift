@@ -29,7 +29,7 @@ public final class Business: AVObject, AVSubclassing {
         case Featured = "featured"
         case TimeStart = "timeStart"
         case TimeEnd = "timeEnd"
-        case ParticipationCount = "participationCount"
+        case WantToGoCounter = "wantToGoCounter"
         case Categories = "categories"
         case Unit = "unit"
         case Address = "address"
@@ -119,7 +119,7 @@ public final class Business: AVObject, AVSubclassing {
     */
     
     
-    @NSManaged public var participationCount: Int
+    @NSManaged public var wantToGoCounter: Int
     
     /*!
     Provides a list of category name, alias pairs that this business is associated with. For example,

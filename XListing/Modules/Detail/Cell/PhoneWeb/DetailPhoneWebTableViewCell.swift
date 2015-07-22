@@ -41,10 +41,10 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
     private func setupWebsiteButton() {
         websiteButton?.setTitle(viewmodel.webSiteDisplay.value, forState: .Normal)
         
-        let goToWebsite = Action<UIButton, Void, NoError> { [unowned self] button in
+        let goToWebsite = Action<UIButton, Void, NoError> { button in
             return self.viewmodel.webSiteURL.producer
                 |> filter { $0 != nil }
-                |> map { [unowned self] url -> Void in
+                |> map { url -> Void in
                     let webVC = DetailWebViewViewController(url: url!, businessName: self.viewmodel.businessName.value)
                     let navController = UINavigationController()
                     navController.pushViewController(webVC, animated: true)
@@ -58,7 +58,7 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
     private func setupPhoneButton() {
         phoneButton?.setTitle(viewmodel.phoneDisplay.value, forState: .Normal)
         
-        let callPhone = Action<UIButton, Void, NoError> { [unowned self] button in
+        let callPhone = Action<UIButton, Void, NoError> { button in
             return self.viewmodel.callPhone
         }
         

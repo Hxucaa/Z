@@ -15,39 +15,45 @@ public struct FeaturedBusinessViewModel {
     public let city: ConstantProperty<String>
     public let eta: MutableProperty<String> = MutableProperty("")
     public let district: ConstantProperty<String>
-    public let coverImageNSURL: ConstantProperty<NSURL?>
+    public let coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
     public let participation: MutableProperty<String> = MutableProperty("")
     
-    public init(geoLocationService: IGeoLocationService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?) {
+    public init(geoLocationService: IGeoLocationService, imageService: IImageService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int) {
         self.geoLocationService = geoLocationService
+        self.imageService = imageService
         
-        self.businessName = ConstantProperty(businessName!)
-        
-        self.city = ConstantProperty(city!)
-        
-        self.district = ConstantProperty(district!)
-        
-        if let url = cover?.url {
-            coverImageNSURL = ConstantProperty<NSURL?>(NSURL(string: url))
+        if let businessName = businessName {
+            self.businessName = ConstantProperty(businessName)
+        } else {
+            self.businessName = ConstantProperty("")
         }
-        else {
-            // TODO: fix temp image
-            coverImageNSURL = ConstantProperty<NSURL?>(NSURL(string: "http://www.phoenixpalace.co.uk/images/background/aboutus.jpg"))
-            //            coverImageNSURL = nil
+        if let city = city {
+            self.city = ConstantProperty(city)
+        } else {
+            self.city = ConstantProperty("")
         }
-        
+        if let district = district {
+            self.district = ConstantProperty(district)
+        } else {
+            self.district = ConstantProperty("")
+        }
         if let geopoint = geopoint {
             setupEta(CLLocation(latitude: geopoint.latitude, longitude: geopoint.longitude))
         }
         
-        // TODO: implement participation
-        participation.put("\(arc4random_uniform(100))+ 人想去")
+        participation.put("\(participationCount)+ 人想去")
+        
+        imageService.getImage(NSURL(string: "http://lasttear.com/wp-content/uploads/2015/03/interior-design-ideas-furniture-architecture-mesmerizing-chinese-restaurant-interior-with-red-nuance-inspiring.jpg")!)
+            |> start(next: {
+                self.coverImage.put($0)
+            })
     }
     
     // MARK: - Private
     
     // MARK: Services
     private let geoLocationService: IGeoLocationService
+    private let imageService: IImageService
     
     // MARK: Setup
     

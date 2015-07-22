@@ -11,7 +11,7 @@
 		<string>fontawesome-webfont.ttf</string>
 	</array>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Update background location to provide information on local events!</string>
+	<string>Update background location to provide information on local events! 获取地理位置信息帮助个性化信息推荐!</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -33,11 +33,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location data to provide better and accurate service, please allow access to location services.</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>fontawesome-webfont.ttf</string>
-	</array>
+	<string>We need your location data to provide better and accurate service, please allow access to location services. 获取地理位置信息帮助个性化信息推荐!</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

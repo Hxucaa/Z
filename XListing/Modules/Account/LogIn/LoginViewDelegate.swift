@@ -10,5 +10,6 @@ import UIKit
 import ReactiveCocoa
 
 public protocol LoginViewDelegate : class {
-    func returnToLandingViewFromLogin()
+    func goBackToPreviousView()
+    func loginViewFinished()
 }

@@ -65,7 +65,7 @@ public struct ProfileEditViewModel {
         // Restrict birthdays
         let currentDate = NSDate()
         
-        return (floor: calDate(currentDate, MAX_AGE), ceil: calDate(currentDate, MIN_AGE))
+        return (floor: calDate(currentDate, 65), ceil: calDate(currentDate, 17))
     }
     
     // MARK: Initializers

@@ -19,7 +19,7 @@ public final class FeaturedListViewController: XUIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var nearbyButton: UIBarButtonItem!
     @IBOutlet weak var profileButton: UIBarButtonItem!
-    private var refreshControl: UIRefreshControl!
+    private let refreshControl = UIRefreshControl()
     
     // MARK: - Private variables
     private var viewmodel: IFeaturedListViewModel!
@@ -41,7 +41,6 @@ public final class FeaturedListViewController: XUIViewController {
     }
     
     public override func viewDidAppear(animated: Bool) {
-        viewmodel.presentAccountModule()
         setupTableView()
     }
     
@@ -54,37 +53,35 @@ public final class FeaturedListViewController: XUIViewController {
         tableView.dataSource = self
         
         self.viewmodel.featuredBusinessViewModelArr.producer
-            |> start(next: { [unowned self] _ in
-                self.tableView.reloadData()
+            |> start(next: { [weak self] _ in
+                self?.tableView.reloadData()
             })
     }
     
     private func setupRefresh() {
-        var refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "刷新中")
         
-        let refresh = Action<UIRefreshControl, Void, NSError> { [unowned self] refreshControl in
+        let refresh = Action<UIRefreshControl, Void, NSError> { refreshControl in
             return self.viewmodel.getFeaturedBusinesses()
                 |> map { _ -> Void in }
-                |> on(next: { [unowned self] _ in
-                    self.tableView.reloadData()
-                    self.refreshControl.endRefreshing()
+                |> on(next: { [weak self] _ in
+                    self?.tableView.reloadData()
+                    self?.refreshControl.endRefreshing()
                 })
         }
         
         refreshControl.addTarget(refresh.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .ValueChanged)
         
         self.tableView.addSubview(refreshControl)
-        self.refreshControl = refreshControl
     }
     
     /**
     React to Nearby Button and present NearbyViewController.
     */
     private func setupNearbyButton() {
-        let pushNearby = Action<UIBarButtonItem, Void, NoError> { [unowned self] button in
-            return SignalProducer<Void, NoError> { [unowned self] sink, disposable in
-                self.viewmodel.pushNearbyModule()
+        let pushNearby = Action<UIBarButtonItem, Void, NoError> { [weak self] button in
+            return SignalProducer<Void, NoError> { [weak self] sink, disposable in
+                self?.viewmodel.pushNearbyModule()
                 sendCompleted(sink)
             }
         }
@@ -97,9 +94,9 @@ public final class FeaturedListViewController: XUIViewController {
     React to Profile Button and present ProfileViewController.
     */
     private func setupProfileButton() {
-        let pushProfile = Action<UIBarButtonItem, Void, NoError> { [unowned self] button in
-            return SignalProducer<Void, NoError> { [unowned self] sink, disposable in
-                self.viewmodel.pushProfileModule()
+        let pushProfile = Action<UIBarButtonItem, Void, NoError> { [weak self] button in
+            return SignalProducer<Void, NoError> { [weak self] sink, disposable in
+                self?.viewmodel.pushProfileModule()
                 sendCompleted(sink)
             }
         }
