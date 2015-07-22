@@ -17,6 +17,10 @@ private let DefaultInterruptMessage = "中断了..."
 
 public final class HUD {
     
+    public enum DisappearStatus {
+        case Normal, Interrupted
+    }
+    
     /**
     Show HUD.
     */
@@ -102,9 +106,16 @@ public final class HUD {
     
     :returns: A SignalProducer containing the statu message displayed by the HUD.
     */
-    public class func didDissappearNotification() -> SignalProducer<String, NoError> {
+    public class func didDissappearNotification() -> SignalProducer<DisappearStatus, NoError> {
         return notification(SVProgressHUDDidDisappearNotification)
-            |> map { ($0.userInfo as! [String : String])[SVProgressHUDStatusUserInfoKey]! }
+            |> map { notification -> DisappearStatus in
+                if let userInfo = notification.userInfo as? [String : String], statusMessage = userInfo[SVProgressHUDStatusUserInfoKey] {
+                    return DisappearStatus.Normal
+                }
+                else {
+                    return DisappearStatus.Interrupted
+                }
+            }
     }
     
     /**

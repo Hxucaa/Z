@@ -1,5 +1,5 @@
 //
-//  SignUpView.swift
+//  EditInfoView.swift
 //  XListing
 //
 //  Created by Lance on 2015-05-25.
@@ -11,7 +11,7 @@ import UIKit
 import ReactiveCocoa
 import SVProgressHUD
 
-public final class EditProfileView : UIView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // MARK: - UI
     // MARK: Controls
@@ -23,11 +23,11 @@ public final class EditProfileView : UIView, UIImagePickerControllerDelegate, UI
     @IBOutlet weak var femaleButton: UIButton!
     private var imagePicker = UIImagePickerController()
     
-    // MARK: - Delegate
-    public weak var delegate: EditProfileViewDelegate?
+    public weak var delegate: EditInfoViewDelegate?
+    
     
     // MARK: - Properties
-    private var viewmodel: EditProfileViewModel!
+    private var viewmodel: EditInfoViewModel!
     
     // MARK: - Setups
     public override func awakeFromNib() {
@@ -50,8 +50,8 @@ public final class EditProfileView : UIView, UIImagePickerControllerDelegate, UI
         /// Action to an UI event
         let presentUIImagePicker = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
-                if let imagePicker = self?.imagePicker {
-                    self?.delegate?.presentUIImagePickerController(imagePicker)
+                if let this = self {
+                    this.delegate?.presentUIImagePickerController(this.imagePicker)
                 }
                 sendCompleted(sink)
             }
@@ -98,57 +98,71 @@ public final class EditProfileView : UIView, UIImagePickerControllerDelegate, UI
     private func setupSubmitButton() {
         
         // Button action
-        let submitButtonAction = Action<UIButton, Bool, NSError> { button in
+        let submitButtonAction = Action<UIButton, Void, NSError> { [weak self] button in
             return SignalProducer { sink, disposable in
-                
-                // Subscribe to disappear notification
-                let didDisappearDisposable = HUD.didDissappearNotification()
-                    |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
-                    |> start(next: { [weak self] status in
-                        // transition out of this page
-                        self?.delegate?.editProfileViewFinished()
-                        
-                        // completes the action
-                        sendNext(sink, true)
-                        sendCompleted(sink)
-                    })
-                
-                // Subscribe to touch down inside event
-                let touchDownInsideDisposable = HUD.didTouchDownInsideNotification()
-                    |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
-                    |> start(
-                        next: { _ in
-                            // dismiss HUD
-                            HUD.dismiss()
+                if let this = self {
+                    
+                    // Update profile and show the HUD
+                    let hudAndUpdate = SignalProducer<Void, NoError>.empty
+                        // delay the signal due to the animation of retracting keyboard
+                        // this cannot be executed on main thread, otherwise UI will be blocked
+                        |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                        // return the signal to main/ui thread in order to run UI related code
+                        |> observeOn(UIScheduler())
+                        |> then(HUD.show())
+                        // map error to the same type as other signal
+                        |> promoteErrors(NSError)
+                        // update profile
+                        |> then(this.viewmodel.updateProfile)
+                        // dismiss HUD based on the result of update profile signal
+                        |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
+                            AccountLogError(error.description)
+                            return error.customErrorDescription
+                        })
+                        // does not `sendCompleted` because completion is handled when HUD is disappeared
+                        |> start(
+                            error: { error in
+                                sendError(sink, error)
+                            },
+                            interrupted: { _ in
+                                sendInterrupted(sink)
+                            }
+                    )
+                    
+                    // Subscribe to touch down inside event
+                    let touchDownInside = HUD.didTouchDownInsideNotification()
+                        |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                        |> start(
+                            next: { _ in
+                                // dismiss HUD
+                                HUD.dismiss()
+                            }
+                    )
+                    
+                    // Subscribe to disappear notification
+                    let didDisappear = HUD.didDissappearNotification()
+                        |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                        |> start(next: { status in
+                            if status == HUD.DisappearStatus.Normal {
+                                self?.delegate?.editProfileViewFinished()
+                            }
                             
-                            // interrupts the action
-                            sendInterrupted(sink)
-                        }
-                    )
-                
-                // Update profile and show the HUD
-                let hudAndUpdate = HUD.show()
-                    |> promoteErrors(NSError)
-                    |> then(self.viewmodel.updateProfile)
-                    // dismiss HUD based on the result of update profile signal
-                    |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
-                        AccountLogError(error.description)
-                        return error.customErrorDescription
+                            // completes the action
+                            sendNext(sink, ())
+                            sendCompleted(sink)
+                        })
+                    
+                    // Add the signals to CompositeDisposable for automatic memory management
+                    disposable.addDisposable(didDisappear)
+                    disposable.addDisposable(touchDownInside)
+                    disposable.addDisposable(hudAndUpdate)
+                    disposable.addDisposable({ () -> () in
+                        AccountLogVerbose("Update profile action is completed.")
                     })
-                    // does not `sendCompleted` because completion is handled when HUD is disappeared
-                    |> start(
-                        error: { error in
-                            sendError(sink, error)
-                        },
-                        interrupted: { _ in
-                            sendInterrupted(sink)
-                        }
-                    )
-                
-                // Add the signals to CompositeDisposable for automatic memory management
-                disposable.addDisposable(didDisappearDisposable)
-                disposable.addDisposable(touchDownInsideDisposable)
-                disposable.addDisposable(hudAndUpdate)
+                    
+                    // retract keyboard
+                    self?.endEditing(true)
+                }
             }
         }
         
@@ -162,7 +176,7 @@ public final class EditProfileView : UIView, UIImagePickerControllerDelegate, UI
     
     :param: viewmodel The viewmodel
     */
-    public func bindToViewModel(viewmodel: EditProfileViewModel) {
+    public func bindToViewModel(viewmodel: EditInfoViewModel) {
         self.viewmodel = viewmodel
         
         // Button enabled react to validity of all inputs
@@ -193,7 +207,7 @@ public final class EditProfileView : UIView, UIImagePickerControllerDelegate, UI
                 // when an image is selected
                 next: { [weak self] image in
                     self?.viewmodel.profileImage.put(image)
-                    self?.delegate?.dismissUIImagePickerController(nil)
+                    self?.delegate?.dismissUIImagePickerController({ self?.bindToImageSelectedSignal() })
                 },
                 // when cancel button is pressed
                 completed: { [weak self] in
@@ -204,7 +218,7 @@ public final class EditProfileView : UIView, UIImagePickerControllerDelegate, UI
     }
 }
 
-extension EditProfileView : UITextFieldDelegate {
+extension EditInfoView : UITextFieldDelegate {
     /**
     The text field calls this method whenever the user taps the return button. You can use this method to implement any custom behavior when the button is tapped.
     
