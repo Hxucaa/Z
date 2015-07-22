@@ -92,7 +92,7 @@ public final class ProfileEditViewController: XUIViewController {
         nicknameCell = tableView.dequeueReusableCellWithIdentifier("NicknameCell") as! NicknameTableViewCell
         nicknameCell.textField.placeholder = "昵称"
         viewmodel.nickname <~ nicknameCell.textField.rac_text
-        nicknameCell.editProfilePicButton.addTarget(self, action: "presentUIImagePicker", forControlEvents: UIControlEvents.TouchUpInside)
+        nicknameCell.editProfilePicButton.addTarget(self, action: "chooseProfilePictureSource", forControlEvents: UIControlEvents.TouchUpInside)
         nicknameCell.textField.delegate = self
     }
     
@@ -117,7 +117,7 @@ public final class ProfileEditViewController: XUIViewController {
         }
         genderCell.genderButton.setTitle(genderTitle, forState: UIControlState.Normal)
         genderCell.genderButton.addTarget(self, action: "chooseGender", forControlEvents: UIControlEvents.TouchUpInside)
-        genderCell.editProfilePicButton.addTarget(self, action: "presentUIImagePicker", forControlEvents: UIControlEvents.TouchUpInside)
+        genderCell.editProfilePicButton.addTarget(self, action: "chooseProfilePictureSource", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     public func setUpPhoneEmailCell() {
@@ -146,6 +146,23 @@ public final class ProfileEditViewController: XUIViewController {
         var cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
         alert.addAction(maleAction)
         alert.addAction(femaleAction)
+        alert.addAction(cancelAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    public func chooseProfilePictureSource() {
+        var alert = UIAlertController(title: "Pick a profile picture", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        var galleryAction = UIAlertAction(title: "Choose from gallery", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
+            self.imagePicker.sourceType = .PhotoLibrary
+            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+        }
+        var cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
+            self.imagePicker.sourceType = .Camera
+            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+        }
+        var cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+        alert.addAction(galleryAction)
+        alert.addAction(cameraAction)
         alert.addAction(cancelAction)
         self.presentViewController(alert, animated: true, completion: nil)
     }
@@ -205,7 +222,6 @@ public final class ProfileEditViewController: XUIViewController {
     private func setupImagePicker() {
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
-        imagePicker.sourceType = .PhotoLibrary
     }
     
     public func presentUIImagePicker () {
