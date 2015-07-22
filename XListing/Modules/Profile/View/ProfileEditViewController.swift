@@ -25,7 +25,6 @@ public final class ProfileEditViewController: XUIViewController {
     private var editButton: UIButton!
     private let imagePicker = UIImagePickerController()
     private var profilePicture: UIImageView!
-    private var dateFormatter: NSDateFormatter!
     private var popDatePicker : PopoverDatePicker?
     private var birthdayTextField : UITextField!
     private var shouldAdjustForKeyboard : Bool = false
@@ -47,6 +46,13 @@ public final class ProfileEditViewController: XUIViewController {
         setupSaveButton()
         // Do any additional setup after loading the view.
     }
+    
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
+        tapRecognizer.numberOfTapsRequired = 1
+        self.view.addGestureRecognizer(tapRecognizer)
+    }
 
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -59,6 +65,11 @@ public final class ProfileEditViewController: XUIViewController {
     
     public override func viewWillDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        self.view.endEditing(true)
+    }
+    
+    func handleSingleTap(recognizer: UITapGestureRecognizer) {
+        self.view.endEditing(true)
     }
     
     public func setupTableView() {
@@ -116,11 +127,6 @@ public final class ProfileEditViewController: XUIViewController {
         emailCell = tableView.dequeueReusableCellWithIdentifier("PhoneEmailCell") as! PhoneEmailTableViewCell
         emailCell.textField.delegate = self
         emailCell.textField.keyboardType = UIKeyboardType.EmailAddress
-    }
-
-    public func setUpDateFormatter() {
-        dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
     }
     
     public func chooseGender() {
@@ -222,12 +228,12 @@ public final class ProfileEditViewController: XUIViewController {
     // Call this method somewhere in your view controller setup code.
     public func registerForKeyboardNotifications ()
     {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWasShown:", name: UIKeyboardDidShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillBeHidden:", name: UIKeyboardWillHideNotification, object: nil)
     }
     
-    // Called when the UIKeyboardDidShowNotification is sent.
-    public func keyboardWasShown(notification: NSNotification)
+    // Called when the UIKeyboardWillShowNotification is sent.
+    public func keyboardWillShow(notification: NSNotification)
     {
         var contentInsets:UIEdgeInsets
         var deviceWidth = UIScreen.mainScreen().bounds.size.width
@@ -290,8 +296,8 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
                 case 1:
                     genderCell.genderButton.setTitle(genderTitle, forState: UIControlState.Normal)
                     return genderCell
-                case 2: return whatsupCell
-                case 3: return birthdayCell
+                case 2: return birthdayCell
+                case 3: return whatsupCell
                 default : print("error rendering cell")
                 }
             case 1:
@@ -381,14 +387,13 @@ extension ProfileEditViewController : UITextFieldDelegate {
         
             textField.resignFirstResponder()
         if (textField === birthdayTextField) {
+            self.view.endEditing(true)
             let formatter = NSDateFormatter()
             formatter.dateStyle = .MediumStyle
             formatter.timeStyle = .NoStyle
             let initDate : NSDate? = formatter.dateFromString(birthdayTextField.text)
             
             let dataChangedCallback : PopoverDatePicker.PopDatePickerCallback = { (newDate : NSDate, forTextField : UITextField) -> () in
-    
-                // here we don't use self (no retain cycle)
                 let dateFormatter = NSDateFormatter()
                 dateFormatter.dateFormat = "dd-MM-yyyy"
                 self.birthdayTextField.text = dateFormatter.stringFromDate(newDate)

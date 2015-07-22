@@ -40,9 +40,13 @@ public final class PopoverDatePicker : NSObject, UIPopoverPresentationController
         popover = datePickerVC.popoverPresentationController
         if let _popover = popover {
             
+            var height = (UIScreen.mainScreen().bounds.size.height)/2
+            var width = (UIScreen.mainScreen().bounds.size.width)/2
+            
             _popover.sourceView = textField
-            _popover.sourceRect = CGRectMake(self.offset,textField.bounds.size.height,0,0)
+            _popover.sourceRect = CGRectMake(width-250,height-250,0,0)
             _popover.delegate = self
+            _popover.permittedArrowDirections = UIPopoverArrowDirection.allZeros
             self.dataChanged = dataChanged
             inViewController.presentViewController(datePickerVC, animated: true, completion: nil)
             presented = true
