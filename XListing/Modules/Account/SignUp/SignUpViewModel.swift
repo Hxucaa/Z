@@ -15,8 +15,8 @@ public struct SignUpViewModel {
     // MARK: - Public
     
     // MARK: Input
-    public let username = MutableProperty<String>("")
-    public let password = MutableProperty<String>("")
+    public let username = MutableProperty<String?>(nil)
+    public let password = MutableProperty<String?>(nil)
     
     // MARK: Output
     public let isUsernameValid = MutableProperty<Bool>(false)
@@ -61,6 +61,7 @@ public struct SignUpViewModel {
         // - between 3 and 30 characters
         // - letters, numbers, dashes, periods, and underscores only
         validUsernameSignal = username.producer
+            |> ignoreNil
             |> filter { self.testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
 
         isUsernameValid <~ validUsernameSignal
@@ -73,6 +74,7 @@ public struct SignUpViewModel {
         // - letters, numbers, and most standard symbols
         // - at least one number, capital letter, or special character
         validPasswordSignal = password.producer
+            |> ignoreNil
             |> filter { count($0) > 0 }
 //            |> filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
         

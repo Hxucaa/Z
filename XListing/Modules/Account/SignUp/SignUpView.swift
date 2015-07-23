@@ -14,35 +14,59 @@ public final class SignUpView : UIView {
     
     // MARK: - UI
     // MARK: Controls
-    @IBOutlet weak var signupButton: UIButton!
-    @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet weak var backButton: UIButton!
     
-    // MARK: Actions
-    private var signupButtonAction: CocoaAction!
+    // MARK: - Proxies
     
-    // MARK: Private variables
+    /// Go back to previous page.
+    public var goBackProxy: SimpleProxy.Producer {
+        return _goBackProxy
+    }
+    private let (_goBackProxy, _goBackSink) = SimpleProxy.pipe()
+    
+    /// Sign Up view is finished.
+    public var finishSignUpProxy: SimpleProxy.Producer {
+        return _finishSignUpProxy
+    }
+    private let (_finishSignUpProxy, _finishSignUpSink) = SimpleProxy.pipe()
+    
+    // MARK: Properties
     private var viewmodel: SignUpViewModel!
     
-    // MARK: Delegate
-    public weak var delegate: SignUpViewDelegate!
-    
-    // MARK: Setup Code
+    // MARK: Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
         
+        setupUsernameField()
+        setupPasswordField()
         setupBackButton()
-        setupUsername()
-        setupPassword()
         setupSignupButton()
+    }
+    
+    private func setupUsernameField() {
+        usernameField.delegate = self
+        // focus on the username field as soon as the view is displayed
+        usernameField.becomeFirstResponder()
+    }
+    
+    private func setupPasswordField() {
+        passwordField.delegate = self
     }
     
     private func setupBackButton () {
         let goBackAction = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { [weak self] sink, disposable in
-                self?.delegate.returnToLandingViewFromSignUp()
+                self?.endEditing(true)
+                
                 sendCompleted(sink)
+                
+                if let this = self {
+                    sendNext(this._goBackSink, ())
+                    sendCompleted(this._goBackSink)
+                }
             }
         }
         
@@ -51,45 +75,84 @@ public final class SignUpView : UIView {
     
     private func setupSignupButton () {
         
-        let signup = Action<Void, Bool, NSError> {
-            // display HUD to indicate work in progress
-            let signUpAndHUD = HUD.show()
-                // map error to the same type as other signal
-                |> promoteErrors(NSError)
-                // sign up
-                |> then(self.viewmodel.signUp)
-                // dismiss HUD based on the result of sign up signal
-                |> HUD.onDismissWithStatusMessage(errorHandler: { [weak self] error -> String in
-                    AccountLogError(error.description)
-                    return error.customErrorDescription
-                })
-            
-            let HUDDisappear = HUD.didDissappearNotification() |> promoteErrors(NSError)
-            
-            // combine the latest signal of sign up and hud dissappear notification
-            // once sign up is done properly and HUD is disappeared, proceed to next step
-            return combineLatest(signUpAndHUD, HUDDisappear)
-                |> map { [weak self] success, notificationMessage -> Bool in
-                    self?.delegate.gotoEditInfoView()
-                    return success
+        let signup = Action<UIButton, Void, NSError> { [weak self] button in
+            return SignalProducer { sink, disposable in
+                if let this = self {
+                    // display HUD to indicate work in progress
+                    let hudAndSignUp = SignalProducer<Void, NoError>.empty
+                        // delay the signal due to the animation of retracting keyboard
+                        // this cannot be executed on main thread, otherwise UI will be blocked
+                        |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                        // return the signal to main/ui thread in order to run UI related code
+                        |> observeOn(UIScheduler())
+                        |> then(HUD.show())
+                        // map error to the same type as other signal
+                        |> promoteErrors(NSError)
+                        // sign up
+                        |> then(this.viewmodel.signUp)
+                        // dismiss HUD based on the result of sign up signal
+                        |> HUD.dismissWithStatusMessage(errorHandler: { [weak self] error -> String in
+                            AccountLogError(error.description)
+                            return error.customErrorDescription
+                        })
+                        // does not `sendCompleted` because completion is handled when HUD is disappeared
+                        |> start(
+                            error: { error in
+                                sendError(sink, error)
+                            },
+                            interrupted: { _ in
+                                sendInterrupted(sink)
+                            }
+                    )
+                    
+                    // Subscribe to touch down inside event
+                    let touchDownInside = HUD.didTouchDownInsideNotification()
+                        |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                        |> start(
+                            next: { _ in
+                                // dismiss HUD
+                                HUD.dismiss()
+                                
+                                // interrupts the action
+//                                sendInterrupted(sink)
+                            }
+                    )
+                    
+                    // Subscribe to disappear notification
+                    let didDisappear = HUD.didDissappearNotification()
+                        |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                        |> start(next: { [weak self] status in
+                            if status == HUD.DisappearStatus.Normal {
+                                // transition out of this page
+                                sendNext(this._finishSignUpSink, ())
+                                sendCompleted(this._finishSignUpSink)
+                            }
+                            
+                            // completes the action
+                            sendNext(sink, ())
+                            sendCompleted(sink)
+                            
+                        })
+                    
+                    // Add the signals to CompositeDisposable for automatic memory management
+                    disposable.addDisposable(didDisappear)
+                    disposable.addDisposable(touchDownInside)
+                    disposable.addDisposable(hudAndSignUp)
+                    disposable.addDisposable({ () -> () in
+                        AccountLogVerbose("Sign up action is completed.")
+                    })
+                    
+                    // retract keyboard
+                    self?.endEditing(true)
+                }
             }
         }
         
-        // Bridging actions to Objective-C
-        signupButtonAction = CocoaAction(signup, input: ())
-        
         // Link UIControl event to actions
-        signupButton.addTarget(signupButtonAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        signupButton.addTarget(signup.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    private func setupUsername() {
-        usernameField.delegate = self
-    }
-    
-    private func setupPassword() {
-        passwordField.delegate = self
-    }
-    
+    // MARK: Bindings
     public func bindToViewModel(viewmodel: SignUpViewModel) {
         self.viewmodel = viewmodel
         
@@ -114,17 +177,8 @@ extension SignUpView : UITextFieldDelegate {
             passwordField.becomeFirstResponder()
         case passwordField:
             passwordField.resignFirstResponder()
-            endEditing(true)
-            // start an empty SignalProducer
-            SignalProducer<Void, NoError>.empty
-                // delay the signal due to the animation of retracting keyboard
-                // this cannot be executed on main thread, otherwise UI will be blocked
-                |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
-                // return the signal to main/ui thread in order to run UI related code
-                |> observeOn(UIScheduler())
-                |> start(completed: { [weak self] in
-                    self?.signupButton.sendActionsForControlEvents(.TouchUpInside)
-                    })
+            
+            signupButton.sendActionsForControlEvents(.TouchUpInside)
         default:
             break
         }

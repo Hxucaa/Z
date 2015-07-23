@@ -1,5 +1,5 @@
 //
-//  SignUpViewDelegate.swift
+//  EditInfoViewDelegate.swift
 //  XListing
 //
 //  Created by Lance on 2015-05-25.
@@ -9,7 +9,7 @@
 import UIKit
 import ReactiveCocoa
 
-public protocol EditProfileViewDelegate : class {
+public protocol EditInfoViewDelegate : class {
     func presentUIImagePickerController(imagePicker: UIImagePickerController)
     func dismissUIImagePickerController(handler: CompletionHandler?)
     func editProfileViewFinished()

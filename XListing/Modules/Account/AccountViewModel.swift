@@ -1,5 +1,5 @@
 //
-//  LogInViewModel.swift
+//  AccountViewModel.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-04-23.
@@ -14,7 +14,7 @@ public struct AccountViewModel : IAccountViewModel {
     
     // MARK: - Public
     
-    public private(set) lazy var editProfileViewModel: EditProfileViewModel = EditProfileViewModel(userService: self.userService)
+    public private(set) lazy var editProfileViewModel: EditInfoViewModel = EditInfoViewModel(userService: self.userService)
     public private(set) lazy var logInViewModel: LogInViewModel = LogInViewModel(userService: self.userService)
     public private(set) lazy var signUpViewModel: SignUpViewModel = SignUpViewModel(userService: self.userService)
     public private(set) lazy var landingPageViewModel: LandingPageViewModel = LandingPageViewModel()
