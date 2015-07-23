@@ -25,13 +25,10 @@ public final class NearbyViewController: XUIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var businessCollectionView: UICollectionView!
     
-    // MARK: Actions
-    private var profileButtonAction: CocoaAction!
-    
-    
-    /// View Model
+    // MARK: Properties
     private var viewmodel: INearbyViewModel!
     
+    // MARK: Setups
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,36 +36,21 @@ public final class NearbyViewController: XUIViewController {
         
         setupProfileButton()
         setupMapView()
-    }
-    
-    public override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    public override func viewDidDisappear(animated: Bool) {
-        // Dealloc actions
-        profileButtonAction = nil
-    }
-    
-    public func bindToViewModel(viewmodel: INearbyViewModel) {
-        self.viewmodel = viewmodel
+        setupBusinessCollectionView()
     }
     
     /**
     React to Profile Button and present ProfileViewController.
     */
     private func setupProfileButton() {
-        let pushProfile = Action<Void, Void, NoError> {
-            return SignalProducer<Void, NoError> { [weak self] sink, disposable in
+        let pushProfile = Action<UIBarButtonItem, Void, NoError> { [weak self] button in
+            return SignalProducer<Void, NoError> { sink, disposable in
                 self?.viewmodel.pushProfileModule()
                 sendCompleted(sink)
             }
         }
         
-        profileButtonAction = CocoaAction(pushProfile, input: ())
-        
-        profileButton.target = profileButtonAction
+        profileButton.target = pushProfile.unsafeCocoaAction
         profileButton.action = CocoaAction.selector
     }
     
@@ -92,7 +74,66 @@ public final class NearbyViewController: XUIViewController {
                 self?.businessCollectionView.reloadData()
                 self?.mapView.addAnnotations(businessArr.map { $0.annotation.value })
             })
+        
+        // Observe the function `mapView:didSelectAnnotationView:` from `MKMapViewDelegate` that one of its annotation views was selected
+        // This replaces the need to implement the function from the delegate
+        let didSelectAnnotationView = rac_signalForSelector(Selector("mapView:didSelectAnnotationView:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
+            // Completes the signal when the view controller disappears
+            |> takeUntil(
+                rac_signalForSelector(Selector("viewWillDisappear:")).toSignalProducer()
+                    |> toNihil
+            )
+            // Map the value obtained from signal to the desired one
+            |> map { ($0 as! RACTuple).second as! MKAnnotationView }
+            |> start(
+                next: { annotationView in
+                    /// Scroll the Collection View to the associated business
+                    if let annotation = annotationView.annotation as? MKPointAnnotation,
+                        index = $.findIndex(self.viewmodel.businessViewModelArr.value, callback: { $0.annotation.value == annotation }) {
+                            // Construct the index path. Note that the collection only has ONE row.
+                            let indexPath = NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: index)
+                            self.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: true)
+                    }
+                
+                },
+                completed: {
+                    NearbyLogVerbose("didSelectAnnotationView signal completes.")
+                }
+            )
     }
+    
+    private func setupBusinessCollectionView() {
+        // Observe the function `collectionView:didSelectItemAtIndexPath:` from `UICollectionViewDelegate` that the item at the specified index path was selected
+        // This replaces the need to implement the function from the delegate
+        let didSelectItemAtIndexPath = rac_signalForSelector(Selector("collectionView:didSelectItemAtIndexPath:"), fromProtocol: UICollectionViewDelegate.self).toSignalProducer()
+            // Completes the signal when the view controller disappears
+            |> takeUntil(
+                rac_signalForSelector(Selector("viewWillDisappear:")).toSignalProducer()
+                    |> toNihil
+            )
+            // Map the value obtained from signal to the desired one
+            |> map { ($0 as! RACTuple).second as! NSIndexPath }
+            |> start(
+                next: { [weak self] indexPath in
+                    self?.viewmodel.pushDetailModule(indexPath.section)
+                },
+                completed: {
+                    NearbyLogVerbose("didSelectItemAtIndexPath signal completes.")
+                }
+            )
+    }
+    
+    deinit {
+        NearbyLogVerbose("Nearby View Controller deinitializes.")
+    }
+    
+    // MARK: Bindings
+    
+    public func bindToViewModel(viewmodel: INearbyViewModel) {
+        self.viewmodel = viewmodel
+    }
+    
+    // MARK: Others
     
     /**
     Center the map to a location.
@@ -105,25 +146,7 @@ public final class NearbyViewController: XUIViewController {
         let region = MKCoordinateRegion(center: coordinate, span: span)
         mapView.setRegion(region, animated: animated)
     }
-}
-
-extension NearbyViewController : MKMapViewDelegate {
-    /**
-    Tells the delegate that one of its annotation views was selected.
     
-    :param: mapView The map view containing the annotation view.
-    :param: view    The annotation view that was selected.
-    */
-    public func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
-        /// Scroll the Collection View to the associated business
-        if let annotation = view.annotation as? MKPointAnnotation,
-            index = $.findIndex(viewmodel.businessViewModelArr.value, callback: { $0.annotation.value == annotation }) {
-                // Construct the index path. Note that the collection only has ONE row.
-                let indexPath = NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: index)
-                businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: true)
-                
-        }
-    }
 }
 
 extension NearbyViewController : UICollectionViewDelegate, UICollectionViewDataSource {
@@ -173,16 +196,6 @@ extension NearbyViewController : UICollectionViewDelegate, UICollectionViewDataS
         centerOnLocation(annotation.coordinate, animated: true)
         
         return cell
-    }
-    
-    /**
-    Tells the delegate that the item at the specified index path was selected.
-    
-    :param: collectionView The collection view object that is notifying you of the selection change.
-    :param: indexPath      The index path of the cell that was selected.
-    */
-    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        viewmodel.pushDetailModule(indexPath.section)
     }
 }
 
