@@ -460,13 +460,14 @@
                                                     <color key="textColor" red="0.50588235294117645" green="0.50980392156862742" blue="0.49411764705882355" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="0.28627450980392155" green="0.29019607843137252" blue="0.27843137254901962" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIw-n5-9oc">
+                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIw-n5-9oc">
                                                     <rect key="frame" x="514" y="0.0" width="79" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="79" id="QOM-i2-IWQ"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <state key="normal" title="Edit">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="11"/>
+                                                    <state key="normal" title="编辑">
                                                         <color key="titleColor" red="0.2901960784" green="0.75686274509999996" blue="0.72156862749999995" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </state>
