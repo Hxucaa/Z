@@ -25,11 +25,13 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
         
         // Initialization
         let markWanttoGoAction = Action<UIButton, Void, NoError>{ [weak self] button in
-            return SignalProducer { [weak self] sink, disposable in
+            return SignalProducer { sink, disposable in
                 typealias Choice = DetailBizInfoViewModel.ParticipationChoice
-                if let this = self{
-                this.viewmodel.participate(Choice.我想去)
-                    |> start()
+                if let this = self {
+                    let participate = this.viewmodel.participate(Choice.我想去)
+                        |> start()
+                    
+                    disposable.addDisposable(participate)
                 }
             }
         }
