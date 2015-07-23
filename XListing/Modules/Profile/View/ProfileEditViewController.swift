@@ -151,12 +151,12 @@ public final class ProfileEditViewController: XUIViewController {
     }
     
     public func chooseProfilePictureSource() {
-        var alert = UIAlertController(title: "Pick a profile picture", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
-        var galleryAction = UIAlertAction(title: "Choose from gallery", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
+        var alert = UIAlertController(title: "选择上传方式", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        var galleryAction = UIAlertAction(title: "在相册中选取", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
             self.imagePicker.sourceType = .PhotoLibrary
             self.presentViewController(self.imagePicker, animated: true, completion: nil)
         }
-        var cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
+        var cameraAction = UIAlertAction(title: "拍照", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
             self.imagePicker.sourceType = .Camera
             self.presentViewController(self.imagePicker, animated: true, completion: nil)
         }
@@ -202,8 +202,8 @@ public final class ProfileEditViewController: XUIViewController {
             }
             submitAction.unsafeCocoaAction.execute(self.navigationItem.rightBarButtonItem!)
         } else {
-            var alert = UIAlertController(title: "Please complete all the required fields", message: "Ensure you have filled out nickname, gender, birthday and set a profile picture", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Cancel, handler: nil))
+            var alert = UIAlertController(title: "提交失败啦", message: "请填写昵称,性别,生日和上传一张照片😊", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "确定", style: UIAlertActionStyle.Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
