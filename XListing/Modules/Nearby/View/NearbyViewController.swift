@@ -88,12 +88,12 @@ public final class NearbyViewController: XUIViewController {
             |> start(
                 next: { annotationView in
                     /// Scroll the Collection View to the associated business
-                    if let annotation = annotationView.annotation as? MKPointAnnotation,
-                        index = $.findIndex(self.viewmodel.businessViewModelArr.value, callback: { $0.annotation.value == annotation }) {
-                            // Construct the index path. Note that the collection only has ONE row.
-                            let indexPath = NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: index)
-                            self.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: true)
-                    }
+//                    if let annotation = annotationView.annotation as? MKPointAnnotation,
+//                        index = $.findIndex(self.viewmodel.businessViewModelArr.value, callback: { $0.annotation.value == annotation }) {
+//                            // Construct the index path. Note that the collection only has ONE row.
+//                            let indexPath = NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: index)
+//                            self.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: true)
+//                    }
                 
                 },
                 completed: {
@@ -149,7 +149,7 @@ public final class NearbyViewController: XUIViewController {
     
 }
 
-extension NearbyViewController : UICollectionViewDelegate, UICollectionViewDataSource {
+extension NearbyViewController : UICollectionViewDataSource {
     
     
     /**
