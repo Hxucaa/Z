@@ -21,22 +21,39 @@ public final class NearbyViewController: XUIViewController {
     
     // MARK: - UI
     // MARK: Controls
+    
     @IBOutlet weak var profileButton: UIBarButtonItem!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var businessCollectionView: UICollectionView!
     
     // MARK: Properties
+    
+    /// View Model
     private var viewmodel: INearbyViewModel!
     
     // MARK: Setups
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: false)
         
         setupProfileButton()
         setupMapView()
         setupBusinessCollectionView()
+    }
+    
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
     }
     
     /**
@@ -59,6 +76,7 @@ public final class NearbyViewController: XUIViewController {
     
     */
     private func setupMapView() {
+        
         // set the view region
         viewmodel.currentLocation
             |> start(next: { [weak self] location in
@@ -66,7 +84,9 @@ public final class NearbyViewController: XUIViewController {
             })
         
         // track user movement
+        // not tracking user movement beacause it can be a battery hog
 //        mapView.setUserTrackingMode(.Follow, animated: false)
+        
         
         // add annotation to map view
         viewmodel.businessViewModelArr.producer
@@ -75,26 +95,61 @@ public final class NearbyViewController: XUIViewController {
                 self?.mapView.addAnnotations(businessArr.map { $0.annotation.value })
             })
         
-        // Observe the function `mapView:didSelectAnnotationView:` from `MKMapViewDelegate` that one of its annotation views was selected
-        // This replaces the need to implement the function from the delegate
-        let didSelectAnnotationView = rac_signalForSelector(Selector("mapView:didSelectAnnotationView:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
-            // Completes the signal when the view controller disappears
+        
+        // create a signal associated with `mapView:didAddAnnotationViews:` from delegate `MKMapViewDelegate`
+        // when annotation is added to the mapview, this signal receives the next event
+        rac_signalForSelector(Selector("mapView:didAddAnnotationViews:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
+            // forwards events from producer until the view controller is going to disappear
             |> takeUntil(
-                rac_signalForSelector(Selector("viewWillDisappear:")).toSignalProducer()
+                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
                     |> toNihil
             )
-            // Map the value obtained from signal to the desired one
-            |> map { ($0 as! RACTuple).second as! MKAnnotationView }
+            |> map { ($0 as! RACTuple).second as! [MKAnnotationView] }
             |> start(
-                next: { annotationView in
-                    /// Scroll the Collection View to the associated business
-//                    if let annotation = annotationView.annotation as? MKPointAnnotation,
-//                        index = $.findIndex(self.viewmodel.businessViewModelArr.value, callback: { $0.annotation.value == annotation }) {
-//                            // Construct the index path. Note that the collection only has ONE row.
-//                            let indexPath = NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: index)
-//                            self.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: true)
-//                    }
-                
+                next: { [weak self] annotationViews in
+                    // iterate over annotation view and add tap gesture recognizer to each
+                    $.each(annotationViews, callback: { (index, view) -> () in
+                        
+                        // add tap gesture recognizer to annotation view
+                        let tapGesture = UITapGestureRecognizer()
+                        view.addGestureRecognizer(tapGesture)
+                        
+                        // listen to the gesture signal
+                        tapGesture.rac_gestureSignal().toSignalProducer()
+                            // forwards events from the producer until the annotation view is prepared to be reused
+                            |> takeUntil(
+                                view.rac_prepareForReuseSignal.toSignalProducer()
+                                    |> toNihil
+                            )
+                            |> start(
+                                next: { _ in
+                                    if let this = self {
+                                        let annotation = view.annotation
+                                        // center the map on the annotation
+                                        this.centerOnLocation(annotation.coordinate, animated: true)
+                                        
+                                        // find the index of the business
+                                        let index = $.findIndex(this.viewmodel.businessViewModelArr.value) { business in
+                                            if let anno = annotation as? MKPointAnnotation {
+                                                return business.annotation.value == anno
+                                            }
+                                            else {
+                                                return false
+                                            }
+                                        }
+                                        
+                                        if let index = index {
+                                            
+                                            // Construct the index path. Note that the collection only has ONE row.
+                                            let indexPath = NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: index)
+                                            
+                                            // scroll to that business in the collection view.
+                                            this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+                                        }
+                                    }
+                                }
+                            )
+                    })
                 },
                 completed: {
                     NearbyLogVerbose("didSelectAnnotationView signal completes.")
@@ -108,7 +163,7 @@ public final class NearbyViewController: XUIViewController {
         let didSelectItemAtIndexPath = rac_signalForSelector(Selector("collectionView:didSelectItemAtIndexPath:"), fromProtocol: UICollectionViewDelegate.self).toSignalProducer()
             // Completes the signal when the view controller disappears
             |> takeUntil(
-                rac_signalForSelector(Selector("viewWillDisappear:")).toSignalProducer()
+                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
                     |> toNihil
             )
             // Map the value obtained from signal to the desired one
@@ -190,8 +245,10 @@ extension NearbyViewController : UICollectionViewDataSource {
         
         /// Center the map to the annotation.
         let annotation = business.annotation.value
+        
         // Select the annotation
-        mapView.selectAnnotation(annotation, animated: false)
+        mapView.selectAnnotation(annotation, animated: true)
+        
         // Center the map on the annotation
         centerOnLocation(annotation.coordinate, animated: true)
         

@@ -17,3 +17,5 @@ public func toNihil<T, E>(producer: SignalProducer<T, E>) -> SignalProducer<Void
         |> map { _ in }
         |> catch { error in SignalProducer<Void, NoError>.empty }
 }
+
+public let viewWillDisappearSelector = Selector("viewWillDisappear:")
