@@ -8,11 +8,17 @@
 
 import UIKit
 
+protocol GenderCellTableViewCellDelegate : class {
+    
+    func setUpGenderPopover(textField: UITextField)
+}
+
 public final class GenderTableViewCell: UITableViewCell {
 
     @IBOutlet weak var genderIcon: UILabel!
-    @IBOutlet weak var genderButton: UIButton!
+    @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var editProfilePicButton: UIButton!
+    internal weak var delegate: GenderCellTableViewCellDelegate!
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,7 +26,7 @@ public final class GenderTableViewCell: UITableViewCell {
 
     public override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        self.delegate.setUpGenderPopover(textField)
         // Configure the view for the selected state
     }
     

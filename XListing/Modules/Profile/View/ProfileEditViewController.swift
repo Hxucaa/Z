@@ -26,7 +26,9 @@ public final class ProfileEditViewController: XUIViewController {
     private let imagePicker = UIImagePickerController()
     private var profilePicture: UIImageView!
     private var popDatePicker : PopoverDatePicker?
+    private var popGenderPicker : GenderPicker?
     private var birthdayTextField : UITextField!
+    private var genderTextField : UITextField!
     private var shouldAdjustForKeyboard : Bool = false
     
     private var nicknameCell : NicknameTableViewCell!
@@ -112,12 +114,10 @@ public final class ProfileEditViewController: XUIViewController {
     public func setUpGenderCell() {
         genderCell = tableView.dequeueReusableCellWithIdentifier("GenderCell") as! GenderTableViewCell
         genderCell.genderIcon.text = GenderIcon
-        if (genderTitle == nil) {
-            genderTitle = "性别"
-        }
-        genderCell.genderButton.setTitle(genderTitle, forState: UIControlState.Normal)
-        genderCell.genderButton.addTarget(self, action: "chooseGender", forControlEvents: UIControlEvents.TouchUpInside)
         genderCell.editProfilePicButton.addTarget(self, action: "chooseProfilePictureSource", forControlEvents: UIControlEvents.TouchUpInside)
+        genderCell.delegate = self
+        genderCell.textField.placeholder = "性别"
+        genderCell.textField.delegate = self
     }
     
     public func setUpPhoneEmailCell() {
@@ -127,27 +127,6 @@ public final class ProfileEditViewController: XUIViewController {
         emailCell = tableView.dequeueReusableCellWithIdentifier("PhoneEmailCell") as! PhoneEmailTableViewCell
         emailCell.textField.delegate = self
         emailCell.textField.keyboardType = UIKeyboardType.EmailAddress
-    }
-    
-    public func chooseGender() {
-        var alert = UIAlertController(title: "Choose a gender", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
-        var maleAction = UIAlertAction(title: "男", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
-            self.viewmodel.gender.put(Gender.Male)
-            self.genderTitle = "男"
-            self.genderCell.genderButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.None)
-        }
-        var femaleAction = UIAlertAction(title: "女", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
-            self.viewmodel.gender.put(Gender.Female)
-            self.genderTitle = "女"
-            self.genderCell.genderButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.None)
-            }
-        var cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
-        alert.addAction(maleAction)
-        alert.addAction(femaleAction)
-        alert.addAction(cancelAction)
-        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     public func chooseProfilePictureSource() {
@@ -166,7 +145,7 @@ public final class ProfileEditViewController: XUIViewController {
         alert.addAction(cancelAction)
         self.presentViewController(alert, animated: true, completion: nil)
     }
-    
+
     public func dismissView() {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -310,7 +289,7 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
                 switch(indexPath.row) {
                 case 0: return nicknameCell
                 case 1:
-                    genderCell.genderButton.setTitle(genderTitle, forState: UIControlState.Normal)
+                    //genderCell.genderButton.setTitle(genderTitle, forState: UIControlState.Normal)
                     return genderCell
                 case 2: return birthdayCell
                 case 3: return whatsupCell
@@ -414,7 +393,6 @@ extension ProfileEditViewController : UITextFieldDelegate {
                 dateFormatter.dateFormat = "dd-MM-yyyy"
                 self.birthdayTextField.text = dateFormatter.stringFromDate(newDate)
             }
-            
             popDatePicker!.pick(self, initDate: initDate, dataChanged: dataChangedCallback)
             // Limit the choices on date picker
             let ageLimit = viewmodel.ageLimit
@@ -422,6 +400,19 @@ extension ProfileEditViewController : UITextFieldDelegate {
             datePicker.minimumDate = ageLimit.floor
             datePicker.maximumDate = ageLimit.ceil
             self.viewmodel.birthday <~ datePicker.rac_date
+            return false
+        } else if (textField === genderTextField){
+            self.view.endEditing(true)
+            
+            let dataChangedCallback : GenderPicker.GenderCallback = { (gender : String, forTextField : UITextField) -> () in
+                self.genderTextField.text = gender
+                if (gender == "男") {
+                    self.viewmodel.gender.put(Gender.Male)
+                } else if (gender == "女"){
+                    self.viewmodel.gender.put(Gender.Female)
+                }
+            }
+            popGenderPicker!.pick(self, initGender: genderTextField.text, dataChanged: dataChangedCallback)
             return false
         } else {
             return true
@@ -445,6 +436,16 @@ extension ProfileEditViewController : BirthdayCellTableViewCellDelegate {
         birthdayTextField = textField
         if (popDatePicker == nil) {
             popDatePicker = PopoverDatePicker(forTextField: textField)
+            
+        }
+    }
+}
+
+extension ProfileEditViewController : GenderCellTableViewCellDelegate {
+    public func setUpGenderPopover (textField : UITextField) {
+        genderTextField = textField
+        if (popGenderPicker == nil) {
+            popGenderPicker = GenderPicker(forTextField: textField)
             
         }
     }
