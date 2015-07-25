@@ -31,10 +31,10 @@ public final class EditInfoView : UIView {
     private let (_presentUIImagePickerProxy, _presentUIImagePickerSink) = SignalProducer<UIImagePickerController, NoError>.buffer(1)
     
     /// Dismiss UIImage Picker Controller
-    public var dismissUIImagePickerProxy: SignalProducer<CompletionHandler, NoError> {
+    public var dismissUIImagePickerProxy: SignalProducer<CompletionHandler?, NoError> {
         return _dismissUIImagePickerProxy
     }
-    private let (_dismissUIImagePickerProxy, _dismissUIImagePickerSink) = SignalProducer<CompletionHandler, NoError>.buffer(1)
+    private let (_dismissUIImagePickerProxy, _dismissUIImagePickerSink) = SignalProducer<CompletionHandler?, NoError>.buffer(1)
     
     /// Edit Info view is finished.
     public var finishEditInfoProxy: SignalProducer<Void, NoError> {
@@ -60,6 +60,34 @@ public final class EditInfoView : UIView {
     private func setupImagePicker() {
         imagePicker.allowsEditing = true
         imagePicker.sourceType = .PhotoLibrary
+        
+        
+        setupImageSelectedSignal()
+    }
+    
+    private func setupImageSelectedSignal() {
+        
+        // Subscribe to image picker, the signal sends the dictionary with info for the selected image
+        compositeDisposable += imagePicker.rac_imageSelectedSignal().toSignalProducer()
+            // map to the edited image
+            |> map { ($0 as! [NSObject : AnyObject])[UIImagePickerControllerEditedImage] as? UIImage }
+            |> start(
+                // when an image is selected
+                next: { [weak self] image in
+                    self?.viewmodel.profileImage.put(image)
+                    
+                    if let this = self {
+                        sendNext(this._dismissUIImagePickerSink, nil)
+                    }
+                },
+                // when cancel button is pressed
+                completed: { [weak self] in
+                    // after dismissing the controller, has to rebind the signal because cancellation caused the signal to stop
+                    if let this = self {
+                        sendNext(this._dismissUIImagePickerSink, { self?.setupImageSelectedSignal() })
+                    }
+                }
+        )
     }
     
     private func setupImagePickerButton() {
@@ -209,35 +237,6 @@ public final class EditInfoView : UIView {
             |> start(next: { [weak self] in self?.birthdayPicker.maximumDate = $0 })
         compositeDisposable += self.viewmodel.年龄下限.producer
             |> start(next: { [weak self] in self?.birthdayPicker.minimumDate = $0 })
-        
-        bindToImageSelectedSignal()
-    }
-    
-    /**
-    Bind to image selected signal from `UIImagePickerControllerDelegate`.
-    */
-    private func bindToImageSelectedSignal() {
-        // Subscribe to image picker, the signal sends the dictionary with info for the selected image
-        compositeDisposable += imagePicker.rac_imageSelectedSignal().toSignalProducer()
-            // map to the edited image
-            |> map { ($0 as! [NSObject : AnyObject])[UIImagePickerControllerEditedImage] as? UIImage }
-            |> start(
-                // when an image is selected
-                next: { [weak self] image in
-                    self?.viewmodel.profileImage.put(image)
-                    
-                    if let this = self {
-                        sendNext(this._dismissUIImagePickerSink, { self?.bindToImageSelectedSignal() })
-                    }
-                },
-                // when cancel button is pressed
-                completed: { [weak self] in
-                    // after dismissing the controller, has to rebind the signal because cancellation caused the signal to stop
-                    if let this = self {
-                        sendNext(this._dismissUIImagePickerSink, { self?.bindToImageSelectedSignal() })
-                    }
-                }
-        )
     }
 }
 
