@@ -48,18 +48,17 @@ public final class FeaturedListViewController: XUIViewController {
     
     deinit {
         compositeDisposable.dispose()
+        NearbyLogVerbose("Featured List View Controller deinitializes.")
     }
     
     private func setupTableView() {
         
-        let business = viewmodel.featuredBusinessViewModelArr.producer
+        compositeDisposable += viewmodel.featuredBusinessViewModelArr.producer
             |> start(next: { [weak self] _ in
                 self?.tableView.reloadData()
             })
         
         tableView.dataSource = self
-        
-        compositeDisposable.addDisposable(business)
     }
     
     private func setupRefresh() {
@@ -148,11 +147,6 @@ public final class FeaturedListViewController: XUIViewController {
         profileButton.action = CocoaAction.selector
     }
     
-    deinit {
-        NearbyLogVerbose("Featured List View Controller deinitializes.")
-    }
-    
-    
     // MARK: Will Appear
     
     public override func viewWillAppear(animated: Bool) {
@@ -165,7 +159,7 @@ public final class FeaturedListViewController: XUIViewController {
         
         // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
         // when the specified row is now selected
-        let didSelectRow = rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
+        compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
             |> takeUntil(
                 rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
@@ -194,8 +188,6 @@ public final class FeaturedListViewController: XUIViewController {
         The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
         */
         tableView.delegate = self
-        
-        compositeDisposable.addDisposable(didSelectRow)
     }
     
     // MARK: Bindings

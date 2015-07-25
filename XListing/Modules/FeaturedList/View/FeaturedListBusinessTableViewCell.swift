@@ -47,7 +47,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         participationLabel.rac_text <~ viewmodel.participation
         etaLabel.rac_text <~ viewmodel.eta
         
-        let coverImage = self.viewmodel.coverImage.producer
+        compositeDisposable += self.viewmodel.coverImage.producer
             |> takeUntil(
                 rac_prepareForReuseSignal.toSignalProducer()
                     |> toNihil
@@ -56,7 +56,5 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             |> start (next: { [weak self] in
                 self?.coverImageView.setImageWithAnimation($0)
             })
-        
-        compositeDisposable.addDisposable(coverImage)
     }
 }
