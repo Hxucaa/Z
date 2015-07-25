@@ -22,6 +22,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     // MARK: Properties
     
     private var viewmodel: FeaturedBusinessViewModel!
+    private let compositeDisposable = CompositeDisposable()
     
     // MARK: Setups
     
@@ -30,6 +31,10 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
+    }
+    
+    deinit {
+        compositeDisposable.dispose()
     }
     
     // MARK: Bindings
@@ -42,7 +47,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         participationLabel.rac_text <~ viewmodel.participation
         etaLabel.rac_text <~ viewmodel.eta
         
-        self.viewmodel.coverImage.producer
+        compositeDisposable += self.viewmodel.coverImage.producer
             |> takeUntil(
                 rac_prepareForReuseSignal.toSignalProducer()
                     |> toNihil
