@@ -9,7 +9,6 @@
 import UIKit
 import MapKit
 import ReactiveCocoa
-import SDWebImage
 import Dollar
 
 private let NearbyTableViewCellXIB = "NearbyTableViewCell"
@@ -30,6 +29,7 @@ public final class NearbyViewController: XUIViewController {
     
     /// View Model
     private var viewmodel: INearbyViewModel!
+    private let compositeDisposable = CompositeDisposable()
     
     // MARK: Setups
     
@@ -78,7 +78,7 @@ public final class NearbyViewController: XUIViewController {
     private func setupMapView() {
         
         // set the view region
-        viewmodel.currentLocation
+        let currentLocation = viewmodel.currentLocation
             |> start(next: { [weak self] location in
                 self?.centerOnLocation(location.coordinate, animated: false)
             })
@@ -87,9 +87,8 @@ public final class NearbyViewController: XUIViewController {
         // not tracking user movement beacause it can be a battery hog
 //        mapView.setUserTrackingMode(.Follow, animated: false)
         
-        
         // add annotation to map view
-        viewmodel.businessViewModelArr.producer
+        let businesses = viewmodel.businessViewModelArr.producer
             |> start(next: { [weak self] businessArr in
                 self?.businessCollectionView.reloadData()
                 self?.mapView.addAnnotations(businessArr.map { $0.annotation.value })
@@ -98,7 +97,7 @@ public final class NearbyViewController: XUIViewController {
         
         // create a signal associated with `mapView:didAddAnnotationViews:` from delegate `MKMapViewDelegate`
         // when annotation is added to the mapview, this signal receives the next event
-        rac_signalForSelector(Selector("mapView:didAddAnnotationViews:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
+        let didAddAnnotationViews = rac_signalForSelector(Selector("mapView:didAddAnnotationViews:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
             |> takeUntil(
                 rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
@@ -115,7 +114,7 @@ public final class NearbyViewController: XUIViewController {
                         view.addGestureRecognizer(tapGesture)
                         
                         // listen to the gesture signal
-                        tapGesture.rac_gestureSignal().toSignalProducer()
+                        let gesture = tapGesture.rac_gestureSignal().toSignalProducer()
                             // forwards events from the producer until the annotation view is prepared to be reused
                             |> takeUntil(
                                 view.rac_prepareForReuseSignal.toSignalProducer()
@@ -149,12 +148,18 @@ public final class NearbyViewController: XUIViewController {
                                     }
                                 }
                             )
+                        
+                        self?.compositeDisposable.addDisposable(gesture)
                     })
                 },
                 completed: {
                     NearbyLogVerbose("didSelectAnnotationView signal completes.")
                 }
             )
+        
+        compositeDisposable.addDisposable(currentLocation)
+        compositeDisposable.addDisposable(businesses)
+        compositeDisposable.addDisposable(didAddAnnotationViews)
     }
     
     private func setupBusinessCollectionView() {
@@ -176,9 +181,44 @@ public final class NearbyViewController: XUIViewController {
                     NearbyLogVerbose("didSelectItemAtIndexPath signal completes.")
                 }
             )
+        
+        let didEndDecelerating = rac_signalForSelector(Selector("scrollViewDidEndDecelerating:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
+            
+            // Completes the signal when the view controller disappears
+            |> takeUntil(
+                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
+                    |> toNihil
+            )
+            |> map { ($0 as! RACTuple).first as! UIScrollView }
+            |> start(
+                next: { [weak self] scrollView in
+                    if let
+                        this = self,
+                        collectionView = scrollView as? UICollectionView,
+                        visibleCell = collectionView.visibleCells() as? [UICollectionViewCell],
+                        indexPath = collectionView.indexPathForCell(visibleCell[0]) {
+                            
+                            let business = this.viewmodel.businessViewModelArr.value[indexPath.section]
+                            
+                            /// Center the map to the annotation.
+                            let annotation = business.annotation.value
+                            
+                            // Select the annotation
+                            this.mapView.selectAnnotation(annotation, animated: true)
+                            
+                            // Center the map on the annotation
+                            this.centerOnLocation(annotation.coordinate, animated: true)
+                    }
+                }
+            )
+        
+        
+        compositeDisposable.addDisposable(didSelectItemAtIndexPath)
+        compositeDisposable.addDisposable(didEndDecelerating)
     }
     
     deinit {
+        compositeDisposable.dispose()
         NearbyLogVerbose("Nearby View Controller deinitializes.")
     }
     
@@ -242,15 +282,6 @@ extension NearbyViewController : UICollectionViewDataSource {
         let cell = businessCollectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier, forIndexPath: indexPath) as! NearbyCollectionViewCell
         let business = viewmodel.businessViewModelArr.value[indexPath.section]
         cell.bindToViewModel(business)
-        
-        /// Center the map to the annotation.
-        let annotation = business.annotation.value
-        
-        // Select the annotation
-        mapView.selectAnnotation(annotation, animated: true)
-        
-        // Center the map on the annotation
-        centerOnLocation(annotation.coordinate, animated: true)
         
         return cell
     }
