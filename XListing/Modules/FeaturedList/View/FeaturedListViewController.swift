@@ -23,6 +23,7 @@ public final class FeaturedListViewController: XUIViewController {
     
     // MARK: Properties
     private var viewmodel: IFeaturedListViewModel!
+    private let compositeDisposable = CompositeDisposable()
     
     // MARK: Setups
     public override func viewDidLoad() {
@@ -45,14 +46,20 @@ public final class FeaturedListViewController: XUIViewController {
         super.viewDidAppear(animated)
     }
     
+    deinit {
+        compositeDisposable.dispose()
+    }
+    
     private func setupTableView() {
         
-        viewmodel.featuredBusinessViewModelArr.producer
+        let business = viewmodel.featuredBusinessViewModelArr.producer
             |> start(next: { [weak self] _ in
                 self?.tableView.reloadData()
             })
         
         tableView.dataSource = self
+        
+        compositeDisposable.addDisposable(business)
     }
     
     private func setupRefresh() {
@@ -158,7 +165,7 @@ public final class FeaturedListViewController: XUIViewController {
         
         // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
         // when the specified row is now selected
-        rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
+        let didSelectRow = rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
             |> takeUntil(
                 rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
@@ -187,6 +194,8 @@ public final class FeaturedListViewController: XUIViewController {
         The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
         */
         tableView.delegate = self
+        
+        compositeDisposable.addDisposable(didSelectRow)
     }
     
     // MARK: Bindings
