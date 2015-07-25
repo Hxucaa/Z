@@ -19,8 +19,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     @IBOutlet weak var participationLabel: UILabel!
     @IBOutlet weak var etaLabel: UILabel!
     
-    // MARK: Private Variables
+    // MARK: Properties
+    
     private var viewmodel: FeaturedBusinessViewModel!
+    
+    // MARK: Setups
     
     public override func awakeFromNib() {
         selectionStyle = UITableViewCellSelectionStyle.None
@@ -28,6 +31,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
     }
+    
+    // MARK: Bindings
     
     public func bindViewModel(viewmodel: FeaturedBusinessViewModel) {
         self.viewmodel = viewmodel
@@ -38,6 +43,10 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         etaLabel.rac_text <~ viewmodel.eta
         
         self.viewmodel.coverImage.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
             |> ignoreNil
             |> start (next: { [weak self] in
                 self?.coverImageView.setImageWithAnimation($0)
