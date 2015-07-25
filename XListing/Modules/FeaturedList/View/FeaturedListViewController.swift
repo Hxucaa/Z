@@ -21,10 +21,10 @@ public final class FeaturedListViewController: XUIViewController {
     @IBOutlet weak var profileButton: UIBarButtonItem!
     private let refreshControl = UIRefreshControl()
     
-    // MARK: - Private variables
+    // MARK: Properties
     private var viewmodel: IFeaturedListViewModel!
     
-    // MARK: - Setup Code
+    // MARK: Setups
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,6 +33,7 @@ public final class FeaturedListViewController: XUIViewController {
         setupRefresh()
         setupNearbyButton()
         setupProfileButton()
+        setupTableView()
     }
 
     public override func didReceiveMemoryWarning() {
@@ -41,21 +42,17 @@ public final class FeaturedListViewController: XUIViewController {
     }
     
     public override func viewDidAppear(animated: Bool) {
-        setupTableView()
-    }
-    
-    public func bindToViewModel(viewmodel: IFeaturedListViewModel) {
-        self.viewmodel = viewmodel
+        super.viewDidAppear(animated)
     }
     
     private func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
         
-        self.viewmodel.featuredBusinessViewModelArr.producer
+        viewmodel.featuredBusinessViewModelArr.producer
             |> start(next: { [weak self] _ in
                 self?.tableView.reloadData()
             })
+        
+        tableView.dataSource = self
     }
     
     private func setupRefresh() {
@@ -72,7 +69,46 @@ public final class FeaturedListViewController: XUIViewController {
         
         refreshControl.addTarget(refresh.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .ValueChanged)
         
-        self.tableView.addSubview(refreshControl)
+        tableView.addSubview(refreshControl)
+        
+        // turn off autoresizing mask off to allow custom autolayout constraints
+        refreshControl.setTranslatesAutoresizingMaskIntoConstraints(false)
+        
+        // add constraints
+        view.addConstraints(
+            [
+                // center X alignment
+                NSLayoutConstraint(
+                    item: refreshControl,
+                    attribute: NSLayoutAttribute.CenterX,
+                    relatedBy: NSLayoutRelation.Equal,
+                    toItem: view,
+                    attribute: NSLayoutAttribute.CenterX,
+                    multiplier: 1.0,
+                    constant: 0.0
+                ),
+                // top space to topLayoutGuide is 90
+                NSLayoutConstraint(
+                    item: refreshControl,
+                    attribute: NSLayoutAttribute.Top,
+                    relatedBy: NSLayoutRelation.Equal,
+                    toItem: topLayoutGuide,
+                    attribute: NSLayoutAttribute.Top,
+                    multiplier: 1.0,
+                    constant: 90.0
+                ),
+                // width set to 150
+                NSLayoutConstraint(
+                    item: refreshControl,
+                    attribute: NSLayoutAttribute.Width,
+                    relatedBy: NSLayoutRelation.Equal,
+                    toItem: nil,
+                    attribute: NSLayoutAttribute.NotAnAttribute,
+                    multiplier: 1.0,
+                    constant: 150.0
+                )
+            ]
+        )
     }
     
     /**
@@ -104,6 +140,61 @@ public final class FeaturedListViewController: XUIViewController {
         profileButton.target = pushProfile.unsafeCocoaAction
         profileButton.action = CocoaAction.selector
     }
+    
+    deinit {
+        NearbyLogVerbose("Featured List View Controller deinitializes.")
+    }
+    
+    
+    // MARK: Will Appear
+    
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        willAppearTableView()
+    }
+    
+    private func willAppearTableView() {
+        
+        // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
+        // when the specified row is now selected
+        rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntil(
+                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
+                    |> toNihil
+            )
+            |> map { ($0 as! RACTuple).second as! NSIndexPath }
+            |> start(
+                next: { [weak self] indexPath in
+                    self?.viewmodel.pushDetailModule(indexPath.row)
+                },
+                completed: {
+                    FeaturedLogVerbose("`tableView:didSelectRowAtIndexPath:` signal completes.")
+                }
+        )
+        
+        
+        /**
+        Assigning UITableView delegate has to happen after signals are established.
+        
+        - tableView.delegate is assigned to self somewhere in UITableViewController designated initializer
+        
+        - UITableView caches presence of optional delegate methods to avoid -respondsToSelector: calls
+        
+        - You use -rac_signalForSelector:fromProtocol: and RAC creates method implementation for you in runtime. But UITableView knows nothing about this implementation, it still thinks that there's no such method
+        
+        The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
+        */
+        tableView.delegate = self
+    }
+    
+    // MARK: Bindings
+    
+    
+    public func bindToViewModel(viewmodel: IFeaturedListViewModel) {
+        self.viewmodel = viewmodel
+    }
 }
 
 extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegate {
@@ -131,15 +222,5 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
         var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as! FeaturedListBusinessTableViewCell
         cell.bindViewModel(viewmodel.featuredBusinessViewModelArr.value[indexPath.row])
         return cell
-    }
-    
-    /**
-    Tells the delegate that the specified row is now selected.
-    
-    :param: tableView A table-view object informing the delegate about the new row selection.
-    :param: indexPath An index path locating the new selected row in tableView.
-    */
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.viewmodel.pushDetailModule(indexPath.row)
     }
 }
