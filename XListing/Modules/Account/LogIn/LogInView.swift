@@ -21,16 +21,16 @@ public final class LogInView : UIView {
     
     // MARK: - Proxies
     /// Go back to previous page.
-    public var goBackProxy: SimpleProxy.Producer {
+    public var goBackProxy: SignalProducer<Void, NoError> {
         return _goBackProxy
     }
-    private let (_goBackProxy, _goBackSink) = SimpleProxy.pipe()
+    private let (_goBackProxy, _goBackSink) = SignalProducer<Void, NoError>.buffer(1)
     
     /// Log In view is finished.
-    public var finishLoginProxy: SimpleProxy.Producer {
+    public var finishLoginProxy: SignalProducer<Void, NoError> {
         return _finishLoginProxy
     }
-    private let (_finishLoginProxy, _finishLoginSink) = SimpleProxy.pipe()
+    private let (_finishLoginProxy, _finishLoginSink) = SignalProducer<Void, NoError>.buffer(1)
     
     // MARK: - Properties
     private var viewmodel: LogInViewModel!
@@ -48,7 +48,6 @@ public final class LogInView : UIView {
     private func setupUsernameField() {
         usernameField.delegate = self
         // focus on the username field as soon as the view is displayed
-        usernameField.becomeFirstResponder()
     }
     
     private func setupPasswordField() {
@@ -121,7 +120,7 @@ public final class LogInView : UIView {
                     disposable.addDisposable(touchDownInside)
                     disposable.addDisposable(logInAndHUD)
                     disposable.addDisposable({ () -> () in
-                        AccountLogVerbose("Log in action is completed.")
+                        AccountLogVerbose("Log in action is disposed.")
                     })
                     
                     // retract keyboard
@@ -145,12 +144,15 @@ public final class LogInView : UIView {
                 if let this = self {
                     // transition out of this page
                     sendNext(this._goBackSink, ())
-                    sendCompleted(this._goBackSink)
                 }
             }
         }
         
         backButton.addTarget(backAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
+    deinit {
+        AccountLogVerbose("Log In View deinitializes.")
     }
     
     // MARK: Bindings    
@@ -166,6 +168,15 @@ public final class LogInView : UIView {
         self.viewmodel.username <~ usernameField.rac_text
         self.viewmodel.password <~ passwordField.rac_text
         loginButton.rac_enabled <~ self.viewmodel.allInputsValid.producer
+    }
+    
+    // MARK: Others
+    
+    /**
+    Notify receiver that it is about to be the first reponsider.
+    */
+    public func startFirstResponder() {
+        usernameField.becomeFirstResponder()
     }
 }
 

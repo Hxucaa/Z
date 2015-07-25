@@ -22,16 +22,16 @@ public final class SignUpView : UIView {
     // MARK: - Proxies
     
     /// Go back to previous page.
-    public var goBackProxy: SimpleProxy.Producer {
+    public var goBackProxy: SignalProducer<Void, NoError> {
         return _goBackProxy
     }
-    private let (_goBackProxy, _goBackSink) = SimpleProxy.pipe()
+    private let (_goBackProxy, _goBackSink) = SignalProducer<Void, NoError>.buffer(1)
     
     /// Sign Up view is finished.
-    public var finishSignUpProxy: SimpleProxy.Producer {
+    public var finishSignUpProxy: SignalProducer<Void, NoError> {
         return _finishSignUpProxy
     }
-    private let (_finishSignUpProxy, _finishSignUpSink) = SimpleProxy.pipe()
+    private let (_finishSignUpProxy, _finishSignUpSink) = SignalProducer<Void, NoError>.buffer(1)
     
     // MARK: Properties
     private var viewmodel: SignUpViewModel!
@@ -48,8 +48,6 @@ public final class SignUpView : UIView {
     
     private func setupUsernameField() {
         usernameField.delegate = self
-        // focus on the username field as soon as the view is displayed
-        usernameField.becomeFirstResponder()
     }
     
     private func setupPasswordField() {
@@ -65,7 +63,6 @@ public final class SignUpView : UIView {
                 
                 if let this = self {
                     sendNext(this._goBackSink, ())
-                    sendCompleted(this._goBackSink)
                 }
             }
         }
@@ -139,7 +136,7 @@ public final class SignUpView : UIView {
                     disposable.addDisposable(touchDownInside)
                     disposable.addDisposable(hudAndSignUp)
                     disposable.addDisposable({ () -> () in
-                        AccountLogVerbose("Sign up action is completed.")
+                        AccountLogVerbose("Sign up action is disposed.")
                     })
                     
                     // retract keyboard
@@ -152,6 +149,10 @@ public final class SignUpView : UIView {
         signupButton.addTarget(signup.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
+    deinit {
+        AccountLogVerbose("Sign Up View deinitializes.")
+    }
+    
     // MARK: Bindings
     public func bindToViewModel(viewmodel: SignUpViewModel) {
         self.viewmodel = viewmodel
@@ -160,6 +161,14 @@ public final class SignUpView : UIView {
         viewmodel.username <~ usernameField.rac_text
         viewmodel.password <~ passwordField.rac_text
         signupButton.rac_enabled <~ viewmodel.allInputsValid
+    }
+    
+    // MARK: Others
+    /**
+    Notify receiver that it is about to be the first reponsider.
+    */
+    public func startFirstResponder() {
+        usernameField.becomeFirstResponder()
     }
 }
 

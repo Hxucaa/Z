@@ -8,9 +8,9 @@
 
 import UIKit
 import ReactiveCocoa
-import SDWebImage
+import Dollar
 
-private let EditProfileViewNibName = "EditProfileView"
+private let EditInfoViewNibName = "EditInfoView"
 private let SignUpViewNibName = "SignUpView"
 private let LogInViewNibName = "LogInView"
 private let LandingPageViewNibName = "LandingPageView"
@@ -26,236 +26,164 @@ public final class AccountViewController: XUIViewController {
     
     // MARK: Properties
     private var viewmodel: IAccountViewModel!
-    private var landingViewAction: SignalProducer<Void, NoError>!
-    private var logInViewAction: SignalProducer<Void, NoError>!
-    private var signUpViewAction: SignalProducer<Void, NoError>!
-    private var editInfoViewAction: SignalProducer<Void, NoError>!
-    private var loadingInitialViewDisposable: Disposable!
+    private var disposables = [Disposable]()
     
     // MARK: Setups
     public override func loadView() {
         super.loadView()
+        
+        landingPageView = NSBundle.mainBundle().loadNibNamed(LandingPageViewNibName, owner: self, options: nil).first as! LandingPageView
+        
+        logInView = NSBundle.mainBundle().loadNibNamed(LogInViewNibName, owner: self, options: nil).first as! LogInView
+        
+        signUpView = NSBundle.mainBundle().loadNibNamed(SignUpViewNibName, owner: self, options: nil).first as! SignUpView
+        
+        editInfoView = NSBundle.mainBundle().loadNibNamed(EditInfoViewNibName, owner: self, options: nil).first as! EditInfoView
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        
         
         setupLandingPage()
-        setupEditInfo()
         setupLogIn()
         setupSignUp()
+        setupEditInfo()
         
-        loadingInitialViewDisposable = landingViewAction |> start()
-    }
-    
-    public override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        loadingInitialViewDisposable.dispose()
+        showLandingPageView()
     }
     
     private func setupLandingPage() {
-        landingViewAction = SignalProducer { [weak self] sink, disposable in
-            if let this = self {
-                this.landingPageView = NSBundle.mainBundle().loadNibNamed(LandingPageViewNibName, owner: self, options: nil).first as! LandingPageView
-                this.landingPageView.bindToViewModel(this.viewmodel.landingPageViewModel)
-                
-                let skipDisposable = this.landingPageView.skipProxy
-                    |> start(next: {
-                        this.viewmodel.skipAccount({
-                            this.navigationController?.setNavigationBarHidden(true, animated: false)
-                            // dismiss account module, but no callback
-                            this.dismissViewControllerAnimated(true, completion: nil)
-                        })
-                    })
-                
-                let loginDisposable = this.landingPageView.loginProxy
-                    |> then(this.logInViewAction)
-                    |> start(next: {
-                        this.landingPageView.removeFromSuperview()
-                    })
-                
-                let signUpDisposable = this.landingPageView.signUpProxy
-                    |> then(this.signUpViewAction)
-                    |> start(next: {
-                        this.landingPageView.removeFromSuperview()
-                    })
-                
-                disposable.addDisposable(skipDisposable)
-                disposable.addDisposable(loginDisposable)
-                disposable.addDisposable(signUpDisposable)
-                
-                // have to add subview before adding constraints
-                this.view.addSubview(this.landingPageView)
-                
-                this.addConstraintsToClipToAllSides(this.landingPageView)
-            }
-        }
+        landingPageView.bindToViewModel(viewmodel.landingPageViewModel)
+        
+        let skip = landingPageView.skipProxy
+            |> start(next: { [weak self] in
+                self?.viewmodel.skipAccount({
+                    self?.navigationController?.setNavigationBarHidden(true, animated: false)
+                    // dismiss account module, but no callback
+                    self?.dismissViewControllerAnimated(true, completion: nil)
+                })
+            })
+        
+        let login = landingPageView.loginProxy
+            |> start(next: { [weak self] in
+                self?.showLogInView()
+            })
+        
+        let signUp = landingPageView.signUpProxy
+            |> start(next: { [weak self] in
+                self?.showSignUpView()
+            })
+        
+        disposables.append(skip)
+        disposables.append(login)
+        disposables.append(signUp)
     }
     
     private func setupLogIn() {
-        logInViewAction = SignalProducer { [weak self] sink, disposable in
-            if let this = self {
-                
-                this.logInView = NSBundle.mainBundle().loadNibNamed(LogInViewNibName, owner: self, options: nil).first as! LogInView
-                this.logInView.bindToViewModel(this.viewmodel.logInViewModel)
-                
-                let goBackDisposable = this.logInView.goBackProxy
-                    |> then(this.landingViewAction)
-                    |> start(next: {
-                        this.logInView.removeFromSuperview()
-                    })
-                
-                let finishLogInDisposable = this.logInView.finishLoginProxy
-                    |> start(next: {
-                        if this.viewmodel.gotoNextModuleCallback == nil {
-                            this.viewmodel.pushFeaturedModule()
-                        }
-                        else {
-                            // dismiss account module, and go to the next module
-                            this.dismissViewControllerAnimated(true, completion: this.viewmodel.gotoNextModuleCallback)
-                        }
-                        this.navigationController?.setNavigationBarHidden(false, animated: false)
-                    })
-                
-                disposable.addDisposable(goBackDisposable)
-                disposable.addDisposable(finishLogInDisposable)
-                
-                this.view.addSubview(this.logInView)
-                
-                this.addConstraintsToClipToAllSides(this.logInView)
-            }
-        }
+        logInView.bindToViewModel(viewmodel.logInViewModel)
+        
+        let goBack = logInView.goBackProxy
+            |> start(next: { [weak self] in
+                self?.showLandingPageView()
+            })
+        
+        let finishLogIn = logInView.finishLoginProxy
+            |> start(next: { [weak self] in
+                if self?.viewmodel.gotoNextModuleCallback == nil {
+                    self?.viewmodel.pushFeaturedModule()
+                }
+                else {
+                    // dismiss account module, and go to the next module
+                    self?.dismissViewControllerAnimated(true, completion: self?.viewmodel.gotoNextModuleCallback)
+                }
+                self?.navigationController?.setNavigationBarHidden(false, animated: false)
+            })
+        
+        disposables.append(goBack)
+        disposables.append(finishLogIn)
     }
     
     private func setupSignUp() {
+        signUpView.bindToViewModel(viewmodel.signUpViewModel)
         
-        signUpViewAction = SignalProducer { [weak self] sink, disposable in
-            if let this = self {
-                
-                this.signUpView = NSBundle.mainBundle().loadNibNamed(SignUpViewNibName, owner: self, options: nil).first as! SignUpView
-                this.signUpView.bindToViewModel(this.viewmodel.signUpViewModel)
-                
-                let goBackDisposable = this.signUpView.goBackProxy
-                    |> then(this.landingViewAction)
-                    |> start(next: {
-                        this.signUpView.removeFromSuperview()
-                    })
-                
-                let finishSignUpDisposable = this.signUpView.finishSignUpProxy
-                    |> then(this.editInfoViewAction)
-                    |> start(next: {
-                        this.signUpView.removeFromSuperview()
-                    })
-                
-                disposable.addDisposable(goBackDisposable)
-                disposable.addDisposable(finishSignUpDisposable)
-                
-                this.view.addSubview(this.signUpView)
-                
-                this.addConstraintsToClipToAllSides(this.signUpView)
-            }
-        }
+        let goBack = signUpView.goBackProxy
+            |> start(next: { [weak self] in
+                self?.showLandingPageView()
+            })
+
+        let finishSignUp = signUpView.finishSignUpProxy
+            |> start(next: { [weak self] in
+                self?.showEditInfoView()
+            })
+        
+        disposables.append(goBack)
+        disposables.append(finishSignUp)
     }
     
     private func setupEditInfo() {
+        editInfoView.bindToViewModel(viewmodel.editProfileViewModel)
         
-        editInfoViewAction = SignalProducer { [weak self] sink, disposable in
-            if let this = self {
+        let presentUIImagePicker = editInfoView.presentUIImagePickerProxy
+            |> start(next: { [weak self] imagePicker in
+                self?.presentViewController(imagePicker, animated: true, completion: nil)
+            })
+        
+        let dismissUIImagePicker = editInfoView.dismissUIImagePickerProxy
+            |> start(next: { [weak self] handler in
+                self?.dismissViewControllerAnimated(true, completion: handler)
+            })
+        
+        let finishEditInfo = editInfoView.finishEditInfoProxy
+            |> start(next: { [weak self] in
                 
-                this.editInfoView = NSBundle.mainBundle().loadNibNamed(EditProfileViewNibName, owner: self, options: nil).first as! EditInfoView
-                this.editInfoView.delegate = self
-                this.editInfoView.bindToViewModel(this.viewmodel.editProfileViewModel)
-                
-                this.view.addSubview(this.editInfoView)
-                
-                this.addConstraintsToClipToAllSides(this.editInfoView)
-            }
-        }
+                if self?.viewmodel.gotoNextModuleCallback == nil {
+                    self?.viewmodel.pushFeaturedModule()
+                }
+                else {
+                    // dismiss account module, and go to the next module
+                    self?.dismissViewControllerAnimated(true, completion: self?.viewmodel.gotoNextModuleCallback)
+                }
+                self?.navigationController?.setNavigationBarHidden(false, animated: false)
+            })
+        
+        disposables.append(presentUIImagePicker)
+        disposables.append(dismissUIImagePicker)
+        disposables.append(finishEditInfo)
     }
     
-    /**
-    Add constraints that clip to all sides of superview to subview.
-    
-    :param: subview A UIView.
-    */
-    private func addConstraintsToClipToAllSides<V: UIView>(subview: V) {
-        // turn off autoresizing mask off to allow custom autolayout constraints
-        subview.setTranslatesAutoresizingMaskIntoConstraints(false)
-        
-        // add constraints
-        view.addConstraints(
-            [
-                // leading space to view is 0
-                NSLayoutConstraint(
-                    item: subview,
-                    attribute: NSLayoutAttribute.Leading,
-                    relatedBy: NSLayoutRelation.Equal,
-                    toItem: view,
-                    attribute: NSLayoutAttribute.Leading,
-                    multiplier: 1.0,
-                    constant: 0.0
-                ),
-                // top space to view is 0
-                NSLayoutConstraint(
-                    item: subview,
-                    attribute: NSLayoutAttribute.Top,
-                    relatedBy: NSLayoutRelation.Equal,
-                    toItem: view,
-                    attribute: NSLayoutAttribute.Top,
-                    multiplier: 1.0,
-                    constant: 0.0
-                ),
-                // trailing space to view is 0
-                NSLayoutConstraint(
-                    item: subview,
-                    attribute: NSLayoutAttribute.Trailing,
-                    relatedBy: NSLayoutRelation.Equal,
-                    toItem: view,
-                    attribute: NSLayoutAttribute.Trailing,
-                    multiplier: 1.0,
-                    constant: 0.0
-                ),
-                // botom space to view is 0
-                NSLayoutConstraint(
-                    item: subview,
-                    attribute: NSLayoutAttribute.Bottom,
-                    relatedBy: NSLayoutRelation.Equal,
-                    toItem: view,
-                    attribute: NSLayoutAttribute.Bottom,
-                    multiplier: 1.0,
-                    constant: 0.0
-                )
-            ]
-        )
+    deinit {
+        // Dispose signals before deinit.
+        $.each(disposables) { $0.dispose() }
+        AccountLogVerbose("Account View Controller deinitializes.")
     }
     
     // MARK: Bindings
+    
     public func bindToViewModel(viewModel: IAccountViewModel, dismissCallback: CompletionHandler? = nil) {
         self.viewmodel = viewModel
     }
-}
-
-extension AccountViewController : EditInfoViewDelegate {
-    public func presentUIImagePickerController(imagePicker: UIImagePickerController) {
-        presentViewController(imagePicker, animated: true, completion: nil)
+    
+    // MARK: Others
+    
+    private func showLandingPageView() {
+        view = landingPageView
     }
     
-    public func dismissUIImagePickerController(_ handler: CompletionHandler? = nil) {
-        dismissViewControllerAnimated(true, completion: handler)
+    private func showSignUpView() {
+        view = signUpView
+        signUpView.startFirstResponder()
     }
     
-    public func editProfileViewFinished() {
-        
-        if viewmodel.gotoNextModuleCallback == nil {
-            viewmodel.pushFeaturedModule()
-        }
-        else {
-            // dismiss account module, and go to the next module
-            dismissViewControllerAnimated(true, completion: viewmodel.gotoNextModuleCallback)
-        }
-        navigationController?.setNavigationBarHidden(false, animated: false)
+    private func showLogInView() {
+        view = logInView
+        logInView.startFirstResponder()
+    }
+    
+    private func showEditInfoView() {
+        view = editInfoView
     }
 }

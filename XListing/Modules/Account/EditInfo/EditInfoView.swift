@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import ReactiveCocoa
-import SVProgressHUD
 
 public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -23,8 +22,25 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
     @IBOutlet weak var femaleButton: UIButton!
     private var imagePicker = UIImagePickerController()
     
-    public weak var delegate: EditInfoViewDelegate?
+    // MARK: - Proxies
     
+    /// Present UIImage Picker Controller
+    public var presentUIImagePickerProxy: SignalProducer<UIImagePickerController, NoError> {
+        return _presentUIImagePickerProxy
+    }
+    private let (_presentUIImagePickerProxy, _presentUIImagePickerSink) = SignalProducer<UIImagePickerController, NoError>.buffer(1)
+    
+    /// Dismiss UIImage Picker Controller
+    public var dismissUIImagePickerProxy: SignalProducer<CompletionHandler, NoError> {
+        return _dismissUIImagePickerProxy
+    }
+    private let (_dismissUIImagePickerProxy, _dismissUIImagePickerSink) = SignalProducer<CompletionHandler, NoError>.buffer(1)
+    
+    /// Edit Info view is finished.
+    public var finishEditInfoProxy: SignalProducer<Void, NoError> {
+        return _finishEditInfoProxy
+    }
+    private let (_finishEditInfoProxy, _finishEditInfoSink) = SignalProducer<Void, NoError>.buffer(1)
     
     // MARK: - Properties
     private var viewmodel: EditInfoViewModel!
@@ -51,7 +67,7 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
         let presentUIImagePicker = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
                 if let this = self {
-                    this.delegate?.presentUIImagePickerController(this.imagePicker)
+                    sendNext(this._presentUIImagePickerSink, this.imagePicker)
                 }
                 sendCompleted(sink)
             }
@@ -144,7 +160,7 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
                         |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
                         |> start(next: { status in
                             if status == HUD.DisappearStatus.Normal {
-                                self?.delegate?.editProfileViewFinished()
+                                sendNext(this._finishEditInfoSink, ())
                             }
                             
                             // completes the action
@@ -157,7 +173,7 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
                     disposable.addDisposable(touchDownInside)
                     disposable.addDisposable(hudAndUpdate)
                     disposable.addDisposable({ () -> () in
-                        AccountLogVerbose("Update profile action is completed.")
+                        AccountLogVerbose("Update profile action is disposed.")
                     })
                     
                     // retract keyboard
@@ -167,6 +183,10 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
         }
         
         submitButton.addTarget(submitButtonAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+    }
+    
+    deinit {
+        AccountLogVerbose("Edit Info View deinitializes.")
     }
     
     // MARK: Bindings
@@ -207,12 +227,18 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
                 // when an image is selected
                 next: { [weak self] image in
                     self?.viewmodel.profileImage.put(image)
-                    self?.delegate?.dismissUIImagePickerController({ self?.bindToImageSelectedSignal() })
+//                    self?.delegate?.dismissUIImagePickerController({ self?.bindToImageSelectedSignal() })
+                    if let this = self {
+                        sendNext(this._dismissUIImagePickerSink, { self?.bindToImageSelectedSignal() })
+                    }
                 },
                 // when cancel button is pressed
                 completed: { [weak self] in
                     // after dismissing the controller, has to rebind the signal because cancellation caused the signal to stop
-                    self?.delegate?.dismissUIImagePickerController({ self?.bindToImageSelectedSignal() })
+//                    self?.delegate?.dismissUIImagePickerController({ self?.bindToImageSelectedSignal() })
+                    if let this = self {
+                        sendNext(this._dismissUIImagePickerSink, { self?.bindToImageSelectedSignal() })
+                    }
                 }
         )
     }
