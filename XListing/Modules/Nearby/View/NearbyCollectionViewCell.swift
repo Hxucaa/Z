@@ -43,7 +43,7 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
         businessHoursLabel.rac_text <~ self.viewmodel.participation
         etaLabel.rac_text <~ self.viewmodel.eta
         
-        let coverImage = self.viewmodel.coverImage.producer
+        compositeDisposable += self.viewmodel.coverImage.producer
             |> takeUntil(
                 rac_prepareForReuseSignal.toSignalProducer()
                     |> toNihil
@@ -59,7 +59,5 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
                     }
                 }
             )
-        
-        compositeDisposable.addDisposable(coverImage)
     }
 }

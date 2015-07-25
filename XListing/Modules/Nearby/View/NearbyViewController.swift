@@ -78,7 +78,7 @@ public final class NearbyViewController: XUIViewController {
     private func setupMapView() {
         
         // set the view region
-        let currentLocation = viewmodel.currentLocation
+        compositeDisposable += viewmodel.currentLocation
             |> start(next: { [weak self] location in
                 self?.centerOnLocation(location.coordinate, animated: false)
             })
@@ -88,7 +88,7 @@ public final class NearbyViewController: XUIViewController {
 //        mapView.setUserTrackingMode(.Follow, animated: false)
         
         // add annotation to map view
-        let businesses = viewmodel.businessViewModelArr.producer
+        compositeDisposable += viewmodel.businessViewModelArr.producer
             |> start(next: { [weak self] businessArr in
                 self?.businessCollectionView.reloadData()
                 self?.mapView.addAnnotations(businessArr.map { $0.annotation.value })
@@ -97,7 +97,7 @@ public final class NearbyViewController: XUIViewController {
         
         // create a signal associated with `mapView:didAddAnnotationViews:` from delegate `MKMapViewDelegate`
         // when annotation is added to the mapview, this signal receives the next event
-        let didAddAnnotationViews = rac_signalForSelector(Selector("mapView:didAddAnnotationViews:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
+        compositeDisposable += rac_signalForSelector(Selector("mapView:didAddAnnotationViews:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
             |> takeUntil(
                 rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
@@ -114,7 +114,7 @@ public final class NearbyViewController: XUIViewController {
                         view.addGestureRecognizer(tapGesture)
                         
                         // listen to the gesture signal
-                        let gesture = tapGesture.rac_gestureSignal().toSignalProducer()
+                        self?.compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
                             // forwards events from the producer until the annotation view is prepared to be reused
                             |> takeUntil(
                                 view.rac_prepareForReuseSignal.toSignalProducer()
@@ -148,24 +148,18 @@ public final class NearbyViewController: XUIViewController {
                                     }
                                 }
                             )
-                        
-                        self?.compositeDisposable.addDisposable(gesture)
                     })
                 },
                 completed: {
                     NearbyLogVerbose("didSelectAnnotationView signal completes.")
                 }
             )
-        
-        compositeDisposable.addDisposable(currentLocation)
-        compositeDisposable.addDisposable(businesses)
-        compositeDisposable.addDisposable(didAddAnnotationViews)
     }
     
     private func setupBusinessCollectionView() {
         // Observe the function `collectionView:didSelectItemAtIndexPath:` from `UICollectionViewDelegate` that the item at the specified index path was selected
         // This replaces the need to implement the function from the delegate
-        let didSelectItemAtIndexPath = rac_signalForSelector(Selector("collectionView:didSelectItemAtIndexPath:"), fromProtocol: UICollectionViewDelegate.self).toSignalProducer()
+        compositeDisposable += rac_signalForSelector(Selector("collectionView:didSelectItemAtIndexPath:"), fromProtocol: UICollectionViewDelegate.self).toSignalProducer()
             // Completes the signal when the view controller disappears
             |> takeUntil(
                 rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
@@ -182,7 +176,7 @@ public final class NearbyViewController: XUIViewController {
                 }
             )
         
-        let didEndDecelerating = rac_signalForSelector(Selector("scrollViewDidEndDecelerating:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
+        compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndDecelerating:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
             
             // Completes the signal when the view controller disappears
             |> takeUntil(
@@ -211,10 +205,6 @@ public final class NearbyViewController: XUIViewController {
                     }
                 }
             )
-        
-        
-        compositeDisposable.addDisposable(didSelectItemAtIndexPath)
-        compositeDisposable.addDisposable(didEndDecelerating)
     }
     
     deinit {
