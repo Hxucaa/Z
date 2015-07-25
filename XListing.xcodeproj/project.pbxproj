@@ -61,6 +61,8 @@
 		7EF371581AB8C9B3009AA3B9 /* BusinessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */; };
 		7EFEF7421B124B060043E076 /* IRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7411B124B060043E076 /* IRouter.swift */; };
 		7EFEF7461B13D0900043E076 /* EditInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7451B13D0900043E076 /* EditInfoView.swift */; };
+		B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */; };
+		B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */; };
 		B40A0D8B1B22455700036986 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8A1B22455700036986 /* Constants.swift */; };
 		B40A0D8D1B23BD2900036986 /* EditInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8C1B23BD2900036986 /* EditInfoViewModel.swift */; };
 		B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */; };
@@ -1066,6 +1068,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */,
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				B4F195C61B2E0F0000B8C519 /* Default-568h@2x.png in Resources */,
 				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
@@ -1078,6 +1081,7 @@
 				B4E7C1921B53893E0038260E /* LogInView.xib in Resources */,
 				7EF371501AB8C1E8009AA3B9 /* Parse.plist in Resources */,
 				3DFA2F991B43C13000058930 /* WantToGoList.storyboard in Resources */,
+				B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */,
 				7EACBA111AFBDC15009D8CA6 /* Profile.storyboard in Resources */,
 				7EF371181AB8C012009AA3B9 /* Images.xcassets in Resources */,
 			);
