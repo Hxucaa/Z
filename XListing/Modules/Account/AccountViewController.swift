@@ -68,7 +68,7 @@ public final class AccountViewController: XUIViewController {
     private func setupLandingPage() {
         landingPageView.bindToViewModel(viewmodel.landingPageViewModel)
         
-        let skip = landingPageView.skipProxy
+        compositeDisposable += landingPageView.skipProxy
             |> start(next: { [weak self] in
                 self?.viewmodel.skipAccount({
                     self?.navigationController?.setNavigationBarHidden(true, animated: false)
@@ -77,7 +77,7 @@ public final class AccountViewController: XUIViewController {
                 })
             })
         
-        let login = landingPageView.loginProxy
+        compositeDisposable += landingPageView.loginProxy
             |> start(next: { [weak self] in
                 if let this = self {
                     // transition to log in view
@@ -85,23 +85,19 @@ public final class AccountViewController: XUIViewController {
                 }
             })
         
-        let signUp = landingPageView.signUpProxy
+        compositeDisposable += landingPageView.signUpProxy
             |> start(next: { [weak self] in
                 if let this = self {
                     // transition to sign up view
                     sendNext(this.viewTransitionSink, (view: this.signUpView, completion: { success in this.signUpView.startFirstResponder() }))
                 }
             })
-        
-        compositeDisposable.addDisposable(skip)
-        compositeDisposable.addDisposable(login)
-        compositeDisposable.addDisposable(signUp)
     }
     
     private func setupLogIn() {
         logInView.bindToViewModel(viewmodel.logInViewModel)
         
-        let goBack = logInView.goBackProxy
+        compositeDisposable += logInView.goBackProxy
             |> start(next: { [weak self] in
                 if let this = self {
                     // transition to landing page view
@@ -109,7 +105,7 @@ public final class AccountViewController: XUIViewController {
                 }
             })
         
-        let finishLogIn = logInView.finishLoginProxy
+        compositeDisposable += logInView.finishLoginProxy
             |> start(next: { [weak self] in
                 if self?.viewmodel.gotoNextModuleCallback == nil {
                     self?.viewmodel.pushFeaturedModule()
@@ -120,15 +116,12 @@ public final class AccountViewController: XUIViewController {
                 }
                 self?.navigationController?.setNavigationBarHidden(false, animated: false)
             })
-        
-        compositeDisposable.addDisposable(goBack)
-        compositeDisposable.addDisposable(finishLogIn)
     }
     
     private func setupSignUp() {
         signUpView.bindToViewModel(viewmodel.signUpViewModel)
         
-        let goBack = signUpView.goBackProxy
+        compositeDisposable += signUpView.goBackProxy
             |> start(next: { [weak self] in
                 if let this = self {
                     // transition to landing page view
@@ -136,34 +129,31 @@ public final class AccountViewController: XUIViewController {
                 }
             })
 
-        let finishSignUp = signUpView.finishSignUpProxy
+        compositeDisposable += signUpView.finishSignUpProxy
             |> start(next: { [weak self] in
                 if let this = self {
                     // transition to edit info view
                     sendNext(this.viewTransitionSink, (view: this.editInfoView, completion: nil))
                 }
             })
-        
-        compositeDisposable.addDisposable(goBack)
-        compositeDisposable.addDisposable(finishSignUp)
     }
     
     private func setupEditInfo() {
         editInfoView.bindToViewModel(viewmodel.editProfileViewModel)
         
-        let presentUIImagePicker = editInfoView.presentUIImagePickerProxy
+        compositeDisposable += editInfoView.presentUIImagePickerProxy
             |> start(next: { [weak self] imagePicker in
                 // present image picker
                 self?.presentViewController(imagePicker, animated: true, completion: nil)
             })
         
-        let dismissUIImagePicker = editInfoView.dismissUIImagePickerProxy
+        compositeDisposable += editInfoView.dismissUIImagePickerProxy
             |> start(next: { [weak self] handler in
                 // dismiss image picker
                 self?.dismissViewControllerAnimated(true, completion: handler)
             })
         
-        let finishEditInfo = editInfoView.finishEditInfoProxy
+        compositeDisposable += editInfoView.finishEditInfoProxy
             |> start(next: { [weak self] in
                 
                 if self?.viewmodel.gotoNextModuleCallback == nil {
@@ -175,16 +165,12 @@ public final class AccountViewController: XUIViewController {
                 }
                 self?.navigationController?.setNavigationBarHidden(false, animated: false)
             })
-        
-        compositeDisposable.addDisposable(presentUIImagePicker)
-        compositeDisposable.addDisposable(dismissUIImagePicker)
-        compositeDisposable.addDisposable(finishEditInfo)
     }
     
     private func setupTransitions() {
         
         // transition to next view.
-        let viewTransition = viewTransitionProducer
+        compositeDisposable += viewTransitionProducer
             // forwards events along with the previous value. The first member is the previous value and the second is the current value.
             |> combinePrevious((view: landingPageView, completion: nil))
             |> start(next: { [unowned self] previous, current in
@@ -197,8 +183,6 @@ public final class AccountViewController: XUIViewController {
                     }
                 }
             })
-        
-        compositeDisposable.addDisposable(viewTransition)
     }
     
     deinit {

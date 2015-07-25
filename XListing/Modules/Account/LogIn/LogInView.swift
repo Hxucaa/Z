@@ -62,7 +62,7 @@ public final class LogInView : UIView {
             return SignalProducer { sink, disposable in
                 if let this = self {
                     // display HUD to indicate work in progress
-                    let logInAndHUD = SignalProducer<Void, NoError>.empty
+                    disposable += SignalProducer<Void, NoError>.empty
                         // delay the signal due to the animation of retracting keyboard
                         // this cannot be executed on main thread, otherwise UI will be blocked
                         |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
@@ -88,7 +88,7 @@ public final class LogInView : UIView {
                         )
                     
                     // Subscribe to touch down inside event
-                    let touchDownInside = HUD.didTouchDownInsideNotification()
+                    disposable += HUD.didTouchDownInsideNotification()
                         |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
                         |> start(
                             next: { _ in
@@ -100,7 +100,7 @@ public final class LogInView : UIView {
                     )
 
                     // Subscribe to disappear notification
-                    let didDisappear = HUD.didDissappearNotification()
+                    disposable += HUD.didDissappearNotification()
                         |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
                         |> start(next: { [weak self] status in
                             if status == HUD.DisappearStatus.Normal {
@@ -116,12 +116,9 @@ public final class LogInView : UIView {
                         })
                     
                     // Add the signals to CompositeDisposable for automatic memory management
-                    disposable.addDisposable(didDisappear)
-                    disposable.addDisposable(touchDownInside)
-                    disposable.addDisposable(logInAndHUD)
-                    disposable.addDisposable({ () -> () in
+                    disposable.addDisposable {
                         AccountLogVerbose("Log in action is disposed.")
-                    })
+                    }
                     
                     // retract keyboard
                     self?.endEditing(true)

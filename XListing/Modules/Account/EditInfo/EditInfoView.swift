@@ -44,6 +44,7 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
     
     // MARK: - Properties
     private var viewmodel: EditInfoViewModel!
+    private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Setups
     public override func awakeFromNib() {
@@ -119,7 +120,7 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
                 if let this = self {
                     
                     // Update profile and show the HUD
-                    let hudAndUpdate = SignalProducer<Void, NoError>.empty
+                    disposable += SignalProducer<Void, NoError>.empty
                         // delay the signal due to the animation of retracting keyboard
                         // this cannot be executed on main thread, otherwise UI will be blocked
                         |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
@@ -146,7 +147,7 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
                     )
                     
                     // Subscribe to touch down inside event
-                    let touchDownInside = HUD.didTouchDownInsideNotification()
+                    disposable += HUD.didTouchDownInsideNotification()
                         |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
                         |> start(
                             next: { _ in
@@ -156,7 +157,7 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
                     )
                     
                     // Subscribe to disappear notification
-                    let didDisappear = HUD.didDissappearNotification()
+                    disposable += HUD.didDissappearNotification()
                         |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
                         |> start(next: { status in
                             if status == HUD.DisappearStatus.Normal {
@@ -169,12 +170,9 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
                         })
                     
                     // Add the signals to CompositeDisposable for automatic memory management
-                    disposable.addDisposable(didDisappear)
-                    disposable.addDisposable(touchDownInside)
-                    disposable.addDisposable(hudAndUpdate)
-                    disposable.addDisposable({ () -> () in
+                    disposable.addDisposable {
                         AccountLogVerbose("Update profile action is disposed.")
-                    })
+                    }
                     
                     // retract keyboard
                     self?.endEditing(true)
@@ -186,6 +184,7 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
     }
     
     deinit {
+        compositeDisposable.dispose()
         AccountLogVerbose("Edit Info View deinitializes.")
     }
     
@@ -207,9 +206,9 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
         self.viewmodel.nickname <~ nicknameField.rac_text
         
         // Limit the choices on date picker
-        self.viewmodel.年龄上限.producer
+        compositeDisposable += self.viewmodel.年龄上限.producer
             |> start(next: { [weak self] in self?.birthdayPicker.maximumDate = $0 })
-        self.viewmodel.年龄下限.producer
+        compositeDisposable += self.viewmodel.年龄下限.producer
             |> start(next: { [weak self] in self?.birthdayPicker.minimumDate = $0 })
         
         bindToImageSelectedSignal()
@@ -220,14 +219,14 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
     */
     private func bindToImageSelectedSignal() {
         // Subscribe to image picker, the signal sends the dictionary with info for the selected image
-        imagePicker.rac_imageSelectedSignal().toSignalProducer()
+        compositeDisposable += imagePicker.rac_imageSelectedSignal().toSignalProducer()
             // map to the edited image
             |> map { ($0 as! [NSObject : AnyObject])[UIImagePickerControllerEditedImage] as? UIImage }
             |> start(
                 // when an image is selected
                 next: { [weak self] image in
                     self?.viewmodel.profileImage.put(image)
-//                    self?.delegate?.dismissUIImagePickerController({ self?.bindToImageSelectedSignal() })
+                    
                     if let this = self {
                         sendNext(this._dismissUIImagePickerSink, { self?.bindToImageSelectedSignal() })
                     }
@@ -235,7 +234,6 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
                 // when cancel button is pressed
                 completed: { [weak self] in
                     // after dismissing the controller, has to rebind the signal because cancellation caused the signal to stop
-//                    self?.delegate?.dismissUIImagePickerController({ self?.bindToImageSelectedSignal() })
                     if let this = self {
                         sendNext(this._dismissUIImagePickerSink, { self?.bindToImageSelectedSignal() })
                     }
