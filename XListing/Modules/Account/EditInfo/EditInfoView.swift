@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 
-public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+public final class EditInfoView : UIView {
     
     // MARK: - UI
     // MARK: Controls
@@ -58,7 +58,6 @@ public final class EditInfoView : UIView, UIImagePickerControllerDelegate, UINav
     }
     
     private func setupImagePicker() {
-        imagePicker.delegate = self
         imagePicker.allowsEditing = true
         imagePicker.sourceType = .PhotoLibrary
     }
