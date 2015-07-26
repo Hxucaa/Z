@@ -19,7 +19,6 @@ public final class LandingPageView : UIView {
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var skipButton: UIButton!
     @IBOutlet weak var dividerLabel: UILabel!
-    @IBOutlet weak var logoView: LandingPageLogoView!
     
     // MARK: - Proxies
     
