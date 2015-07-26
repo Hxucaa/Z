@@ -68,9 +68,9 @@
 		B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */; };
 		B41334E31B5483F800B5F22D /* LandingPageLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334E21B5483F800B5F22D /* LandingPageLogoView.swift */; };
 		B41334E71B57631400B5F22D /* IAccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334E61B57631400B5F22D /* IAccountWireframe.swift */; };
-		B41334E91B5DE5C300B5F22D /* WarmSignalProducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334E81B5DE5C300B5F22D /* WarmSignalProducer.swift */; };
-		B41334EB1B5EE65B00B5F22D /* EditInfoViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334EA1B5EE65B00B5F22D /* EditInfoViewDelegate.swift */; };
 		B41334ED1B5F44B300B5F22D /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334EC1B5F44B300B5F22D /* Keyboard.swift */; };
+		B41334EF1B60E46C00B5F22D /* Nearby.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B41334EE1B60E46C00B5F22D /* Nearby.storyboard */; };
+		B41334F11B60F8B900B5F22D /* ReactiveCocoa+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334F01B60F8B900B5F22D /* ReactiveCocoa+extension.swift */; };
 		B42797431AFD463500AE5A90 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42797421AFD463500AE5A90 /* Router.swift */; };
 		B43032471AE4281D0068E8DF /* TypeAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43032461AE4281D0068E8DF /* TypeAliases.swift */; };
 		B446A61A1B1FA88000106CAF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B446A6191B1FA88000106CAF /* Logger.swift */; };
@@ -238,9 +238,9 @@
 		B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleFormatter.swift; sourceTree = "<group>"; };
 		B41334E21B5483F800B5F22D /* LandingPageLogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageLogoView.swift; sourceTree = "<group>"; };
 		B41334E61B57631400B5F22D /* IAccountWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IAccount\U0010Wireframe.swift"; sourceTree = "<group>"; };
-		B41334E81B5DE5C300B5F22D /* WarmSignalProducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarmSignalProducer.swift; sourceTree = "<group>"; };
-		B41334EA1B5EE65B00B5F22D /* EditInfoViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditInfoViewDelegate.swift; sourceTree = "<group>"; };
 		B41334EC1B5F44B300B5F22D /* Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
+		B41334EE1B60E46C00B5F22D /* Nearby.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Nearby.storyboard; sourceTree = "<group>"; };
+		B41334F01B60F8B900B5F22D /* ReactiveCocoa+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ReactiveCocoa+extension.swift"; sourceTree = "<group>"; };
 		B42797421AFD463500AE5A90 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		B43032461AE4281D0068E8DF /* TypeAliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeAliases.swift; sourceTree = "<group>"; };
 		B446A6191B1FA88000106CAF /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -628,7 +628,7 @@
 				B45581F91B367F7300C4D965 /* ReactiveTableBindingHelper.swift */,
 				3D70CCDE1B54E43E004588EC /* ImageAssets.swift */,
 				3D70CCEC1B57A951004588EC /* UIImageView+extension.swift */,
-				B41334E81B5DE5C300B5F22D /* WarmSignalProducer.swift */,
+				B41334F01B60F8B900B5F22D /* ReactiveCocoa+extension.swift */,
 			);
 			name = Utility;
 			path = Common/Utility;
@@ -685,6 +685,7 @@
 			children = (
 				B48C99111ADA56F70045BCA9 /* NearbyViewController.swift */,
 				B499E7361B3A28EA00C966E5 /* NearbyCollectionViewCell.swift */,
+				B41334EE1B60E46C00B5F22D /* Nearby.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -839,7 +840,6 @@
 				7EFEF7451B13D0900043E076 /* EditInfoView.swift */,
 				7E0173871B146473002E154B /* EditInfoView.xib */,
 				B40A0D8C1B23BD2900036986 /* EditInfoViewModel.swift */,
-				B41334EA1B5EE65B00B5F22D /* EditInfoViewDelegate.swift */,
 			);
 			path = EditInfo;
 			sourceTree = "<group>";
@@ -1077,6 +1077,7 @@
 				7E0173881B146473002E154B /* EditInfoView.xib in Resources */,
 				B4E7C18E1B5387880038260E /* LandingPageView.xib in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
+				B41334EF1B60E46C00B5F22D /* Nearby.storyboard in Resources */,
 				2A41A30E1AF3133F0086D24B /* fontawesome-webfont.ttf in Resources */,
 				B4E7C1921B53893E0038260E /* LogInView.xib in Resources */,
 				7EF371501AB8C1E8009AA3B9 /* Parse.plist in Resources */,
@@ -1251,6 +1252,7 @@
 				B41334E31B5483F800B5F22D /* LandingPageLogoView.swift in Sources */,
 				B4F195A71B2ADA9700B8C519 /* ProfileRoute.swift in Sources */,
 				3DFA2F971B43C11800058930 /* IWantToGoListWireframe.swift in Sources */,
+				B41334F11B60F8B900B5F22D /* ReactiveCocoa+extension.swift in Sources */,
 				B44E35041AD63F6000657A31 /* BusinessService.swift in Sources */,
 				B462BC7C1B2F94E800070BE5 /* IUserDefaultsService.swift in Sources */,
 				B4E7C1941B5389710038260E /* LogInView.swift in Sources */,
@@ -1291,7 +1293,6 @@
 				3D70CCE71B562AE3004588EC /* ImageService.swift in Sources */,
 				B4E1384A1AE1B94C0082DCA3 /* User.swift in Sources */,
 				B45581FA1B367F7300C4D965 /* ReactiveTableBindingHelper.swift in Sources */,
-				B41334E91B5DE5C300B5F22D /* WarmSignalProducer.swift in Sources */,
 				2A9A9BA41B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift in Sources */,
 				B4F1959E1B2AA3C400B8C519 /* WithoutDataRoute.swift in Sources */,
 				B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */,
@@ -1310,7 +1311,6 @@
 				B4E36BBB1ACE543C000F260E /* Business.swift in Sources */,
 				B462BC7A1B2F94DE00070BE5 /* UserDefaultsService.swift in Sources */,
 				B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */,
-				B41334EB1B5EE65B00B5F22D /* EditInfoViewDelegate.swift in Sources */,
 				B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */,
 				B42797431AFD463500AE5A90 /* Router.swift in Sources */,
 				3DFA2F9B1B43C13700058930 /* WantToGoListViewCell.swift in Sources */,

@@ -9,6 +9,7 @@
 import Foundation
 
 private let NearbyViewControllerIdentifier = "NearbyViewController"
+private let NearbyStoryboardName = "Nearby"
 
 public final class NearbyWireframe : BaseWireframe, INearbyWireframe {
     
@@ -33,7 +34,7 @@ public final class NearbyWireframe : BaseWireframe, INearbyWireframe {
     */
     private func initViewController() -> NearbyViewController {
         // retrieve view controller from storyboard
-        let viewController = getViewControllerFromStoryboard(NearbyViewControllerIdentifier) as! NearbyViewController
+        let viewController = getViewControllerFromStoryboard(NearbyViewControllerIdentifier, storyboardName: NearbyStoryboardName) as! NearbyViewController
         let viewmodel = NearbyViewModel(router: router, businessService: businessService, geoLocationService: geoLocationService, imageService: imageService)
         
         viewController.bindToViewModel(viewmodel)

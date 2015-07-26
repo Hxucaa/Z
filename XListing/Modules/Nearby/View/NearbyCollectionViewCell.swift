@@ -27,6 +27,7 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
         super.awakeFromNib()
     }
     
+    // MARK: Bindings
     public func bindToViewModel(viewmodel: NearbyTableCellViewModel) {
         self.viewmodel = viewmodel
         
@@ -36,11 +37,20 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
         etaLabel.rac_text <~ self.viewmodel.eta
         
         self.viewmodel.coverImage.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
             |> ignoreNil
-            |> start (next: { [weak self] in
-                self?.coverImageView.setImageWithAnimation($0)
-            })
+            |> start (
+                next: { [weak self] in
+                    self?.coverImageView.setImageWithAnimation($0)
+                },
+                completed: { [weak self] in
+                    if let this = self {
+                        NearbyLogVerbose("<\(_stdlib_getDemangledTypeName(this)): \(unsafeAddressOf(this))> Cover image signal completes.")
+                    }
+                }
+            )
     }
-    
-    
 }
