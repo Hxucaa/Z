@@ -15,33 +15,34 @@ public struct LogInViewModel {
     // MARK: - Public
     
     // MARK: Input
-    public let username = MutableProperty<String>("")
-    public let password = MutableProperty<String>("")
+    public let username = MutableProperty<String?>(nil)
+    public let password = MutableProperty<String?>(nil)
     
     // MARK: Output
     public let isUsernameValid = MutableProperty<Bool>(false)
     public let isPasswordValid = MutableProperty<Bool>(false)
     public let allInputsValid = MutableProperty<Bool>(false)
-//    public let 
-    
-    private let router: IRouter
     
     // MARK: Actions
     public var logIn: SignalProducer<User, NSError> {
+        
         return self.allInputsValid.producer
             // only allow TRUE value
             |> filter { $0 }
-            |> mapError { _ in NSError() }
-            |> flatMap(FlattenStrategy.Merge) { valid -> SignalProducer<User, NSError> in
-                    return self.userService.logIn(self.username.value, password: self.password.value)
-        }
+            // combine the username and password into one signal
+            |> flatMap(.Concat) { _ in combineLatest(self.validUsernameSignal, self.validPasswordSignal) }
+            // promote to NSError
+            |> promoteErrors(NSError)
+            // log in user
+            |> flatMap(FlattenStrategy.Merge) { username, password -> SignalProducer<User, NSError> in
+                return self.userService.logIn(username, password: password)
+            }
     }
     
     // MARK: Initializers
     
-    public init(userService: IUserService, router: IRouter) {
+    public init(userService: IUserService) {
         self.userService = userService
-        self.router = router
         
         setupUsername()
         setupPassword()
@@ -50,34 +51,38 @@ public struct LogInViewModel {
     
     // MARK: - Private
     
-    // MARK: Services
+    // MARK: Variables
     private let userService: IUserService
+    /// Signal containing a valid username
+    private var validUsernameSignal: SignalProducer<String, NoError>!
+    /// Signal containing a valid password
+    private var validPasswordSignal: SignalProducer<String, NoError>!
     
     
     // MARK: Setup
     
-    private func setupUsername() {
-        isUsernameValid <~ username.producer
+    private mutating func setupUsername() {
+        validUsernameSignal = username.producer
+            |> ignoreNil
             // TODO: regex
             |> filter { count($0) > 0 }
-            |> map { _ in return true }
+            
+        isUsernameValid <~ validUsernameSignal
+            |> map { _ in true }
     }
     
-    private func setupPassword() {
-        isPasswordValid <~ password.producer
+    private mutating func setupPassword() {
+        validPasswordSignal = password.producer
+            |> ignoreNil
             // TODO: regex
             |> filter { count($0) > 0 }
-            |> map { _ in return true }
+        
+        isPasswordValid <~ validPasswordSignal
+            |> map { _ in true }
     }
     
     private func setupAllInputsValid() {
         allInputsValid <~ combineLatest(isUsernameValid.producer, isPasswordValid.producer)
-            |> map { values -> Bool in
-                return values.0 && values.1
-        }
-    }
-    
-    public func dismissAccountView() {
-        router.pushFeatured()
+            |> map { $0.0 && $0.1 }
     }
 }

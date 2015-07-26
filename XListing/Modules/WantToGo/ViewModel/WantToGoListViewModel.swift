@@ -35,7 +35,7 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
                 self.participationArr.put($.shuffle(participations))
                 BOLogVerbose("Current Participations: \(participations.0.count)")
                 return self.participationArr.value.map{
-                    return WantToGoViewModel(participationService: self.participationService, profilePicture: $0.user.profileImg, displayName: $0.user.nickname, horoscope: $0.user.horoscope, ageGroup: $0.user.ageGroup, gender: $0.user.gender)
+                    return WantToGoViewModel(participationService: self.participationService, imageService: self.imageService, profilePicture: $0.user.profileImg, displayName: $0.user.nickname, horoscope: $0.user.horoscope, ageGroup: $0.user.ageGroup, gender: $0.user.gender)
                     }
             }
 
@@ -67,10 +67,11 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
 
     
     // MARK: Initializers
-    public init(router: IRouter, userService: IUserService, participationService: IParticipationService, business: Business) {
+    public init(router: IRouter, userService: IUserService, participationService: IParticipationService, imageService: IImageService, business: Business) {
         self.router = router
         self.userService = userService
         self.participationService = participationService
+        self.imageService = imageService
         self.business = business
         
         getWantToGoUsers()
@@ -83,6 +84,7 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
     private let router: IRouter
     private let userService: IUserService
     private let participationService: IParticipationService
+    private let imageService: IImageService
     private let business: Business
     private let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
     private let allUsersArr: MutableProperty<[WantToGoViewModel]> = MutableProperty([WantToGoViewModel]())

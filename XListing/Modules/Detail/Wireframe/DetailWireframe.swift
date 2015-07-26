@@ -16,13 +16,15 @@ public final class DetailWireframe : BaseWireframe, IDetailWireframe {
     private let userService: IUserService
     private let participationService: IParticipationService
     private let geoLocationService: IGeoLocationService
+    private let imageService: IImageService
     
-    public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService) {
+    public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService) {
         
         self.router = router
         self.userService = userService
         self.participationService = participationService
         self.geoLocationService = geoLocationService
+        self.imageService = imageService
         
         super.init(rootWireframe: rootWireframe)
     }
@@ -35,7 +37,7 @@ public final class DetailWireframe : BaseWireframe, IDetailWireframe {
     private func injectViewModelToViewController(businessModel: Business) -> DetailViewController {
         // retrieve view controller from storyboard
         let viewController = getViewControllerFromStoryboard(DetailViewControllerIdentifier) as! DetailViewController
-        let detailViewModel = DetailViewModel(router: router, userService: userService, participationService: participationService, geoLocationService: geoLocationService, businessModel: businessModel)
+        let detailViewModel = DetailViewModel(router: router, userService: userService, participationService: participationService, geoLocationService: geoLocationService, imageService: imageService, businessModel: businessModel)
         viewController.bindToViewModel(detailViewModel)
         
         return viewController

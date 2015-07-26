@@ -28,8 +28,8 @@ public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     
     private func injectViewModelToViewController(dismissCallback: CompletionHandler? = nil) -> AccountViewController {
         let viewController = getViewControllerFromStoryboard(AccountViewControllerIdentifier, storyboardName: AccountStoryboardName) as! AccountViewController
-        let viewmodel = AccountViewModel(userService: userService, router: router, userDefaultsService: userDefaultsService)
-        viewController.bindToViewModel(viewmodel, dismissCallback: dismissCallback)
+        let viewmodel = AccountViewModel(userService: userService, router: router, userDefaultsService: userDefaultsService, dismissCallback: dismissCallback)
+        viewController.bindToViewModel(viewmodel)
         
         return viewController
     }

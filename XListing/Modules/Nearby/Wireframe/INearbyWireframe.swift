@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol INearbyWireframe : class {
-    init(rootWireframe: IRootWireframe, router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService)
+    init(rootWireframe: IRootWireframe, router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService, imageService: IImageService)
 }

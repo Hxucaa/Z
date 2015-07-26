@@ -71,12 +71,9 @@ public final class Router : IRouter {
             closure()
         }
         else {
-            accountRouteDelegate.present(nil,
-                dismissCallback: {
-                    closure()
-                }
-            )
-            
+            accountRouteDelegate.present(nil) {
+                closure()
+            }
         }
     }
 }

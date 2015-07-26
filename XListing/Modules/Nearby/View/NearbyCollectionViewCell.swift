@@ -24,22 +24,33 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
     
     // MARK: Setups
     public override func awakeFromNib() {
-        
+        super.awakeFromNib()
     }
     
+    // MARK: Bindings
     public func bindToViewModel(viewmodel: NearbyTableCellViewModel) {
         self.viewmodel = viewmodel
         
-        
-        self.viewmodel.coverImageNSURL.producer
-            |> start(next: { url in
-                self.coverImageView.sd_setImageWithURL(url)
-            })
         businessNameLabel.rac_text <~ self.viewmodel.businessName
         cityLabel.rac_text <~ self.viewmodel.city
         businessHoursLabel.rac_text <~ self.viewmodel.participation
         etaLabel.rac_text <~ self.viewmodel.eta
+        
+        self.viewmodel.coverImage.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
+            |> ignoreNil
+            |> start (
+                next: { [weak self] in
+                    self?.coverImageView.setImageWithAnimation($0)
+                },
+                completed: { [weak self] in
+                    if let this = self {
+                        NearbyLogVerbose("<\(_stdlib_getDemangledTypeName(this)): \(unsafeAddressOf(this))> Cover image signal completes.")
+                    }
+                }
+            )
     }
-    
-    
 }

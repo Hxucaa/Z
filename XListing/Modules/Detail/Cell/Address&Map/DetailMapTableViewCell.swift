@@ -28,8 +28,8 @@ public final class DetailMapTableViewCell: UITableViewCell {
         mapView.delegate = self
         
         // Action
-        let pushNavMap = Action<UITapGestureRecognizer, Void, NoError> { [unowned self] gesture in
-            return SignalProducer { [unowned self] sink, disposable in
+        let pushNavMap = Action<UITapGestureRecognizer, Void, NoError> { gesture in
+            return SignalProducer { sink, disposable in
                 
                 let navVC = DetailNavigationMapViewController(nibName: DetailNavigationMapViewControllerXib, bundle: nil)
                 navVC.bindToViewModel(self.viewmodel.detailNavigationMapViewModel)
@@ -52,13 +52,13 @@ public final class DetailMapTableViewCell: UITableViewCell {
         self.viewmodel = viewmodel
         
         viewmodel.annotation.producer
-            |> start(next: { [unowned self] annotation in
-                self.mapView.addAnnotation(annotation)
+            |> start(next: { [weak self] annotation in
+                self?.mapView.addAnnotation(annotation)
             })
         
         viewmodel.cellMapRegion.producer
-            |> start(next: { [unowned self] region in
-                self.mapView.setRegion(region, animated: false)
+            |> start(next: { [weak self] region in
+                self?.mapView.setRegion(region, animated: false)
             })
     }
 }

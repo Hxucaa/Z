@@ -13,7 +13,7 @@ import MapKit
 public protocol INearbyViewModel {
     var businessViewModelArr: MutableProperty<[NearbyTableCellViewModel]> { get }
     var currentLocation: SignalProducer<CLLocation, NSError> { get }
-    init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService)
+    init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService, imageService: IImageService)
     func pushDetailModule(section: Int)
     func pushProfileModule()
 }

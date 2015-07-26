@@ -23,15 +23,20 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
-        // Initialization code
-        let popover = Action<UIButton, Void, NoError> { [unowned self] button in
-            return SignalProducer { [unowned self] sink, disposable in
-                self.delegate.participate(self.popover)
-                sendCompleted(sink)
+        // Initialization
+        let markWanttoGoAction = Action<UIButton, Void, NoError>{ [weak self] button in
+            return SignalProducer { sink, disposable in
+                typealias Choice = DetailBizInfoViewModel.ParticipationChoice
+                if let this = self {
+                    let participate = this.viewmodel.participate(Choice.我想去)
+                        |> start()
+                    
+                    disposable.addDisposable(participate)
+                }
             }
         }
         
-        participateButton.addTarget(popover.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        participateButton.addTarget(markWanttoGoAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
 
     public func bindToViewModel(viewmodel: DetailBizInfoViewModel) {
@@ -39,34 +44,11 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
         
         businessNameLabel.rac_text <~ self.viewmodel.businessName
         self.viewmodel.participationButtonTitle.producer
-            |> start(next: { [unowned self] text in
-                self.participateButton.setTitle(text, forState: .Normal)
+            |> start(next: { [weak self] text in
+                self?.participateButton.setTitle(text, forState: .Normal)
             })
         participateButton.rac_enabled <~ self.viewmodel.participationButtonEnabled
         cityAndDistanceLabel.rac_text <~ self.viewmodel.locationText
         
-    }
-    
-    private var popover: UIAlertController {
-        typealias Choice = DetailBizInfoViewModel.ParticipationChoice
-        
-        var alert = UIAlertController(title: "请选一种", message: "", preferredStyle: UIAlertControllerStyle.Alert)
-        
-        alert.addAction(UIAlertAction(title: Choice.我想去.rawValue, style: .Default) { [unowned self] alert in
-            self.viewmodel.participate(Choice.我想去)
-                |> start()
-            })
-        alert.addAction(UIAlertAction(title: Choice.我想请客.rawValue, style: .Default) { [unowned self] alert in
-            self.viewmodel.participate(Choice.我想请客)
-                |> start()
-            })
-        alert.addAction(UIAlertAction(title: Choice.我想AA.rawValue, style: .Default) { [unowned self] alert in
-            self.viewmodel.participate(Choice.我想AA)
-                |> start()
-            })
-        
-        alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil))
-        
-        return alert
     }
 }
