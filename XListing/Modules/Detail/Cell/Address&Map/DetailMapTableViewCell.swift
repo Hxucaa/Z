@@ -17,8 +17,8 @@ public final class DetailMapTableViewCell: UITableViewCell {
     @IBOutlet weak var mapView: MKMapView!
     
     // MARK: - Proxies
-    private let (_navigationMapProxy, _navigationMapSink) = SignalProducer<Void, NoError>.buffer(1)
-    public var navigationMapProxy: SignalProducer<Void, NoError> {
+    private let (_navigationMapProxy, _navigationMapSink) = SimpleProxy.proxy()
+    public var navigationMapProxy: SimpleProxy {
         return _navigationMapProxy
     }
     
@@ -71,19 +71,13 @@ public final class DetailMapTableViewCell: UITableViewCell {
         self.viewmodel = viewmodel
         
         compositeDisposable += self.viewmodel.annotation.producer
-            |> takeUntil(
-                rac_prepareForReuseSignal.toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilPrepareForReuse(self)
             |> start(next: { [weak self] annotation in
                 self?.mapView.addAnnotation(annotation)
             })
         
         compositeDisposable += self.viewmodel.cellMapRegion.producer
-            |> takeUntil(
-                rac_prepareForReuseSignal.toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilPrepareForReuse(self)
             |> start(next: { [weak self] region in
                 self?.mapView.setRegion(region, animated: false)
             })

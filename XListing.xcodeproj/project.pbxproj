@@ -18,7 +18,6 @@
 		2A9A9BA21B1C40610010EDA9 /* DetailMapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9BA11B1C40610010EDA9 /* DetailMapTableViewCell.swift */; };
 		2A9A9BA41B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9BA31B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift */; };
 		2A9A9BA61B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9BA51B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift */; };
-		2A9A9BA81B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9BA71B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift */; };
 		2ADF3E651B1ECBA200C2971E /* DetailNavigationMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF3E631B1ECBA200C2971E /* DetailNavigationMapViewController.swift */; };
 		3D211E861B2C1AB000161E09 /* IBackgroundLocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D211E851B2C1AAF00161E09 /* IBackgroundLocationWorker.swift */; };
 		3D211E881B2C1ABE00161E09 /* BackgroundLocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D211E871B2C1ABE00161E09 /* BackgroundLocationWorker.swift */; };
@@ -176,7 +175,6 @@
 		2A9A9BA11B1C40610010EDA9 /* DetailMapTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMapTableViewCell.swift; sourceTree = "<group>"; };
 		2A9A9BA31B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAddressTableViewCell.swift; sourceTree = "<group>"; };
 		2A9A9BA51B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhoneWebTableViewCell.swift; sourceTree = "<group>"; };
-		2A9A9BA71B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhoneWebCellDelegate.swift; sourceTree = "<group>"; };
 		2ADF3E631B1ECBA200C2971E /* DetailNavigationMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailNavigationMapViewController.swift; path = Detail/DetailNavigationMapViewController.swift; sourceTree = "<group>"; };
 		3274F99E18CB33E02A5ADE6D /* Pods-XListing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListing.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XListing/Pods-XListing.debug.xcconfig"; sourceTree = "<group>"; };
 		3B67513D959F982A4CF98B56 /* Pods-XListing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListing.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListing/Pods-XListing.release.xcconfig"; sourceTree = "<group>"; };
@@ -887,7 +885,6 @@
 			children = (
 				2A9A9BA51B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift */,
 				B4C6EA221AFE845B00A166AD /* DetailWebViewViewController.swift */,
-				2A9A9BA71B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift */,
 				B4F195B71B2C154900B8C519 /* DetailPhoneWebViewModel.swift */,
 			);
 			name = PhoneWeb;
@@ -1198,7 +1195,6 @@
 				7E01738E1B1525DB002E154B /* EditProfileTableViewController.swift in Sources */,
 				B48C99121ADA56F70045BCA9 /* NearbyViewController.swift in Sources */,
 				B4F195A91B2B9EC400B8C519 /* DetailImageViewModel.swift in Sources */,
-				2A9A9BA81B1C47AE0010EDA9 /* DetailPhoneWebCellDelegate.swift in Sources */,
 				B47E15C61B181E160028E07E /* BackgroundOperationsWorkerFactory.swift in Sources */,
 				3D70CCED1B57A951004588EC /* UIImageView+extension.swift in Sources */,
 				B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */,

@@ -19,6 +19,7 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
     
     // MARK: Controls
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var shareBarButtonItem: UIBarButtonItem!
     private var navigationMapViewController: DetailNavigationMapViewController!
     
     // MARK: - Properties
@@ -41,7 +42,7 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
         
         tableView.delegate = self
         tableView.dataSource = self
-        navigationItem.rac_title <~ viewmodel.businessName
+        setupShareBarButtonItem()
         
         compositeDisposable += navigationMapViewController.goBackProxy
             |> start(next: { handler in
@@ -53,20 +54,28 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func shareButtonTapped(sender: AnyObject) {
-        self.shareSheetAction()
+    private func setupShareBarButtonItem() {
+        let share = Action<UIBarButtonItem, Void, NoError> { button in
+            return SignalProducer { sink, disposable in
+                var someText = "blah"
+                let google = NSURL(string:"http://google.com/")!
+                
+                let activityViewController = UIActivityViewController(
+                    activityItems: [someText, google],
+                    applicationActivities:nil)
+                
+                self.presentViewController(activityViewController,
+                    animated: true,
+                    completion: { sendCompleted(sink) })
+                
+            }
+        }
+
+        shareBarButtonItem.target = share.unsafeCocoaAction
+        shareBarButtonItem.action = CocoaAction.selector
     }
     
     public func shareSheetAction() {
-        var someText = "blah"
-        let google = NSURL(string:"http://google.com/")!
-        
-        let activityViewController = UIActivityViewController(
-            activityItems: [someText, google],
-            applicationActivities:nil)
-        self.presentViewController(activityViewController,
-            animated: true,
-            completion: nil)
     }
     
     deinit {
@@ -78,6 +87,8 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
     
     public func bindToViewModel(detailViewModel: IDetailViewModel) {
         viewmodel = detailViewModel
+        
+        navigationItem.rac_title <~ self.viewmodel.businessName
     }
     
     // MARK: - Others
@@ -219,6 +230,7 @@ extension DetailViewController : UITableViewDataSource {
                 mapCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
                 
                 compositeDisposable += mapCell.navigationMapProxy
+                    |> takeUntilPrepareForReuse(mapCell)
                     |> start(next: { [weak self] in
                         self?.presentNavigationMapViewController()
                     })
@@ -229,16 +241,22 @@ extension DetailViewController : UITableViewDataSource {
                 addressCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
                 
                 compositeDisposable += addressCell.navigationMapProxy
+                    |> takeUntilPrepareForReuse(addressCell)
                     |> start(next: { [weak self] in
                         self?.presentNavigationMapViewController()
                     })
                 
                 return addressCell
             case 3:
-                let phoneWebCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "PhoneWebSplitCell") as! DetailPhoneWebTableViewCell
+                let phoneWebCell = tableView.dequeueReusableCellWithIdentifier("PhoneWebSplitCell", forIndexPath: indexPath) as! DetailPhoneWebTableViewCell
                 
-                phoneWebCell.delegate = self
                 phoneWebCell.bindToViewModel(viewmodel.detailPhoneWebViewModel)
+                
+                compositeDisposable += phoneWebCell.presentWebViewProxy
+                    |> takeUntilPrepareForReuse(phoneWebCell)
+                    |> start(next: { [weak self] vc in
+                        self?.presentViewController(vc, animated: true, completion: nil)
+                    })
                 
                 return phoneWebCell
             default: return defaultCell(tableView, cellForRowAtIndexPath: indexPath)
@@ -342,11 +360,5 @@ extension DetailViewController : DetailBizInfoCellDelegate {
 extension DetailViewController : ParticipationPopoverDelegate {
     public func alertAction(choiceTag: Int) {
         self.tableView.reloadData()
-    }
-}
-
-extension DetailViewController : DetailPhoneWebCellDelegate {
-    public func presentWebView<T: UIViewController>(viewController: T) {
-        self.presentViewController(viewController, animated: true, completion: nil)
     }
 }

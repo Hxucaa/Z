@@ -18,8 +18,8 @@ public final class DetailAddressTableViewCell: UITableViewCell {
     @IBOutlet weak var addressButton: UIButton!
     
     // MARK: - Proxies
-    private let (_navigationMapProxy, _navigationMapSink) = SignalProducer<Void, NoError>.buffer(1)
-    public var navigationMapProxy: SignalProducer<Void, NoError> {
+    private let (_navigationMapProxy, _navigationMapSink) = SimpleProxy.proxy()
+    public var navigationMapProxy: SimpleProxy {
         return _navigationMapProxy
     }
     
@@ -72,10 +72,7 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         self.viewmodel = viewmodel
         
         compositeDisposable += self.viewmodel.fullAddress.producer
-            |> takeUntil(
-                rac_prepareForReuseSignal.toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilPrepareForReuse(self)
             |> start(next: { [weak self] address in
                 self?.addressButton.setTitle(address, forState: UIControlState.Normal)
             })
