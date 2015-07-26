@@ -4,11 +4,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <mutableArray key="NotoSans-Bold.ttf">
-            <string>NotoSans-Bold</string>
-        </mutableArray>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -22,13 +17,13 @@
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="ssR-Xm-mDg">
                     <rect key="frame" x="232" y="122" width="136" height="146"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&quot;  找  地  方,  约  起  来  !  &quot;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ia-XE-3iv">
-                    <rect key="frame" x="214" y="307" width="203" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&quot;  找  地  方,  约  起  来  !  &quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ia-XE-3iv">
+                    <rect key="frame" x="199" y="307" width="203" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="9ia-XE-3iv" secondAttribute="height" multiplier="29:3" id="14w-Lr-Em2"/>
                         <constraint firstAttribute="width" constant="203" id="NHk-hH-3Ro"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="15"/>
+                    <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="15"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -42,10 +37,16 @@
                 <constraint firstItem="4sR-6d-ZKA" firstAttribute="centerX" secondItem="ssR-Xm-mDg" secondAttribute="centerX" id="EIV-i7-jEY"/>
                 <constraint firstAttribute="centerX" secondItem="ssR-Xm-mDg" secondAttribute="centerX" id="Zoq-qe-VzG"/>
                 <constraint firstItem="9ia-XE-3iv" firstAttribute="top" secondItem="ssR-Xm-mDg" secondAttribute="bottom" constant="39" id="edp-sK-Zej"/>
+                <constraint firstItem="ssR-Xm-mDg" firstAttribute="centerX" secondItem="9ia-XE-3iv" secondAttribute="centerX" constant="-0.5" id="n7v-ra-feX"/>
                 <constraint firstAttribute="bottom" secondItem="4sR-6d-ZKA" secondAttribute="bottom" id="zj2-Py-hK6"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="B1L-EK-0fG"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="-3" y="253"/>
         </view>
     </objects>

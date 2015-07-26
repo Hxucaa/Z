@@ -8,7 +8,6 @@
     <customFonts key="customFonts">
         <mutableArray key="NotoSans-Bold.ttf">
             <string>NotoSans-Bold</string>
-            <string>NotoSans-Bold</string>
         </mutableArray>
         <mutableArray key="NotoSansCJKsc-Medium.otf">
             <string>NotoSansCJKsc-Medium</string>
@@ -29,15 +28,15 @@
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="v4L-vT-WDq">
                     <rect key="frame" x="232" y="122" width="136" height="146"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&quot;  找  地  方,  约  起  来  !  &quot;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IAk-Ok-i4m">
-                    <rect key="frame" x="214" y="307" width="203" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&quot;  找  地  方,  约  起  来  !  &quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IAk-Ok-i4m">
+                    <rect key="frame" x="199" y="307" width="203" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="203" id="E4c-8Z-t6h"/>
                         <constraint firstAttribute="width" constant="203" id="KFq-fe-V0Q"/>
                         <constraint firstAttribute="width" secondItem="IAk-Ok-i4m" secondAttribute="height" multiplier="29:3" id="lVg-mM-ryH"/>
                         <constraint firstAttribute="width" secondItem="IAk-Ok-i4m" secondAttribute="height" multiplier="29:3" id="zcx-Ry-wMs"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="15"/>
+                    <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="15"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                     <variation key="default">
@@ -131,6 +130,7 @@
                 </constraint>
                 <constraint firstItem="Osl-4F-Oyr" firstAttribute="leading" secondItem="hcy-qC-2WU" secondAttribute="trailing" constant="28" id="ndV-88-ePo"/>
                 <constraint firstItem="IAk-Ok-i4m" firstAttribute="top" secondItem="v4L-vT-WDq" secondAttribute="bottom" constant="39" id="tIr-oG-28X"/>
+                <constraint firstItem="IAk-Ok-i4m" firstAttribute="centerX" secondItem="v4L-vT-WDq" secondAttribute="centerX" constant="0.5" id="v4C-T0-vJk"/>
                 <constraint firstItem="hcy-qC-2WU" firstAttribute="top" secondItem="0eD-67-s1P" secondAttribute="top" id="yUG-QD-WZh"/>
             </constraints>
             <variation key="default">
@@ -138,6 +138,7 @@
                     <exclude reference="LWL-dX-2PC"/>
                     <exclude reference="Bb0-LZ-gjm"/>
                     <exclude reference="HJe-GY-ZJe"/>
+                    <exclude reference="Ase-ph-ork"/>
                     <exclude reference="hWX-Hv-tCB"/>
                 </mask>
             </variation>
