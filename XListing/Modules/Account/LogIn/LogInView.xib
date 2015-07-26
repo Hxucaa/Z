@@ -7,8 +7,6 @@
     <customFonts key="customFonts">
         <mutableArray key="NotoSansCJKsc-Medium.otf">
             <string>NotoSansCJKsc-Medium</string>
-            <string>NotoSansCJKsc-Medium</string>
-            <string>NotoSansCJKsc-Medium</string>
         </mutableArray>
         <mutableArray key="NotoSansCJKsc-Regular.otf">
             <string>NotoSansCJKsc-Regular</string>
@@ -53,12 +51,6 @@
                 <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Mq-lA-gcy" userLabel="Container View">
                     <rect key="frame" x="125" y="61" width="350" height="350"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="“ 找 地 方，约 起 来 ”" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nrN-hv-Xvs">
-                            <rect key="frame" x="113" y="85" width="124" height="16"/>
-                            <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="13"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="用户名" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uO8-N8-zrD">
                             <rect key="frame" x="50" y="168" width="250" height="30"/>
                             <constraints>
@@ -69,9 +61,9 @@
                             <fontDescription key="fontDescription" name="NotoSansCJKsc-Regular" family="Noto Sans CJK SC" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                         </textField>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="来 这 儿 !" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sMe-4I-PLY">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="来 这 儿 !" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sMe-4I-PLY">
                             <rect key="frame" x="110" y="40" width="131" height="38"/>
-                            <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="32"/>
+                            <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="32"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -117,6 +109,12 @@
                                 </mask>
                             </variation>
                         </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="“  找  地  方， 约  起  来  ”" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nrN-hv-Xvs">
+                            <rect key="frame" x="95" y="84" width="160" height="16"/>
+                            <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="13"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -157,6 +155,7 @@
                 <outlet property="passwordField" destination="5As-hO-Olb" id="m4x-Z6-VhP"/>
                 <outlet property="usernameField" destination="uO8-N8-zrD" id="4ab-Rs-w89"/>
             </connections>
+            <point key="canvasLocation" x="279" y="334"/>
         </view>
     </objects>
     <resources>

@@ -74,6 +74,8 @@ public final class SignUpView : UIView {
     }
     
     private func setupSignupButton () {
+        signupButton.layer.masksToBounds = true
+        signupButton.layer.cornerRadius = 8
         
         let signup = Action<UIButton, Void, NSError> { [weak self] button in
             return SignalProducer { sink, disposable in
