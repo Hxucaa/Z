@@ -6,5 +6,5 @@
 import Foundation
 
 public protocol IProfileWireframe : class {
-    init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService)
+    init(rootWireframe: IRootWireframe, router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
 }

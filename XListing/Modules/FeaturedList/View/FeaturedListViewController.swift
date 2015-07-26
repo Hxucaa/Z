@@ -34,6 +34,11 @@ public final class FeaturedListViewController: XUIViewController {
         setupNearbyButton()
         setupProfileButton()
     }
+    
+    public override func viewWillAppear(animated: Bool) {
+        navigationController?.navigationBar.hidden = false // for navigation bar hide
+        UIApplication.sharedApplication().statusBarHidden=false
+    }
 
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -100,7 +105,6 @@ public final class FeaturedListViewController: XUIViewController {
                 sendCompleted(sink)
             }
         }
-        
         profileButton.target = pushProfile.unsafeCocoaAction
         profileButton.action = CocoaAction.selector
     }

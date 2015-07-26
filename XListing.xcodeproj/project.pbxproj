@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2661B9201B4B72C9005D9C41 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2661B91F1B4B72C9005D9C41 /* Gender.swift */; };
 		26645ACB1B54C4F200ADDCD1 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */; };
-		26645ACD1B54F11F00ADDCD1 /* LandingPageLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ACC1B54F11F00ADDCD1 /* LandingPageLogoView.swift */; };
 		26645ACF1B57956600ADDCD1 /* GenderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */; };
 		26645AD31B58B58200ADDCD1 /* ProfileEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645AD21B58B58200ADDCD1 /* ProfileEditViewModel.swift */; };
 		26645AD51B5A383A00ADDCD1 /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645AD41B5A383A00ADDCD1 /* DatePickerTableViewCell.swift */; };
@@ -19,9 +19,6 @@
 		269163661B5C6B0C005D48FA /* PopDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269163641B5C6B0C005D48FA /* PopDateViewController.swift */; };
 		269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 269163651B5C6B0C005D48FA /* PopDateViewController.xib */; };
 		269163691B5C6C1E005D48FA /* PopoverDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269163681B5C6C1E005D48FA /* PopoverDatePicker.swift */; };
-
-		2661B9201B4B72C9005D9C41 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2661B91F1B4B72C9005D9C41 /* Gender.swift */; };
-
 		2A1B3A201B2574EF003E70E0 /* ParticipationPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */; };
 		2A1B3A221B25751A003E70E0 /* ParticipationPopoverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */; };
 		2A41A30E1AF3133F0086D24B /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */; };
@@ -164,6 +161,13 @@
 		B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */; };
 		B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */; };
 		B4FCC7411AEB0080009B4DF6 /* IRootWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7401AEB0080009B4DF6 /* IRootWireframe.swift */; };
+		D0ADD8A11B608B4200B27885 /* ProfileBusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADD89B1B608B4200B27885 /* ProfileBusinessCell.swift */; };
+		D0ADD8A21B608B4200B27885 /* ProfileBusinessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ADD89C1B608B4200B27885 /* ProfileBusinessCell.xib */; };
+		D0ADD8A31B608B4200B27885 /* ProfileHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ADD89D1B608B4200B27885 /* ProfileHeaderView.xib */; };
+		D0ADD8A41B608B4200B27885 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADD89E1B608B4200B27885 /* ProfileHeaderView.swift */; };
+		D0ADD8A51B608B4200B27885 /* ProfileTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADD89F1B608B4200B27885 /* ProfileTabView.swift */; };
+		D0ADD8A61B608B4200B27885 /* ProfileTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ADD8A01B608B4200B27885 /* ProfileTabView.xib */; };
+		D0D006031B62B23900755B7F /* ProfileBusinessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D006021B62B23900755B7F /* ProfileBusinessViewModel.swift */; };
 		E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -180,9 +184,8 @@
 /* Begin PBXFileReference section */
 		1764137F392722E0F7D6FA70 /* Pods-XListingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListingTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XListing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-
+		2661B91F1B4B72C9005D9C41 /* Gender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 		26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
-		26645ACC1B54F11F00ADDCD1 /* LandingPageLogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageLogoView.swift; sourceTree = "<group>"; };
 		26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderTableViewCell.swift; sourceTree = "<group>"; };
 		26645AD21B58B58200ADDCD1 /* ProfileEditViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewModel.swift; sourceTree = "<group>"; };
 		26645AD41B5A383A00ADDCD1 /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewCell.swift; sourceTree = "<group>"; };
@@ -193,7 +196,6 @@
 		269163641B5C6B0C005D48FA /* PopDateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopDateViewController.swift; sourceTree = "<group>"; };
 		269163651B5C6B0C005D48FA /* PopDateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopDateViewController.xib; sourceTree = "<group>"; };
 		269163681B5C6C1E005D48FA /* PopoverDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverDatePicker.swift; sourceTree = "<group>"; };
-		2661B91F1B4B72C9005D9C41 /* Gender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 		26AB479389256B6B20922161 /* Pods-XListingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests.release.xcconfig"; sourceTree = "<group>"; };
 		2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationPopover.swift; sourceTree = "<group>"; };
 		2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationPopoverDelegate.swift; sourceTree = "<group>"; };
@@ -345,6 +347,14 @@
 		B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountWireframe.swift; sourceTree = "<group>"; };
 		B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = INearbyWireframe.swift; sourceTree = "<group>"; };
 		B4FCC7401AEB0080009B4DF6 /* IRootWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRootWireframe.swift; sourceTree = "<group>"; };
+		D0ADD89B1B608B4200B27885 /* ProfileBusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBusinessCell.swift; sourceTree = "<group>"; };
+		D0ADD89C1B608B4200B27885 /* ProfileBusinessCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileBusinessCell.xib; sourceTree = "<group>"; };
+		D0ADD89D1B608B4200B27885 /* ProfileHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileHeaderView.xib; sourceTree = "<group>"; };
+		D0ADD89E1B608B4200B27885 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		D0ADD89F1B608B4200B27885 /* ProfileTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTabView.swift; sourceTree = "<group>"; };
+		D0ADD8A01B608B4200B27885 /* ProfileTabView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileTabView.xib; sourceTree = "<group>"; };
+		D0D006021B62B23900755B7F /* ProfileBusinessViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBusinessViewModel.swift; sourceTree = "<group>"; };
+		D0D006041B63371300755B7F /* HamburgSymbols.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HamburgSymbols.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -469,6 +479,7 @@
 				45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */,
 				B47E15BC1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift */,
 				26645AD21B58B58200ADDCD1 /* ProfileEditViewModel.swift */,
+				D0D006021B62B23900755B7F /* ProfileBusinessViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -476,19 +487,9 @@
 		45CBB2A7EC837F83DD1CB032 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7E01738D1B1525DB002E154B /* EditProfileTableViewController.swift */,
-				45CBB717784EC301CD7D042E /* ProfileViewController.swift */,
+				D0ADD8A81B61448000B27885 /* ProfileEditingPage */,
+				D0ADD8A71B6143C200B27885 /* ProfileDisplayPage */,
 				7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */,
-				26645ADA1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift */,
-				26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */,
-				26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */,
-				26645AD41B5A383A00ADDCD1 /* DatePickerTableViewCell.swift */,
-				26645AD61B5A400700ADDCD1 /* BirthdayTableViewCell.swift */,
-				26645ADC1B5C677E00ADDCD1 /* NicknameTableViewCell.swift */,
-				26645ADD1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift */,
-				269163641B5C6B0C005D48FA /* PopDateViewController.swift */,
-				269163681B5C6C1E005D48FA /* PopoverDatePicker.swift */,
-				269163651B5C6B0C005D48FA /* PopDateViewController.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -568,6 +569,7 @@
 			isa = PBXGroup;
 			children = (
 				2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */,
+				D0D006041B63371300755B7F /* HamburgSymbols.ttf */,
 				7EF371431AB8C1E8009AA3B9 /* Parse.plist */,
 				7EF3710F1AB8C012009AA3B9 /* Info.plist */,
 			);
@@ -745,8 +747,8 @@
 			isa = PBXGroup;
 			children = (
 				B4A3C16C1AD44B7E00B9D699 /* FeaturedListViewModel.swift */,
-				B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */,
 				B45581F71B33E89D00C4D965 /* FeaturedBusinessViewModel.swift */,
+				B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1009,6 +1011,38 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		D0ADD8A71B6143C200B27885 /* ProfileDisplayPage */ = {
+			isa = PBXGroup;
+			children = (
+				D0ADD89B1B608B4200B27885 /* ProfileBusinessCell.swift */,
+				D0ADD89C1B608B4200B27885 /* ProfileBusinessCell.xib */,
+				D0ADD89D1B608B4200B27885 /* ProfileHeaderView.xib */,
+				D0ADD89E1B608B4200B27885 /* ProfileHeaderView.swift */,
+				D0ADD89F1B608B4200B27885 /* ProfileTabView.swift */,
+				D0ADD8A01B608B4200B27885 /* ProfileTabView.xib */,
+				45CBB717784EC301CD7D042E /* ProfileViewController.swift */,
+			);
+			name = ProfileDisplayPage;
+			sourceTree = "<group>";
+		};
+		D0ADD8A81B61448000B27885 /* ProfileEditingPage */ = {
+			isa = PBXGroup;
+			children = (
+				269163651B5C6B0C005D48FA /* PopDateViewController.xib */,
+				7E01738D1B1525DB002E154B /* EditProfileTableViewController.swift */,
+				26645ADA1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift */,
+				26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */,
+				26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */,
+				26645AD41B5A383A00ADDCD1 /* DatePickerTableViewCell.swift */,
+				26645AD61B5A400700ADDCD1 /* BirthdayTableViewCell.swift */,
+				26645ADC1B5C677E00ADDCD1 /* NicknameTableViewCell.swift */,
+				26645ADD1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift */,
+				269163641B5C6B0C005D48FA /* PopDateViewController.swift */,
+				269163681B5C6C1E005D48FA /* PopoverDatePicker.swift */,
+			);
+			name = ProfileEditingPage;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1105,12 +1139,12 @@
 			files = (
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				B4F195C61B2E0F0000B8C519 /* Default-568h@2x.png in Resources */,
-
+				D0ADD8A61B608B4200B27885 /* ProfileTabView.xib in Resources */,
 				269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */,
-
 				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
 				B4F195811B2789A100B8C519 /* Account.storyboard in Resources */,
 				2ADF3E661B1ECBA200C2971E /* DetailNavigationMapViewController.xib in Resources */,
+				D0ADD8A31B608B4200B27885 /* ProfileHeaderView.xib in Resources */,
 				7E0173881B146473002E154B /* EditProfileView.xib in Resources */,
 				B4E7C18E1B5387880038260E /* LandingPageView.xib in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
@@ -1118,6 +1152,7 @@
 				B4E7C1921B53893E0038260E /* LogInView.xib in Resources */,
 				7EF371501AB8C1E8009AA3B9 /* Parse.plist in Resources */,
 				3DFA2F991B43C13000058930 /* WantToGoList.storyboard in Resources */,
+				D0ADD8A21B608B4200B27885 /* ProfileBusinessCell.xib in Resources */,
 				7EACBA111AFBDC15009D8CA6 /* Profile.storyboard in Resources */,
 				7EF371181AB8C012009AA3B9 /* Images.xcassets in Resources */,
 			);
@@ -1269,6 +1304,7 @@
 				2A9978641B3551A500339265 /* SignUpViewDelegate.swift in Sources */,
 				B4F195AF1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift in Sources */,
 				B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */,
+				D0ADD8A41B608B4200B27885 /* ProfileHeaderView.swift in Sources */,
 				3D211E861B2C1AB000161E09 /* IBackgroundLocationWorker.swift in Sources */,
 				B4F195A11B2AA47300B8C519 /* FeaturedRoute.swift in Sources */,
 				7E01738E1B1525DB002E154B /* EditProfileTableViewController.swift in Sources */,
@@ -1288,6 +1324,7 @@
 				B48C99241ADBA4280045BCA9 /* IFeaturedListWireframe.swift in Sources */,
 				3DE38A7E1B11BB3000DFA128 /* IKeychainService.swift in Sources */,
 				B45581F81B33E89D00C4D965 /* FeaturedBusinessViewModel.swift in Sources */,
+				D0ADD8A51B608B4200B27885 /* ProfileTabView.swift in Sources */,
 				3DE38A801B11BB3D00DFA128 /* KeychainService.swift in Sources */,
 				B41334E31B5483F800B5F22D /* LandingPageLogoView.swift in Sources */,
 				B4F195A71B2ADA9700B8C519 /* ProfileRoute.swift in Sources */,
@@ -1307,7 +1344,6 @@
 				B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */,
 				26645ADF1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift in Sources */,
 				2661B9201B4B72C9005D9C41 /* Gender.swift in Sources */,
-
 				B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */,
 				2A1B3A221B25751A003E70E0 /* ParticipationPopoverDelegate.swift in Sources */,
 				2A1B3A201B2574EF003E70E0 /* ParticipationPopover.swift in Sources */,
@@ -1332,10 +1368,7 @@
 				2A99786A1B3551F100339265 /* LandingViewDelegate.swift in Sources */,
 				3D70CCDF1B54E43E004588EC /* ImageAssets.swift in Sources */,
 				B4DB9AC21AF954AC009FBFE1 /* GeoLocationService.swift in Sources */,
-				2A99785D1B2C260300339265 /* EmptySegue.swift in Sources */,
 				26645ACB1B54C4F200ADDCD1 /* ProfileEditViewController.swift in Sources */,
-				B4F195871B27A6B200B8C519 /* EditProfileViewController.swift in Sources */,
-
 				2ADF3E651B1ECBA200C2971E /* DetailNavigationMapViewController.swift in Sources */,
 				B47E15C81B181E370028E07E /* IBackgroundOperationsWorkerFactory.swift in Sources */,
 				B4E1384C1AE1BD0D0082DCA3 /* UserService.swift in Sources */,
@@ -1343,6 +1376,7 @@
 				3D70CCE71B562AE3004588EC /* ImageService.swift in Sources */,
 				B4E1384A1AE1B94C0082DCA3 /* User.swift in Sources */,
 				B45581FA1B367F7300C4D965 /* ReactiveTableBindingHelper.swift in Sources */,
+				D0D006031B62B23900755B7F /* ProfileBusinessViewModel.swift in Sources */,
 				2A9A9BA41B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift in Sources */,
 				B4F1959E1B2AA3C400B8C519 /* WithoutDataRoute.swift in Sources */,
 				26645AD31B58B58200ADDCD1 /* ProfileEditViewModel.swift in Sources */,
@@ -1350,6 +1384,7 @@
 				7EF3714E1AB8C1E8009AA3B9 /* LeanCloudClient.swift in Sources */,
 				B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */,
 				B4E70B3E1AF1735C00A7418F /* IParticipationService.swift in Sources */,
+				D0ADD8A11B608B4200B27885 /* ProfileBusinessCell.swift in Sources */,
 				3DFA2FA11B43C19800058930 /* IWantToGoListViewModel.swift in Sources */,
 				B44E35011AD5D0AE00657A31 /* IFeaturedListViewModel.swift in Sources */,
 				B4B665441ADF8D2F0084DBE7 /* IDetailViewModel.swift in Sources */,

@@ -6,66 +6,173 @@
 import Foundation
 import UIKit
 import ReactiveCocoa
+import AVOSCloud
+import Dollar
 
-private let NumRowsBeforeData = 2
-
+private let ProfileEditViewControllerIdentifier = "ProfileEditViewController"
+private let ProfileStoryBoardName = "Profile"
 public final class ProfileViewController : XUIViewController {
 
-    private var profileVM: IProfileViewModel!
+    private var profileVM: ProfileViewModel!
 
     @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var headerView: UIView!
+    
+    @IBOutlet weak var tabView: UIView!
+    
+    
+    
+    
     public var firstSegSelected = true
     public var selectedBusinessChoiceIndex = 0
     
-    public var numberOfChats = 8;
-    public var businessChoiceArr : NSMutableArray = []
+    public var numberOfChats = 5;
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.initializeBusinessArr()
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
         self.navigationItem.title = "个人"
+        if let headerViewContent = NSBundle.mainBundle().loadNibNamed("ProfileHeaderView", owner: self, options: nil)[0] as? ProfileHeaderView{
+            headerViewContent.frame = CGRectMake(0, 0, headerViewContent.frame.width, headerViewContent.frame.height)
+            convertImgToCircle(headerViewContent.profileImageView)
+            headerViewContent.setup()
+            setupBackButton(headerViewContent.topLeftButton)
+            setupEditButton(headerViewContent.topRightButton)
+            headerView.addSubview(headerViewContent)
+        }
+        if let tabViewContent = NSBundle.mainBundle().loadNibNamed("ProfileTabView", owner: self, options: nil)[0] as? ProfileTabView{
+            tabView.addSubview(tabViewContent)
+        }
+        self.setupTableView()
+ //       self.tableView.backgroundColor = UIColor.redColor()
     }
     
-    public func initializeBusinessArr () {
-        for i in 0...1 {
-            self.businessChoiceArr.addObject(1)
-        }
-        for i in 1...2 {
-            self.businessChoiceArr.addObject(2)
-        }
-        for i in 3...4 {
-            self.businessChoiceArr.addObject(3)
-        }
-    
+    private func setupTableView() {
+        var nib = UINib(nibName: "ProfileBusinessCell", bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: "BusinessCell")
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        self.profileVM.profileBusinessViewModelArr.producer
+            |> start(next: { [weak self] _ in
+                self?.tableView.reloadData()
+                })
     }
+    
 
+    public override func viewWillAppear(animated: Bool) {
+        BOLogVerbose("\(self.tableView.frame.origin.x)")
+        BOLogVerbose("\(self.tableView.frame.origin.y)")
+        BOLogVerbose("\(self.tableView.frame.size.width)")
+        BOLogVerbose("\(self.tableView.frame.size.height)")
+        navigationController?.navigationBar.hidden = true // for navigation bar hide
+        UIApplication.sharedApplication().statusBarHidden=false
+//        self.setStatusBarHidden(false, animated: false)
+    }
+    
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    public func bindToViewModel(profileViewModel: IProfileViewModel) {
+    public func bindToViewModel(profileViewModel: ProfileViewModel) {
         profileVM = profileViewModel
     }
     
-
-    public override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-        if (segue.identifier == "presentProfileEdit") {
-            let profileEditVC = segue.destinationViewController.topViewController as! ProfileEditViewController
-            profileEditVC.bindToViewModel(profileVM.profileEditViewModel)
+    /**
+    React to back Button and segue to previous controller.
+    */
+    private func setupBackButton(btn: UIButton) {
+        let dismissAction = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer<Void, NoError> { [weak self] sink, disposable in
+                self?.navigationController?.popViewControllerAnimated(true)
+                sendCompleted(sink)
+            }
         }
+        btn.addTarget(dismissAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchDown)
     }
+    
+    /**
+    React to edit Button and present Editpage.
+    */
+    private func setupEditButton(btn: UIButton) {
+        let editAction = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer<Void, NoError> { [weak self] sink, disposable in
+                let storyboard = UIStoryboard(name: ProfileStoryBoardName, bundle: nil)
+                let viewController = storyboard.instantiateViewControllerWithIdentifier(ProfileEditViewControllerIdentifier) as! ProfileEditViewController
+                let editVM = self?.profileVM.profileEditViewModel
+                viewController.bindToViewModel(editVM!)
+                self?.navigationController?.pushViewController(viewController, animated: true)
+                sendCompleted(sink)
+            }
+        }
+        btn.addTarget(editAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchDown)
+    }
+    
+
+//    public override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//        // Get the new view controller using [segue destinationViewController].
+//        // Pass the selected object to the new view controller.
+//        if (segue.identifier == "presentProfileEdit") {
+//            let profileEditVC = segue.destinationViewController.topViewController as! ProfileEditViewController
+//            profileEditVC.bindToViewModel(profileVM.profileEditViewModel)
+//        }
+//    }
+    
+    
+    public func bindViewModel(viewmodel: ProfileViewModel) {
+        self.profileVM = viewmodel
+    }
+    
+    
+    public func changeParticipation (sender:UIButton) {
+        
+        //get the index path for the selected button
+        var buttonFrame = sender.convertRect(sender.bounds, toView: self.tableView)
+        var indexPath = self.tableView.indexPathForRowAtPoint(buttonFrame.origin)
+        self.selectedBusinessChoiceIndex = indexPath!.row
+        self.presentPopover()
+    }
+    
+    public func presentPopover () {
+        //create the popover and present it
+        var popover = ParticipationPopover()
+        popover.delegate = self
+        var alert: (UIAlertController) = popover.createPopover()
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    public func convertImgToCircle(imageView: UIImageView){
+        let imgWidth = CGFloat(imageView.frame.width)
+        imageView.layer.cornerRadius = imgWidth / 2
+        imageView.layer.masksToBounds = true;
+        return
+    }
+//    
+//    public func switchSegment(){
+//        if (self.firstSegSelected){
+//            self.firstSegSelected = false
+//        }else{
+//            self.firstSegSelected = true
+//        }
+//        self.tableView.reloadData()
+//    }
+//    
+//    override public func prefersStatusBarHidden() -> Bool {
+//        return false
+//    }
+//    
+    
+    
+    
 }
 
 
 /**
 *  UITableViewDataSource
 */
-extension ProfileViewController : UITableViewDataSource {
+extension ProfileViewController : UITableViewDataSource, UITableViewDelegate {
     /**
     Asks the data source to return the number of sections in the table view.
     
@@ -87,183 +194,47 @@ extension ProfileViewController : UITableViewDataSource {
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return numberOfChats
-        
+        //return numberOfChats
+        return profileVM.profileBusinessViewModelArr.value.count
     }
     
-    /**
-    Asks the data source for a cell to insert in a particular location of the table view. (required)
-    
-    :param: tableView A table-view object requesting the cell.
-    :param: indexPath An index path locating a row in tableView.
-    
-    :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
-    */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        switch (indexPath.row){
-        case 0:
-            var profileCell = tableView.dequeueReusableCellWithIdentifier("ProfileCell", forIndexPath: indexPath) as! UITableViewCell
-            
-            var profilePicImageView = profileCell.viewWithTag(1) as? UIImageView
-            var nameLabel : UILabel? = profileCell.viewWithTag(2) as? UILabel
-//            nameLabel!.text = UserService.getDisplayName()
-            var horoscopeAgeLabel: UILabel? = profileCell.viewWithTag(3) as? UILabel
-            var cityLabel : UILabel? = profileCell.viewWithTag(4) as? UILabel
-            
-            self.convertImgToCircle(profilePicImageView!)
-
-            nameLabel!.rac_text <~ profileVM.nickname
-            return profileCell
-        case 1:
-            var segmentedCell = tableView.dequeueReusableCellWithIdentifier("SegmentedCell", forIndexPath: indexPath) as! UITableViewCell
-            var segmentedControl = segmentedCell.viewWithTag(1) as? UISegmentedControl
-            
-            segmentedControl?.addTarget(self, action: "switchSegment", forControlEvents: UIControlEvents.ValueChanged)
-            
- 
-  
-            return segmentedCell
-        default:
-            
-            if (self.firstSegSelected) {
-                
-                if (indexPath.row%2 == 0){
-                    
-                    var chatCell = tableView.dequeueReusableCellWithIdentifier("ChatCell", forIndexPath: indexPath) as! UITableViewCell
-                    
-                    var chatImage = chatCell.viewWithTag(1) as? UIImageView
-                    var chatMessage = chatCell.viewWithTag(2) as? UILabel
-                    var cityName = chatCell.viewWithTag(3) as? UILabel
-                    var timestamp = chatCell.viewWithTag(4) as? UILabel
-                    
-                    self.convertImgToCircle(chatImage!)
-                    
-                    
-                    return chatCell
-                }else{
-                
-                
-                    var notificationCell = tableView.dequeueReusableCellWithIdentifier("NotificationCell", forIndexPath: indexPath) as! UITableViewCell
-                    var notificationMessage = notificationCell.viewWithTag(1) as? UILabel
-                    var img1 = notificationCell.viewWithTag(2) as? UIImageView
-                    var img2 = notificationCell.viewWithTag(3) as? UIImageView
-                    var img3 = notificationCell.viewWithTag(4) as? UIImageView
-                    var img4 = notificationCell.viewWithTag(5) as? UIImageView
-                    var img5 = notificationCell.viewWithTag(6) as? UIImageView
-                    var timestamp = notificationCell.viewWithTag(7) as? UIImageView
-                    
-                    self.convertImgToCircle(img1!)
-                    self.convertImgToCircle(img2!)
-                    self.convertImgToCircle(img3!)
-                    self.convertImgToCircle(img4!)
-                    self.convertImgToCircle(img5!)
-                    
-                    return notificationCell
-                }
-            }else{
-            
-            
-            var businessCell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! UITableViewCell
-            var businessImageView = businessCell.viewWithTag(1) as? UIImageView
-            var businessName = businessCell.viewWithTag(2) as? UILabel
-            var cityName = businessCell.viewWithTag(3) as? UILabel
-            var iconButton = businessCell.viewWithTag(4) as? UIButton
-                
-            let iconWidth = CGFloat(iconButton!.frame.width)
-            iconButton!.layer.cornerRadius = iconWidth / 2
-            iconButton!.layer.masksToBounds = true;
-            
-            iconButton!.addTarget(self, action: "changeParticipation:", forControlEvents: UIControlEvents.TouchUpInside)
-                
-                var choiceInt : Int = self.businessChoiceArr.objectAtIndex(indexPath.row - NumRowsBeforeData) as! Int
-                switch (choiceInt){
-                case 1:
-                    iconButton?.setTitle("去", forState: UIControlState.Normal)
-                    iconButton?.backgroundColor = UIColor(red: 171/255.0, green: 232/255.0, blue: 116/255.0, alpha: 1)
-                case 2:
-                    iconButton?.setTitle("请", forState: UIControlState.Normal)
-                    iconButton?.backgroundColor = UIColor(red: 65/255.0, green: 166/255.0, blue: 157/255.0, alpha: 1)
-                default:
-                    iconButton?.setTitle("A", forState: UIControlState.Normal)
-                    iconButton?.backgroundColor = UIColor(red: 241/255.0, green: 150/255.0, blue: 38/255.0, alpha: 1)
-                }
-                
-            
-            return businessCell
-            }
-
+        var businessCell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as? ProfileBusinessCell
+        if businessCell == nil {
+            businessCell = NSBundle.mainBundle().loadNibNamed("ProfileBusinessCell", owner: self, options: nil)[0] as? ProfileBusinessCell
+            BOLogVerbose("business cell created")
         }
         
+        businessCell!.bindViewModel(profileVM.profileBusinessViewModelArr.value[indexPath.row])
         
         
+        return businessCell!
         
     }
-    
-    public func changeParticipation (sender:UIButton) {
-        
-        //get the index path for the selected button
-        var buttonFrame = sender.convertRect(sender.bounds, toView: self.tableView)
-        var indexPath = self.tableView.indexPathForRowAtPoint(buttonFrame.origin)
-        self.selectedBusinessChoiceIndex = indexPath!.row - NumRowsBeforeData
-        self.presentPopover()
-    }
-    
-    public func presentPopover () {
-        //create the popover and present it
-        var popover = ParticipationPopover()
-        popover.delegate = self
-        var alert: (UIAlertController) = popover.createPopover()
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    public func convertImgToCircle(imageView: UIImageView){
-        let imgWidth = CGFloat(imageView.frame.width)
-        imageView.layer.cornerRadius = imgWidth / 2
-        imageView.layer.masksToBounds = true;
-        return
-    }
-    
-    public func switchSegment(){
-        if (self.firstSegSelected){
-            self.firstSegSelected = false
-        }else{
-            self.firstSegSelected = true
-        }
-        self.tableView.reloadData()
-    }
-    
+
     
     
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch (indexPath.row){
-            case 0: return 88
-            case 1: return 43
-            default: return 66
+            default: return 90
         }
-
     }
     
-    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return ""
-    }
-    
-    public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 2
-    }
-    
-    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 2
-    }
+//    
+//    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return ""
+//    }
+//    
+//    public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return 2
+//    }
+//    
+//    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 2
+//    }
 }
 
-extension ProfileViewController : ParticipationPopoverDelegate {
-    //switch the participation icon based on the selection from the popover
-    public func alertAction(choiceTag: Int) {
-        self.businessChoiceArr[self.selectedBusinessChoiceIndex] = choiceTag
-        self.tableView.reloadData()
-    }
-}
+
 
 /**
 *  UITableViewDelegate
@@ -279,34 +250,36 @@ extension ProfileViewController : UITableViewDelegate {
         //tableView.deselectRowAtIndexPath(indexPath, animated: true) 
     }
     
-    public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        
-        if (indexPath.row > 1){
-            return true;
-        }else{
-            return false;
-        }
-    }
     
-    public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        
-        if (editingStyle == UITableViewCellEditingStyle.Delete){
-            
-            numberOfChats--
-            [self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)]
-        }
-        
-    }
+    /**
+    Asks the data source for a cell to insert in a particular location of the table view. (required)
     
-    public override func setEditing(editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        if (editing){
-            ProfileLogDebug("EDITING")
-            self.tableView.setEditing(true, animated: true)
-        }else{
-            ProfileLogDebug("DONE")
-            self.tableView.setEditing(false, animated: false)
-        }
+    :param: tableView A table-view object requesting the cell.
+    :param: indexPath An index path locating a row in tableView.
     
+    :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
+    */
+    
+//    public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+//        
+//        return true
+//    }
+//    
+//    public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+//        
+//        if (editingStyle == UITableViewCellEditingStyle.Delete){
+//            
+//            numberOfChats--
+//            [self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)]
+//        }
+//        
+//    }
+}
+
+
+extension ProfileViewController : ParticipationPopoverDelegate {
+    //switch the participation icon based on the selection from the popover
+    public func alertAction(choiceTag: Int) {
+        self.tableView.reloadData()
     }
 }
