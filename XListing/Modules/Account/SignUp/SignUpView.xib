@@ -7,12 +7,6 @@
     <customFonts key="customFonts">
         <mutableArray key="NotoSansCJKsc-Medium.otf">
             <string>NotoSansCJKsc-Medium</string>
-            <string>NotoSansCJKsc-Medium</string>
-            <string>NotoSansCJKsc-Medium</string>
-        </mutableArray>
-        <mutableArray key="NotoSansCJKsc-Regular.otf">
-            <string>NotoSansCJKsc-Regular</string>
-            <string>NotoSansCJKsc-Regular</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -26,37 +20,12 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v3f-w5-lp4">
-                    <rect key="frame" x="8" y="8" width="31" height="48"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="jTc-WL-3Xc"/>
-                        <constraint firstAttribute="width" constant="31" id="kBh-4E-bSB"/>
-                        <constraint firstAttribute="width" constant="30" id="ofb-wY-7JY"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                    <state key="normal" title="✕">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="jTc-WL-3Xc"/>
-                            <exclude reference="ofb-wY-7JY"/>
-                        </mask>
-                    </variation>
-                    <variation key="heightClass=regular-widthClass=compact">
-                        <mask key="constraints">
-                            <include reference="jTc-WL-3Xc"/>
-                            <exclude reference="kBh-4E-bSB"/>
-                            <include reference="ofb-wY-7JY"/>
-                        </mask>
-                    </variation>
-                </button>
                 <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Ud-ZP-16g" userLabel="Container View">
-                    <rect key="frame" x="125" y="61" width="350" height="350"/>
+                    <rect key="frame" x="125" y="32" width="350" height="350"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="“ 找 地 方，约 起 来 ”" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zIA-gi-jxJ">
-                            <rect key="frame" x="113" y="86" width="124" height="16"/>
-                            <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="13"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="“  找  地  方， 约  起  来  ”" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zIA-gi-jxJ">
+                            <rect key="frame" x="95" y="85" width="160" height="16"/>
+                            <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="13"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -67,24 +36,24 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="密码" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KAs-pw-JNf">
-                            <rect key="frame" x="50" y="216" width="250" height="30"/>
+                            <rect key="frame" x="50" y="194" width="250" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="250" id="faj-q8-6PP"/>
                                 <constraint firstAttribute="height" constant="30" id="mFE-hG-FZw"/>
                             </constraints>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <fontDescription key="fontDescription" name="NotoSansCJKsc-Regular" family="Noto Sans CJK SC" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gQ3-ub-tYf">
-                            <rect key="frame" x="75" y="268" width="200" height="60"/>
+                            <rect key="frame" x="43" y="249" width="265" height="60"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.14999999999999999" colorSpace="calibratedRGB"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="200" id="Gja-d5-PZC"/>
+                                <constraint firstAttribute="width" constant="265" id="Gja-d5-PZC"/>
                                 <constraint firstAttribute="height" constant="60" id="ZE9-f1-Lky"/>
                                 <constraint firstAttribute="height" constant="60" id="p5V-ie-v8K"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="19"/>
+                            <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="19"/>
                             <state key="normal" title="注 册">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -101,7 +70,7 @@
                             </variation>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hvk-UC-Zor" userLabel="Divider">
-                            <rect key="frame" x="75" y="208" width="200" height="1"/>
+                            <rect key="frame" x="75" y="186" width="200" height="1"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="STy-q1-AWA"/>
@@ -109,13 +78,13 @@
                             </constraints>
                         </view>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="用户名" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BSJ-IQ-X2G">
-                            <rect key="frame" x="50" y="170" width="250" height="30"/>
+                            <rect key="frame" x="50" y="148" width="250" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="KN6-rL-GV6"/>
                                 <constraint firstAttribute="width" constant="250" id="crv-GU-1YO"/>
                             </constraints>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <fontDescription key="fontDescription" name="NotoSansCJKsc-Regular" family="Noto Sans CJK SC" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                         </textField>
                     </subviews>
@@ -131,32 +100,70 @@
                         <constraint firstItem="hMw-3p-yQC" firstAttribute="top" secondItem="3Ud-ZP-16g" secondAttribute="top" constant="40" id="Oqu-aN-JWz"/>
                         <constraint firstAttribute="centerX" secondItem="Hvk-UC-Zor" secondAttribute="centerX" id="RVM-ra-RKs"/>
                         <constraint firstItem="Hvk-UC-Zor" firstAttribute="top" secondItem="BSJ-IQ-X2G" secondAttribute="bottom" constant="8" id="Wmk-dS-pbj"/>
+                        <constraint firstAttribute="centerY" secondItem="zIA-gi-jxJ" secondAttribute="centerY" constant="82" id="Y3f-en-Exi"/>
                         <constraint firstItem="zIA-gi-jxJ" firstAttribute="top" secondItem="hMw-3p-yQC" secondAttribute="bottom" constant="8" id="ZGA-Uk-ATB"/>
-                        <constraint firstItem="BSJ-IQ-X2G" firstAttribute="top" secondItem="zIA-gi-jxJ" secondAttribute="bottom" constant="68" id="e6g-KQ-bQI"/>
-                        <constraint firstItem="gQ3-ub-tYf" firstAttribute="top" secondItem="KAs-pw-JNf" secondAttribute="bottom" constant="22" id="fbu-dy-wyX"/>
+                        <constraint firstItem="BSJ-IQ-X2G" firstAttribute="top" secondItem="zIA-gi-jxJ" secondAttribute="bottom" constant="47" id="e6g-KQ-bQI"/>
+                        <constraint firstItem="gQ3-ub-tYf" firstAttribute="top" secondItem="KAs-pw-JNf" secondAttribute="bottom" constant="25" id="fbu-dy-wyX"/>
                         <constraint firstAttribute="width" constant="350" id="kob-SC-kNY"/>
+                        <constraint firstAttribute="centerY" secondItem="hMw-3p-yQC" secondAttribute="centerY" constant="116" id="m85-Jm-ahG"/>
                         <constraint firstAttribute="width" secondItem="3Ud-ZP-16g" secondAttribute="height" multiplier="1:1" id="myy-Wh-DWl"/>
                         <constraint firstAttribute="centerX" secondItem="BSJ-IQ-X2G" secondAttribute="centerX" id="pDt-qB-TGh">
                             <variation key="heightClass=compact-widthClass=regular" constant="0.0"/>
                         </constraint>
+                        <constraint firstItem="zIA-gi-jxJ" firstAttribute="top" secondItem="hMw-3p-yQC" secondAttribute="bottom" constant="7" id="q4V-zO-N86"/>
+                        <constraint firstAttribute="centerX" secondItem="zIA-gi-jxJ" secondAttribute="centerX" id="u3E-E7-vLT"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="OBx-25-Cm1"/>
+                            <exclude reference="ZGA-Uk-ATB"/>
+                        </mask>
+                    </variation>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v3f-w5-lp4">
+                    <rect key="frame" x="8" y="8" width="31" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="jTc-WL-3Xc"/>
+                        <constraint firstAttribute="width" constant="31" id="k58-Sv-OKK"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                    <state key="normal" title="✕">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="jTc-WL-3Xc"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="jTc-WL-3Xc"/>
+                        </mask>
+                    </variation>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="3Ud-ZP-16g" secondAttribute="centerX" id="80B-DL-N9r"/>
                 <constraint firstItem="Fz3-ox-HFK" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ES9-w0-lhK"/>
                 <constraint firstAttribute="trailing" secondItem="Fz3-ox-HFK" secondAttribute="trailing" id="KK0-ce-rde"/>
+                <constraint firstItem="Fz3-ox-HFK" firstAttribute="top" secondItem="v3f-w5-lp4" secondAttribute="bottom" constant="-56" id="dO3-Ri-P6w"/>
                 <constraint firstItem="3Ud-ZP-16g" firstAttribute="width" secondItem="3Ud-ZP-16g" secondAttribute="height" multiplier="1:1" id="dk6-LV-Occ"/>
-                <constraint firstItem="Fz3-ox-HFK" firstAttribute="leading" secondItem="v3f-w5-lp4" secondAttribute="trailing" constant="-39" id="lq1-8p-Gqz"/>
                 <constraint firstAttribute="centerY" secondItem="3Ud-ZP-16g" secondAttribute="centerY" constant="64" id="nGR-t9-FSh">
                     <variation key="heightClass=compact" constant="0.0"/>
                     <variation key="heightClass=compact-widthClass=regular" constant="0.0"/>
                 </constraint>
                 <constraint firstItem="Fz3-ox-HFK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pRT-Wc-We5"/>
-                <constraint firstItem="Fz3-ox-HFK" firstAttribute="top" secondItem="v3f-w5-lp4" secondAttribute="bottom" constant="-56" id="pdS-i2-sml"/>
+                <constraint firstItem="Fz3-ox-HFK" firstAttribute="top" secondItem="3Ud-ZP-16g" secondAttribute="bottom" constant="-382" id="rGM-GL-twD"/>
                 <constraint firstAttribute="bottom" secondItem="Fz3-ox-HFK" secondAttribute="bottom" id="roS-2J-AJy"/>
+                <constraint firstItem="Fz3-ox-HFK" firstAttribute="leading" secondItem="v3f-w5-lp4" secondAttribute="trailing" constant="-39" id="yrh-DC-xoe"/>
             </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="dk6-LV-Occ"/>
+                    <exclude reference="nGR-t9-FSh"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="backButton" destination="v3f-w5-lp4" id="RX0-ii-WUt"/>
                 <outlet property="passwordField" destination="KAs-pw-JNf" id="ihq-Si-rY5"/>

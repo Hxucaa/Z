@@ -61,10 +61,11 @@
 		7EF371581AB8C9B3009AA3B9 /* BusinessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */; };
 		7EFEF7421B124B060043E076 /* IRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7411B124B060043E076 /* IRouter.swift */; };
 		7EFEF7461B13D0900043E076 /* EditInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7451B13D0900043E076 /* EditInfoView.swift */; };
+		B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */; };
+		B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */; };
 		B40A0D8B1B22455700036986 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8A1B22455700036986 /* Constants.swift */; };
 		B40A0D8D1B23BD2900036986 /* EditInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8C1B23BD2900036986 /* EditInfoViewModel.swift */; };
 		B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */; };
-		B41334E31B5483F800B5F22D /* LandingPageLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334E21B5483F800B5F22D /* LandingPageLogoView.swift */; };
 		B41334E71B57631400B5F22D /* IAccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334E61B57631400B5F22D /* IAccountWireframe.swift */; };
 		B41334ED1B5F44B300B5F22D /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334EC1B5F44B300B5F22D /* Keyboard.swift */; };
 		B41334EF1B60E46C00B5F22D /* Nearby.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B41334EE1B60E46C00B5F22D /* Nearby.storyboard */; };
@@ -229,10 +230,11 @@
 		7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessTests.swift; sourceTree = "<group>"; };
 		7EFEF7411B124B060043E076 /* IRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRouter.swift; sourceTree = "<group>"; };
 		7EFEF7451B13D0900043E076 /* EditInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditInfoView.swift; sourceTree = "<group>"; };
+		B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Bold.ttf"; sourceTree = "<group>"; };
+		B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Regular.ttf"; sourceTree = "<group>"; };
 		B40A0D8A1B22455700036986 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B40A0D8C1B23BD2900036986 /* EditInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditInfoViewModel.swift; sourceTree = "<group>"; };
 		B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleFormatter.swift; sourceTree = "<group>"; };
-		B41334E21B5483F800B5F22D /* LandingPageLogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageLogoView.swift; sourceTree = "<group>"; };
 		B41334E61B57631400B5F22D /* IAccountWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IAccount\U0010Wireframe.swift"; sourceTree = "<group>"; };
 		B41334EC1B5F44B300B5F22D /* Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		B41334EE1B60E46C00B5F22D /* Nearby.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Nearby.storyboard; sourceTree = "<group>"; };
@@ -371,7 +373,6 @@
 			children = (
 				B4E7C18F1B5387DF0038260E /* LandingPageView.swift */,
 				B4E7C18D1B5387880038260E /* LandingPageView.xib */,
-				B41334E21B5483F800B5F22D /* LandingPageLogoView.swift */,
 				B462BC7D1B2FA50E00070BE5 /* LandingPageViewModel.swift */,
 			);
 			path = LandingPage;
@@ -527,6 +528,8 @@
 		7EF3710E1AB8C012009AA3B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */,
+				B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */,
 				2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */,
 				7EF371431AB8C1E8009AA3B9 /* Parse.plist */,
 				7EF3710F1AB8C012009AA3B9 /* Info.plist */,
@@ -1062,6 +1065,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */,
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				B4F195C61B2E0F0000B8C519 /* Default-568h@2x.png in Resources */,
 				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
@@ -1075,6 +1079,7 @@
 				B4E7C1921B53893E0038260E /* LogInView.xib in Resources */,
 				7EF371501AB8C1E8009AA3B9 /* Parse.plist in Resources */,
 				3DFA2F991B43C13000058930 /* WantToGoList.storyboard in Resources */,
+				B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */,
 				7EACBA111AFBDC15009D8CA6 /* Profile.storyboard in Resources */,
 				7EF371181AB8C012009AA3B9 /* Images.xcassets in Resources */,
 			);
@@ -1241,7 +1246,6 @@
 				3DE38A7E1B11BB3000DFA128 /* IKeychainService.swift in Sources */,
 				B45581F81B33E89D00C4D965 /* FeaturedBusinessViewModel.swift in Sources */,
 				3DE38A801B11BB3D00DFA128 /* KeychainService.swift in Sources */,
-				B41334E31B5483F800B5F22D /* LandingPageLogoView.swift in Sources */,
 				B4F195A71B2ADA9700B8C519 /* ProfileRoute.swift in Sources */,
 				3DFA2F971B43C11800058930 /* IWantToGoListWireframe.swift in Sources */,
 				B41334F11B60F8B900B5F22D /* ReactiveCocoa+extension.swift in Sources */,
