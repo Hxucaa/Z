@@ -10,36 +10,30 @@ import UIKit
 import ReactiveCocoa
 import MapKit
 
-private let DetailNavigationMapViewControllerXib = "DetailNavigationMapViewController"
-
 public final class DetailMapTableViewCell: UITableViewCell {
 
     // MARK: - UI
     // MARK: Controls
     @IBOutlet weak var mapView: MKMapView!
     
-    // MARK: Delegate
-    public weak var delegate: AddressAndMapDelegate!
+    // MARK: - Proxies
+    private let (_navigationMapProxy, _navigationMapSink) = SignalProducer<Void, NoError>.buffer(1)
+    public var navigationMapProxy: SignalProducer<Void, NoError> {
+        return _navigationMapProxy
+    }
     
+    // MARK: - Properties
     private var viewmodel: DetailAddressAndMapViewModel!
+    private let compositeDisposable = CompositeDisposable()
     
+    // MARK: - Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
-        mapView.delegate = self
         
-        // Action
-        let pushNavMap = Action<UITapGestureRecognizer, Void, NoError> { gesture in
-            return SignalProducer { sink, disposable in
-                
-                let navVC = DetailNavigationMapViewController(nibName: DetailNavigationMapViewControllerXib, bundle: nil)
-                navVC.bindToViewModel(self.viewmodel.detailNavigationMapViewModel)
-                self.delegate.pushNavigationMapViewController(navVC)
-                sendCompleted(sink)
-            }
-        }
+        layoutMargins = UIEdgeInsetsZero
+        preservesSuperviewLayoutMargins = false
         
-        let tapGesture = UITapGestureRecognizer(target: pushNavMap.unsafeCocoaAction, action: CocoaAction.selector)
-        mapView.addGestureRecognizer(tapGesture)
+        setupMapView()
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {
@@ -48,15 +42,48 @@ public final class DetailMapTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    private func setupMapView() {
+        
+        mapView.delegate = self
+        
+        // Action
+        let pushNavMap = Action<UITapGestureRecognizer, Void, NoError> { [weak self] gesture in
+            return SignalProducer { sink, disposable in
+                if let this = self {
+                    
+                    sendNext(this._navigationMapSink, ())
+                    
+                    sendCompleted(sink)
+                }
+            }
+        }
+        
+        let tapGesture = UITapGestureRecognizer(target: pushNavMap.unsafeCocoaAction, action: CocoaAction.selector)
+        mapView.addGestureRecognizer(tapGesture)
+    }
+    
+    deinit {
+        compositeDisposable.dispose()
+    }
+    
+    // MARK: Bindings
     public func bindToViewModel(viewmodel: DetailAddressAndMapViewModel) {
         self.viewmodel = viewmodel
         
-        viewmodel.annotation.producer
+        compositeDisposable += self.viewmodel.annotation.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
             |> start(next: { [weak self] annotation in
                 self?.mapView.addAnnotation(annotation)
             })
         
-        viewmodel.cellMapRegion.producer
+        compositeDisposable += self.viewmodel.cellMapRegion.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
             |> start(next: { [weak self] region in
                 self?.mapView.setRegion(region, animated: false)
             })
@@ -71,17 +98,11 @@ extension DetailMapTableViewCell : MKMapViewDelegate {
             return nil
         }
         
-        let reuseId = "test"
-        var anView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId)
-        if anView == nil {
-            anView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            anView.image = UIImage(named:"mapPin")
-            anView.canShowCallout = true
-        }
-        else {
-            //we are re-using a view, update its annotation reference...
-            anView.annotation = annotation
-        }
-        return anView
+        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: nil)
+        annotationView.image = UIImage(named: ImageAssets.mapPin)
+        annotationView.canShowCallout = true
+        annotationView.annotation = annotation
+        
+        return annotationView
     }
 }

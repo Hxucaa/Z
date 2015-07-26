@@ -17,23 +17,39 @@ public final class DetailAddressTableViewCell: UITableViewCell {
     // MARK: Controls
     @IBOutlet weak var addressButton: UIButton!
     
-    // MARK: Delegate
-    internal weak var delegate: AddressAndMapDelegate!
+    // MARK: - Proxies
+    private let (_navigationMapProxy, _navigationMapSink) = SignalProducer<Void, NoError>.buffer(1)
+    public var navigationMapProxy: SignalProducer<Void, NoError> {
+        return _navigationMapProxy
+    }
     
+    // MARK: - Properties
     private var viewmodel: DetailAddressAndMapViewModel!
+    private let compositeDisposable = CompositeDisposable()
+    
+    // MARK: - Setups
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
+        layoutMargins = UIEdgeInsetsZero
+        preservesSuperviewLayoutMargins = false
+        
+        setupAddressButton()
+    }
+    
+    private func setupAddressButton() {
+        
         // Action
-        let pushNavMap = Action<UIButton, Void, NoError> { button in
+        let pushNavMap = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
-                
-                let navVC = DetailNavigationMapViewController(nibName: DetailNavigationMapViewControllerXib, bundle: nil)
-                navVC.bindToViewModel(self.viewmodel.detailNavigationMapViewModel)
-                self.delegate.pushNavigationMapViewController(navVC)
-                sendCompleted(sink)
+                if let this = self {
+                    
+                    sendNext(this._navigationMapSink, ())
+                    
+                    sendCompleted(sink)
+                }
             }
         }
         
@@ -45,9 +61,23 @@ public final class DetailAddressTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    deinit {
+        compositeDisposable.dispose()
+    }
 
+    // MARK: Bindings
+    
     public func bindToViewModel(viewmodel: DetailAddressAndMapViewModel) {
         self.viewmodel = viewmodel
-        addressButton.setTitle(viewmodel.fullAddress.value, forState: UIControlState.Normal)
+        
+        compositeDisposable += self.viewmodel.fullAddress.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
+            |> start(next: { [weak self] address in
+                self?.addressButton.setTitle(address, forState: UIControlState.Normal)
+            })
     }
 }

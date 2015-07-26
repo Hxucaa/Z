@@ -16,10 +16,14 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var cityAndDistanceLabel: UILabel!
     @IBOutlet weak var participateButton: UIButton!
     
-    internal weak var delegate: DetailBizInfoCellDelegate!
+    // MARK: - Proxies
+//    private let (_participateProxy, _participateSink)
     
+    // MARK: - Properties
     private var viewmodel: DetailBizInfoViewModel!
+    private let compositeDisposable = CompositeDisposable()
     
+    // MARK: - Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -28,22 +32,25 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
             return SignalProducer { sink, disposable in
                 typealias Choice = DetailBizInfoViewModel.ParticipationChoice
                 if let this = self {
-                    let participate = this.viewmodel.participate(Choice.我想去)
+                    disposable += this.viewmodel.participate(Choice.我想去)
                         |> start()
-                    
-                    disposable.addDisposable(participate)
                 }
             }
         }
         
         participateButton.addTarget(markWanttoGoAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
+    
+    deinit {
+        compositeDisposable.dispose()
+    }
 
+    // MARK: - Bindings
     public func bindToViewModel(viewmodel: DetailBizInfoViewModel) {
         self.viewmodel = viewmodel
         
         businessNameLabel.rac_text <~ self.viewmodel.businessName
-        self.viewmodel.participationButtonTitle.producer
+        compositeDisposable += self.viewmodel.participationButtonTitle.producer
             |> start(next: { [weak self] text in
                 self?.participateButton.setTitle(text, forState: .Normal)
             })

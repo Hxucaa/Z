@@ -11,37 +11,46 @@ import ReactiveCocoa
 import MapKit
 import WebKit
 
+private let DetailNavigationMapViewControllerName = "DetailNavigationMapViewController"
+
 public final class DetailViewController : XUIViewController, MKMapViewDelegate {
     
     // MARK: - UI
     
     // MARK: Controls
     @IBOutlet weak var tableView: UITableView!
+    private var navigationMapViewController: DetailNavigationMapViewController!
     
-    // MARK: Actions
-    
-    // MARK: - Private Variables
+    // MARK: - Properties
     private var viewmodel: IDetailViewModel!
-    
-    // MARK: - Setup Code
+    private let compositeDisposable = CompositeDisposable()
     public var expandHours: Bool = false
+    
+    // MARK: - Setups
+    
+    public override func loadView() {
+        super.loadView()
+        
+        navigationMapViewController = UIStoryboard(name: "Detail", bundle: nil).instantiateViewControllerWithIdentifier(DetailNavigationMapViewControllerName) as! DetailNavigationMapViewController
+    }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: false)
         
         tableView.delegate = self
         tableView.dataSource = self
         navigationItem.rac_title <~ viewmodel.businessName
+        
+        compositeDisposable += navigationMapViewController.goBackProxy
+            |> start(next: { handler in
+                self.dismissViewControllerAnimated(true, completion: handler)
+            })
     }
     
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    public func bindToViewModel(detailViewModel: IDetailViewModel) {
-        viewmodel = detailViewModel
     }
     
     @IBAction func shareButtonTapped(sender: AnyObject) {
@@ -59,11 +68,31 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
             animated: true,
             completion: nil)
     }
+    
+    deinit {
+        compositeDisposable.dispose()
+        DetailLogVerbose("Detail View Controller deinitializes.")
+    }
+
+    // MARK: - Bindings
+    
+    public func bindToViewModel(detailViewModel: IDetailViewModel) {
+        viewmodel = detailViewModel
+    }
+    
+    // MARK: - Others
+    
+    private func presentNavigationMapViewController() {
+        
+        presentViewController(self.navigationMapViewController, animated: true) {
+            self.navigationMapViewController.bindToViewModel(self.viewmodel.detailNavigationMapViewModel)
+        }
+    }
 }
 
     private func reduceMargins(cell:UITableViewCell) {
-        cell.layoutMargins = UIEdgeInsetsZero;
-        cell.preservesSuperviewLayoutMargins = false;
+        cell.layoutMargins = UIEdgeInsetsZero
+        cell.preservesSuperviewLayoutMargins = false
     }
 
     private func defaultCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -144,7 +173,7 @@ extension DetailViewController : UITableViewDataSource {
                 
                 var bizInfoCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "BizInfoCell") as! DetailBizInfoTableViewCell
                 
-                bizInfoCell.delegate = self
+//                bizInfoCell.delegate = self
                 bizInfoCell.bindToViewModel(viewmodel.detailBizInfoViewModel)
                 
                 return bizInfoCell
@@ -186,14 +215,24 @@ extension DetailViewController : UITableViewDataSource {
             case 0:
                 return headerCell(tableView, cellForRowAtIndexPath: indexPath, withTitle: "地址和信息")
             case 1:
-                let mapCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "MapCell") as! DetailMapTableViewCell
-                mapCell.delegate = self
+                let mapCell = tableView.dequeueReusableCellWithIdentifier("MapCell", forIndexPath: indexPath) as! DetailMapTableViewCell
                 mapCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
+                
+                compositeDisposable += mapCell.navigationMapProxy
+                    |> start(next: { [weak self] in
+                        self?.presentNavigationMapViewController()
+                    })
+                
                 return mapCell
             case 2:
-                let addressCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "AddressCell") as! DetailAddressTableViewCell
-                addressCell.delegate = self
+                let addressCell = tableView.dequeueReusableCellWithIdentifier("AddressCell", forIndexPath: indexPath) as! DetailAddressTableViewCell
                 addressCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
+                
+                compositeDisposable += addressCell.navigationMapProxy
+                    |> start(next: { [weak self] in
+                        self?.presentNavigationMapViewController()
+                    })
+                
                 return addressCell
             case 3:
                 let phoneWebCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "PhoneWebSplitCell") as! DetailPhoneWebTableViewCell
@@ -294,7 +333,7 @@ extension DetailViewController : UITableViewDelegate {
     }
 }
 
-extension DetailViewController : DetailBizInfoCellDelegate{
+extension DetailViewController : DetailBizInfoCellDelegate {
     public func participate<T: UIViewController>(viewController: T) {
         self.presentViewController(viewController, animated: true, completion: nil)
     }
@@ -309,11 +348,5 @@ extension DetailViewController : ParticipationPopoverDelegate {
 extension DetailViewController : DetailPhoneWebCellDelegate {
     public func presentWebView<T: UIViewController>(viewController: T) {
         self.presentViewController(viewController, animated: true, completion: nil)
-    }
-}
-
-extension DetailViewController : AddressAndMapDelegate {
-    public func pushNavigationMapViewController<T: UIViewController>(viewController: T) {
-        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

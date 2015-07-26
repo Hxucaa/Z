@@ -14,7 +14,7 @@ public struct DetailViewModel : IDetailViewModel {
     
     // MARK: - Public
     
-    // MARK: Outputs
+    // MARK: - Outputs
     public let businessName: ConstantProperty<String>
     
     // MARK: ViewModels
@@ -22,6 +22,7 @@ public struct DetailViewModel : IDetailViewModel {
     public let detailAddressAndMapViewModel: DetailAddressAndMapViewModel
     public let detailPhoneWebViewModel: DetailPhoneWebViewModel
     public let detailBizInfoViewModel: DetailBizInfoViewModel
+    public let detailNavigationMapViewModel: DetailNavigationMapViewModel
     
     // MARK: Actions
     public func pushWantToGo() {
@@ -41,6 +42,8 @@ public struct DetailViewModel : IDetailViewModel {
         detailAddressAndMapViewModel = DetailAddressAndMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, address: business.address, city: business.city, state: business.state, businessLocation: business.cllocation)
         detailPhoneWebViewModel = DetailPhoneWebViewModel(businessName: business.nameSChinese, phone: business.phone, website: business.url)
         detailBizInfoViewModel = DetailBizInfoViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, business: businessModel)
+        detailNavigationMapViewModel = DetailNavigationMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, businessLocation: business.cllocation)
+
         
         businessName = ConstantProperty(businessModel.nameSChinese!)
     }
