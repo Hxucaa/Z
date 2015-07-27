@@ -21,7 +21,8 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     public let featuredBusinessViewModelArr: MutableProperty<[FeaturedBusinessViewModel]> = MutableProperty([FeaturedBusinessViewModel]())
     public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
     
-    // MARK: Actions
+    // MARK: Private Variables
+    private static var loadedBusinesses = 0
     
     // MARK: API
     
@@ -30,15 +31,22 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     */
     public func getFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
         let query = Business.query()!
+        println("tried getting featured businesses")
         query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
+        query.limit = 3
+        query.skip = self.loadedBusinesses.value
         
         return businessService.findBy(query)
             |> on(next: { businesses in
+                println("got here")
                 self.fetchingData.put(true)
             })
             |> map { businesses -> [FeaturedBusinessViewModel] in
-                // shuffle and save the business models
-                self.businessArr.put($.shuffle(businesses))
+                // save the business models
+                self.businessArr.put(businesses)
+                
+                // increment loaded businesses counter
+                self.loadedBusinesses.put(businesses.count + self.loadedBusinesses.value)
                 
                 // map the business models to viewmodels
                 return self.businessArr.value.map {
@@ -47,8 +55,10 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
             }
             |> on(
                 next: { response in
+                    println("made it to next")
                     self.fetchingData.put(false)
-                    self.featuredBusinessViewModelArr.put(response)
+                    self.featuredBusinessViewModelArr.put(self.featuredBusinessViewModelArr.value + response)
+
                 },
                 error: { FeaturedLogError($0.description) }
             )
@@ -88,5 +98,6 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
     private let imageService: IImageService
+    private var loadedBusinesses: MutableProperty<Int> = MutableProperty(0)
     private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
 }

@@ -24,6 +24,7 @@ public final class FeaturedListViewController: XUIViewController {
     // MARK: Properties
     private var viewmodel: IFeaturedListViewModel!
     private let compositeDisposable = CompositeDisposable()
+    private var isLoading = 0
     
     // MARK: Setups
     public override func viewDidLoad() {
@@ -175,6 +176,32 @@ public final class FeaturedListViewController: XUIViewController {
                 }
         )
         
+        rac_signalForSelector(Selector("scrollViewDidScroll:"),
+            fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
+            |> takeUntil(
+                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
+                    |> toNihil
+            )
+            |> map { ($0 as! RACTuple).first as! UIScrollView }
+            |> start(
+                next: { scrollView in
+                    if (self.isLoading != 0) {
+                        return
+                    }
+                    
+                    if (self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.bounds.size.height)) {
+                        // reached bottom of table view
+                        self.viewmodel.getFeaturedBusinesses()
+                            |> map { _ -> Void in }
+                            |> on(next: { [weak self] _ in
+                                self?.tableView.reloadData()
+                                self?.refreshControl.endRefreshing()
+                            })
+
+                        println("Add more rows")
+                    }
+                }
+        )
         
         /**
         Assigning UITableView delegate has to happen after signals are established.
