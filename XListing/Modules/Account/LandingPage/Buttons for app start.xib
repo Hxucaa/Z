@@ -1,10 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="NotoSans-Bold.ttf">
+            <string>NotoSans-Bold</string>
+        </mutableArray>
+        <mutableArray key="NotoSansCJKsc-Medium.otf">
+            <string>NotoSansCJKsc-Medium</string>
+            <string>NotoSansCJKsc-Medium</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Dj7-TF-erW">
+            <rect key="frame" x="0.0" y="0.0" width="247" height="109"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LIn-DV-Yau">
+                    <rect key="frame" x="63" y="80" width="30" height="29"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="14"/>
+                    <state key="normal" title="注册">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="|" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uw5-ur-jcD" userLabel="divider">
+                    <rect key="frame" x="121" y="80" width="5" height="29"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="5" id="CTL-u6-XKl"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="22"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="0.0"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bzk-jR-kgk">
+                    <rect key="frame" x="0.0" y="0.0" width="247" height="60"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.14999999999999999" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="3l8-YR-EKr"/>
+                        <constraint firstAttribute="width" secondItem="bzk-jR-kgk" secondAttribute="height" multiplier="247:60" id="Wvh-gS-fmF"/>
+                        <constraint firstAttribute="width" secondItem="bzk-jR-kgk" secondAttribute="height" multiplier="247:60" id="t9o-z3-xQr"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="19"/>
+                    <state key="normal" title="立即体验">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="t9o-z3-xQr"/>
+                        </mask>
+                    </variation>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kah-6v-3yd">
+                    <rect key="frame" x="154" y="80" width="30" height="29"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="14"/>
+                    <state key="normal" title="登录">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Uw5-ur-jcD" firstAttribute="leading" secondItem="LIn-DV-Yau" secondAttribute="trailing" constant="28" id="3X3-Wg-QCo"/>
+                <constraint firstItem="Uw5-ur-jcD" firstAttribute="top" secondItem="LIn-DV-Yau" secondAttribute="top" id="6Mb-NO-FnH"/>
+                <constraint firstAttribute="centerX" secondItem="Uw5-ur-jcD" secondAttribute="centerX" id="MfR-lG-tMP"/>
+                <constraint firstAttribute="bottom" secondItem="bzk-jR-kgk" secondAttribute="bottom" constant="49" id="hAO-aC-zsq"/>
+                <constraint firstItem="Uw5-ur-jcD" firstAttribute="height" secondItem="LIn-DV-Yau" secondAttribute="height" id="m9d-vB-mvp"/>
+                <constraint firstItem="Uw5-ur-jcD" firstAttribute="top" secondItem="bzk-jR-kgk" secondAttribute="bottom" constant="20" id="obw-cN-5Gz"/>
+                <constraint firstItem="Kah-6v-3yd" firstAttribute="leading" secondItem="Uw5-ur-jcD" secondAttribute="trailing" constant="28" id="q03-AV-Mpb"/>
+                <constraint firstItem="Uw5-ur-jcD" firstAttribute="top" secondItem="Kah-6v-3yd" secondAttribute="top" id="wXw-wg-jnO"/>
+                <constraint firstItem="Uw5-ur-jcD" firstAttribute="height" secondItem="Kah-6v-3yd" secondAttribute="height" id="wY9-OF-PFA"/>
+                <constraint firstAttribute="centerX" secondItem="bzk-jR-kgk" secondAttribute="centerX" id="yih-xt-1Yd"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-59.5" y="-65.5"/>
+        </view>
     </objects>
 </document>
