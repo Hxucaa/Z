@@ -55,11 +55,15 @@ public struct ProfileHeaderViewModel {
             setupEta(CLLocation(latitude: geopoint.latitude, longitude: geopoint.longitude))
         }
 
+        cover?.getDataInBackgroundWithBlock{(data, error) -> Void in
+            var image = UIImage(data: data)
+            self.coverImage.put(image)
+        }
         
-        imageService.getImage(NSURL(string: "http://www.washingtonpost.com/blogs/the-fix/wp/2014/10/20/obama-giftwraps-another-sound-bite-for-republicans/")!)
-            |> start(next: {
-                self.coverImage.put($0)
-            })
+//        imageService.getImage(NSURL(string: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSJWn5_oTBOFhan3WPCmtXWMeMbQa_ZFbITTBJStGQvgZGt6l9lOqRLwiy9")!)
+//            |> start(next: {
+//                self.coverImage.put($0)
+//            })
     }
     
     // MARK: - Private

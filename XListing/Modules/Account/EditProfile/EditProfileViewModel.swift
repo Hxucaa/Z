@@ -40,7 +40,6 @@ public struct EditProfileViewModel {
                     |> flatMap(.Concat) { (nickname, birthday, profileImage, gender) -> SignalProducer<Bool, NSError> in
                         let imageData = UIImagePNGRepresentation(self.profileImage.value)
                         let file = AVFile.fileWithName("profile.png", data: imageData) as! AVFile
-                        
                         user.nickname = nickname
                         user.birthday = birthday
                         user.profileImg = file
