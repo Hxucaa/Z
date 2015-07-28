@@ -176,7 +176,7 @@ public final class FeaturedListViewController: XUIViewController {
                 }
         )
         
-        rac_signalForSelector(Selector("scrollViewDidScroll:"),
+        rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"),
             fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
             |> takeUntil(
                 rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
@@ -189,13 +189,15 @@ public final class FeaturedListViewController: XUIViewController {
                         return
                     }
                     
-                    if (self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.bounds.size.height)) {
+                    self.isLoading = 1
+                    
+                    if (self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.bounds.size.height * 2)) {
                         // reached bottom of table view
                         self.viewmodel.getFeaturedBusinesses()
                             |> map { _ -> Void in }
-                            |> on(next: { [weak self] _ in
+                            |> start(next: { [weak self] _ in
+                                self?.isLoading = 0
                                 self?.tableView.reloadData()
-                                self?.refreshControl.endRefreshing()
                             })
 
                         println("Add more rows")
@@ -249,6 +251,7 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as! FeaturedListBusinessTableViewCell
         cell.bindViewModel(viewmodel.featuredBusinessViewModelArr.value[indexPath.row])
+        
         return cell
     }
 }

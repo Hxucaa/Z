@@ -43,11 +43,14 @@ public struct FeaturedBusinessViewModel {
         
         participation.put("\(participationCount)+ 人想去")
         
-        imageService.getImage(NSURL(string: "http://lasttear.com/wp-content/uploads/2015/03/interior-design-ideas-furniture-architecture-mesmerizing-chinese-restaurant-interior-with-red-nuance-inspiring.jpg")!)
-            |> start(next: {
-                self.coverImage.put($0)
-            })
+        if let cover = cover, url = cover.url {
+            imageService.getImage(NSURL(string: url)!)
+                |> start(next: {
+                    self.coverImage.put($0)
+                })
+        }
     }
+    // "http://lasttear.com/wp-content/uploads/2015/03/interior-design-ideas-furniture-architecture-mesmerizing-chinese-restaurant-interior-with-red-nuance-inspiring.jpg"
     
     // MARK: - Private
     
