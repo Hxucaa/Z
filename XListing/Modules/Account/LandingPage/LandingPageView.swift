@@ -19,27 +19,26 @@ public final class LandingPageView : UIView {
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var skipButton: UIButton!
     @IBOutlet weak var dividerLabel: UILabel!
-    @IBOutlet weak var logoView: LandingPageLogoView!
     
     // MARK: - Proxies
     
     /// Skip Landing view.
-    public var skipProxy: SimpleProxy.Producer {
+    public var skipProxy: SignalProducer<Void, NoError> {
         return _skipProxy
     }
-    private let (_skipProxy, _skipSink) = SimpleProxy.pipe()
+    private let (_skipProxy, _skipSink) = SignalProducer<Void, NoError>.buffer(1)
     
     /// Go to Log In view.
-    public var loginProxy: SimpleProxy.Producer {
+    public var loginProxy: SignalProducer<Void, NoError> {
         return _loginProxy
     }
-    private let (_loginProxy, _loginSink) = SimpleProxy.pipe()
+    private let (_loginProxy, _loginSink) = SignalProducer<Void, NoError>.buffer(1)
     
     /// Go to Sign Up view.
-    public var signUpProxy: SimpleProxy.Producer {
+    public var signUpProxy: SignalProducer<Void, NoError> {
         return _signUpProxy
     }
-    private let (_signUpProxy, _signUpSink) = SimpleProxy.pipe()
+    private let (_signUpProxy, _signUpSink) = SignalProducer<Void, NoError>.buffer(1)
     
     
     // MARK: Properties
@@ -60,7 +59,6 @@ public final class LandingPageView : UIView {
             return SignalProducer { sink, disposable in
                 if let this = self {
                     sendNext(this._loginSink, ())
-                    sendCompleted(this._loginSink)
                 }
                 
                 sendCompleted(sink)
@@ -75,7 +73,6 @@ public final class LandingPageView : UIView {
             return SignalProducer { sink, disposable in
                 if let this = self {
                     sendNext(this._signUpSink, ())
-                    sendCompleted(this._signUpSink)
                 }
                 
                 sendCompleted(sink)
@@ -95,7 +92,6 @@ public final class LandingPageView : UIView {
                 if let this = self {
                     // send event to skip proxy
                     sendNext(this._skipSink, ())
-                    sendCompleted(this._skipSink)
                 }
                 
                 // completes this action
@@ -112,6 +108,10 @@ public final class LandingPageView : UIView {
         dividerLabel.layer.shadowOpacity = 0.5
         dividerLabel.layer.shadowOffset = CGSize.zeroSize
         
+    }
+    
+    deinit {
+        AccountLogVerbose("Landing Page View deinitializes.")
     }
     
     // MARK: Bindings

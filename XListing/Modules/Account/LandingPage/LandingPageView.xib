@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
+        <mutableArray key="NotoSans-Bold.ttf">
+            <string>NotoSans-Bold</string>
+        </mutableArray>
         <mutableArray key="NotoSansCJKsc-Medium.otf">
-            <string>NotoSansCJKsc-Medium</string>
-            <string>NotoSansCJKsc-Medium</string>
             <string>NotoSansCJKsc-Medium</string>
             <string>NotoSansCJKsc-Medium</string>
         </mutableArray>
@@ -24,37 +25,38 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </imageView>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="v4L-vT-WDq">
+                    <rect key="frame" x="232" y="122" width="136" height="146"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&quot;  找  地  方,  约  起  来  !  &quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IAk-Ok-i4m">
+                    <rect key="frame" x="199" y="307" width="203" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="203" id="E4c-8Z-t6h"/>
+                        <constraint firstAttribute="width" constant="203" id="KFq-fe-V0Q"/>
+                        <constraint firstAttribute="width" secondItem="IAk-Ok-i4m" secondAttribute="height" multiplier="29:3" id="lVg-mM-ryH"/>
+                        <constraint firstAttribute="width" secondItem="IAk-Ok-i4m" secondAttribute="height" multiplier="29:3" id="zcx-Ry-wMs"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="15"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="E4c-8Z-t6h"/>
+                            <exclude reference="lVg-mM-ryH"/>
+                        </mask>
+                    </variation>
+                </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0eD-67-s1P">
-                    <rect key="frame" x="240" y="506" width="30" height="29"/>
+                    <rect key="frame" x="240" y="488" width="30" height="29"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="14"/>
                     <state key="normal" title="注册">
-                        <color key="titleColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="URh-J2-DSn" userLabel="Logo" customClass="LandingPageLogoView" customModule="XListing" customModuleProvider="target">
-                    <rect key="frame" x="220" y="49" width="160" height="160"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" secondItem="URh-J2-DSn" secondAttribute="height" multiplier="1:1" id="agJ-V4-yzr"/>
-                        <constraint firstAttribute="height" constant="160" id="f9E-FM-ERQ">
-                            <variation key="heightClass=regular-widthClass=compact" constant="162"/>
-                        </constraint>
-                    </constraints>
-                </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="“找 地 方 ， 约 起 来”" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XAZ-vG-qje">
-                    <rect key="frame" x="145" y="224" width="310" height="23"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="23" id="HSb-PL-B3R"/>
-                        <constraint firstAttribute="width" constant="310" id="Vzr-fT-iet"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="15"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="|" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcy-qC-2WU" userLabel="divider">
-                    <rect key="frame" x="298" y="506" width="5" height="29"/>
+                    <rect key="frame" x="298" y="488" width="5" height="29"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="5" id="lu2-uc-Ymc"/>
                     </constraints>
@@ -64,28 +66,35 @@
                     <color key="shadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="0.0" height="0.0"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Osl-4F-Oyr">
-                    <rect key="frame" x="331" y="506" width="30" height="29"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="14"/>
-                    <state key="normal" title="登录">
-                        <color key="titleColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgY-P5-hxK">
-                    <rect key="frame" x="177" y="438" width="247" height="60"/>
+                    <rect key="frame" x="177" y="408" width="247" height="60"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.14999999999999999" colorSpace="calibratedRGB"/>
                     <constraints>
+                        <constraint firstAttribute="width" secondItem="hgY-P5-hxK" secondAttribute="height" multiplier="247:60" id="0NC-1T-9sx"/>
+                        <constraint firstAttribute="width" secondItem="hgY-P5-hxK" secondAttribute="height" multiplier="247:60" id="Zic-Zb-f1C"/>
                         <constraint firstAttribute="height" constant="60" id="oFD-vB-73i">
                             <variation key="heightClass=regular" constant="55"/>
                             <variation key="widthClass=compact" constant="50"/>
                             <variation key="heightClass=regular-widthClass=compact" constant="55"/>
                         </constraint>
                     </constraints>
-                    <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="19"/>
+                    <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="19"/>
                     <state key="normal" title="立即体验">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="Zic-Zb-f1C"/>
+                        </mask>
+                    </variation>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Osl-4F-Oyr">
+                    <rect key="frame" x="331" y="488" width="30" height="29"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" name="NotoSansCJKsc-Medium" family="Noto Sans CJK SC" pointSize="14"/>
+                    <state key="normal" title="登录">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
             </subviews>
@@ -93,36 +102,46 @@
             <constraints>
                 <constraint firstItem="8hz-e1-YYN" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="0ey-U4-DRp"/>
                 <constraint firstAttribute="bottom" secondItem="8hz-e1-YYN" secondAttribute="bottom" id="1iY-S2-EcI"/>
-                <constraint firstItem="8hz-e1-YYN" firstAttribute="top" secondItem="URh-J2-DSn" secondAttribute="bottom" constant="-209" id="88D-8W-fDT">
-                    <variation key="heightClass=regular" constant="-263"/>
-                    <variation key="heightClass=regular-widthClass=compact" constant="-263"/>
-                </constraint>
-                <constraint firstItem="hcy-qC-2WU" firstAttribute="top" secondItem="hgY-P5-hxK" secondAttribute="bottom" constant="8" id="9fR-5K-jd3"/>
+                <constraint firstItem="hcy-qC-2WU" firstAttribute="top" secondItem="hgY-P5-hxK" secondAttribute="bottom" constant="20" id="9fR-5K-jd3"/>
+                <constraint firstItem="IAk-Ok-i4m" firstAttribute="centerX" secondItem="8hz-e1-YYN" secondAttribute="centerX" constant="16" id="Ase-ph-ork"/>
                 <constraint firstItem="hcy-qC-2WU" firstAttribute="leading" secondItem="0eD-67-s1P" secondAttribute="trailing" constant="28" id="BYq-9D-R3C"/>
+                <constraint firstItem="v4L-vT-WDq" firstAttribute="centerY" secondItem="8hz-e1-YYN" secondAttribute="centerY" constant="-105" id="Bb0-LZ-gjm"/>
                 <constraint firstAttribute="centerX" secondItem="hcy-qC-2WU" secondAttribute="centerX" id="CMl-w7-6l1"/>
                 <constraint firstAttribute="centerX" secondItem="hgY-P5-hxK" secondAttribute="centerX" id="DS2-lq-HRv"/>
+                <constraint firstItem="8hz-e1-YYN" firstAttribute="top" secondItem="v4L-vT-WDq" secondAttribute="bottom" constant="-268" id="EA1-IJ-czv"/>
+                <constraint firstItem="v4L-vT-WDq" firstAttribute="width" secondItem="8hz-e1-YYN" secondAttribute="height" multiplier="17:75" id="HJe-GY-ZJe"/>
                 <constraint firstItem="hcy-qC-2WU" firstAttribute="top" secondItem="Osl-4F-Oyr" secondAttribute="top" id="Kcy-Gc-rUp"/>
                 <constraint firstItem="8hz-e1-YYN" firstAttribute="width" secondItem="hgY-P5-hxK" secondAttribute="width" multiplier="50" constant="-11750" id="LWL-dX-2PC">
                     <variation key="heightClass=regular" constant="-11600"/>
                     <variation key="widthClass=compact" constant="-11450"/>
                     <variation key="widthClass=regular" constant="-14650"/>
                 </constraint>
-                <constraint firstItem="XAZ-vG-qje" firstAttribute="centerX" secondItem="URh-J2-DSn" secondAttribute="centerX" id="X1e-9z-V6H"/>
                 <constraint firstItem="8hz-e1-YYN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="agF-l6-GPg"/>
                 <constraint firstItem="hcy-qC-2WU" firstAttribute="height" secondItem="Osl-4F-Oyr" secondAttribute="height" id="brG-sh-upI"/>
                 <constraint firstItem="hcy-qC-2WU" firstAttribute="height" secondItem="0eD-67-s1P" secondAttribute="height" id="d4y-po-lwL"/>
                 <constraint firstAttribute="trailing" secondItem="8hz-e1-YYN" secondAttribute="trailing" id="dAl-D9-B3U"/>
-                <constraint firstItem="hgY-P5-hxK" firstAttribute="top" secondItem="8hz-e1-YYN" secondAttribute="bottom" multiplier="1.1" constant="-222" id="hWX-Hv-tCB">
+                <constraint firstItem="v4L-vT-WDq" firstAttribute="centerX" secondItem="8hz-e1-YYN" secondAttribute="centerX" id="dU1-XQ-x9h"/>
+                <constraint firstItem="hgY-P5-hxK" firstAttribute="top" secondItem="IAk-Ok-i4m" secondAttribute="bottom" constant="80" id="g5X-Ey-buA"/>
+                <constraint firstItem="hgY-P5-hxK" firstAttribute="top" secondItem="8hz-e1-YYN" secondAttribute="bottom" multiplier="1.1" constant="-200" id="hWX-Hv-tCB">
                     <variation key="heightClass=regular" constant="-290"/>
                     <variation key="widthClass=compact" constant="-212"/>
                     <variation key="heightClass=regular-widthClass=compact" constant="-300"/>
                     <variation key="heightClass=regular-widthClass=regular" constant="-300"/>
                 </constraint>
-                <constraint firstItem="XAZ-vG-qje" firstAttribute="top" secondItem="URh-J2-DSn" secondAttribute="bottom" constant="15" id="jwa-bf-45m"/>
                 <constraint firstItem="Osl-4F-Oyr" firstAttribute="leading" secondItem="hcy-qC-2WU" secondAttribute="trailing" constant="28" id="ndV-88-ePo"/>
-                <constraint firstAttribute="centerX" secondItem="URh-J2-DSn" secondAttribute="centerX" id="qvm-Dj-9J2"/>
+                <constraint firstItem="IAk-Ok-i4m" firstAttribute="top" secondItem="v4L-vT-WDq" secondAttribute="bottom" constant="39" id="tIr-oG-28X"/>
+                <constraint firstItem="IAk-Ok-i4m" firstAttribute="centerX" secondItem="v4L-vT-WDq" secondAttribute="centerX" constant="0.5" id="v4C-T0-vJk"/>
                 <constraint firstItem="hcy-qC-2WU" firstAttribute="top" secondItem="0eD-67-s1P" secondAttribute="top" id="yUG-QD-WZh"/>
             </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="LWL-dX-2PC"/>
+                    <exclude reference="Bb0-LZ-gjm"/>
+                    <exclude reference="HJe-GY-ZJe"/>
+                    <exclude reference="Ase-ph-ork"/>
+                    <exclude reference="hWX-Hv-tCB"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="dividerLabel" destination="hcy-qC-2WU" id="gDI-FQ-lFp"/>
                 <outlet property="loginButton" destination="Osl-4F-Oyr" id="eeO-Oc-fpY"/>
@@ -132,6 +151,7 @@
         </view>
     </objects>
     <resources>
+        <image name="Logo" width="136" height="146"/>
         <image name="Low-Polyy" width="358" height="565"/>
     </resources>
 </document>
