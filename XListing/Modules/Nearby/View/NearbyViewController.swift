@@ -6,6 +6,23 @@
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
+/**
+IMPLEMENTATION DETAILS:
+
+This view controller has a map view and a horizontal collection view. The business info is displayed as 
+both annotation in the map and cell in the collection view. When swiping on the collection view,
+the map view should center on the corresponding annotation. When clicking on an annotation, the collection
+view should scroll to the corresponding cell.
+
+Signal for `Selector("mapView:didAddAnnotationViews:")` implements scrolling the collection view to the
+correct cell when an annotation is clicked.
+
+There is a bug with the `UIScrollViewDelegate` that the when and where a scroll ends cannot be reliably
+determined. A workaround is implemented such that when a scroll event initiates, it always call the
+`Selector("scrollViewDidEndScrollingAnimation:")` where it handles centering the map on an annotation.
+*/
+
+
 import UIKit
 import MapKit
 import ReactiveCocoa
@@ -35,6 +52,8 @@ public final class NearbyViewController: XUIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        businessCollectionView.pagingEnabled = true
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -176,7 +195,7 @@ public final class NearbyViewController: XUIViewController {
                 }
             )
         
-        compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndDecelerating:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
+        compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndScrollingAnimation:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
             
             // Completes the signal when the view controller disappears
             |> takeUntil(
@@ -189,8 +208,11 @@ public final class NearbyViewController: XUIViewController {
                     if let
                         this = self,
                         collectionView = scrollView as? UICollectionView,
-                        visibleCell = collectionView.visibleCells() as? [UICollectionViewCell],
-                        indexPath = collectionView.indexPathForCell(visibleCell[0]) {
+                        visibleCells = collectionView.visibleCells() as? [UICollectionViewCell],
+                        lastCell = visibleCells.last,
+                        indexPath = collectionView.indexPathForCell(lastCell) {
+                            // After an end scrolling is detected, we must cancel the `performSelector`, otherwise this function will get called multiple times.
+                            NSObject.cancelPreviousPerformRequestsWithTarget(this)
                             
                             let business = this.viewmodel.businessViewModelArr.value[indexPath.section]
                             
@@ -205,6 +227,19 @@ public final class NearbyViewController: XUIViewController {
                     }
                 }
             )
+        
+        /**
+        Assigning UITableView delegate has to happen after signals are established.
+        
+        - tableView.delegate is assigned to self somewhere in UITableViewController designated initializer
+        
+        - UITableView caches presence of optional delegate methods to avoid -respondsToSelector: calls
+        
+        - You use -rac_signalForSelector:fromProtocol: and RAC creates method implementation for you in runtime. But UITableView knows nothing about this implementation, it still thinks that there's no such method
+        
+        The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
+        */
+        businessCollectionView.delegate = self
     }
     
     deinit {
@@ -234,7 +269,7 @@ public final class NearbyViewController: XUIViewController {
     
 }
 
-extension NearbyViewController : UICollectionViewDataSource {
+extension NearbyViewController : UICollectionViewDataSource, UIScrollViewDelegate {
     
     
     /**
@@ -274,6 +309,19 @@ extension NearbyViewController : UICollectionViewDataSource {
         cell.bindToViewModel(business)
         
         return cell
+    }
+    
+    /**
+    Tells the delegate when the user scrolls the content view within the receiver.
+    
+    :param: scrollView The scroll-view object in which the scrolling occurred.
+    */
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
+        // This is a workaround for a bug where there's no way to reliably determine when a scroll ends and its final position.
+        NSObject.cancelPreviousPerformRequestsWithTarget(self)
+        
+        // Use the objective-C API to manually call the function indicating an end of scrolling.
+        swift_performSelector("scrollViewDidEndScrollingAnimation:", withObject: scrollView, afterDelay: 0.3)
     }
 }
 

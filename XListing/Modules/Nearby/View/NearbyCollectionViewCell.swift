@@ -38,10 +38,29 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
     public func bindToViewModel(viewmodel: NearbyTableCellViewModel) {
         self.viewmodel = viewmodel
         
-        businessNameLabel.rac_text <~ self.viewmodel.businessName
-        cityLabel.rac_text <~ self.viewmodel.city
-        businessHoursLabel.rac_text <~ self.viewmodel.participation
-        etaLabel.rac_text <~ self.viewmodel.eta
+        businessNameLabel.rac_text <~ self.viewmodel.businessName.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
+        
+        cityLabel.rac_text <~ self.viewmodel.city.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
+        
+        businessHoursLabel.rac_text <~ self.viewmodel.participation.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
+        
+        etaLabel.rac_text <~ self.viewmodel.eta.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
         
         compositeDisposable += self.viewmodel.coverImage.producer
             |> takeUntil(
