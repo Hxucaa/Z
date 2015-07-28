@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ReactiveCocoa
 
 class ProfileHeaderView: UIView {
     @IBOutlet weak var topRightButton: UIButton!
@@ -17,6 +18,9 @@ class ProfileHeaderView: UIView {
     @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     
+    var viewModel: ProfileHeaderViewModel?
+    
+    
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -25,8 +29,25 @@ class ProfileHeaderView: UIView {
     }
     */
     
-    func setup(){
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
         topLeftButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+    }
+    
+  
+    func bindViewModel(viewmodel: ProfileHeaderViewModel) {
+            self.viewModel = viewmodel
+            nameLabel.rac_text <~ viewmodel.name
+            constellationLabel.rac_text <~ viewmodel.horoscope
+            ageLabel.rac_text <~ viewmodel.ageGroup
+            locationLabel.rac_text <~ viewmodel.district
+            
+            self.viewModel!.coverImage.producer
+                |> ignoreNil
+                |> start (next: { [weak self] in
+                    self?.profileImageView.setImageWithAnimation($0)
+                    })
     }
 
 }

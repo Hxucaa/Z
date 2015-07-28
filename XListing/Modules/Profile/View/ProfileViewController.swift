@@ -19,9 +19,11 @@ public final class ProfileViewController : XUIViewController {
     
     @IBOutlet weak var headerView: UIView!
     
+    
     @IBOutlet weak var tabView: UIView!
     
     
+    var headerViewContent: ProfileHeaderView!
     
     
     public var firstSegSelected = true
@@ -32,10 +34,10 @@ public final class ProfileViewController : XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "个人"
-        if let headerViewContent = NSBundle.mainBundle().loadNibNamed("ProfileHeaderView", owner: self, options: nil)[0] as? ProfileHeaderView{
+        if let temp = NSBundle.mainBundle().loadNibNamed("ProfileHeaderView", owner: self, options: nil)[0] as? ProfileHeaderView{
+            headerViewContent  = temp
             headerViewContent.frame = CGRectMake(0, 0, headerViewContent.frame.width, headerViewContent.frame.height)
             convertImgToCircle(headerViewContent.profileImageView)
-            headerViewContent.setup()
             setupBackButton(headerViewContent.topLeftButton)
             setupEditButton(headerViewContent.topRightButton)
             headerView.addSubview(headerViewContent)
@@ -44,8 +46,29 @@ public final class ProfileViewController : XUIViewController {
             tabView.addSubview(tabViewContent)
         }
         self.setupTableView()
- //       self.tableView.backgroundColor = UIColor.redColor()
+        self.setupHeaderView()
     }
+    
+    
+    private func tryBindHeaderViewModel() {
+        BOLogDebug("start to bind")
+        if headerViewContent != nil && self.profileVM!.profileHeaderViewModel.value != nil{
+            headerViewContent.bindViewModel(self.profileVM!.profileHeaderViewModel.value!)
+            BOLogDebug("bind success")
+        }
+        else{
+            BOLogDebug("bind failed")
+        }
+    }
+    
+    private func setupHeaderView() {
+        self.profileVM.profileHeaderViewModel.producer
+            |> start(next: { [weak self] _ in
+                self!.tryBindHeaderViewModel()
+                })
+    }
+    
+    
     
     private func setupTableView() {
         var nib = UINib(nibName: "ProfileBusinessCell", bundle: nil)
@@ -62,10 +85,10 @@ public final class ProfileViewController : XUIViewController {
     
 
     public override func viewWillAppear(animated: Bool) {
-        BOLogVerbose("\(self.tableView.frame.origin.x)")
-        BOLogVerbose("\(self.tableView.frame.origin.y)")
-        BOLogVerbose("\(self.tableView.frame.size.width)")
-        BOLogVerbose("\(self.tableView.frame.size.height)")
+//        BOLogVerbose("\(self.tableView.frame.origin.x)")
+//        BOLogVerbose("\(self.tableView.frame.origin.y)")
+//        BOLogVerbose("\(self.tableView.frame.size.width)")
+//        BOLogVerbose("\(self.tableView.frame.size.height)")
         navigationController?.navigationBar.hidden = true // for navigation bar hide
         UIApplication.sharedApplication().statusBarHidden=false
 //        self.setStatusBarHidden(false, animated: false)
@@ -78,6 +101,8 @@ public final class ProfileViewController : XUIViewController {
     
     public func bindToViewModel(profileViewModel: ProfileViewModel) {
         profileVM = profileViewModel
+        
+        
     }
     
     /**

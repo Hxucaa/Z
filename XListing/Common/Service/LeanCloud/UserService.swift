@@ -61,6 +61,7 @@ public struct UserService : IUserService {
     
     public func signUp<T: User>(user: T) -> SignalProducer<Bool, NSError> {
         return SignalProducer { sink, disposable in
+            BOLogDebug("User created: \(user.toString())")
             user.signUpInBackgroundWithBlock { success, error -> Void in
                 if error == nil {
                     sendNext(sink, success)
@@ -96,9 +97,10 @@ public struct UserService : IUserService {
     
     public func save<T: User>(user: T) -> SignalProducer<Bool, NSError> {
         return SignalProducer { sink, disposable in
+            BOLogDebug("User profile created: \(user.toString())")
             user.saveInBackgroundWithBlock { (success, error) -> Void in
                 if error == nil {
-                    sendNext(sink, success)
+                    BOLogDebug("save profile return success")
                 }
                 else {
                     sendError(sink, error)

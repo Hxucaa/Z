@@ -45,6 +45,8 @@ public struct EditProfileViewModel {
                         user.birthday = birthday
                         user.profileImg = file
                         user.gender = gender.rawValue
+                        user.ageGroup = ""
+                        user.horoscope = ""
                         return self.userService.save(user)
                     }
             }
