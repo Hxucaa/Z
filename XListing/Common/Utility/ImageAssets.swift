@@ -20,4 +20,5 @@ public struct ImageAssets {
     static let profilepicture = "profilepicture"
     static let divider = "rowDividerBackground"
     static let businessplaceholder = "businessplaceholder"
+    static let logo = "Logo"
 }
