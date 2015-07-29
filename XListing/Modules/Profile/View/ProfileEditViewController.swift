@@ -89,7 +89,7 @@ public final class ProfileEditViewController: XUIViewController {
     }
     
     // MARK: - Setup Code
-    public func setupTableView() {
+    private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.allowsSelection = false
@@ -97,7 +97,7 @@ public final class ProfileEditViewController: XUIViewController {
         tableView.reloadData()
     }
     
-    public func setUpTableViewCells() {
+    private func setUpTableViewCells() {
         setUpNicknameCell()
         setUpGenderCell()
         setUpBirthdayCell()
@@ -105,32 +105,44 @@ public final class ProfileEditViewController: XUIViewController {
         setUpPhoneEmailCell()
     }
     
-    public func setUpNicknameCell() {
+    private func setUpNicknameCell() {
         nicknameCell = tableView.dequeueReusableCellWithIdentifier("NicknameCell") as! NicknameTableViewCell
         viewmodel.nickname <~ nicknameCell.textField.rac_text
-        nicknameCell.editProfilePicButton.addTarget(self, action: "chooseProfilePictureSource", forControlEvents: UIControlEvents.TouchUpInside)
+        let editProfilePicAction = Action<UIButton, Bool, NSError> { [weak self] button in
+            self!.chooseProfilePictureSource()
+            return SignalProducer { [weak self] sink, disposible in
+                sendCompleted(sink)
+            }
+        }
+        nicknameCell.editProfilePicButton.addTarget(editProfilePicAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
         nicknameCell.textField.delegate = self
     }
     
-    public func setUpWhatsupCell() {
+    private func setUpWhatsupCell() {
         whatsupCell = tableView.dequeueReusableCellWithIdentifier("WhatsupCell") as! WhatsupTableViewCell
         whatsupCell.textField.delegate = self
     }
     
-    public func setUpBirthdayCell() {
+    private func setUpBirthdayCell() {
         birthdayCell = tableView.dequeueReusableCellWithIdentifier("BirthdayCell") as! BirthdayTableViewCell
         birthdayCell.delegate = self
         birthdayCell.birthdayTextField.delegate = self
     }
     
-    public func setUpGenderCell() {
+    private func setUpGenderCell() {
         genderCell = tableView.dequeueReusableCellWithIdentifier("GenderCell") as! GenderTableViewCell
-        genderCell.editProfilePicButton.addTarget(self, action: "chooseProfilePictureSource", forControlEvents: UIControlEvents.TouchUpInside)
+        let editProfilePicAction = Action<UIButton, Bool, NSError> { [weak self] button in
+            self!.chooseProfilePictureSource()
+            return SignalProducer { [weak self] sink, disposible in
+                sendCompleted(sink)
+            }
+        }
+        genderCell.editProfilePicButton.addTarget(editProfilePicAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
         genderCell.delegate = self
         genderCell.textField.delegate = self
     }
     
-    public func setUpPhoneEmailCell() {
+    private func setUpPhoneEmailCell() {
         phoneCell = tableView.dequeueReusableCellWithIdentifier("PhoneEmailCell") as! PhoneEmailTableViewCell
         phoneCell.textField.delegate = self
         phoneCell.initialize("Phone")
@@ -144,7 +156,7 @@ public final class ProfileEditViewController: XUIViewController {
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
     }
     
-    public func setupDismissButton() {
+    private func setupDismissButton() {
         var dismissButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: "dismissView")
         dismissButton.tintColor = UIColor.whiteColor()
         self.navigationItem.leftBarButtonItem = dismissButton
@@ -197,7 +209,7 @@ public final class ProfileEditViewController: XUIViewController {
                     |> mapError { _ in NSError() }
                     |> then(self!.viewmodel.updateProfile)
                     // dismiss HUD based on the result of update profile signal
-                    |> HUD.onDismissWithStatusMessage(errorHandler: { error -> String in
+                    |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
                         AccountLogError(error.description)
                         return error.customErrorDescription
                     })

@@ -1,15 +1,15 @@
 //
-//  SignInViewController.swift
+//  AccountViewController.swift
 //  XListing
 //
-//  Created by Bruce Li on 2015-05-16.
+//  Created by Lance Zhu on 2015-07-12.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import UIKit
 import ReactiveCocoa
 
-private let EditProfileViewNibName = "EditProfileView"
+private let EditInfoViewNibName = "EditInfoView"
 private let SignUpViewNibName = "SignUpView"
 private let LogInViewNibName = "LogInView"
 private let LandingPageViewNibName = "LandingPageView"
@@ -21,66 +21,209 @@ public final class AccountViewController: XUIViewController {
     private var landingPageView: LandingPageView!
     private var logInView: LogInView!
     private var signUpView: SignUpView!
-    private var editInfoView: EditProfileView!
+    private var editInfoView: EditInfoView!
     
-    // MARK: Variables
+    // MARK: Properties
+    
     private var viewmodel: IAccountViewModel!
+    /// A disposable that will dispose of any number of other disposables.
+    private let compositeDisposable = CompositeDisposable()
+    /**
+    A producer that handles transition of views. It also takes in a completion handler after transition is done.
+    */
+    private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<(view: UIView, completion: (Bool -> Void)?), NoError>.buffer(1)
     
-    // MARK: Setup
+    // MARK: Setups
     public override func loadView() {
         super.loadView()
         
         landingPageView = NSBundle.mainBundle().loadNibNamed(LandingPageViewNibName, owner: self, options: nil).first as! LandingPageView
         
-        addLandingViewToSubview()
+        logInView = NSBundle.mainBundle().loadNibNamed(LogInViewNibName, owner: self, options: nil).first as! LogInView
+        
+        signUpView = NSBundle.mainBundle().loadNibNamed(SignUpViewNibName, owner: self, options: nil).first as! SignUpView
+        
+        editInfoView = NSBundle.mainBundle().loadNibNamed(EditInfoViewNibName, owner: self, options: nil).first as! EditInfoView
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view.
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
-    public override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    private func addLandingViewToSubview() {
-        landingPageView.bindToViewModel(viewmodel.landingPageViewModel)
-        landingPageView.delegate = self
+        navigationController?.setNavigationBarHidden(true, animated: false)
         
-        // have to add subview before adding constraints
+        
+        setupLandingPage()
+        setupLogIn()
+        setupSignUp()
+        setupEditInfo()
+        setupTransitions()
+        
+        // set initial view
         view.addSubview(landingPageView)
-        
         addConstraintsToClipToAllSides(landingPageView)
+        
     }
     
-    private func addLogInViewToSubview() {
-        logInView = NSBundle.mainBundle().loadNibNamed(LogInViewNibName, owner: self, options: nil).first as! LogInView
+    private func setupLandingPage() {
+        landingPageView.bindToViewModel(viewmodel.landingPageViewModel)
+        
+        compositeDisposable += landingPageView.skipProxy
+            |> start(next: { [weak self] in
+                self?.viewmodel.skipAccount({
+                    self?.navigationController?.setNavigationBarHidden(true, animated: false)
+                    // dismiss account module, but no callback
+                    self?.dismissViewControllerAnimated(true, completion: nil)
+                })
+            })
+        
+        compositeDisposable += landingPageView.loginProxy
+            |> start(next: { [weak self] in
+                if let this = self {
+                    // transition to log in view
+                    sendNext(this.viewTransitionSink, (view: this.logInView, completion: { success in this.logInView.startFirstResponder() }))
+                }
+            })
+        
+        compositeDisposable += landingPageView.signUpProxy
+            |> start(next: { [weak self] in
+                if let this = self {
+                    // transition to sign up view
+                    sendNext(this.viewTransitionSink, (view: this.signUpView, completion: { success in this.signUpView.startFirstResponder() }))
+                }
+            })
+    }
+    
+    private func setupLogIn() {
         logInView.bindToViewModel(viewmodel.logInViewModel)
-        logInView.delegate = self
-        view.addSubview(logInView)
         
-        addConstraintsToClipToAllSides(logInView)
+        compositeDisposable += logInView.goBackProxy
+            |> start(next: { [weak self] in
+                if let this = self {
+                    // transition to landing page view
+                    sendNext(this.viewTransitionSink, (view: this.landingPageView, completion: nil))
+                }
+            })
+        
+        compositeDisposable += logInView.finishLoginProxy
+            |> start(next: { [weak self] in
+                if self?.viewmodel.gotoNextModuleCallback == nil {
+                    self?.viewmodel.pushFeaturedModule()
+                }
+                else {
+                    // dismiss account module, and go to the next module
+                    self?.dismissViewControllerAnimated(true, completion: self?.viewmodel.gotoNextModuleCallback)
+                }
+                self?.navigationController?.setNavigationBarHidden(false, animated: false)
+            })
     }
     
-    private func addSignUpViewToSubview() {
-        signUpView = NSBundle.mainBundle().loadNibNamed(SignUpViewNibName, owner: self, options: nil).first as! SignUpView
+    private func setupSignUp() {
         signUpView.bindToViewModel(viewmodel.signUpViewModel)
-        signUpView.delegate = self
-        view.addSubview(signUpView)
         
-        addConstraintsToClipToAllSides(signUpView)
+        compositeDisposable += signUpView.goBackProxy
+            |> start(next: { [weak self] in
+                if let this = self {
+                    // transition to landing page view
+                    sendNext(this.viewTransitionSink, (view: this.landingPageView, completion: nil))
+                }
+            })
+
+        compositeDisposable += signUpView.finishSignUpProxy
+            |> start(next: { [weak self] in
+                if let this = self {
+                    // transition to edit info view
+                    sendNext(this.viewTransitionSink, (view: this.editInfoView, completion: nil))
+                }
+            })
     }
     
-    private func addEditInfoViewToSubview() {
-        editInfoView = NSBundle.mainBundle().loadNibNamed(EditProfileViewNibName, owner: self, options: nil).first as! EditProfileView
+    private func setupEditInfo() {
         editInfoView.bindToViewModel(viewmodel.editProfileViewModel)
-        editInfoView.delegate = self
-        view.addSubview(editInfoView)
         
-        addConstraintsToClipToAllSides(editInfoView)
+        compositeDisposable += editInfoView.presentUIImagePickerProxy
+            |> start(next: { [weak self] imagePicker in
+                // present image picker
+                self?.presentViewController(imagePicker, animated: true, completion: nil)
+            })
+        
+        compositeDisposable += editInfoView.dismissUIImagePickerProxy
+            |> start(next: { [weak self] handler in
+                // dismiss image picker
+                self?.dismissViewControllerAnimated(true, completion: handler)
+            })
+        
+        compositeDisposable += editInfoView.finishEditInfoProxy
+            |> start(next: { [weak self] in
+                
+                if self?.viewmodel.gotoNextModuleCallback == nil {
+                    self?.viewmodel.pushFeaturedModule()
+                }
+                else {
+                    // dismiss account module, and go to the next module
+                    self?.dismissViewControllerAnimated(true, completion: self?.viewmodel.gotoNextModuleCallback)
+                }
+                self?.navigationController?.setNavigationBarHidden(false, animated: false)
+            })
+    }
+    
+    private func setupTransitions() {
+        
+        // transition to next view.
+        compositeDisposable += viewTransitionProducer
+            // forwards events along with the previous value. The first member is the previous value and the second is the current value.
+            |> combinePrevious((view: landingPageView, completion: nil))
+            |> start(next: { [unowned self] previous, current in
+                
+                // transition animation
+                self.animateTransition(previous.view, toView: current.view) { success in
+                    
+                    if let completion = current.completion {
+                        completion(success)
+                    }
+                }
+            })
+    }
+    
+    deinit {
+        // Dispose signals before deinit.
+        compositeDisposable.dispose()
+        AccountLogVerbose("Account View Controller deinitializes.")
+    }
+    
+    // MARK: Bindings
+    
+    public func bindToViewModel(viewModel: IAccountViewModel, dismissCallback: CompletionHandler? = nil) {
+        self.viewmodel = viewModel
+    }
+    
+    // MARK: Others
+    
+    /**
+    Transition to a view with animation.
+    
+    :param: fromView   From a UIView.
+    :param: toView     To a UIView.
+    :param: completion Completion handler which takes in a parameter indicating success.
+    */
+    private func animateTransition<V: UIView>(fromView: V, toView: V, completion: (Bool -> Void)? = nil) {
+        UIView.transitionWithView(
+            view,
+            duration: 0.5,
+            options: UIViewAnimationOptions.TransitionCrossDissolve,
+            animations: { [unowned self] in
+                fromView.removeFromSuperview()
+                
+                self.view.addSubview(toView)
+                self.addConstraintsToClipToAllSides(toView)
+            },
+            completion: { [unowned self] finished in
+                
+                if let completion = completion {
+                    completion(finished)
+                }
+            }
+        )
     }
     
     /**
@@ -137,76 +280,5 @@ public final class AccountViewController: XUIViewController {
                 )
             ]
         )
-    }
-    
-    public func bindToViewModel(viewModel: IAccountViewModel, dismissCallback: CompletionHandler? = nil) {
-        self.viewmodel = viewModel
-    }
-}
-
-extension AccountViewController : LandingViewDelegate {
-    public func switchToLoginView() {
-        addLogInViewToSubview()
-    }
-    
-    public func switchToSignUpView() {
-        addSignUpViewToSubview()
-    }
-    
-    public func skip() {
-        viewmodel.skipAccount { [weak self] in
-            self?.navigationController?.setNavigationBarHidden(true, animated: false)
-            // dismiss account module, but no callback
-            self?.dismissViewControllerAnimated(true, completion: nil)
-        }
-    }
-}
-
-extension AccountViewController : LoginViewDelegate {
-    public func goBackToPreviousView() {
-        logInView.removeFromSuperview()
-    }
-    
-    public func loginViewFinished() {
-        if viewmodel.gotoNextModuleCallback == nil {
-            viewmodel.pushFeaturedModule()
-        }
-        else {
-            // dismiss account module, and go to the next module
-            self.dismissViewControllerAnimated(true, completion: viewmodel.gotoNextModuleCallback)
-        }
-        navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-}
-
-extension AccountViewController : SignUpViewDelegate {
-    public func returnToLandingViewFromSignUp() {
-        signUpView.removeFromSuperview()
-    }
-    
-    public func gotoEditInfoView() {
-        addEditInfoViewToSubview()
-    }
-}
-
-extension AccountViewController : EditProfileViewDelegate {
-    
-    public func presentUIImagePickerController(imagePicker: UIImagePickerController) {
-        self.presentViewController(imagePicker, animated: true, completion: nil)
-    }
-    
-    public func dismissUIImagePickerController(_ handler: CompletionHandler? = nil) {
-        self.dismissViewControllerAnimated(true, completion: handler)
-    }
-    
-    public func editProfileViewFinished() {
-        if viewmodel.gotoNextModuleCallback == nil {
-            viewmodel.pushFeaturedModule()
-        }
-        else {
-            // dismiss account module, and go to the next module
-            self.dismissViewControllerAnimated(true, completion: viewmodel.gotoNextModuleCallback)
-        }
-        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 }

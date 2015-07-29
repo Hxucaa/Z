@@ -20,27 +20,63 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var etaLabel: UILabel!
     
+    // MARK: Properties
+    
     private var viewmodel: NearbyTableCellViewModel!
+    private let compositeDisposable = CompositeDisposable()
     
     // MARK: Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
     }
     
+    deinit {
+        compositeDisposable.dispose()
+    }
+    
+    // MARK: Bindings
     public func bindToViewModel(viewmodel: NearbyTableCellViewModel) {
         self.viewmodel = viewmodel
         
-        businessNameLabel.rac_text <~ self.viewmodel.businessName
-        cityLabel.rac_text <~ self.viewmodel.city
-        businessHoursLabel.rac_text <~ self.viewmodel.participation
-        etaLabel.rac_text <~ self.viewmodel.eta
+        businessNameLabel.rac_text <~ self.viewmodel.businessName.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
         
-        self.viewmodel.coverImage.producer
+        cityLabel.rac_text <~ self.viewmodel.city.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
+        
+        businessHoursLabel.rac_text <~ self.viewmodel.participation.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
+        
+        etaLabel.rac_text <~ self.viewmodel.eta.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
+        
+        compositeDisposable += self.viewmodel.coverImage.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
             |> ignoreNil
-            |> start (next: { [weak self] in
-                self?.coverImageView.setImageWithAnimation($0)
-            })
+            |> start (
+                next: { [weak self] in
+                    self?.coverImageView.setImageWithAnimation($0)
+                },
+                completed: { [weak self] in
+                    if let this = self {
+                        NearbyLogVerbose("<\(_stdlib_getDemangledTypeName(this)): \(unsafeAddressOf(this))> Cover image signal completes.")
+                    }
+                }
+            )
     }
-    
-    
 }

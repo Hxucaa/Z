@@ -1,5 +1,5 @@
 //
-//  SignUpViewModel.swift
+//  EditInfoViewModel.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-06-06.
@@ -10,10 +10,10 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public struct EditProfileViewModel {
+public struct EditInfoViewModel {
     
     // MARK: Input
-    public let nickname = MutableProperty<String>("")
+    public let nickname = MutableProperty<String?>(nil)
     public let birthday = MutableProperty<NSDate>(NSDate())
     public let profileImage = MutableProperty<UIImage?>(nil)
     public let gender = MutableProperty<Gender?>(nil)
@@ -33,11 +33,11 @@ public struct EditProfileViewModel {
             // only allow TRUE value
             |> filter { $0 }
             |> promoteErrors(NSError)
-            |> flatMap(.Concat) { _ in self.userService.currentLoggedInUser() }
+            |> flatMap(.Latest) { _ in self.userService.currentLoggedInUser() }
             |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
                 return combineLatest(self.validNicknameSignal, self.validBirthdaySignal, self.validProfileImageSignal, self.validGenderSignal)
                     |> promoteErrors(NSError)
-                    |> flatMap(.Concat) { (nickname, birthday, profileImage, gender) -> SignalProducer<Bool, NSError> in
+                    |> flatMap(.Latest) { (nickname, birthday, profileImage, gender) -> SignalProducer<Bool, NSError> in
                         let imageData = UIImagePNGRepresentation(self.profileImage.value)
                         let file = AVFile.fileWithName("profile.png", data: imageData) as! AVFile
                         
@@ -117,6 +117,7 @@ public struct EditProfileViewModel {
         // - between 3 and 15 characters
         // - emoji, letters, numbers, chinese characters, and standard symbols only
         validNicknameSignal = nickname.producer
+            |> ignoreNil
             |> filter { count($0) > 0 }
 //            |> filter { self.testRegex($0, pattern: "^([\(self.symbols)]|[\(self.chinese)]|[\(self.emoji)]|[A-Za-z\\d]){3,15}$")}
         

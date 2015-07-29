@@ -15,7 +15,7 @@ public struct ProfileEditViewModel {
     public typealias AgeLimit = (floor: NSDate, ceil: NSDate)
     
     // MARK: Input
-    public let nickname = MutableProperty<String>("")
+    public let nickname = MutableProperty<String?>("")
     public let birthday = MutableProperty<NSDate>(NSDate())
     public let profileImage = MutableProperty<UIImage?>(nil)
     public let gender = MutableProperty<Gender?>(nil)

@@ -19,8 +19,12 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     @IBOutlet weak var participationLabel: UILabel!
     @IBOutlet weak var etaLabel: UILabel!
     
-    // MARK: Private Variables
+    // MARK: Properties
+    
     private var viewmodel: FeaturedBusinessViewModel!
+    private let compositeDisposable = CompositeDisposable()
+    
+    // MARK: Setups
     
     public override func awakeFromNib() {
         selectionStyle = UITableViewCellSelectionStyle.None
@@ -28,6 +32,12 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
     }
+    
+    deinit {
+        compositeDisposable.dispose()
+    }
+    
+    // MARK: Bindings
     
     public func bindViewModel(viewmodel: FeaturedBusinessViewModel) {
         self.viewmodel = viewmodel
@@ -37,7 +47,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         participationLabel.rac_text <~ viewmodel.participation
         etaLabel.rac_text <~ viewmodel.eta
         
-        self.viewmodel.coverImage.producer
+        compositeDisposable += self.viewmodel.coverImage.producer
+            |> takeUntil(
+                rac_prepareForReuseSignal.toSignalProducer()
+                    |> toNihil
+            )
             |> ignoreNil
             |> start (next: { [weak self] in
                 self?.coverImageView.setImageWithAnimation($0)
