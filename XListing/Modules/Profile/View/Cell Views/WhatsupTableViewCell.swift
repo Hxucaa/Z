@@ -1,5 +1,5 @@
 //
-//  NicknameTableViewCell.swift
+//  WhatsupTableViewCell.swift
 //  
 //
 //  Created by Bruce Li on 2015-07-19.
@@ -8,19 +8,18 @@
 
 import UIKit
 
-public final class NicknameTableViewCell: UITableViewCell {
+public final class WhatsupTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var textField : UITextField!
     
-    @IBOutlet weak var editProfilePicButton: UIButton!
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.textField.placeholder = "心情"
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
 

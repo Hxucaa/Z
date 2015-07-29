@@ -1,5 +1,5 @@
 //
-//  GenderPicker.swift
+//  PopoverDatePicker.swift
 //  XListing
 //
 //  Created by Bruce Li on 2015-07-19.
@@ -8,35 +8,35 @@
 
 import UIKit
 
-public final class GenderPicker : NSObject, UIPopoverPresentationControllerDelegate, GenderPickerViewControllerDelegate {
+public final class PopoverDatePicker : NSObject, UIPopoverPresentationControllerDelegate, DataPickerViewControllerDelegate {
     
-    public typealias GenderCallback = (gender : String, forTextField : UITextField)->()
+    public typealias PopDatePickerCallback = (newDate : NSDate, forTextField : UITextField)->()
     
-    var genderPickerVC : GenderPickerViewController
+    var datePickerVC : PopDateViewController
     var popover : UIPopoverPresentationController?
     var textField : UITextField!
-    var dataChanged : GenderCallback?
+    var dataChanged : PopDatePickerCallback?
     var presented = false
-    var offset : CGFloat = 8.0
     
     public init(forTextField: UITextField) {
         
-        genderPickerVC = GenderPickerViewController()
+        datePickerVC = PopDateViewController()
         self.textField = forTextField
         super.init()
     }
     
-    public func pick(inViewController : UIViewController, initGender : String?, dataChanged : GenderCallback) {
+    public func pick(inViewController : UIViewController, initDate : NSDate?, dataChanged : PopDatePickerCallback) {
         
         if presented {
             return  // we are busy
         }
         
-        genderPickerVC.delegate = self
-        genderPickerVC.modalPresentationStyle = UIModalPresentationStyle.Popover
-        genderPickerVC.preferredContentSize = CGSizeMake(500,170)
+        datePickerVC.delegate = self
+        datePickerVC.modalPresentationStyle = UIModalPresentationStyle.Popover
+        datePickerVC.preferredContentSize = CGSizeMake(500,224)
+        datePickerVC.currentDate = initDate
         
-        popover = genderPickerVC.popoverPresentationController
+        popover = datePickerVC.popoverPresentationController
         if let _popover = popover {
             
             var height = (UIScreen.mainScreen().bounds.size.height)/2
@@ -47,7 +47,7 @@ public final class GenderPicker : NSObject, UIPopoverPresentationControllerDeleg
             _popover.delegate = self
             _popover.permittedArrowDirections = UIPopoverArrowDirection.allZeros
             self.dataChanged = dataChanged
-            inViewController.presentViewController(genderPickerVC, animated: true, completion: nil)
+            inViewController.presentViewController(datePickerVC, animated: true, completion: nil)
             presented = true
         }
     }
@@ -57,13 +57,13 @@ public final class GenderPicker : NSObject, UIPopoverPresentationControllerDeleg
         return UIModalPresentationStyle.None
     }
     
-    func genderPickerVCDismissed(gender : String?) {
+    func datePickerVCDismissed(date : NSDate?) {
         
         if let _dataChanged = dataChanged {
             
-            if let _gender = gender {
+            if let _date = date {
                 
-                _dataChanged(gender: _gender, forTextField: textField)
+                _dataChanged(newDate: _date, forTextField: textField)
                 
             }
         }

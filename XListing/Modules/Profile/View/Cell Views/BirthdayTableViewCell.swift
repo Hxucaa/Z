@@ -21,12 +21,14 @@ public final class BirthdayTableViewCell: UITableViewCell {
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.birthdayTextField.placeholder = "生日"
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        self.delegate.setUpBirthdayPopover(birthdayTextField)
         // Configure the view for the selected state
+        self.delegate.setUpBirthdayPopover(birthdayTextField)
     }
+
 
 }

@@ -9,18 +9,13 @@
 import UIKit
 import ReactiveCocoa
 
-private let UserIcon = "\u{f007}"
-private let GenderIcon = "\u{f228}"
-private let BirthdayIcon = "\u{f06b}"
-private let StatusIcon = "\u{f0a1}"
-private let EmailIcon = "\u{f003}"
-private let PhoneIcon = "\u{f095}"
-private let XIcon = "\u{f00d}"
-
 public final class ProfileEditViewController: XUIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     private var viewmodel: ProfileEditViewModel!
+    private var shouldAdjustForKeyboard : Bool = false
+    
+    // MARK: UI Elements
     private var genderTitle: String!
     private var editButton: UIButton!
     private let imagePicker = UIImagePickerController()
@@ -29,16 +24,29 @@ public final class ProfileEditViewController: XUIViewController {
     private var popGenderPicker : GenderPicker?
     private var birthdayTextField : UITextField!
     private var genderTextField : UITextField!
-    private var shouldAdjustForKeyboard : Bool = false
     
+    // MARK: Table view cells
     private var nicknameCell : NicknameTableViewCell!
     private var whatsupCell : WhatsupTableViewCell!
     private var birthdayCell : BirthdayTableViewCell!
     private var genderCell : GenderTableViewCell!
     private var phoneCell : PhoneEmailTableViewCell!
     private var emailCell : PhoneEmailTableViewCell!
-
     
+    // MARK: Enums
+    private enum Section : Int {
+        case Primary, 隐私信息
+    }
+    
+    private enum Primary : Int {
+        case Nickname, Gender, Birthday, Whatsup
+    }
+    
+    private enum 隐私信息 : Int {
+        case Email, Phone
+    }
+    
+    // MARK: View Methods
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -46,16 +54,16 @@ public final class ProfileEditViewController: XUIViewController {
         setUpProfilePicture()
         setupDismissButton()
         setupSaveButton()
-        // Do any additional setup after loading the view.
     }
     
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
+        // allow keyboard dismissal by tapping anywhere else on the screen
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: "endEditing:")
         tapRecognizer.numberOfTapsRequired = 1
         self.view.addGestureRecognizer(tapRecognizer)
     }
-
+    
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -66,14 +74,21 @@ public final class ProfileEditViewController: XUIViewController {
     }
     
     public override func viewWillDisappear(animated: Bool) {
+        // dismisses the keyboard and remove keyboard observers before dismissing the view
         NSNotificationCenter.defaultCenter().removeObserver(self)
         self.view.endEditing(true)
     }
     
-    func handleSingleTap(recognizer: UITapGestureRecognizer) {
+    public func bindToViewModel(viewmodel: ProfileEditViewModel) {
+        self.viewmodel = viewmodel
+    }
+    
+    // ends text editing and dismisses the keyboard
+    public func endEditing(recognizer: UITapGestureRecognizer) {
         self.view.endEditing(true)
     }
     
+    // MARK: - Setup Code
     public func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -92,7 +107,6 @@ public final class ProfileEditViewController: XUIViewController {
     
     public func setUpNicknameCell() {
         nicknameCell = tableView.dequeueReusableCellWithIdentifier("NicknameCell") as! NicknameTableViewCell
-        nicknameCell.textField.placeholder = "昵称"
         viewmodel.nickname <~ nicknameCell.textField.rac_text
         nicknameCell.editProfilePicButton.addTarget(self, action: "chooseProfilePictureSource", forControlEvents: UIControlEvents.TouchUpInside)
         nicknameCell.textField.delegate = self
@@ -101,34 +115,58 @@ public final class ProfileEditViewController: XUIViewController {
     public func setUpWhatsupCell() {
         whatsupCell = tableView.dequeueReusableCellWithIdentifier("WhatsupCell") as! WhatsupTableViewCell
         whatsupCell.textField.delegate = self
-        whatsupCell.textField.placeholder = "心情"
     }
     
     public func setUpBirthdayCell() {
         birthdayCell = tableView.dequeueReusableCellWithIdentifier("BirthdayCell") as! BirthdayTableViewCell
         birthdayCell.delegate = self
         birthdayCell.birthdayTextField.delegate = self
-        birthdayCell.birthdayTextField.placeholder = "生日"
     }
     
     public func setUpGenderCell() {
         genderCell = tableView.dequeueReusableCellWithIdentifier("GenderCell") as! GenderTableViewCell
-        genderCell.genderIcon.text = GenderIcon
         genderCell.editProfilePicButton.addTarget(self, action: "chooseProfilePictureSource", forControlEvents: UIControlEvents.TouchUpInside)
         genderCell.delegate = self
-        genderCell.textField.placeholder = "性别"
         genderCell.textField.delegate = self
     }
     
     public func setUpPhoneEmailCell() {
         phoneCell = tableView.dequeueReusableCellWithIdentifier("PhoneEmailCell") as! PhoneEmailTableViewCell
         phoneCell.textField.delegate = self
-        phoneCell.textField.keyboardType = UIKeyboardType.NumbersAndPunctuation
+        phoneCell.initialize("Phone")
         emailCell = tableView.dequeueReusableCellWithIdentifier("PhoneEmailCell") as! PhoneEmailTableViewCell
         emailCell.textField.delegate = self
-        emailCell.textField.keyboardType = UIKeyboardType.EmailAddress
+        emailCell.initialize("Email")
     }
     
+    private func setupSaveButton() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "提交", style: UIBarButtonItemStyle.Done, target: self, action: "saveAction")
+        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
+    }
+    
+    public func setupDismissButton() {
+        var dismissButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: "dismissView")
+        dismissButton.tintColor = UIColor.whiteColor()
+        self.navigationItem.leftBarButtonItem = dismissButton
+    }
+    
+    private func setupImagePicker() {
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+    }
+    
+    private func setUpProfilePicture () {
+        self.profilePicture = UIImageView(frame: CGRectMake(0, 0, 80, 80)) as UIImageView
+        var myImage: UIImage = UIImage(named: "profilepicture")!
+        self.profilePicture.image = myImage
+        self.profilePicture.layer.cornerRadius = CGFloat(self.profilePicture.frame.width) / 2
+        self.profilePicture.layer.masksToBounds = true
+        self.profilePicture.userInteractionEnabled = true
+    }
+    
+    // MARK: Actions
+    
+    // Present an action sheet to choose between a profile picture 
     public func chooseProfilePictureSource() {
         var alert = UIAlertController(title: "选择上传方式", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
         var galleryAction = UIAlertAction(title: "在相册中选取", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
@@ -145,20 +183,15 @@ public final class ProfileEditViewController: XUIViewController {
         alert.addAction(cancelAction)
         self.presentViewController(alert, animated: true, completion: nil)
     }
-
+    
     public func dismissView() {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    private func setupSaveButton() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "提交", style: UIBarButtonItemStyle.Done, target: self, action: "saveAction")
-        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
-        
-    }
-    
     public func saveAction() {
+        // Check if all required fields are complete
         if (viewmodel.allInputsValid.value) {
-            // Button action
+            // Create the button action to update the fields in the DB with new data
             let submitAction = Action<UIBarButtonItem, Bool, NSError> { [weak self] button in
                 let updateProfileAndHUD = HUD.show()
                     |> mapError { _ in NSError() }
@@ -181,46 +214,20 @@ public final class ProfileEditViewController: XUIViewController {
             }
             submitAction.unsafeCocoaAction.execute(self.navigationItem.rightBarButtonItem!)
         } else {
+            // popup alert to the user to fill out all the required fields
             var alert = UIAlertController(title: "提交失败啦", message: "请填写昵称,性别,生日和上传一张照片😊", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "确定", style: UIAlertActionStyle.Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
     
-    public func setupDismissButton() {
-        var dismissButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: "dismissView")
-        dismissButton.tintColor = UIColor.whiteColor()
-        self.navigationItem.leftBarButtonItem = dismissButton
-    }
-    
-    
-    public func bindToViewModel(viewmodel: ProfileEditViewModel) {
-        self.viewmodel = viewmodel
-    }
-    
-    private func setupImagePicker() {
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-    }
-    
     public func presentUIImagePicker () {
         self.presentViewController(self.imagePicker, animated: true, completion: nil)
     }
+
+    // MARK: Keyboard Methods
     
-    private func setUpProfilePicture () {
-        self.profilePicture = UIImageView(frame: CGRectMake(0, 0, 80, 80)) as UIImageView
-        var myImage: UIImage = UIImage(named: "curry")!
-        self.profilePicture.image = myImage
-        self.profilePicture.layer.cornerRadius = CGFloat(self.profilePicture.frame.width) / 2
-        self.profilePicture.layer.masksToBounds = true
-        self.profilePicture.userInteractionEnabled = true
-    }
-    
-    public func chooseBirthday (textField: UITextField) {
-        popDatePicker = PopoverDatePicker(forTextField: textField)
-    }
-    
-    // Call this method somewhere in your view controller setup code.
+    // registers the notifications for keyboard reactions
     public func registerForKeyboardNotifications ()
     {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
@@ -235,9 +242,9 @@ public final class ProfileEditViewController: XUIViewController {
         contentInsets = UIEdgeInsetsMake(0.0, 0.0, 224, 0.0)
         
         if (shouldAdjustForKeyboard) {
-        tableView.contentInset = contentInsets
-        tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1), atScrollPosition: .Top, animated: true)
-        tableView.scrollIndicatorInsets = contentInsets
+            tableView.contentInset = contentInsets
+            tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1), atScrollPosition: .Top, animated: true)
+            tableView.scrollIndicatorInsets = contentInsets
         }
     }
     
@@ -249,7 +256,50 @@ public final class ProfileEditViewController: XUIViewController {
         shouldAdjustForKeyboard = false
     }
     
+    public func prepareToPresentDatePopover () {
+        // dismiss keyboard
+        self.view.endEditing(true)
+        // set up date formatting style in the popover
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = .MediumStyle
+        formatter.timeStyle = .NoStyle
+        
+        // start the date picker with the most recently chosen value if it exists
+        let initDate : NSDate? = formatter.dateFromString(birthdayTextField.text)
+        
+        let dataChangedCallback : PopoverDatePicker.PopDatePickerCallback = { (newDate : NSDate, forTextField : UITextField) -> () in
+            // set the date format in the text field
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "dd-MM-yyyy"
+            self.birthdayTextField.text = dateFormatter.stringFromDate(newDate)
+        }
+        // present the popover
+        popDatePicker!.pick(self, initDate: initDate, dataChanged: dataChangedCallback)
+        // Limit the choices on date picker based on age
+        let ageLimit = viewmodel.ageLimit
+        var datePicker : UIDatePicker = popDatePicker!.datePickerVC.datePicker
+        datePicker.minimumDate = ageLimit.floor
+        datePicker.maximumDate = ageLimit.ceil
+        self.viewmodel.birthday <~ datePicker.rac_date
+    }
+    
+    public func prepareToPresentGenderPopover () {
+        self.view.endEditing(true)
+        
+        let dataChangedCallback : GenderPicker.GenderCallback = { (gender : String, forTextField : UITextField) -> () in
+            self.genderTextField.text = gender
+            if (gender == "男") {
+                self.viewmodel.gender.put(Gender.Male)
+            } else if (gender == "女"){
+                self.viewmodel.gender.put(Gender.Female)
+            }
+        }
+        // present the popover
+        popGenderPicker!.pick(self, initGender: genderTextField.text, dataChanged: dataChangedCallback)
+    }
 }
+
+// MARK: Table View
 
 extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -262,17 +312,15 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
     :returns: The number of rows in section.
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch (section) {
-            case 0: return 4
-            case 1: return 2
-            default: return 0
+        switch Section(rawValue:section)! {
+        case .Primary: return 4
+        case .隐私信息: return 2
         }
     }
     
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
-    
     
     /**
     Asks the data source for a cell to insert in a particular location of the table view. (required)
@@ -283,43 +331,31 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
     :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var datePickerCell = tableView.dequeueReusableCellWithIdentifier("DatePicker") as! DatePickerTableViewCell
-        switch (indexPath.section) {
-            case 0:
-                switch(indexPath.row) {
-                case 0: return nicknameCell
-                case 1:
-                    //genderCell.genderButton.setTitle(genderTitle, forState: UIControlState.Normal)
-                    return genderCell
-                case 2: return birthdayCell
-                case 3: return whatsupCell
-                default : print("error rendering cell")
-                }
-            case 1:
-                switch(indexPath.row) {
-                case 0:
-                    emailCell.icon.text = EmailIcon
-                    emailCell.textField.placeholder = "邮件"
-                    return emailCell
-                case 1:
-                    phoneCell.icon.text = PhoneIcon
-                    phoneCell.textField.placeholder = "电话"
-                    return phoneCell
-                default: print("error rendering cell")
+        switch Section(rawValue: indexPath.section)! {
+        case .Primary:
+            switch Primary(rawValue: indexPath.row)! {
+            case .Nickname: return nicknameCell
+            case .Gender: return genderCell
+            case .Birthday: return birthdayCell
+            case .Whatsup: return whatsupCell
             }
-            default: print("error rendering cell")
+        case .隐私信息:
+            switch 隐私信息(rawValue: indexPath.row)! {
+            case .Email: return emailCell
+            case .Phone: return phoneCell
+            }
         }
-        
-        return phoneCell
     }
     
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 1 {return "隐私信息"} else {return ""}
+        if section == Section.隐私信息.rawValue {return "隐私信息"} else {return ""}
     }
     
+    // Add the profile picture thumbnail to the proper position in between nickname and gender cells
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
+        // Adjust the positioning based on the width of the device
         var deviceWidth = UIScreen.mainScreen().bounds.size.width
-        var picYCoord: CGFloat
         var profilePicView: UIView = UIView(frame: CGRectMake(deviceWidth-90, -245, 85, 100))
         profilePicView.addSubview(self.profilePicture)
         
@@ -328,24 +364,17 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
         return header
     }
     
+    // Format the header title
     public func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        
         let header:UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
-        
         header.textLabel.textColor = UIColor.grayColor()
         header.textLabel.font = UIFont.boldSystemFontOfSize(18)
         header.textLabel.frame = header.frame
         header.textLabel.textAlignment = NSTextAlignment.Left
     }
-    
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if (indexPath.section == 0 && indexPath.row == 4) {
-            return 162
-        } else {
-            return 60
-        }
-    }
 }
+
+// MARK: Image Picker
 
 extension ProfileEditViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -362,7 +391,6 @@ extension ProfileEditViewController : UIImagePickerControllerDelegate, UINavigat
         }
         self.dismissViewControllerAnimated(true, completion: nil)
         self.tableView.reloadData()
-        
     }
     
     /**
@@ -376,43 +404,17 @@ extension ProfileEditViewController : UIImagePickerControllerDelegate, UINavigat
     }
 }
 
+// MARK: Text Field
+
 extension ProfileEditViewController : UITextFieldDelegate {
     
     public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        
-            textField.resignFirstResponder()
+        textField.resignFirstResponder()
         if (textField === birthdayTextField) {
-            self.view.endEditing(true)
-            let formatter = NSDateFormatter()
-            formatter.dateStyle = .MediumStyle
-            formatter.timeStyle = .NoStyle
-            let initDate : NSDate? = formatter.dateFromString(birthdayTextField.text)
-            
-            let dataChangedCallback : PopoverDatePicker.PopDatePickerCallback = { (newDate : NSDate, forTextField : UITextField) -> () in
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.dateFormat = "dd-MM-yyyy"
-                self.birthdayTextField.text = dateFormatter.stringFromDate(newDate)
-            }
-            popDatePicker!.pick(self, initDate: initDate, dataChanged: dataChangedCallback)
-            // Limit the choices on date picker
-            let ageLimit = viewmodel.ageLimit
-            var datePicker : UIDatePicker = popDatePicker!.datePickerVC.datePicker
-            datePicker.minimumDate = ageLimit.floor
-            datePicker.maximumDate = ageLimit.ceil
-            self.viewmodel.birthday <~ datePicker.rac_date
+            prepareToPresentDatePopover()
             return false
         } else if (textField === genderTextField){
-            self.view.endEditing(true)
-            
-            let dataChangedCallback : GenderPicker.GenderCallback = { (gender : String, forTextField : UITextField) -> () in
-                self.genderTextField.text = gender
-                if (gender == "男") {
-                    self.viewmodel.gender.put(Gender.Male)
-                } else if (gender == "女"){
-                    self.viewmodel.gender.put(Gender.Female)
-                }
-            }
-            popGenderPicker!.pick(self, initGender: genderTextField.text, dataChanged: dataChangedCallback)
+            prepareToPresentGenderPopover()
             return false
         } else {
             return true
@@ -425,18 +427,20 @@ extension ProfileEditViewController : UITextFieldDelegate {
     }
     
     public func textFieldDidBeginEditing(textField: UITextField) {
+        // move the view up for the phone and email text fields to accomodate the keyboard
         if (textField === phoneCell.textField || textField === emailCell.textField) {
             shouldAdjustForKeyboard = true
         }
     }
 }
 
+// MARK: Cell Delegates
+
 extension ProfileEditViewController : BirthdayCellTableViewCellDelegate {
     public func setUpBirthdayPopover (textField : UITextField) {
         birthdayTextField = textField
         if (popDatePicker == nil) {
             popDatePicker = PopoverDatePicker(forTextField: textField)
-            
         }
     }
 }
@@ -446,7 +450,6 @@ extension ProfileEditViewController : GenderCellTableViewCellDelegate {
         genderTextField = textField
         if (popGenderPicker == nil) {
             popGenderPicker = GenderPicker(forTextField: textField)
-            
         }
     }
 }
