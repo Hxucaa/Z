@@ -16,8 +16,6 @@ private let 已参与 = "\u{f004} 以参与"
 
 public struct DetailBizInfoViewModel {
     
-    // MARK: - Public
-    
     // MARK: Inputs
     
     // MARK: Outputs
@@ -26,6 +24,11 @@ public struct DetailBizInfoViewModel {
     public let participationButtonTitle: MutableProperty<String> = MutableProperty(我想去)
     public let participationButtonEnabled: MutableProperty<Bool> = MutableProperty(true)
     
+    // MARK: Properties
+    private let userService: IUserService
+    private let participationService: IParticipationService
+    private let geoLocationService: IGeoLocationService
+    private let business: Business
     
     // MARK: API
     public enum ParticipationChoice : String {
@@ -34,7 +37,6 @@ public struct DetailBizInfoViewModel {
         case 我想AA = "我想 AA"
     }
     
-    // MARK: Actions
     /**
     Participate the business with one of the given choices.
     
@@ -43,6 +45,8 @@ public struct DetailBizInfoViewModel {
     :returns: A SignalProcuer indicating if the operation is successful.
     */
     public func participate(choice: ParticipationChoice) -> SignalProducer<Bool, NSError> {
+        
+        
         return self.userService.currentLoggedInUser()
             |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
                 let p = Participation()
@@ -76,17 +80,10 @@ public struct DetailBizInfoViewModel {
         let city = business.city!
         locationText.put(city)
         
+        //
         setupLocationText(business)
         setupParticipation(business)
     }
-    
-    // MARK: - Private
-    
-    // MARK: Services
-    private let userService: IUserService
-    private let participationService: IParticipationService
-    private let geoLocationService: IGeoLocationService
-    private let business: Business
     
     // MARK: Setup
     /**
@@ -94,11 +91,11 @@ public struct DetailBizInfoViewModel {
     
     :param: business The business.
     */
-    private func setupParticipation(business: Business) {
+    private func setupParticipation(business: Business) -> Disposable {
         /**
         *  Query database to check if user has already participated in this business.
         */
-        self.userService.currentLoggedInUser()
+        return self.userService.currentLoggedInUser()
             |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Participation, NSError> in
                 typealias Property = Participation.Property
                 let query = Participation.query()
@@ -119,17 +116,18 @@ public struct DetailBizInfoViewModel {
     
     :param: business The business
     */
-    private func setupLocationText(business: Business) {
+    private func setupLocationText(business: Business) -> Disposable {
         /**
         *  Calculate ETA to the business.
         */
-        self.geoLocationService.calculateETA(business.cllocation)
+        return self.geoLocationService.calculateETA(business.cllocation)
             |> start(next: { interval in
                 let minute = Int(ceil(interval / 60))
                 self.locationText.put("\(business.city!) \(CITY_DISTANCE_SEPARATOR) 开车\(minute)分钟")
             })
     }
     
+    // MARK: Others
     private func alreadyParticipating() {
         participationButtonTitle.put(已参与)
         participationButtonEnabled.put(false)

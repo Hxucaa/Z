@@ -17,7 +17,6 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var participateButton: UIButton!
     
     // MARK: - Proxies
-//    private let (_participateProxy, _participateSink)
     
     // MARK: - Properties
     private var viewmodel: DetailBizInfoViewModel!
@@ -28,17 +27,11 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         // Initialization
-        let markWanttoGoAction = Action<UIButton, Void, NoError>{ [weak self] button in
-            return SignalProducer { sink, disposable in
-                typealias Choice = DetailBizInfoViewModel.ParticipationChoice
-                if let this = self {
-                    disposable += this.viewmodel.participate(Choice.我想去)
-                        |> start()
-                }
-            }
+        let participate = Action<UIButton, Bool, NSError>{ button in
+            return self.viewmodel.participate(DetailBizInfoViewModel.ParticipationChoice.我想去)
         }
         
-        participateButton.addTarget(markWanttoGoAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        participateButton.addTarget(participate.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     public override func prepareForReuse() {

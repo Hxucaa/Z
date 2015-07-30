@@ -200,7 +200,6 @@ extension DetailViewController : UITableViewDataSource {
     :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        println(indexPath)
         let row = indexPath.row
         let section = indexPath.section
         
@@ -323,9 +322,10 @@ extension DetailViewController : UITableViewDataSource {
                     
                     case .Header: return 35
                     case .营业时间:
-                        if (expandHours.value){
+                        if (expandHours.value) {
                             return 215
-                        }else{
+                        }
+                        else {
                             return 44
                         }
                     }
