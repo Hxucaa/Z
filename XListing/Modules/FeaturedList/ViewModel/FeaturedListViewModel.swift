@@ -43,11 +43,13 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
             })
             |> map { businesses -> [FeaturedBusinessViewModel] in
                 // save the business models
-                self.businessArr.put(businesses)
+                let gotBusinesses = businesses
+                let arrayItems = self.businessArr.value.count
+                self.businessArr.put(self.businessArr.value + businesses)
                 
                 // increment loaded businesses counter
                 self.loadedBusinesses.put(businesses.count + self.loadedBusinesses.value)
-                
+                println("Array size was \(self.businessArr.value.count)")
                 // map the business models to viewmodels
                 return self.businessArr.value.map {
                     FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
@@ -57,8 +59,9 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
                 next: { response in
                     println("made it to next")
                     self.fetchingData.put(false)
-                    self.featuredBusinessViewModelArr.put(self.featuredBusinessViewModelArr.value + response)
-
+                    println("Reponse size was \(response.count)")
+                    self.featuredBusinessViewModelArr.put(response)
+                    println("Viewmodel size was \(self.featuredBusinessViewModelArr.value.count)")
                 },
                 error: { FeaturedLogError($0.description) }
             )
@@ -69,6 +72,7 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     public func pushDetailModule(section: Int) {
+        let debugArray = businessArr.value
         router.pushDetail(businessArr.value[section])
     }
     

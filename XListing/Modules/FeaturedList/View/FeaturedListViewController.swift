@@ -169,6 +169,7 @@ public final class FeaturedListViewController: XUIViewController {
             |> map { ($0 as! RACTuple).second as! NSIndexPath }
             |> start(
                 next: { [weak self] indexPath in
+                    let something = indexPath.row
                     self?.viewmodel.pushDetailModule(indexPath.row)
                 },
                 completed: {
@@ -197,7 +198,6 @@ public final class FeaturedListViewController: XUIViewController {
                             |> map { _ -> Void in }
                             |> start(next: { [weak self] _ in
                                 self?.isLoading = 0
-                                self?.tableView.reloadData()
                             })
 
                         println("Add more rows")
