@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import ReactiveCocoa
 
 protocol GenderCellTableViewCellDelegate : class {
     func setUpGenderPopover(textField: UITextField)
+    func editPictureTextButtonAction()
+    func presentGenderPopover()
 }
 
 public final class GenderTableViewCell: UITableViewCell {
@@ -24,6 +27,7 @@ public final class GenderTableViewCell: UITableViewCell {
         // Initialization code
         self.textField.placeholder = "性别"
         self.genderIcon.text = Icons.Gender.rawValue
+        self.textField.delegate = self
 
     }
 
@@ -31,5 +35,28 @@ public final class GenderTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
         self.delegate.setUpGenderPopover(textField)
+    }
+    
+    public func setUpEditProfileButton () {
+        let editProfilePicAction = Action<UIButton, Bool, NSError> { [weak self] button in
+            self?.delegate.editPictureTextButtonAction()
+            return SignalProducer { [weak self] sink, disposible in
+                sendCompleted(sink)
+            }
+        }
+        self.editProfilePicButton.addTarget(editProfilePicAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+    }
+}
+
+extension GenderTableViewCell: UITextFieldDelegate {
+    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.endEditing(true)
+        return false
+    }
+    
+    public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        self.delegate.presentGenderPopover()
+        return false
     }
 }

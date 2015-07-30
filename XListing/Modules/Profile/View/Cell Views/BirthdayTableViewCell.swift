@@ -11,6 +11,7 @@ import UIKit
 protocol BirthdayCellTableViewCellDelegate : class {
     
     func setUpBirthdayPopover(textField: UITextField)
+    func presentBirthdayPopover()
 }
 
 public final class BirthdayTableViewCell: UITableViewCell {
@@ -22,6 +23,7 @@ public final class BirthdayTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         self.birthdayTextField.placeholder = "生日"
+        self.birthdayTextField.delegate = self
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {
@@ -29,6 +31,19 @@ public final class BirthdayTableViewCell: UITableViewCell {
         // Configure the view for the selected state
         self.delegate.setUpBirthdayPopover(birthdayTextField)
     }
-
-
 }
+
+extension BirthdayTableViewCell: UITextFieldDelegate {
+    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.endEditing(true)
+        return false
+    }
+    
+    public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        self.delegate.presentBirthdayPopover()
+        return false
+    }
+}
+
+

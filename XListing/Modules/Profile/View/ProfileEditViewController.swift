@@ -25,14 +25,6 @@ public final class ProfileEditViewController: XUIViewController {
     private var birthdayTextField : UITextField!
     private var genderTextField : UITextField!
     
-    // MARK: Table view cells
-    private var nicknameCell : NicknameTableViewCell!
-    private var whatsupCell : WhatsupTableViewCell!
-    private var birthdayCell : BirthdayTableViewCell!
-    private var genderCell : GenderTableViewCell!
-    private var phoneCell : PhoneEmailTableViewCell!
-    private var emailCell : PhoneEmailTableViewCell!
-    
     // MARK: Enums
     private enum Section : Int {
         case Primary, 隐私信息
@@ -93,62 +85,7 @@ public final class ProfileEditViewController: XUIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.allowsSelection = false
-        setUpTableViewCells()
         tableView.reloadData()
-    }
-    
-    private func setUpTableViewCells() {
-        setUpNicknameCell()
-        setUpGenderCell()
-        setUpBirthdayCell()
-        setUpWhatsupCell()
-        setUpPhoneEmailCell()
-    }
-    
-    private func setUpNicknameCell() {
-        nicknameCell = tableView.dequeueReusableCellWithIdentifier("NicknameCell") as! NicknameTableViewCell
-        viewmodel.nickname <~ nicknameCell.textField.rac_text
-        let editProfilePicAction = Action<UIButton, Bool, NSError> { [weak self] button in
-            self!.chooseProfilePictureSource()
-            return SignalProducer { [weak self] sink, disposible in
-                sendCompleted(sink)
-            }
-        }
-        nicknameCell.editProfilePicButton.addTarget(editProfilePicAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-        nicknameCell.textField.delegate = self
-    }
-    
-    private func setUpWhatsupCell() {
-        whatsupCell = tableView.dequeueReusableCellWithIdentifier("WhatsupCell") as! WhatsupTableViewCell
-        whatsupCell.textField.delegate = self
-    }
-    
-    private func setUpBirthdayCell() {
-        birthdayCell = tableView.dequeueReusableCellWithIdentifier("BirthdayCell") as! BirthdayTableViewCell
-        birthdayCell.delegate = self
-        birthdayCell.birthdayTextField.delegate = self
-    }
-    
-    private func setUpGenderCell() {
-        genderCell = tableView.dequeueReusableCellWithIdentifier("GenderCell") as! GenderTableViewCell
-        let editProfilePicAction = Action<UIButton, Bool, NSError> { [weak self] button in
-            self!.chooseProfilePictureSource()
-            return SignalProducer { [weak self] sink, disposible in
-                sendCompleted(sink)
-            }
-        }
-        genderCell.editProfilePicButton.addTarget(editProfilePicAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-        genderCell.delegate = self
-        genderCell.textField.delegate = self
-    }
-    
-    private func setUpPhoneEmailCell() {
-        phoneCell = tableView.dequeueReusableCellWithIdentifier("PhoneEmailCell") as! PhoneEmailTableViewCell
-        phoneCell.textField.delegate = self
-        phoneCell.initialize("Phone")
-        emailCell = tableView.dequeueReusableCellWithIdentifier("PhoneEmailCell") as! PhoneEmailTableViewCell
-        emailCell.textField.delegate = self
-        emailCell.initialize("Email")
     }
     
     private func setupSaveButton() {
@@ -346,15 +283,37 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
         switch Section(rawValue: indexPath.section)! {
         case .Primary:
             switch Primary(rawValue: indexPath.row)! {
-            case .Nickname: return nicknameCell
-            case .Gender: return genderCell
-            case .Birthday: return birthdayCell
-            case .Whatsup: return whatsupCell
+            case .Nickname:
+                var nicknameCell = tableView.dequeueReusableCellWithIdentifier("NicknameCell") as! NicknameTableViewCell
+                nicknameCell.delegate = self
+                nicknameCell.setUpEditProfileButton()
+                viewmodel.nickname <~ nicknameCell.textField.rac_text
+                return nicknameCell
+            case .Gender:
+                var genderCell = tableView.dequeueReusableCellWithIdentifier("GenderCell") as! GenderTableViewCell
+                genderCell.delegate = self
+                genderCell.setUpEditProfileButton()
+                return genderCell
+            case .Birthday:
+                var birthdayCell = tableView.dequeueReusableCellWithIdentifier("BirthdayCell") as! BirthdayTableViewCell
+                birthdayCell.delegate = self
+                return birthdayCell
+            case .Whatsup:
+                var whatsupCell = tableView.dequeueReusableCellWithIdentifier("WhatsupCell") as! WhatsupTableViewCell
+                return whatsupCell
             }
         case .隐私信息:
             switch 隐私信息(rawValue: indexPath.row)! {
-            case .Email: return emailCell
-            case .Phone: return phoneCell
+            case .Email:
+                var emailCell = tableView.dequeueReusableCellWithIdentifier("PhoneEmailCell") as! PhoneEmailTableViewCell
+                emailCell.delegate = self
+                emailCell.initialize("Email")
+                return emailCell
+            case .Phone:
+                var phoneCell = tableView.dequeueReusableCellWithIdentifier("PhoneEmailCell") as! PhoneEmailTableViewCell
+                phoneCell.delegate = self
+                phoneCell.initialize("Phone")
+                return phoneCell
             }
         }
     }
@@ -416,36 +375,6 @@ extension ProfileEditViewController : UIImagePickerControllerDelegate, UINavigat
     }
 }
 
-// MARK: Text Field
-
-extension ProfileEditViewController : UITextFieldDelegate {
-    
-    public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        if (textField === birthdayTextField) {
-            prepareToPresentDatePopover()
-            return false
-        } else if (textField === genderTextField){
-            prepareToPresentGenderPopover()
-            return false
-        } else {
-            return true
-        }
-    }
-    
-    public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-        return false
-    }
-    
-    public func textFieldDidBeginEditing(textField: UITextField) {
-        // move the view up for the phone and email text fields to accomodate the keyboard
-        if (textField === phoneCell.textField || textField === emailCell.textField) {
-            shouldAdjustForKeyboard = true
-        }
-    }
-}
-
 // MARK: Cell Delegates
 
 extension ProfileEditViewController : BirthdayCellTableViewCellDelegate {
@@ -455,6 +384,10 @@ extension ProfileEditViewController : BirthdayCellTableViewCellDelegate {
             popDatePicker = PopoverDatePicker(forTextField: textField)
         }
     }
+    
+    public func presentBirthdayPopover() {
+        prepareToPresentDatePopover()
+    }
 }
 
 extension ProfileEditViewController : GenderCellTableViewCellDelegate {
@@ -463,5 +396,25 @@ extension ProfileEditViewController : GenderCellTableViewCellDelegate {
         if (popGenderPicker == nil) {
             popGenderPicker = GenderPicker(forTextField: textField)
         }
+    }
+    
+    public func editPictureButtonAction () {
+        chooseProfilePictureSource()
+    }
+    
+    public func presentGenderPopover() {
+        prepareToPresentGenderPopover()
+    }
+}
+
+extension ProfileEditViewController : NicknameCellTableViewCellDelegate {
+    public func editPictureTextButtonAction () {
+        chooseProfilePictureSource()
+    }
+}
+
+extension ProfileEditViewController : PhoneEmailCellTableViewCellDelegate {
+    public func notifyTextFieldBeginEditing() {
+        shouldAdjustForKeyboard = true
     }
 }

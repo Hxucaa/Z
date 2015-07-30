@@ -8,14 +8,20 @@
 
 import UIKit
 
+protocol PhoneEmailCellTableViewCellDelegate : class {
+    func notifyTextFieldBeginEditing()
+}
+
 public final class PhoneEmailTableViewCell: UITableViewCell {
 
     @IBOutlet weak var icon: UILabel!
     @IBOutlet weak var textField: UITextField!
+    internal weak var delegate: PhoneEmailCellTableViewCellDelegate!
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.textField.delegate = self
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {
@@ -33,6 +39,17 @@ public final class PhoneEmailTableViewCell: UITableViewCell {
             self.icon.text = Icons.Email.rawValue
             self.textField.placeholder = "邮件"
         }
+    }
+}
+
+extension PhoneEmailTableViewCell: UITextFieldDelegate {
+    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.endEditing(true)
+        return false
+    }
+    
+    public func textFieldDidBeginEditing(textField: UITextField) {
+        self.delegate.notifyTextFieldBeginEditing()
     }
 
 }

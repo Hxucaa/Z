@@ -16,6 +16,7 @@ public final class WhatsupTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         self.textField.placeholder = "心情"
+        self.textField.delegate = self
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {
@@ -23,4 +24,11 @@ public final class WhatsupTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+}
+
+extension WhatsupTableViewCell: UITextFieldDelegate {
+    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.endEditing(true)
+        return false
+    }
 }
