@@ -13,19 +13,43 @@ import WebKit
 
 private let DetailNavigationMapViewControllerName = "DetailNavigationMapViewController"
 
-public final class DetailViewController : XUIViewController, MKMapViewDelegate {
+public final class DetailViewController : XUIViewController, MKMapViewDelegate, UITableViewDelegate {
     
     // MARK: - UI
     
     // MARK: Controls
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var shareBarButtonItem: UIBarButtonItem!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var shareBarButtonItem: UIBarButtonItem!
     private var navigationMapViewController: DetailNavigationMapViewController!
     
     // MARK: - Properties
     private var viewmodel: IDetailViewModel!
     private let compositeDisposable = CompositeDisposable()
-    public var expandHours: Bool = false
+    private let expandHours = MutableProperty<Bool>(false)
+    
+    private enum Section : Int {
+        case Primary, 推荐, 营业, 特设, 其他
+    }
+    
+    private enum Primary : Int {
+        case Image, Info, 参与
+    }
+    
+    private enum 推荐 : Int {
+        case Header, 推荐物品
+    }
+    
+    private enum 营业 : Int {
+        case Header, 营业时间
+    }
+    
+    private enum 特设 : Int {
+        case Header, 介绍
+    }
+    
+    private enum 其他 : Int {
+        case Header, Map, Address, PhoneAndWeb
+    }
     
     // MARK: - Setups
     
@@ -40,9 +64,8 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
         
         navigationController?.setNavigationBarHidden(false, animated: false)
         
-        tableView.delegate = self
-        tableView.dataSource = self
         setupShareBarButtonItem()
+        setupTableView()
         
         compositeDisposable += navigationMapViewController.goBackProxy
             |> start(next: { handler in
@@ -75,7 +98,39 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
         shareBarButtonItem.action = CocoaAction.selector
     }
     
-    public func shareSheetAction() {
+    private func setupTableView() {
+        
+        rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
+            |> map { ($0 as! RACTuple).second as! NSIndexPath }
+            |> start(next: { indexPath in
+                let section = indexPath.section
+                let row = indexPath.row
+                
+                switch Section(rawValue: section)! {
+                case .营业:
+                    switch 营业(rawValue: row)! {
+                    // expand the business hours cell
+                    case .营业时间:
+                        self.expandHours.put(!self.expandHours.value)
+                        
+                        self.tableView.reloadData()
+                    default: break
+                    }
+                case .Primary:
+                    switch Primary(rawValue: row)! {
+                    // send data
+                    case .参与:
+                        self.viewmodel.pushWantToGo()
+                    default: break
+                    }
+                default: break
+                }
+            })
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.delegate = self
+        tableView.dataSource = self
+        
     }
     
     deinit {
@@ -101,33 +156,11 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate {
     }
 }
 
-    private func reduceMargins(cell:UITableViewCell) {
-        cell.layoutMargins = UIEdgeInsetsZero
-        cell.preservesSuperviewLayoutMargins = false
-    }
-
-    private func defaultCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var placeHolderCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
-        return placeHolderCell
-    }
-
-    private func headerCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, withTitle title: String) -> UITableViewCell {
-        var headerCell = tableView.dequeueReusableCellWithIdentifier("Placeholder", forIndexPath: indexPath) as! UITableViewCell
-        headerCell.textLabel?.text = title
-        reduceMargins(headerCell)
-        return headerCell
-    }
-
-    private func createCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, withIdentifier id:String) -> UITableViewCell {
-        var cell =  tableView.dequeueReusableCellWithIdentifier(id, forIndexPath: indexPath) as! UITableViewCell
-        reduceMargins(cell)
-        return cell
-    }
-
 /**
 *  UITableViewDataSource
 */
 extension DetailViewController : UITableViewDataSource {
+    
     /**
     Asks the data source to return the number of sections in the table view.
     
@@ -149,13 +182,12 @@ extension DetailViewController : UITableViewDataSource {
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch section {
-        case 0: return 3
-        case 1: return 2
-        case 2: return 2
-        case 3: return 2
-        case 4: return 4
-        default: return 1
+        switch Section(rawValue: section)! {
+            case .Primary: return 3
+            case .推荐: return 2
+            case .营业: return 2
+            case .特设: return 2
+            case .其他: return 4
         }
     }
     
@@ -168,64 +200,67 @@ extension DetailViewController : UITableViewDataSource {
     :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+        println(indexPath)
         let row = indexPath.row
         let section = indexPath.section
         
-        switch (section){
+        switch Section(rawValue: section)! {
             
-        case 0:
-            switch (row){
-            case 0:
-                let imageCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "ImageCell") as! DetailImageTableViewCell
+        case .Primary:
+            switch Primary(rawValue: row)! {
+            case .Image:
+                let imageCell = tableView.dequeueReusableCellWithIdentifier("ImageCell", forIndexPath: indexPath) as! DetailImageTableViewCell
                 imageCell.bindToViewModel(viewmodel.detailImageViewModel)
                 return imageCell
-            case 1:
+            case .Info:
                 
-                var bizInfoCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "BizInfoCell") as! DetailBizInfoTableViewCell
+                var bizInfoCell = tableView.dequeueReusableCellWithIdentifier("BizInfoCell", forIndexPath: indexPath) as! DetailBizInfoTableViewCell
                 
-//                bizInfoCell.delegate = self
                 bizInfoCell.bindToViewModel(viewmodel.detailBizInfoViewModel)
                 
                 return bizInfoCell
                 
-            case 2: return createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "NumPeopleGoingCell")
-            default: return defaultCell(tableView, cellForRowAtIndexPath: indexPath)
+            case .参与:
+                return tableView.dequeueReusableCellWithIdentifier("NumPeopleGoingCell", forIndexPath: indexPath) as! UITableViewCell
             }
             
-        case 1:
-            switch (row) {
-            case 0: return headerCell(tableView, cellForRowAtIndexPath: indexPath, withTitle: "推荐物品")
-            case 1: return createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "WhatsGoodCell")
-            default: return defaultCell(tableView, cellForRowAtIndexPath: indexPath)
+        case .推荐:
+            switch 推荐(rawValue: row)! {
+            case .Header:
+                return tableView.dequeueReusableCellWithIdentifier("RecommendationHeader", forIndexPath: indexPath) as! UITableViewCell
+            case .推荐物品:
+                return tableView.dequeueReusableCellWithIdentifier("WhatsGoodCell", forIndexPath: indexPath) as! UITableViewCell
             }
             
-        case 2:
-            switch (row) {
-            case 0: return headerCell(tableView, cellForRowAtIndexPath: indexPath, withTitle: "营业时间")
-            case 1:
-                if (expandHours){ return createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "HoursCell")
-                }else{
-                    var hourCell = createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "CurrentHoursCell")
-                    hourCell.accessoryView = UIImageView(image: UIImage(named:"downArrow"))
+        case .营业:
+            switch 营业(rawValue: row)! {
+            case .Header:
+                return tableView.dequeueReusableCellWithIdentifier("HoursHeader", forIndexPath: indexPath) as! UITableViewCell
+            case .营业时间:
+                if (expandHours.value) {
+                    return tableView.dequeueReusableCellWithIdentifier("HoursCell", forIndexPath: indexPath) as! UITableViewCell
+                }
+                else {
+                    var hourCell = tableView.dequeueReusableCellWithIdentifier("CurrentHoursCell", forIndexPath: indexPath) as! UITableViewCell
+                    hourCell.accessoryView = UIImageView(image: UIImage(named: ImageAssets.downArrow))
                     hourCell.textLabel?.text = "今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM"
                     return hourCell
                 }
-            default: return defaultCell(tableView, cellForRowAtIndexPath: indexPath)
             }
             
-        case 3:
-            switch (row) {
-            case 0: return headerCell(tableView, cellForRowAtIndexPath: indexPath, withTitle: "特设介绍")
-            case 1: return createCell(tableView, cellForRowAtIndexPath: indexPath, withIdentifier: "DescriptionCell")
-            default: return defaultCell(tableView, cellForRowAtIndexPath: indexPath)
+        case .特设:
+            switch 特设(rawValue: row)! {
+            case .Header:
+                return tableView.dequeueReusableCellWithIdentifier("DescriptionHeader", forIndexPath: indexPath) as! UITableViewCell
+            case .介绍:
+                return tableView.dequeueReusableCellWithIdentifier("DescriptionCell", forIndexPath: indexPath) as! UITableViewCell
             }
             
-        case 4:
-            switch (row){
-            case 0:
-                return headerCell(tableView, cellForRowAtIndexPath: indexPath, withTitle: "地址和信息")
-            case 1:
+        case .其他:
+            switch 其他(rawValue: row)! {
+            case .Header:
+                return tableView.dequeueReusableCellWithIdentifier("AddressAndInfoHeader", forIndexPath: indexPath) as! UITableViewCell
+            case .Map:
                 let mapCell = tableView.dequeueReusableCellWithIdentifier("MapCell", forIndexPath: indexPath) as! DetailMapTableViewCell
                 mapCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
                 
@@ -236,7 +271,7 @@ extension DetailViewController : UITableViewDataSource {
                     })
                 
                 return mapCell
-            case 2:
+            case .Address:
                 let addressCell = tableView.dequeueReusableCellWithIdentifier("AddressCell", forIndexPath: indexPath) as! DetailAddressTableViewCell
                 addressCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
                 
@@ -247,7 +282,7 @@ extension DetailViewController : UITableViewDataSource {
                     })
                 
                 return addressCell
-            case 3:
+            case .PhoneAndWeb:
                 let phoneWebCell = tableView.dequeueReusableCellWithIdentifier("PhoneWebSplitCell", forIndexPath: indexPath) as! DetailPhoneWebTableViewCell
                 
                 phoneWebCell.bindToViewModel(viewmodel.detailPhoneWebViewModel)
@@ -259,9 +294,7 @@ extension DetailViewController : UITableViewDataSource {
                     })
                 
                 return phoneWebCell
-            default: return defaultCell(tableView, cellForRowAtIndexPath: indexPath)
             }
-        default:return defaultCell(tableView, cellForRowAtIndexPath: indexPath)
         }
     }
     
@@ -271,44 +304,43 @@ extension DetailViewController : UITableViewDataSource {
         let row = indexPath.row
         let section = indexPath.section
         
-        switch section {
+        switch Section(rawValue: section)! {
             
-        case 0:
-            switch row {
-            case 0: return 226
-            case 1: return 65
-            default: return 44
-            }
-            
-        case 1:
-            switch row {
-            case 0: return 35
-            default: return 70
-            }
-        case 2:
-            switch row {
-                
-            case 1:
-                if (expandHours){
-                    return 215
-                }else{
-                    return 44
+            case .Primary:
+                switch Primary(rawValue: row)! {
+                    case .Image: return 226
+                    case .Info: return 65
+                    case .参与: return 44
                 }
-            case 2: return 215
-            default: return 35
-            }
-        case 3:
-            switch row {
-            case 1: return 91
-            default: return 35
-            }
-        case 4:
-            switch row {
-            case 0: return 35
-            case 1: return 226
-            default: return 44
-            }
-        default: return 44
+                
+            case .推荐:
+                switch 推荐(rawValue: row)! {
+                    case .Header: return 35
+                    case .推荐物品: return 70
+                }
+            case .营业:
+                switch 营业(rawValue: row)! {
+                    
+                    case .Header: return 35
+                    case .营业时间:
+                        if (expandHours.value){
+                            return 215
+                        }else{
+                            return 44
+                        }
+                    }
+            case .特设:
+                switch 特设(rawValue: row)! {
+                    case .Header: return 35
+                    case .介绍: return 91
+                }
+            case .其他:
+                switch 其他(rawValue: row)! {
+                    case .Header: return 35
+                    case .Map: return 226
+                    case .Address: return 44
+                    case .PhoneAndWeb: return 44
+                }
         }
     }
     
@@ -319,46 +351,5 @@ extension DetailViewController : UITableViewDataSource {
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 2
-    }
-}
-
-/**
-*  UITableViewDelegate
-*/
-extension DetailViewController : UITableViewDelegate {
-    /**
-    Tells the delegate that the specified row is now selected.
-    
-    :param: tableView A table-view object informing the delegate about the new row selection.
-    :param: indexPath An index path locating the new selected row in tableView.
-    */
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        if (indexPath.section == 2 && indexPath.row == 1){
-            
-            if (expandHours){
-                expandHours = false
-            }else{
-                expandHours = true
-            }
-            
-            tableView.reloadData()
-        }
-        if (indexPath.section == 0 && indexPath.row == 2){
-            viewmodel.pushWantToGo()
-        }
-    }
-}
-
-extension DetailViewController : DetailBizInfoCellDelegate {
-    public func participate<T: UIViewController>(viewController: T) {
-        self.presentViewController(viewController, animated: true, completion: nil)
-    }
-}
-
-extension DetailViewController : ParticipationPopoverDelegate {
-    public func alertAction(choiceTag: Int) {
-        self.tableView.reloadData()
     }
 }

@@ -72,6 +72,12 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         compositeDisposable.dispose()
     }
     
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        compositeDisposable.dispose()
+    }
+    
     // MARK: Bindings
     
     public func bindToViewModel(viewmodel: DetailPhoneWebViewModel) {

@@ -41,7 +41,9 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
         participateButton.addTarget(markWanttoGoAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    deinit {
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        
         compositeDisposable.dispose()
     }
 

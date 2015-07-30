@@ -66,6 +66,12 @@ public final class DetailMapTableViewCell: UITableViewCell {
         compositeDisposable.dispose()
     }
     
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        compositeDisposable.dispose()
+    }
+    
     // MARK: Bindings
     public func bindToViewModel(viewmodel: DetailAddressAndMapViewModel) {
         self.viewmodel = viewmodel

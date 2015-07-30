@@ -12,10 +12,17 @@ import SDWebImage
 
 public final class DetailImageTableViewCell: UITableViewCell {
     
+    // MARK: - UI Controls
     @IBOutlet weak var detailImageView: UIImageView!
+    
+    // MARK: - Proxies
+    
+    
+    // MARK: - Properties
     
     private var viewmodel: DetailImageViewModel!
     
+    // MARK: - Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -27,6 +34,8 @@ public final class DetailImageTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    // MARK: - Bindings
+    
     public func bindToViewModel(viewmodel: DetailImageViewModel) {
         self.viewmodel = viewmodel
         
