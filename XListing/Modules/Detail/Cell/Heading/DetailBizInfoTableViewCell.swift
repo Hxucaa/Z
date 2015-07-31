@@ -12,9 +12,9 @@ import ReactiveCocoa
 public final class DetailBizInfoTableViewCell: UITableViewCell {
 
     // MARK: Controls
-    @IBOutlet weak var businessNameLabel: UILabel!
-    @IBOutlet weak var cityAndDistanceLabel: UILabel!
-    @IBOutlet weak var participateButton: UIButton!
+    @IBOutlet private weak var businessNameLabel: UILabel!
+    @IBOutlet private weak var cityAndDistanceLabel: UILabel!
+    @IBOutlet private weak var participateButton: UIButton!
     
     // MARK: - Proxies
     

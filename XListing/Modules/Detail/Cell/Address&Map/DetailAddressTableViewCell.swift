@@ -13,9 +13,8 @@ private let DetailNavigationMapViewControllerXib = "DetailNavigationMapViewContr
 
 public final class DetailAddressTableViewCell: UITableViewCell {
 
-    // MARK: - UI
-    // MARK: Controls
-    @IBOutlet weak var addressButton: UIButton!
+    // MARK: - UI Controls
+    @IBOutlet private weak var addressButton: UIButton!
     
     // MARK: - Proxies
     private let (_navigationMapProxy, _navigationMapSink) = SimpleProxy.proxy()

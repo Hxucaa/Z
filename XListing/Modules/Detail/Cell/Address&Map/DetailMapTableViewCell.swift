@@ -12,9 +12,8 @@ import MapKit
 
 public final class DetailMapTableViewCell: UITableViewCell {
 
-    // MARK: - UI
-    // MARK: Controls
-    @IBOutlet weak var mapView: MKMapView!
+    // MARK: - UI Controls
+    @IBOutlet private weak var mapView: MKMapView!
     
     // MARK: - Proxies
     private let (_navigationMapProxy, _navigationMapSink) = SimpleProxy.proxy()

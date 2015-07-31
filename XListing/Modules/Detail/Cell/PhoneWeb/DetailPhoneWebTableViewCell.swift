@@ -12,8 +12,8 @@ import ReactiveCocoa
 public final class DetailPhoneWebTableViewCell: UITableViewCell {
 
     // MARK: - UI Controls
-    @IBOutlet weak var phoneButton: UIButton!
-    @IBOutlet weak var websiteButton: UIButton!
+    @IBOutlet private weak var phoneButton: UIButton!
+    @IBOutlet private weak var websiteButton: UIButton!
     
     // MARK: - Proxies
     private let (_presentWebViewProxy, _presentWebViewSink) = SignalProducer<UIViewController, NoError>.proxy()

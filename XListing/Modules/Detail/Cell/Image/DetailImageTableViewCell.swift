@@ -13,7 +13,7 @@ import SDWebImage
 public final class DetailImageTableViewCell: UITableViewCell {
     
     // MARK: - UI Controls
-    @IBOutlet weak var detailImageView: UIImageView!
+    @IBOutlet private weak var detailImageView: UIImageView!
     
     // MARK: - Proxies
     
