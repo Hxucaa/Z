@@ -28,19 +28,19 @@ public final class EditInfoView : UIView {
     public var presentUIImagePickerProxy: SignalProducer<UIImagePickerController, NoError> {
         return _presentUIImagePickerProxy
     }
-    private let (_presentUIImagePickerProxy, _presentUIImagePickerSink) = SignalProducer<UIImagePickerController, NoError>.buffer(1)
+    private let (_presentUIImagePickerProxy, _presentUIImagePickerSink) = SignalProducer<UIImagePickerController, NoError>.buffer(0)
     
     /// Dismiss UIImage Picker Controller
     public var dismissUIImagePickerProxy: SignalProducer<CompletionHandler?, NoError> {
         return _dismissUIImagePickerProxy
     }
-    private let (_dismissUIImagePickerProxy, _dismissUIImagePickerSink) = SignalProducer<CompletionHandler?, NoError>.buffer(1)
+    private let (_dismissUIImagePickerProxy, _dismissUIImagePickerSink) = SignalProducer<CompletionHandler?, NoError>.buffer(0)
     
     /// Edit Info view is finished.
-    public var finishEditInfoProxy: SignalProducer<Void, NoError> {
+    public var finishEditInfoProxy: SimpleProxy {
         return _finishEditInfoProxy
     }
-    private let (_finishEditInfoProxy, _finishEditInfoSink) = SignalProducer<Void, NoError>.buffer(1)
+    private let (_finishEditInfoProxy, _finishEditInfoSink) = SimpleProxy.proxy()
     
     // MARK: - Properties
     private var viewmodel: EditInfoViewModel!

@@ -21,16 +21,16 @@ public final class LogInView : UIView {
     
     // MARK: - Proxies
     /// Go back to previous page.
-    public var goBackProxy: SignalProducer<Void, NoError> {
+    public var goBackProxy: SimpleProxy {
         return _goBackProxy
     }
-    private let (_goBackProxy, _goBackSink) = SignalProducer<Void, NoError>.buffer(1)
+    private let (_goBackProxy, _goBackSink) = SimpleProxy.proxy()
     
     /// Log In view is finished.
-    public var finishLoginProxy: SignalProducer<Void, NoError> {
+    public var finishLoginProxy: SimpleProxy {
         return _finishLoginProxy
     }
-    private let (_finishLoginProxy, _finishLoginSink) = SignalProducer<Void, NoError>.buffer(1)
+    private let (_finishLoginProxy, _finishLoginSink) = SimpleProxy.proxy()
     
     // MARK: - Properties
     private var viewmodel: LogInViewModel!

@@ -23,22 +23,22 @@ public final class LandingPageView : UIView {
     // MARK: - Proxies
     
     /// Skip Landing view.
-    public var skipProxy: SignalProducer<Void, NoError> {
+    public var skipProxy: SimpleProxy {
         return _skipProxy
     }
-    private let (_skipProxy, _skipSink) = SignalProducer<Void, NoError>.buffer(1)
+    private let (_skipProxy, _skipSink) = SimpleProxy.proxy()
     
     /// Go to Log In view.
-    public var loginProxy: SignalProducer<Void, NoError> {
+    public var loginProxy: SimpleProxy {
         return _loginProxy
     }
-    private let (_loginProxy, _loginSink) = SignalProducer<Void, NoError>.buffer(1)
+    private let (_loginProxy, _loginSink) = SimpleProxy.proxy()
     
     /// Go to Sign Up view.
-    public var signUpProxy: SignalProducer<Void, NoError> {
+    public var signUpProxy: SimpleProxy {
         return _signUpProxy
     }
-    private let (_signUpProxy, _signUpSink) = SignalProducer<Void, NoError>.buffer(1)
+    private let (_signUpProxy, _signUpSink) = SimpleProxy.proxy()
     
     
     // MARK: Properties
