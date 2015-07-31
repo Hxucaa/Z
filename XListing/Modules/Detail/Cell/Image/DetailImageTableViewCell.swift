@@ -26,6 +26,8 @@ public final class DetailImageTableViewCell: UITableViewCell {
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        layoutMargins = UIEdgeInsetsZero
+        separatorInset = UIEdgeInsetsZero
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {

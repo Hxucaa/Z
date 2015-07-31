@@ -19,7 +19,7 @@
         <!--Detail View Controller-->
         <scene sceneID="ckc-A5-HfA">
             <objects>
-                <viewController storyboardIdentifier="DetailViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lSV-j5-V6F" customClass="DetailViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lSV-j5-V6F" customClass="DetailViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="WsF-IF-GUE"/>
                         <viewControllerLayoutGuide type="bottom" id="QV7-wX-l2w"/>
@@ -28,7 +28,7 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="225" sectionHeaderHeight="7" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="jHT-3b-Xir">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="225" sectionHeaderHeight="7" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="jHT-3b-Xir">
                                 <rect key="frame" x="0.0" y="-2" width="600" height="602"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -121,6 +121,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="tintColor" red="0.27692724320000001" green="0.70855034719999999" blue="0.63696834089999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                     <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecommendationHeader" rowHeight="35" id="K06-H3-lYQ">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -140,6 +141,7 @@
                                                 <constraint firstItem="Qeb-Zf-fed" firstAttribute="leading" secondItem="cuB-dB-DY7" secondAttribute="leadingMargin" constant="6" id="JNU-uy-wHn"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="WhatsGoodCell" rowHeight="70" id="FQ8-Yk-n6o">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -231,6 +233,7 @@
                                                 <constraint firstAttribute="centerY" secondItem="Vro-Z6-w46" secondAttribute="centerY" id="iaZ-Bq-WxD"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CurrentHoursCell" textLabel="B01-gu-M36" rowHeight="44" style="IBUITableViewCellStyleDefault" id="QNu-5K-OkN">
                                         <autoresizingMask key="autoresizingMask"/>

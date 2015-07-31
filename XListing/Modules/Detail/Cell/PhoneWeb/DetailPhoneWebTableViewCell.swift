@@ -30,6 +30,9 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
+        layoutMargins = UIEdgeInsetsZero
+        separatorInset = UIEdgeInsetsZero
+        
         // Initialization code
         
         setupWebsiteButton()

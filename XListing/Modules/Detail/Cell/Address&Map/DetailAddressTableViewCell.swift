@@ -34,7 +34,7 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         // Initialization code
         
         layoutMargins = UIEdgeInsetsZero
-        preservesSuperviewLayoutMargins = false
+        separatorInset = UIEdgeInsetsZero
         
         setupAddressButton()
     }

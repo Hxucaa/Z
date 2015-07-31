@@ -31,8 +31,8 @@ public final class DetailMapTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         layoutMargins = UIEdgeInsetsZero
-        preservesSuperviewLayoutMargins = false
-        
+        separatorInset = UIEdgeInsetsZero
+                
         setupMapView()
     }
 

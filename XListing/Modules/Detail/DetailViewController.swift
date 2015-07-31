@@ -99,8 +99,15 @@ public final class DetailViewController : XUIViewController, MKMapViewDelegate, 
     }
     
     private func setupTableView() {
+        // a hack which makes the gap between table view and navigation bar go away
+        tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
+        // a hack which makes the gap at the bottom of the table view go away
+        tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         
-        rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
+        tableView.layoutMargins = UIEdgeInsetsZero
+        tableView.separatorInset = UIEdgeInsetsZero
+        
+        compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
             |> map { ($0 as! RACTuple).second as! NSIndexPath }
             |> start(next: { indexPath in
                 let section = indexPath.section
@@ -220,45 +227,72 @@ extension DetailViewController : UITableViewDataSource {
                 return bizInfoCell
                 
             case .参与:
-                return tableView.dequeueReusableCellWithIdentifier("NumPeopleGoingCell", forIndexPath: indexPath) as! UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("NumPeopleGoingCell", forIndexPath: indexPath) as! UITableViewCell
+                cell.layoutMargins = UIEdgeInsetsZero
+                cell.separatorInset = UIEdgeInsetsZero
+                return cell
             }
             
         case .推荐:
             switch 推荐(rawValue: row)! {
             case .Header:
-                return tableView.dequeueReusableCellWithIdentifier("RecommendationHeader", forIndexPath: indexPath) as! UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("RecommendationHeader", forIndexPath: indexPath) as! UITableViewCell
+                cell.layoutMargins = UIEdgeInsetsZero
+                cell.separatorInset = UIEdgeInsetsZero
+                
+                return cell
             case .推荐物品:
-                return tableView.dequeueReusableCellWithIdentifier("WhatsGoodCell", forIndexPath: indexPath) as! UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("WhatsGoodCell", forIndexPath: indexPath) as! UITableViewCell
+                cell.layoutMargins = UIEdgeInsetsZero
+                cell.separatorInset = UIEdgeInsetsZero
+                return cell
             }
             
         case .营业:
             switch 营业(rawValue: row)! {
             case .Header:
-                return tableView.dequeueReusableCellWithIdentifier("HoursHeader", forIndexPath: indexPath) as! UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("HoursHeader", forIndexPath: indexPath) as! UITableViewCell
+                cell.layoutMargins = UIEdgeInsetsZero
+                cell.separatorInset = UIEdgeInsetsZero
+                return cell
             case .营业时间:
                 if (expandHours.value) {
-                    return tableView.dequeueReusableCellWithIdentifier("HoursCell", forIndexPath: indexPath) as! UITableViewCell
+                    let cell = tableView.dequeueReusableCellWithIdentifier("HoursCell", forIndexPath: indexPath) as! UITableViewCell
+                    cell.layoutMargins = UIEdgeInsetsZero
+                    cell.separatorInset = UIEdgeInsetsZero
+                    return cell
                 }
                 else {
-                    var hourCell = tableView.dequeueReusableCellWithIdentifier("CurrentHoursCell", forIndexPath: indexPath) as! UITableViewCell
-                    hourCell.accessoryView = UIImageView(image: UIImage(named: ImageAssets.downArrow))
-                    hourCell.textLabel?.text = "今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM"
-                    return hourCell
+                    let cell = tableView.dequeueReusableCellWithIdentifier("CurrentHoursCell", forIndexPath: indexPath) as! UITableViewCell
+                    cell.layoutMargins = UIEdgeInsetsZero
+                    cell.separatorInset = UIEdgeInsetsZero
+                    cell.accessoryView = UIImageView(image: UIImage(named: ImageAssets.downArrow))
+                    cell.textLabel?.text = "今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM"
+                    return cell
                 }
             }
             
         case .特设:
             switch 特设(rawValue: row)! {
             case .Header:
-                return tableView.dequeueReusableCellWithIdentifier("DescriptionHeader", forIndexPath: indexPath) as! UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("DescriptionHeader", forIndexPath: indexPath) as! UITableViewCell
+                cell.layoutMargins = UIEdgeInsetsZero
+                cell.separatorInset = UIEdgeInsetsZero
+                return cell
             case .介绍:
-                return tableView.dequeueReusableCellWithIdentifier("DescriptionCell", forIndexPath: indexPath) as! UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("DescriptionCell", forIndexPath: indexPath) as! UITableViewCell
+                cell.layoutMargins = UIEdgeInsetsZero
+                cell.separatorInset = UIEdgeInsetsZero
+                return cell
             }
             
         case .其他:
             switch 其他(rawValue: row)! {
             case .Header:
-                return tableView.dequeueReusableCellWithIdentifier("AddressAndInfoHeader", forIndexPath: indexPath) as! UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("AddressAndInfoHeader", forIndexPath: indexPath) as! UITableViewCell
+                cell.layoutMargins = UIEdgeInsetsZero
+                cell.separatorInset = UIEdgeInsetsZero
+                return cell
             case .Map:
                 let mapCell = tableView.dequeueReusableCellWithIdentifier("MapCell", forIndexPath: indexPath) as! DetailMapTableViewCell
                 mapCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)

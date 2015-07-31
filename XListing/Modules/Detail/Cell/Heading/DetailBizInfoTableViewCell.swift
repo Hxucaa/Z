@@ -26,7 +26,9 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
-        // Initialization
+        layoutMargins = UIEdgeInsetsZero
+        separatorInset = UIEdgeInsetsZero
+        
         let participate = Action<UIButton, Bool, NSError>{ button in
             return self.viewmodel.participate(DetailBizInfoViewModel.ParticipationChoice.我想去)
         }
