@@ -13,11 +13,9 @@ import WebKit
 
 private let DetailNavigationMapViewControllerName = "DetailNavigationMapViewController"
 
-public final class DetailViewController : XUIViewController, MKMapViewDelegate, UITableViewDelegate {
+public final class DetailViewController : XUIViewController, UITableViewDelegate {
     
-    // MARK: - UI
-    
-    // MARK: Controls
+    // MARK: - UI Controls
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var shareBarButtonItem: UIBarButtonItem!
     private var navigationMapViewController: DetailNavigationMapViewController!
@@ -227,9 +225,8 @@ extension DetailViewController : UITableViewDataSource {
                 return bizInfoCell
                 
             case .参与:
-                let cell = tableView.dequeueReusableCellWithIdentifier("NumPeopleGoingCell", forIndexPath: indexPath) as! UITableViewCell
-                cell.layoutMargins = UIEdgeInsetsZero
-                cell.separatorInset = UIEdgeInsetsZero
+                let cell = tableView.dequeueReusableCellWithIdentifier("ParticipationCell", forIndexPath: indexPath) as! DetailParticipationTableViewCell
+                cell.bindToViewModel(viewmodel.detailParticipationViewModel)
                 return cell
             }
             

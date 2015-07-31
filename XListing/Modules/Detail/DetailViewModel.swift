@@ -23,6 +23,7 @@ public struct DetailViewModel : IDetailViewModel {
     public let detailPhoneWebViewModel: DetailPhoneWebViewModel
     public let detailBizInfoViewModel: DetailBizInfoViewModel
     public let detailNavigationMapViewModel: DetailNavigationMapViewModel
+    public let detailParticipationViewModel: DetailParticipationViewModel
     
     // MARK: Actions
     public func pushWantToGo() {
@@ -43,6 +44,7 @@ public struct DetailViewModel : IDetailViewModel {
         detailPhoneWebViewModel = DetailPhoneWebViewModel(businessName: business.nameSChinese, phone: business.phone, website: business.url)
         detailBizInfoViewModel = DetailBizInfoViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, business: businessModel)
         detailNavigationMapViewModel = DetailNavigationMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, businessLocation: business.cllocation)
+        detailParticipationViewModel = DetailParticipationViewModel(participationCount: business.wantToGoCounter)
 
         
         businessName = ConstantProperty(businessModel.nameSChinese!)
