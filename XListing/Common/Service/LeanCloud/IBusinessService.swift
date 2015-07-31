@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public protocol IBusinessService {
+public protocol IBusinessService : class {
     func findBy(query: AVQuery) -> SignalProducer<[Business], NSError>
     func getFirst(var query: AVQuery) -> SignalProducer<Business, NSError>
 }

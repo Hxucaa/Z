@@ -10,7 +10,7 @@ import Foundation
 import SDWebImage
 import ReactiveCocoa
 
-public struct ImageService : IImageService {
+public final class ImageService : IImageService {
     public func getImage(url: NSURL) -> SignalProducer<UIImage, NSError> {
         return SignalProducer { sink, disposable in
             let imageManager = SDWebImageManager.sharedManager()

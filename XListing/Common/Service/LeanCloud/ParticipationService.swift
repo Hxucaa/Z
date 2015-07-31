@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public struct ParticipationService : IParticipationService {
+public final class ParticipationService : IParticipationService {
     
     public func findBy(query: AVQuery) -> SignalProducer<[Participation], NSError> {
         return SignalProducer<[Participation], NSError> {sink, disposable in

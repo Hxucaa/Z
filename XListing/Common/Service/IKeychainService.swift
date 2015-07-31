@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol IKeychainService {
+public protocol IKeychainService : class {
     func clearKeychain() -> Bool
 }
