@@ -9,7 +9,7 @@
 import Foundation
 import AVOSCloud
 
-public struct LeanCloudClient {
+public final class LeanCloudClient {
     
     public static func trackAppOpenedWithLaunchOptions(launchOptions: [NSObject : AnyObject]) {
         

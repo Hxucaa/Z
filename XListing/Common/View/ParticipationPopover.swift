@@ -8,7 +8,7 @@
 
 import UIKit
 
-public struct ParticipationPopover {
+public final class ParticipationPopover {
     
     public weak var delegate: ParticipationPopoverDelegate!
    

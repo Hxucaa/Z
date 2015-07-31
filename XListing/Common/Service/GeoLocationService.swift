@@ -11,7 +11,7 @@ import ReactiveCocoa
 import AVOSCloud
 import CoreLocation
 
-public struct GeoLocationService : IGeoLocationService {
+public final class GeoLocationService : IGeoLocationService {
     
     private final class LocationManager : NSObject, CLLocationManagerDelegate {
         

@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public struct BusinessService : IBusinessService {
+public final class BusinessService : IBusinessService {
     
     public func findBy(query: AVQuery) -> SignalProducer<[Business], NSError> {
         return SignalProducer<[Business], NSError> { sink, disposable in
