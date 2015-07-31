@@ -18,7 +18,6 @@ public struct DetailAddressAndMapViewModel {
     public let fullAddress: ConstantProperty<String>
     public let annotation: ConstantProperty<MKPointAnnotation>
     public let cellMapRegion: ConstantProperty<MKCoordinateRegion>
-    public private(set) lazy var detailNavigationMapViewModel: DetailNavigationMapViewModel = DetailNavigationMapViewModel(geoLocationService: self.geoLocationService, annotation: self.annotation.value)
     
     // MARK: API
     
@@ -33,7 +32,6 @@ public struct DetailAddressAndMapViewModel {
         let annotation = MKPointAnnotation()
         annotation.coordinate = businessLocation.coordinate
         annotation.title = businessName
-//            annotation.subtitle = 
         self.annotation = ConstantProperty(annotation)
         
         /**

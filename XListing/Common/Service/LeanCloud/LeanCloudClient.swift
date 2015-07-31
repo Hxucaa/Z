@@ -11,15 +11,26 @@ import AVOSCloud
 
 public struct LeanCloudClient {
     
-    public static func initializeClient() {
+    public static func trackAppOpenedWithLaunchOptions(launchOptions: [NSObject : AnyObject]) {
+        
+        AVAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+    }
+    
+    public static func initialize() {
         prepareClient()
-        initialize()
+        loadKeys()
     }
     
     private static func prepareClient() {
         AVOSCloud.useAVCloudUS()
+        AVOSCloud.setLastModifyEnabled(true)
+        AVOSCloud.setVerbosePolicy(kAVVerboseAuto)
         
         AVAnalytics.setAnalyticsEnabled(true)
+        #if DEBUG
+            AVAnalytics.setLogEnabled(true)
+        #endif
+        
         
         User.enableAutomaticUser()
         
@@ -30,7 +41,7 @@ public struct LeanCloudClient {
         Business.registerSubclass()
     }
     
-    private static func initialize() {
+    private static func loadKeys() {
         var id: String?
         var key: String?
         

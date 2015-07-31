@@ -321,7 +321,7 @@ extension NearbyViewController : UICollectionViewDataSource, UIScrollViewDelegat
         NSObject.cancelPreviousPerformRequestsWithTarget(self)
         
         // Use the objective-C API to manually call the function indicating an end of scrolling.
-        swift_performSelector("scrollViewDidEndScrollingAnimation:", withObject: scrollView, afterDelay: 0.3)
+        swift_performSelector("scrollViewDidEndScrollingAnimation:", withObject: scrollView, afterDelay: 0.1)
     }
 }
 
