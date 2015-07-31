@@ -13,9 +13,9 @@ import ReactiveCocoa
 public final class DetailNavigationMapViewController: XUIViewController {
 
     // MARK: - UI Controls
-    @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var navigateButton: UIButton!
+    @IBOutlet private weak var mapView: MKMapView!
+    @IBOutlet private weak var backButton: UIButton!
+    @IBOutlet private weak var navigateButton: UIButton!
 
     // MARK: - Proxies
     private let (_goBackProxy, _goBackSink) = SignalProducer<CompletionHandler?, NoError>.buffer(1)

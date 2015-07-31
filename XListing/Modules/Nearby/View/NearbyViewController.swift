@@ -38,9 +38,9 @@ public final class NearbyViewController: XUIViewController {
     // MARK: - UI
     // MARK: Controls
     
-    @IBOutlet weak var profileButton: UIBarButtonItem!
-    @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var businessCollectionView: UICollectionView!
+    @IBOutlet private weak var profileButton: UIBarButtonItem!
+    @IBOutlet private weak var mapView: MKMapView!
+    @IBOutlet private weak var businessCollectionView: UICollectionView!
     
     // MARK: Properties
     

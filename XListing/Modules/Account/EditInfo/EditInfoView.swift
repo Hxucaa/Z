@@ -14,12 +14,12 @@ public final class EditInfoView : UIView {
     
     // MARK: - UI
     // MARK: Controls
-    @IBOutlet weak var nicknameField: UITextField!
-    @IBOutlet weak var imagePickerButton: UIButton!
-    @IBOutlet weak var birthdayPicker: UIDatePicker!
-    @IBOutlet weak var submitButton: UIButton!
-    @IBOutlet weak var maleButton: UIButton!
-    @IBOutlet weak var femaleButton: UIButton!
+    @IBOutlet private weak var nicknameField: UITextField!
+    @IBOutlet private weak var imagePickerButton: UIButton!
+    @IBOutlet private weak var birthdayPicker: UIDatePicker!
+    @IBOutlet private weak var submitButton: UIButton!
+    @IBOutlet private weak var maleButton: UIButton!
+    @IBOutlet private weak var femaleButton: UIButton!
     private var imagePicker = UIImagePickerController()
     
     // MARK: - Proxies

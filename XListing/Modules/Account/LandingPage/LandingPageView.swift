@@ -15,10 +15,10 @@ public final class LandingPageView : UIView {
     
     // MARK: - UI
     // MARK: Controls
-    @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var signupButton: UIButton!
-    @IBOutlet weak var skipButton: UIButton!
-    @IBOutlet weak var dividerLabel: UILabel!
+    @IBOutlet private weak var loginButton: UIButton!
+    @IBOutlet private weak var signupButton: UIButton!
+    @IBOutlet private weak var skipButton: UIButton!
+    @IBOutlet private weak var dividerLabel: UILabel!
     
     // MARK: - Proxies
     

@@ -14,10 +14,10 @@ public final class LogInView : UIView {
     
     // MARK: - UI
     // MARK: Controls
-    @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var usernameField: UITextField!
-    @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet private weak var loginButton: UIButton!
+    @IBOutlet private weak var backButton: UIButton!
+    @IBOutlet private weak var usernameField: UITextField!
+    @IBOutlet private weak var passwordField: UITextField!
     
     // MARK: - Proxies
     /// Go back to previous page.
