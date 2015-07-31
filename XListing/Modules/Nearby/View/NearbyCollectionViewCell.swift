@@ -14,11 +14,11 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
     
     // MARK: - UI
     // MARK: Controls
-    @IBOutlet weak var coverImageView: UIImageView!
-    @IBOutlet weak var businessNameLabel: UILabel!
-    @IBOutlet weak var businessHoursLabel: UILabel!
-    @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var etaLabel: UILabel!
+    @IBOutlet private weak var coverImageView: UIImageView!
+    @IBOutlet private weak var businessNameLabel: UILabel!
+    @IBOutlet private weak var businessHoursLabel: UILabel!
+    @IBOutlet private weak var cityLabel: UILabel!
+    @IBOutlet private weak var etaLabel: UILabel!
     
     // MARK: Properties
     

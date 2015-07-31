@@ -14,10 +14,10 @@ public final class SignUpView : UIView {
     
     // MARK: - UI
     // MARK: Controls
-    @IBOutlet weak var usernameField: UITextField!
-    @IBOutlet weak var passwordField: UITextField!
-    @IBOutlet weak var signupButton: UIButton!
-    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet private weak var usernameField: UITextField!
+    @IBOutlet private weak var passwordField: UITextField!
+    @IBOutlet private weak var signupButton: UIButton!
+    @IBOutlet private weak var backButton: UIButton!
     
     // MARK: - Proxies
     

@@ -16,9 +16,9 @@ public final class FeaturedListViewController: XUIViewController {
 
     // MARK: - UI
     // MARK: Controls
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var nearbyButton: UIBarButtonItem!
-    @IBOutlet weak var profileButton: UIBarButtonItem!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var nearbyButton: UIBarButtonItem!
+    @IBOutlet private weak var profileButton: UIBarButtonItem!
     private let refreshControl = UIRefreshControl()
     
     // MARK: Properties
