@@ -14,6 +14,7 @@ public final class ProfileEditViewController: XUIViewController {
     @IBOutlet weak var tableView: UITableView!
     private var viewmodel: ProfileEditViewModel!
     private var shouldAdjustForKeyboard : Bool = false
+    private let compositeDisposable = CompositeDisposable()
     
     // MARK: UI Elements
     private var genderTitle: String!
@@ -41,6 +42,7 @@ public final class ProfileEditViewController: XUIViewController {
     // MARK: View Methods
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupTableView()
         setupImagePicker()
         setUpProfilePicture()
@@ -50,10 +52,11 @@ public final class ProfileEditViewController: XUIViewController {
     
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
         // allow keyboard dismissal by tapping anywhere else on the screen
         let tapRecognizer = UITapGestureRecognizer(target: self, action: "endEditing:")
         tapRecognizer.numberOfTapsRequired = 1
-        self.view.addGestureRecognizer(tapRecognizer)
+        view.addGestureRecognizer(tapRecognizer)
     }
     
     public override func didReceiveMemoryWarning() {
@@ -62,13 +65,13 @@ public final class ProfileEditViewController: XUIViewController {
     }
     
     public override func viewWillAppear(animated: Bool) {
-        registerForKeyboardNotifications()
+        setupKeyboard()
     }
     
     public override func viewWillDisappear(animated: Bool) {
-        // dismisses the keyboard and remove keyboard observers before dismissing the view
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        self.view.endEditing(true)
+        // dispose signals before view is disappeared
+        compositeDisposable.dispose()
+        view.endEditing(true)
     }
     
     public func bindToViewModel(viewmodel: ProfileEditViewModel) {
@@ -80,7 +83,7 @@ public final class ProfileEditViewController: XUIViewController {
         self.view.endEditing(true)
     }
     
-    // MARK: - Setup Code
+    // MARK: - Setups
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -111,6 +114,38 @@ public final class ProfileEditViewController: XUIViewController {
         self.profilePicture.layer.cornerRadius = CGFloat(self.profilePicture.frame.width) / 2
         self.profilePicture.layer.masksToBounds = true
         self.profilePicture.userInteractionEnabled = true
+    }
+    
+    // setup keyboard to react to notifications
+    private func setupKeyboard() {
+        compositeDisposable += Keyboard.willShowNotification
+            // forwards events until the view is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> start(
+                next: { [weak self] _ in
+                    var contentInsets:UIEdgeInsets
+                    var deviceWidth = UIScreen.mainScreen().bounds.size.width
+                    contentInsets = UIEdgeInsetsMake(0.0, 0.0, 224, 0.0)
+                    
+                    if let shouldAdjustForKeyboard = self?.shouldAdjustForKeyboard where shouldAdjustForKeyboard {
+                        self?.tableView.contentInset = contentInsets
+                        self?.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1), atScrollPosition: .Top, animated: true)
+                        self?.tableView.scrollIndicatorInsets = contentInsets
+                    }
+                }
+            )
+        
+        compositeDisposable += Keyboard.willHideNotification
+            // forwards events until the view is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> start(
+                next: { [weak self] _ in
+                    
+                    self?.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0)
+                    self?.tableView.contentInset = UIEdgeInsetsMake(64,0,0,0)
+                    self?.shouldAdjustForKeyboard = false
+                }
+            )
     }
     
     // MARK: Actions
@@ -172,37 +207,6 @@ public final class ProfileEditViewController: XUIViewController {
     
     public func presentUIImagePicker () {
         self.presentViewController(self.imagePicker, animated: true, completion: nil)
-    }
-
-    // MARK: Keyboard Methods
-    
-    // registers the notifications for keyboard reactions
-    public func registerForKeyboardNotifications ()
-    {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillBeHidden:", name: UIKeyboardWillHideNotification, object: nil)
-    }
-    
-    // Called when the UIKeyboardWillShowNotification is sent.
-    public func keyboardWillShow(notification: NSNotification)
-    {
-        var contentInsets:UIEdgeInsets
-        var deviceWidth = UIScreen.mainScreen().bounds.size.width
-        contentInsets = UIEdgeInsetsMake(0.0, 0.0, 224, 0.0)
-        
-        if (shouldAdjustForKeyboard) {
-            tableView.contentInset = contentInsets
-            tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1), atScrollPosition: .Top, animated: true)
-            tableView.scrollIndicatorInsets = contentInsets
-        }
-    }
-    
-    // Called when the UIKeyboardWillHideNotification is sent
-    public func keyboardWillBeHidden(notification: NSNotification)
-    {
-        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0)
-        tableView.contentInset = UIEdgeInsetsMake(64,0,0,0)
-        shouldAdjustForKeyboard = false
     }
     
     public func prepareToPresentDatePopover () {
