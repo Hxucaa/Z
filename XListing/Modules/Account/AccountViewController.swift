@@ -13,8 +13,6 @@ private let EditInfoViewNibName = "EditInfoView"
 private let SignUpViewNibName = "SignUpView"
 private let LogInViewNibName = "LogInView"
 private let LandingPageViewNibName = "LandingPageView"
-private let StartUpButtonsViewNibName = "StartUpButtonsView"
-private let RePromptButtonsViewNibName = "RePromptButtonsView"
 
 public final class AccountViewController: XUIViewController {
     

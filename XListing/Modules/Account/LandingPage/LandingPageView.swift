@@ -17,7 +17,6 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 
-private let LandingPageViewNibName = "LandingPageView"
 private let StartUpButtonsViewNibName = "StartUpButtonsView"
 private let RePromptButtonsViewNibName = "RePromptButtonsView"
 
