@@ -13,17 +13,18 @@ private let EditInfoViewNibName = "EditInfoView"
 private let SignUpViewNibName = "SignUpView"
 private let LogInViewNibName = "LogInView"
 private let LandingPageViewNibName = "LandingPageView"
+private let StartUpButtonsViewNibName = "StartUpButtonsView"
+private let RePromptButtonsViewNibName = "RePromptButtonsView"
 
 public final class AccountViewController: XUIViewController {
     
-    // MARK: - UI
-    // MARK: Controls
+    // MARK: - UI Controls
     private var landingPageView: LandingPageView!
     private var logInView: LogInView!
     private var signUpView: SignUpView!
     private var editInfoView: EditInfoView!
     
-    // MARK: Properties
+    // MARK: - Properties
     
     private var viewmodel: IAccountViewModel!
     /// A disposable that will dispose of any number of other disposables.
@@ -31,19 +32,20 @@ public final class AccountViewController: XUIViewController {
     /**
     A producer that handles transition of views. It also takes in a completion handler after transition is done.
     */
-    private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<(view: UIView, completion: (Bool -> Void)?), NoError>.buffer(1)
+    private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<(view: UIView, completion: (Bool -> Void)?), NoError>.buffer(0)
     
-    // MARK: Setups
+    // MARK: - Setups
     public override func loadView() {
         super.loadView()
         
-        landingPageView = NSBundle.mainBundle().loadNibNamed(LandingPageViewNibName, owner: self, options: nil).first as! LandingPageView
+        landingPageView = UINib(nibName: LandingPageViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! LandingPageView
         
-        logInView = NSBundle.mainBundle().loadNibNamed(LogInViewNibName, owner: self, options: nil).first as! LogInView
+        logInView = UINib(nibName: LogInViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! LogInView
         
-        signUpView = NSBundle.mainBundle().loadNibNamed(SignUpViewNibName, owner: self, options: nil).first as! SignUpView
+        signUpView = UINib(nibName: SignUpViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! SignUpView
         
-        editInfoView = NSBundle.mainBundle().loadNibNamed(EditInfoViewNibName, owner: self, options: nil).first as! EditInfoView
+        editInfoView = UINib(nibName: EditInfoViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! EditInfoView
+        
     }
     
     public override func viewDidLoad() {
@@ -52,17 +54,15 @@ public final class AccountViewController: XUIViewController {
         // Do any additional setup after loading the view.
         navigationController?.setNavigationBarHidden(true, animated: false)
         
-        
         setupLandingPage()
+        
+        view.addSubview(landingPageView)
+        addConstraintsToClipToAllSides(landingPageView)
+        
         setupLogIn()
         setupSignUp()
         setupEditInfo()
         setupTransitions()
-        
-        // set initial view
-        view.addSubview(landingPageView)
-        addConstraintsToClipToAllSides(landingPageView)
-        
     }
     
     private func setupLandingPage() {
@@ -191,13 +191,13 @@ public final class AccountViewController: XUIViewController {
         AccountLogVerbose("Account View Controller deinitializes.")
     }
     
-    // MARK: Bindings
+    // MARK: - Bindings
     
     public func bindToViewModel(viewModel: IAccountViewModel, dismissCallback: CompletionHandler? = nil) {
         self.viewmodel = viewModel
     }
     
-    // MARK: Others
+    // MARK: - Others
     
     /**
     Transition to a view with animation.

@@ -59,8 +59,8 @@
 		7EFEF7461B13D0900043E076 /* EditInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7451B13D0900043E076 /* EditInfoView.swift */; };
 		B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */; };
 		B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */; };
-		B3F5E2401B65A605007762B4 /* Buttons for app start.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3F5E23F1B65A605007762B4 /* Buttons for app start.xib */; };
-		B3F5E2421B65A620007762B4 /* Buttons for profile.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3F5E2411B65A620007762B4 /* Buttons for profile.xib */; };
+		B3F5E2401B65A605007762B4 /* StartUpButtonsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3F5E23F1B65A605007762B4 /* StartUpButtonsView.xib */; };
+		B3F5E2421B65A620007762B4 /* RePromptButtonsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3F5E2411B65A620007762B4 /* RePromptButtonsView.xib */; };
 		B40A0D8B1B22455700036986 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8A1B22455700036986 /* Constants.swift */; };
 		B40A0D8D1B23BD2900036986 /* EditInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8C1B23BD2900036986 /* EditInfoViewModel.swift */; };
 		B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */; };
@@ -230,8 +230,8 @@
 		7EFEF7451B13D0900043E076 /* EditInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditInfoView.swift; sourceTree = "<group>"; };
 		B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Bold.ttf"; sourceTree = "<group>"; };
 		B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Regular.ttf"; sourceTree = "<group>"; };
-		B3F5E23F1B65A605007762B4 /* Buttons for app start.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Buttons for app start.xib"; sourceTree = "<group>"; };
-		B3F5E2411B65A620007762B4 /* Buttons for profile.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Buttons for profile.xib"; sourceTree = "<group>"; };
+		B3F5E23F1B65A605007762B4 /* StartUpButtonsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StartUpButtonsView.xib; sourceTree = "<group>"; };
+		B3F5E2411B65A620007762B4 /* RePromptButtonsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RePromptButtonsView.xib; sourceTree = "<group>"; };
 		B40A0D8A1B22455700036986 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B40A0D8C1B23BD2900036986 /* EditInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditInfoViewModel.swift; sourceTree = "<group>"; };
 		B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleFormatter.swift; sourceTree = "<group>"; };
@@ -378,8 +378,8 @@
 			children = (
 				B4E7C18F1B5387DF0038260E /* LandingPageView.swift */,
 				B4E7C18D1B5387880038260E /* LandingPageView.xib */,
-				B3F5E23F1B65A605007762B4 /* Buttons for app start.xib */,
-				B3F5E2411B65A620007762B4 /* Buttons for profile.xib */,
+				B3F5E23F1B65A605007762B4 /* StartUpButtonsView.xib */,
+				B3F5E2411B65A620007762B4 /* RePromptButtonsView.xib */,
 				B462BC7D1B2FA50E00070BE5 /* LandingPageViewModel.swift */,
 			);
 			path = LandingPage;
@@ -1063,8 +1063,7 @@
 				B4F195C61B2E0F0000B8C519 /* Default-568h@2x.png in Resources */,
 				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
 				B4F195811B2789A100B8C519 /* Account.storyboard in Resources */,
-				B3F5E2401B65A605007762B4 /* Buttons for app start.xib in Resources */,
-				2ADF3E661B1ECBA200C2971E /* DetailNavigationMapViewController.xib in Resources */,
+				B3F5E2401B65A605007762B4 /* StartUpButtonsView.xib in Resources */,
 				7E0173881B146473002E154B /* EditInfoView.xib in Resources */,
 				B4E7C18E1B5387880038260E /* LandingPageView.xib in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
@@ -1075,7 +1074,7 @@
 				7EF371501AB8C1E8009AA3B9 /* Parse.plist in Resources */,
 				3DFA2F991B43C13000058930 /* WantToGoList.storyboard in Resources */,
 				B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */,
-				B3F5E2421B65A620007762B4 /* Buttons for profile.xib in Resources */,
+				B3F5E2421B65A620007762B4 /* RePromptButtonsView.xib in Resources */,
 				7EACBA111AFBDC15009D8CA6 /* Profile.storyboard in Resources */,
 				7EF371181AB8C012009AA3B9 /* Images.xcassets in Resources */,
 			);
