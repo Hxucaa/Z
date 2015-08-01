@@ -18,4 +18,41 @@ public func toNihil<T, E>(producer: SignalProducer<T, E>) -> SignalProducer<Void
         |> catch { error in SignalProducer<Void, NoError>.empty }
 }
 
+/**
+Forwards events until the cell is being prepared for reuse.
+
+:param: cell A UITableViewCell.
+*/
+public func takeUntilPrepareForReuse<T, E>(cell: UITableViewCell) -> SignalProducer<T, E> -> SignalProducer<T, E> {
+    return { producer in
+        return producer
+            |> takeUntil(cell.rac_prepareForReuseSignal.toSignalProducer() |> toNihil)
+    }
+}
+
+/**
+Forwards events until the cell is being prepared for reuse.
+
+:param: cell A UICollectionViewCell.
+*/
+public func takeUntilPrepareForReuse<T, E>(cell: UICollectionReusableView) -> SignalProducer<T, E> -> SignalProducer<T, E> {
+    return { producer in
+        return producer
+            |> takeUntil(cell.rac_prepareForReuseSignal.toSignalProducer() |> toNihil)
+    }
+}
+
+
 public let viewWillDisappearSelector = Selector("viewWillDisappear:")
+public typealias SimpleProxy = SignalProducer<Void, NoError>
+
+extension SignalProducer {
+    /**
+    Create a buffer of size 0. Use this with `SimpleProxy`.
+    
+    :returns: A buffer of size 0.
+    */
+    internal static func proxy() -> (SignalProducer, Signal<T, E>.Observer) {
+        return self.buffer(0)
+    }
+}

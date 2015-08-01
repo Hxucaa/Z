@@ -16,9 +16,9 @@ public final class FeaturedListViewController: XUIViewController {
 
     // MARK: - UI
     // MARK: Controls
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var nearbyButton: UIBarButtonItem!
-    @IBOutlet weak var profileButton: UIBarButtonItem!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var nearbyButton: UIBarButtonItem!
+    @IBOutlet private weak var profileButton: UIBarButtonItem!
     private let refreshControl = UIRefreshControl()
     
     // MARK: Properties
@@ -123,6 +123,9 @@ public final class FeaturedListViewController: XUIViewController {
     private func setupNearbyButton() {
         let pushNearby = Action<UIBarButtonItem, Void, NoError> { [weak self] button in
             return SignalProducer<Void, NoError> { [weak self] sink, disposable in
+                
+                self?.nearbyButton.enabled = false
+                
                 self?.viewmodel.pushNearbyModule()
                 sendCompleted(sink)
             }
@@ -152,6 +155,7 @@ public final class FeaturedListViewController: XUIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        nearbyButton.enabled = true
         willAppearTableView()
     }
     

@@ -9,7 +9,7 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol IUserService {
+public protocol IUserService : class {
     func isLoggedInAlready() -> Bool
     func currentLoggedInUser() -> SignalProducer<User, NSError>
     func signUp<T: User>(user: T) -> SignalProducer<Bool, NSError>

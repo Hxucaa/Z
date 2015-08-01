@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public struct SignUpViewModel {
+public final class SignUpViewModel {
     
     // MARK: - Public
     
@@ -56,7 +56,7 @@ public struct SignUpViewModel {
     private var validPasswordSignal: SignalProducer<String, NoError>!
     
     // MARK: Setup
-    private mutating func setupUsername() {
+    private func setupUsername() {
         // only allow usernames with:
         // - between 3 and 30 characters
         // - letters, numbers, dashes, periods, and underscores only
@@ -68,7 +68,7 @@ public struct SignUpViewModel {
             |> map { _ in true }
     }
     
-    private mutating func setupPassword() {
+    private func setupPassword() {
         // only allow passwords with:
         // - more than 8 characters
         // - letters, numbers, and most standard symbols

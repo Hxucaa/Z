@@ -11,18 +11,32 @@ import ReactiveCocoa
 
 public final class DetailPhoneWebTableViewCell: UITableViewCell {
 
-    // MARK: Controls
-    @IBOutlet weak var phoneButton: UIButton!
-    @IBOutlet weak var websiteButton: UIButton!
+    // MARK: - UI Controls
+    @IBOutlet private weak var phoneButton: UIButton!
+    @IBOutlet private weak var websiteButton: UIButton!
     
-    internal weak var delegate: DetailPhoneWebCellDelegate!
+    // MARK: - Proxies
+    private let (_presentWebViewProxy, _presentWebViewSink) = SignalProducer<UIViewController, NoError>.proxy()
+    public var presentWebViewProxy: SignalProducer<UIViewController, NoError> {
+        return _presentWebViewProxy
+    }
     
+    // MARK: - Properties
     private var viewmodel: DetailPhoneWebViewModel!
+    private let compositeDisposable = CompositeDisposable()
+    
+    // MARK: - Setups
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         
+        layoutMargins = UIEdgeInsetsZero
+        separatorInset = UIEdgeInsetsZero
+        
         // Initialization code
+        
+        setupWebsiteButton()
+        setupPhoneButton()
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {
@@ -30,25 +44,18 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    public func bindToViewModel(viewmodel: DetailPhoneWebViewModel) {
-        self.viewmodel = viewmodel
-        
-        setupWebsiteButton()
-        setupPhoneButton()
-    }
 
     private func setupWebsiteButton() {
-        websiteButton?.setTitle(viewmodel.webSiteDisplay.value, forState: .Normal)
         
         let goToWebsite = Action<UIButton, Void, NoError> { button in
             return self.viewmodel.webSiteURL.producer
-                |> filter { $0 != nil }
+                |> ignoreNil
                 |> map { url -> Void in
-                    let webVC = DetailWebViewViewController(url: url!, businessName: self.viewmodel.businessName.value)
+                    let webVC = DetailWebViewViewController(url: url, businessName: self.viewmodel.businessName.value)
                     let navController = UINavigationController()
                     navController.pushViewController(webVC, animated: true)
-                    self.delegate.presentWebView(navController)
+                    
+                    sendNext(self._presentWebViewSink, navController)
                 }
         }
         
@@ -56,12 +63,39 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
     }
     
     private func setupPhoneButton() {
-        phoneButton?.setTitle(viewmodel.phoneDisplay.value, forState: .Normal)
         
         let callPhone = Action<UIButton, Void, NoError> { button in
             return self.viewmodel.callPhone
         }
         
         phoneButton.addTarget(callPhone.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+    }
+    
+    deinit {
+        compositeDisposable.dispose()
+    }
+    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        compositeDisposable.dispose()
+    }
+    
+    // MARK: Bindings
+    
+    public func bindToViewModel(viewmodel: DetailPhoneWebViewModel) {
+        self.viewmodel = viewmodel
+        
+        compositeDisposable += self.viewmodel.phoneDisplay.producer
+            |> takeUntilPrepareForReuse(self)
+            |> start(next: { [weak self] phoneDisplay in
+                self?.phoneButton.setTitle(phoneDisplay, forState: .Normal)
+            })
+        
+        compositeDisposable += self.viewmodel.webSiteDisplay.producer
+            |> takeUntilPrepareForReuse(self)
+            |> start(next: { [weak self] websiteDisplay in
+                self?.websiteButton.setTitle(websiteDisplay, forState: .Normal)
+            })
     }
 }

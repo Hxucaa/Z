@@ -9,6 +9,7 @@
 import Foundation
 
 private let DetailViewControllerIdentifier = "DetailViewController"
+private let DetailStoryboardName = "Detail"
 
 public final class DetailWireframe : BaseWireframe, IDetailWireframe {
     
@@ -36,7 +37,7 @@ public final class DetailWireframe : BaseWireframe, IDetailWireframe {
     */
     private func injectViewModelToViewController(businessModel: Business) -> DetailViewController {
         // retrieve view controller from storyboard
-        let viewController = getViewControllerFromStoryboard(DetailViewControllerIdentifier) as! DetailViewController
+        let viewController = getViewControllerFromStoryboard(DetailViewControllerIdentifier, storyboardName: DetailStoryboardName) as! DetailViewController
         let detailViewModel = DetailViewModel(router: router, userService: userService, participationService: participationService, geoLocationService: geoLocationService, imageService: imageService, businessModel: businessModel)
         viewController.bindToViewModel(detailViewModel)
         

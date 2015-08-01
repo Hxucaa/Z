@@ -14,19 +14,21 @@ import ReactiveCocoa
 public final class WantToGoListViewCell : UITableViewCell, ReactiveTableCellView {
     
     // MARK: - UI Controls
-    @IBOutlet weak var profilePicture: UIImageView!
-    @IBOutlet weak var displayName: UILabel!
-    @IBOutlet weak var horoscope: UILabel!
-    @IBOutlet weak var ageGroup: UILabel!
+    @IBOutlet private weak var profilePicture: UIImageView!
+    @IBOutlet private weak var displayName: UILabel!
+    @IBOutlet private weak var horoscope: UILabel!
+    @IBOutlet private weak var ageGroup: UILabel!
     
-    // MARK: Private Variables
+    // MARK: - Properties
     private var viewmodel: WantToGoViewModel!
     
+    // MARK: - Setups
     public override func awakeFromNib() {
         profilePicture.layer.cornerRadius = profilePicture.frame.size.height / 2
         profilePicture.layer.masksToBounds = true
     }
     
+    // MARK: - Bindings
     public func bindViewModel(viewmodel: ReactiveTableCellViewModel) {
         self.viewmodel = viewmodel as! WantToGoViewModel
         
@@ -35,6 +37,7 @@ public final class WantToGoListViewCell : UITableViewCell, ReactiveTableCellView
         ageGroup.rac_text    <~ self.viewmodel.ageGroup
         
         self.viewmodel.profilePicture.producer
+            |> takeUntilPrepareForReuse(self)
             |> ignoreNil
             |> start (next: {
                 self.profilePicture.setImageWithAnimation($0)

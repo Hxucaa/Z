@@ -9,6 +9,6 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol IImageService {
+public protocol IImageService : class {
     func getImage(url: NSURL) -> SignalProducer<UIImage, NSError>
 }
