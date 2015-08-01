@@ -51,12 +51,34 @@ public final class LandingPageView : UIView {
     
     
     // MARK: Properties
-    private var viewmodel: LandingPageViewModel!
+    private let viewmodel = MutableProperty<LandingPageViewModel?>(nil)
+    private let compositeDisposable = CompositeDisposable()
     
     // MARK: Setups
     
     public override func awakeFromNib() {
         super.awakeFromNib()
+        
+        compositeDisposable += viewmodel.producer
+            |> ignoreNil
+            |> start(next: { [weak self] viewmodel in
+                if viewmodel.rePrompt {
+                    let rePromptButtonsView = UINib(nibName: RePromptButtonsViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UIView
+                    self?.addSubview(rePromptButtonsView)
+                    self?.addConstraintsToButtonsView(rePromptButtonsView)
+                }
+                else {
+                    let startUpButtonsView = UINib(nibName: StartUpButtonsViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UIView
+                    self?.addSubview(startUpButtonsView)
+                    self?.addConstraintsToButtonsView(startUpButtonsView)
+                }
+                
+                self?.setupLoginButton()
+                self?.setupSignUpButton()
+                self?.setupSkipButton()
+                self?.setupDividerLabel()
+                
+            })
         
     }
     
@@ -117,28 +139,13 @@ public final class LandingPageView : UIView {
     }
     
     deinit {
+        compositeDisposable.dispose()
         AccountLogVerbose("Landing Page View deinitializes.")
     }
     
     // MARK: - Bindings
     public func bindToViewModel(viewmodel: LandingPageViewModel) {
-        self.viewmodel = viewmodel
-        
-        if self.viewmodel.rePrompt {
-            let rePromptButtonsView = UINib(nibName: RePromptButtonsViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UIView
-            addSubview(rePromptButtonsView)
-            addConstraintsToButtonsView(rePromptButtonsView)
-        }
-        else {
-            let startUpButtonsView = UINib(nibName: StartUpButtonsViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UIView
-            addSubview(startUpButtonsView)
-            addConstraintsToButtonsView(startUpButtonsView)
-        }
-        
-        setupLoginButton()
-        setupSignUpButton()
-        setupSkipButton()
-        setupDividerLabel()
+        self.viewmodel.put(viewmodel)
     }
     
     // MARK: - Others
