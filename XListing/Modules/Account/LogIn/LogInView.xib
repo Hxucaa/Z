@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -162,13 +162,13 @@
                 <constraint firstItem="zlf-9M-Rcj" firstAttribute="top" secondItem="0Mq-lA-gcy" secondAttribute="bottom" constant="-382" id="Ipc-9T-kzo"/>
                 <constraint firstItem="zlf-9M-Rcj" firstAttribute="centerX" secondItem="0Mq-lA-gcy" secondAttribute="centerX" id="MGO-Hc-0S7"/>
                 <constraint firstAttribute="bottom" secondItem="zlf-9M-Rcj" secondAttribute="bottom" id="Qan-df-vcC"/>
+                <constraint firstItem="Mza-gN-rrh" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Qus-Ze-4hz"/>
                 <constraint firstItem="zlf-9M-Rcj" firstAttribute="centerX" secondItem="0Mq-lA-gcy" secondAttribute="centerX" id="UDp-nI-3sh"/>
                 <constraint firstAttribute="trailing" secondItem="zlf-9M-Rcj" secondAttribute="trailing" id="VfD-fL-kpi"/>
-                <constraint firstItem="zlf-9M-Rcj" firstAttribute="leading" secondItem="Mza-gN-rrh" secondAttribute="trailing" constant="-39" id="WpC-Bj-HLL"/>
                 <constraint firstItem="zlf-9M-Rcj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="32" id="Z70-qj-Edn"/>
-                <constraint firstItem="zlf-9M-Rcj" firstAttribute="top" secondItem="Mza-gN-rrh" secondAttribute="bottom" constant="-56" id="c51-EF-QJf"/>
                 <constraint firstItem="zlf-9M-Rcj" firstAttribute="centerX" secondItem="0Mq-lA-gcy" secondAttribute="centerX" id="gSL-fe-7Yr"/>
                 <constraint firstItem="zlf-9M-Rcj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="hmx-lt-G29"/>
+                <constraint firstItem="Mza-gN-rrh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="i6p-NX-QEN"/>
                 <constraint firstItem="Mza-gN-rrh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="26" id="mNg-96-63T"/>
                 <constraint firstItem="zlf-9M-Rcj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qxh-iK-MUF"/>
                 <constraint firstItem="zlf-9M-Rcj" firstAttribute="top" secondItem="0Mq-lA-gcy" secondAttribute="bottom" constant="-382" id="ujW-rg-HTt"/>
@@ -190,8 +190,6 @@
             </variation>
             <variation key="heightClass=regular-widthClass=compact">
                 <mask key="constraints">
-                    <exclude reference="WpC-Bj-HLL"/>
-                    <exclude reference="c51-EF-QJf"/>
                     <include reference="6jy-GC-o41"/>
                     <include reference="mNg-96-63T"/>
                 </mask>
