@@ -55,6 +55,18 @@ public func takeUntilPrepareForReuse<T, E>(view: MKAnnotationView) -> SignalProd
 }
 
 /**
+Forwards events until the view will disappear.
+
+:param: view A UIViewController.
+*/
+public func takeUntilViewWillDisappear<T, U: UIViewController, E>(view: U) -> SignalProducer<T, E> -> SignalProducer<T, E> {
+    return { producer in
+        return producer
+            |> takeUntil(view.rac_viewWillDisappear.toSignalProducer() |> toNihil)
+    }
+}
+
+/**
 Log the life cycle of a signal, including `started`, `completed`, `interrupted`, `terminated`, and `disposed`.
 
 :param: module     The module which the signal is located at.
@@ -75,6 +87,7 @@ public func logLifeCycle<T, E>(context: LogContext, signalName: String, file: St
         case .Nearby: NearbyLogVerbose(message, file: file, function: function, line: line)
         case .Featured: FeaturedLogVerbose(message, file: file, function: function, line: line)
         case .Profile: ProfileLogVerbose(message, file: file, function: function, line: line)
+        case .WantToGo: WTGLogVerbose(message, file: file, function: function, line: line)
         case .Other: DDLogVerbose(message, file: file, function: function, line: line)
         }
     }
@@ -101,7 +114,6 @@ public func logLifeCycle<T, E>(context: LogContext, signalName: String, file: St
     }
 }
 
-public let viewWillDisappearSelector = Selector("viewWillDisappear:")
 public typealias SimpleProxy = SignalProducer<Void, NoError>
 
 extension SignalProducer {

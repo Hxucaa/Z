@@ -61,6 +61,7 @@ public final class NearbyViewController: XUIViewController {
         
         // set the initial view region based on current location
         compositeDisposable += viewmodel.currentLocation
+            |> logLifeCycle(LogContext.Nearby, "viewmodel.currentLocation")
             |> start(next: { [weak self] location in
                 let span = MapViewSpan
                 let region = MKCoordinateRegion(center: location.coordinate, span: span)
@@ -111,10 +112,8 @@ public final class NearbyViewController: XUIViewController {
         
         // add annotation to map view
         compositeDisposable += viewmodel.businessViewModelArr.producer
-            |> takeUntil(
-                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Nearby, "viewmodel.businessViewModelArr.producer")
             |> start(next: { [weak self] businessArr in
                 self?.businessCollectionView.reloadData()
                 self?.mapView.addAnnotations(businessArr.map { $0.annotation.value })
@@ -125,62 +124,55 @@ public final class NearbyViewController: XUIViewController {
         // when annotation is added to the mapview, this signal receives the next event
         compositeDisposable += rac_signalForSelector(Selector("mapView:didAddAnnotationViews:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntil(
-                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilViewWillDisappear(self)
             |> map { ($0 as! RACTuple).second as! [MKAnnotationView] }
-            |> start(
-                next: { [weak self] annotationViews in
-                    // iterate over annotation view and add tap gesture recognizer to each
-                    $.each(annotationViews, callback: { (index, view) -> () in
-                        
-                        // add tap gesture recognizer to annotation view
-                        let tapGesture = UITapGestureRecognizer()
-                        view.addGestureRecognizer(tapGesture)
-                        
-                        // listen to the gesture signal
-                        self?.compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
-                            // forwards events from the producer until the annotation view is prepared to be reused
-                            |> takeUntilPrepareForReuse(view)
-                            |> start(
-                                next: { _ in
-                                    if let this = self, mapView = self?.mapView {
-                                        let annotation = view.annotation
-                                        
-                                        // center the map on the annotation if it is not already in view
-                                        let visibleAnnotations = mapView.annotationsInMapRect(mapView.visibleMapRect)
-                                        if let anno = annotation as? NSObject where !visibleAnnotations.contains(anno) {
-                                            mapView.setCenterCoordinate(annotation.coordinate, animated: true)
-                                        }
-                                        
-                                        // find the index of the business
-                                        let index = $.findIndex(this.viewmodel.businessViewModelArr.value) { business in
-                                            if let anno = annotation as? MKPointAnnotation {
-                                                return business.annotation.value == anno
-                                            }
-                                            else {
-                                                return false
-                                            }
-                                        }
-                                        
-                                        if let index = index {
-                                            
-                                            // Construct the index path. Note that the collection only has ONE row.
-                                            let indexPath = NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: index)
-                                            
-                                            // scroll to that business in the collection view.
-                                            this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
-                                        }
+            |> logLifeCycle(LogContext.Nearby, "mapView:didAddAnnotationViews:")
+            |> start(next: { [weak self] annotationViews in
+                
+                // iterate over annotation view and add tap gesture recognizer to each
+                $.each(annotationViews, callback: { (index, view) -> () in
+                    
+                    // add tap gesture recognizer to annotation view
+                    let tapGesture = UITapGestureRecognizer()
+                    view.addGestureRecognizer(tapGesture)
+                    
+                    // listen to the gesture signal
+                    self?.compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
+                        // forwards events from the producer until the annotation view is prepared to be reused
+                        |> takeUntilPrepareForReuse(view)
+//                        |> logLifeCycle(LogContext.Nearby, "\(typeNameAndAddress(view)) tapGesture")
+                        |> start(next: { _ in
+                            if let this = self, mapView = self?.mapView {
+                                let annotation = view.annotation
+                                
+                                // center the map on the annotation if it is not already in view
+                                let visibleAnnotations = mapView.annotationsInMapRect(mapView.visibleMapRect)
+                                if let anno = annotation as? NSObject where !visibleAnnotations.contains(anno) {
+                                    mapView.setCenterCoordinate(annotation.coordinate, animated: true)
+                                }
+                                
+                                // find the index of the business
+                                let index = $.findIndex(this.viewmodel.businessViewModelArr.value) { business in
+                                    if let anno = annotation as? MKPointAnnotation {
+                                        return business.annotation.value == anno
+                                    }
+                                    else {
+                                        return false
                                     }
                                 }
-                            )
-                    })
-                },
-                completed: {
-                    NearbyLogVerbose("didSelectAnnotationView signal completes.")
-                }
-            )
+                                
+                                if let index = index {
+                                    
+                                    // Construct the index path. Note that the collection only has ONE row.
+                                    let indexPath = NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: index)
+                                    
+                                    // scroll to that business in the collection view.
+                                    this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+                                }
+                            }
+                        })
+                })
+            })
     }
     
     private func setupBusinessCollectionView() {
@@ -188,29 +180,22 @@ public final class NearbyViewController: XUIViewController {
         // This replaces the need to implement the function from the delegate
         compositeDisposable += rac_signalForSelector(Selector("collectionView:didSelectItemAtIndexPath:"), fromProtocol: UICollectionViewDelegate.self).toSignalProducer()
             // Completes the signal when the view controller disappears
-            |> takeUntil(
-                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilViewWillDisappear(self)
             // Map the value obtained from signal to the desired one
             |> map { ($0 as! RACTuple).second as! NSIndexPath }
+            |> logLifeCycle(LogContext.Nearby, "collectionView:didSelectItemAtIndexPath:")
             |> start(
                 next: { [weak self] indexPath in
                     self?.viewmodel.pushDetailModule(indexPath.section)
-                },
-                completed: {
-                    NearbyLogVerbose("didSelectItemAtIndexPath signal completes.")
                 }
             )
         
         compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndScrollingAnimation:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
             
             // Completes the signal when the view controller disappears
-            |> takeUntil(
-                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilViewWillDisappear(self)
             |> map { ($0 as! RACTuple).first as! UIScrollView }
+            |> logLifeCycle(LogContext.Nearby, "scrollViewDidEndScrollingAnimation:")
             |> start(
                 next: { [weak self] scrollView in
                     if let

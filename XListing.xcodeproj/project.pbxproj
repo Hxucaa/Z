@@ -145,6 +145,7 @@
 		B4F38AC41B4DF8D10018F9E3 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F38AC21B4DF8D10018F9E3 /* ReactiveCocoa.framework */; };
 		B4F4AF801B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AF7F1B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift */; };
 		B4F4AF821B6B000000ABA176 /* DetailParticipationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AF811B6B000000ABA176 /* DetailParticipationViewModel.swift */; };
+		B4F4AFDE1B6EC70700ABA176 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AFDD1B6EC70700ABA176 /* Misc.swift */; };
 		B4F6DB671B647BCA00DB31D4 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F6DB661B647BCA00DB31D4 /* Detail.storyboard */; };
 		B4FC6B211B678515001F13E9 /* NSObject+Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FC6B201B678515001F13E9 /* NSObject+Swift.m */; };
 		B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */; };
@@ -315,6 +316,7 @@
 		B4F38AC21B4DF8D10018F9E3 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		B4F4AF7F1B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailParticipationTableViewCell.swift; sourceTree = "<group>"; };
 		B4F4AF811B6B000000ABA176 /* DetailParticipationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailParticipationViewModel.swift; sourceTree = "<group>"; };
+		B4F4AFDD1B6EC70700ABA176 /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		B4F6DB661B647BCA00DB31D4 /* Detail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
 		B4FC6B201B678515001F13E9 /* NSObject+Swift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swift.m"; sourceTree = "<group>"; };
 		B4FC6B221B678541001F13E9 /* NSObject+Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Swift.h"; sourceTree = "<group>"; };
@@ -618,6 +620,7 @@
 				B41334F01B60F8B900B5F22D /* ReactiveCocoa+extension.swift */,
 				B4FC6B201B678515001F13E9 /* NSObject+Swift.m */,
 				B4FC6B221B678541001F13E9 /* NSObject+Swift.h */,
+				B4F4AFDD1B6EC70700ABA176 /* Misc.swift */,
 			);
 			name = Utility;
 			path = Common/Utility;
@@ -1220,6 +1223,7 @@
 				2A714B121B085C63007A8FBB /* AccountViewController.swift in Sources */,
 				B4F195AF1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift in Sources */,
 				B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */,
+				B4F4AFDE1B6EC70700ABA176 /* Misc.swift in Sources */,
 				3D211E861B2C1AB000161E09 /* IBackgroundLocationWorker.swift in Sources */,
 				B4F195A11B2AA47300B8C519 /* FeaturedRoute.swift in Sources */,
 				7E01738E1B1525DB002E154B /* EditProfileTableViewController.swift in Sources */,

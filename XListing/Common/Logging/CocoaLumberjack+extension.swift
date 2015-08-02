@@ -59,6 +59,7 @@ public enum LogContext : Int {
     case Nearby = 320
     case Featured = 330
     case Profile = 340
+    case WantToGo = 350
     case Other = 0
 }
 
@@ -303,6 +304,32 @@ public func ProfileLogVerbose(@autoclosure(escaping) logText: () -> String, leve
 
 public func ProfileLogError(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
     SwiftLogMacro(async, level, flag: .Error, context: .Profile, file: file, function: function, line: line, string: logText)
+}
+
+/********************************
+*                               *
+*       WantToGo                *
+*                               *
+*********************************/
+
+public func WTGLogDebug(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Debug, context: .WantToGo, file: file, function: function, line: line, string: logText)
+}
+
+public func WTGLogInfo(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Info, context: .WantToGo, file: file, function: function, line: line, string: logText)
+}
+
+public func WTGLogWarning(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Warning, context: .WantToGo, file: file, function: function, line: line, string: logText)
+}
+
+public func WTGLogVerbose(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Verbose, context: .WantToGo, file: file, function: function, line: line, string: logText)
+}
+
+public func WTGLogError(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Error, context: .WantToGo, file: file, function: function, line: line, string: logText)
 }
 
 /// Analogous to the C preprocessor macro THIS_FILE

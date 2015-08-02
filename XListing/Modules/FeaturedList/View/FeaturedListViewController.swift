@@ -34,6 +34,8 @@ public final class FeaturedListViewController: XUIViewController {
         setupRefresh()
         setupNearbyButton()
         setupProfileButton()
+        
+        tableView.dataSource = self
     }
 
     public override func didReceiveMemoryWarning() {
@@ -155,10 +157,7 @@ public final class FeaturedListViewController: XUIViewController {
         // when the specified row is now selected
         compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntil(
-                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilViewWillDisappear(self)
             |> map { ($0 as! RACTuple).second as! NSIndexPath }
             |> logLifeCycle(LogContext.Featured, "tableView:didSelectRowAtIndexPath:")
             |> start(
@@ -170,10 +169,7 @@ public final class FeaturedListViewController: XUIViewController {
         
         compositeDisposable += viewmodel.featuredBusinessViewModelArr.producer
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntil(
-                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.Featured, "viewmodel.featuredBusinessViewModelArr.producer")
             |> start(
                 next: { [weak self] _ in
@@ -194,7 +190,6 @@ public final class FeaturedListViewController: XUIViewController {
         The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
         */
         tableView.delegate = self
-        tableView.dataSource = self
     }
     
     // MARK: Bindings
