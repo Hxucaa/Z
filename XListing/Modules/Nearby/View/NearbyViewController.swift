@@ -57,6 +57,8 @@ public final class NearbyViewController: XUIViewController {
         
         businessCollectionView.pagingEnabled = true
         
+        setupProfileButton()
+        
         // set the initial view region based on current location
         compositeDisposable += viewmodel.currentLocation
             |> start(next: { [weak self] location in
@@ -69,7 +71,6 @@ public final class NearbyViewController: XUIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        setupProfileButton()
         setupMapView()
         setupBusinessCollectionView()
     }
