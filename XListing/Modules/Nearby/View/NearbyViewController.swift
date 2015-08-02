@@ -99,7 +99,9 @@ public final class NearbyViewController: XUIViewController {
         // set the view region
         compositeDisposable += viewmodel.currentLocation
             |> start(next: { [weak self] location in
-                self?.centerOnLocation(location.coordinate, animated: false)
+                let span = MapViewSpan
+                let region = MKCoordinateRegion(center: location.coordinate, span: span)
+                self?.mapView.setRegion(region, animated: false)
             })
         
         // track user movement
@@ -144,7 +146,7 @@ public final class NearbyViewController: XUIViewController {
                                     if let this = self {
                                         let annotation = view.annotation
                                         // center the map on the annotation
-                                        this.centerOnLocation(annotation.coordinate, animated: true)
+                                        this.mapView.setCenterCoordinate(annotation.coordinate, animated: true)
                                         
                                         // find the index of the business
                                         let index = $.findIndex(this.viewmodel.businessViewModelArr.value) { business in
@@ -223,7 +225,7 @@ public final class NearbyViewController: XUIViewController {
                             this.mapView.selectAnnotation(annotation, animated: true)
                             
                             // Center the map on the annotation
-                            this.centerOnLocation(annotation.coordinate, animated: true)
+                            this.mapView.setCenterCoordinate(annotation.coordinate, animated: true)
                     }
                 }
             )
@@ -254,22 +256,9 @@ public final class NearbyViewController: XUIViewController {
     }
     
     // MARK: Others
-    
-    /**
-    Center the map to a location.
-    
-    :param: coordinate The coordinates.
-    :param: animated   Turn on or off animation.
-    */
-    private func centerOnLocation(coordinate: CLLocationCoordinate2D, animated: Bool) {
-        let span = MapViewSpan
-        let region = MKCoordinateRegion(center: coordinate, span: span)
-        mapView.setRegion(region, animated: animated)
-    }
-    
 }
 
-extension NearbyViewController : UICollectionViewDataSource, UIScrollViewDelegate {
+extension NearbyViewController : UICollectionViewDataSource {
     
     
     /**
@@ -310,6 +299,9 @@ extension NearbyViewController : UICollectionViewDataSource, UIScrollViewDelegat
         
         return cell
     }
+}
+
+extension NearbyViewController : UIScrollViewDelegate {
     
     /**
     Tells the delegate when the user scrolls the content view within the receiver.
@@ -323,6 +315,7 @@ extension NearbyViewController : UICollectionViewDataSource, UIScrollViewDelegat
         // Use the objective-C API to manually call the function indicating an end of scrolling.
         swift_performSelector("scrollViewDidEndScrollingAnimation:", withObject: scrollView, afterDelay: 0.1)
     }
+    
 }
 
 extension NearbyViewController : UICollectionViewDelegateFlowLayout {
