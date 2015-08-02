@@ -70,7 +70,6 @@ public final class ProfileEditViewController: XUIViewController {
     
     public override func viewWillDisappear(animated: Bool) {
         // dispose signals before view is disappeared
-        compositeDisposable.dispose()
         view.endEditing(true)
     }
     
@@ -120,7 +119,6 @@ public final class ProfileEditViewController: XUIViewController {
     private func setupKeyboard() {
         compositeDisposable += Keyboard.willShowNotification
             // forwards events until the view is going to disappear
-            |> takeUntilViewWillDisappear(self)
             |> start(
                 next: { [weak self] _ in
                     var contentInsets:UIEdgeInsets
@@ -137,7 +135,6 @@ public final class ProfileEditViewController: XUIViewController {
         
         compositeDisposable += Keyboard.willHideNotification
             // forwards events until the view is going to disappear
-            |> takeUntilViewWillDisappear(self)
             |> start(
                 next: { [weak self] _ in
                     
@@ -146,6 +143,11 @@ public final class ProfileEditViewController: XUIViewController {
                     self?.shouldAdjustForKeyboard = false
                 }
             )
+    }
+    
+    deinit {
+        compositeDisposable.dispose()
+        ProfileLogVerbose("ProfileEditViewController deinitializes")
     }
     
     // MARK: Actions
