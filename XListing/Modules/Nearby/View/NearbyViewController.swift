@@ -53,13 +53,21 @@ public final class NearbyViewController: XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        
         businessCollectionView.pagingEnabled = true
+        
+        // set the initial view region based on current location
+        compositeDisposable += viewmodel.currentLocation
+            |> start(next: { [weak self] location in
+                let span = MapViewSpan
+                let region = MKCoordinateRegion(center: location.coordinate, span: span)
+                self?.mapView.setRegion(region, animated: false)
+            })
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        navigationController?.setNavigationBarHidden(false, animated: false)
         
         setupProfileButton()
         setupMapView()
@@ -96,20 +104,16 @@ public final class NearbyViewController: XUIViewController {
     */
     private func setupMapView() {
         
-        // set the view region
-        compositeDisposable += viewmodel.currentLocation
-            |> start(next: { [weak self] location in
-                let span = MapViewSpan
-                let region = MKCoordinateRegion(center: location.coordinate, span: span)
-                self?.mapView.setRegion(region, animated: false)
-            })
-        
         // track user movement
         // not tracking user movement beacause it can be a battery hog
 //        mapView.setUserTrackingMode(.Follow, animated: false)
         
         // add annotation to map view
         compositeDisposable += viewmodel.businessViewModelArr.producer
+            |> takeUntil(
+                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
+                    |> toNihil
+            )
             |> start(next: { [weak self] businessArr in
                 self?.businessCollectionView.reloadData()
                 self?.mapView.addAnnotations(businessArr.map { $0.annotation.value })
@@ -137,10 +141,7 @@ public final class NearbyViewController: XUIViewController {
                         // listen to the gesture signal
                         self?.compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
                             // forwards events from the producer until the annotation view is prepared to be reused
-                            |> takeUntil(
-                                view.rac_prepareForReuseSignal.toSignalProducer()
-                                    |> toNihil
-                            )
+                            |> takeUntilPrepareForReuse(view)
                             |> start(
                                 next: { _ in
                                     if let this = self {
