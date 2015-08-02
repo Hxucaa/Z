@@ -144,10 +144,14 @@ public final class NearbyViewController: XUIViewController {
                             |> takeUntilPrepareForReuse(view)
                             |> start(
                                 next: { _ in
-                                    if let this = self {
+                                    if let this = self, mapView = self?.mapView {
                                         let annotation = view.annotation
-                                        // center the map on the annotation
-                                        this.mapView.setCenterCoordinate(annotation.coordinate, animated: true)
+                                        
+                                        // center the map on the annotation if it is not already in view
+                                        let visibleAnnotations = mapView.annotationsInMapRect(mapView.visibleMapRect)
+                                        if let anno = annotation as? NSObject where !visibleAnnotations.contains(anno) {
+                                            mapView.setCenterCoordinate(annotation.coordinate, animated: true)
+                                        }
                                         
                                         // find the index of the business
                                         let index = $.findIndex(this.viewmodel.businessViewModelArr.value) { business in
@@ -210,6 +214,7 @@ public final class NearbyViewController: XUIViewController {
                 next: { [weak self] scrollView in
                     if let
                         this = self,
+                        mapView = self?.mapView,
                         collectionView = scrollView as? UICollectionView,
                         visibleCells = collectionView.visibleCells() as? [UICollectionViewCell],
                         lastCell = visibleCells.last,
@@ -223,10 +228,13 @@ public final class NearbyViewController: XUIViewController {
                             let annotation = business.annotation.value
                             
                             // Select the annotation
-                            this.mapView.selectAnnotation(annotation, animated: true)
+                            mapView.selectAnnotation(annotation, animated: true)
                             
-                            // Center the map on the annotation
-                            this.mapView.setCenterCoordinate(annotation.coordinate, animated: true)
+                            // center the map on the annotation if it is not already in view
+                            let visibleAnnotations = mapView.annotationsInMapRect(mapView.visibleMapRect)
+                            if !visibleAnnotations.contains(annotation) {
+                                mapView.setCenterCoordinate(annotation.coordinate, animated: true)
+                            }
                     }
                 }
             )
