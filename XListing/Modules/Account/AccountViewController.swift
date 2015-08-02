@@ -67,6 +67,7 @@ public final class AccountViewController: XUIViewController {
         landingPageView.bindToViewModel(viewmodel.landingPageViewModel)
         
         compositeDisposable += landingPageView.skipProxy
+            |> logLifeCycle(LogContext.Account, "landingPageView.skipProxy")
             |> start(next: { [weak self] in
                 self?.viewmodel.skipAccount({
                     self?.navigationController?.setNavigationBarHidden(true, animated: false)
@@ -76,6 +77,7 @@ public final class AccountViewController: XUIViewController {
             })
         
         compositeDisposable += landingPageView.loginProxy
+            |> logLifeCycle(LogContext.Account, "landingPageView.loginProxy")
             |> start(next: { [weak self] in
                 if let this = self {
                     // transition to log in view
@@ -84,6 +86,7 @@ public final class AccountViewController: XUIViewController {
             })
         
         compositeDisposable += landingPageView.signUpProxy
+            |> logLifeCycle(LogContext.Account, "landingPageView.signUpProxy")
             |> start(next: { [weak self] in
                 if let this = self {
                     // transition to sign up view
@@ -96,6 +99,7 @@ public final class AccountViewController: XUIViewController {
         logInView.bindToViewModel(viewmodel.logInViewModel)
         
         compositeDisposable += logInView.goBackProxy
+            |> logLifeCycle(LogContext.Account, "landingPageView.goBackProxy")
             |> start(next: { [weak self] in
                 if let this = self {
                     // transition to landing page view
@@ -104,6 +108,7 @@ public final class AccountViewController: XUIViewController {
             })
         
         compositeDisposable += logInView.finishLoginProxy
+            |> logLifeCycle(LogContext.Account, "landingPageView.finishLoginProxy")
             |> start(next: { [weak self] in
                 if self?.viewmodel.gotoNextModuleCallback == nil {
                     self?.viewmodel.pushFeaturedModule()

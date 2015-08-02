@@ -34,6 +34,8 @@ public final class FeaturedListViewController: XUIViewController {
         setupRefresh()
         setupNearbyButton()
         setupProfileButton()
+        
+        tableView.dataSource = self
     }
 
     public override func didReceiveMemoryWarning() {
@@ -155,19 +157,9 @@ public final class FeaturedListViewController: XUIViewController {
         // when the specified row is now selected
         compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntil(
-                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilViewWillDisappear(self)
             |> map { ($0 as! RACTuple).second as! NSIndexPath }
-            |> on(
-                started: {
-                    FeaturedLogVerbose("`tableView:didSelectRowAtIndexPath:` signal started.")
-                },
-                completed: {
-                    FeaturedLogVerbose("`tableView:didSelectRowAtIndexPath:` signal completed.")
-                }
-            )
+            |> logLifeCycle(LogContext.Featured, "tableView:didSelectRowAtIndexPath:")
             |> start(
                 next: { [weak self] indexPath in
                     self?.viewmodel.pushDetailModule(indexPath.row)
@@ -177,18 +169,8 @@ public final class FeaturedListViewController: XUIViewController {
         
         compositeDisposable += viewmodel.featuredBusinessViewModelArr.producer
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntil(
-                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
-                    |> toNihil
-            )
-            |> on(
-                started: {
-                    FeaturedLogVerbose("`viewmodel.featuredBusinessViewModelArr.producer` signal started.")
-                },
-                completed: {
-                    FeaturedLogVerbose("`viewmodel.featuredBusinessViewModelArr.producer` signal completed.")
-                }
-            )
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Featured, "viewmodel.featuredBusinessViewModelArr.producer")
             |> start(
                 next: { [weak self] _ in
                     self?.tableView.reloadData()
@@ -208,7 +190,6 @@ public final class FeaturedListViewController: XUIViewController {
         The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
         */
         tableView.delegate = self
-        tableView.dataSource = self
     }
     
     // MARK: Bindings
