@@ -21,27 +21,38 @@ public func toNihil<T, E>(producer: SignalProducer<T, E>) -> SignalProducer<Void
 /**
 Forwards events until the cell is being prepared for reuse.
 
-:param: cell A UITableViewCell.
+:param: view A UITableViewCell.
 */
-public func takeUntilPrepareForReuse<T, E>(cell: UITableViewCell) -> SignalProducer<T, E> -> SignalProducer<T, E> {
+public func takeUntilPrepareForReuse<T, E>(view: UITableViewCell) -> SignalProducer<T, E> -> SignalProducer<T, E> {
     return { producer in
         return producer
-            |> takeUntil(cell.rac_prepareForReuseSignal.toSignalProducer() |> toNihil)
+            |> takeUntil(view.rac_prepareForReuseSignal.toSignalProducer() |> toNihil)
     }
 }
 
 /**
 Forwards events until the cell is being prepared for reuse.
 
-:param: cell A UICollectionViewCell.
+:param: view A UICollectionViewCell.
 */
-public func takeUntilPrepareForReuse<T, E>(cell: UICollectionReusableView) -> SignalProducer<T, E> -> SignalProducer<T, E> {
+public func takeUntilPrepareForReuse<T, E>(view: UICollectionReusableView) -> SignalProducer<T, E> -> SignalProducer<T, E> {
     return { producer in
         return producer
-            |> takeUntil(cell.rac_prepareForReuseSignal.toSignalProducer() |> toNihil)
+            |> takeUntil(view.rac_prepareForReuseSignal.toSignalProducer() |> toNihil)
     }
 }
 
+/**
+Forwards events until the view is being prepared for reuse.
+
+:param: view A UICollectionViewCell.
+*/
+public func takeUntilPrepareForReuse<T, E>(view: MKAnnotationView) -> SignalProducer<T, E> -> SignalProducer<T, E> {
+    return { producer in
+        return producer
+            |> takeUntil(view.rac_prepareForReuseSignal.toSignalProducer() |> toNihil)
+    }
+}
 
 public let viewWillDisappearSelector = Selector("viewWillDisappear:")
 public typealias SimpleProxy = SignalProducer<Void, NoError>
