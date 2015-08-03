@@ -10,12 +10,14 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public struct FeaturedBusinessViewModel {
+public final class FeaturedBusinessViewModel {
+    
     public let businessName: ConstantProperty<String>
     public let city: ConstantProperty<String>
     public let eta: MutableProperty<String> = MutableProperty("")
     public let district: ConstantProperty<String>
     public let coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
+    public let isCoverImageConsumed = MutableProperty<Bool>(false)
     public let participation: MutableProperty<String> = MutableProperty("")
     
     public init(geoLocationService: IGeoLocationService, imageService: IImageService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int) {
@@ -43,10 +45,12 @@ public struct FeaturedBusinessViewModel {
         
         participation.put("\(participationCount)+ 人想去")
         
-        imageService.getImage(NSURL(string: "http://lasttear.com/wp-content/uploads/2015/03/interior-design-ideas-furniture-architecture-mesmerizing-chinese-restaurant-interior-with-red-nuance-inspiring.jpg")!)
-            |> start(next: {
-                self.coverImage.put($0)
-            })
+        if let url = cover?.url, nsurl = NSURL(string: url) {
+            self.imageService.getImage(nsurl)
+                |> start(next: {
+                    self.coverImage.put($0)
+                })
+        }
     }
     
     // MARK: - Private
