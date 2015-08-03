@@ -57,7 +57,6 @@
 		45CBBDCF399C77A93D0B1C1E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB2272E6DA7ED3BDD24AE /* ProfileViewModel.swift */; };
 		6355331D984FC626C0650774 /* Pods_XListing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		7E0173881B146473002E154B /* EditInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E0173871B146473002E154B /* EditInfoView.xib */; };
-		7E01738E1B1525DB002E154B /* EditProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E01738D1B1525DB002E154B /* EditProfileTableViewController.swift */; };
 		7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */; };
 		7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */; };
 		7EACBA111AFBDC15009D8CA6 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */; };
@@ -235,7 +234,6 @@
 		45CBB6EB1EBF881F9EB25C64 /* IProfileWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IProfileWireframe.swift; sourceTree = "<group>"; };
 		45CBB717784EC301CD7D042E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7E0173871B146473002E154B /* EditInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditInfoView.xib; sourceTree = "<group>"; };
-		7E01738D1B1525DB002E154B /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
 		7E3A1C021B1EF84500E84ABE /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = "Pods/../build/Debug-iphoneos/Pods-XListing/CocoaLumberjack.framework"; sourceTree = "<group>"; };
 		7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CocoaLumberjack+extension.swift"; sourceTree = "<group>"; };
 		7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewController.swift; sourceTree = "<group>"; };
@@ -491,7 +489,6 @@
 		45CBB2A7EC837F83DD1CB032 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7E01738D1B1525DB002E154B /* EditProfileTableViewController.swift */,
 				45CBB717784EC301CD7D042E /* ProfileViewController.swift */,
 				7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */,
 				26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */,
@@ -1286,7 +1283,6 @@
 				3D211E861B2C1AB000161E09 /* IBackgroundLocationWorker.swift in Sources */,
 				B4F195A11B2AA47300B8C519 /* FeaturedRoute.swift in Sources */,
 				2612CB951B628A9C007BFC33 /* GenderPicker.swift in Sources */,
-				7E01738E1B1525DB002E154B /* EditProfileTableViewController.swift in Sources */,
 				B48C99121ADA56F70045BCA9 /* NearbyViewController.swift in Sources */,
 				B4F195A91B2B9EC400B8C519 /* DetailImageViewModel.swift in Sources */,
 				B47E15C61B181E160028E07E /* BackgroundOperationsWorkerFactory.swift in Sources */,

@@ -14,14 +14,14 @@ protocol PhoneEmailCellTableViewCellDelegate : class {
 
 public final class PhoneEmailTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var icon: UILabel!
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet private weak var icon: UILabel!
+    @IBOutlet private weak var textField: UITextField!
     internal weak var delegate: PhoneEmailCellTableViewCellDelegate!
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.textField.delegate = self
+        textField.delegate = self
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {
@@ -31,25 +31,25 @@ public final class PhoneEmailTableViewCell: UITableViewCell {
     
     public func initialize(type: String) {
         if type == "Phone" {
-            self.textField.keyboardType = UIKeyboardType.NumbersAndPunctuation
-            self.icon.text = Icons.Phone.rawValue
-            self.textField.placeholder = "电话"
+            textField.keyboardType = UIKeyboardType.NumbersAndPunctuation
+            icon.text = Icons.Phone.rawValue
+            textField.placeholder = "电话"
         } else if type == "Email" {
-            self.textField.keyboardType = UIKeyboardType.EmailAddress
-            self.icon.text = Icons.Email.rawValue
-            self.textField.placeholder = "邮件"
+            textField.keyboardType = UIKeyboardType.EmailAddress
+            icon.text = Icons.Email.rawValue
+            textField.placeholder = "邮件"
         }
     }
 }
 
 extension PhoneEmailTableViewCell: UITextFieldDelegate {
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.endEditing(true)
+        endEditing(true)
         return false
     }
     
     public func textFieldDidBeginEditing(textField: UITextField) {
-        self.delegate.notifyTextFieldBeginEditing()
+        delegate.notifyTextFieldBeginEditing()
     }
 
 }

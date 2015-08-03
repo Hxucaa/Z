@@ -10,38 +10,48 @@ import UIKit
 
 protocol BirthdayCellTableViewCellDelegate : class {
     
-    func setUpBirthdayPopover(textField: UITextField)
     func presentBirthdayPopover()
 }
 
 public final class BirthdayTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var birthdayTextField: UITextField!
+    @IBOutlet private weak var textField: UITextField!
+    public var popDatePicker : PopoverDatePicker?
     internal weak var delegate: BirthdayCellTableViewCellDelegate!
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.birthdayTextField.placeholder = "生日"
-        self.birthdayTextField.delegate = self
+        textField.placeholder = "生日"
+        textField.delegate = self
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
-        self.delegate.setUpBirthdayPopover(birthdayTextField)
+        if (popDatePicker == nil) {
+            popDatePicker = PopoverDatePicker(forTextField: textField)
+        }
+    }
+    
+    public func getTextfieldText () -> String{
+        return textField.text
+    }
+    
+    public func setTextfieldText (text: String) {
+        textField.text = text
     }
 }
 
 extension BirthdayTableViewCell: UITextFieldDelegate {
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.endEditing(true)
+        endEditing(true)
         return false
     }
     
     public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        self.delegate.presentBirthdayPopover()
+        delegate.presentBirthdayPopover()
         return false
     }
 }

@@ -10,13 +10,13 @@ import UIKit
 
 public final class WhatsupTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var textField : UITextField!
+    @IBOutlet private weak var textField : UITextField!
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.textField.placeholder = "心情"
-        self.textField.delegate = self
+        textField.placeholder = "心情"
+        textField.delegate = self
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {
@@ -28,7 +28,7 @@ public final class WhatsupTableViewCell: UITableViewCell {
 
 extension WhatsupTableViewCell: UITextFieldDelegate {
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.endEditing(true)
+        endEditing(true)
         return false
     }
 }

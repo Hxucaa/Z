@@ -10,7 +10,7 @@ import UIKit
 import ReactiveCocoa
 
 protocol GenderCellTableViewCellDelegate : class {
-    func setUpGenderPopover(textField: UITextField)
+    //func setUpGenderPopover(textField: UITextField)
     func editPictureTextButtonAction()
     func presentGenderPopover()
 }
@@ -18,23 +18,26 @@ protocol GenderCellTableViewCellDelegate : class {
 public final class GenderTableViewCell: UITableViewCell {
 
     @IBOutlet private weak var genderIcon: UILabel!
-    @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var editProfilePicButton: UIButton!
+    @IBOutlet private weak var textField: UITextField!
+    @IBOutlet private weak var editProfilePicButton: UIButton!
     internal weak var delegate: GenderCellTableViewCellDelegate!
+    public var popGenderPicker : GenderPicker?
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.textField.placeholder = "性别"
-        self.genderIcon.text = Icons.Gender.rawValue
-        self.textField.delegate = self
+        textField.placeholder = "性别"
+        genderIcon.text = Icons.Gender.rawValue
+        textField.delegate = self
 
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
-        self.delegate.setUpGenderPopover(textField)
+        if (popGenderPicker == nil) {
+            popGenderPicker = GenderPicker(forTextField: textField)
+        }
     }
     
     public func setUpEditProfileButton () {
@@ -44,19 +47,27 @@ public final class GenderTableViewCell: UITableViewCell {
                 sendCompleted(sink)
             }
         }
-        self.editProfilePicButton.addTarget(editProfilePicAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        editProfilePicButton.addTarget(editProfilePicAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+    }
+    
+    public func getTextfieldText () -> String{
+        return textField.text
+    }
+    
+    public func setTextfieldText (text: String) {
+        textField.text = text
     }
 }
 
 extension GenderTableViewCell: UITextFieldDelegate {
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.endEditing(true)
+        endEditing(true)
         return false
     }
     
     public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        self.delegate.presentGenderPopover()
+        delegate.presentGenderPopover()
         return false
     }
 }

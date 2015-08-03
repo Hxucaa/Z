@@ -424,7 +424,7 @@
                                                         <constraint firstAttribute="height" constant="44" id="k1b-tx-p53"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.color">
                                                             <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -460,7 +460,7 @@
                                                     <color key="textColor" red="0.50588235294117645" green="0.50980392156862742" blue="0.49411764705882355" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="0.28627450980392155" green="0.29019607843137252" blue="0.27843137254901962" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIw-n5-9oc">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIw-n5-9oc">
                                                     <rect key="frame" x="514" y="0.0" width="79" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="79" id="QOM-i2-IWQ"/>
@@ -547,7 +547,7 @@
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="65" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
-                                            <outlet property="birthdayTextField" destination="Clv-7e-kuV" id="ZDI-Cz-MTJ"/>
+                                            <outlet property="textField" destination="Clv-7e-kuV" id="lkf-bR-sNC"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell tag="2" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DatePicker" rowHeight="162" id="Pxh-mY-LUJ" customClass="DatePickerTableViewCell" customModule="XListing" customModuleProvider="target">
@@ -595,108 +595,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4z0-h8-Vgu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1730" y="1093"/>
-        </scene>
-        <!--Edit Profile Table View Controller-->
-        <scene sceneID="49d-rA-5dR">
-            <objects>
-                <tableViewController id="SA2-xH-k6J" customClass="EditProfileTableViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="gPE-Tm-SQN">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
-                        <sections>
-                            <tableViewSection headerTitle="Edit Name" id="Qef-gj-fhB">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="nameCell" id="NI1-AF-AC9">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NI1-AF-AC9" id="yYG-FB-5pk">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Old Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RM3-3a-HB2">
-                                                    <rect key="frame" x="8" y="0.0" width="304" height="43"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="RM3-3a-HB2" firstAttribute="leading" secondItem="yYG-FB-5pk" secondAttribute="leadingMargin" constant="-7" id="1A8-wH-4mv"/>
-                                                <constraint firstAttribute="bottom" secondItem="RM3-3a-HB2" secondAttribute="bottom" id="BQY-i4-wfE"/>
-                                                <constraint firstItem="RM3-3a-HB2" firstAttribute="top" secondItem="yYG-FB-5pk" secondAttribute="top" id="bjr-KH-rHn"/>
-                                                <constraint firstItem="RM3-3a-HB2" firstAttribute="centerX" secondItem="yYG-FB-5pk" secondAttribute="centerX" id="h9a-Tn-Q6H"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection headerTitle="Edit Location" id="28D-EP-LzA">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="kAk-dM-3eK">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kAk-dM-3eK" id="izE-Ff-cYa">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Old Location" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w05-9m-JNA">
-                                                    <rect key="frame" x="8" y="0.0" width="304" height="43"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="w05-9m-JNA" firstAttribute="centerX" secondItem="izE-Ff-cYa" secondAttribute="centerX" id="4Xa-ww-d7G"/>
-                                                <constraint firstItem="w05-9m-JNA" firstAttribute="leading" secondItem="izE-Ff-cYa" secondAttribute="leadingMargin" constant="-7" id="GNH-ZK-LRg"/>
-                                                <constraint firstItem="w05-9m-JNA" firstAttribute="top" secondItem="izE-Ff-cYa" secondAttribute="top" id="ado-mE-5lR"/>
-                                                <constraint firstAttribute="bottom" secondItem="w05-9m-JNA" secondAttribute="bottom" id="yPV-7C-3Qm"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection headerTitle="Edit Birthday" id="7Y7-FL-2vW">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="163" id="jh7-qH-wy2">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jh7-qH-wy2" id="uqK-ui-6zZ">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="kyn-I3-9Qe">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="162"/>
-                                                    <date key="date" timeIntervalSinceReferenceDate="454227168.20472801">
-                                                        <!--2015-05-25 06:12:48 +0000-->
-                                                    </date>
-                                                    <date key="minimumDate" timeIntervalSinceReferenceDate="-1609419600">
-                                                        <!--1950-01-01 11:00:00 +0000-->
-                                                    </date>
-                                                    <date key="maximumDate" timeIntervalSinceReferenceDate="444394800">
-                                                        <!--2015-01-31 11:00:00 +0000-->
-                                                    </date>
-                                                </datePicker>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="kyn-I3-9Qe" firstAttribute="trailing" secondItem="uqK-ui-6zZ" secondAttribute="trailingMargin" constant="8" id="RaH-NS-73R"/>
-                                                <constraint firstItem="kyn-I3-9Qe" firstAttribute="leading" secondItem="uqK-ui-6zZ" secondAttribute="leadingMargin" constant="-8" id="UjJ-Tr-WCl"/>
-                                                <constraint firstItem="kyn-I3-9Qe" firstAttribute="top" secondItem="uqK-ui-6zZ" secondAttribute="topMargin" constant="-8" id="iIW-BM-GnO"/>
-                                                <constraint firstItem="kyn-I3-9Qe" firstAttribute="bottom" secondItem="uqK-ui-6zZ" secondAttribute="bottomMargin" constant="8" id="olN-SK-Log"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="SA2-xH-k6J" id="uo9-Pm-91u"/>
-                            <outlet property="delegate" destination="SA2-xH-k6J" id="dxZ-yr-Jg5"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="XNy-jP-G42"/>
-                    <connections>
-                        <outlet property="datePicker" destination="kyn-I3-9Qe" id="56v-Bm-eZq"/>
-                        <outlet property="editLocationTextField" destination="w05-9m-JNA" id="VMI-i3-z61"/>
-                        <outlet property="editNameTextField" destination="RM3-3a-HB2" id="bJi-WU-uXG"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bh8-ug-gNs" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1398.75" y="399.2957746478873"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Pnr-0g-ifr">

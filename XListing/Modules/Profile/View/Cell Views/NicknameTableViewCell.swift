@@ -16,15 +16,15 @@ protocol NicknameCellTableViewCellDelegate : class {
 
 public final class NicknameTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet private weak var textField: UITextField!
     @IBOutlet private weak var editProfilePicButton: UIButton!
     internal weak var delegate: NicknameCellTableViewCellDelegate!
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.textField.placeholder = "昵称"
-        self.textField.delegate = self
+        textField.placeholder = "昵称"
+        textField.delegate = self
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {
@@ -39,14 +39,18 @@ public final class NicknameTableViewCell: UITableViewCell {
                 sendCompleted(sink)
             }
         }
-        self.editProfilePicButton.addTarget(editProfilePicAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        editProfilePicButton.addTarget(editProfilePicAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+    }
+    
+    public func getTextfield_rac_text () -> MutableProperty<String?> {
+        return textField.rac_text
     }
 
 }
 
 extension NicknameTableViewCell: UITextFieldDelegate {
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.endEditing(true)
+        endEditing(true)
         return false
     }
 }
