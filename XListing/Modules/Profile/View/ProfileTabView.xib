@@ -12,18 +12,18 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KIh-XJ-SMA">
-                    <rect key="frame" x="15" y="0.0" width="200" height="40"/>
+                    <rect key="frame" x="10" y="0.0" width="200" height="35"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5eu-5V-85V">
-                            <rect key="frame" x="0.0" y="36" width="150" height="4"/>
+                            <rect key="frame" x="0.0" y="33" width="150" height="2"/>
                             <color key="backgroundColor" red="0.3411764705882353" green="0.792156862745098" blue="0.77254901960784317" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="150" id="YOy-cK-WE6"/>
-                                <constraint firstAttribute="height" constant="4" id="pJe-aL-L5A"/>
+                                <constraint firstAttribute="height" constant="2" id="pJe-aL-L5A"/>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="bottomLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的地点" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CVa-E5-M9t">
-                            <rect key="frame" x="8" y="16" width="68" height="21"/>
+                            <rect key="frame" x="0.0" y="11" width="68" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.3411764705882353" green="0.792156862745098" blue="0.77254901960784317" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -34,7 +34,7 @@
                         <constraint firstItem="5eu-5V-85V" firstAttribute="leading" secondItem="KIh-XJ-SMA" secondAttribute="leading" id="1Gg-Wd-ylC"/>
                         <constraint firstAttribute="bottom" secondItem="5eu-5V-85V" secondAttribute="bottom" id="Fjn-Pn-nzY"/>
                         <constraint firstItem="5eu-5V-85V" firstAttribute="leading" secondItem="KIh-XJ-SMA" secondAttribute="leading" id="G1I-Id-HkO"/>
-                        <constraint firstItem="CVa-E5-M9t" firstAttribute="leading" secondItem="KIh-XJ-SMA" secondAttribute="leadingMargin" id="GWv-m7-I2f"/>
+                        <constraint firstItem="CVa-E5-M9t" firstAttribute="leading" secondItem="KIh-XJ-SMA" secondAttribute="leading" id="GWv-m7-I2f"/>
                         <constraint firstAttribute="trailing" secondItem="CVa-E5-M9t" secondAttribute="trailing" constant="55" id="KJT-DP-nIk"/>
                         <constraint firstItem="CVa-E5-M9t" firstAttribute="bottom" secondItem="KIh-XJ-SMA" secondAttribute="bottomMargin" constant="5" id="PO3-A4-nkR"/>
                         <constraint firstAttribute="width" constant="200" id="Rgm-un-FXd"/>
@@ -53,9 +53,9 @@
             </subviews>
             <color key="backgroundColor" red="0.90196078431372551" green="0.92549019607843142" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="KIh-XJ-SMA" secondAttribute="bottom" id="1Ga-pD-IWO"/>
+                <constraint firstAttribute="bottom" secondItem="KIh-XJ-SMA" secondAttribute="bottom" constant="5" id="1Ga-pD-IWO"/>
                 <constraint firstItem="KIh-XJ-SMA" firstAttribute="top" secondItem="2LT-Xa-1f6" secondAttribute="top" id="a7Q-x5-3W9"/>
-                <constraint firstItem="KIh-XJ-SMA" firstAttribute="leading" secondItem="2LT-Xa-1f6" secondAttribute="leading" constant="15" id="ysO-kC-b95"/>
+                <constraint firstItem="KIh-XJ-SMA" firstAttribute="leading" secondItem="2LT-Xa-1f6" secondAttribute="leading" constant="10" id="ysO-kC-b95"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>

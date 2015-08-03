@@ -10,9 +10,9 @@ import UIKit
 
 class ProfileTabView: UIView {
 
-    @IBOutlet var locationTextView: UILabel!
+    @IBOutlet private weak var locationTextView: UILabel!
     
-    @IBOutlet var locationHighlightbar: UIView!
+    @IBOutlet private weak var locationHighlightbar: UIView!
     
     
     /*

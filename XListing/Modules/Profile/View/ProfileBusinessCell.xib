@@ -13,7 +13,7 @@
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8Uq-Wy-Dab" id="tIz-Jg-4kq">
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lebron" translatesAutoresizingMaskIntoConstraints="NO" id="NmI-x4-ruM">
+                    <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NmI-x4-ruM">
                         <rect key="frame" x="18" y="3" width="110" height="73"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="110" id="U7Z-uz-3fQ"/>
@@ -52,7 +52,7 @@
                     <constraint firstItem="iFx-oS-sfc" firstAttribute="top" secondItem="tIz-Jg-4kq" secondAttribute="topMargin" id="Pof-UY-p5t"/>
                     <constraint firstItem="3VZ-1k-prf" firstAttribute="leading" secondItem="NmI-x4-ruM" secondAttribute="trailing" constant="20" id="WAB-Tj-OtY"/>
                     <constraint firstAttribute="bottomMargin" secondItem="NmI-x4-ruM" secondAttribute="bottom" constant="-5" id="dNb-H8-hiU"/>
-                    <constraint firstItem="NmI-x4-ruM" firstAttribute="leading" secondItem="tIz-Jg-4kq" secondAttribute="leadingMargin" constant="10" id="e66-pV-1zG"/>
+                    <constraint firstItem="NmI-x4-ruM" firstAttribute="leading" secondItem="tIz-Jg-4kq" secondAttribute="leading" constant="10" id="e66-pV-1zG"/>
                     <constraint firstItem="0pw-1J-Xn6" firstAttribute="leading" secondItem="NmI-x4-ruM" secondAttribute="trailing" constant="20" id="fcK-Q6-yOT"/>
                     <constraint firstAttribute="bottomMargin" secondItem="6yY-Gx-Lrt" secondAttribute="bottom" constant="-8" id="iot-KL-41D"/>
                     <constraint firstItem="0pw-1J-Xn6" firstAttribute="top" secondItem="3VZ-1k-prf" secondAttribute="bottom" constant="3" id="qYg-hX-2p6"/>
@@ -76,7 +76,4 @@
             <point key="canvasLocation" x="259" y="198"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="lebron" width="394" height="394"/>
-    </resources>
 </document>

@@ -15,12 +15,9 @@ public final class ProfileViewController : XUIViewController {
 
     private var profileVM: ProfileViewModel!
 
-    @IBOutlet weak var tableView: UITableView!
-    
-    @IBOutlet weak var headerView: UIView!
-    
-    
-    @IBOutlet weak var tabView: UIView!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var headerView: UIView!
+    @IBOutlet private weak var tabView: UIView!
     
     
     var headerViewContent: ProfileHeaderView!

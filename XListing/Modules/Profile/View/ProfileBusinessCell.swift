@@ -11,19 +11,15 @@ import UIKit
 import ReactiveCocoa
 
 class ProfileBusinessCell: UITableViewCell {
-
-
+    @IBOutlet private weak var businessImageView: UIImageView!
+    @IBOutlet private weak var businessNameLabel: UILabel!
+    @IBOutlet private weak var popularityLabel: UILabel!
     
-    @IBOutlet weak var businessImageView: UIImageView!
-    @IBOutlet weak var businessNameLabel: UILabel!
-
-    @IBOutlet weak var popularityLabel: UILabel!
+    @IBOutlet private weak var cityLabel: UILabel!
     
-    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet private weak var distanceLabel: UILabel!
     
-    @IBOutlet weak var distanceLabel: UILabel!
-    
-    var viewModel: ProfileBusinessViewModel!
+    private var viewModel: ProfileBusinessViewModel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

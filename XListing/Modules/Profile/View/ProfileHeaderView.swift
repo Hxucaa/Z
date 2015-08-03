@@ -10,17 +10,17 @@ import UIKit
 import ReactiveCocoa
 
 class ProfileHeaderView: UIView {
-    @IBOutlet weak var topRightButton: UIButton!
-    @IBOutlet weak var topLeftButton: UIButton!
-    @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var constellationLabel: UILabel!
-    @IBOutlet weak var ageLabel: UILabel!
-    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet private weak var topRightButton: UIButton!
+    @IBOutlet private weak var topLeftButton: UIButton!
+    @IBOutlet private weak var profileImageView: UIImageView!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var constellationLabel: UILabel!
+    @IBOutlet private weak var ageLabel: UILabel!
+    @IBOutlet private weak var locationLabel: UILabel!
     
-    var viewModel: ProfileHeaderViewModel?
+    private var viewModel: ProfileHeaderViewModel?
     
-    var horoscopeString = ""
+    private var horoscopeString = ""
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.

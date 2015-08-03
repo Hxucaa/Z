@@ -25,7 +25,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="85R-Ey-ivC">
-                    <rect key="frame" x="325" y="51" width="150" height="120"/>
+                    <rect key="frame" x="325" y="61" width="150" height="110"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="海绵宝宝" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DRF-99-BRf">
                             <rect key="frame" x="0.0" y="10" width="68" height="21"/>
@@ -34,7 +34,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="bottomLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="黄浦区" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yg1-x8-5ow">
-                            <rect key="frame" x="0.0" y="97" width="36" height="15"/>
+                            <rect key="frame" x="0.0" y="87" width="36" height="15"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="15" id="IME-xR-pEA"/>
                             </constraints>
@@ -49,7 +49,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="bottomLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="90后" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vj8-xA-wck">
-                            <rect key="frame" x="44" y="97" width="26" height="15"/>
+                            <rect key="frame" x="44" y="87" width="26" height="15"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="15" id="TEO-qb-NJu"/>
                             </constraints>
@@ -72,7 +72,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f5g-Qw-trL">
-                    <rect key="frame" x="10" y="30" width="67" height="30"/>
+                    <rect key="frame" x="10" y="27" width="67" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="67" id="DhC-zM-Qt9"/>
                         <constraint firstAttribute="height" constant="30" id="yWi-Gy-Knc"/>
@@ -81,7 +81,7 @@
                     <state key="normal" title="返回" image="reg_title_back"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0J9-NT-hqT">
-                    <rect key="frame" x="566" y="30" width="26" height="30"/>
+                    <rect key="frame" x="566" y="27" width="26" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="26" id="VEC-Oi-KzQ"/>
                     </constraints>
@@ -90,10 +90,10 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="curry" translatesAutoresizingMaskIntoConstraints="NO" id="Vx1-PE-ZSX">
-                    <rect key="frame" x="180" y="50" width="120" height="120"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vx1-PE-ZSX">
+                    <rect key="frame" x="190" y="60" width="110" height="110"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="120" id="qmE-fo-Agl"/>
+                        <constraint firstAttribute="width" constant="110" id="qmE-fo-Agl"/>
                     </constraints>
                 </imageView>
             </subviews>
@@ -111,11 +111,11 @@
                 <constraint firstAttribute="centerX" secondItem="9II-VO-uNR" secondAttribute="centerX" id="Ndo-TW-c4P"/>
                 <constraint firstAttribute="trailing" secondItem="0J9-NT-hqT" secondAttribute="trailing" constant="8" id="QTV-yo-mXs"/>
                 <constraint firstAttribute="centerY" secondItem="9II-VO-uNR" secondAttribute="centerY" id="Tw6-W4-n0p"/>
-                <constraint firstItem="f5g-Qw-trL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="30" id="XWC-jB-42E"/>
+                <constraint firstItem="f5g-Qw-trL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="27" id="XWC-jB-42E"/>
                 <constraint firstItem="PLn-bS-9dD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="-8" id="dZ9-kD-deD"/>
                 <constraint firstItem="85R-Ey-ivC" firstAttribute="leading" secondItem="9II-VO-uNR" secondAttribute="trailing" constant="15" id="hEm-V6-LrX"/>
                 <constraint firstItem="9II-VO-uNR" firstAttribute="leading" secondItem="Vx1-PE-ZSX" secondAttribute="trailing" constant="-10" id="m0m-pG-lNo"/>
-                <constraint firstItem="Vx1-PE-ZSX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="50" id="rJj-go-v7T"/>
+                <constraint firstItem="Vx1-PE-ZSX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="60" id="rJj-go-v7T"/>
                 <constraint firstItem="f5g-Qw-trL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="s3f-md-GrJ"/>
                 <constraint firstItem="9II-VO-uNR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ugu-qL-61r"/>
                 <constraint firstItem="85R-Ey-ivC" firstAttribute="top" secondItem="Vx1-PE-ZSX" secondAttribute="top" constant="1" id="xHt-t7-bT0"/>
@@ -145,7 +145,6 @@
     <resources>
         <image name="Edit Button" width="66" height="69"/>
         <image name="Low-Polyy" width="358" height="565"/>
-        <image name="curry" width="233" height="232"/>
         <image name="reg_title_back" width="16" height="22"/>
     </resources>
 </document>
