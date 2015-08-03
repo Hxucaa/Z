@@ -37,17 +37,159 @@ public final class AccountViewController: XUIViewController {
     private typealias Transition = (view: UIView, completion: (Bool -> Void)?)
     private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<Transition, NoError>.buffer(0)
     
+    
     // MARK: - Setups
+    
+    private lazy var setupLandingPageView: SignalProducer<Void, NoError> = SignalProducer<Void, NoError> { [weak self] sink, compositeDisposable in
+        if let this = self {
+            compositeDisposable += this.landingPageView.skipProxy
+                |> logLifeCycle(LogContext.Account, "landingPageView.skipProxy")
+                |> start(next: {
+                    self?.viewmodel.skipAccount({
+                        self?.navigationController?.setNavigationBarHidden(true, animated: false)
+                        // dismiss account module, but no callback
+                        self?.dismissViewControllerAnimated(true, completion: nil)
+                    })
+                    sendCompleted(sink)
+                })
+            
+            compositeDisposable += this.landingPageView.loginProxy
+                |> logLifeCycle(LogContext.Account, "landingPageView.loginProxy")
+                |> start(next: {
+                    // transition to log in view
+                    this.setupLogInView
+                        |> start()
+                    sendNext(this.viewTransitionSink, (view: this.logInView, completion: { _ in this.logInView.startFirstResponder() }))
+                    
+                    sendCompleted(sink)
+                })
+            
+            compositeDisposable += this.landingPageView.signUpProxy
+                |> logLifeCycle(LogContext.Account, "landingPageView.signUpProxy")
+                |> start(next: {
+                    // transition to sign up view
+                    this.setupSignUpView
+                        |> start()
+                    sendNext(this.viewTransitionSink, (view: this.signUpView, completion: { _ in this.signUpView.startFirstResponder() }))
+                    
+                    sendCompleted(sink)
+                })
+            
+        }
+    }
+        |> logLifeCycle(LogContext.Account, "landingPageView")
+    
+    private lazy var setupLogInView: SignalProducer<Void, NoError> = SignalProducer<Void, NoError> { [weak self] sink, compositeDisposable in
+        if let this = self {
+            if this.logInView == nil {
+                self?.logInView = UINib(nibName: LogInViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! LogInView
+                self?.logInView.bindToViewModel(this.viewmodel.logInViewModel)
+            }
+            
+            compositeDisposable += this.logInView.goBackProxy
+                |> logLifeCycle(LogContext.Account, "logInView.goBackProxy")
+                |> start(next: {
+                    // transition to landing page view
+                    this.setupLandingPageView
+                        |> start()
+                    sendNext(this.viewTransitionSink, (view: this.landingPageView, completion: nil))
+                    
+                    sendCompleted(sink)
+                })
+            
+            compositeDisposable += this.logInView.finishLoginProxy
+                |> logLifeCycle(LogContext.Account, "logInView.finishLoginProxy")
+                |> start(next: {
+                    if self?.viewmodel.gotoNextModuleCallback == nil {
+                        self?.viewmodel.pushFeaturedModule()
+                    }
+                    else {
+                        // dismiss account module, and go to the next module
+                        self?.dismissViewControllerAnimated(true, completion: self?.viewmodel.gotoNextModuleCallback)
+                    }
+                    self?.navigationController?.setNavigationBarHidden(false, animated: false)
+                    sendCompleted(sink)
+                })
+        }
+    }
+        |> logLifeCycle(LogContext.Account, "logIn")
+    
+    private lazy var setupSignUpView: SignalProducer<Void, NoError> = SignalProducer<Void, NoError> { [weak self] sink, compositeDisposable in
+        if let this = self {
+            if this.signUpView == nil {
+                self?.signUpView = UINib(nibName: SignUpViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! SignUpView
+                self?.signUpView.bindToViewModel(this.viewmodel.signUpViewModel)
+            }
+            
+            compositeDisposable += this.signUpView.goBackProxy
+                |> logLifeCycle(LogContext.Account, "signUpView.goBackProxy")
+                |> start(next: {
+                    // transition to landing page view
+                    this.setupLandingPageView
+                        |> start()
+                    sendNext(this.viewTransitionSink, (view: this.landingPageView, completion: nil))
+                    
+                    sendCompleted(sink)
+                })
+            
+            compositeDisposable += this.signUpView.finishSignUpProxy
+                |> logLifeCycle(LogContext.Account, "signUpView.finishSignUpProxy")
+                |> start(next: {
+                    // transition to edit info view
+                    this.setupEditInfoView
+                        |> start()
+                    sendNext(this.viewTransitionSink, (view: this.editInfoView, completion: nil))
+                    
+                    sendCompleted(sink)
+                })
+        }
+    }
+        |> logLifeCycle(LogContext.Account, "signUp")
+    
+    private lazy var setupEditInfoView: SignalProducer<Void, NoError> = SignalProducer<Void, NoError> { [weak self] sink, compositeDisposable in
+        if let this = self {
+            if this.editInfoView == nil {
+                self?.editInfoView = UINib(nibName: EditInfoViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! EditInfoView
+                self?.editInfoView.bindToViewModel(this.viewmodel.editProfileViewModel)
+            }
+            
+            compositeDisposable += this.editInfoView.presentUIImagePickerProxy
+                |> logLifeCycle(LogContext.Account, "editInfoView.presentUIImagePickerProxy")
+                |> start(next: { imagePicker in
+                    // present image picker
+                    self?.presentViewController(imagePicker, animated: true, completion: nil)
+                })
+            
+            compositeDisposable += this.editInfoView.dismissUIImagePickerProxy
+                |> logLifeCycle(LogContext.Account, "editInfoView.dismissUIImagePickerProxy")
+                |> start(next: { handler in
+                    // dismiss image picker
+                    self?.dismissViewControllerAnimated(true, completion: handler)
+                })
+            
+            compositeDisposable += this.editInfoView.finishEditInfoProxy
+                |> logLifeCycle(LogContext.Account, "editInfoView.finishEditInfoProxy")
+                |> start(next: {
+                    
+                    if self?.viewmodel.gotoNextModuleCallback == nil {
+                        self?.viewmodel.pushFeaturedModule()
+                    }
+                    else {
+                        // dismiss account module, and go to the next module
+                        self?.dismissViewControllerAnimated(true, completion: self?.viewmodel.gotoNextModuleCallback)
+                    }
+                    self?.navigationController?.setNavigationBarHidden(false, animated: false)
+                    sendCompleted(sink)
+                })
+        }
+    }
+        |> logLifeCycle(LogContext.Account, "editInfo")
+
+    
     public override func loadView() {
         super.loadView()
         
         landingPageView = UINib(nibName: LandingPageViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! LandingPageView
-        
-        logInView = UINib(nibName: LogInViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! LogInView
-        
-        signUpView = UINib(nibName: SignUpViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! SignUpView
-        
-        editInfoView = UINib(nibName: EditInfoViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! EditInfoView
         
     }
     
@@ -56,11 +198,6 @@ public final class AccountViewController: XUIViewController {
         
         navigationController?.setNavigationBarHidden(true, animated: false)
         
-        // bind view model
-        landingPageView.bindToViewModel(viewmodel.landingPageViewModel)
-        logInView.bindToViewModel(viewmodel.logInViewModel)
-        signUpView.bindToViewModel(viewmodel.signUpViewModel)
-        editInfoView.bindToViewModel(viewmodel.editProfileViewModel)
         
         /**
         Setup view transition.
@@ -83,158 +220,11 @@ public final class AccountViewController: XUIViewController {
         
         
         // add landing page as the first subview
-        setupLandingPage()
+        landingPageView.bindToViewModel(viewmodel.landingPageViewModel)
+        setupLandingPageView
+            |> start()
         view.addSubview(landingPageView)
         addConstraintsToClipToAllSides(landingPageView)
-    }
-    
-    private func setupLandingPage() {
-        let landingPageSignal = SignalProducer<Void, NoError> { sink, compositeDisposable in
-            
-            compositeDisposable += self.landingPageView.skipProxy
-                |> logLifeCycle(LogContext.Account, "landingPageView.skipProxy")
-                |> start(next: { [weak self] in
-                    self?.viewmodel.skipAccount({
-                        self?.navigationController?.setNavigationBarHidden(true, animated: false)
-                        // dismiss account module, but no callback
-                        self?.dismissViewControllerAnimated(true, completion: nil)
-                    })
-                    sendCompleted(sink)
-                })
-            
-            compositeDisposable += self.landingPageView.loginProxy
-                |> logLifeCycle(LogContext.Account, "landingPageView.loginProxy")
-                |> start(next: { [weak self] in
-                    if let this = self {
-                        // transition to log in view
-                        sendNext(this.viewTransitionSink, (view: this.logInView, completion: { success in
-                            this.setupLogIn()
-                            this.logInView.startFirstResponder()
-                        }))
-                        sendCompleted(sink)
-                    }
-                })
-            
-            compositeDisposable += self.landingPageView.signUpProxy
-                |> logLifeCycle(LogContext.Account, "landingPageView.signUpProxy")
-                |> start(next: { [weak self] in
-                    if let this = self {
-                        // transition to sign up view
-                        sendNext(this.viewTransitionSink, (view: this.signUpView, completion: { success in
-                            this.setupSignUp()
-                            this.signUpView.startFirstResponder()
-                        }))
-                        sendCompleted(sink)
-                    }
-                })
-        }
-            |> logLifeCycle(LogContext.Account, "landingPageView")
-        
-        compositeDisposable += landingPageSignal
-            |> start()
-    }
-    
-    private func setupLogIn() {
-        
-        let logInSignal = SignalProducer<Void, NoError> { sink, compositeDisposable in
-            
-            compositeDisposable += self.logInView.goBackProxy
-                |> logLifeCycle(LogContext.Account, "logInView.goBackProxy")
-                |> start(next: { [weak self] in
-                    if let this = self {
-                        // transition to landing page view
-                        sendNext(this.viewTransitionSink, (view: this.landingPageView, completion: nil))
-                        this.setupLandingPage()
-                        sendCompleted(sink)
-                    }
-                })
-            
-            compositeDisposable += self.logInView.finishLoginProxy
-                |> logLifeCycle(LogContext.Account, "logInView.finishLoginProxy")
-                |> start(next: { [weak self] in
-                    if self?.viewmodel.gotoNextModuleCallback == nil {
-                        self?.viewmodel.pushFeaturedModule()
-                    }
-                    else {
-                        // dismiss account module, and go to the next module
-                        self?.dismissViewControllerAnimated(true, completion: self?.viewmodel.gotoNextModuleCallback)
-                    }
-                    self?.navigationController?.setNavigationBarHidden(false, animated: false)
-                    sendCompleted(sink)
-                })
-        }
-            |> logLifeCycle(LogContext.Account, "logIn")
-        
-        compositeDisposable += logInSignal
-            |> start()
-    }
-    
-    private func setupSignUp() {
-        
-        let setupSignUp = SignalProducer<Void, NoError> { sink, compositeDisposable in
-            
-            compositeDisposable += self.signUpView.goBackProxy
-                |> logLifeCycle(LogContext.Account, "signUpView.goBackProxy")
-                |> start(next: { [weak self] in
-                    if let this = self {
-                        // transition to landing page view
-                        sendNext(this.viewTransitionSink, (view: this.landingPageView, completion: nil))
-                        this.setupLandingPage()
-                        sendCompleted(sink)
-                    }
-                })
-            
-            compositeDisposable += self.signUpView.finishSignUpProxy
-                |> logLifeCycle(LogContext.Account, "signUpView.finishSignUpProxy")
-                |> start(next: { [weak self] in
-                    if let this = self {
-                        // transition to edit info view
-                        sendNext(this.viewTransitionSink, (view: this.editInfoView, completion: nil))
-                        this.setupEditInfo()
-                        sendCompleted(sink)
-                    }
-                })
-        }
-            |> logLifeCycle(LogContext.Account, "signUp")
-        
-        compositeDisposable += setupSignUp
-            |> start()
-    }
-    
-    private func setupEditInfo() {
-        
-        let setupEditInfo = SignalProducer<Void, NoError> { sink, compositeDisposable in
-            
-            compositeDisposable += self.editInfoView.presentUIImagePickerProxy
-                |> start(next: { [weak self] imagePicker in
-                    // present image picker
-                    self?.presentViewController(imagePicker, animated: true, completion: nil)
-                })
-            
-            compositeDisposable += self.editInfoView.dismissUIImagePickerProxy
-                |> start(next: { [weak self] handler in
-                    // dismiss image picker
-                    self?.dismissViewControllerAnimated(true, completion: handler)
-                })
-            
-            compositeDisposable += self.editInfoView.finishEditInfoProxy
-                |> start(next: { [weak self] in
-                    
-                    if self?.viewmodel.gotoNextModuleCallback == nil {
-                        self?.viewmodel.pushFeaturedModule()
-                    }
-                    else {
-                        // dismiss account module, and go to the next module
-                        self?.dismissViewControllerAnimated(true, completion: self?.viewmodel.gotoNextModuleCallback)
-                    }
-                    self?.navigationController?.setNavigationBarHidden(false, animated: false)
-                    sendCompleted(sink)
-                })
-        }
-            |> logLifeCycle(LogContext.Account, "editInfo")
-        
-        compositeDisposable += setupEditInfo
-            |> start()
     }
     
     deinit {
