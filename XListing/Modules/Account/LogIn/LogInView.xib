@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -166,6 +166,8 @@
                 <constraint firstItem="zlf-9M-Rcj" firstAttribute="centerX" secondItem="0Mq-lA-gcy" secondAttribute="centerX" id="UDp-nI-3sh"/>
                 <constraint firstAttribute="trailing" secondItem="zlf-9M-Rcj" secondAttribute="trailing" id="VfD-fL-kpi"/>
                 <constraint firstItem="zlf-9M-Rcj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="32" id="Z70-qj-Edn"/>
+                <constraint firstItem="zlf-9M-Rcj" firstAttribute="top" secondItem="Mza-gN-rrh" secondAttribute="bottom" constant="-56" id="Zof-wD-bmS"/>
+                <constraint firstItem="zlf-9M-Rcj" firstAttribute="leading" secondItem="Mza-gN-rrh" secondAttribute="trailing" constant="-39" id="csA-Lb-I1C"/>
                 <constraint firstItem="zlf-9M-Rcj" firstAttribute="centerX" secondItem="0Mq-lA-gcy" secondAttribute="centerX" id="gSL-fe-7Yr"/>
                 <constraint firstItem="zlf-9M-Rcj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="hmx-lt-G29"/>
                 <constraint firstItem="Mza-gN-rrh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="i6p-NX-QEN"/>
@@ -184,6 +186,8 @@
                     <exclude reference="Z70-qj-Edn"/>
                     <exclude reference="gSL-fe-7Yr"/>
                     <exclude reference="6jy-GC-o41"/>
+                    <exclude reference="Qus-Ze-4hz"/>
+                    <exclude reference="i6p-NX-QEN"/>
                     <exclude reference="mNg-96-63T"/>
                     <exclude reference="EcB-aj-f5i"/>
                 </mask>

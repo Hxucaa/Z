@@ -207,7 +207,7 @@ public final class LandingPageView : UIView {
         // turn off autoresizing mask off to allow custom autolayout constraints
         backButtonView.setTranslatesAutoresizingMaskIntoConstraints(false)
         
-        // leading margin 8.0
+        // Trailing margin 8.0
         let backButtonLeading = NSLayoutConstraint(
             item: backButtonView,
             attribute: NSLayoutAttribute.Leading,
@@ -215,7 +215,7 @@ public final class LandingPageView : UIView {
             toItem: self,
             attribute: NSLayoutAttribute.LeadingMargin,
             multiplier: 1.0,
-            constant: 8.0
+            constant: 0
         )
         backButtonLeading.identifier = "backButton leading constraint"
         
@@ -227,7 +227,7 @@ public final class LandingPageView : UIView {
             toItem: self,
             attribute: NSLayoutAttribute.TopMargin,
             multiplier: 1.0,
-            constant: 8.0
+            constant: 9.0
         )
         backButtonTop.identifier = "backButton top constraint"
         
