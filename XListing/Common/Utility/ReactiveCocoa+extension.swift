@@ -55,7 +55,7 @@ public func takeUntilPrepareForReuse<T, E>(view: MKAnnotationView) -> SignalProd
 }
 
 /**
-Forwards events until the view will disappear.
+Forwards events until the view controller will disappear.
 
 :param: view A UIViewController.
 */
@@ -65,6 +65,19 @@ public func takeUntilViewWillDisappear<T, U: UIViewController, E>(view: U) -> Si
             |> takeUntil(view.rac_viewWillDisappear.toSignalProducer() |> toNihil)
     }
 }
+
+/**
+Forwards events until the view is removed from the superview.
+
+:param: view The superview.
+*/
+public func takeUntilRemoveFromSuperview<T, U: UIView, E>(view: U) -> SignalProducer<T, E> -> SignalProducer<T, E> {
+    return { producer in
+        return producer
+            |> takeUntil(view.rac_removeFromSuperview.toSignalProducer() |> toNihil)
+    }
+}
+
 
 /**
 Log the life cycle of a signal, including `started`, `completed`, `interrupted`, `terminated`, and `disposed`.
