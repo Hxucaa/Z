@@ -9,7 +9,7 @@
 import Foundation
 import ReactiveCocoa
 
-public struct Keyboard {
+public final class Keyboard {
     
     public static var didHideNotification: SignalProducer<NSNotification, NoError> {
         return notification(UIKeyboardDidHideNotification)

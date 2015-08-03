@@ -120,3 +120,52 @@ extension UIImageView {
 }
 
 
+extension UIViewController {
+    public var rac_viewWillDisappear: RACSignal {
+        return rac_signalForSelector(Selector("viewWillDisappear:"))
+    }
+    
+    public var rac_viewWillDisappearProducer: SignalProducer<Bool, NSError> {
+        return rac_viewWillDisappear.toSignalProducer()
+            |> map { ($0 as! RACTuple).first as! Bool }
+    }
+    
+    public var rac_viewDidDisappear: RACSignal {
+        return rac_signalForSelector(Selector("viewDidDisappear:"))
+    }
+    
+    public var rac_viewDidDisappearProducer: SignalProducer<Bool, NSError> {
+        return rac_viewDidDisappear.toSignalProducer()
+            |> map { ($0 as! RACTuple).first as! Bool }
+    }
+    
+    public var rac_viewWillAppear: RACSignal {
+        return rac_signalForSelector(Selector("viewWillAppear:"))
+    }
+    
+    public var rac_viewWillAppearProducer: SignalProducer<Bool, NSError> {
+        return rac_viewWillAppear.toSignalProducer()
+            |> map { ($0 as! RACTuple).first as! Bool }
+    }
+    
+    public var rac_viewDidAppear: RACSignal {
+        return rac_signalForSelector(Selector("viewDidAppear:"))
+    }
+    
+    public var rac_viewDidAppearProducer: SignalProducer<Bool, NSError> {
+        return rac_viewDidAppear.toSignalProducer()
+            |> map { ($0 as! RACTuple).first as! Bool }
+    }
+    
+}
+
+extension UIView {
+    public var rac_removeFromSuperview: RACSignal {
+        return rac_signalForSelector(Selector("removeFromSuperview"))
+    }
+    
+    public var rac_removeFromSuperviewProducer: SignalProducer<Void, NSError> {
+        return rac_removeFromSuperview.toSignalProducer()
+            |> map { _ in }
+    }
+}

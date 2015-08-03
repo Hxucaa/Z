@@ -13,11 +13,11 @@ import ReactiveCocoa
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     // MARK: - UI Controls
-    @IBOutlet weak var coverImageView: UIImageView!
-    @IBOutlet weak var businessNameLabel: UILabel!
-    @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var participationLabel: UILabel!
-    @IBOutlet weak var etaLabel: UILabel!
+    @IBOutlet private weak var coverImageView: UIImageView!
+    @IBOutlet private weak var businessNameLabel: UILabel!
+    @IBOutlet private weak var cityLabel: UILabel!
+    @IBOutlet private weak var participationLabel: UILabel!
+    @IBOutlet private weak var etaLabel: UILabel!
     
     // MARK: Properties
     

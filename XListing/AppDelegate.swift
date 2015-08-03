@@ -21,8 +21,11 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
         // configure CocoaLumberjack
         Logger.configure()
         
-        // connect to Parse
-        LeanCloudClient.initializeClient()
+        // connect to LeanCloud
+        LeanCloudClient.initialize()
+        if let launchOptions = launchOptions {
+            LeanCloudClient.trackAppOpenedWithLaunchOptions(launchOptions)
+        }
         
         // start background workers
         backgroundOperationsWorkerFactory.startWorkers()

@@ -13,7 +13,6 @@ public struct ImageAssets {
     static let background = "background"
     static let curry = "curry"
     static let downArrow = "downArrow"
-    static let landingImg = "landingImg"
     static let lebron = "lebron"
     static let lowPoly = "Low-Polyy"
     static let mapPin = "mapPin"

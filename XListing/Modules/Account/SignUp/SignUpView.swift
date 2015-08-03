@@ -14,24 +14,24 @@ public final class SignUpView : UIView {
     
     // MARK: - UI
     // MARK: Controls
-    @IBOutlet weak var usernameField: UITextField!
-    @IBOutlet weak var passwordField: UITextField!
-    @IBOutlet weak var signupButton: UIButton!
-    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet private weak var usernameField: UITextField!
+    @IBOutlet private weak var passwordField: UITextField!
+    @IBOutlet private weak var signupButton: UIButton!
+    @IBOutlet private weak var backButton: UIButton!
     
     // MARK: - Proxies
     
     /// Go back to previous page.
-    public var goBackProxy: SignalProducer<Void, NoError> {
+    public var goBackProxy: SimpleProxy {
         return _goBackProxy
     }
-    private let (_goBackProxy, _goBackSink) = SignalProducer<Void, NoError>.buffer(1)
+    private let (_goBackProxy, _goBackSink) = SimpleProxy.proxy()
     
     /// Sign Up view is finished.
-    public var finishSignUpProxy: SignalProducer<Void, NoError> {
+    public var finishSignUpProxy: SimpleProxy {
         return _finishSignUpProxy
     }
-    private let (_finishSignUpProxy, _finishSignUpSink) = SignalProducer<Void, NoError>.buffer(1)
+    private let (_finishSignUpProxy, _finishSignUpSink) = SimpleProxy.proxy()
     
     // MARK: Properties
     private var viewmodel: SignUpViewModel!

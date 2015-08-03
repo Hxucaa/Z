@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public struct LogInViewModel {
+public final class LogInViewModel {
     
     // MARK: - Public
     
@@ -61,7 +61,7 @@ public struct LogInViewModel {
     
     // MARK: Setup
     
-    private mutating func setupUsername() {
+    private func setupUsername() {
         validUsernameSignal = username.producer
             |> ignoreNil
             // TODO: regex
@@ -71,7 +71,7 @@ public struct LogInViewModel {
             |> map { _ in true }
     }
     
-    private mutating func setupPassword() {
+    private func setupPassword() {
         validPasswordSignal = password.producer
             |> ignoreNil
             // TODO: regex

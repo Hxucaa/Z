@@ -11,7 +11,7 @@ import Locksmith
 
 private let account = "org.XListing.com"
 
-public struct KeychainService : IKeychainService {
+public final class KeychainService : IKeychainService {
     
     public func clearKeychain() -> Bool {
         let t = Locksmith.deleteDataForUserAccount(account)

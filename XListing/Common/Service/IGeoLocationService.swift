@@ -11,7 +11,7 @@ import ReactiveCocoa
 import CoreLocation
 import AVOSCloud
 
-public protocol IGeoLocationService {
+public protocol IGeoLocationService : class {
     func getCurrentLocation() -> SignalProducer<CLLocation, NSError>
     func getCurrentGeoPoint() -> SignalProducer<AVGeoPoint, NSError>
     func calculateETA(destination: CLLocation) -> SignalProducer<NSTimeInterval, NSError>

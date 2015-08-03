@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public struct EditInfoViewModel {
+public final class EditInfoViewModel {
     
     // MARK: Input
     public let nickname = MutableProperty<String?>(nil)
@@ -112,7 +112,7 @@ public struct EditInfoViewModel {
     
     // MARK: Setup
     
-    private mutating func setupNickname() {
+    private func setupNickname() {
         // only allow nicknames with:
         // - between 3 and 15 characters
         // - emoji, letters, numbers, chinese characters, and standard symbols only
@@ -125,7 +125,7 @@ public struct EditInfoViewModel {
             |> map { _ in true }
     }
     
-    private mutating func setupBirthday() {
+    private func setupBirthday() {
         validBirthdaySignal = birthday.producer
             |> validAgeOnly()
         
@@ -133,7 +133,7 @@ public struct EditInfoViewModel {
             |> map { _ in true }
     }
     
-    private mutating func setupProfileImage() {
+    private func setupProfileImage() {
         validProfileImageSignal = profileImage.producer
             |> ignoreNil
         
@@ -141,7 +141,7 @@ public struct EditInfoViewModel {
             |> map { _ in true }
     }
     
-    private mutating func setupGender() {
+    private func setupGender() {
         validGenderSignal = gender.producer
             |> ignoreNil
             

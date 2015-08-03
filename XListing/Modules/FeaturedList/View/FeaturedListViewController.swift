@@ -16,9 +16,9 @@ public final class FeaturedListViewController: XUIViewController {
 
     // MARK: - UI
     // MARK: Controls
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var nearbyButton: UIBarButtonItem!
-    @IBOutlet weak var profileButton: UIBarButtonItem!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var nearbyButton: UIBarButtonItem!
+    @IBOutlet private weak var profileButton: UIBarButtonItem!
     private let refreshControl = UIRefreshControl()
     
     // MARK: Properties
@@ -35,7 +35,8 @@ public final class FeaturedListViewController: XUIViewController {
         setupRefresh()
         setupNearbyButton()
         setupProfileButton()
-        setupTableView()
+        
+        tableView.dataSource = self
     }
 
     public override func didReceiveMemoryWarning() {
@@ -50,16 +51,6 @@ public final class FeaturedListViewController: XUIViewController {
     deinit {
         compositeDisposable.dispose()
         FeaturedLogVerbose("Featured List View Controller deinitializes.")
-    }
-    
-    private func setupTableView() {
-        
-        compositeDisposable += viewmodel.featuredBusinessViewModelArr.producer
-            |> start(next: { [weak self] _ in
-                self?.tableView.reloadData()
-            })
-        
-        tableView.dataSource = self
     }
     
     private func setupRefresh() {
@@ -124,6 +115,9 @@ public final class FeaturedListViewController: XUIViewController {
     private func setupNearbyButton() {
         let pushNearby = Action<UIBarButtonItem, Void, NoError> { [weak self] button in
             return SignalProducer<Void, NoError> { [weak self] sink, disposable in
+                
+                self?.nearbyButton.enabled = false
+                
                 self?.viewmodel.pushNearbyModule()
                 sendCompleted(sink)
             }
@@ -153,6 +147,8 @@ public final class FeaturedListViewController: XUIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        nearbyButton.enabled = true
+        
         willAppearTableView()
     }
     
@@ -162,18 +158,13 @@ public final class FeaturedListViewController: XUIViewController {
         // when the specified row is now selected
         compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntil(
-                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilViewWillDisappear(self)
             |> map { ($0 as! RACTuple).second as! NSIndexPath }
+            |> logLifeCycle(LogContext.Featured, "tableView:didSelectRowAtIndexPath:")
             |> start(
                 next: { [weak self] indexPath in
                     let something = indexPath.row
                     self?.viewmodel.pushDetailModule(indexPath.row)
-                },
-                completed: {
-                    FeaturedLogVerbose("`tableView:didSelectRowAtIndexPath:` signal completes.")
                 }
         )
         
@@ -204,6 +195,17 @@ public final class FeaturedListViewController: XUIViewController {
                     }
                 }
         )
+        
+        compositeDisposable += viewmodel.featuredBusinessViewModelArr.producer
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Featured, "viewmodel.featuredBusinessViewModelArr.producer")
+            |> start(
+                next: { [weak self] _ in
+                    self?.tableView.reloadData()
+                }
+            )
+        
         
         /**
         Assigning UITableView delegate has to happen after signals are established.
