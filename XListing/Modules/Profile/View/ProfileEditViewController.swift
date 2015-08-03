@@ -151,7 +151,8 @@ public final class ProfileEditViewController: XUIViewController {
     
     private func setUpProfilePicture () {
         profilePicture = UIImageView(frame: CGRectMake(0, 0, 80, 80)) as UIImageView
-        var myImage = UIImage(named: "profilepicture")!
+        var myImage: UIImage = UIImage(data: viewmodel.currentUser.value!.profileImg!.getData())!
+        viewmodel.profileImage.put(myImage)
         profilePicture.image = myImage
         profilePicture.layer.cornerRadius = CGFloat(self.profilePicture.frame.width) / 2
         profilePicture.layer.masksToBounds = true
@@ -307,17 +308,28 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
             case .Nickname:
                 let nicknameCell = tableView.dequeueReusableCellWithIdentifier("NicknameCell") as! NicknameTableViewCell
                 nicknameCell.delegate = self
+                nicknameCell.setTextfieldText(viewmodel.currentUser.value!.nickname!)
                 nicknameCell.setUpEditProfileButton()
                 viewmodel.nickname <~ nicknameCell.getTextfield_rac_text()
                 return nicknameCell
             case .Gender:
                 let genderCell = tableView.dequeueReusableCellWithIdentifier("GenderCell") as! GenderTableViewCell
                 genderCell.delegate = self
+                var existingGender = viewmodel.currentUser.value?.gender
+                if (existingGender != nil) {
+                genderCell.setTextfieldText(viewmodel.currentUser.value!.gender!)
+                    existingGender == "男" ? viewmodel.gender.put(Gender.Male) : viewmodel.gender.put(Gender.Female)
+                }
                 genderCell.setUpEditProfileButton()
                 return genderCell
             case .Birthday:
                 let birthdayCell = tableView.dequeueReusableCellWithIdentifier("BirthdayCell") as! BirthdayTableViewCell
                 birthdayCell.delegate = self
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "dd-MM-yyyy"
+                var existingBirthday : NSDate = viewmodel.currentUser.value!.birthday!
+                birthdayCell.setTextfieldText(dateFormatter.stringFromDate(existingBirthday))
+                viewmodel.birthday.put(existingBirthday)
                 return birthdayCell
             case .Whatsup:
                 let whatsupCell = tableView.dequeueReusableCellWithIdentifier("WhatsupCell") as! WhatsupTableViewCell

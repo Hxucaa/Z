@@ -45,6 +45,10 @@ public final class NicknameTableViewCell: UITableViewCell {
     public func getTextfield_rac_text () -> MutableProperty<String?> {
         return textField.rac_text
     }
+    
+    public func setTextfieldText (text: String) {
+        textField.text = text
+    }
 
 }
 
