@@ -53,15 +53,25 @@ public final class NearbyViewController: XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        
         businessCollectionView.pagingEnabled = true
+        
+        setupProfileButton()
+        
+        // set the initial view region based on current location
+        compositeDisposable += viewmodel.currentLocation
+            |> logLifeCycle(LogContext.Nearby, "viewmodel.currentLocation")
+            |> start(next: { [weak self] location in
+                let span = MapViewSpan
+                let region = MKCoordinateRegion(center: location.coordinate, span: span)
+                self?.mapView.setRegion(region, animated: false)
+            })
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        
-        setupProfileButton()
         setupMapView()
         setupBusinessCollectionView()
     }
@@ -96,18 +106,14 @@ public final class NearbyViewController: XUIViewController {
     */
     private func setupMapView() {
         
-        // set the view region
-        compositeDisposable += viewmodel.currentLocation
-            |> start(next: { [weak self] location in
-                self?.centerOnLocation(location.coordinate, animated: false)
-            })
-        
         // track user movement
         // not tracking user movement beacause it can be a battery hog
 //        mapView.setUserTrackingMode(.Follow, animated: false)
         
         // add annotation to map view
         compositeDisposable += viewmodel.businessViewModelArr.producer
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Nearby, "viewmodel.businessViewModelArr.producer")
             |> start(next: { [weak self] businessArr in
                 self?.businessCollectionView.reloadData()
                 self?.mapView.addAnnotations(businessArr.map { $0.annotation.value })
@@ -118,61 +124,55 @@ public final class NearbyViewController: XUIViewController {
         // when annotation is added to the mapview, this signal receives the next event
         compositeDisposable += rac_signalForSelector(Selector("mapView:didAddAnnotationViews:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntil(
-                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilViewWillDisappear(self)
             |> map { ($0 as! RACTuple).second as! [MKAnnotationView] }
-            |> start(
-                next: { [weak self] annotationViews in
-                    // iterate over annotation view and add tap gesture recognizer to each
-                    $.each(annotationViews, callback: { (index, view) -> () in
-                        
-                        // add tap gesture recognizer to annotation view
-                        let tapGesture = UITapGestureRecognizer()
-                        view.addGestureRecognizer(tapGesture)
-                        
-                        // listen to the gesture signal
-                        self?.compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
-                            // forwards events from the producer until the annotation view is prepared to be reused
-                            |> takeUntil(
-                                view.rac_prepareForReuseSignal.toSignalProducer()
-                                    |> toNihil
-                            )
-                            |> start(
-                                next: { _ in
-                                    if let this = self {
-                                        let annotation = view.annotation
-                                        // center the map on the annotation
-                                        this.centerOnLocation(annotation.coordinate, animated: true)
-                                        
-                                        // find the index of the business
-                                        let index = $.findIndex(this.viewmodel.businessViewModelArr.value) { business in
-                                            if let anno = annotation as? MKPointAnnotation {
-                                                return business.annotation.value == anno
-                                            }
-                                            else {
-                                                return false
-                                            }
-                                        }
-                                        
-                                        if let index = index {
-                                            
-                                            // Construct the index path. Note that the collection only has ONE row.
-                                            let indexPath = NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: index)
-                                            
-                                            // scroll to that business in the collection view.
-                                            this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
-                                        }
+            |> logLifeCycle(LogContext.Nearby, "mapView:didAddAnnotationViews:")
+            |> start(next: { [weak self] annotationViews in
+                
+                // iterate over annotation view and add tap gesture recognizer to each
+                $.each(annotationViews, callback: { (index, view) -> () in
+                    
+                    // add tap gesture recognizer to annotation view
+                    let tapGesture = UITapGestureRecognizer()
+                    view.addGestureRecognizer(tapGesture)
+                    
+                    // listen to the gesture signal
+                    self?.compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
+                        // forwards events from the producer until the annotation view is prepared to be reused
+                        |> takeUntilPrepareForReuse(view)
+//                        |> logLifeCycle(LogContext.Nearby, "\(typeNameAndAddress(view)) tapGesture")
+                        |> start(next: { _ in
+                            if let this = self, mapView = self?.mapView {
+                                let annotation = view.annotation
+                                
+                                // center the map on the annotation if it is not already in view
+                                let visibleAnnotations = mapView.annotationsInMapRect(mapView.visibleMapRect)
+                                if let anno = annotation as? NSObject where !visibleAnnotations.contains(anno) {
+                                    mapView.setCenterCoordinate(annotation.coordinate, animated: true)
+                                }
+                                
+                                // find the index of the business
+                                let index = $.findIndex(this.viewmodel.businessViewModelArr.value) { business in
+                                    if let anno = annotation as? MKPointAnnotation {
+                                        return business.annotation.value == anno
+                                    }
+                                    else {
+                                        return false
                                     }
                                 }
-                            )
-                    })
-                },
-                completed: {
-                    NearbyLogVerbose("didSelectAnnotationView signal completes.")
-                }
-            )
+                                
+                                if let index = index {
+                                    
+                                    // Construct the index path. Note that the collection only has ONE row.
+                                    let indexPath = NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: index)
+                                    
+                                    // scroll to that business in the collection view.
+                                    this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+                                }
+                            }
+                        })
+                })
+            })
     }
     
     private func setupBusinessCollectionView() {
@@ -180,33 +180,27 @@ public final class NearbyViewController: XUIViewController {
         // This replaces the need to implement the function from the delegate
         compositeDisposable += rac_signalForSelector(Selector("collectionView:didSelectItemAtIndexPath:"), fromProtocol: UICollectionViewDelegate.self).toSignalProducer()
             // Completes the signal when the view controller disappears
-            |> takeUntil(
-                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilViewWillDisappear(self)
             // Map the value obtained from signal to the desired one
             |> map { ($0 as! RACTuple).second as! NSIndexPath }
+            |> logLifeCycle(LogContext.Nearby, "collectionView:didSelectItemAtIndexPath:")
             |> start(
                 next: { [weak self] indexPath in
                     self?.viewmodel.pushDetailModule(indexPath.section)
-                },
-                completed: {
-                    NearbyLogVerbose("didSelectItemAtIndexPath signal completes.")
                 }
             )
         
         compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndScrollingAnimation:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
             
             // Completes the signal when the view controller disappears
-            |> takeUntil(
-                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilViewWillDisappear(self)
             |> map { ($0 as! RACTuple).first as! UIScrollView }
+            |> logLifeCycle(LogContext.Nearby, "scrollViewDidEndScrollingAnimation:")
             |> start(
                 next: { [weak self] scrollView in
                     if let
                         this = self,
+                        mapView = self?.mapView,
                         collectionView = scrollView as? UICollectionView,
                         visibleCells = collectionView.visibleCells() as? [UICollectionViewCell],
                         lastCell = visibleCells.last,
@@ -220,10 +214,13 @@ public final class NearbyViewController: XUIViewController {
                             let annotation = business.annotation.value
                             
                             // Select the annotation
-                            this.mapView.selectAnnotation(annotation, animated: true)
+                            mapView.selectAnnotation(annotation, animated: true)
                             
-                            // Center the map on the annotation
-                            this.centerOnLocation(annotation.coordinate, animated: true)
+                            // center the map on the annotation if it is not already in view
+                            let visibleAnnotations = mapView.annotationsInMapRect(mapView.visibleMapRect)
+                            if !visibleAnnotations.contains(annotation) {
+                                mapView.setCenterCoordinate(annotation.coordinate, animated: true)
+                            }
                     }
                 }
             )
@@ -254,22 +251,9 @@ public final class NearbyViewController: XUIViewController {
     }
     
     // MARK: Others
-    
-    /**
-    Center the map to a location.
-    
-    :param: coordinate The coordinates.
-    :param: animated   Turn on or off animation.
-    */
-    private func centerOnLocation(coordinate: CLLocationCoordinate2D, animated: Bool) {
-        let span = MapViewSpan
-        let region = MKCoordinateRegion(center: coordinate, span: span)
-        mapView.setRegion(region, animated: animated)
-    }
-    
 }
 
-extension NearbyViewController : UICollectionViewDataSource, UIScrollViewDelegate {
+extension NearbyViewController : UICollectionViewDataSource {
     
     
     /**
@@ -310,6 +294,9 @@ extension NearbyViewController : UICollectionViewDataSource, UIScrollViewDelegat
         
         return cell
     }
+}
+
+extension NearbyViewController : UIScrollViewDelegate {
     
     /**
     Tells the delegate when the user scrolls the content view within the receiver.
@@ -323,6 +310,7 @@ extension NearbyViewController : UICollectionViewDataSource, UIScrollViewDelegat
         // Use the objective-C API to manually call the function indicating an end of scrolling.
         swift_performSelector("scrollViewDidEndScrollingAnimation:", withObject: scrollView, afterDelay: 0.1)
     }
+    
 }
 
 extension NearbyViewController : UICollectionViewDelegateFlowLayout {

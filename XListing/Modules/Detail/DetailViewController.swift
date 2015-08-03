@@ -106,6 +106,7 @@ public final class DetailViewController : XUIViewController, UITableViewDelegate
         tableView.separatorInset = UIEdgeInsetsZero
         
         compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
+            |> logLifeCycle(LogContext.Detail, "tableView:didSelectRowAtIndexPath:")
             |> map { ($0 as! RACTuple).second as! NSIndexPath }
             |> start(next: { indexPath in
                 let section = indexPath.section

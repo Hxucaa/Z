@@ -39,43 +39,23 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
         self.viewmodel = viewmodel
         
         businessNameLabel.rac_text <~ self.viewmodel.businessName.producer
-            |> takeUntil(
-                rac_prepareForReuseSignal.toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilPrepareForReuse(self)
         
         cityLabel.rac_text <~ self.viewmodel.city.producer
-            |> takeUntil(
-                rac_prepareForReuseSignal.toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilPrepareForReuse(self)
         
         businessHoursLabel.rac_text <~ self.viewmodel.participation.producer
-            |> takeUntil(
-                rac_prepareForReuseSignal.toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilPrepareForReuse(self)
         
         etaLabel.rac_text <~ self.viewmodel.eta.producer
-            |> takeUntil(
-                rac_prepareForReuseSignal.toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilPrepareForReuse(self)
         
         compositeDisposable += self.viewmodel.coverImage.producer
-            |> takeUntil(
-                rac_prepareForReuseSignal.toSignalProducer()
-                    |> toNihil
-            )
+            |> takeUntilPrepareForReuse(self)
             |> ignoreNil
             |> start (
                 next: { [weak self] in
                     self?.coverImageView.setImageWithAnimation($0)
-                },
-                completed: { [weak self] in
-                    if let this = self {
-                        NearbyLogVerbose("<\(_stdlib_getDemangledTypeName(this)): \(unsafeAddressOf(this))> Cover image signal completes.")
-                    }
                 }
             )
     }
