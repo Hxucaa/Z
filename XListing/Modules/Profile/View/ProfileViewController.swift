@@ -36,7 +36,7 @@ public final class ProfileViewController : XUIViewController {
         self.navigationItem.title = "个人"
         if let temp = NSBundle.mainBundle().loadNibNamed("ProfileHeaderView", owner: self, options: nil)[0] as? ProfileHeaderView{
             headerViewContent  = temp
-            headerViewContent.frame = CGRectMake(0, 0, headerViewContent.frame.width, headerViewContent.frame.height)
+            headerViewContent.frame = CGRectMake(0, 0, headerView.frame.width, headerView.frame.height)
             setupBackButton(headerViewContent.topLeftButton)
             setupEditButton(headerViewContent.topRightButton)
             headerView.addSubview(headerViewContent)
@@ -51,13 +51,10 @@ public final class ProfileViewController : XUIViewController {
     
     
     private func tryBindHeaderViewModel() {
-        BOLogDebug("start to bind")
         if headerViewContent != nil && self.profileVM!.profileHeaderViewModel.value != nil{
             headerViewContent.bindViewModel(self.profileVM!.profileHeaderViewModel.value!)
-            BOLogDebug("bind success")
         }
         else{
-            BOLogDebug("bind failed")
         }
     }
     
@@ -85,13 +82,8 @@ public final class ProfileViewController : XUIViewController {
     
 
     public override func viewWillAppear(animated: Bool) {
-//        BOLogVerbose("\(self.tableView.frame.origin.x)")
-//        BOLogVerbose("\(self.tableView.frame.origin.y)")
-//        BOLogVerbose("\(self.tableView.frame.size.width)")
-//        BOLogVerbose("\(self.tableView.frame.size.height)")
         navigationController?.navigationBar.hidden = true // for navigation bar hide
         UIApplication.sharedApplication().statusBarHidden=false
-//        self.setStatusBarHidden(false, animated: false)
     }
     
     public override func didReceiveMemoryWarning() {
@@ -135,17 +127,6 @@ public final class ProfileViewController : XUIViewController {
         btn.addTarget(editAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchDown)
     }
     
-
-//    public override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        // Get the new view controller using [segue destinationViewController].
-//        // Pass the selected object to the new view controller.
-//        if (segue.identifier == "presentProfileEdit") {
-//            let profileEditVC = segue.destinationViewController.topViewController as! ProfileEditViewController
-//            profileEditVC.bindToViewModel(profileVM.profileEditViewModel)
-//        }
-//    }
-    
-    
     public func bindViewModel(viewmodel: ProfileViewModel) {
         self.profileVM = viewmodel
     }
@@ -174,23 +155,6 @@ public final class ProfileViewController : XUIViewController {
         imageView.layer.masksToBounds = true;
         return
     }
-//    
-//    public func switchSegment(){
-//        if (self.firstSegSelected){
-//            self.firstSegSelected = false
-//        }else{
-//            self.firstSegSelected = true
-//        }
-//        self.tableView.reloadData()
-//    }
-//    
-//    override public func prefersStatusBarHidden() -> Bool {
-//        return false
-//    }
-//    
-    
-    
-    
 }
 
 
@@ -227,7 +191,6 @@ extension ProfileViewController : UITableViewDataSource, UITableViewDelegate {
         var businessCell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as? ProfileBusinessCell
         if businessCell == nil {
             businessCell = NSBundle.mainBundle().loadNibNamed("ProfileBusinessCell", owner: self, options: nil)[0] as? ProfileBusinessCell
-            BOLogVerbose("business cell created")
         }
         
         businessCell!.bindViewModel(profileVM.profileBusinessViewModelArr.value[indexPath.row])
@@ -244,19 +207,6 @@ extension ProfileViewController : UITableViewDataSource, UITableViewDelegate {
             default: return 90
         }
     }
-    
-//    
-//    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return ""
-//    }
-//    
-//    public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return 2
-//    }
-//    
-//    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 2
-//    }
 }
 
 
@@ -272,33 +222,25 @@ extension ProfileViewController : UITableViewDelegate {
     :param: indexPath An index path locating the new selected row in tableView.
     */
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //tableView.deselectRowAtIndexPath(indexPath, animated: true) 
     }
     
+    public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        
+        return true
+    }
     
-    /**
-    Asks the data source for a cell to insert in a particular location of the table view. (required)
-    
-    :param: tableView A table-view object requesting the cell.
-    :param: indexPath An index path locating a row in tableView.
-    
-    :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
-    */
-    
-//    public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-//        
-//        return true
-//    }
-//    
-//    public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-//        
-//        if (editingStyle == UITableViewCellEditingStyle.Delete){
-//            
-//            numberOfChats--
+    public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if (editingStyle == UITableViewCellEditingStyle.Delete){
+            profileVM.undoParticipation(indexPath.row)
+                |> start()
+//            self.tableView.reloadData()
+            profileVM.profileBusinessViewModelArr.value.removeAtIndex(indexPath.row);
 //            [self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)]
-//        }
-//        
-//    }
+            self.tableView.reloadData()
+        }
+        
+    }
 }
 
 

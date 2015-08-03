@@ -20,7 +20,7 @@ class ProfileHeaderView: UIView {
     
     var viewModel: ProfileHeaderViewModel?
     
-    
+    var horoscopeString = ""
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -39,7 +39,7 @@ class ProfileHeaderView: UIView {
     func bindViewModel(viewmodel: ProfileHeaderViewModel) {
             self.viewModel = viewmodel
             nameLabel.rac_text <~ viewmodel.name
-            constellationLabel.rac_text <~ viewmodel.horoscope
+            constellationLabel.rac_text <~ convertHoroscope(viewmodel.horoscope.value)
             ageLabel.rac_text <~ viewmodel.ageGroup
             locationLabel.rac_text <~ viewmodel.district
             
@@ -49,5 +49,29 @@ class ProfileHeaderView: UIView {
                     self?.profileImageView.setImageWithAnimation($0)
                     })
     }
+    
+    private func convertHoroscope(horoscope: String?) -> MutableProperty<String> {
+        var resultMutable = MutableProperty("");
+        if horoscope != nil{
+            switch(horoscope!){
+            case "白羊座": horoscopeString = horoscope! + "♈️"
+            case "金牛座": horoscopeString = horoscope! + "♉️"
+            case "双子座": horoscopeString = horoscope! + "♊️"
+            case "巨蟹座": horoscopeString = horoscope! + "♋️"
+            case "狮子座": horoscopeString = horoscope! + "♌️"
+            case "处女座": horoscopeString = horoscope! + "♍️"
+            case "天秤座": horoscopeString = horoscope! + "♎️"
+            case "天蝎座": horoscopeString = horoscope! + "♏️"
+            case "射手座": horoscopeString = horoscope! + "♐️"
+            case "摩羯座": horoscopeString = horoscope! + "♑️"
+            case "水瓶座": horoscopeString = horoscope! + "♒️"
+            case "双鱼座": horoscopeString = horoscope! + "♓️"
+            default: horoscopeString = horoscope!
+            }
+        }
+        resultMutable.put(horoscopeString)
+        return resultMutable
+    }
+
 
 }

@@ -48,7 +48,6 @@ public struct ProfileViewModel : IProfileViewModel {
             |> start(
                 next: { user in
                     self.user = MutableProperty(user)
-                    BOLogVerbose("\(user.toString())")
                     var viewmodel = ProfileHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, name: user.nickname, city: "", district: "", horoscope: user.horoscope, ageGroup: user.ageGroup, cover: user.profileImg, geopoint: user.latestLocation)
                     self.profileHeaderViewModel.put(viewmodel)
                     self.getParticipations(user)
@@ -58,39 +57,10 @@ public struct ProfileViewModel : IProfileViewModel {
     }
     
     
-//    public func getFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
-//        let query = Business.query()!
-//        query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
-//        
-//        return businessService.findBy(query)
-//            |> on(next: { businesses in
-//                self.fetchingData.put(true)
-//            })
-//            |> map { businesses -> [FeaturedBusinessViewModel] in
-//                // shuffle and save the business models
-//                self.businessArr.put($.shuffle(businesses))
-//                
-//                // map the business models to viewmodels
-//                return self.businessArr.value.map {
-//                    FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
-//                }
-//            }
-//            |> on(
-//                next: { response in
-//                    self.fetchingData.put(false)
-//                    self.featuredBusinessViewModelArr.put(response)
-//                },
-//                error: { FeaturedLogError($0.description) }
-//        )
-//    }
-//    
-    
-    
     public func getParticipations(user : User) -> SignalProducer<[ProfileBusinessViewModel], NSError> {
         let query = Participation.query()!
         query.whereKey(Participation.Property.User.rawValue, equalTo: user)
         query.includeKey("business")
-        BOLogVerbose("getParticipations called")
         return participationService.findBy(query)
             |> on(next: { participations in
                 self.fetchingData.put(true)
@@ -98,7 +68,6 @@ public struct ProfileViewModel : IProfileViewModel {
             |> map { participations -> [ProfileBusinessViewModel] in
                 // shuffle and save the participations
                 self.participationArr.put($.shuffle(participations))
-                BOLogVerbose("participations fetched \(participations.count)")
 
                 // map the business models to viewmodels
                 return self.participationArr.value.map {
@@ -116,5 +85,15 @@ public struct ProfileViewModel : IProfileViewModel {
                 },
                 error: { FeaturedLogError($0.description)}
         )
+    }
+    
+    public func undoParticipation(index: Int) -> SignalProducer<Bool, NSError>{
+        return participationService.delete(participationArr.value[index])
+            |> on(completed: {
+                ProfileLogInfo("participation backend completed")
+                self.participationArr.value.removeAtIndex(index)
+                }
+        )
+    
     }
 }

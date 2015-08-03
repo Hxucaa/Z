@@ -102,18 +102,18 @@ public struct UserService : IUserService {
             user.profileImg!.saveInBackgroundWithBlock{ (success, error) -> Void in
                 if error == nil {
                     LSLogDebug("User image uploaded")
+                    user.saveInBackgroundWithBlock { (success, error) -> Void in
+                        if error == nil {
+                            LSLogDebug("save profile return success")
+                            sendCompleted(sink)
+                        }
+                        else {
+                            sendError(sink, error)
+                        }
+                    }
                 }
                 else {
                     sendError(sink, error)
-                }
-                user.saveInBackgroundWithBlock { (success, error) -> Void in
-                    if error == nil {
-                        LSLogDebug("save profile return success")
-                        sendCompleted(sink)
-                    }
-                    else {
-                        sendError(sink, error)
-                    }
                 }
             }
             }

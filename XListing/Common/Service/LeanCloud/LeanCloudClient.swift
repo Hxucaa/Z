@@ -47,11 +47,7 @@ public struct LeanCloudClient {
             }
             
         } else {
-            // If exec_mode is not present in environment variables, then possibly the app is released in app store. In that case environment variables may not be passed to the app. This requires further investigation
-            // TODO: investigate passing environment variables in app release
-            // TODO: fill in release id and key if needed
-            //            id = "";
-            //            key = "";
+
         }
         
         let errorMessage = "Unable to find Parse id and key for initialization"

@@ -53,4 +53,19 @@ public struct ParticipationService : IParticipationService {
             }
         }
     }
+    
+    public func delete(participation: Participation) -> SignalProducer<Bool, NSError>{
+        return SignalProducer{ sink, disposable in
+            participation.deleteInBackgroundWithBlock { (success, error) -> Void in
+                if error == nil{
+                    sendNext(sink, success)
+                    sendCompleted(sink)
+                }
+                else{
+                    LSLogError("participation delete failed")
+                    sendError(sink, error)
+                }
+            }
+        }
+    }
 }

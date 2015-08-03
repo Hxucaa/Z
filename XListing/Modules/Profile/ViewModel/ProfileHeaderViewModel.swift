@@ -40,13 +40,15 @@ public struct ProfileHeaderViewModel {
         } else {
             self.district = ConstantProperty("")
         }
-        if let horoscope = horoscope {
-            self.horoscope = ConstantProperty(horoscope)
-        } else {
+        if let horoscopeString = horoscope {
+            self.horoscope = ConstantProperty(horoscopeString)
+        }
+        else{
             self.horoscope = ConstantProperty("")
         }
         if let ageGroup = ageGroup {
-            self.ageGroup = ConstantProperty(ageGroup)
+            var temp = ageGroup + "后"
+            self.ageGroup = ConstantProperty(temp)
         } else {
             self.ageGroup = ConstantProperty("")
         }
@@ -87,16 +89,7 @@ public struct ProfileHeaderViewModel {
     
     // MARK: Setup
     
-    private func setupHoroscope() {
-//        self.geoLocationService.calculateETA(destination)
-//            |> start(next: { interval in
-//                let minute = Int(ceil(interval / 60))
-//                self.eta.put(" \(CITY_DISTANCE_SEPARATOR) 开车\(minute)分钟")
-//                }, error: { error in
-//                    FeaturedLogError(error.description)
-//            })
-    }
-
+ 
     
     
 }
