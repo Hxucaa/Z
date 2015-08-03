@@ -29,18 +29,6 @@ public func takeUntilPrepareForReuse<T, E>(view: UITableViewCell) -> SignalProdu
             |> takeUntil(view.rac_prepareForReuseSignal.toSignalProducer() |> toNihil)
     }
 }
-/**
-Forwards events until the view controller is going to disappear.
-
-:param: cell A UIViewController.
-*/
-public func takeUntilViewWillDisappear<T, E>(viewController: UIViewController) -> SignalProducer<T, E> -> SignalProducer<T, E> {
-    return { producer in
-        return producer
-            |> takeUntil(viewController.rac_signalForSelector(viewWillDisappearSelector).toSignalProducer() |> toNihil)
-    }
-}
-
 
 /**
 Forwards events until the cell is being prepared for reuse.
