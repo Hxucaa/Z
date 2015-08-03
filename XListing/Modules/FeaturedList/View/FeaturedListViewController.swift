@@ -170,10 +170,6 @@ public final class FeaturedListViewController: XUIViewController {
         
         rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"),
             fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
-            |> takeUntil(
-                rac_signalForSelector(viewWillDisappearSelector).toSignalProducer()
-                    |> toNihil
-            )
             |> map { ($0 as! RACTuple).first as! UIScrollView }
             |> start(
                 next: { scrollView in
