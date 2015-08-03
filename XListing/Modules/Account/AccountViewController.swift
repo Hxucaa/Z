@@ -27,10 +27,15 @@ public final class AccountViewController: XUIViewController {
     private var viewmodel: IAccountViewModel!
     /// A disposable that will dispose of any number of other disposables.
     private let compositeDisposable = CompositeDisposable()
+    
     /**
-    A producer that handles transition of views. It also takes in a completion handler after transition is done.
+    Transition between UIViews is done via sending Transition event through a signal producer. The Transition event is consisted of the view that
+    will be transition into and a completion callback. 
+    
+    The signal producer combines
     */
-    private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<(view: UIView, completion: (Bool -> Void)?), NoError>.buffer(0)
+    private typealias Transition = (view: UIView, completion: (Bool -> Void)?)
+    private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<Transition, NoError>.buffer(0)
     
     // MARK: - Setups
     public override func loadView() {
@@ -49,143 +54,187 @@ public final class AccountViewController: XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
         navigationController?.setNavigationBarHidden(true, animated: false)
         
-        setupLandingPage()
-        
-        view.addSubview(landingPageView)
-        addConstraintsToClipToAllSides(landingPageView)
-        
-        setupLogIn()
-        setupSignUp()
-        setupEditInfo()
-        setupTransitions()
-    }
-    
-    private func setupLandingPage() {
+        // bind view model
         landingPageView.bindToViewModel(viewmodel.landingPageViewModel)
-        
-        compositeDisposable += landingPageView.skipProxy
-            |> logLifeCycle(LogContext.Account, "landingPageView.skipProxy")
-            |> start(next: { [weak self] in
-                self?.viewmodel.skipAccount({
-                    self?.navigationController?.setNavigationBarHidden(true, animated: false)
-                    // dismiss account module, but no callback
-                    self?.dismissViewControllerAnimated(true, completion: nil)
-                })
-            })
-        
-        compositeDisposable += landingPageView.loginProxy
-            |> logLifeCycle(LogContext.Account, "landingPageView.loginProxy")
-            |> start(next: { [weak self] in
-                if let this = self {
-                    // transition to log in view
-                    sendNext(this.viewTransitionSink, (view: this.logInView, completion: { success in this.logInView.startFirstResponder() }))
-                }
-            })
-        
-        compositeDisposable += landingPageView.signUpProxy
-            |> logLifeCycle(LogContext.Account, "landingPageView.signUpProxy")
-            |> start(next: { [weak self] in
-                if let this = self {
-                    // transition to sign up view
-                    sendNext(this.viewTransitionSink, (view: this.signUpView, completion: { success in this.signUpView.startFirstResponder() }))
-                }
-            })
-    }
-    
-    private func setupLogIn() {
         logInView.bindToViewModel(viewmodel.logInViewModel)
-        
-        compositeDisposable += logInView.goBackProxy
-            |> logLifeCycle(LogContext.Account, "landingPageView.goBackProxy")
-            |> start(next: { [weak self] in
-                if let this = self {
-                    // transition to landing page view
-                    sendNext(this.viewTransitionSink, (view: this.landingPageView, completion: nil))
-                }
-            })
-        
-        compositeDisposable += logInView.finishLoginProxy
-            |> logLifeCycle(LogContext.Account, "landingPageView.finishLoginProxy")
-            |> start(next: { [weak self] in
-                if self?.viewmodel.gotoNextModuleCallback == nil {
-                    self?.viewmodel.pushFeaturedModule()
-                }
-                else {
-                    // dismiss account module, and go to the next module
-                    self?.dismissViewControllerAnimated(true, completion: self?.viewmodel.gotoNextModuleCallback)
-                }
-                self?.navigationController?.setNavigationBarHidden(false, animated: false)
-            })
-    }
-    
-    private func setupSignUp() {
         signUpView.bindToViewModel(viewmodel.signUpViewModel)
-        
-        compositeDisposable += signUpView.goBackProxy
-            |> start(next: { [weak self] in
-                if let this = self {
-                    // transition to landing page view
-                    sendNext(this.viewTransitionSink, (view: this.landingPageView, completion: nil))
-                }
-            })
-
-        compositeDisposable += signUpView.finishSignUpProxy
-            |> start(next: { [weak self] in
-                if let this = self {
-                    // transition to edit info view
-                    sendNext(this.viewTransitionSink, (view: this.editInfoView, completion: nil))
-                }
-            })
-    }
-    
-    private func setupEditInfo() {
         editInfoView.bindToViewModel(viewmodel.editProfileViewModel)
         
-        compositeDisposable += editInfoView.presentUIImagePickerProxy
-            |> start(next: { [weak self] imagePicker in
-                // present image picker
-                self?.presentViewController(imagePicker, animated: true, completion: nil)
-            })
-        
-        compositeDisposable += editInfoView.dismissUIImagePickerProxy
-            |> start(next: { [weak self] handler in
-                // dismiss image picker
-                self?.dismissViewControllerAnimated(true, completion: handler)
-            })
-        
-        compositeDisposable += editInfoView.finishEditInfoProxy
-            |> start(next: { [weak self] in
-                
-                if self?.viewmodel.gotoNextModuleCallback == nil {
-                    self?.viewmodel.pushFeaturedModule()
-                }
-                else {
-                    // dismiss account module, and go to the next module
-                    self?.dismissViewControllerAnimated(true, completion: self?.viewmodel.gotoNextModuleCallback)
-                }
-                self?.navigationController?.setNavigationBarHidden(false, animated: false)
-            })
-    }
-    
-    private func setupTransitions() {
+        /**
+        Setup view transition.
+        */
         
         // transition to next view.
         compositeDisposable += viewTransitionProducer
             // forwards events along with the previous value. The first member is the previous value and the second is the current value.
-            |> combinePrevious((view: landingPageView, completion: nil))
-            |> start(next: { [unowned self] previous, current in
+            |> combinePrevious((view: self.landingPageView, completion: nil))
+            |> start(next: { [unowned self] current, next in
                 
                 // transition animation
-                self.animateTransition(previous.view, toView: current.view) { success in
+                self.animateTransition(current.view, toView: next.view) { success in
                     
-                    if let completion = current.completion {
+                    if let completion = next.completion {
                         completion(success)
                     }
                 }
             })
+        
+        
+        // add landing page as the first subview
+        setupLandingPage()
+        view.addSubview(landingPageView)
+        addConstraintsToClipToAllSides(landingPageView)
+    }
+    
+    private func setupLandingPage() {
+        let landingPageSignal = SignalProducer<Void, NoError> { sink, compositeDisposable in
+            
+            compositeDisposable += self.landingPageView.skipProxy
+                |> logLifeCycle(LogContext.Account, "landingPageView.skipProxy")
+                |> start(next: { [weak self] in
+                    self?.viewmodel.skipAccount({
+                        self?.navigationController?.setNavigationBarHidden(true, animated: false)
+                        // dismiss account module, but no callback
+                        self?.dismissViewControllerAnimated(true, completion: nil)
+                    })
+                    sendCompleted(sink)
+                })
+            
+            compositeDisposable += self.landingPageView.loginProxy
+                |> logLifeCycle(LogContext.Account, "landingPageView.loginProxy")
+                |> start(next: { [weak self] in
+                    if let this = self {
+                        // transition to log in view
+                        sendNext(this.viewTransitionSink, (view: this.logInView, completion: { success in
+                            this.setupLogIn()
+                            this.logInView.startFirstResponder()
+                        }))
+                        sendCompleted(sink)
+                    }
+                })
+            
+            compositeDisposable += self.landingPageView.signUpProxy
+                |> logLifeCycle(LogContext.Account, "landingPageView.signUpProxy")
+                |> start(next: { [weak self] in
+                    if let this = self {
+                        // transition to sign up view
+                        sendNext(this.viewTransitionSink, (view: this.signUpView, completion: { success in
+                            this.setupSignUp()
+                            this.signUpView.startFirstResponder()
+                        }))
+                        sendCompleted(sink)
+                    }
+                })
+        }
+            |> logLifeCycle(LogContext.Account, "landingPageView")
+        
+        compositeDisposable += landingPageSignal
+            |> start()
+    }
+    
+    private func setupLogIn() {
+        
+        let logInSignal = SignalProducer<Void, NoError> { sink, compositeDisposable in
+            
+            compositeDisposable += self.logInView.goBackProxy
+                |> logLifeCycle(LogContext.Account, "logInView.goBackProxy")
+                |> start(next: { [weak self] in
+                    if let this = self {
+                        // transition to landing page view
+                        sendNext(this.viewTransitionSink, (view: this.landingPageView, completion: nil))
+                        this.setupLandingPage()
+                        sendCompleted(sink)
+                    }
+                })
+            
+            compositeDisposable += self.logInView.finishLoginProxy
+                |> logLifeCycle(LogContext.Account, "logInView.finishLoginProxy")
+                |> start(next: { [weak self] in
+                    if self?.viewmodel.gotoNextModuleCallback == nil {
+                        self?.viewmodel.pushFeaturedModule()
+                    }
+                    else {
+                        // dismiss account module, and go to the next module
+                        self?.dismissViewControllerAnimated(true, completion: self?.viewmodel.gotoNextModuleCallback)
+                    }
+                    self?.navigationController?.setNavigationBarHidden(false, animated: false)
+                    sendCompleted(sink)
+                })
+        }
+            |> logLifeCycle(LogContext.Account, "logIn")
+        
+        compositeDisposable += logInSignal
+            |> start()
+    }
+    
+    private func setupSignUp() {
+        
+        let setupSignUp = SignalProducer<Void, NoError> { sink, compositeDisposable in
+            
+            compositeDisposable += self.signUpView.goBackProxy
+                |> logLifeCycle(LogContext.Account, "signUpView.goBackProxy")
+                |> start(next: { [weak self] in
+                    if let this = self {
+                        // transition to landing page view
+                        sendNext(this.viewTransitionSink, (view: this.landingPageView, completion: nil))
+                        this.setupLandingPage()
+                        sendCompleted(sink)
+                    }
+                })
+            
+            compositeDisposable += self.signUpView.finishSignUpProxy
+                |> logLifeCycle(LogContext.Account, "signUpView.finishSignUpProxy")
+                |> start(next: { [weak self] in
+                    if let this = self {
+                        // transition to edit info view
+                        sendNext(this.viewTransitionSink, (view: this.editInfoView, completion: nil))
+                        this.setupEditInfo()
+                        sendCompleted(sink)
+                    }
+                })
+        }
+            |> logLifeCycle(LogContext.Account, "signUp")
+        
+        compositeDisposable += setupSignUp
+            |> start()
+    }
+    
+    private func setupEditInfo() {
+        
+        let setupEditInfo = SignalProducer<Void, NoError> { sink, compositeDisposable in
+            
+            compositeDisposable += self.editInfoView.presentUIImagePickerProxy
+                |> start(next: { [weak self] imagePicker in
+                    // present image picker
+                    self?.presentViewController(imagePicker, animated: true, completion: nil)
+                })
+            
+            compositeDisposable += self.editInfoView.dismissUIImagePickerProxy
+                |> start(next: { [weak self] handler in
+                    // dismiss image picker
+                    self?.dismissViewControllerAnimated(true, completion: handler)
+                })
+            
+            compositeDisposable += self.editInfoView.finishEditInfoProxy
+                |> start(next: { [weak self] in
+                    
+                    if self?.viewmodel.gotoNextModuleCallback == nil {
+                        self?.viewmodel.pushFeaturedModule()
+                    }
+                    else {
+                        // dismiss account module, and go to the next module
+                        self?.dismissViewControllerAnimated(true, completion: self?.viewmodel.gotoNextModuleCallback)
+                    }
+                    self?.navigationController?.setNavigationBarHidden(false, animated: false)
+                    sendCompleted(sink)
+                })
+        }
+            |> logLifeCycle(LogContext.Account, "editInfo")
+        
+        compositeDisposable += setupEditInfo
+            |> start()
     }
     
     deinit {
@@ -196,7 +245,7 @@ public final class AccountViewController: XUIViewController {
     
     // MARK: - Bindings
     
-    public func bindToViewModel(viewModel: IAccountViewModel, dismissCallback: CompletionHandler? = nil) {
+    public func bindToViewModel(viewModel: IAccountViewModel) {
         self.viewmodel = viewModel
     }
     

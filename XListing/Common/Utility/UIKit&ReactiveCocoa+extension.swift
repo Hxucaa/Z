@@ -158,3 +158,14 @@ extension UIViewController {
     }
     
 }
+
+extension UIView {
+    public var rac_removeFromSuperview: RACSignal {
+        return rac_signalForSelector(Selector("removeFromSuperview"))
+    }
+    
+    public var rac_removeFromSuperviewProducer: SignalProducer<Void, NSError> {
+        return rac_removeFromSuperview.toSignalProducer()
+            |> map { _ in }
+    }
+}
