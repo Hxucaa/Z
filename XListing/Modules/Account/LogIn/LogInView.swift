@@ -14,90 +14,166 @@ public final class LogInView : UIView {
     
     // MARK: - UI
     // MARK: Controls
-    @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var usernameField: UITextField!
-    @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet private weak var loginButton: UIButton!
+    @IBOutlet private weak var backButton: UIButton!
+    @IBOutlet private weak var usernameField: UITextField!
+    @IBOutlet private weak var passwordField: UITextField!
     
-    // MARK: - Delegate
-    public weak var delegate: LoginViewDelegate?
+    // MARK: - Proxies
+    /// Go back to previous page.
+    public var goBackProxy: SimpleProxy {
+        return _goBackProxy
+    }
+    private let (_goBackProxy, _goBackSink) = SimpleProxy.proxy()
     
-    // MARK: - Private variables
-    private let viewmodel = MutableProperty<LogInViewModel?>(nil)
+    /// Log In view is finished.
+    public var finishLoginProxy: SimpleProxy {
+        return _finishLoginProxy
+    }
+    private let (_finishLoginProxy, _finishLoginSink) = SimpleProxy.proxy()
     
+    // MARK: - Properties
+    private var viewmodel: LogInViewModel!
+    
+    // MARK: Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
         
+        setupUsernameField()
+        setupPasswordField()
+        setupLoginButton()
         setupBackButton()
-        
-        viewmodel.producer
-            |> ignoreNil
-            |> start(next: { [weak self] viewmodel in
-                self?.setupUsername(viewmodel)
-                self?.setupPassword(viewmodel)
-                self?.setupLoginButton(viewmodel)
-            })
     }
     
-    private func setupUsername(viewmodel: LogInViewModel) {
+    private func setupUsernameField() {
         usernameField.delegate = self
-        viewmodel.username <~ usernameField.rac_text
+        // focus on the username field as soon as the view is displayed
     }
     
-    private func setupPassword(viewmodel: LogInViewModel) {
+    private func setupPasswordField() {
         passwordField.delegate = self
-        viewmodel.password <~ passwordField.rac_text
     }
     
-    private func setupLoginButton(viewmodel: LogInViewModel) {
+    private func setupLoginButton() {
         loginButton.layer.masksToBounds = true
         loginButton.layer.cornerRadius = 8
-        loginButton.rac_enabled <~ viewmodel.allInputsValid.producer
         
-        let login = Action<UIButton, User, NSError> { button in
-            // display HUD to indicate work in progress
-            let logInAndHUD = HUD.show()
-                // map error to the same type as other signal
-                |> promoteErrors(NSError)
-                // log in
-                |> then(viewmodel.logIn)
-                // dismiss HUD based on the result of log in signal
-                |> HUD.onDismissWithStatusMessage(errorHandler: { error -> String in
-                    AccountLogError(error.description)
-                    return error.customErrorDescription
-                })
-            
-            let HUDDisappear = HUD.didDissappearNotification() |> promoteErrors(NSError)
-            
-            // combine the latest signal of log in and hud dissappear notification
-            // once log in is done properly and HUD is disappeared, proceed to next step
-            return combineLatest(logInAndHUD, HUDDisappear)
-                |> map { [weak self] user, notificationMessage -> User in
-                    self?.delegate?.loginViewFinished()
-                    return user
+        let login = Action<UIButton, Void, NSError> { [weak self] button in
+            return SignalProducer { sink, disposable in
+                if let this = self {
+                    // display HUD to indicate work in progress
+                    disposable += SignalProducer<Void, NoError>.empty
+                        // delay the signal due to the animation of retracting keyboard
+                        // this cannot be executed on main thread, otherwise UI will be blocked
+                        |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                        // return the signal to main/ui thread in order to run UI related code
+                        |> observeOn(UIScheduler())
+                        |> then(HUD.show())
+                        // map error to the same type as other signal
+                        |> promoteErrors(NSError)
+                        // log in
+                        |> then(this.viewmodel.logIn)
+                        // dismiss HUD based on the result of log in signal
+                        |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
+                            AccountLogError(error.description)
+                            return error.customErrorDescription
+                        })
+                        |> start(
+                            error: { error in
+                                sendError(sink, error)
+                            },
+                            interrupted: { _ in
+                                sendInterrupted(sink)
+                            }
+                        )
+                    
+                    // Subscribe to touch down inside event
+                    disposable += HUD.didTouchDownInsideNotification()
+                        |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                        |> start(
+                            next: { _ in
+                                // dismiss HUD
+                                HUD.dismiss()
+                                // interrupts the action
+//                                sendInterrupted(sink)
+                            }
+                    )
+
+                    // Subscribe to disappear notification
+                    disposable += HUD.didDissappearNotification()
+                        |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                        |> start(next: { [weak self] status in
+                            if status == HUD.DisappearStatus.Normal {
+                                // transition out of this page
+                                sendNext(this._finishLoginSink, ())
+                                sendCompleted(this._finishLoginSink)
+                            }
+                            
+                            // completes the action
+                            sendNext(sink, ())
+                            sendCompleted(sink)
+                            
+                        })
+                    
+                    // Add the signals to CompositeDisposable for automatic memory management
+                    disposable.addDisposable {
+                        AccountLogVerbose("Log in action is disposed.")
+                    }
+                    
+                    // retract keyboard
+                    self?.endEditing(true)
+                }
             }
         }
         
-        // Link UIControl event to actions
         loginButton.addTarget(login.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     private func setupBackButton () {
         
         let backAction = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { [weak self] sink, disposable in
-                // go back to previous view
-                self?.delegate?.goBackToPreviousView()
+            return SignalProducer { sink, disposable in
+                self?.endEditing(true)
+                
                 sendCompleted(sink)
+                
+                // go back to previous view
+                if let this = self {
+                    // transition out of this page
+                    sendNext(this._goBackSink, ())
+                }
             }
         }
         
         backButton.addTarget(backAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
+    deinit {
+        AccountLogVerbose("Log In View deinitializes.")
+    }
+    
+    // MARK: Bindings    
+    
+    /**
+    Bind viewmodel to view.
+    
+    :param: viewmodel The viewmodel
+    */
     public func bindToViewModel(viewmodel: LogInViewModel) {
-        self.viewmodel.put(viewmodel)
+        self.viewmodel = viewmodel
         
+        self.viewmodel.username <~ usernameField.rac_text
+        self.viewmodel.password <~ passwordField.rac_text
+        loginButton.rac_enabled <~ self.viewmodel.allInputsValid.producer
+    }
+    
+    // MARK: Others
+    
+    /**
+    Notify receiver that it is about to be the first reponsider.
+    */
+    public func startFirstResponder() {
+        usernameField.becomeFirstResponder()
     }
 }
 
@@ -115,17 +191,8 @@ extension LogInView : UITextFieldDelegate {
             passwordField.becomeFirstResponder()
         case passwordField:
             passwordField.resignFirstResponder()
-            endEditing(true)
-            // start an empty SignalProducer
-            SignalProducer<Void, NoError>.empty
-                // delay the signal due to the animation of retracting keyboard
-                // this cannot be executed on main thread, otherwise UI will be blocked
-                |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
-                // return the signal to main/ui thread in order to run UI related code
-                |> observeOn(UIScheduler())
-                |> start(completed: { [weak self] in
-                    self?.loginButton.sendActionsForControlEvents(.TouchUpInside)
-                })
+            
+            loginButton.sendActionsForControlEvents(.TouchUpInside)
         default:
             break
         }

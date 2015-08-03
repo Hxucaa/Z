@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public struct UserService : IUserService {
+public final class UserService : IUserService {
     
     private var currentUser: User? {
         return AVUser.currentUser() as? User

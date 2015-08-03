@@ -196,7 +196,7 @@
                                                         <constraint firstAttribute="height" constant="44" id="k1b-tx-p53"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.color">
                                                             <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -237,34 +237,39 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="79" id="QOM-i2-IWQ"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <state key="normal" title="Edit">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="11"/>
+                                                    <state key="normal" title="编辑">
                                                         <color key="titleColor" red="0.2901960784" green="0.75686274509999996" blue="0.72156862749999995" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d0p-Lf-JTT">
-                                                    <rect key="frame" x="67" y="6" width="439" height="44"/>
+                                                <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ggn-RJ-wC9">
+                                                    <rect key="frame" x="66" y="8" width="449" height="44"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="44" id="qdR-F7-Enj"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <state key="normal">
-                                                        <color key="titleColor" red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                </button>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.color">
+                                                            <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </textField>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="WjG-JF-ysE" firstAttribute="leading" secondItem="32I-H9-Ono" secondAttribute="leadingMargin" constant="-7" id="5Zb-tn-iIy"/>
                                                 <constraint firstItem="XIw-n5-9oc" firstAttribute="bottom" secondItem="32I-H9-Ono" secondAttribute="bottomMargin" constant="8" id="82M-qt-dxj"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="XIw-n5-9oc" secondAttribute="trailing" constant="13" id="MCy-V2-xkB"/>
                                                 <constraint firstItem="XIw-n5-9oc" firstAttribute="trailing" secondItem="32I-H9-Ono" secondAttribute="trailingMargin" constant="1" id="QJD-cD-xbg"/>
-                                                <constraint firstItem="d0p-Lf-JTT" firstAttribute="top" secondItem="32I-H9-Ono" secondAttribute="topMargin" constant="-2" id="SSC-BH-vxY"/>
-                                                <constraint firstItem="d0p-Lf-JTT" firstAttribute="centerY" secondItem="WjG-JF-ysE" secondAttribute="centerY" constant="-2" id="Swe-A2-akI"/>
+                                                <constraint firstItem="Ggn-RJ-wC9" firstAttribute="centerY" secondItem="WjG-JF-ysE" secondAttribute="centerY" id="Yle-U0-Ycw"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Ggn-RJ-wC9" secondAttribute="trailing" constant="70" id="ZTa-gg-Fzv"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="XIw-n5-9oc" secondAttribute="trailing" id="Zk8-Xm-9Jp"/>
                                                 <constraint firstItem="WjG-JF-ysE" firstAttribute="top" secondItem="32I-H9-Ono" secondAttribute="top" id="djw-5R-38t"/>
-                                                <constraint firstItem="d0p-Lf-JTT" firstAttribute="leading" secondItem="WjG-JF-ysE" secondAttribute="trailing" constant="8" id="hxW-8l-b9J"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="d0p-Lf-JTT" secondAttribute="bottom" constant="1.5" id="nj6-0u-DnG"/>
-                                                <constraint firstItem="XIw-n5-9oc" firstAttribute="leading" secondItem="d0p-Lf-JTT" secondAttribute="trailing" constant="8" id="tF8-0W-tKo"/>
+                                                <constraint firstItem="Ggn-RJ-wC9" firstAttribute="centerY" secondItem="XIw-n5-9oc" secondAttribute="centerY" id="msb-CL-FOc"/>
                                                 <constraint firstItem="XIw-n5-9oc" firstAttribute="top" secondItem="32I-H9-Ono" secondAttribute="topMargin" constant="-8" id="tKA-78-Pff"/>
+                                                <constraint firstItem="Ggn-RJ-wC9" firstAttribute="leading" secondItem="WjG-JF-ysE" secondAttribute="trailing" constant="7" id="vBc-zR-6dG"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -276,8 +281,8 @@
                                         <inset key="separatorInset" minX="65" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
                                             <outlet property="editProfilePicButton" destination="XIw-n5-9oc" id="fSp-9E-ZLu"/>
-                                            <outlet property="genderButton" destination="d0p-Lf-JTT" id="uqg-rM-l9J"/>
                                             <outlet property="genderIcon" destination="WjG-JF-ysE" id="snz-LD-tei"/>
+                                            <outlet property="textField" destination="Ggn-RJ-wC9" id="VnV-J3-G4k"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell tag="2" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BirthdayCell" rowHeight="60" id="DNw-41-IhN" customClass="BirthdayTableViewCell" customModule="XListing" customModuleProvider="target">
@@ -314,7 +319,7 @@
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="65" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
-                                            <outlet property="birthdayTextField" destination="Clv-7e-kuV" id="ZDI-Cz-MTJ"/>
+                                            <outlet property="textField" destination="Clv-7e-kuV" id="lkf-bR-sNC"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell tag="2" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DatePicker" rowHeight="162" id="Pxh-mY-LUJ" customClass="DatePickerTableViewCell" customModule="XListing" customModuleProvider="target">

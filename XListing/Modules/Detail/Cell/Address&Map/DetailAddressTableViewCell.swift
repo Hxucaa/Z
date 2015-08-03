@@ -13,27 +13,42 @@ private let DetailNavigationMapViewControllerXib = "DetailNavigationMapViewContr
 
 public final class DetailAddressTableViewCell: UITableViewCell {
 
-    // MARK: - UI
-    // MARK: Controls
-    @IBOutlet weak var addressButton: UIButton!
+    // MARK: - UI Controls
+    @IBOutlet private weak var addressButton: UIButton!
     
-    // MARK: Delegate
-    internal weak var delegate: AddressAndMapDelegate!
+    // MARK: - Proxies
+    private let (_navigationMapProxy, _navigationMapSink) = SimpleProxy.proxy()
+    public var navigationMapProxy: SimpleProxy {
+        return _navigationMapProxy
+    }
     
+    // MARK: - Properties
     private var viewmodel: DetailAddressAndMapViewModel!
+    private let compositeDisposable = CompositeDisposable()
+    
+    // MARK: - Setups
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
+        layoutMargins = UIEdgeInsetsZero
+        separatorInset = UIEdgeInsetsZero
+        
+        setupAddressButton()
+    }
+    
+    private func setupAddressButton() {
+        
         // Action
-        let pushNavMap = Action<UIButton, Void, NoError> { button in
+        let pushNavMap = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
-                
-                let navVC = DetailNavigationMapViewController(nibName: DetailNavigationMapViewControllerXib, bundle: nil)
-                navVC.bindToViewModel(self.viewmodel.detailNavigationMapViewModel)
-                self.delegate.pushNavigationMapViewController(navVC)
-                sendCompleted(sink)
+                if let this = self {
+                    
+                    sendNext(this._navigationMapSink, ())
+                    
+                    sendCompleted(sink)
+                }
             }
         }
         
@@ -45,9 +60,20 @@ public final class DetailAddressTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    deinit {
+        compositeDisposable.dispose()
+    }
 
+    // MARK: Bindings
+    
     public func bindToViewModel(viewmodel: DetailAddressAndMapViewModel) {
         self.viewmodel = viewmodel
-        addressButton.setTitle(viewmodel.fullAddress.value, forState: UIControlState.Normal)
+        
+        compositeDisposable += self.viewmodel.fullAddress.producer
+            |> takeUntilPrepareForReuse(self)
+            |> start(next: { [weak self] address in
+                self?.addressButton.setTitle(address, forState: UIControlState.Normal)
+            })
     }
 }

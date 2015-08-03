@@ -31,6 +31,8 @@ public final class DetailWebViewViewController : XUIViewController {
     public override func loadView() {
         super.loadView()
         
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        
         // Setup view
         view = webView
         

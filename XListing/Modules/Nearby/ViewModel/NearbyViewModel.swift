@@ -27,7 +27,7 @@ public struct NearbyViewModel : INearbyViewModel {
     
     :returns: A Task that contains a geo location.
     */
-        public var currentLocation: SignalProducer<CLLocation, NSError> {
+    public var currentLocation: SignalProducer<CLLocation, NSError> {
         return geoLocationService.getCurrentLocation()
             |> catch { error -> SignalProducer<CLLocation, NSError> in
                 

@@ -12,68 +12,47 @@ import ReactiveCocoa
 public final class DetailBizInfoTableViewCell: UITableViewCell {
 
     // MARK: Controls
-    @IBOutlet weak var businessNameLabel: UILabel!
-    @IBOutlet weak var cityAndDistanceLabel: UILabel!
-    @IBOutlet weak var participateButton: UIButton!
+    @IBOutlet private weak var businessNameLabel: UILabel!
+    @IBOutlet private weak var cityAndDistanceLabel: UILabel!
+    @IBOutlet private weak var participateButton: UIButton!
     
-    internal weak var delegate: DetailBizInfoCellDelegate!
+    // MARK: - Proxies
     
+    // MARK: - Properties
     private var viewmodel: DetailBizInfoViewModel!
+    private let compositeDisposable = CompositeDisposable()
     
+    // MARK: - Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
         
-        // Initialization code
-        let popover = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { [weak self] sink, disposable in
-                if let this = self {
-                    this.delegate.participate(this.popover)
-                }
-                sendCompleted(sink)
-            }
+        layoutMargins = UIEdgeInsetsZero
+        separatorInset = UIEdgeInsetsZero
+        
+        let participate = Action<UIButton, Bool, NSError>{ button in
+            return self.viewmodel.participate(DetailBizInfoViewModel.ParticipationChoice.我想去)
         }
         
-        participateButton.addTarget(popover.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        participateButton.addTarget(participate.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        compositeDisposable.dispose()
     }
 
+    // MARK: - Bindings
     public func bindToViewModel(viewmodel: DetailBizInfoViewModel) {
         self.viewmodel = viewmodel
         
         businessNameLabel.rac_text <~ self.viewmodel.businessName
-        self.viewmodel.participationButtonTitle.producer
+        compositeDisposable += self.viewmodel.participationButtonTitle.producer
             |> start(next: { [weak self] text in
                 self?.participateButton.setTitle(text, forState: .Normal)
             })
         participateButton.rac_enabled <~ self.viewmodel.participationButtonEnabled
         cityAndDistanceLabel.rac_text <~ self.viewmodel.locationText
         
-    }
-    
-    private var popover: UIAlertController {
-        typealias Choice = DetailBizInfoViewModel.ParticipationChoice
-        
-        var alert = UIAlertController(title: "请选一种", message: "", preferredStyle: UIAlertControllerStyle.Alert)
-        
-        alert.addAction(UIAlertAction(title: Choice.我想去.rawValue, style: .Default) { [weak self] alert in
-            if let this = self {
-                this.viewmodel.participate(Choice.我想去)
-                    |> start()
-            }
-            })
-        alert.addAction(UIAlertAction(title: Choice.我想请客.rawValue, style: .Default) { [weak self] alert in
-            if let this = self {
-                this.viewmodel.participate(Choice.我想请客)
-                    |> start()
-            }
-        })
-        alert.addAction(UIAlertAction(title: Choice.我想AA.rawValue, style: .Default) { [weak self] alert in
-            if let this = self {
-                this.viewmodel.participate(Choice.我想AA)
-                    |> start()
-            }
-        })
-        alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil))
-        
-        return alert
     }
 }

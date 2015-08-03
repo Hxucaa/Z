@@ -14,33 +14,49 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
     
     // MARK: - UI
     // MARK: Controls
-    @IBOutlet weak var coverImageView: UIImageView!
-    @IBOutlet weak var businessNameLabel: UILabel!
-    @IBOutlet weak var businessHoursLabel: UILabel!
-    @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var etaLabel: UILabel!
+    @IBOutlet private weak var coverImageView: UIImageView!
+    @IBOutlet private weak var businessNameLabel: UILabel!
+    @IBOutlet private weak var businessHoursLabel: UILabel!
+    @IBOutlet private weak var cityLabel: UILabel!
+    @IBOutlet private weak var etaLabel: UILabel!
+    
+    // MARK: Properties
     
     private var viewmodel: NearbyTableCellViewModel!
+    private let compositeDisposable = CompositeDisposable()
     
     // MARK: Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
     }
     
+    deinit {
+        compositeDisposable.dispose()
+    }
+    
+    // MARK: Bindings
     public func bindToViewModel(viewmodel: NearbyTableCellViewModel) {
         self.viewmodel = viewmodel
         
-        businessNameLabel.rac_text <~ self.viewmodel.businessName
-        cityLabel.rac_text <~ self.viewmodel.city
-        businessHoursLabel.rac_text <~ self.viewmodel.participation
-        etaLabel.rac_text <~ self.viewmodel.eta
+        businessNameLabel.rac_text <~ self.viewmodel.businessName.producer
+            |> takeUntilPrepareForReuse(self)
         
-        self.viewmodel.coverImage.producer
+        cityLabel.rac_text <~ self.viewmodel.city.producer
+            |> takeUntilPrepareForReuse(self)
+        
+        businessHoursLabel.rac_text <~ self.viewmodel.participation.producer
+            |> takeUntilPrepareForReuse(self)
+        
+        etaLabel.rac_text <~ self.viewmodel.eta.producer
+            |> takeUntilPrepareForReuse(self)
+        
+        compositeDisposable += self.viewmodel.coverImage.producer
+            |> takeUntilPrepareForReuse(self)
             |> ignoreNil
-            |> start (next: { [weak self] in
-                self?.coverImageView.setImageWithAnimation($0)
-            })
+            |> start (
+                next: { [weak self] in
+                    self?.coverImageView.setImageWithAnimation($0)
+                }
+            )
     }
-    
-    
 }

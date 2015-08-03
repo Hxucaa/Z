@@ -1,5 +1,5 @@
 //
-//  LogInViewModel.swift
+//  AccountViewModel.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-04-23.
@@ -10,14 +10,14 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public struct AccountViewModel : IAccountViewModel {
+public final class AccountViewModel : IAccountViewModel {
     
     // MARK: - Public
     
-    public private(set) lazy var editProfileViewModel: EditProfileViewModel = EditProfileViewModel(userService: self.userService)
+    public private(set) lazy var editProfileViewModel: EditInfoViewModel = EditInfoViewModel(userService: self.userService)
     public private(set) lazy var logInViewModel: LogInViewModel = LogInViewModel(userService: self.userService)
     public private(set) lazy var signUpViewModel: SignUpViewModel = SignUpViewModel(userService: self.userService)
-    public private(set) lazy var landingPageViewModel: LandingPageViewModel = LandingPageViewModel()
+    public private(set) lazy var landingPageViewModel: LandingPageViewModel = LandingPageViewModel(userDefaultsService: self.userDefaultsService)
     public private(set) var gotoNextModuleCallback: (() -> ())?
     
     public init(userService: IUserService, router: IRouter, userDefaultsService: IUserDefaultsService, dismissCallback: (() -> ())? = nil) {
@@ -36,7 +36,7 @@ public struct AccountViewModel : IAccountViewModel {
         if userDefaultsService.accountModuleSkipped {
             dismiss()
         }
-            // else it must be the first time the app is run on device. Go straight to featured list.
+        // else it must be the first time the app is run on device. Go straight to featured list.
         else {
             router.pushFeatured()
             userDefaultsService.accountModuleSkipped = true

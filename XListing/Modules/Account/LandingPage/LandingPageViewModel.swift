@@ -9,8 +9,17 @@
 import Foundation
 import ReactiveCocoa
 
-public struct LandingPageViewModel {
+public final class LandingPageViewModel {
     
-    public init() {
+    // MARK: Properties
+    private let userDefaultsService: IUserDefaultsService
+    
+    // MARK: - Initializers
+    public init(userDefaultsService: IUserDefaultsService) {
+        self.userDefaultsService = userDefaultsService
+    }
+    
+    public var rePrompt: Bool {
+        return userDefaultsService.accountModuleSkipped
     }
 }

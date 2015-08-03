@@ -13,15 +13,17 @@ import AVOSCloud
 public struct ProfileEditViewModel {
     // MARK: - Public
     public typealias AgeLimit = (floor: NSDate, ceil: NSDate)
+    public var currentUser = MutableProperty<User?>(nil)
     
     // MARK: Input
-    public let nickname = MutableProperty<String>("")
+    public let nickname = MutableProperty<String?>("")
     public let birthday = MutableProperty<NSDate>(NSDate())
     public let profileImage = MutableProperty<UIImage?>(nil)
     public let gender = MutableProperty<Gender?>(nil)
     
     // MARK: Output
     public let allInputsValid = MutableProperty<Bool>(false)
+    public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
     
     // MARK: Actions
     public var updateProfile: SignalProducer<Bool, NSError> {
@@ -72,7 +74,10 @@ public struct ProfileEditViewModel {
     
     public init(userService: IUserService) {
         self.userService = userService
-
+        
+        getUserData()
+            |> start()
+        
         setupNickname()
         setupGender()
         setupBirthday()
@@ -157,4 +162,21 @@ public struct ProfileEditViewModel {
         let matches = regex!.matchesInString(input, options: nil, range:NSMakeRange(0, count(input)))
         return matches.count == 1
     }
+    
+    /**
+    Retrieve featured business from database
+    */
+    public func getUserData() -> SignalProducer<(), NSError> {
+        return userService.currentLoggedInUser()
+            |> on(next: { user in
+                    self.fetchingData.put(true)
+            })
+            |> map { user -> () in
+               self.currentUser.put(user)
+            }
+            |> on(next: { response in
+                self.fetchingData.put(false)
+                }
+            )
+        }
 }

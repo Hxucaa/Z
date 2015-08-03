@@ -10,13 +10,13 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public struct SignUpViewModel {
+public final class SignUpViewModel {
     
     // MARK: - Public
     
     // MARK: Input
-    public let username = MutableProperty<String>("")
-    public let password = MutableProperty<String>("")
+    public let username = MutableProperty<String?>(nil)
+    public let password = MutableProperty<String?>(nil)
     
     // MARK: Output
     public let isUsernameValid = MutableProperty<Bool>(false)
@@ -56,23 +56,25 @@ public struct SignUpViewModel {
     private var validPasswordSignal: SignalProducer<String, NoError>!
     
     // MARK: Setup
-    private mutating func setupUsername() {
+    private func setupUsername() {
         // only allow usernames with:
         // - between 3 and 30 characters
         // - letters, numbers, dashes, periods, and underscores only
         validUsernameSignal = username.producer
+            |> ignoreNil
             |> filter { self.testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
 
         isUsernameValid <~ validUsernameSignal
             |> map { _ in true }
     }
     
-    private mutating func setupPassword() {
+    private func setupPassword() {
         // only allow passwords with:
         // - more than 8 characters
         // - letters, numbers, and most standard symbols
         // - at least one number, capital letter, or special character
         validPasswordSignal = password.producer
+            |> ignoreNil
             |> filter { count($0) > 0 }
 //            |> filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
         

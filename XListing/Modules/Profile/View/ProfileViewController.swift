@@ -34,10 +34,10 @@ public final class ProfileViewController : XUIViewController {
         if let temp = NSBundle.mainBundle().loadNibNamed("ProfileHeaderView", owner: self, options: nil)[0] as? ProfileHeaderView{
             headerViewContent  = temp
             headerViewContent.frame = CGRectMake(0, 0, headerView.frame.width, headerView.frame.height)
-            setupBackButton(headerViewContent.topLeftButton)
-            setupEditButton(headerViewContent.topRightButton)
+//            setupBackButton(headerViewContent.topLeftButton)
+//            setupEditButton(headerViewContent.topRightButton)
             headerView.addSubview(headerViewContent)
-            convertImgToCircle(headerViewContent.profileImageView)
+//            convertImgToCircle(headerViewContent.profileImageView)
         }
         if let tabViewContent = NSBundle.mainBundle().loadNibNamed("ProfileTabView", owner: self, options: nil)[0] as? ProfileTabView{
             tabView.addSubview(tabViewContent)

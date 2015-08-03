@@ -14,19 +14,16 @@ private let CellIdentifier = "Cell"
 
 public final class WantToGoListViewController: XUIViewController {
     
-    // MARK: - UI
-    @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var tableView: UITableView!
+    // MARK: - UI Controls
+    @IBOutlet private weak var genderSegmentedControl: UISegmentedControl!
+    @IBOutlet private weak var tableView: UITableView!
     
-    // MARK: Controls
     
-    // MARK: Actions
-    
-    // MARK: - Private Variables    
+    // MARK: - Properties
     private var viewmodel: IWantToGoListViewModel!
     private var bindingHelper: ReactiveTableBindingHelper<WantToGoViewModel>!
     
-    // MARK: - Setup Code
+    // MARK: - Setup
     public override func viewDidLoad() {
         super.viewDidLoad()
         genderSegmentedControl?.addTarget(self, action: "switchSegment", forControlEvents: UIControlEvents.ValueChanged)
@@ -41,10 +38,6 @@ public final class WantToGoListViewController: XUIViewController {
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    public func bindToViewModel(viewmodel: IWantToGoListViewModel) {
-        self.viewmodel = viewmodel
     }
     
     private func setupTableView() {
@@ -68,6 +61,11 @@ public final class WantToGoListViewController: XUIViewController {
         }
         
         tableView.reloadData()
+    }
+    
+    // MARK: Bindings
+    public func bindToViewModel(viewmodel: IWantToGoListViewModel) {
+        self.viewmodel = viewmodel
     }
     
 }

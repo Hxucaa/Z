@@ -16,15 +16,16 @@ public final class FeaturedListViewController: XUIViewController {
 
     // MARK: - UI
     // MARK: Controls
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var nearbyButton: UIBarButtonItem!
-    @IBOutlet weak var profileButton: UIBarButtonItem!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var nearbyButton: UIBarButtonItem!
+    @IBOutlet private weak var profileButton: UIBarButtonItem!
     private let refreshControl = UIRefreshControl()
     
-    // MARK: - Private variables
+    // MARK: Properties
     private var viewmodel: IFeaturedListViewModel!
+    private let compositeDisposable = CompositeDisposable()
     
-    // MARK: - Setup Code
+    // MARK: Setups
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,34 +34,22 @@ public final class FeaturedListViewController: XUIViewController {
         setupRefresh()
         setupNearbyButton()
         setupProfileButton()
+        
+        tableView.dataSource = self
     }
     
-    public override func viewWillAppear(animated: Bool) {
-        navigationController?.navigationBar.hidden = false // for navigation bar hide
-        UIApplication.sharedApplication().statusBarHidden=false
-    }
-
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     public override func viewDidAppear(animated: Bool) {
-        setupTableView()
+        super.viewDidAppear(animated)
     }
     
-    public func bindToViewModel(viewmodel: IFeaturedListViewModel) {
-        self.viewmodel = viewmodel
-    }
-    
-    private func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        self.viewmodel.featuredBusinessViewModelArr.producer
-            |> start(next: { [weak self] _ in
-                self?.tableView.reloadData()
-            })
+    deinit {
+        compositeDisposable.dispose()
+        NearbyLogVerbose("Featured List View Controller deinitializes.")
     }
     
     private func setupRefresh() {
@@ -77,7 +66,46 @@ public final class FeaturedListViewController: XUIViewController {
         
         refreshControl.addTarget(refresh.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .ValueChanged)
         
-        self.tableView.addSubview(refreshControl)
+        tableView.addSubview(refreshControl)
+        
+        // turn off autoresizing mask off to allow custom autolayout constraints
+        refreshControl.setTranslatesAutoresizingMaskIntoConstraints(false)
+        
+        // add constraints
+        view.addConstraints(
+            [
+                // center X alignment
+                NSLayoutConstraint(
+                    item: refreshControl,
+                    attribute: NSLayoutAttribute.CenterX,
+                    relatedBy: NSLayoutRelation.Equal,
+                    toItem: view,
+                    attribute: NSLayoutAttribute.CenterX,
+                    multiplier: 1.0,
+                    constant: 0.0
+                ),
+                // top space to topLayoutGuide is 90
+                NSLayoutConstraint(
+                    item: refreshControl,
+                    attribute: NSLayoutAttribute.Top,
+                    relatedBy: NSLayoutRelation.Equal,
+                    toItem: topLayoutGuide,
+                    attribute: NSLayoutAttribute.Top,
+                    multiplier: 1.0,
+                    constant: 90.0
+                ),
+                // width set to 150
+                NSLayoutConstraint(
+                    item: refreshControl,
+                    attribute: NSLayoutAttribute.Width,
+                    relatedBy: NSLayoutRelation.Equal,
+                    toItem: nil,
+                    attribute: NSLayoutAttribute.NotAnAttribute,
+                    multiplier: 1.0,
+                    constant: 150.0
+                )
+            ]
+        )
     }
     
     /**
@@ -86,6 +114,9 @@ public final class FeaturedListViewController: XUIViewController {
     private func setupNearbyButton() {
         let pushNearby = Action<UIBarButtonItem, Void, NoError> { [weak self] button in
             return SignalProducer<Void, NoError> { [weak self] sink, disposable in
+                
+                self?.nearbyButton.enabled = false
+                
                 self?.viewmodel.pushNearbyModule()
                 sendCompleted(sink)
             }
@@ -107,6 +138,67 @@ public final class FeaturedListViewController: XUIViewController {
         }
         profileButton.target = pushProfile.unsafeCocoaAction
         profileButton.action = CocoaAction.selector
+    }
+    
+    // MARK: Will Appear
+    
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.hidden = false // for navigation bar hide
+        UIApplication.sharedApplication().statusBarHidden = false
+        
+        nearbyButton.enabled = true
+        
+        willAppearTableView()
+    }
+    
+    private func willAppearTableView() {
+        
+        // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
+        // when the specified row is now selected
+        compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> map { ($0 as! RACTuple).second as! NSIndexPath }
+            |> logLifeCycle(LogContext.Featured, "tableView:didSelectRowAtIndexPath:")
+            |> start(
+                next: { [weak self] indexPath in
+                    self?.viewmodel.pushDetailModule(indexPath.row)
+                }
+        )
+        
+        
+        compositeDisposable += viewmodel.featuredBusinessViewModelArr.producer
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Featured, "viewmodel.featuredBusinessViewModelArr.producer")
+            |> start(
+                next: { [weak self] _ in
+                    self?.tableView.reloadData()
+                }
+            )
+        
+        
+        /**
+        Assigning UITableView delegate has to happen after signals are established.
+        
+        - tableView.delegate is assigned to self somewhere in UITableViewController designated initializer
+        
+        - UITableView caches presence of optional delegate methods to avoid -respondsToSelector: calls
+        
+        - You use -rac_signalForSelector:fromProtocol: and RAC creates method implementation for you in runtime. But UITableView knows nothing about this implementation, it still thinks that there's no such method
+        
+        The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
+        */
+        tableView.delegate = self
+    }
+    
+    // MARK: Bindings
+    
+    
+    public func bindToViewModel(viewmodel: IFeaturedListViewModel) {
+        self.viewmodel = viewmodel
     }
 }
 
@@ -135,15 +227,5 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
         var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as! FeaturedListBusinessTableViewCell
         cell.bindViewModel(viewmodel.featuredBusinessViewModelArr.value[indexPath.row])
         return cell
-    }
-    
-    /**
-    Tells the delegate that the specified row is now selected.
-    
-    :param: tableView A table-view object informing the delegate about the new row selection.
-    :param: indexPath An index path locating the new selected row in tableView.
-    */
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.viewmodel.pushDetailModule(indexPath.row)
     }
 }

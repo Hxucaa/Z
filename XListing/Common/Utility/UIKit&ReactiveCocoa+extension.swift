@@ -9,7 +9,7 @@
 import UIKit
 import ReactiveCocoa
 
-struct AssociationKey {
+private struct AssociationKey {
     static var hidden: UInt8 = 1
     static var alpha: UInt8 = 2
     static var text: UInt8 = 3
@@ -19,10 +19,11 @@ struct AssociationKey {
     static var minimumDate: UInt = 7
     static var maximumDate: UInt = 8
     static var image: UInt8 = 9
+    static var optionalText: UInt8 = 10
 }
 
 // lazily creates a gettable associated property via the given factory
-func lazyAssociatedProperty<T: AnyObject>(host: AnyObject, key: UnsafePointer<Void>, factory: ()->T) -> T {
+private func lazyAssociatedProperty<T: AnyObject>(host: AnyObject, key: UnsafePointer<Void>, factory: ()->T) -> T {
     return objc_getAssociatedObject(host, key) as? T ?? {
         let associatedProperty = factory()
         objc_setAssociatedObject(host, key, associatedProperty, UInt(OBJC_ASSOCIATION_RETAIN))
@@ -30,7 +31,7 @@ func lazyAssociatedProperty<T: AnyObject>(host: AnyObject, key: UnsafePointer<Vo
         }()
 }
 
-func lazyMutableProperty<T>(host: AnyObject, key: UnsafePointer<Void>, setter: T -> (), getter: () -> T) -> MutableProperty<T> {
+private func lazyMutableProperty<T>(host: AnyObject, key: UnsafePointer<Void>, setter: T -> (), getter: () -> T) -> MutableProperty<T> {
     return lazyAssociatedProperty(host, key) {
         var property = MutableProperty<T>(getter())
         property.producer
@@ -85,19 +86,19 @@ extension UIDatePicker {
         }
     }
     
-    func changed() {
+    internal func changed() {
         rac_date.value = self.date
     }
 }
 
 extension UITextField {
     
-    public var rac_text: MutableProperty<String> {
+    public var rac_text: MutableProperty<String?> {
         return lazyAssociatedProperty(self, &AssociationKey.text) {
             
             self.addTarget(self, action: "changed", forControlEvents: UIControlEvents.EditingChanged)
             
-            var property = MutableProperty<String>(self.text ?? "")
+            var property = MutableProperty<String?>(self.text)
             property.producer
                 .start(next: {
                     newValue in
@@ -107,7 +108,7 @@ extension UITextField {
         }
     }
     
-    func changed() {
+    internal func changed() {
         rac_text.value = self.text
     }
 }
@@ -119,3 +120,52 @@ extension UIImageView {
 }
 
 
+extension UIViewController {
+    public var rac_viewWillDisappear: RACSignal {
+        return rac_signalForSelector(Selector("viewWillDisappear:"))
+    }
+    
+    public var rac_viewWillDisappearProducer: SignalProducer<Bool, NSError> {
+        return rac_viewWillDisappear.toSignalProducer()
+            |> map { ($0 as! RACTuple).first as! Bool }
+    }
+    
+    public var rac_viewDidDisappear: RACSignal {
+        return rac_signalForSelector(Selector("viewDidDisappear:"))
+    }
+    
+    public var rac_viewDidDisappearProducer: SignalProducer<Bool, NSError> {
+        return rac_viewDidDisappear.toSignalProducer()
+            |> map { ($0 as! RACTuple).first as! Bool }
+    }
+    
+    public var rac_viewWillAppear: RACSignal {
+        return rac_signalForSelector(Selector("viewWillAppear:"))
+    }
+    
+    public var rac_viewWillAppearProducer: SignalProducer<Bool, NSError> {
+        return rac_viewWillAppear.toSignalProducer()
+            |> map { ($0 as! RACTuple).first as! Bool }
+    }
+    
+    public var rac_viewDidAppear: RACSignal {
+        return rac_signalForSelector(Selector("viewDidAppear:"))
+    }
+    
+    public var rac_viewDidAppearProducer: SignalProducer<Bool, NSError> {
+        return rac_viewDidAppear.toSignalProducer()
+            |> map { ($0 as! RACTuple).first as! Bool }
+    }
+    
+}
+
+extension UIView {
+    public var rac_removeFromSuperview: RACSignal {
+        return rac_signalForSelector(Selector("removeFromSuperview"))
+    }
+    
+    public var rac_removeFromSuperviewProducer: SignalProducer<Void, NSError> {
+        return rac_removeFromSuperview.toSignalProducer()
+            |> map { _ in }
+    }
+}
