@@ -49,7 +49,7 @@ public final class FeaturedListViewController: XUIViewController {
     
     deinit {
         compositeDisposable.dispose()
-        NearbyLogVerbose("Featured List View Controller deinitializes.")
+        FeaturedLogVerbose("Featured List View Controller deinitializes.")
     }
     
     private func setupTableView() {
@@ -190,17 +190,17 @@ public final class FeaturedListViewController: XUIViewController {
                         return
                     }
                     
-                    self.isLoading = 1
-                    
-                    if (self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.bounds.size.height * 2)) {
+                    if (self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.bounds.size.height)) {
+                        
                         // reached bottom of table view
+                        self.isLoading = 1
                         self.viewmodel.getFeaturedBusinesses()
                             |> map { _ -> Void in }
                             |> start(next: { [weak self] _ in
                                 self?.isLoading = 0
                             })
 
-                        println("Add more rows")
+                        FeaturedLogVerbose("loaded more businesses from LeanCloud")
                     }
                 }
         )

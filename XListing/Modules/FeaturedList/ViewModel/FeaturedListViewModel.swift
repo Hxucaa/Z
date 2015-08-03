@@ -31,14 +31,12 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     */
     public func getFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
         let query = Business.query()!
-        println("tried getting featured businesses")
         query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
-        query.limit = 3
+        query.limit = 7
         query.skip = self.loadedBusinesses.value
         
         return businessService.findBy(query)
             |> on(next: { businesses in
-                println("got here")
                 self.fetchingData.put(true)
             })
             |> map { businesses -> [FeaturedBusinessViewModel] in
@@ -49,7 +47,6 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
                 
                 // increment loaded businesses counter
                 self.loadedBusinesses.put(businesses.count + self.loadedBusinesses.value)
-                println("Array size was \(self.businessArr.value.count)")
                 // map the business models to viewmodels
                 return self.businessArr.value.map {
                     FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
@@ -57,11 +54,8 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
             }
             |> on(
                 next: { response in
-                    println("made it to next")
                     self.fetchingData.put(false)
-                    println("Reponse size was \(response.count)")
                     self.featuredBusinessViewModelArr.put(response)
-                    println("Viewmodel size was \(self.featuredBusinessViewModelArr.value.count)")
                 },
                 error: { FeaturedLogError($0.description) }
             )
