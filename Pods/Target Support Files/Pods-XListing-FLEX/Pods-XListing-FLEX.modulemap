@@ -1,6 +1,0 @@
-framework module FLEX {
-  umbrella header "Pods-XListing-FLEX-umbrella.h"
-
-  export *
-  module * { export * }
-}
