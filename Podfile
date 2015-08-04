@@ -10,6 +10,7 @@ target 'XListing' do
   pod 'Dollar', '~> 3.0'
   pod 'SDWebImage'
   pod 'Locksmith', '~> 1.2'
+  pod 'ReactiveCocoa', '= 3.0-RC.1'
 #  pod 'AVOSCloud', '~> 3.1'
 #  pod 'AVOSCloudCrashReporting', '~> 3.1'
 #  pod 'AVOSCloudIM', '~> 3.1'

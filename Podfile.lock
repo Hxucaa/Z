@@ -1,4 +1,5 @@
 PODS:
+  - Box (1.2.2)
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
     - CocoaLumberjack/Extensions (= 2.0.0)
@@ -12,6 +13,23 @@ PODS:
   - Locksmith (1.2.2)
   - Nimble (1.0.0)
   - Quick (0.3.1)
+  - ReactiveCocoa (3.0-RC.1):
+    - Box (~> 1.2.0)
+    - ReactiveCocoa/UI (= 3.0-RC.1)
+    - Result (~> 0.4.1)
+  - ReactiveCocoa/Core (3.0-RC.1):
+    - Box (~> 1.2.0)
+    - ReactiveCocoa/no-arc
+    - Result (~> 0.4.1)
+  - ReactiveCocoa/no-arc (3.0-RC.1):
+    - Box (~> 1.2.0)
+    - Result (~> 0.4.1)
+  - ReactiveCocoa/UI (3.0-RC.1):
+    - Box (~> 1.2.0)
+    - ReactiveCocoa/Core
+    - Result (~> 0.4.1)
+  - Result (0.4.4):
+    - Box (~> 1.2)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
@@ -25,6 +43,7 @@ DEPENDENCIES:
   - Locksmith (~> 1.2)
   - Nimble (~> 1.0)
   - Quick (= 0.3.1)
+  - ReactiveCocoa (= 3.0-RC.1)
   - SDWebImage
   - SVProgressHUD (from `https://github.com/Hxucaa/SVProgressHUD.git`)
   - XAssets (from `git@bitbucket.org:zenchat/xassets.git`)
@@ -44,12 +63,15 @@ CHECKOUT OPTIONS:
     :git: git@bitbucket.org:zenchat/xassets.git
 
 SPEC CHECKSUMS:
+  Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   Dollar: fa1c277042a5e8208f2276abba056f27a812fcfe
   FLEX: 4f04fe0b0594163c00879e2b3db888e5ae37c8d5
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88
   Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
+  ReactiveCocoa: c85fe01be4e047dc1d9fba3e1e0b7070846d3296
+  Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   XAssets: b8a686be9c6e1a36c180b77e1bb15b5d3c55fe47
