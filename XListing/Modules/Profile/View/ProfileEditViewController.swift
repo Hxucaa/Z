@@ -108,7 +108,7 @@ public final class ProfileEditViewController: XUIViewController {
                                     |> then(this.viewmodel.updateProfile)
                                     // dismiss HUD based on the result of update profile signal
                                     |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
-                                        AccountLogError(error.description)
+                                        ProfileLogError(error.description)
                                         return error.customErrorDescription
                                     })
                                     // does not `sendCompleted` because completion is handled when HUD is disappeared
@@ -123,7 +123,7 @@ public final class ProfileEditViewController: XUIViewController {
                                 
                                 // Subscribe to touch down inside event
                                 disposable += HUD.didTouchDownInsideNotification()
-                                    |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                                    |> on(next: { _ in ProfileLogVerbose("HUD touch down inside.") })
                                     |> start(
                                         next: { _ in
                                             // dismiss HUD
@@ -133,7 +133,7 @@ public final class ProfileEditViewController: XUIViewController {
                                 
                                 // Subscribe to disappear notification
                                 disposable += HUD.didDissappearNotification()
-                                    |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                                    |> on(next: { _ in ProfileLogVerbose("HUD disappeared.") })
                                     |> start(next: { status in
                                         
                                         // completes the action
@@ -144,7 +144,7 @@ public final class ProfileEditViewController: XUIViewController {
                                 
                                 // Add the signals to CompositeDisposable for automatic memory management
                                 disposable.addDisposable {
-                                    AccountLogVerbose("Update profile action is disposed.")
+                                    ProfileLogVerbose("Update profile action is disposed.")
                                 }
                                 
                                 
