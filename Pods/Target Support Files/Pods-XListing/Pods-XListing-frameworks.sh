@@ -58,6 +58,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-XListing/Locksmith.framework'
   install_framework 'Pods-XListing/SDWebImage.framework'
   install_framework 'Pods-XListing/SVProgressHUD.framework'
+  install_framework 'Pods-XListing/XAssets.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-XListing/CocoaLumberjack.framework'
@@ -65,4 +66,5 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-XListing/Locksmith.framework'
   install_framework 'Pods-XListing/SDWebImage.framework'
   install_framework 'Pods-XListing/SVProgressHUD.framework'
+  install_framework 'Pods-XListing/XAssets.framework'
 fi

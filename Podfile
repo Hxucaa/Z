@@ -3,7 +3,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'XListing' do
-#  pod 'XAssets', :path => './lib/XAssets', :tag => '0.1.2'
+  pod 'XAssets', :git => 'git@bitbucket.org:zenchat/xassets.git'
   pod 'FLEX', '~> 2.0', :configurations => ['DEBUG']
   pod 'SVProgressHUD', :git => 'https://github.com/Hxucaa/SVProgressHUD.git'
   pod 'CocoaLumberjack', '= 2.0.0'

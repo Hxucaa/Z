@@ -16,6 +16,7 @@ PODS:
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
   - SVProgressHUD (1.1.3)
+  - XAssets (0.1.2)
 
 DEPENDENCIES:
   - CocoaLumberjack (= 2.0.0)
@@ -26,15 +27,21 @@ DEPENDENCIES:
   - Quick (= 0.3.1)
   - SDWebImage
   - SVProgressHUD (from `https://github.com/Hxucaa/SVProgressHUD.git`)
+  - XAssets (from `git@bitbucket.org:zenchat/xassets.git`)
 
 EXTERNAL SOURCES:
   SVProgressHUD:
     :git: https://github.com/Hxucaa/SVProgressHUD.git
+  XAssets:
+    :git: git@bitbucket.org:zenchat/xassets.git
 
 CHECKOUT OPTIONS:
   SVProgressHUD:
     :commit: 4cbf1de2f9becbdfe38257bf9129f2930a2668ab
     :git: https://github.com/Hxucaa/SVProgressHUD.git
+  XAssets:
+    :commit: 2673f637cb1578fa53605cab484be43dfce3af31
+    :git: git@bitbucket.org:zenchat/xassets.git
 
 SPEC CHECKSUMS:
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
@@ -45,5 +52,6 @@ SPEC CHECKSUMS:
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
+  XAssets: b8a686be9c6e1a36c180b77e1bb15b5d3c55fe47
 
 COCOAPODS: 0.38.2
