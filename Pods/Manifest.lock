@@ -8,7 +8,7 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.0.0):
     - CocoaLumberjack/Default
-  - Dollar (3.0.2)
+  - Dollar (3.0.3)
   - FLEX (2.0.3)
   - Locksmith (1.2.2)
   - Nimble (1.0.0)
@@ -65,7 +65,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
-  Dollar: fa1c277042a5e8208f2276abba056f27a812fcfe
+  Dollar: ae37f1da42cdc16061fcc1e91a070281b207f5c8
   FLEX: 4f04fe0b0594163c00879e2b3db888e5ae37c8d5
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88
   Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87

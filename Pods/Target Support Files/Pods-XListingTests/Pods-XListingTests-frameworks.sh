@@ -52,10 +52,16 @@ code_sign_if_enabled() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework 'Pods-XListingTests/Box.framework'
+  install_framework 'Pods-XListingTests/ReactiveCocoa.framework'
+  install_framework 'Pods-XListingTests/Result.framework'
   install_framework 'Pods-XListingTests/Nimble.framework'
   install_framework 'Pods-XListingTests/Quick.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework 'Pods-XListingTests/Box.framework'
+  install_framework 'Pods-XListingTests/ReactiveCocoa.framework'
+  install_framework 'Pods-XListingTests/Result.framework'
   install_framework 'Pods-XListingTests/Nimble.framework'
   install_framework 'Pods-XListingTests/Quick.framework'
 fi

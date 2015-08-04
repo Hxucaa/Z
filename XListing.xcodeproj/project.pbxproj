@@ -152,7 +152,6 @@
 		B4F195BB1B2C331400B8C519 /* DetailBizInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195BA1B2C331400B8C519 /* DetailBizInfoViewModel.swift */; };
 		B4F195BD1B2CE2B200B8C519 /* User_Business_Participation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195BC1B2CE2B200B8C519 /* User_Business_Participation.swift */; };
 		B4F195BF1B2CE2C300B8C519 /* ParticipationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195BE1B2CE2C300B8C519 /* ParticipationType.swift */; };
-		B4F195C61B2E0F0000B8C519 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4F195C51B2E0F0000B8C519 /* Default-568h@2x.png */; };
 		B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */; };
 		B4F4AF801B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AF7F1B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift */; };
 		B4F4AF821B6B000000ABA176 /* DetailParticipationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AF811B6B000000ABA176 /* DetailParticipationViewModel.swift */; };
@@ -348,7 +347,6 @@
 		B4F195BA1B2C331400B8C519 /* DetailBizInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBizInfoViewModel.swift; sourceTree = "<group>"; };
 		B4F195BC1B2CE2B200B8C519 /* User_Business_Participation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User_Business_Participation.swift; sourceTree = "<group>"; };
 		B4F195BE1B2CE2C300B8C519 /* ParticipationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationType.swift; sourceTree = "<group>"; };
-		B4F195C51B2E0F0000B8C519 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessService.swift; sourceTree = "<group>"; };
 		B4F4AF7F1B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailParticipationTableViewCell.swift; sourceTree = "<group>"; };
 		B4F4AF811B6B000000ABA176 /* DetailParticipationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailParticipationViewModel.swift; sourceTree = "<group>"; };
@@ -582,7 +580,6 @@
 		7EF371021AB8C012009AA3B9 = {
 			isa = PBXGroup;
 			children = (
-				B4F195C51B2E0F0000B8C519 /* Default-568h@2x.png */,
 				7EF371511AB8C26F009AA3B9 /* XListing-Bridging-Header.h */,
 				7EF371521AB8C8FA009AA3B9 /* XListingTests-Bridging-Header.h */,
 				7EF3710D1AB8C012009AA3B9 /* XListing */,
@@ -1163,7 +1160,6 @@
 				B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */,
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				2632F12F1B60A4D100CA49AE /* GenderPickerViewController.xib in Resources */,
-				B4F195C61B2E0F0000B8C519 /* Default-568h@2x.png in Resources */,
 				269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */,
 				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
 				B4F195811B2789A100B8C519 /* Account.storyboard in Resources */,
@@ -1566,7 +1562,6 @@
 				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/Vendor/avoscloud-ios-sdk-v3.1.2.9",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -1590,7 +1585,6 @@
 				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/Vendor/avoscloud-ios-sdk-v3.1.2.9",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -1615,7 +1609,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1641,7 +1634,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INFOPLIST_FILE = XListingTests/Info.plist;
