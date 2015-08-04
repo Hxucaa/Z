@@ -16,4 +16,5 @@ public enum Icons : String {
     case Email = "\u{f003}"
     case Phone = "\u{f095}"
     case X = "\u{f00d}"
+    case Chevron = "\u{f053}"
 }

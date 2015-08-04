@@ -14,8 +14,6 @@ public final class DetailNavigationMapViewController: XUIViewController {
 
     // MARK: - UI Controls
     @IBOutlet private weak var mapView: MKMapView!
-    @IBOutlet private weak var backButton: UIButton!
-    @IBOutlet private weak var navigateButton: UIButton!
 
     // MARK: - Proxies
     private let (_goBackProxy, _goBackSink) = SignalProducer<CompletionHandler?, NoError>.buffer(1)
@@ -33,7 +31,7 @@ public final class DetailNavigationMapViewController: XUIViewController {
         super.viewDidLoad()
         
         mapView.delegate = self
-        
+        setupNavBar()
         setupBackButton()
         setupNavigateButton()
     }
@@ -47,7 +45,25 @@ public final class DetailNavigationMapViewController: XUIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    public func setupNavBar() {
+        var gradientNavView: UIView = UIView(frame: CGRectMake(0.0, 0.0, UIScreen.mainScreen().bounds.size.width, 84.0))
+        let colorTop = UIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.7).CGColor
+        let colorBottom = UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.0).CGColor
+        var gradient: CAGradientLayer = CAGradientLayer()
+        gradient.frame = gradientNavView.bounds
+        gradient.colors = [colorTop, colorBottom]
+        gradient.locations = [0.0, 1.0]
+        gradientNavView.layer.insertSublayer(gradient, atIndex: 0)
+        view.addSubview(gradientNavView)
+    }
+    
     private func setupBackButton() {
+        var backButton = UIButton(frame: CGRectMake(5, 20, 62, 37))
+        let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: "FontAwesome", size: 17)!]
+        
+        var attributedString = NSAttributedString(string: Icons.Chevron.rawValue+" 返回", attributes: attributes)
+        backButton.setAttributedTitle(attributedString, forState: UIControlState.Normal)
+        
         let goBack = Action<UIButton, Void, NoError> { button in
             return SignalProducer { sink ,disposable in
                 sendNext(self._goBackSink, nil)
@@ -58,9 +74,23 @@ public final class DetailNavigationMapViewController: XUIViewController {
         
         backButton.addTarget(goBack.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         
+        view.addSubview(backButton)
+        
     }
     
     private func setupNavigateButton() {
+        
+        var deviceWidth = UIScreen.mainScreen().bounds.size.width
+        
+        var deviceHeight = UIScreen.mainScreen().bounds.size.height
+        
+        var navigateButton = UIButton(frame: CGRectMake(deviceWidth-67, 20, 62, 37))
+        
+        let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.boldSystemFontOfSize(17)]
+        
+        var attributedString = NSAttributedString(string: "导航", attributes: attributes)
+        
+        navigateButton.setAttributedTitle(attributedString, forState: UIControlState.Normal)
         
         let openMaps = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
@@ -85,6 +115,8 @@ public final class DetailNavigationMapViewController: XUIViewController {
         }
         
         navigateButton.addTarget(openMaps.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        
+        view.addSubview(navigateButton)
     }
     
     
