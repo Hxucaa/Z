@@ -89,22 +89,66 @@ public final class ProfileEditViewController: XUIViewController {
                 // Check if all required fields are complete
                 if (self!.viewmodel.allInputsValid.value) {
                     // Create the button action to update the fields in the DB with new data
-                    let submitAction = Action<UIBarButtonItem, Bool, NSError> { [weak self] button in
-                        let updateProfileAndHUD = HUD.show()
-                            |> mapError { _ in NSError() }
-                            |> then(self!.viewmodel.updateProfile)
-                            // dismiss HUD based on the result of update profile signal
-                            |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
-                                AccountLogError(error.description)
-                                return error.customErrorDescription
-                            })
-                        let HUDDisappear = HUD.didDissappearNotification() |> mapError { _ in NSError() }
-                        // combine the latest signal of update profile and hud dissappear notification
-                        // once update profile is done properly and HUD is disappeared, proceed to next step
-                        return combineLatest(updateProfileAndHUD, HUDDisappear)
-                            |> map { success, notificationMessage -> Bool in
-                                self?.dismissViewControllerAnimated(true, completion: nil)
-                                return success
+                    // Button action
+                    let submitAction = Action<UIBarButtonItem, Void, NSError> { [weak self] button in
+                        return SignalProducer { sink, disposable in
+                            if let this = self {
+                                
+                                // Update profile and show the HUD
+                                disposable += SignalProducer<Void, NoError>.empty
+                                    // delay the signal due to the animation of retracting keyboard
+                                    // this cannot be executed on main thread, otherwise UI will be blocked
+                                    |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                                    // return the signal to main/ui thread in order to run UI related code
+                                    |> observeOn(UIScheduler())
+                                    |> then(HUD.show())
+                                    // map error to the same type as other signal
+                                    |> promoteErrors(NSError)
+                                    // update profile
+                                    |> then(this.viewmodel.updateProfile)
+                                    // dismiss HUD based on the result of update profile signal
+                                    |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
+                                        AccountLogError(error.description)
+                                        return error.customErrorDescription
+                                    })
+                                    // does not `sendCompleted` because completion is handled when HUD is disappeared
+                                    |> start(
+                                        error: { error in
+                                            sendError(sink, error)
+                                        },
+                                        interrupted: { _ in
+                                            sendInterrupted(sink)
+                                        }
+                                )
+                                
+                                // Subscribe to touch down inside event
+                                disposable += HUD.didTouchDownInsideNotification()
+                                    |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                                    |> start(
+                                        next: { _ in
+                                            // dismiss HUD
+                                            HUD.dismiss()
+                                        }
+                                )
+                                
+                                // Subscribe to disappear notification
+                                disposable += HUD.didDissappearNotification()
+                                    |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                                    |> start(next: { status in
+                                        
+                                        // completes the action
+                                        sendNext(sink, ())
+                                        sendCompleted(sink)
+                                        self?.dismissViewControllerAnimated(true, completion: nil)
+                                    })
+                                
+                                // Add the signals to CompositeDisposable for automatic memory management
+                                disposable.addDisposable {
+                                    AccountLogVerbose("Update profile action is disposed.")
+                                }
+                                
+                                
+                            }
                         }
                     }
                     submitAction.unsafeCocoaAction.execute(self!.navigationItem.rightBarButtonItem!)
