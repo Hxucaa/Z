@@ -158,8 +158,8 @@
 		B4F38AC41B4DF8D10018F9E3 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F38AC21B4DF8D10018F9E3 /* ReactiveCocoa.framework */; };
 		B4F4AF801B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AF7F1B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift */; };
 		B4F4AF821B6B000000ABA176 /* DetailParticipationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AF811B6B000000ABA176 /* DetailParticipationViewModel.swift */; };
-		B4F4AFDE1B6EC70700ABA176 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AFDD1B6EC70700ABA176 /* Misc.swift */; };
 		B4F4AFDA1B6E05C300ABA176 /* BackButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4F4AFD91B6E05C300ABA176 /* BackButton.xib */; };
+		B4F4AFDE1B6EC70700ABA176 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AFDD1B6EC70700ABA176 /* Misc.swift */; };
 		B4F6DB671B647BCA00DB31D4 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F6DB661B647BCA00DB31D4 /* Detail.storyboard */; };
 		B4FC6B211B678515001F13E9 /* NSObject+Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FC6B201B678515001F13E9 /* NSObject+Swift.m */; };
 		B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */; };
@@ -343,8 +343,8 @@
 		B4F38AC21B4DF8D10018F9E3 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		B4F4AF7F1B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailParticipationTableViewCell.swift; sourceTree = "<group>"; };
 		B4F4AF811B6B000000ABA176 /* DetailParticipationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailParticipationViewModel.swift; sourceTree = "<group>"; };
-		B4F4AFDD1B6EC70700ABA176 /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		B4F4AFD91B6E05C300ABA176 /* BackButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BackButton.xib; sourceTree = "<group>"; };
+		B4F4AFDD1B6EC70700ABA176 /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		B4F6DB661B647BCA00DB31D4 /* Detail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
 		B4FC6B201B678515001F13E9 /* NSObject+Swift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swift.m"; sourceTree = "<group>"; };
 		B4FC6B221B678541001F13E9 /* NSObject+Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Swift.h"; sourceTree = "<group>"; };
@@ -531,7 +531,6 @@
 				3DB8AC2F1B06D0DF00E51F0E /* Profile.swift */,
 				B4F195BC1B2CE2B200B8C519 /* User_Business_Participation.swift */,
 				B4F195BE1B2CE2C300B8C519 /* ParticipationType.swift */,
-				261D91021B6873D5004B1CF6 /* Icons.swift */,
 			);
 			name = Model;
 			path = Common/Model;
@@ -679,6 +678,7 @@
 				B4FC6B201B678515001F13E9 /* NSObject+Swift.m */,
 				B4FC6B221B678541001F13E9 /* NSObject+Swift.h */,
 				B4F4AFDD1B6EC70700ABA176 /* Misc.swift */,
+				261D91021B6873D5004B1CF6 /* Icons.swift */,
 			);
 			name = Utility;
 			path = Common/Utility;

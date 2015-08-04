@@ -61,7 +61,7 @@ public final class DetailNavigationMapViewController: XUIViewController {
         var backButton = UIButton(frame: CGRectMake(5, 20, 62, 37))
         let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: "FontAwesome", size: 17)!]
         
-        var attributedString = NSAttributedString(string: Icons.Chevron.rawValue+" 返回", attributes: attributes)
+        var attributedString = NSAttributedString(string: Icons.Chevron+" 返回", attributes: attributes)
         backButton.setAttributedTitle(attributedString, forState: UIControlState.Normal)
         
         let goBack = Action<UIButton, Void, NoError> { button in
