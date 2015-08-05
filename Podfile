@@ -11,7 +11,6 @@ target 'XListing' do
   pod 'SDWebImage'
   pod 'Locksmith', '~> 1.2'
   pod 'ReactiveCocoa', '= 3.0-RC.1'
-  pod 'ActionSheetPicker-3.0', '~> 1.7.0'
 #  pod 'AVOSCloud', '~> 3.1'
 #  pod 'AVOSCloudCrashReporting', '~> 3.1'
 #  pod 'AVOSCloudIM', '~> 3.1'
