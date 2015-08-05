@@ -25,12 +25,12 @@ DerivedData
 #
 # Pods/
 
-# Carthage
+Carthage
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
 Carthage/Checkouts
 
-# Carthage/Build
+Carthage/Build
 
 #JetBrain IDEs
 .idea/
@@ -40,3 +40,6 @@ Carthage/Checkouts
 
 #Settings
 XListing/Parse.plist
+
+#old submodule folder
+lib/
