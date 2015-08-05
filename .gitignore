@@ -43,3 +43,4 @@ XListing/Parse.plist
 
 #old submodule folder
 lib/
+.gitmodules
