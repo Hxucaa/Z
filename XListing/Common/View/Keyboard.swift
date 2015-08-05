@@ -11,13 +11,22 @@ import ReactiveCocoa
 
 public final class Keyboard {
     
-    public static var didHideNotification: SignalProducer<NSNotification, NoError> {
-        return notification(UIKeyboardDidHideNotification)
+    public static var willShowNotification: SignalProducer<NSNotification, NoError> {
+        return notification(UIKeyboardWillShowNotification)
     }
     
     public static var didShowNotification: SignalProducer<NSNotification, NoError> {
         return notification(UIKeyboardDidShowNotification)
     }
+    
+    public static var willHideNotification: SignalProducer<NSNotification, NoError> {
+        return notification(UIKeyboardWillHideNotification)
+    }
+    
+    public static var didHideNotification: SignalProducer<NSNotification, NoError> {
+        return notification(UIKeyboardDidHideNotification)
+    }
+    
     
     public static var afterKeyboardRetracted: SignalProducer<Void, NoError> {
         return didHideNotification

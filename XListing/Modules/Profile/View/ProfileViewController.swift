@@ -49,6 +49,16 @@ public final class ProfileViewController : XUIViewController {
     public func bindToViewModel(profileViewModel: IProfileViewModel) {
         profileVM = profileViewModel
     }
+    
+
+    public override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
+        if (segue.identifier == "presentProfileEdit") {
+            let profileEditVC = segue.destinationViewController.topViewController as! ProfileEditViewController
+            profileEditVC.bindToViewModel(profileVM.profileEditViewModel)
+        }
+    }
 }
 
 

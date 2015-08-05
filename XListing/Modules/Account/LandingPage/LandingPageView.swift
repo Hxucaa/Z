@@ -169,6 +169,8 @@ public final class LandingPageView : UIView {
     }
     
     private func setupSignUpButton() {
+        signUpButton.layer.masksToBounds = true
+        signUpButton.layer.cornerRadius = 8
         let gotoSignup = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
                 if let this = self {
