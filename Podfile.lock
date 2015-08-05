@@ -1,4 +1,5 @@
 PODS:
+  - ActionSheetPicker-3.0 (1.7.0)
   - Box (1.2.2)
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
@@ -37,6 +38,7 @@ PODS:
   - XAssets (0.1.2)
 
 DEPENDENCIES:
+  - ActionSheetPicker-3.0 (~> 1.7.0)
   - CocoaLumberjack (= 2.0.0)
   - Dollar (~> 3.0)
   - FLEX (~> 2.0)
@@ -63,6 +65,7 @@ CHECKOUT OPTIONS:
     :git: git@bitbucket.org:zenchat/xassets.git
 
 SPEC CHECKSUMS:
+  ActionSheetPicker-3.0: 6516052442fc8ca8f3cc4b3c7aa0436de12373df
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   Dollar: ae37f1da42cdc16061fcc1e91a070281b207f5c8
