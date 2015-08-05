@@ -32,11 +32,11 @@ public final class PhoneEmailTableViewCell: UITableViewCell {
     public func initialize(type: String) {
         if type == "Phone" {
             textField.keyboardType = UIKeyboardType.NumbersAndPunctuation
-            icon.text = Icons.Phone.rawValue
+            icon.text = Icons.Phone
             textField.placeholder = "电话"
         } else if type == "Email" {
             textField.keyboardType = UIKeyboardType.EmailAddress
-            icon.text = Icons.Email.rawValue
+            icon.text = Icons.Email
             textField.placeholder = "邮件"
         }
     }

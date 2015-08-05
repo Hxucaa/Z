@@ -152,15 +152,24 @@
 		B4F195BB1B2C331400B8C519 /* DetailBizInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195BA1B2C331400B8C519 /* DetailBizInfoViewModel.swift */; };
 		B4F195BD1B2CE2B200B8C519 /* User_Business_Participation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195BC1B2CE2B200B8C519 /* User_Business_Participation.swift */; };
 		B4F195BF1B2CE2C300B8C519 /* ParticipationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195BE1B2CE2C300B8C519 /* ParticipationType.swift */; };
-		B4F195C61B2E0F0000B8C519 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4F195C51B2E0F0000B8C519 /* Default-568h@2x.png */; };
 		B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */; };
-		B4F38AC31B4DF8D10018F9E3 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F38AC21B4DF8D10018F9E3 /* ReactiveCocoa.framework */; };
-		B4F38AC41B4DF8D10018F9E3 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F38AC21B4DF8D10018F9E3 /* ReactiveCocoa.framework */; };
 		B4F4AF801B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AF7F1B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift */; };
 		B4F4AF821B6B000000ABA176 /* DetailParticipationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AF811B6B000000ABA176 /* DetailParticipationViewModel.swift */; };
-		B4F4AFDE1B6EC70700ABA176 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AFDD1B6EC70700ABA176 /* Misc.swift */; };
 		B4F4AFDA1B6E05C300ABA176 /* BackButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4F4AFD91B6E05C300ABA176 /* BackButton.xib */; };
+		B4F4AFDE1B6EC70700ABA176 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AFDD1B6EC70700ABA176 /* Misc.swift */; };
 		B4F6DB671B647BCA00DB31D4 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F6DB661B647BCA00DB31D4 /* Detail.storyboard */; };
+		B4FA1F9B1B70D5B0003BD3BC /* AVOSCloudSNS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1F971B70D5B0003BD3BC /* AVOSCloudSNS.framework */; };
+		B4FA1F9C1B70D5B0003BD3BC /* AVOSCloudIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1F981B70D5B0003BD3BC /* AVOSCloudIM.framework */; };
+		B4FA1F9D1B70D5B0003BD3BC /* AVOSCloudCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1F991B70D5B0003BD3BC /* AVOSCloudCrashReporting.framework */; };
+		B4FA1F9E1B70D5B0003BD3BC /* AVOSCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1F9A1B70D5B0003BD3BC /* AVOSCloud.framework */; };
+		B4FA1FA01B70D5F5003BD3BC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1F9F1B70D5F5003BD3BC /* CoreLocation.framework */; };
+		B4FA1FA21B70D5FC003BD3BC /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FA11B70D5FC003BD3BC /* libsqlite3.dylib */; };
+		B4FA1FA41B70D603003BD3BC /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FA31B70D603003BD3BC /* CoreTelephony.framework */; };
+		B4FA1FA61B70D609003BD3BC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FA51B70D609003BD3BC /* QuartzCore.framework */; };
+		B4FA1FA81B70D61D003BD3BC /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FA71B70D61D003BD3BC /* CoreAudio.framework */; };
+		B4FA1FAA1B70D638003BD3BC /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FA91B70D638003BD3BC /* libc++.dylib */; };
+		B4FA1FAC1B70D700003BD3BC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FAB1B70D700003BD3BC /* SystemConfiguration.framework */; };
+		B4FA1FAE1B70D708003BD3BC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FAD1B70D708003BD3BC /* MobileCoreServices.framework */; };
 		B4FC6B211B678515001F13E9 /* NSObject+Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FC6B201B678515001F13E9 /* NSObject+Swift.m */; };
 		B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */; };
 		B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */; };
@@ -346,14 +355,24 @@
 		B4F195BA1B2C331400B8C519 /* DetailBizInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBizInfoViewModel.swift; sourceTree = "<group>"; };
 		B4F195BC1B2CE2B200B8C519 /* User_Business_Participation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User_Business_Participation.swift; sourceTree = "<group>"; };
 		B4F195BE1B2CE2C300B8C519 /* ParticipationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationType.swift; sourceTree = "<group>"; };
-		B4F195C51B2E0F0000B8C519 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessService.swift; sourceTree = "<group>"; };
-		B4F38AC21B4DF8D10018F9E3 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		B4F4AF7F1B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailParticipationTableViewCell.swift; sourceTree = "<group>"; };
 		B4F4AF811B6B000000ABA176 /* DetailParticipationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailParticipationViewModel.swift; sourceTree = "<group>"; };
-		B4F4AFDD1B6EC70700ABA176 /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		B4F4AFD91B6E05C300ABA176 /* BackButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BackButton.xib; sourceTree = "<group>"; };
+		B4F4AFDD1B6EC70700ABA176 /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		B4F6DB661B647BCA00DB31D4 /* Detail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
+		B4FA1F971B70D5B0003BD3BC /* AVOSCloudSNS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVOSCloudSNS.framework; path = "Vendor/avoscloud-ios-sdk-v3.1.2.9/AVOSCloudSNS.framework"; sourceTree = "<group>"; };
+		B4FA1F981B70D5B0003BD3BC /* AVOSCloudIM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVOSCloudIM.framework; path = "Vendor/avoscloud-ios-sdk-v3.1.2.9/AVOSCloudIM.framework"; sourceTree = "<group>"; };
+		B4FA1F991B70D5B0003BD3BC /* AVOSCloudCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVOSCloudCrashReporting.framework; path = "Vendor/avoscloud-ios-sdk-v3.1.2.9/AVOSCloudCrashReporting.framework"; sourceTree = "<group>"; };
+		B4FA1F9A1B70D5B0003BD3BC /* AVOSCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVOSCloud.framework; path = "Vendor/avoscloud-ios-sdk-v3.1.2.9/AVOSCloud.framework"; sourceTree = "<group>"; };
+		B4FA1F9F1B70D5F5003BD3BC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		B4FA1FA11B70D5FC003BD3BC /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		B4FA1FA31B70D603003BD3BC /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		B4FA1FA51B70D609003BD3BC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B4FA1FA71B70D61D003BD3BC /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		B4FA1FA91B70D638003BD3BC /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		B4FA1FAB1B70D700003BD3BC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		B4FA1FAD1B70D708003BD3BC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		B4FC6B201B678515001F13E9 /* NSObject+Swift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swift.m"; sourceTree = "<group>"; };
 		B4FC6B221B678541001F13E9 /* NSObject+Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Swift.h"; sourceTree = "<group>"; };
 		B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
@@ -377,8 +396,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4FA1FAE1B70D708003BD3BC /* MobileCoreServices.framework in Frameworks */,
+				B4FA1FAC1B70D700003BD3BC /* SystemConfiguration.framework in Frameworks */,
+				B4FA1FAA1B70D638003BD3BC /* libc++.dylib in Frameworks */,
+				B4FA1FA81B70D61D003BD3BC /* CoreAudio.framework in Frameworks */,
+				B4FA1FA61B70D609003BD3BC /* QuartzCore.framework in Frameworks */,
+				B4FA1FA41B70D603003BD3BC /* CoreTelephony.framework in Frameworks */,
+				B4FA1FA21B70D5FC003BD3BC /* libsqlite3.dylib in Frameworks */,
+				B4FA1FA01B70D5F5003BD3BC /* CoreLocation.framework in Frameworks */,
+				B4FA1F9D1B70D5B0003BD3BC /* AVOSCloudCrashReporting.framework in Frameworks */,
 				B4F195931B2995FA00B8C519 /* libicucore.dylib in Frameworks */,
-				B4F38AC31B4DF8D10018F9E3 /* ReactiveCocoa.framework in Frameworks */,
+				B4FA1F9C1B70D5B0003BD3BC /* AVOSCloudIM.framework in Frameworks */,
+				B4FA1F9B1B70D5B0003BD3BC /* AVOSCloudSNS.framework in Frameworks */,
+				B4FA1F9E1B70D5B0003BD3BC /* AVOSCloud.framework in Frameworks */,
 				6355331D984FC626C0650774 /* Pods_XListing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -388,7 +418,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */,
-				B4F38AC41B4DF8D10018F9E3 /* ReactiveCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,8 +452,19 @@
 		29D3149CACD608DFBF4B5FBA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B4FA1FAD1B70D708003BD3BC /* MobileCoreServices.framework */,
+				B4FA1FAB1B70D700003BD3BC /* SystemConfiguration.framework */,
+				B4FA1FA91B70D638003BD3BC /* libc++.dylib */,
+				B4FA1FA71B70D61D003BD3BC /* CoreAudio.framework */,
+				B4FA1FA51B70D609003BD3BC /* QuartzCore.framework */,
+				B4FA1FA31B70D603003BD3BC /* CoreTelephony.framework */,
+				B4FA1FA11B70D5FC003BD3BC /* libsqlite3.dylib */,
+				B4FA1F9F1B70D5F5003BD3BC /* CoreLocation.framework */,
+				B4FA1F971B70D5B0003BD3BC /* AVOSCloudSNS.framework */,
+				B4FA1F981B70D5B0003BD3BC /* AVOSCloudIM.framework */,
+				B4FA1F991B70D5B0003BD3BC /* AVOSCloudCrashReporting.framework */,
+				B4FA1F9A1B70D5B0003BD3BC /* AVOSCloud.framework */,
 				B4F195921B2995FA00B8C519 /* libicucore.dylib */,
-				B4F38AC21B4DF8D10018F9E3 /* ReactiveCocoa.framework */,
 				7E3A1C021B1EF84500E84ABE /* CocoaLumberjack.framework */,
 				1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */,
 				3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */,
@@ -553,7 +593,6 @@
 				3DB8AC2F1B06D0DF00E51F0E /* Profile.swift */,
 				B4F195BC1B2CE2B200B8C519 /* User_Business_Participation.swift */,
 				B4F195BE1B2CE2C300B8C519 /* ParticipationType.swift */,
-				261D91021B6873D5004B1CF6 /* Icons.swift */,
 			);
 			name = Model;
 			path = Common/Model;
@@ -562,7 +601,6 @@
 		7EF371021AB8C012009AA3B9 = {
 			isa = PBXGroup;
 			children = (
-				B4F195C51B2E0F0000B8C519 /* Default-568h@2x.png */,
 				7EF371511AB8C26F009AA3B9 /* XListing-Bridging-Header.h */,
 				7EF371521AB8C8FA009AA3B9 /* XListingTests-Bridging-Header.h */,
 				7EF3710D1AB8C012009AA3B9 /* XListing */,
@@ -702,6 +740,7 @@
 				B4FC6B201B678515001F13E9 /* NSObject+Swift.m */,
 				B4FC6B221B678541001F13E9 /* NSObject+Swift.h */,
 				B4F4AFDD1B6EC70700ABA176 /* Misc.swift */,
+				261D91021B6873D5004B1CF6 /* Icons.swift */,
 			);
 			name = Utility;
 			path = Common/Utility;
@@ -1093,7 +1132,6 @@
 				7EF371091AB8C012009AA3B9 /* Resources */,
 				872140BEE6FAF6010C9C14C0 /* Embed Pods Frameworks */,
 				187EF1DAD031175ED64B73E2 /* Copy Pods Resources */,
-				B4F38AC11B4DF8150018F9E3 /* Copy Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1290,23 +1328,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-XListing/Pods-XListing-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		B4F38AC11B4DF8150018F9E3 /* Copy Carthage Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Box.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework",
-			);
-			name = "Copy Carthage Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 		D91A9543E432F83B6EF4216D /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1609,7 +1630,7 @@
 				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Vendor/avoscloud-ios-sdk-v3.1.2.9",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				INFOPLIST_FILE = XListing/Info.plist;
@@ -1632,7 +1653,7 @@
 				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Vendor/avoscloud-ios-sdk-v3.1.2.9",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INFOPLIST_FILE = XListing/Info.plist;
@@ -1656,7 +1677,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1682,7 +1702,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INFOPLIST_FILE = XListingTests/Info.plist;

@@ -1,6 +1,0 @@
-framework module XAssets {
-  umbrella header "Pods-XListing-XAssets-umbrella.h"
-
-  export *
-  module * { export * }
-}
