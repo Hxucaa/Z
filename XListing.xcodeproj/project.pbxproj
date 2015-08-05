@@ -581,7 +581,6 @@
 				3DB8AC2F1B06D0DF00E51F0E /* Profile.swift */,
 				B4F195BC1B2CE2B200B8C519 /* User_Business_Participation.swift */,
 				B4F195BE1B2CE2C300B8C519 /* ParticipationType.swift */,
-				261D91021B6873D5004B1CF6 /* Icons.swift */,
 			);
 			name = Model;
 			path = Common/Model;
@@ -728,6 +727,7 @@
 				B4FC6B201B678515001F13E9 /* NSObject+Swift.m */,
 				B4FC6B221B678541001F13E9 /* NSObject+Swift.h */,
 				B4F4AFDD1B6EC70700ABA176 /* Misc.swift */,
+				261D91021B6873D5004B1CF6 /* Icons.swift */,
 			);
 			name = Utility;
 			path = Common/Utility;
