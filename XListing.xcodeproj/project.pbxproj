@@ -174,6 +174,7 @@
 		B4FA1FAA1B70D638003BD3BC /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FA91B70D638003BD3BC /* libc++.dylib */; };
 		B4FA1FAC1B70D700003BD3BC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FAB1B70D700003BD3BC /* SystemConfiguration.framework */; };
 		B4FA1FAE1B70D708003BD3BC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FAD1B70D708003BD3BC /* MobileCoreServices.framework */; };
+		B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordFields.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordFields.xib */; };
 		B4FC6B211B678515001F13E9 /* NSObject+Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FC6B201B678515001F13E9 /* NSObject+Swift.m */; };
 		B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */; };
 		B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */; };
@@ -373,6 +374,7 @@
 		B4FA1FA91B70D638003BD3BC /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		B4FA1FAB1B70D700003BD3BC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B4FA1FAD1B70D708003BD3BC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordFields.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UsernameAndPasswordFields.xib; sourceTree = "<group>"; };
 		B4FC6B201B678515001F13E9 /* NSObject+Swift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swift.m"; sourceTree = "<group>"; };
 		B4FC6B221B678541001F13E9 /* NSObject+Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Swift.h"; sourceTree = "<group>"; };
 		B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
@@ -930,6 +932,7 @@
 			children = (
 				B4E7C1951B5390200038260E /* SignUpView.swift */,
 				B4E7C1971B53904D0038260E /* SignUpView.xib */,
+				B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordFields.xib */,
 				B33C0E041B71653B005F8410 /* NickNameField.xib */,
 				B33C0E061B716A3C005F8410 /* GenderPickerField.xib */,
 				B3FFDD7C1B716FA3003710D8 /* BirthdayPickerField.xib */,
@@ -1171,6 +1174,7 @@
 			files = (
 				B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */,
 				B3FFDD7D1B716FA3003710D8 /* BirthdayPickerField.xib in Resources */,
+				B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordFields.xib in Resources */,
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				2632F12F1B60A4D100CA49AE /* GenderPickerViewController.xib in Resources */,
 				269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */,

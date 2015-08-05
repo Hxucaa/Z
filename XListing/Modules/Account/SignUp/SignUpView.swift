@@ -10,14 +10,18 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 
+private let UsernameAndPasswordFieldsNibName = "UsernameAndPasswordFields"
+
 public final class SignUpView : UIView {
     
-    // MARK: - UI
-    // MARK: Controls
-    @IBOutlet private weak var usernameField: UITextField!
-    @IBOutlet private weak var passwordField: UITextField!
-    @IBOutlet private weak var signupButton: UIButton!
+    // MARK: - UI Controls
+    @IBOutlet private weak var usernameField: UITextField?
+    @IBOutlet private weak var passwordField: UITextField?
+    @IBOutlet private weak var confirmButton: UIButton!
     @IBOutlet private weak var backButton: UIButton!
+    @IBOutlet private weak var primaryLabel: UILabel!
+    @IBOutlet private weak var secondaryLabel: UILabel!
+    private var usernameAndPasswordFields: UIView!
     
     // MARK: - Proxies
     
@@ -33,12 +37,49 @@ public final class SignUpView : UIView {
     }
     private let (_finishSignUpProxy, _finishSignUpSink) = SimpleProxy.proxy()
     
-    // MARK: Properties
+    // MARK: - Properties
     private var viewmodel: SignUpViewModel!
     
-    // MARK: Setups
+    // MARK: - Setups
+    public required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        usernameAndPasswordFields = UINib(nibName: UsernameAndPasswordFieldsNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UIView
+    }
+    
+    
     public override func awakeFromNib() {
         super.awakeFromNib()
+        
+        
+        addSubview(usernameAndPasswordFields)
+        usernameAndPasswordFields.setTranslatesAutoresizingMaskIntoConstraints(false)
+        
+        let center = NSLayoutConstraint(item: usernameAndPasswordFields,
+            attribute: NSLayoutAttribute.CenterX,
+            relatedBy: NSLayoutRelation.Equal,
+            toItem: primaryLabel,
+            attribute: NSLayoutAttribute.CenterX,
+            multiplier: 1.0,
+            constant: 0.0)
+        center.identifier = "usernameAndPasswordFields to primaryLabel center"
+        
+        let topSpacing = NSLayoutConstraint(item: usernameAndPasswordFields,
+            attribute: NSLayoutAttribute.Top,
+            relatedBy: NSLayoutRelation.Equal,
+            toItem: secondaryLabel,
+            attribute: NSLayoutAttribute.Bottom,
+            multiplier: 1.0,
+            constant: 30.0)
+        topSpacing.identifier = "usernameAndPasswordFields to secondaryLabel topSpacing"
+        
+        addConstraints(
+            [
+                center,
+                topSpacing
+            ]
+        )
+        
         
         setupUsernameField()
         setupPasswordField()
@@ -47,11 +88,11 @@ public final class SignUpView : UIView {
     }
     
     private func setupUsernameField() {
-        usernameField.delegate = self
+        usernameField?.delegate = self
     }
     
     private func setupPasswordField() {
-        passwordField.delegate = self
+        passwordField?.delegate = self
     }
     
     private func setupBackButton () {
@@ -71,8 +112,8 @@ public final class SignUpView : UIView {
     }
     
     private func setupSignupButton () {
-        signupButton.layer.masksToBounds = true
-        signupButton.layer.cornerRadius = 8
+        confirmButton.layer.masksToBounds = true
+        confirmButton.layer.cornerRadius = 8
         
         let signup = Action<UIButton, Void, NSError> { [weak self] button in
             return SignalProducer { sink, disposable in
@@ -145,7 +186,7 @@ public final class SignUpView : UIView {
         }
         
         // Link UIControl event to actions
-        signupButton.addTarget(signup.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        confirmButton.addTarget(signup.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     deinit {
@@ -157,9 +198,15 @@ public final class SignUpView : UIView {
         self.viewmodel = viewmodel
         
         // bind signals
-        viewmodel.username <~ usernameField.rac_text
-        viewmodel.password <~ passwordField.rac_text
-        signupButton.rac_enabled <~ viewmodel.allInputsValid
+        if let usernameField = usernameField {
+            viewmodel.username <~ usernameField.rac_text
+        }
+        if let passwordField = passwordField {
+            viewmodel.password <~ passwordField.rac_text
+        }
+        
+        // TODO: implement different validation for different input fields.
+//        confirmButton.rac_enabled <~ viewmodel.allInputsValid
     }
     
     // MARK: Others
@@ -167,7 +214,7 @@ public final class SignUpView : UIView {
     Notify receiver that it is about to be the first reponsider.
     */
     public func startFirstResponder() {
-        usernameField.becomeFirstResponder()
+        usernameField?.becomeFirstResponder()
     }
 }
 
@@ -180,15 +227,12 @@ extension SignUpView : UITextFieldDelegate {
     :returns: YES if the text field should implement its default behavior for the return button; otherwise, NO.
     */
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        switch textField {
-        case usernameField:
-            passwordField.becomeFirstResponder()
-        case passwordField:
+        if let usernameField = usernameField where usernameField == textField {
+            passwordField?.becomeFirstResponder()
+        }
+        else if let passwordField = passwordField where passwordField == textField {
             passwordField.resignFirstResponder()
-            
-            signupButton.sendActionsForControlEvents(.TouchUpInside)
-        default:
-            break
+            confirmButton.sendActionsForControlEvents(.TouchUpInside)
         }
         return false
     }
