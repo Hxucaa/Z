@@ -9,19 +9,29 @@
 import Foundation
 import UIKit
 import ReactiveCocoa
+import Cartography
 
 private let UsernameAndPasswordFieldsNibName = "UsernameAndPasswordFields"
 
 public final class SignUpView : UIView {
     
     // MARK: - UI Controls
-    @IBOutlet private weak var usernameField: UITextField?
-    @IBOutlet private weak var passwordField: UITextField?
-    @IBOutlet private weak var confirmButton: UIButton!
+    
+    // MARK: Top Stack
+    @IBOutlet private weak var topStack: UIView!
     @IBOutlet private weak var backButton: UIButton!
     @IBOutlet private weak var primaryLabel: UILabel!
     @IBOutlet private weak var secondaryLabel: UILabel!
+    
+    // MARK: Mid Stack
+    @IBOutlet private weak var midStack: UIView!
     private var usernameAndPasswordFields: UIView!
+    @IBOutlet private weak var usernameField: UITextField?
+    @IBOutlet private weak var passwordField: UITextField?
+    
+    // MARK: Bottom Stack
+    @IBOutlet private weak var bottomStack: UIView!
+    @IBOutlet private weak var confirmButton: UIButton!
     
     // MARK: - Proxies
     
@@ -52,33 +62,38 @@ public final class SignUpView : UIView {
         super.awakeFromNib()
         
         
-        addSubview(usernameAndPasswordFields)
+        midStack.addSubview(usernameAndPasswordFields)
         usernameAndPasswordFields.setTranslatesAutoresizingMaskIntoConstraints(false)
         
-        let center = NSLayoutConstraint(item: usernameAndPasswordFields,
+        let centerX = NSLayoutConstraint(item: usernameAndPasswordFields,
             attribute: NSLayoutAttribute.CenterX,
             relatedBy: NSLayoutRelation.Equal,
-            toItem: primaryLabel,
+            toItem: midStack,
             attribute: NSLayoutAttribute.CenterX,
             multiplier: 1.0,
             constant: 0.0)
-        center.identifier = "usernameAndPasswordFields to primaryLabel center"
+        centerX.identifier = "usernameAndPasswordFields to midStack centerX"
         
         let topSpacing = NSLayoutConstraint(item: usernameAndPasswordFields,
             attribute: NSLayoutAttribute.Top,
             relatedBy: NSLayoutRelation.Equal,
-            toItem: secondaryLabel,
-            attribute: NSLayoutAttribute.Bottom,
+            toItem: midStack,
+            attribute: NSLayoutAttribute.Top,
             multiplier: 1.0,
-            constant: 30.0)
-        topSpacing.identifier = "usernameAndPasswordFields to secondaryLabel topSpacing"
+            constant: (midStack.frame.height - usernameAndPasswordFields.frame.height) / 2)
+        topSpacing.identifier = "usernameAndPasswordFields to midStack topSpacing"
         
         addConstraints(
             [
-                center,
+                centerX,
                 topSpacing
             ]
         )
+        
+//        layout(usernameAndPasswordFields, midStack) { fields, midStack in
+//            align(centerX: fields, midStack)
+//            fields.top == midStack.top + (self.midStack.frame.height - self.usernameAndPasswordFields.frame.height) / 2
+//        }
         
         
         setupUsernameField()
