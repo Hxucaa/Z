@@ -72,8 +72,12 @@
 		7EFEF7461B13D0900043E076 /* EditInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7451B13D0900043E076 /* EditInfoView.swift */; };
 		B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */; };
 		B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */; };
+		B33C0E051B71653B005F8410 /* NickNameField.xib in Resources */ = {isa = PBXBuildFile; fileRef = B33C0E041B71653B005F8410 /* NickNameField.xib */; };
+		B33C0E071B716A3C005F8410 /* GenderPickerField.xib in Resources */ = {isa = PBXBuildFile; fileRef = B33C0E061B716A3C005F8410 /* GenderPickerField.xib */; };
 		B3F5E2401B65A605007762B4 /* StartUpButtonsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3F5E23F1B65A605007762B4 /* StartUpButtonsView.xib */; };
 		B3F5E2421B65A620007762B4 /* RePromptButtonsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3F5E2411B65A620007762B4 /* RePromptButtonsView.xib */; };
+		B3FFDD7D1B716FA3003710D8 /* BirthdayPickerField.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3FFDD7C1B716FA3003710D8 /* BirthdayPickerField.xib */; };
+		B3FFDD7F1B718226003710D8 /* PhotoPickerField.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3FFDD7E1B718226003710D8 /* PhotoPickerField.xib */; };
 		B40A0D8B1B22455700036986 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8A1B22455700036986 /* Constants.swift */; };
 		B40A0D8D1B23BD2900036986 /* EditInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8C1B23BD2900036986 /* EditInfoViewModel.swift */; };
 		B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */; };
@@ -267,8 +271,12 @@
 		7EFEF7451B13D0900043E076 /* EditInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditInfoView.swift; sourceTree = "<group>"; };
 		B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Bold.ttf"; sourceTree = "<group>"; };
 		B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Regular.ttf"; sourceTree = "<group>"; };
+		B33C0E041B71653B005F8410 /* NickNameField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NickNameField.xib; sourceTree = "<group>"; };
+		B33C0E061B716A3C005F8410 /* GenderPickerField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GenderPickerField.xib; sourceTree = "<group>"; };
 		B3F5E23F1B65A605007762B4 /* StartUpButtonsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StartUpButtonsView.xib; sourceTree = "<group>"; };
 		B3F5E2411B65A620007762B4 /* RePromptButtonsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RePromptButtonsView.xib; sourceTree = "<group>"; };
+		B3FFDD7C1B716FA3003710D8 /* BirthdayPickerField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BirthdayPickerField.xib; sourceTree = "<group>"; };
+		B3FFDD7E1B718226003710D8 /* PhotoPickerField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoPickerField.xib; sourceTree = "<group>"; };
 		B40A0D8A1B22455700036986 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B40A0D8C1B23BD2900036986 /* EditInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditInfoViewModel.swift; sourceTree = "<group>"; };
 		B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleFormatter.swift; sourceTree = "<group>"; };
@@ -922,6 +930,10 @@
 			children = (
 				B4E7C1951B5390200038260E /* SignUpView.swift */,
 				B4E7C1971B53904D0038260E /* SignUpView.xib */,
+				B33C0E041B71653B005F8410 /* NickNameField.xib */,
+				B33C0E061B716A3C005F8410 /* GenderPickerField.xib */,
+				B3FFDD7C1B716FA3003710D8 /* BirthdayPickerField.xib */,
+				B3FFDD7E1B718226003710D8 /* PhotoPickerField.xib */,
 				B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */,
 			);
 			path = SignUp;
@@ -1158,6 +1170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */,
+				B3FFDD7D1B716FA3003710D8 /* BirthdayPickerField.xib in Resources */,
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				2632F12F1B60A4D100CA49AE /* GenderPickerViewController.xib in Resources */,
 				269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */,
@@ -1167,16 +1180,19 @@
 				7E0173881B146473002E154B /* EditInfoView.xib in Resources */,
 				B4E7C18E1B5387880038260E /* LandingPageView.xib in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
+				B33C0E051B71653B005F8410 /* NickNameField.xib in Resources */,
 				B41334EF1B60E46C00B5F22D /* Nearby.storyboard in Resources */,
 				2A41A30E1AF3133F0086D24B /* fontawesome-webfont.ttf in Resources */,
 				B4E7C1921B53893E0038260E /* LogInView.xib in Resources */,
 				B4F4AFDA1B6E05C300ABA176 /* BackButton.xib in Resources */,
 				B4F6DB671B647BCA00DB31D4 /* Detail.storyboard in Resources */,
+				B3FFDD7F1B718226003710D8 /* PhotoPickerField.xib in Resources */,
 				7EF371501AB8C1E8009AA3B9 /* Parse.plist in Resources */,
 				3DFA2F991B43C13000058930 /* WantToGoList.storyboard in Resources */,
 				B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */,
 				B3F5E2421B65A620007762B4 /* RePromptButtonsView.xib in Resources */,
 				7EACBA111AFBDC15009D8CA6 /* Profile.storyboard in Resources */,
+				B33C0E071B716A3C005F8410 /* GenderPickerField.xib in Resources */,
 				7EF371181AB8C012009AA3B9 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
