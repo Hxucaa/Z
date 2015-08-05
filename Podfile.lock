@@ -59,7 +59,7 @@ CHECKOUT OPTIONS:
     :commit: 4cbf1de2f9becbdfe38257bf9129f2930a2668ab
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
-    :commit: 2673f637cb1578fa53605cab484be43dfce3af31
+    :commit: 85202e0c87b0a4daa495ed9e5b4e314f6c9b6305
     :git: git@bitbucket.org:zenchat/xassets.git
 
 SPEC CHECKSUMS:
