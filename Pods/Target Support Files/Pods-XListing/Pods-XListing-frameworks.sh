@@ -52,6 +52,7 @@ code_sign_if_enabled() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework 'Pods-XListing/ActionSheetPicker_3_0.framework'
   install_framework 'Pods-XListing/Box.framework'
   install_framework 'Pods-XListing/CocoaLumberjack.framework'
   install_framework 'Pods-XListing/Dollar.framework'
@@ -64,6 +65,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-XListing/XAssets.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework 'Pods-XListing/ActionSheetPicker_3_0.framework'
   install_framework 'Pods-XListing/Box.framework'
   install_framework 'Pods-XListing/CocoaLumberjack.framework'
   install_framework 'Pods-XListing/Dollar.framework'
