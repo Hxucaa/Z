@@ -27,7 +27,7 @@ public final class GenderTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         textField.placeholder = "性别"
-        genderIcon.text = Icons.Gender.rawValue
+        genderIcon.text = Icons.Gender
         textField.delegate = self
 
     }
