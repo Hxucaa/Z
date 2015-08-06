@@ -72,11 +72,11 @@
 		7EFEF7461B13D0900043E076 /* EditInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7451B13D0900043E076 /* EditInfoView.swift */; };
 		B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */; };
 		B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */; };
-		B33C0E051B71653B005F8410 /* NicknameField.xib in Resources */ = {isa = PBXBuildFile; fileRef = B33C0E041B71653B005F8410 /* NicknameField.xib */; };
-		B33C0E071B716A3C005F8410 /* GenderPickerField.xib in Resources */ = {isa = PBXBuildFile; fileRef = B33C0E061B716A3C005F8410 /* GenderPickerField.xib */; };
+		B33C0E051B71653B005F8410 /* NicknameView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B33C0E041B71653B005F8410 /* NicknameView.xib */; };
+		B33C0E071B716A3C005F8410 /* GenderPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B33C0E061B716A3C005F8410 /* GenderPickerView.xib */; };
 		B3F5E2401B65A605007762B4 /* StartUpButtonsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3F5E23F1B65A605007762B4 /* StartUpButtonsView.xib */; };
 		B3F5E2421B65A620007762B4 /* RePromptButtonsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3F5E2411B65A620007762B4 /* RePromptButtonsView.xib */; };
-		B3FFDD7D1B716FA3003710D8 /* BirthdayPickerField.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3FFDD7C1B716FA3003710D8 /* BirthdayPickerField.xib */; };
+		B3FFDD7D1B716FA3003710D8 /* BirthdayPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3FFDD7C1B716FA3003710D8 /* BirthdayPickerView.xib */; };
 		B3FFDD7F1B718226003710D8 /* PhotoPickerField.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3FFDD7E1B718226003710D8 /* PhotoPickerField.xib */; };
 		B40A0D8B1B22455700036986 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8A1B22455700036986 /* Constants.swift */; };
 		B40A0D8D1B23BD2900036986 /* EditInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8C1B23BD2900036986 /* EditInfoViewModel.swift */; };
@@ -98,6 +98,8 @@
 		B462BC7A1B2F94DE00070BE5 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B462BC791B2F94DE00070BE5 /* UserDefaultsService.swift */; };
 		B462BC7C1B2F94E800070BE5 /* IUserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B462BC7B1B2F94E800070BE5 /* IUserDefaultsService.swift */; };
 		B462BC7E1B2FA50E00070BE5 /* LandingPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B462BC7D1B2FA50E00070BE5 /* LandingPageViewModel.swift */; };
+		B4694E2B1B72A045000E2006 /* UsernameAndPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4694E2A1B72A045000E2006 /* UsernameAndPasswordView.swift */; };
+		B4694E2D1B72A17E000E2006 /* UsernameAndPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4694E2C1B72A17E000E2006 /* UsernameAndPasswordViewModel.swift */; };
 		B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47C0EA51AC0A21000F9FB31 /* AppDependencies.swift */; };
 		B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47C0EA91AC0A82C00F9FB31 /* FeaturedListWireframe.swift */; };
 		B47E15BD1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47E15BC1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift */; };
@@ -174,7 +176,7 @@
 		B4FA1FAA1B70D638003BD3BC /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FA91B70D638003BD3BC /* libc++.dylib */; };
 		B4FA1FAC1B70D700003BD3BC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FAB1B70D700003BD3BC /* SystemConfiguration.framework */; };
 		B4FA1FAE1B70D708003BD3BC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FAD1B70D708003BD3BC /* MobileCoreServices.framework */; };
-		B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordFields.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordFields.xib */; };
+		B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordView.xib */; };
 		B4FC6B211B678515001F13E9 /* NSObject+Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FC6B201B678515001F13E9 /* NSObject+Swift.m */; };
 		B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */; };
 		B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7271AE9C71F009B4DF6 /* IAccountViewModel.swift */; };
@@ -272,11 +274,11 @@
 		7EFEF7451B13D0900043E076 /* EditInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditInfoView.swift; sourceTree = "<group>"; };
 		B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Bold.ttf"; sourceTree = "<group>"; };
 		B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Regular.ttf"; sourceTree = "<group>"; };
-		B33C0E041B71653B005F8410 /* NicknameField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NicknameField.xib; sourceTree = "<group>"; };
-		B33C0E061B716A3C005F8410 /* GenderPickerField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GenderPickerField.xib; sourceTree = "<group>"; };
+		B33C0E041B71653B005F8410 /* NicknameView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NicknameView.xib; sourceTree = "<group>"; };
+		B33C0E061B716A3C005F8410 /* GenderPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GenderPickerView.xib; sourceTree = "<group>"; };
 		B3F5E23F1B65A605007762B4 /* StartUpButtonsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StartUpButtonsView.xib; sourceTree = "<group>"; };
 		B3F5E2411B65A620007762B4 /* RePromptButtonsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RePromptButtonsView.xib; sourceTree = "<group>"; };
-		B3FFDD7C1B716FA3003710D8 /* BirthdayPickerField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BirthdayPickerField.xib; sourceTree = "<group>"; };
+		B3FFDD7C1B716FA3003710D8 /* BirthdayPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BirthdayPickerView.xib; sourceTree = "<group>"; };
 		B3FFDD7E1B718226003710D8 /* PhotoPickerField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoPickerField.xib; sourceTree = "<group>"; };
 		B40A0D8A1B22455700036986 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B40A0D8C1B23BD2900036986 /* EditInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditInfoViewModel.swift; sourceTree = "<group>"; };
@@ -298,6 +300,8 @@
 		B462BC791B2F94DE00070BE5 /* UserDefaultsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
 		B462BC7B1B2F94E800070BE5 /* IUserDefaultsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IUserDefaultsService.swift; sourceTree = "<group>"; };
 		B462BC7D1B2FA50E00070BE5 /* LandingPageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageViewModel.swift; sourceTree = "<group>"; };
+		B4694E2A1B72A045000E2006 /* UsernameAndPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsernameAndPasswordView.swift; sourceTree = "<group>"; };
+		B4694E2C1B72A17E000E2006 /* UsernameAndPasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsernameAndPasswordViewModel.swift; sourceTree = "<group>"; };
 		B47C0EA51AC0A21000F9FB31 /* AppDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDependencies.swift; sourceTree = "<group>"; };
 		B47C0EA91AC0A82C00F9FB31 /* FeaturedListWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListWireframe.swift; sourceTree = "<group>"; };
 		B47E15BC1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileUserInfoCellViewModel.swift; sourceTree = "<group>"; };
@@ -374,7 +378,7 @@
 		B4FA1FA91B70D638003BD3BC /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		B4FA1FAB1B70D700003BD3BC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B4FA1FAD1B70D708003BD3BC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordFields.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UsernameAndPasswordFields.xib; sourceTree = "<group>"; };
+		B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UsernameAndPasswordView.xib; sourceTree = "<group>"; };
 		B4FC6B201B678515001F13E9 /* NSObject+Swift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swift.m"; sourceTree = "<group>"; };
 		B4FC6B221B678541001F13E9 /* NSObject+Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Swift.h"; sourceTree = "<group>"; };
 		B4FCC7251AE9C707009B4DF6 /* AccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
@@ -932,12 +936,14 @@
 			children = (
 				B4E7C1951B5390200038260E /* SignUpView.swift */,
 				B4E7C1971B53904D0038260E /* SignUpView.xib */,
-				B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordFields.xib */,
-				B33C0E041B71653B005F8410 /* NicknameField.xib */,
-				B33C0E061B716A3C005F8410 /* GenderPickerField.xib */,
-				B3FFDD7C1B716FA3003710D8 /* BirthdayPickerField.xib */,
+				B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordView.xib */,
+				B33C0E041B71653B005F8410 /* NicknameView.xib */,
+				B33C0E061B716A3C005F8410 /* GenderPickerView.xib */,
+				B3FFDD7C1B716FA3003710D8 /* BirthdayPickerView.xib */,
 				B3FFDD7E1B718226003710D8 /* PhotoPickerField.xib */,
 				B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */,
+				B4694E2A1B72A045000E2006 /* UsernameAndPasswordView.swift */,
+				B4694E2C1B72A17E000E2006 /* UsernameAndPasswordViewModel.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -1173,8 +1179,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */,
-				B3FFDD7D1B716FA3003710D8 /* BirthdayPickerField.xib in Resources */,
-				B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordFields.xib in Resources */,
+				B3FFDD7D1B716FA3003710D8 /* BirthdayPickerView.xib in Resources */,
+				B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordView.xib in Resources */,
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				2632F12F1B60A4D100CA49AE /* GenderPickerViewController.xib in Resources */,
 				269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */,
@@ -1184,7 +1190,7 @@
 				7E0173881B146473002E154B /* EditInfoView.xib in Resources */,
 				B4E7C18E1B5387880038260E /* LandingPageView.xib in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
-				B33C0E051B71653B005F8410 /* NicknameField.xib in Resources */,
+				B33C0E051B71653B005F8410 /* NicknameView.xib in Resources */,
 				B41334EF1B60E46C00B5F22D /* Nearby.storyboard in Resources */,
 				2A41A30E1AF3133F0086D24B /* fontawesome-webfont.ttf in Resources */,
 				B4E7C1921B53893E0038260E /* LogInView.xib in Resources */,
@@ -1196,7 +1202,7 @@
 				B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */,
 				B3F5E2421B65A620007762B4 /* RePromptButtonsView.xib in Resources */,
 				7EACBA111AFBDC15009D8CA6 /* Profile.storyboard in Resources */,
-				B33C0E071B716A3C005F8410 /* GenderPickerField.xib in Resources */,
+				B33C0E071B716A3C005F8410 /* GenderPickerView.xib in Resources */,
 				7EF371181AB8C012009AA3B9 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1341,6 +1347,7 @@
 				B4F195BF1B2CE2C300B8C519 /* ParticipationType.swift in Sources */,
 				7EFEF7461B13D0900043E076 /* EditInfoView.swift in Sources */,
 				B4F1959C1B2AA3B400B8C519 /* WithDataRoute.swift in Sources */,
+				B4694E2D1B72A17E000E2006 /* UsernameAndPasswordViewModel.swift in Sources */,
 				B462BC7E1B2FA50E00070BE5 /* LandingPageViewModel.swift in Sources */,
 				B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */,
 				2A9A9B9E1B1C31870010EDA9 /* DetailImageTableViewCell.swift in Sources */,
@@ -1380,6 +1387,7 @@
 				B4B665401ADF88DB0084DBE7 /* DetailViewController.swift in Sources */,
 				B4F195A31B2AA4BA00B8C519 /* DetailRoute.swift in Sources */,
 				B4B665461ADF8D5C0084DBE7 /* DetailWireframe.swift in Sources */,
+				B4694E2B1B72A045000E2006 /* UsernameAndPasswordView.swift in Sources */,
 				3DB8AC301B06D0DF00E51F0E /* Profile.swift in Sources */,
 				B4F195AB1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift in Sources */,
 				B4F1958F1B29790100B8C519 /* UIColor+extension.swift in Sources */,

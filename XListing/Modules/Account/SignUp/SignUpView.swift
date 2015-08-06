@@ -11,7 +11,10 @@ import UIKit
 import ReactiveCocoa
 import Cartography
 
-private let UsernameAndPasswordFieldsNibName = "UsernameAndPasswordFields"
+private let UsernameAndPasswordViewNibName = "UsernameAndPasswordView"
+private let NicknameViewNibName = "NicknameView"
+private let GenderPickerViewNibName = "GenderPickerView"
+private let BirthdayPickerViewNibName = "BirthdayPickerView"
 
 public final class SignUpView : UIView {
     
@@ -25,9 +28,20 @@ public final class SignUpView : UIView {
     
     // MARK: Mid Stack
     @IBOutlet private weak var midStack: UIView!
-    private var usernameAndPasswordFields: UIView!
-    @IBOutlet private weak var usernameField: UITextField?
-    @IBOutlet private weak var passwordField: UITextField?
+    
+    // username and password
+    private var usernameAndPasswordView: UsernameAndPasswordView!
+    
+    // nickname
+    private var nicknameView: UIView!
+    @IBOutlet private weak var nicknameField: UITextField?
+    
+    // gender
+    private var genderPickerView: UIView!
+    
+    // birthday
+    private var birthdayPickerView: UIView!
+    
     
     // MARK: Bottom Stack
     @IBOutlet private weak var bottomStack: UIView!
@@ -50,64 +64,143 @@ public final class SignUpView : UIView {
     // MARK: - Properties
     private var viewmodel: SignUpViewModel!
     
+    private let compositeDisposable = CompositeDisposable()
+    private typealias Transition = (view: UIView, completion: (Bool -> Void)?)
+    private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<Transition, NoError>.proxy()
+    
+    
     // MARK: - Setups
     public required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        usernameAndPasswordFields = UINib(nibName: UsernameAndPasswordFieldsNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UIView
+        usernameAndPasswordView = UINib(nibName: UsernameAndPasswordViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UsernameAndPasswordView
+        nicknameView = UINib(nibName: NicknameViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UIView
+        genderPickerView = UINib(nibName: GenderPickerViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UIView
+        birthdayPickerView = UINib(nibName: BirthdayPickerViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UIView
     }
     
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         
+        midStack.addSubview(usernameAndPasswordView)
+        centerInSuperview(midStack, subview: usernameAndPasswordView)
         
-        midStack.addSubview(usernameAndPasswordFields)
-        usernameAndPasswordFields.setTranslatesAutoresizingMaskIntoConstraints(false)
+        setupUsernameAndPasswordView()
         
-        let centerX = NSLayoutConstraint(item: usernameAndPasswordFields,
-            attribute: NSLayoutAttribute.CenterX,
-            relatedBy: NSLayoutRelation.Equal,
-            toItem: midStack,
-            attribute: NSLayoutAttribute.CenterX,
-            multiplier: 1.0,
-            constant: 0.0)
-        centerX.identifier = "usernameAndPasswordFields to midStack centerX"
+        confirmButton.layer.masksToBounds = true
+        confirmButton.layer.cornerRadius = 8
         
-        let topSpacing = NSLayoutConstraint(item: usernameAndPasswordFields,
-            attribute: NSLayoutAttribute.Top,
-            relatedBy: NSLayoutRelation.Equal,
-            toItem: midStack,
-            attribute: NSLayoutAttribute.Top,
-            multiplier: 1.0,
-            constant: (midStack.frame.height - usernameAndPasswordFields.frame.height) / 2)
-        topSpacing.identifier = "usernameAndPasswordFields to midStack topSpacing"
-        
-        addConstraints(
-            [
-                centerX,
-                topSpacing
-            ]
-        )
-        
-//        layout(usernameAndPasswordFields, midStack) { fields, midStack in
-//            align(centerX: fields, midStack)
-//            fields.top == midStack.top + (self.midStack.frame.height - self.usernameAndPasswordFields.frame.height) / 2
-//        }
-        
-        
-        setupUsernameField()
-        setupPasswordField()
         setupBackButton()
-        setupSignupButton()
+        
+        
+        /**
+        Setup view transition.
+        */
+        
+        // transition to next view.
+        compositeDisposable += viewTransitionProducer
+            // forwards events along with the previous value. The first member is the previous value and the second is the current value.
+            |> combinePrevious((view: self.usernameAndPasswordView, completion: nil))
+            |> start(next: { [unowned self] current, next in
+                
+                // transition animation
+                self.animateTransition(current.view, toView: next.view) { success in
+                    
+                    if let completion = next.completion {
+                        completion(success)
+                    }
+                }
+            })
     }
     
-    private func setupUsernameField() {
-        usernameField?.delegate = self
-    }
-    
-    private func setupPasswordField() {
-        passwordField?.delegate = self
+    private func setupUsernameAndPasswordView() {
+        
+        let setup = SignalProducer<Void, NoError> { sink, compositeDisposable in
+            
+            compositeDisposable += self.usernameAndPasswordView.submitProxy
+                |> logLifeCycle(LogContext.Account, "usernameAndPasswordView.submitProxy")
+                |> start(next: {
+                    self.confirmButton.sendActionsForControlEvents(.TouchUpInside)
+                })
+            
+            
+            let signup = Action<UIButton, Void, NSError> { [weak self] button in
+                return SignalProducer { sink, disposable in
+                    if let this = self {
+                        // display HUD to indicate work in progress
+                        disposable += SignalProducer<Void, NoError>.empty
+                            // delay the signal due to the animation of retracting keyboard
+                            // this cannot be executed on main thread, otherwise UI will be blocked
+                            |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                            // return the signal to main/ui thread in order to run UI related code
+                            |> observeOn(UIScheduler())
+                            |> then(HUD.show())
+                            // map error to the same type as other signal
+                            |> promoteErrors(NSError)
+                            // sign up
+                            |> then(this.viewmodel.signUp)
+                            // dismiss HUD based on the result of sign up signal
+                            |> HUD.dismissWithStatusMessage(errorHandler: { [weak self] error -> String in
+                                AccountLogError(error.description)
+                                return error.customErrorDescription
+                                })
+                            // does not `sendCompleted` because completion is handled when HUD is disappeared
+                            |> start(
+                                error: { error in
+                                    sendError(sink, error)
+                                },
+                                interrupted: { _ in
+                                    sendInterrupted(sink)
+                                }
+                        )
+                        
+                        // Subscribe to touch down inside event
+                        disposable += HUD.didTouchDownInsideNotification()
+                            |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                            |> start(
+                                next: { _ in
+                                    // dismiss HUD
+                                    HUD.dismiss()
+                                    
+                                    // interrupts the action
+                                    // sendInterrupted(sink)
+                                }
+                        )
+                        
+                        // Subscribe to disappear notification
+                        disposable += HUD.didDissappearNotification()
+                            |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                            |> start(next: { [weak self] status in
+                                if status == HUD.DisappearStatus.Normal {
+                                    // transition out of this page
+//                                sendNext(this._finishSignUpSink, ())
+//                                sendCompleted(this._finishSignUpSink)
+                                }
+                                
+                                // completes the action
+                                sendNext(sink, ())
+                                sendCompleted(sink)
+                                
+                                })
+                        
+                        // Add the signals to CompositeDisposable for automatic memory management
+                        disposable.addDisposable {
+                            AccountLogVerbose("Sign up action is disposed.")
+                        }
+                        
+                        // retract keyboard
+                        self?.endEditing(true)
+                    }
+                }
+            }
+            
+            // Link UIControl event to actions
+            self.confirmButton.addTarget(signup.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        }
+        
+
+        setup |> start()
     }
     
     private func setupBackButton () {
@@ -126,84 +219,6 @@ public final class SignUpView : UIView {
         backButton.addTarget(goBackAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    private func setupSignupButton () {
-        confirmButton.layer.masksToBounds = true
-        confirmButton.layer.cornerRadius = 8
-        
-        let signup = Action<UIButton, Void, NSError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                if let this = self {
-                    // display HUD to indicate work in progress
-                    disposable += SignalProducer<Void, NoError>.empty
-                        // delay the signal due to the animation of retracting keyboard
-                        // this cannot be executed on main thread, otherwise UI will be blocked
-                        |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
-                        // return the signal to main/ui thread in order to run UI related code
-                        |> observeOn(UIScheduler())
-                        |> then(HUD.show())
-                        // map error to the same type as other signal
-                        |> promoteErrors(NSError)
-                        // sign up
-                        |> then(this.viewmodel.signUp)
-                        // dismiss HUD based on the result of sign up signal
-                        |> HUD.dismissWithStatusMessage(errorHandler: { [weak self] error -> String in
-                            AccountLogError(error.description)
-                            return error.customErrorDescription
-                        })
-                        // does not `sendCompleted` because completion is handled when HUD is disappeared
-                        |> start(
-                            error: { error in
-                                sendError(sink, error)
-                            },
-                            interrupted: { _ in
-                                sendInterrupted(sink)
-                            }
-                    )
-                    
-                    // Subscribe to touch down inside event
-                    disposable += HUD.didTouchDownInsideNotification()
-                        |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
-                        |> start(
-                            next: { _ in
-                                // dismiss HUD
-                                HUD.dismiss()
-                                
-                                // interrupts the action
-//                                sendInterrupted(sink)
-                            }
-                    )
-                    
-                    // Subscribe to disappear notification
-                    disposable += HUD.didDissappearNotification()
-                        |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
-                        |> start(next: { [weak self] status in
-                            if status == HUD.DisappearStatus.Normal {
-                                // transition out of this page
-                                sendNext(this._finishSignUpSink, ())
-                                sendCompleted(this._finishSignUpSink)
-                            }
-                            
-                            // completes the action
-                            sendNext(sink, ())
-                            sendCompleted(sink)
-                            
-                        })
-                    
-                    // Add the signals to CompositeDisposable for automatic memory management
-                    disposable.addDisposable {
-                        AccountLogVerbose("Sign up action is disposed.")
-                    }
-                    
-                    // retract keyboard
-                    self?.endEditing(true)
-                }
-            }
-        }
-        
-        // Link UIControl event to actions
-        confirmButton.addTarget(signup.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-    }
-    
     deinit {
         AccountLogVerbose("Sign Up View deinitializes.")
     }
@@ -212,43 +227,75 @@ public final class SignUpView : UIView {
     public func bindToViewModel(viewmodel: SignUpViewModel) {
         self.viewmodel = viewmodel
         
+        usernameAndPasswordView.bindToViewModel(viewmodel.usernameAndPasswordViewModel)
+        
         // bind signals
-        if let usernameField = usernameField {
-            viewmodel.username <~ usernameField.rac_text
-        }
-        if let passwordField = passwordField {
-            viewmodel.password <~ passwordField.rac_text
-        }
         
         // TODO: implement different validation for different input fields.
 //        confirmButton.rac_enabled <~ viewmodel.allInputsValid
     }
     
     // MARK: Others
+    
+    // MARK: - Others
+    
     /**
-    Notify receiver that it is about to be the first reponsider.
+    Transition to a view with animation.
+    
+    :param: fromView   From a UIView.
+    :param: toView     To a UIView.
+    :param: completion Completion handler which takes in a parameter indicating success.
     */
-    public func startFirstResponder() {
-        usernameField?.becomeFirstResponder()
+    private func animateTransition<V: UIView>(fromView: V, toView: V, completion: (Bool -> Void)? = nil) {
+        UIView.transitionWithView(
+            midStack,
+            duration: 0.5,
+            options: UIViewAnimationOptions.TransitionCrossDissolve,
+            animations: { [unowned self] in
+                fromView.removeFromSuperview()
+                
+                self.midStack.addSubview(toView)
+                self.centerInSuperview(self.midStack, subview: toView)
+            },
+            completion: { [unowned self] finished in
+                
+                if let completion = completion {
+                    completion(finished)
+                }
+            }
+        )
     }
-}
-
-extension SignUpView : UITextFieldDelegate {
-    /**
-    The text field calls this method whenever the user taps the return button. You can use this method to implement any custom behavior when the button is tapped.
     
-    :param: textField The text field whose return button was pressed.
-    
-    :returns: YES if the text field should implement its default behavior for the return button; otherwise, NO.
-    */
-    public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if let usernameField = usernameField where usernameField == textField {
-            passwordField?.becomeFirstResponder()
+    private func centerInSuperview<T: UIView, U: UIView>(superview: T, subview: U) {
+        
+//        subview.setTranslatesAutoresizingMaskIntoConstraints(false)
+//        
+//        let centerX = NSLayoutConstraint(item: subview,
+//            attribute: NSLayoutAttribute.CenterX,
+//            relatedBy: NSLayoutRelation.Equal,
+//            toItem: superview,
+//            attribute: NSLayoutAttribute.CenterX,
+//            multiplier: 1.0,
+//            constant: 0.0)
+//        //        centerX.identifier = "usernameAndPasswordFields to midStack centerX"
+//        
+//        let topSpacing = NSLayoutConstraint(item: subview,
+//            attribute: NSLayoutAttribute.CenterY,
+//            relatedBy: NSLayoutRelation.Equal,
+//            toItem: superview,
+//            attribute: NSLayoutAttribute.CenterY,
+//            multiplier: 1.0,
+//            constant: 0.0)
+//        
+//        addConstraints(
+//            [
+//                centerX,
+//                topSpacing
+//            ]
+//        )
+        
+        layout(subview, superview) { view1, view2 in
+            view1.center == view2.center
         }
-        else if let passwordField = passwordField where passwordField == textField {
-            passwordField.resignFirstResponder()
-            confirmButton.sendActionsForControlEvents(.TouchUpInside)
-        }
-        return false
     }
 }

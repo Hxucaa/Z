@@ -35,7 +35,7 @@ public final class AccountViewController: XUIViewController {
     The signal producer combines
     */
     private typealias Transition = (view: UIView, completion: (Bool -> Void)?)
-    private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<Transition, NoError>.buffer(0)
+    private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<Transition, NoError>.proxy()
     
     
     // MARK: - Setups
@@ -70,7 +70,7 @@ public final class AccountViewController: XUIViewController {
                     // transition to sign up view
                     this.setupSignUpView
                         |> start()
-                    sendNext(this.viewTransitionSink, (view: this.signUpView, completion: { _ in this.signUpView.startFirstResponder() }))
+                    sendNext(this.viewTransitionSink, (view: this.signUpView, completion: nil))
                     
                     sendCompleted(sink)
                 })
