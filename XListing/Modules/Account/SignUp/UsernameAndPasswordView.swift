@@ -68,10 +68,17 @@ public final class UsernameAndPasswordView : UIView {
 //            ]
 //        )
         
-        layout(self) { view in
+        let group = layout(self) { view in
             view.width == self.frame.width
             view.height == self.frame.height
         }
+        
+        /**
+        Constraints block done.
+        */
+        
+        
+        
         
         usernameField.delegate = self
         passwordField.delegate = self
@@ -114,13 +121,16 @@ extension UsernameAndPasswordView : UITextFieldDelegate {
         }
         else if passwordField == textField {
             passwordField.resignFirstResponder()
-            compositeDisposable += viewmodel.allInputsValid.producer
-                |> filter { $0 }
-                |> start(next: { [weak self] _ in
-                    if let this = self {
-                        sendNext(this._submitSink, ())
-                    }
-                })
+            
+            sendNext(_submitSink, ())
+            // TODO: implement indication for invalid inputs
+//            compositeDisposable += viewmodel.allInputsValid.producer
+//                |> filter { $0 }
+//                |> start(next: { [weak self] _ in
+//                    if let this = self {
+//                        sendNext(this._submitSink, ())
+//                    }
+//                })
         }
         return false
     }

@@ -12,15 +12,20 @@ import AVOSCloud
 
 public final class SignUpViewModel {
     
-    // MARK: - Public
-    
     // MARK: Input
     
     // MARK: Output
     public let allInputsValid = MutableProperty<Bool>(false)
     
     // MARK: Variables
-    public lazy var usernameAndPasswordViewModel: UsernameAndPasswordViewModel = UsernameAndPasswordViewModel()
+    public lazy var usernameAndPasswordViewModel: UsernameAndPasswordViewModel = { [unowned self] in
+        let viewmodel = UsernameAndPasswordViewModel()
+        
+        self.allInputsValid <~ viewmodel.allInputsValid
+        
+        return viewmodel
+    }()
+    
     private let userService: IUserService
     
     // MARK: Actions
@@ -43,10 +48,8 @@ public final class SignUpViewModel {
         self.userService = userService
         
     }
-    // MARK: - Private
-    
     
     // MARK: Setup
     
-    // MARK: Private Methods
+    // MARK: Others
 }

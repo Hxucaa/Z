@@ -86,7 +86,8 @@ public final class SignUpView : UIView {
         midStack.addSubview(usernameAndPasswordView)
         centerInSuperview(midStack, subview: usernameAndPasswordView)
         
-        setupUsernameAndPasswordView()
+        compositeDisposable += setupUsernameAndPasswordView
+            |> start()
         
         confirmButton.layer.masksToBounds = true
         confirmButton.layer.cornerRadius = 8
@@ -112,95 +113,104 @@ public final class SignUpView : UIView {
                     }
                 }
             })
+        
+        let confirm = Action<UIButton, Void, NSError> { [weak self] button in
+            return SignalProducer { sink, disposable in
+                if let this = self {
+                    // display HUD to indicate work in progress
+                    // check for the validity of inputs first
+                    disposable += this.viewmodel.allInputsValid.producer
+                        // on error displays error prompt
+                        |> on(next: { validity in
+                            if !validity {
+                                // TODO: implement error prompt
+                            }
+                        })
+                        // only valid inputs can continue through
+                        |> filter { $0 }
+                        // delay the signal due to the animation of retracting keyboard
+                        // this cannot be executed on main thread, otherwise UI will be blocked
+                        |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                        // return the signal to main/ui thread in order to run UI related code
+                        |> observeOn(UIScheduler())
+//                        |> then(HUD.show())
+                        |> flatMap(.Latest) { _ in
+                            return HUD.show()
+                        }
+                        // map error to the same type as other signal
+                        |> promoteErrors(NSError)
+                        // sign up
+                        |> flatMap(.Latest) { _ in
+                            return this.viewmodel.signUp
+                        }
+                        // dismiss HUD based on the result of sign up signal
+                        |> HUD.dismissWithStatusMessage(errorHandler: { [weak self] error -> String in
+                            AccountLogError(error.description)
+                            return error.customErrorDescription
+                        })
+                        // does not `sendCompleted` because completion is handled when HUD is disappeared
+                        |> start(
+                            error: { error in
+                                sendError(sink, error)
+                            },
+                            interrupted: { _ in
+                                sendInterrupted(sink)
+                            }
+                    )
+                    
+                    // Subscribe to touch down inside event
+                    disposable += HUD.didTouchDownInsideNotification()
+                        |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                        |> start(
+                            next: { _ in
+                                // dismiss HUD
+                                HUD.dismiss()
+                                
+                                // interrupts the action
+                                // sendInterrupted(sink)
+                            }
+                    )
+                    
+                    // Subscribe to disappear notification
+                    disposable += HUD.didDissappearNotification()
+                        |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                        |> start(next: { [weak self] status in
+                            if status == HUD.DisappearStatus.Normal {
+                                // brings in nickname view
+                                sendNext(this.viewTransitionSink, (this.nicknameView, nil))
+                            }
+                            
+                            // completes the action
+                            sendNext(sink, ())
+                            sendCompleted(sink)
+                            
+                            })
+                    
+                    // Add the signals to CompositeDisposable for automatic memory management
+                    disposable.addDisposable {
+                        AccountLogVerbose("Sign up action is disposed.")
+                    }
+                    
+                    // retract keyboard
+                    self?.endEditing(true)
+                }
+            }
+        }
+        
+        // Link UIControl event to actions
+        confirmButton.addTarget(confirm.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-    private func setupUsernameAndPasswordView() {
+    private var setupUsernameAndPasswordView: SignalProducer<Void, NoError> {
         
-        let setup = SignalProducer<Void, NoError> { sink, compositeDisposable in
+        return SignalProducer<Void, NoError> { sink, compositeDisposable in
             
             compositeDisposable += self.usernameAndPasswordView.submitProxy
                 |> logLifeCycle(LogContext.Account, "usernameAndPasswordView.submitProxy")
                 |> start(next: {
                     self.confirmButton.sendActionsForControlEvents(.TouchUpInside)
                 })
-            
-            
-            let signup = Action<UIButton, Void, NSError> { [weak self] button in
-                return SignalProducer { sink, disposable in
-                    if let this = self {
-                        // display HUD to indicate work in progress
-                        disposable += SignalProducer<Void, NoError>.empty
-                            // delay the signal due to the animation of retracting keyboard
-                            // this cannot be executed on main thread, otherwise UI will be blocked
-                            |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
-                            // return the signal to main/ui thread in order to run UI related code
-                            |> observeOn(UIScheduler())
-                            |> then(HUD.show())
-                            // map error to the same type as other signal
-                            |> promoteErrors(NSError)
-                            // sign up
-                            |> then(this.viewmodel.signUp)
-                            // dismiss HUD based on the result of sign up signal
-                            |> HUD.dismissWithStatusMessage(errorHandler: { [weak self] error -> String in
-                                AccountLogError(error.description)
-                                return error.customErrorDescription
-                                })
-                            // does not `sendCompleted` because completion is handled when HUD is disappeared
-                            |> start(
-                                error: { error in
-                                    sendError(sink, error)
-                                },
-                                interrupted: { _ in
-                                    sendInterrupted(sink)
-                                }
-                        )
-                        
-                        // Subscribe to touch down inside event
-                        disposable += HUD.didTouchDownInsideNotification()
-                            |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
-                            |> start(
-                                next: { _ in
-                                    // dismiss HUD
-                                    HUD.dismiss()
-                                    
-                                    // interrupts the action
-                                    // sendInterrupted(sink)
-                                }
-                        )
-                        
-                        // Subscribe to disappear notification
-                        disposable += HUD.didDissappearNotification()
-                            |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
-                            |> start(next: { [weak self] status in
-                                if status == HUD.DisappearStatus.Normal {
-                                    // transition out of this page
-//                                sendNext(this._finishSignUpSink, ())
-//                                sendCompleted(this._finishSignUpSink)
-                                }
-                                
-                                // completes the action
-                                sendNext(sink, ())
-                                sendCompleted(sink)
-                                
-                                })
-                        
-                        // Add the signals to CompositeDisposable for automatic memory management
-                        disposable.addDisposable {
-                            AccountLogVerbose("Sign up action is disposed.")
-                        }
-                        
-                        // retract keyboard
-                        self?.endEditing(true)
-                    }
-                }
-            }
-            
-            // Link UIControl event to actions
-            self.confirmButton.addTarget(signup.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         }
-        
-
-        setup |> start()
     }
     
     private func setupBackButton () {
@@ -220,6 +230,7 @@ public final class SignUpView : UIView {
     }
     
     deinit {
+        compositeDisposable.dispose()
         AccountLogVerbose("Sign Up View deinitializes.")
     }
     
@@ -294,7 +305,7 @@ public final class SignUpView : UIView {
 //            ]
 //        )
         
-        layout(subview, superview) { view1, view2 in
+        let group = layout(subview, superview) { view1, view2 in
             view1.center == view2.center
         }
     }

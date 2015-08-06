@@ -55,7 +55,7 @@ public final class UsernameAndPasswordViewModel {
         validPasswordSignal = password.producer
             |> ignoreNil
             |> filter { count($0) > 0 }
-        //            |> filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
+//            |> filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
         
         isPasswordValid <~ validPasswordSignal
             |> map { _ in true }
