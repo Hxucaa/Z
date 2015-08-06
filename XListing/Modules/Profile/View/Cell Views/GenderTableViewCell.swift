@@ -54,7 +54,7 @@ public final class GenderTableViewCell: UITableViewCell {
         return textField.text
     }
     
-    public func setTextfieldText (text: String) {
+    public func setTextfieldText (text: String?) {
         textField.text = text
     }
 }

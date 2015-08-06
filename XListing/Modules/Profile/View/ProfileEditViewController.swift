@@ -9,7 +9,7 @@
 import UIKit
 import ReactiveCocoa
 
-public final class ProfileEditViewController: XUIViewController {
+public final class ProfileEditViewController: XUIViewController, UINavigationBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     private var viewmodel: ProfileEditViewModel!
@@ -21,6 +21,7 @@ public final class ProfileEditViewController: XUIViewController {
     private var editButton: UIButton!
     private let imagePicker = UIImagePickerController()
     private var profilePicture: UIImageView!
+    private var saveButton: UIBarButtonItem!
     
     // MARK: Enums
     private enum Section : Int {
@@ -38,12 +39,10 @@ public final class ProfileEditViewController: XUIViewController {
     // MARK: View Methods
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupNavBar()
         setupTableView()
         setupImagePicker()
         setUpProfilePicture()
-        setupDismissButton()
-        setupSaveButton()
     }
     
     public override func viewDidAppear(animated: Bool) {
@@ -57,12 +56,21 @@ public final class ProfileEditViewController: XUIViewController {
     }
     
     public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         setupKeyboard()
     }
     
     public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
         // dispose signals before view is disappeared
         view.endEditing(true)
+    }
+    
+    public override func viewDidLayoutSubviews() {
+        var viewBounds = self.view.bounds;
+        let topBarOffset = CGFloat(64.0)
+        viewBounds.origin.y = topBarOffset * -1;
+        self.tableView.bounds = viewBounds;
     }
     
     public func bindToViewModel(viewmodel: ProfileEditViewModel) {
@@ -75,6 +83,37 @@ public final class ProfileEditViewController: XUIViewController {
     }
     
     // MARK: - Setups
+    
+    private func setupNavBar() {
+        // Create the navigation bar
+        let navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.size.width, 64)) // Offset by 20 pixels vertically to take the status bar into account
+        
+        navigationBar.backgroundColor = UIColor.clearColor()
+        navigationBar.barTintColor = UIColor(red: 87/255.0, green: 202/255.0, blue: 197/255.0, alpha: 1.0)
+        navigationBar.tintColor = UIColor.whiteColor()
+        navigationBar.delegate = self;
+        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        
+        // Create a navigation item with a title
+        let navigationItem = UINavigationItem()
+        navigationItem.title = "编辑"
+        
+        // Create left and right button for navigation item
+        let leftButton =  setupDismissButton()
+        let rightButton = setupSaveButton()
+        
+        // Create two buttons for the navigation item
+        navigationItem.leftBarButtonItem = leftButton
+        navigationItem.rightBarButtonItem = rightButton
+        
+        // Assign the navigation item to the navigation bar
+        navigationBar.items = [navigationItem]
+        
+        // Make the navigation bar a subview of the current view controller
+        self.view.addSubview(navigationBar)
+
+    }
+    
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -82,89 +121,94 @@ public final class ProfileEditViewController: XUIViewController {
         tableView.reloadData()
     }
     
-    private func setupSaveButton() {
-        let saveAction = Action<UIBarButtonItem, Void, NoError> { [weak self]
-            button in
+    private func setupSaveButton() -> UIBarButtonItem {
+
+        let submitAction = Action<UIBarButtonItem, Void, NSError> { [weak self] button in
             return SignalProducer { sink, disposable in
-                // Check if all required fields are complete
-                if (self!.viewmodel.allInputsValid.value) {
-                    // Create the button action to update the fields in the DB with new data
-                    // Button action
-                    let submitAction = Action<UIBarButtonItem, Void, NSError> { [weak self] button in
-                        return SignalProducer { sink, disposable in
-                            if let this = self {
-                                
-                                // Update profile and show the HUD
-                                disposable += SignalProducer<Void, NoError>.empty
-                                    // delay the signal due to the animation of retracting keyboard
-                                    // this cannot be executed on main thread, otherwise UI will be blocked
-                                    |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
-                                    // return the signal to main/ui thread in order to run UI related code
-                                    |> observeOn(UIScheduler())
-                                    |> then(HUD.show())
-                                    // map error to the same type as other signal
-                                    |> promoteErrors(NSError)
-                                    // update profile
-                                    |> then(this.viewmodel.updateProfile)
-                                    // dismiss HUD based on the result of update profile signal
-                                    |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
-                                        ProfileLogError(error.description)
-                                        return error.customErrorDescription
-                                    })
-                                    // does not `sendCompleted` because completion is handled when HUD is disappeared
-                                    |> start(
-                                        error: { error in
-                                            sendError(sink, error)
-                                        },
-                                        interrupted: { _ in
-                                            sendInterrupted(sink)
-                                        }
-                                )
-                                
-                                // Subscribe to touch down inside event
-                                disposable += HUD.didTouchDownInsideNotification()
-                                    |> on(next: { _ in ProfileLogVerbose("HUD touch down inside.") })
-                                    |> start(
-                                        next: { _ in
-                                            // dismiss HUD
-                                            HUD.dismiss()
-                                        }
-                                )
-                                
-                                // Subscribe to disappear notification
-                                disposable += HUD.didDissappearNotification()
-                                    |> on(next: { _ in ProfileLogVerbose("HUD disappeared.") })
-                                    |> start(next: { status in
-                                        
-                                        // completes the action
-                                        sendNext(sink, ())
-                                        sendCompleted(sink)
-                                        self?.dismissViewControllerAnimated(true, completion: nil)
-                                    })
-                                
-                                // Add the signals to CompositeDisposable for automatic memory management
-                                disposable.addDisposable {
-                                    ProfileLogVerbose("Update profile action is disposed.")
-                                }
-                                
-                                
+                if let this = self {
+                    
+                    // display HUD to indicate work in progress
+                    // check for the validity of inputs first
+                    disposable += this.viewmodel.allInputsValid.producer
+                        // on error displays error prompt
+                        |> on(next: { validity in
+                            if !validity {
+                                var alert = UIAlertController(title: "提交失败啦", message: "请填写昵称,性别,生日和上传一张照片😊", preferredStyle: UIAlertControllerStyle.Alert)
+                                alert.addAction(UIAlertAction(title: "确定", style: UIAlertActionStyle.Cancel, handler: nil))
+                                self?.presentViewController(alert, animated: true, completion: nil)
+                                sendNext(sink, ())
+                                sendCompleted(sink)
                             }
+                        })
+                        // only valid inputs can continue through
+                        |> filter { $0 }
+                        // delay the signal due to the animation of retracting keyboard
+                        // this cannot be executed on main thread, otherwise UI will be blocked
+                        |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                        // return the signal to main/ui thread in order to run UI related code
+                        |> observeOn(UIScheduler())
+                        // show the HUD
+                        |> flatMap(FlattenStrategy.Latest) { _ in
+                            return HUD.show()
                         }
+                        // map error to the same type as other signal
+                        |> promoteErrors(NSError)
+                        // update the DB with profile data
+                        |> flatMap(FlattenStrategy.Latest) { _ in
+                            return this.viewmodel.updateProfile
+                        }
+                        // dismiss HUD based on the result of update profile signal
+                        |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
+                            ProfileLogError(error.description)
+                            return error.customErrorDescription
+                        })
+                        // does not `sendCompleted` because completion is handled when HUD is disappeared
+                        |> start(
+                            error: { error in
+                                sendError(sink, error)
+                            },
+                            interrupted: { _ in
+                                sendInterrupted(sink)
+                            }
+                        )
+                    
+                    
+                    // Subscribe to touch down inside event
+                    disposable += HUD.didTouchDownInsideNotification()
+                        |> on(next: { _ in ProfileLogVerbose("HUD touch down inside.") })
+                        |> start(
+                            next: { _ in
+                                // dismiss HUD
+                                HUD.dismiss()
+                            }
+                    )
+                    
+                    // Subscribe to disappear notification
+                    disposable += HUD.didDissappearNotification()
+                        |> on(next: { _ in ProfileLogVerbose("HUD disappeared.") })
+                        |> start(next: { status in
+                            
+                            // completes the action
+                            sendNext(sink, ())
+                            sendCompleted(sink)
+                            self?.dismissViewControllerAnimated(true, completion: nil)
+                        })
+                    
+                    // Add the signals to CompositeDisposable for automatic memory management
+                    disposable.addDisposable {
+                        ProfileLogVerbose("Update profile action is disposed.")
                     }
-                    submitAction.unsafeCocoaAction.execute(self!.navigationItem.rightBarButtonItem!)
-                } else {
-                    // popup alert to the user to fill out all the required fields
-                    var alert = UIAlertController(title: "提交失败啦", message: "请填写昵称,性别,生日和上传一张照片😊", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "确定", style: UIAlertActionStyle.Cancel, handler: nil))
-                    self!.presentViewController(alert, animated: true, completion: nil)
                 }
             }
         }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "提交", style: UIBarButtonItemStyle.Done, target: saveAction.unsafeCocoaAction, action: CocoaAction.selector)
-        navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
+
+        
+        saveButton = UIBarButtonItem(title: "提交", style: UIBarButtonItemStyle.Done, target: submitAction.unsafeCocoaAction, action: CocoaAction.selector)
+        saveButton.tintColor = UIColor.whiteColor()
+        return saveButton
     }
     
-    private func setupDismissButton() {
+    private func setupDismissButton() -> UIBarButtonItem {
         let dismissAction = Action<UIBarButtonItem, Void, NoError> { [weak self]
             button in
             return SignalProducer { sink, disposable in
@@ -173,7 +217,7 @@ public final class ProfileEditViewController: XUIViewController {
         }
         var dismissButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: dismissAction.unsafeCocoaAction, action: CocoaAction.selector)
         dismissButton.tintColor = UIColor.whiteColor()
-        navigationItem.leftBarButtonItem = dismissButton
+        return dismissButton
     }
     
     private func setupKeyboardDismissal() {
@@ -193,11 +237,14 @@ public final class ProfileEditViewController: XUIViewController {
         imagePicker.allowsEditing = true
     }
     
+    private func setupNicknameCell() {
+        let nicknameCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow:Primary.Nickname.rawValue, inSection: Section.Primary.rawValue)) as! NicknameTableViewCell
+        viewmodel.nickname <~ nicknameCell.getTextfield_rac_text()
+    }
+    
     private func setUpProfilePicture () {
         profilePicture = UIImageView(frame: CGRectMake(0, 0, 80, 80)) as UIImageView
-        var myImage: UIImage = UIImage(data: viewmodel.currentUser.value!.profileImg!.getData())!
-        viewmodel.profileImage.put(myImage)
-        profilePicture.image = myImage
+        profilePicture.rac_image <~ viewmodel.profileImage
         profilePicture.layer.cornerRadius = CGFloat(self.profilePicture.frame.width) / 2
         profilePicture.layer.masksToBounds = true
         profilePicture.userInteractionEnabled = true
@@ -302,11 +349,7 @@ public final class ProfileEditViewController: XUIViewController {
         
         let dataChangedCallback : GenderPicker.GenderCallback = { (gender : String, forTextField : UITextField) -> () in
             genderCell.setTextfieldText(gender)
-            if (gender == "男") {
-                self.viewmodel.gender.put(Gender.Male)
-            } else if (gender == "女"){
-                self.viewmodel.gender.put(Gender.Female)
-            }
+            self.viewmodel.gender.put(gender)
         }
 
         // present the popover
@@ -352,18 +395,14 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
             case .Nickname:
                 let nicknameCell = tableView.dequeueReusableCellWithIdentifier("NicknameCell") as! NicknameTableViewCell
                 nicknameCell.delegate = self
-                nicknameCell.setTextfieldText(viewmodel.currentUser.value!.nickname!)
+                nicknameCell.setTextfieldText(viewmodel.nickname)
                 nicknameCell.setUpEditProfileButton()
                 viewmodel.nickname <~ nicknameCell.getTextfield_rac_text()
                 return nicknameCell
             case .Gender:
                 let genderCell = tableView.dequeueReusableCellWithIdentifier("GenderCell") as! GenderTableViewCell
                 genderCell.delegate = self
-                var existingGender = viewmodel.currentUser.value?.gender
-                if (existingGender != nil) {
-                genderCell.setTextfieldText(viewmodel.currentUser.value!.gender!)
-                    existingGender == "男" ? viewmodel.gender.put(Gender.Male) : viewmodel.gender.put(Gender.Female)
-                }
+                genderCell.setTextfieldText(viewmodel.gender.value)
                 genderCell.setUpEditProfileButton()
                 return genderCell
             case .Birthday:
@@ -371,9 +410,7 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
                 birthdayCell.delegate = self
                 let dateFormatter = NSDateFormatter()
                 dateFormatter.dateFormat = "dd-MM-yyyy"
-                var existingBirthday : NSDate = viewmodel.currentUser.value!.birthday!
-                birthdayCell.setTextfieldText(dateFormatter.stringFromDate(existingBirthday))
-                viewmodel.birthday.put(existingBirthday)
+                birthdayCell.setTextfieldText(dateFormatter.stringFromDate(viewmodel.birthday.value))
                 return birthdayCell
             case .Whatsup:
                 let whatsupCell = tableView.dequeueReusableCellWithIdentifier("WhatsupCell") as! WhatsupTableViewCell
@@ -405,6 +442,9 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
         // Adjust the positioning based on the width of the device
         var deviceWidth = UIScreen.mainScreen().bounds.size.width
         var profilePicView = UIView(frame: CGRectMake(deviceWidth-90, -245, 85, 100))
+        if (profilePicture == nil) {
+            profilePicture.image = UIImage(named: ImageAssets.profilepicture)
+        }
         profilePicView.addSubview(self.profilePicture)
         
         let header: UITableViewHeaderFooterView =  UITableViewHeaderFooterView(frame: CGRectMake(100, 0, 100, 100))

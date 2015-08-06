@@ -19,7 +19,7 @@ public final class GenderPickerViewController: UIViewController, UIPickerViewDat
     @IBOutlet weak var genderPicker: UIPickerView!
     
     weak var delegate : GenderPickerViewControllerDelegate?
-    var genderData = ["男", "女"]
+    var genderData = [Gender.Male,Gender.Female]
     
     var currentDate : NSDate? {
         didSet {

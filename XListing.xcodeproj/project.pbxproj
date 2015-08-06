@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2612CB951B628A9C007BFC33 /* GenderPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2612CB941B628A9C007BFC33 /* GenderPicker.swift */; };
+		261687BD1B71B7DD0094F315 /* ProfileEditRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261687BC1B71B7DD0094F315 /* ProfileEditRoute.swift */; };
+		261687C11B71B8990094F315 /* ProfileEditWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261687C01B71B8990094F315 /* ProfileEditWireframe.swift */; };
+		261687C31B71B8AF0094F315 /* IProfileEditWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261687C21B71B8AF0094F315 /* IProfileEditWireframe.swift */; };
 		261D91031B6873D5004B1CF6 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261D91021B6873D5004B1CF6 /* Icons.swift */; };
 		2632F12E1B60A4D100CA49AE /* GenderPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2632F12C1B60A4D100CA49AE /* GenderPickerViewController.swift */; };
 		2632F12F1B60A4D100CA49AE /* GenderPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2632F12D1B60A4D100CA49AE /* GenderPickerViewController.xib */; };
@@ -22,6 +25,7 @@
 		269163661B5C6B0C005D48FA /* PopDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269163641B5C6B0C005D48FA /* PopDateViewController.swift */; };
 		269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 269163651B5C6B0C005D48FA /* PopDateViewController.xib */; };
 		269163691B5C6C1E005D48FA /* PopoverDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269163681B5C6C1E005D48FA /* PopoverDatePicker.swift */; };
+		26979C061B71CB54003F85ED /* ProfileEdit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26979C051B71CB54003F85ED /* ProfileEdit.storyboard */; };
 		2A1B3A201B2574EF003E70E0 /* ParticipationPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */; };
 		2A1B3A221B25751A003E70E0 /* ParticipationPopoverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */; };
 		2A41A30E1AF3133F0086D24B /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */; };
@@ -193,6 +197,9 @@
 		1764137F392722E0F7D6FA70 /* Pods-XListingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListingTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XListing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2612CB941B628A9C007BFC33 /* GenderPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderPicker.swift; sourceTree = "<group>"; };
+		261687BC1B71B7DD0094F315 /* ProfileEditRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditRoute.swift; sourceTree = "<group>"; };
+		261687C01B71B8990094F315 /* ProfileEditWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileEditWireframe.swift; path = ProfileEdit/Wireframe/ProfileEditWireframe.swift; sourceTree = "<group>"; };
+		261687C21B71B8AF0094F315 /* IProfileEditWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IProfileEditWireframe.swift; path = ProfileEdit/Wireframe/IProfileEditWireframe.swift; sourceTree = "<group>"; };
 		261D91021B6873D5004B1CF6 /* Icons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
 		2632F12C1B60A4D100CA49AE /* GenderPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderPickerViewController.swift; sourceTree = "<group>"; };
 		2632F12D1B60A4D100CA49AE /* GenderPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GenderPickerViewController.xib; sourceTree = "<group>"; };
@@ -207,6 +214,7 @@
 		269163641B5C6B0C005D48FA /* PopDateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopDateViewController.swift; sourceTree = "<group>"; };
 		269163651B5C6B0C005D48FA /* PopDateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopDateViewController.xib; sourceTree = "<group>"; };
 		269163681B5C6C1E005D48FA /* PopoverDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverDatePicker.swift; sourceTree = "<group>"; };
+		26979C051B71CB54003F85ED /* ProfileEdit.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProfileEdit.storyboard; sourceTree = "<group>"; };
 		26AB479389256B6B20922161 /* Pods-XListingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests.release.xcconfig"; sourceTree = "<group>"; };
 		2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationPopover.swift; sourceTree = "<group>"; };
 		2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationPopoverDelegate.swift; sourceTree = "<group>"; };
@@ -407,6 +415,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		261687BE1B71B7FC0094F315 /* ProfileEdit */ = {
+			isa = PBXGroup;
+			children = (
+				261687BF1B71B8260094F315 /* Wireframe */,
+				26979C051B71CB54003F85ED /* ProfileEdit.storyboard */,
+			);
+			name = ProfileEdit;
+			sourceTree = "<group>";
+		};
+		261687BF1B71B8260094F315 /* Wireframe */ = {
+			isa = PBXGroup;
+			children = (
+				261687C01B71B8990094F315 /* ProfileEditWireframe.swift */,
+				261687C21B71B8AF0094F315 /* IProfileEditWireframe.swift */,
+			);
+			name = Wireframe;
+			sourceTree = "<group>";
+		};
 		2666202D1B68A0CB007346F4 /* Cell Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -844,6 +870,7 @@
 				B48C990F1ADA55AF0045BCA9 /* Nearby */,
 				B4CC82611AC1650A00E85CEA /* FeaturedList */,
 				45CBB561E439B467C9084702 /* Profile */,
+				261687BE1B71B7FC0094F315 /* ProfileEdit */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -960,6 +987,7 @@
 				B4F195A41B2ABE0500B8C519 /* AccountRoute.swift */,
 				B4F195A61B2ADA9700B8C519 /* ProfileRoute.swift */,
 				3D5D8FB31B3F520000EA4ADA /* WantToGoRoute.swift */,
+				261687BC1B71B7DD0094F315 /* ProfileEditRoute.swift */,
 			);
 			path = Route;
 			sourceTree = "<group>";
@@ -1175,6 +1203,7 @@
 				7EF371501AB8C1E8009AA3B9 /* Parse.plist in Resources */,
 				3DFA2F991B43C13000058930 /* WantToGoList.storyboard in Resources */,
 				B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */,
+				26979C061B71CB54003F85ED /* ProfileEdit.storyboard in Resources */,
 				B3F5E2421B65A620007762B4 /* RePromptButtonsView.xib in Resources */,
 				7EACBA111AFBDC15009D8CA6 /* Profile.storyboard in Resources */,
 				7EF371181AB8C012009AA3B9 /* Images.xcassets in Resources */,
@@ -1361,6 +1390,7 @@
 				B4F195A31B2AA4BA00B8C519 /* DetailRoute.swift in Sources */,
 				B4B665461ADF8D5C0084DBE7 /* DetailWireframe.swift in Sources */,
 				3DB8AC301B06D0DF00E51F0E /* Profile.swift in Sources */,
+				261687C31B71B8AF0094F315 /* IProfileEditWireframe.swift in Sources */,
 				B4F195AB1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift in Sources */,
 				B4F1958F1B29790100B8C519 /* UIColor+extension.swift in Sources */,
 				3DFA2FA21B43C19800058930 /* WantToGoListViewModel.swift in Sources */,
@@ -1382,10 +1412,12 @@
 				26645AD31B58B58200ADDCD1 /* ProfileEditViewModel.swift in Sources */,
 				B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */,
 				7EF3714E1AB8C1E8009AA3B9 /* LeanCloudClient.swift in Sources */,
+				261687C11B71B8990094F315 /* ProfileEditWireframe.swift in Sources */,
 				B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */,
 				B4E70B3E1AF1735C00A7418F /* IParticipationService.swift in Sources */,
 				3DFA2FA11B43C19800058930 /* IWantToGoListViewModel.swift in Sources */,
 				B44E35011AD5D0AE00657A31 /* IFeaturedListViewModel.swift in Sources */,
+				261687BD1B71B7DD0094F315 /* ProfileEditRoute.swift in Sources */,
 				B4F4AF821B6B000000ABA176 /* DetailParticipationViewModel.swift in Sources */,
 				B4B665441ADF8D2F0084DBE7 /* IDetailViewModel.swift in Sources */,
 				B4F195891B27A6FF00B8C519 /* SignUpViewModel.swift in Sources */,

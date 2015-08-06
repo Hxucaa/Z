@@ -67,9 +67,6 @@
                                                 <constraint firstItem="nVm-i2-bJ5" firstAttribute="leading" secondItem="k6e-7e-b79" secondAttribute="trailing" constant="30" id="imW-ss-UyB"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="bA1-93-Ixv" kind="presentation" identifier="presentProfileEdit" id="tON-Oa-rDo"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SegmentedCell" rowHeight="44" id="oSo-EU-wye">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -300,7 +297,7 @@
         <!--编辑-->
         <scene sceneID="96J-hB-7fe">
             <objects>
-                <viewController storyboardIdentifier="ProfileEditViewController" id="KnB-mh-lZe" customClass="ProfileEditViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileEditViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KnB-mh-lZe" customClass="ProfileEditViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rS1-cL-dos"/>
                         <viewControllerLayoutGuide type="bottom" id="ybb-tw-Ug5"/>
@@ -311,7 +308,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="60" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="cWr-1I-7co">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell tag="2" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PhoneEmailCell" rowHeight="60" id="2LB-V1-vgc" customClass="PhoneEmailTableViewCell" customModule="XListing" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -594,29 +591,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4z0-h8-Vgu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1730" y="1093"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Pnr-0g-ifr">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bA1-93-Ixv" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="BBZ-oU-2U4">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.29019607843137257" green="0.75686274509803919" blue="0.72156862745098038" alpha="1" colorSpace="calibratedRGB"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </textAttributes>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="KnB-mh-lZe" kind="relationship" relationship="rootViewController" id="FKZ-SC-ygU"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ztz-Wa-F9g" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="918" y="1093"/>
+            <point key="canvasLocation" x="1304" y="676"/>
         </scene>
     </scenes>
     <resources>

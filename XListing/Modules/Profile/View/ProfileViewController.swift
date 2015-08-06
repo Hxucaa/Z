@@ -49,16 +49,7 @@ public final class ProfileViewController : XUIViewController {
     public func bindToViewModel(profileViewModel: IProfileViewModel) {
         profileVM = profileViewModel
     }
-    
 
-    public override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-        if (segue.identifier == "presentProfileEdit") {
-            let profileEditVC = segue.destinationViewController.topViewController as! ProfileEditViewController
-            profileEditVC.bindToViewModel(profileVM.profileEditViewModel)
-        }
-    }
 }
 
 
@@ -276,6 +267,14 @@ extension ProfileViewController : UITableViewDelegate {
     :param: indexPath An index path locating the new selected row in tableView.
     */
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if (indexPath.section == 0 && indexPath.row == 0) {
+            profileVM.presentProfileEditModule()
+            //var storyboard = UIStoryboard(name: "ProfileEdit", bundle: nil)
+            //let viewController = storyboard.instantiateViewControllerWithIdentifier("ProfileEditViewController") as! ProfileEditViewController
+            //self.presentViewController(viewController, animated: true, completion: nil)
+            
+        }
+        
         //tableView.deselectRowAtIndexPath(indexPath, animated: true) 
     }
     

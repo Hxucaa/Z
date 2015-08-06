@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum Gender : String {
-    case Male = "男"
-    case Female = "女"
+public struct Gender {
+    static let Male = "男"
+    static let Female = "女"
 }

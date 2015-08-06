@@ -16,7 +16,7 @@ protocol NicknameCellTableViewCellDelegate : class {
 
 public final class NicknameTableViewCell: UITableViewCell {
 
-    @IBOutlet private weak var textField: UITextField!
+    @IBOutlet weak var textField: UITextField!
     @IBOutlet private weak var editProfilePicButton: UIButton!
     internal weak var delegate: NicknameCellTableViewCellDelegate!
     
@@ -46,8 +46,8 @@ public final class NicknameTableViewCell: UITableViewCell {
         return textField.rac_text
     }
     
-    public func setTextfieldText (text: String) {
-        textField.text = text
+    public func setTextfieldText (text: MutableProperty<String?>) {
+        textField.text = text.value
     }
 
 }

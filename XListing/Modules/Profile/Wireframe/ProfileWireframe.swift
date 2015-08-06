@@ -21,7 +21,7 @@ public final class ProfileWireframe : BaseWireframe, IProfileWireframe {
 
     private func initViewController() -> ProfileViewController {
         let viewController = getViewControllerFromStoryboard(ProfileViewControllerIdentifier, storyboardName: StoryboardName) as! ProfileViewController
-        viewController.bindToViewModel(ProfileViewModel(userService: userService))
+        viewController.bindToViewModel(ProfileViewModel(router: router, userService: userService))
         
         return viewController
     }

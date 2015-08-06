@@ -16,7 +16,7 @@ public final class EditInfoViewModel {
     public let nickname = MutableProperty<String?>(nil)
     public let birthday = MutableProperty<NSDate>(NSDate())
     public let profileImage = MutableProperty<UIImage?>(nil)
-    public let gender = MutableProperty<Gender?>(nil)
+    public let gender = MutableProperty<String?>(nil)
     
     // MARK: Output
     public let allInputsValid = MutableProperty<Bool>(false)
@@ -44,7 +44,7 @@ public final class EditInfoViewModel {
                         user.nickname = nickname
                         user.birthday = birthday
                         user.profileImg = file
-                        user.gender = gender.rawValue
+                        user.gender = gender
                         return self.userService.save(user)
                     }
             }
@@ -102,7 +102,7 @@ public final class EditInfoViewModel {
     private var validNicknameSignal: SignalProducer<String, NoError>!
     private var validBirthdaySignal: SignalProducer<NSDate, NoError>!
     private var validProfileImageSignal: SignalProducer<UIImage, NoError>!
-    private var validGenderSignal: SignalProducer<Gender, NoError>!
+    private var validGenderSignal: SignalProducer<String, NoError>!
     
     private let symbols = "~`!@#$%^&*()-_+={[}]|\\:;\"'<,>.?/"
     private let chinese = "\\p{script=Han}"
