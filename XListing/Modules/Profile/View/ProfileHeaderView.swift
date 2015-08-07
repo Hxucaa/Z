@@ -10,30 +10,63 @@ import UIKit
 import ReactiveCocoa
 
 class ProfileHeaderView: UIView {
-    @IBOutlet private weak var topRightButton: UIButton!
-    @IBOutlet private weak var topLeftButton: UIButton!
+    // MARK: - UI Controls
+    @IBOutlet weak var topRightButton: UIButton!
+    @IBOutlet weak var topLeftButton: UIButton!
     @IBOutlet private weak var profileImageView: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var constellationLabel: UILabel!
     @IBOutlet private weak var ageLabel: UILabel!
     @IBOutlet private weak var locationLabel: UILabel!
     
+    // properties
     private var viewModel: ProfileHeaderViewModel?
-    
     private var horoscopeString = ""
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
     
+    
+    // MARK: - proxy
+    var backProxy: SimpleProxy {
+        return _backProxy
+    }
+    private let (_backProxy, _backSink) = SimpleProxy.proxy()
+    
+    var editProxy: SimpleProxy {
+        return _editProxy
+    }
+    private let (_editProxy, _editSink) = SimpleProxy.proxy()
+    
+    // MARK: initialize
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         topLeftButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        convertImgToCircle(self.profileImageView)
+        topLeftButton?.addTarget(backAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        topRightButton?.addTarget(editAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+
     }
+    
+    // MARK: Setup
+    private lazy var backAction: Action<UIButton, Void, NoError> = Action<UIButton, Void, NoError> { [weak self] button in
+        return SignalProducer { sink, disposable in
+            if let this = self {
+                sendNext(this._backSink, ())
+            }
+            
+            sendCompleted(sink)
+        }
+    }
+    
+    
+    private lazy var editAction: Action<UIButton, Void, NoError> = Action<UIButton, Void, NoError> { [weak self] button in
+        return SignalProducer { sink, disposable in
+            if let this = self {
+                sendNext(this._editSink, ())
+            }
+            sendCompleted(sink)
+        }
+    }
+    
     
   
     func bindViewModel(viewmodel: ProfileHeaderViewModel) {
@@ -71,6 +104,13 @@ class ProfileHeaderView: UIView {
         }
         resultMutable.put(horoscopeString)
         return resultMutable
+    }
+    
+    private func convertImgToCircle(imageView: UIImageView){
+        let imgWidth = CGFloat(imageView.frame.width)
+        imageView.layer.cornerRadius = imgWidth / 2
+        imageView.layer.masksToBounds = true;
+        return
     }
 
 

@@ -12,6 +12,8 @@ import AVOSCloud
 import Dollar
 
 public struct ProfileHeaderViewModel {
+    
+    // MARK: property
     public let name: ConstantProperty<String>
     public let horoscope: ConstantProperty<String>
     public let city: ConstantProperty<String>
@@ -62,10 +64,6 @@ public struct ProfileHeaderViewModel {
             self.coverImage.put(image)
         }
         
-//        imageService.getImage(NSURL(string: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSJWn5_oTBOFhan3WPCmtXWMeMbQa_ZFbITTBJStGQvgZGt6l9lOqRLwiy9")!)
-//            |> start(next: {
-//                self.coverImage.put($0)
-//            })
     }
     
     // MARK: - Private

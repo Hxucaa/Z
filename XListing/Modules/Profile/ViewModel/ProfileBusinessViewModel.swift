@@ -12,6 +12,8 @@ import AVOSCloud
 import Dollar
 
 public struct ProfileBusinessViewModel {
+    
+    // MARK: Property
     public let businessName: ConstantProperty<String>
     public let city: ConstantProperty<String>
     public let popularity: MutableProperty<String> = MutableProperty("")

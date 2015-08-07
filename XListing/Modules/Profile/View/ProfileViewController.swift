@@ -13,31 +13,28 @@ private let ProfileEditViewControllerIdentifier = "ProfileEditViewController"
 private let ProfileStoryBoardName = "Profile"
 public final class ProfileViewController : XUIViewController {
 
-    private var profileVM: ProfileViewModel!
-
+    // MARK: UI control
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var headerView: UIView!
     @IBOutlet private weak var tabView: UIView!
     
+    // MARK: Property
     
     var headerViewContent: ProfileHeaderView!
-    
-    
-    public var firstSegSelected = true
-    public var selectedBusinessChoiceIndex = 0
-    
-    public var numberOfChats = 5;
-    
+    private var profileVM: ProfileViewModel!
+    private var firstSegSelected = true
+    private var selectedBusinessChoiceIndex = 0
+
+    // MARK: View initilization
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "个人"
         if let temp = NSBundle.mainBundle().loadNibNamed("ProfileHeaderView", owner: self, options: nil)[0] as? ProfileHeaderView{
             headerViewContent  = temp
             headerViewContent.frame = CGRectMake(0, 0, headerView.frame.width, headerView.frame.height)
-//            setupBackButton(headerViewContent.topLeftButton)
-//            setupEditButton(headerViewContent.topRightButton)
             headerView.addSubview(headerViewContent)
-//            convertImgToCircle(headerViewContent.profileImageView)
+            self.setupBackButton(headerViewContent.topLeftButton)
+            self.setupEditButton(headerViewContent.topRightButton)
         }
         if let tabViewContent = NSBundle.mainBundle().loadNibNamed("ProfileTabView", owner: self, options: nil)[0] as? ProfileTabView{
             tabView.addSubview(tabViewContent)
@@ -46,7 +43,7 @@ public final class ProfileViewController : XUIViewController {
         self.setupHeaderView()
     }
     
-    
+    // Set up headerViews
     private func tryBindHeaderViewModel() {
         if headerViewContent != nil && self.profileVM!.profileHeaderViewModel.value != nil{
             headerViewContent.bindViewModel(self.profileVM!.profileHeaderViewModel.value!)
@@ -62,6 +59,32 @@ public final class ProfileViewController : XUIViewController {
                 })
     }
     
+    
+    // Set up buttons
+    private lazy var setupButtons: SignalProducer<Void, NoError> = SignalProducer<Void, NoError> { [weak self] sink, compositeDisposable in
+        if self != nil{
+        if let view = self!.headerViewContent{
+            compositeDisposable += view.backProxy
+                |> logLifeCycle(LogContext.Profile, "backproxy")
+                |> start(next: {
+                    self?.navigationController?.popViewControllerAnimated(true)
+                    sendCompleted(sink)
+                })
+            
+            compositeDisposable += view.editProxy
+                |> logLifeCycle(LogContext.Profile, "editproxy")
+                |> start(next: {
+                    let storyboard = UIStoryboard(name: ProfileStoryBoardName, bundle: nil)
+                    let viewController = storyboard.instantiateViewControllerWithIdentifier(ProfileEditViewControllerIdentifier) as! ProfileEditViewController
+                    let editVM = self?.profileVM.profileEditViewModel
+                    viewController.bindToViewModel(editVM!)
+                    self?.navigationController?.pushViewController(viewController, animated: true)
+                    sendCompleted(sink)
+                })
+            }
+            }
+        }
+    |> logLifeCycle(LogContext.Profile, "profilepage")
     
     
     private func setupTableView() {
@@ -94,9 +117,7 @@ public final class ProfileViewController : XUIViewController {
         
     }
     
-    /**
-    React to back Button and segue to previous controller.
-    */
+
     private func setupBackButton(btn: UIButton) {
         let dismissAction = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer<Void, NoError> { [weak self] sink, disposable in
@@ -107,9 +128,6 @@ public final class ProfileViewController : XUIViewController {
         btn.addTarget(dismissAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchDown)
     }
     
-    /**
-    React to edit Button and present Editpage.
-    */
     private func setupEditButton(btn: UIButton) {
         let editAction = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer<Void, NoError> { [weak self] sink, disposable in
@@ -130,8 +148,6 @@ public final class ProfileViewController : XUIViewController {
     
     
     public func changeParticipation (sender:UIButton) {
-        
-        //get the index path for the selected button
         var buttonFrame = sender.convertRect(sender.bounds, toView: self.tableView)
         var indexPath = self.tableView.indexPathForRowAtPoint(buttonFrame.origin)
         self.selectedBusinessChoiceIndex = indexPath!.row
@@ -139,19 +155,13 @@ public final class ProfileViewController : XUIViewController {
     }
     
     public func presentPopover () {
-        //create the popover and present it
         var popover = ParticipationPopover()
         popover.delegate = self
         var alert: (UIAlertController) = popover.createPopover()
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    public func convertImgToCircle(imageView: UIImageView){
-        let imgWidth = CGFloat(imageView.frame.width)
-        imageView.layer.cornerRadius = imgWidth / 2
-        imageView.layer.masksToBounds = true;
-        return
-    }
+    
 }
 
 
@@ -226,14 +236,15 @@ extension ProfileViewController : UITableViewDelegate {
         return true
     }
     
+    
+    // MARK: delete cells
     public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         if (editingStyle == UITableViewCellEditingStyle.Delete){
             profileVM.undoParticipation(indexPath.row)
                 |> start()
-//            self.tableView.reloadData()
             profileVM.profileBusinessViewModelArr.value.removeAtIndex(indexPath.row);
-//            [self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)]
+//          [self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)]
             self.tableView.reloadData()
         }
         
