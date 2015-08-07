@@ -419,7 +419,8 @@
 			isa = PBXGroup;
 			children = (
 				261687BF1B71B8260094F315 /* Wireframe */,
-				26979C051B71CB54003F85ED /* ProfileEdit.storyboard */,
+				26CD66351B743A7000C5FE99 /* View */,
+				26CD66361B743A7700C5FE99 /* ViewModel */,
 			);
 			name = ProfileEdit;
 			sourceTree = "<group>";
@@ -456,6 +457,27 @@
 				2632F12D1B60A4D100CA49AE /* GenderPickerViewController.xib */,
 			);
 			path = Popovers;
+			sourceTree = "<group>";
+		};
+		26CD66351B743A7000C5FE99 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				26979C051B71CB54003F85ED /* ProfileEdit.storyboard */,
+				26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */,
+				2666202D1B68A0CB007346F4 /* Cell Views */,
+				2666202E1B68A0E7007346F4 /* Popovers */,
+			);
+			name = View;
+			path = ProfileEdit/View;
+			sourceTree = "<group>";
+		};
+		26CD66361B743A7700C5FE99 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				26645AD21B58B58200ADDCD1 /* ProfileEditViewModel.swift */,
+			);
+			name = ViewModel;
+			path = ProfileEdit/ViewModel;
 			sourceTree = "<group>";
 		};
 		29D3149CACD608DFBF4B5FBA /* Frameworks */ = {
@@ -552,7 +574,6 @@
 				45CBB2272E6DA7ED3BDD24AE /* ProfileViewModel.swift */,
 				45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */,
 				B47E15BC1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift */,
-				26645AD21B58B58200ADDCD1 /* ProfileEditViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -562,9 +583,6 @@
 			children = (
 				45CBB717784EC301CD7D042E /* ProfileViewController.swift */,
 				7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */,
-				26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */,
-				2666202D1B68A0CB007346F4 /* Cell Views */,
-				2666202E1B68A0E7007346F4 /* Popovers */,
 			);
 			path = View;
 			sourceTree = "<group>";
