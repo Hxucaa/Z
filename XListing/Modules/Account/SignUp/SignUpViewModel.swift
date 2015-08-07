@@ -39,7 +39,10 @@ public final class SignUpViewModel {
                 let user = User()
                 user.username = username
                 user.password = password
-                return self.userService.signUp(user)
+//                return self.userService.signUp(user)
+                return SignalProducer<Bool, NSError> { sink, disposable in
+                    sendNext(sink, true)
+                }
         }
     }
     

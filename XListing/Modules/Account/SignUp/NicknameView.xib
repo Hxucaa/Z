@@ -4,13 +4,9 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignUpView" customModule="XListing" customModuleProvider="target">
-            <connections>
-                <outlet property="nicknameField" destination="1kZ-UM-lKY" id="yZX-Yg-jqQ"/>
-            </connections>
-        </placeholder>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="BBj-XK-8dU">
+        <view contentMode="scaleToFill" id="BBj-XK-8dU" customClass="NicknameView" customModule="XListing" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="250" height="39"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -45,7 +41,7 @@
                     </variation>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="1kZ-UM-lKY" secondAttribute="trailing" id="3Sv-Nh-Rb0"/>
                 <constraint firstItem="1kZ-UM-lKY" firstAttribute="top" secondItem="BBj-XK-8dU" secondAttribute="top" id="50N-dX-hIO"/>
@@ -88,6 +84,9 @@
                     <exclude reference="wxy-Co-o3S"/>
                 </mask>
             </variation>
+            <connections>
+                <outlet property="nicknameField" destination="1kZ-UM-lKY" id="oXs-DS-cQ7"/>
+            </connections>
             <point key="canvasLocation" x="462" y="368.5"/>
         </view>
     </objects>

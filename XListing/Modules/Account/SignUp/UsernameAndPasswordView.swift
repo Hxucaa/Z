@@ -87,6 +87,11 @@ public final class UsernameAndPasswordView : UIView {
         usernameField.becomeFirstResponder()
     }
     
+    deinit {
+        compositeDisposable.dispose()
+        AccountLogVerbose("UsernameAndPasswordView deinitializes.")
+    }
+    
     // MARK: Bindings
     public func bindToViewModel(viewmodel: UsernameAndPasswordViewModel) {
         self.viewmodel = viewmodel
@@ -97,11 +102,6 @@ public final class UsernameAndPasswordView : UIView {
         
         // TODO: implement different validation for different input fields.
         //        confirmButton.rac_enabled <~ viewmodel.allInputsValid
-    }
-    
-    deinit {
-        compositeDisposable.dispose()
-        AccountLogVerbose("UsernameAndPasswordView deinitializes.")
     }
     
     // MARK: Others

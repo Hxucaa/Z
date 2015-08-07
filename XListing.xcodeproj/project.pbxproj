@@ -136,6 +136,10 @@
 		B4E7C1941B5389710038260E /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E7C1931B5389710038260E /* LogInView.swift */; };
 		B4E7C1961B5390200038260E /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E7C1951B5390200038260E /* SignUpView.swift */; };
 		B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E7C1971B53904D0038260E /* SignUpView.xib */; };
+		B4ECBE1E1B73E0ED00234217 /* NicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE1D1B73E0ED00234217 /* NicknameView.swift */; };
+		B4ECBE201B73ED0900234217 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE1F1B73ED0900234217 /* NicknameViewModel.swift */; };
+		B4ECBE221B74106E00234217 /* GenderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE211B74106E00234217 /* GenderPickerView.swift */; };
+		B4ECBE241B7410A800234217 /* GenderPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE231B7410A800234217 /* GenderPickerViewModel.swift */; };
 		B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */; };
 		B4F195811B2789A100B8C519 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F195801B2789A100B8C519 /* Account.storyboard */; };
 		B4F195891B27A6FF00B8C519 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */; };
@@ -338,6 +342,10 @@
 		B4E7C1931B5389710038260E /* LogInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		B4E7C1951B5390200038260E /* SignUpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		B4E7C1971B53904D0038260E /* SignUpView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpView.xib; sourceTree = "<group>"; };
+		B4ECBE1D1B73E0ED00234217 /* NicknameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicknameView.swift; sourceTree = "<group>"; };
+		B4ECBE1F1B73ED0900234217 /* NicknameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
+		B4ECBE211B74106E00234217 /* GenderPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderPickerView.swift; sourceTree = "<group>"; };
+		B4ECBE231B7410A800234217 /* GenderPickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderPickerViewModel.swift; sourceTree = "<group>"; };
 		B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
 		B4F195801B2789A100B8C519 /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
@@ -936,14 +944,18 @@
 			children = (
 				B4E7C1951B5390200038260E /* SignUpView.swift */,
 				B4E7C1971B53904D0038260E /* SignUpView.xib */,
-				B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordView.xib */,
-				B33C0E041B71653B005F8410 /* NicknameView.xib */,
-				B33C0E061B716A3C005F8410 /* GenderPickerView.xib */,
-				B3FFDD7C1B716FA3003710D8 /* BirthdayPickerView.xib */,
-				B3FFDD7E1B718226003710D8 /* PhotoPickerField.xib */,
 				B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */,
+				B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordView.xib */,
 				B4694E2A1B72A045000E2006 /* UsernameAndPasswordView.swift */,
 				B4694E2C1B72A17E000E2006 /* UsernameAndPasswordViewModel.swift */,
+				B33C0E041B71653B005F8410 /* NicknameView.xib */,
+				B4ECBE1D1B73E0ED00234217 /* NicknameView.swift */,
+				B4ECBE1F1B73ED0900234217 /* NicknameViewModel.swift */,
+				B33C0E061B716A3C005F8410 /* GenderPickerView.xib */,
+				B4ECBE211B74106E00234217 /* GenderPickerView.swift */,
+				B4ECBE231B7410A800234217 /* GenderPickerViewModel.swift */,
+				B3FFDD7C1B716FA3003710D8 /* BirthdayPickerView.xib */,
+				B3FFDD7E1B718226003710D8 /* PhotoPickerField.xib */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -1314,6 +1326,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4ECBE1E1B73E0ED00234217 /* NicknameView.swift in Sources */,
 				B43032471AE4281D0068E8DF /* TypeAliases.swift in Sources */,
 				B4E7C1901B5387E00038260E /* LandingPageView.swift in Sources */,
 				B48C99221ADA6A640045BCA9 /* NearbyWireframe.swift in Sources */,
@@ -1325,10 +1338,12 @@
 				26645ADB1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift in Sources */,
 				B48C991F1ADA62E70045BCA9 /* INearbyViewModel.swift in Sources */,
 				3DFA2F9D1B43C13C00058930 /* WantToGoListViewController.swift in Sources */,
+				B4ECBE201B73ED0900234217 /* NicknameViewModel.swift in Sources */,
 				B47E15BD1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift in Sources */,
 				B4B665421ADF8D070084DBE7 /* DetailViewModel.swift in Sources */,
 				B41334E71B57631400B5F22D /* IAccountWireframe.swift in Sources */,
 				7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */,
+				B4ECBE221B74106E00234217 /* GenderPickerView.swift in Sources */,
 				B45582001B37670500C4D965 /* NSError+extension.swift in Sources */,
 				2A714B121B085C63007A8FBB /* AccountViewController.swift in Sources */,
 				B4F195AF1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift in Sources */,
@@ -1342,6 +1357,7 @@
 				B47E15C61B181E160028E07E /* BackgroundOperationsWorkerFactory.swift in Sources */,
 				3D70CCED1B57A951004588EC /* UIImageView+extension.swift in Sources */,
 				2632F12E1B60A4D100CA49AE /* GenderPickerViewController.swift in Sources */,
+				B4ECBE241B7410A800234217 /* GenderPickerViewModel.swift in Sources */,
 				B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */,
 				B4F1958B1B2938FC00B8C519 /* HUD.swift in Sources */,
 				B4F195BF1B2CE2C300B8C519 /* ParticipationType.swift in Sources */,
