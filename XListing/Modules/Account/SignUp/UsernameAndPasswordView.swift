@@ -18,7 +18,7 @@ public final class UsernameAndPasswordView : UIView {
     @IBOutlet private weak var passwordField: UITextField!
     
     // MARK: - Properties
-    private var viewmodel: UsernameAndPasswordViewModel!
+    public let viewmodel = MutableProperty<UsernameAndPasswordViewModel?>(nil)
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Proxies
@@ -30,6 +30,20 @@ public final class UsernameAndPasswordView : UIView {
     // MARK: - Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
+        
+        compositeDisposable += viewmodel.producer
+            |> ignoreNil
+            |> start(next: { [weak self] viewmodel in
+                if let this = self {
+                    // bind signals
+                    viewmodel.username <~ this.usernameField.rac_text
+                    viewmodel.password <~ this.passwordField.rac_text
+                    
+                    // TODO: implement different validation for different input fields.
+                    //        confirmButton.rac_enabled <~ viewmodel.allInputsValid
+                }
+                
+            })
         
         /**
         Setup constraints
@@ -93,16 +107,6 @@ public final class UsernameAndPasswordView : UIView {
     }
     
     // MARK: Bindings
-    public func bindToViewModel(viewmodel: UsernameAndPasswordViewModel) {
-        self.viewmodel = viewmodel
-        
-        // bind signals
-        viewmodel.username <~ usernameField.rac_text
-        viewmodel.password <~ passwordField.rac_text
-        
-        // TODO: implement different validation for different input fields.
-        //        confirmButton.rac_enabled <~ viewmodel.allInputsValid
-    }
     
     // MARK: Others
 }

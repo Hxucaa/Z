@@ -16,40 +16,6 @@ private let NicknameViewNibName = "NicknameView"
 private let GenderPickerViewNibName = "GenderPickerView"
 private let BirthdayPickerViewNibName = "BirthdayPickerView"
 
-
-public class Transition {
-    private var _view: () -> UIView
-    public var view: UIView {
-        return _view()
-    }
-    private var setup: (UIView -> Void)? = nil
-    private var afterTransition: (UIView -> Void)? = nil
-    private var cleanUp: (UIView -> Void)? = nil
-    
-    public init(@autoclosure(escaping) view: () -> UIView) {
-        self._view = view
-    }
-    
-    public init(@autoclosure(escaping) view: () -> UIView, setup: (UIView -> Void)? = nil, after: (UIView -> Void)? = nil, cleanUp: (UIView -> Void)? = nil) {
-        self._view = view
-        self.setup = setup
-        self.afterTransition = after
-        self.cleanUp = cleanUp
-    }
-    
-    public func runSetup() {
-        setup?(view)
-    }
-    
-    public func runAfterTransition() {
-        afterTransition?(view)
-    }
-    
-    public func runCleanUp() {
-        cleanUp?(view)
-    }
-}
-
 public final class SignUpView : UIView {
     
     // MARK: - UI Controls
@@ -63,16 +29,14 @@ public final class SignUpView : UIView {
     // MARK: Mid Stack
     @IBOutlet private weak var midStack: UIView!
     // username and password
-    private var usernameAndPasswordView: UsernameAndPasswordView!
-    private var submitCocoaAction: CocoaAction!
-    private lazy var usernameAndPasswordTransition: Transition = {
+    private lazy var usernameAndPasswordTransition: Transition<UsernameAndPasswordView> = {
         
         let submitAction = Action<UIButton, Void, NSError> { [weak self] button in
             return SignalProducer { sink, disposable in
-                if let this = self {
+                if let this = self, viewmodel = self?.viewmodel.value {
                     // display HUD to indicate work in progress
                     // check for the validity of inputs first
-                    disposable += this.viewmodel.allInputsValid.producer
+                    disposable += viewmodel.allInputsValid.producer
                         // on error displays error prompt
                         |> on(next: { validity in
                             if !validity {
@@ -94,7 +58,7 @@ public final class SignUpView : UIView {
                         |> promoteErrors(NSError)
                         // sign up
                         |> flatMap(.Latest) { _ in
-                            return this.viewmodel.signUp
+                            return viewmodel.signUp
                         }
                         // dismiss HUD based on the result of sign up signal
                         |> HUD.dismissWithStatusMessage(errorHandler: { [weak self] error -> String in
@@ -130,14 +94,14 @@ public final class SignUpView : UIView {
                         |> start(next: { [weak self] status in
                             if status == HUD.DisappearStatus.Normal {
                                 // brings in nickname view
-                                sendNext(this.viewTransitionSink, this.nicknameTransition)
+                                sendNext(this.viewTransitionSink, this.nicknameTransition.transitionActor)
                             }
                             
                             // completes the action
                             sendNext(sink, ())
                             sendCompleted(sink)
                             
-                            })
+                        })
                     
                     // Add the signals to CompositeDisposable for automatic memory management
                     disposable.addDisposable {
@@ -150,25 +114,27 @@ public final class SignUpView : UIView {
             }
         }
 
-        
-        
         return Transition(
-            view: self.usernameAndPasswordView,
+            view: UINib(nibName: UsernameAndPasswordViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UsernameAndPasswordView,
             setup: { [weak self] view in
                 if let this = self {
+                    
+                    view.viewmodel <~ this.viewmodel.producer
+                        |> ignoreNil
+                        |> map { $0.usernameAndPasswordViewModel }
                     
                     // Link UIControl event to actions
                     this.confirmButton.addTarget(submitAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
                     
-                    this.usernameAndPasswordView.submitProxy
+                    view.submitProxy
                         |> logLifeCycle(LogContext.Account, "usernameAndPasswordView.submitProxy")
                         |> start(next: {
                             self?.confirmButton.sendActionsForControlEvents(.TouchUpInside)
                         })
                 }
             },
-            cleanUp: { [weak self] view in
-                if let this = self {
+            cleanUp: { [weak self, weak submitAction] view in
+                if let this = self, submitAction = submitAction {
                     self?.confirmButton.removeTarget(submitAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
                 }
             }
@@ -177,15 +143,18 @@ public final class SignUpView : UIView {
     }()
     
     // nickname
-    private var nicknameView: NicknameView!
-    private lazy var nicknameTransition: Transition = Transition(
-        view: self.nicknameView,
+    private lazy var nicknameTransition: Transition<NicknameView> = Transition(
+        view: UINib(nibName: NicknameViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! NicknameView,
         setup: { [weak self] view in
             if let this = self {
                 
+                view.viewmodel <~ this.viewmodel.producer
+                    |> ignoreNil
+                    |> map { $0.nicknameViewModel }
+                
                 let action = Action<UIButton, Void, NoError> { button in
                     return SignalProducer { sink, disposable in
-                        sendNext(this.viewTransitionSink, this.genderPickerTransition)
+                        sendNext(this.viewTransitionSink, this.genderPickerTransition.transitionActor)
                         sendCompleted(sink)
                     }
                 }
@@ -193,7 +162,7 @@ public final class SignUpView : UIView {
                 this.confirmButton.setTitle("继续", forState: UIControlState.Normal)
                 this.confirmButton.addTarget(action.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
                 
-                this.nicknameView.continueProxy
+                view.continueProxy
                     |> start(next: {
                         self?.confirmButton.sendActionsForControlEvents(.TouchUpInside)
                     })
@@ -205,9 +174,8 @@ public final class SignUpView : UIView {
         }
     )
     // gender
-    private var genderPickerView: GenderPickerView!
-    private lazy var genderPickerTransition: Transition = Transition(
-        view: self.genderPickerView,
+    private lazy var genderPickerTransition: Transition<GenderPickerView> = Transition(
+        view: UINib(nibName: GenderPickerViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! GenderPickerView,
         setup: { [weak self] view in
             
         },
@@ -215,7 +183,16 @@ public final class SignUpView : UIView {
     )
     
     // birthday
-    private var birthdayPickerView: UIView!
+    private lazy var birthdayPickerTransition: Transition<BirthdayPickerView> = {
+        return Transition(
+            view: UINib(nibName: BirthdayPickerViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! BirthdayPickerView,
+            setup: { [weak self] view in
+                
+            },
+            after: nil,
+            cleanUp: nil
+        )
+    }()
     
     // MARK: Bottom Stack
     @IBOutlet private weak var bottomStack: UIView!
@@ -236,25 +213,15 @@ public final class SignUpView : UIView {
     private let (_finishSignUpProxy, _finishSignUpSink) = SimpleProxy.proxy()
     
     // MARK: - Properties
-    private var viewmodel: SignUpViewModel!
+//    private var viewmodel: SignUpViewModel!
+    private let viewmodel = MutableProperty<SignUpViewModel?>(nil)
     
     private let compositeDisposable = CompositeDisposable()
-    private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<Transition, NoError>.buffer(0)
+    private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<TransitionActor, NoError>.buffer(0)
     
     private var submitAction: Action<UIButton, Void, NSError>!
     
     // MARK: - Setups
-    public required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-        usernameAndPasswordView = UINib(nibName: UsernameAndPasswordViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UsernameAndPasswordView
-        nicknameView = UINib(nibName: NicknameViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! NicknameView
-        genderPickerView = UINib(nibName: GenderPickerViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! GenderPickerView
-        birthdayPickerView = UINib(nibName: BirthdayPickerViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UIView
-        
-    }
-    
-    
     public override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -263,13 +230,6 @@ public final class SignUpView : UIView {
         
         setupBackButton()
         
-       
-        
-        usernameAndPasswordTransition.runSetup()
-        // transition animation
-        midStack.addSubview(usernameAndPasswordView)
-        centerInSuperview(midStack, subview: usernameAndPasswordTransition.view)
-        
         /**
         Setup view transition.
         */
@@ -277,7 +237,7 @@ public final class SignUpView : UIView {
         // transition to next view.
         compositeDisposable += viewTransitionProducer
             // forwards events along with the previous value. The first member is the previous value and the second is the current value.
-            |> combinePrevious(self.usernameAndPasswordTransition)
+            |> combinePrevious(self.usernameAndPasswordTransition.transitionActor)
             |> start(next: { [weak self] current, next in
                 if let this = self {
                     
@@ -296,18 +256,14 @@ public final class SignUpView : UIView {
 //                    }
                 }
             })
-    }
-    
-    private var setupUsernameAndPasswordView: SignalProducer<Void, NoError> {
         
-        return SignalProducer<Void, NoError> { sink, compositeDisposable in
-            
-            compositeDisposable += self.usernameAndPasswordView.submitProxy
-                |> logLifeCycle(LogContext.Account, "usernameAndPasswordView.submitProxy")
-                |> start(next: {
-                    self.confirmButton.sendActionsForControlEvents(.TouchUpInside)
-                })
-        }
+        
+        
+        // display the usernameAndPassword view as the first
+        usernameAndPasswordTransition.transitionActor.runSetup()
+        // transition animation
+        midStack.addSubview(usernameAndPasswordTransition.view)
+        centerInSuperview(midStack, subview: usernameAndPasswordTransition.view)
     }
     
     private func setupBackButton () {
@@ -333,9 +289,9 @@ public final class SignUpView : UIView {
     
     // MARK: Bindings
     public func bindToViewModel(viewmodel: SignUpViewModel) {
-        self.viewmodel = viewmodel
+//        self.viewmodel = viewmodel
+        self.viewmodel.put(viewmodel)
         
-        usernameAndPasswordView.bindToViewModel(viewmodel.usernameAndPasswordViewModel)
         
         // bind signals
         
@@ -371,32 +327,6 @@ public final class SignUpView : UIView {
     }
     
     private func centerInSuperview<T: UIView, U: UIView>(superview: T, subview: U) {
-        
-//        subview.setTranslatesAutoresizingMaskIntoConstraints(false)
-//        
-//        let centerX = NSLayoutConstraint(item: subview,
-//            attribute: NSLayoutAttribute.CenterX,
-//            relatedBy: NSLayoutRelation.Equal,
-//            toItem: superview,
-//            attribute: NSLayoutAttribute.CenterX,
-//            multiplier: 1.0,
-//            constant: 0.0)
-//        //        centerX.identifier = "usernameAndPasswordFields to midStack centerX"
-//        
-//        let topSpacing = NSLayoutConstraint(item: subview,
-//            attribute: NSLayoutAttribute.CenterY,
-//            relatedBy: NSLayoutRelation.Equal,
-//            toItem: superview,
-//            attribute: NSLayoutAttribute.CenterY,
-//            multiplier: 1.0,
-//            constant: 0.0)
-//        
-//        addConstraints(
-//            [
-//                centerX,
-//                topSpacing
-//            ]
-//        )
         
         let group = layout(subview, superview) { view1, view2 in
             view1.center == view2.center

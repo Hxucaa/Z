@@ -17,7 +17,7 @@ public final class NicknameView : UIView {
     @IBOutlet private weak var nicknameField: UITextField!
     
     // MARK: - Properties
-    private var viewmodel: NicknameViewModel!
+    public let viewmodel = MutableProperty<NicknameViewModel?>(nil)
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Proxies
@@ -40,6 +40,17 @@ public final class NicknameView : UIView {
         
         nicknameField.delegate = self
         nicknameField.becomeFirstResponder()
+        
+        compositeDisposable += viewmodel.producer
+            |> ignoreNil
+            |> start(next: { [weak self] viewmodel in
+                if let this = self {
+                    viewmodel.nickname <~ this.nicknameField.rac_text
+                    
+                    // TODO: implement different validation for different input fields.
+                    //        confirmButton.rac_enabled <~ viewmodel.allInputsValid
+                }
+            })
     }
     
     public override func removeFromSuperview() {
@@ -54,15 +65,6 @@ public final class NicknameView : UIView {
     }
     
     // MARK: - Bindings
-    public func bindToViewModel(viewmodel: NicknameViewModel) {
-        self.viewmodel = viewmodel
-        
-        // bind signals
-        viewmodel.nickname <~ nicknameField.rac_text
-        
-        // TODO: implement different validation for different input fields.
-        //        confirmButton.rac_enabled <~ viewmodel.allInputsValid
-    }
     
     // MARK: - Others
 }

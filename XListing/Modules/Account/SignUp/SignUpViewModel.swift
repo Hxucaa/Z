@@ -26,6 +26,12 @@ public final class SignUpViewModel {
         return viewmodel
     }()
     
+    public lazy var nicknameViewModel: NicknameViewModel = { [unowned self] in
+        let viewmodel = NicknameViewModel()
+        
+        return viewmodel
+    }()
+    
     private let userService: IUserService
     
     // MARK: Actions

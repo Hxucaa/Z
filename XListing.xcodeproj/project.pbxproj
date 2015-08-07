@@ -140,6 +140,9 @@
 		B4ECBE201B73ED0900234217 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE1F1B73ED0900234217 /* NicknameViewModel.swift */; };
 		B4ECBE221B74106E00234217 /* GenderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE211B74106E00234217 /* GenderPickerView.swift */; };
 		B4ECBE241B7410A800234217 /* GenderPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE231B7410A800234217 /* GenderPickerViewModel.swift */; };
+		B4ECBE261B747E5800234217 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE251B747E5800234217 /* Transition.swift */; };
+		B4ECBE281B747F7C00234217 /* BirthdayPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE271B747F7C00234217 /* BirthdayPickerView.swift */; };
+		B4ECBE2A1B747FC300234217 /* BirthdayPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE291B747FC300234217 /* BirthdayPickerViewModel.swift */; };
 		B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */; };
 		B4F195811B2789A100B8C519 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F195801B2789A100B8C519 /* Account.storyboard */; };
 		B4F195891B27A6FF00B8C519 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */; };
@@ -346,6 +349,9 @@
 		B4ECBE1F1B73ED0900234217 /* NicknameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		B4ECBE211B74106E00234217 /* GenderPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderPickerView.swift; sourceTree = "<group>"; };
 		B4ECBE231B7410A800234217 /* GenderPickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderPickerViewModel.swift; sourceTree = "<group>"; };
+		B4ECBE251B747E5800234217 /* Transition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
+		B4ECBE271B747F7C00234217 /* BirthdayPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirthdayPickerView.swift; sourceTree = "<group>"; };
+		B4ECBE291B747FC300234217 /* BirthdayPickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirthdayPickerViewModel.swift; sourceTree = "<group>"; };
 		B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
 		B4F195801B2789A100B8C519 /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
@@ -945,17 +951,20 @@
 				B4E7C1951B5390200038260E /* SignUpView.swift */,
 				B4E7C1971B53904D0038260E /* SignUpView.xib */,
 				B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */,
-				B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordView.xib */,
 				B4694E2A1B72A045000E2006 /* UsernameAndPasswordView.swift */,
+				B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordView.xib */,
 				B4694E2C1B72A17E000E2006 /* UsernameAndPasswordViewModel.swift */,
-				B33C0E041B71653B005F8410 /* NicknameView.xib */,
 				B4ECBE1D1B73E0ED00234217 /* NicknameView.swift */,
+				B33C0E041B71653B005F8410 /* NicknameView.xib */,
 				B4ECBE1F1B73ED0900234217 /* NicknameViewModel.swift */,
-				B33C0E061B716A3C005F8410 /* GenderPickerView.xib */,
 				B4ECBE211B74106E00234217 /* GenderPickerView.swift */,
+				B33C0E061B716A3C005F8410 /* GenderPickerView.xib */,
 				B4ECBE231B7410A800234217 /* GenderPickerViewModel.swift */,
+				B4ECBE271B747F7C00234217 /* BirthdayPickerView.swift */,
 				B3FFDD7C1B716FA3003710D8 /* BirthdayPickerView.xib */,
+				B4ECBE291B747FC300234217 /* BirthdayPickerViewModel.swift */,
 				B3FFDD7E1B718226003710D8 /* PhotoPickerField.xib */,
+				B4ECBE251B747E5800234217 /* Transition.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -1363,11 +1372,14 @@
 				B4F195BF1B2CE2C300B8C519 /* ParticipationType.swift in Sources */,
 				7EFEF7461B13D0900043E076 /* EditInfoView.swift in Sources */,
 				B4F1959C1B2AA3B400B8C519 /* WithDataRoute.swift in Sources */,
+				B4ECBE2A1B747FC300234217 /* BirthdayPickerViewModel.swift in Sources */,
+				B4ECBE261B747E5800234217 /* Transition.swift in Sources */,
 				B4694E2D1B72A17E000E2006 /* UsernameAndPasswordViewModel.swift in Sources */,
 				B462BC7E1B2FA50E00070BE5 /* LandingPageViewModel.swift in Sources */,
 				B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */,
 				2A9A9B9E1B1C31870010EDA9 /* DetailImageTableViewCell.swift in Sources */,
 				B48C99241ADBA4280045BCA9 /* IFeaturedListWireframe.swift in Sources */,
+				B4ECBE281B747F7C00234217 /* BirthdayPickerView.swift in Sources */,
 				3DE38A7E1B11BB3000DFA128 /* IKeychainService.swift in Sources */,
 				B45581F81B33E89D00C4D965 /* FeaturedBusinessViewModel.swift in Sources */,
 				3DE38A801B11BB3D00DFA128 /* KeychainService.swift in Sources */,
