@@ -33,6 +33,7 @@ public final class UsernameAndPasswordView : UIView {
         
         compositeDisposable += viewmodel.producer
             |> ignoreNil
+            |> logLifeCycle(LogContext.Account, "viewmodel.producer")
             |> start(next: { [weak self] viewmodel in
                 if let this = self {
                     // bind signals

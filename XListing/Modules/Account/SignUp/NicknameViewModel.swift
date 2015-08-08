@@ -19,7 +19,7 @@ public final class NicknameViewModel {
     
     // MARK: - Variables
     /// Signal containing a valid username
-    private var validNicknameSignal: SignalProducer<String, NoError>!
+    public private(set) var validNicknameSignal: SignalProducer<String, NoError>!
     
     
     // MARK: - Initializers

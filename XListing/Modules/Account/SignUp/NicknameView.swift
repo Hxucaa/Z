@@ -43,6 +43,7 @@ public final class NicknameView : UIView {
         
         compositeDisposable += viewmodel.producer
             |> ignoreNil
+            |> logLifeCycle(LogContext.Account, "viewmodel.producer")
             |> start(next: { [weak self] viewmodel in
                 if let this = self {
                     viewmodel.nickname <~ this.nicknameField.rac_text

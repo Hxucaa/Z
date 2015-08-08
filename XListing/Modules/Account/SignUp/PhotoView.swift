@@ -1,8 +1,8 @@
 //
-//  BirthdayPickerView.swift
+//  PhotoView.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-08-06.
+//  Created by Lance Zhu on 2015-08-07.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
@@ -11,12 +11,13 @@ import UIKit
 import ReactiveCocoa
 import Cartography
 
-public final class BirthdayPickerView : UIView {
+public final class PhotoView : UIView {
     
     // MARK: - UI Controls
+    @IBOutlet private weak var photoImageView: UIImageView!
     
     // MARK: - Properties
-    public let viewmodel = MutableProperty<BirthdayPickerViewModel?>(nil)
+    public let viewmodel = MutableProperty<PhotoViewModel?>(nil)
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Proxies
@@ -32,6 +33,7 @@ public final class BirthdayPickerView : UIView {
             view.width == self.frame.width
             view.height == self.frame.height
         }
+        
         
         compositeDisposable += viewmodel.producer
             |> ignoreNil

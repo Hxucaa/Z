@@ -13,6 +13,10 @@ import AVOSCloud
 public final class SignUpViewModel {
     
     // MARK: Input
+    private let nickname = MutableProperty<String?>(nil)
+    private let birthday = MutableProperty<NSDate>(NSDate())
+    private let gender = MutableProperty<Gender?>(nil)
+    private let photo = MutableProperty<UIImage?>(nil)
     
     // MARK: Output
     public let allInputsValid = MutableProperty<Bool>(false)
@@ -28,6 +32,35 @@ public final class SignUpViewModel {
     
     public lazy var nicknameViewModel: NicknameViewModel = { [unowned self] in
         let viewmodel = NicknameViewModel()
+        
+        self.nickname <~ viewmodel.validNicknameSignal
+            |> map { Optional<String>($0) }
+        
+        return viewmodel
+    }()
+    
+    public lazy var genderPickerViewModel: GenderPickerViewModel = { [unowned self] in
+        let viewmodel = GenderPickerViewModel()
+        
+        self.gender <~ viewmodel.validGenderSignal
+            |> map { Optional<Gender>($0) }
+        
+        return viewmodel
+    }()
+    
+    public lazy var birthdayPickerViewModel: BirthdayPickerViewModel = { [unowned self] in
+        let viewmodel = BirthdayPickerViewModel()
+        
+        self.birthday <~ viewmodel.validBirthdaySignal
+        
+        return viewmodel
+    }()
+    
+    public lazy var photoViewModel: PhotoViewModel = { [unowned self] in
+        let viewmodel = PhotoViewModel()
+        
+        self.photo <~ viewmodel.validPhotoSignal
+            |> map { Optional<UIImage>($0) }
         
         return viewmodel
     }()

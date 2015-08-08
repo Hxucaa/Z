@@ -22,20 +22,13 @@ public final class UsernameAndPasswordViewModel {
     
     // MARK: - Variables
     /// Signal containing a valid username
-    private var validUsernameSignal: SignalProducer<String, NoError>!
+    public private(set) var validUsernameSignal: SignalProducer<String, NoError>!
     /// Signal containing a valid password
-    private var validPasswordSignal: SignalProducer<String, NoError>!
+    public private(set) var validPasswordSignal: SignalProducer<String, NoError>!
     
     
     // MARK: - Initializers
     public init() {
-        setupUsername()
-        setupPassword()
-        setupAllInputsValid()
-    }
-    
-    // MARK: - Setups
-    private func setupUsername() {
         // only allow usernames with:
         // - between 3 and 30 characters
         // - letters, numbers, dashes, periods, and underscores only
@@ -45,9 +38,8 @@ public final class UsernameAndPasswordViewModel {
         
         isUsernameValid <~ validUsernameSignal
             |> map { _ in true }
-    }
-    
-    private func setupPassword() {
+        
+        
         // only allow passwords with:
         // - more than 8 characters
         // - letters, numbers, and most standard symbols
@@ -55,21 +47,28 @@ public final class UsernameAndPasswordViewModel {
         validPasswordSignal = password.producer
             |> ignoreNil
             |> filter { count($0) > 0 }
-//            |> filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
+        //            |> filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
         
         isPasswordValid <~ validPasswordSignal
             |> map { _ in true }
-    }
-    
-    private func setupAllInputsValid() {
+        
+        
+        
         allInputsValid <~ combineLatest(isUsernameValid.producer, isPasswordValid.producer)
             |> map { $0.0 && $0.1 }
     }
     
+    // MARK: - Setups
+    
     // MARK: - Others
     private func testRegex(input: String, pattern: String) -> Bool {
-        let regex = NSRegularExpression(pattern: pattern, options: nil, error: nil)
-        let matches = regex!.matchesInString(input, options: nil, range:NSMakeRange(0, count(input)))
-        return matches.count == 1
+        if let regex = NSRegularExpression(pattern: pattern, options: nil, error: nil) {
+            
+            let match = regex.numberOfMatchesInString(input, options: nil, range:NSMakeRange(0, count(input)))
+            return match == 1
+        }
+        else {
+            return false
+        }
     }
 }

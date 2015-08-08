@@ -19,26 +19,19 @@ public final class BirthdayPickerViewModel {
     
     // MARK: - Variables
     /// Signal containing a valid username
-    private var validBirthdaySignal: SignalProducer<NSDate, NoError>!
+    public let validBirthdaySignal: SignalProducer<NSDate, NoError>
     
     
     // MARK: - Initializers
     public init() {
-        setupNickname()
+        validBirthdaySignal = birthday.producer
+//            |> filter { count($0) > 1 && count($0) <= 30 }
+
+        isBirthdayValid <~ validBirthdaySignal
+            |> map { _ in true }
     }
     
     // MARK: - Setups
-    private func setupNickname() {
-        // only allow usernames with:
-        // - between 3 and 30 characters
-        // - letters, numbers, dashes, periods, and underscores only
-//        validBirthdaySignal = nickname.producer
-//            |> ignoreNil
-//            |> filter { count($0) > 1 && count($0) <= 30 }
-        
-//        isBirthdayValid <~ validBirthdaySignal
-//            |> map { _ in true }
-    }
     
     // MARK: - Others
 }

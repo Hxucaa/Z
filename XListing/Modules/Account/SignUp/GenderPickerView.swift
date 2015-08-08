@@ -16,7 +16,7 @@ public final class GenderPickerView : UIView {
     // MARK: - UI Controls
     
     // MARK: - Properties
-    private var viewmodel: GenderPickerViewModel!
+    public let viewmodel = MutableProperty<GenderPickerViewModel?>(nil)
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Proxies
@@ -33,6 +33,13 @@ public final class GenderPickerView : UIView {
             view.height == self.frame.height
         }
         
+        
+        compositeDisposable += viewmodel.producer
+            |> ignoreNil
+            |> logLifeCycle(LogContext.Account, "viewmodel.producer")
+            |> start(next: { [weak self] viewmodel in
+                
+            })
     }
     
     
@@ -42,14 +49,6 @@ public final class GenderPickerView : UIView {
     }
     
     // MARK: - Bindings
-    public func bindToViewModel(viewmodel: GenderPickerViewModel) {
-        self.viewmodel = viewmodel
-        
-        // bind signals
-        
-        // TODO: implement different validation for different input fields.
-        //        confirmButton.rac_enabled <~ viewmodel.allInputsValid
-    }
     
     // MARK: - Others
 }

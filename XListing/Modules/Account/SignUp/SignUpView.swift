@@ -15,6 +15,7 @@ private let UsernameAndPasswordViewNibName = "UsernameAndPasswordView"
 private let NicknameViewNibName = "NicknameView"
 private let GenderPickerViewNibName = "GenderPickerView"
 private let BirthdayPickerViewNibName = "BirthdayPickerView"
+private let PhotoViewNibName = "PhotoView"
 
 public final class SignUpView : UIView {
     
@@ -103,15 +104,11 @@ public final class SignUpView : UIView {
                             
                         })
                     
-                    // Add the signals to CompositeDisposable for automatic memory management
-                    disposable.addDisposable {
-                        AccountLogVerbose("Sign up action is disposed.")
-                    }
-                    
                     // retract keyboard
                     self?.endEditing(true)
                 }
             }
+                |> logLifeCycle(LogContext.Account, "Submit Action")
         }
 
         return Transition(
@@ -143,56 +140,135 @@ public final class SignUpView : UIView {
     }()
     
     // nickname
-    private lazy var nicknameTransition: Transition<NicknameView> = Transition(
-        view: UINib(nibName: NicknameViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! NicknameView,
-        setup: { [weak self] view in
-            if let this = self {
-                
-                view.viewmodel <~ this.viewmodel.producer
-                    |> ignoreNil
-                    |> map { $0.nicknameViewModel }
-                
-                let action = Action<UIButton, Void, NoError> { button in
-                    return SignalProducer { sink, disposable in
-                        sendNext(this.viewTransitionSink, this.genderPickerTransition.transitionActor)
-                        sendCompleted(sink)
-                    }
+    private lazy var nicknameTransition: Transition<NicknameView> = {
+        
+        let continueAction = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { sink, disposable in
+                if let this = self {
+                    sendNext(this.viewTransitionSink, this.genderPickerTransition.transitionActor)
+                    sendCompleted(sink)
+                }
+            }
+                |> logLifeCycle(LogContext.Account, "Continue Action")
+        }
+        
+        return Transition(
+            view: UINib(nibName: NicknameViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! NicknameView,
+            setup: { [weak self] view in
+                if let this = self {
+                    
+                    view.viewmodel <~ this.viewmodel.producer
+                        |> ignoreNil
+                        |> map { $0.nicknameViewModel }
+                    
+                    this.confirmButton.setTitle("继续", forState: UIControlState.Normal)
+                    this.confirmButton.addTarget(continueAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+                    
+                    view.continueProxy
+                        |> start(next: {
+                            self?.confirmButton.sendActionsForControlEvents(.TouchUpInside)
+                        })
                 }
                 
-                this.confirmButton.setTitle("继续", forState: UIControlState.Normal)
-                this.confirmButton.addTarget(action.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-                
-                view.continueProxy
-                    |> start(next: {
-                        self?.confirmButton.sendActionsForControlEvents(.TouchUpInside)
-                    })
+            },
+            cleanUp: { [weak self, weak continueAction] view in
+                if let this = self, continueAction = continueAction {
+                    self?.confirmButton.removeTarget(continueAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+                }
             }
-            
-        },
-        cleanUp: { [weak self] view in
-            
-        }
-    )
+        )
+    }()
+    
     // gender
-    private lazy var genderPickerTransition: Transition<GenderPickerView> = Transition(
-        view: UINib(nibName: GenderPickerViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! GenderPickerView,
-        setup: { [weak self] view in
-            
-        },
-        after: nil
-    )
+    private lazy var genderPickerTransition: Transition<GenderPickerView> = {
+        
+        let continueAction = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { sink, disposable in
+                if let this = self {
+                    sendNext(this.viewTransitionSink, this.birthdayPickerTransition.transitionActor)
+                    sendCompleted(sink)
+                }
+            }
+                |> logLifeCycle(LogContext.Account, "Continue Action")
+        }
+        
+        return Transition(
+            view: UINib(nibName: GenderPickerViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! GenderPickerView,
+            setup: { [weak self] view in
+                if let this = self {
+                    
+                    view.viewmodel <~ this.viewmodel.producer
+                        |> ignoreNil
+                        |> map { $0.genderPickerViewModel }
+                }
+            },
+            cleanUp: { [weak self, weak continueAction] view in
+                if let this = self, continueAction = continueAction {
+                    self?.confirmButton.removeTarget(continueAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+                }
+            }
+        )
+    }()
     
     // birthday
     private lazy var birthdayPickerTransition: Transition<BirthdayPickerView> = {
+        
+        let continueAction = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { sink, disposable in
+                if let this = self {
+                    sendNext(this.viewTransitionSink, this.birthdayPickerTransition.transitionActor)
+                    sendCompleted(sink)
+                }
+            }
+                |> logLifeCycle(LogContext.Account, "Continue Action")
+        }
+        
         return Transition(
             view: UINib(nibName: BirthdayPickerViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! BirthdayPickerView,
             setup: { [weak self] view in
                 
+                if let this = self {
+                    
+                    view.viewmodel <~ this.viewmodel.producer
+                        |> ignoreNil
+                        |> map { $0.birthdayPickerViewModel }
+                }
+                
             },
-            after: nil,
+            cleanUp: { [weak self, weak continueAction] view in
+                if let this = self, continueAction = continueAction {
+                    self?.confirmButton.removeTarget(continueAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+                }
+            }
+        )
+    }()
+    
+    // birthday
+    private lazy var photoTransition: Transition<PhotoView> = {
+        
+        let continueAction = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { sink, disposable in
+                
+            }
+                |> logLifeCycle(LogContext.Account, "Continue Action")
+        }
+        
+        return Transition(
+            view: UINib(nibName: PhotoViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! PhotoView,
+            setup: { [weak self] view in
+                
+                if let this = self {
+                    
+                    view.viewmodel <~ this.viewmodel.producer
+                        |> ignoreNil
+                        |> map { $0.photoViewModel }
+                }
+                
+            },
             cleanUp: nil
         )
     }()
+    
     
     // MARK: Bottom Stack
     @IBOutlet private weak var bottomStack: UIView!
