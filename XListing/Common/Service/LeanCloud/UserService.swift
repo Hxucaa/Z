@@ -61,6 +61,7 @@ public final class UserService : IUserService {
     
     public func signUp<T: User>(user: T) -> SignalProducer<Bool, NSError> {
         return SignalProducer { sink, disposable in
+            BOLogDebug("User created: \(user.toString())")
             user.signUpInBackgroundWithBlock { success, error -> Void in
                 if error == nil {
                     sendNext(sink, success)
@@ -96,13 +97,25 @@ public final class UserService : IUserService {
     
     public func save<T: User>(user: T) -> SignalProducer<Bool, NSError> {
         return SignalProducer { sink, disposable in
-            user.saveInBackgroundWithBlock { (success, error) -> Void in
+            LSLogDebug("User profile created")
+            if user.profileImg != nil{
+            user.profileImg!.saveInBackgroundWithBlock{ (success, error) -> Void in
                 if error == nil {
-                    sendNext(sink, success)
+                    LSLogDebug("User image uploaded")
+                    user.saveInBackgroundWithBlock { (success, error) -> Void in
+                        if error == nil {
+                            LSLogDebug("save profile return success")
+                            sendCompleted(sink)
+                        }
+                        else {
+                            sendError(sink, error)
+                        }
+                    }
                 }
                 else {
                     sendError(sink, error)
                 }
+            }
             }
         }
     }

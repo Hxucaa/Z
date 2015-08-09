@@ -37,7 +37,7 @@ public final class FeaturedListViewController: XUIViewController {
         
         tableView.dataSource = self
     }
-
+    
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -136,7 +136,6 @@ public final class FeaturedListViewController: XUIViewController {
                 sendCompleted(sink)
             }
         }
-        
         profileButton.target = pushProfile.unsafeCocoaAction
         profileButton.action = CocoaAction.selector
     }
@@ -145,6 +144,9 @@ public final class FeaturedListViewController: XUIViewController {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.hidden = false // for navigation bar hide
+        UIApplication.sharedApplication().statusBarHidden = false
         
         nearbyButton.enabled = true
         
@@ -164,7 +166,7 @@ public final class FeaturedListViewController: XUIViewController {
                 next: { [weak self] indexPath in
                     self?.viewmodel.pushDetailModule(indexPath.row)
                 }
-        )
+            )
         
         
         compositeDisposable += viewmodel.featuredBusinessViewModelArr.producer

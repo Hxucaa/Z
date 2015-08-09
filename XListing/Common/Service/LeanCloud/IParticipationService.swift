@@ -14,4 +14,5 @@ public protocol IParticipationService : class {
     func findBy(query: AVQuery) -> SignalProducer<[Participation], NSError>
     func get(query: AVQuery) -> SignalProducer<Participation, NSError>
     func create(participation: Participation) -> SignalProducer<Bool, NSError>
+    func delete(participation: Participation) -> SignalProducer<Bool, NSError>
 }
