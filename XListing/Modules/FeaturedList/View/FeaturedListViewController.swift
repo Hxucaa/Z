@@ -166,7 +166,7 @@ public final class FeaturedListViewController: XUIViewController {
                 next: { [weak self] indexPath in
                     self?.viewmodel.pushDetailModule(indexPath.row)
                 }
-        )
+            )
         
         
         compositeDisposable += viewmodel.featuredBusinessViewModelArr.producer

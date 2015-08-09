@@ -11,99 +11,82 @@ import Dollar
 
 private let ProfileEditViewControllerIdentifier = "ProfileEditViewController"
 private let ProfileStoryBoardName = "Profile"
+
 public final class ProfileViewController : XUIViewController {
 
-    // MARK: UI control
+    // MARK: - UI Controls
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var headerView: UIView!
     @IBOutlet private weak var tabView: UIView!
+    private var headerViewContent: ProfileHeaderView!
     
-    // MARK: Property
-    
-    var headerViewContent: ProfileHeaderView!
+    // MARK: - Properties
     private var profileVM: ProfileViewModel!
     private var firstSegSelected = true
     private var selectedBusinessChoiceIndex = 0
+    private let compositeDisposable = CompositeDisposable()
 
-    // MARK: View initilization
+    // MARK: - Setups
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "个人"
-        if let temp = NSBundle.mainBundle().loadNibNamed("ProfileHeaderView", owner: self, options: nil)[0] as? ProfileHeaderView{
-            headerViewContent  = temp
-            headerViewContent.frame = CGRectMake(0, 0, headerView.frame.width, headerView.frame.height)
-            headerView.addSubview(headerViewContent)
-            self.setupBackButton(headerViewContent.topLeftButton)
-            self.setupEditButton(headerViewContent.topRightButton)
-        }
-        if let tabViewContent = NSBundle.mainBundle().loadNibNamed("ProfileTabView", owner: self, options: nil)[0] as? ProfileTabView{
-            tabView.addSubview(tabViewContent)
-        }
-        self.setupTableView()
-        self.setupHeaderView()
+        
+        navigationItem.title = "个人"
+        
+        headerViewContent = NSBundle.mainBundle().loadNibNamed("ProfileHeaderView", owner: self, options: nil).first as! ProfileHeaderView
+        headerViewContent.frame = CGRectMake(0, 0, headerView.frame.width, headerView.frame.height)
+        headerView.addSubview(headerViewContent)
+        
+        profileVM.profileHeaderViewModel.producer
+            |> ignoreNil
+            |> start(next: { [weak self] viewmodel in
+                self?.headerViewContent.bindViewModel(viewmodel)
+            })
+        
+        let tabViewContent = NSBundle.mainBundle().loadNibNamed("ProfileTabView", owner: self, options: nil).first as! ProfileTabView
+        tabView.addSubview(tabViewContent)
+        
+        let nib = UINib(nibName: "ProfileBusinessCell", bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: "BusinessCell")
     }
     
-    // Set up headerViews
-    private func tryBindHeaderViewModel() {
-        if headerViewContent != nil && self.profileVM!.profileHeaderViewModel.value != nil{
-            headerViewContent.bindViewModel(self.profileVM!.profileHeaderViewModel.value!)
-        }
-        else{
-        }
-    }
-    
-    private func setupHeaderView() {
-        self.profileVM.profileHeaderViewModel.producer
-            |> start(next: { [weak self] _ in
-                self!.tryBindHeaderViewModel()
-                })
-    }
-    
-    
-    // Set up buttons
-    private lazy var setupButtons: SignalProducer<Void, NoError> = SignalProducer<Void, NoError> { [weak self] sink, compositeDisposable in
-        if self != nil{
-        if let view = self!.headerViewContent{
-            compositeDisposable += view.backProxy
-                |> logLifeCycle(LogContext.Profile, "backproxy")
-                |> start(next: {
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.hidden = true // for navigation bar hide
+        UIApplication.sharedApplication().statusBarHidden=false
+        
+        willAppearTableView()
+        
+        compositeDisposable += headerViewContent.backProxy
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Profile, "headerViewContent.backProxy")
+            |> start(
+                next: { [weak self] in
                     self?.navigationController?.popViewControllerAnimated(true)
-                    sendCompleted(sink)
-                })
-            
-            compositeDisposable += view.editProxy
-                |> logLifeCycle(LogContext.Profile, "editproxy")
-                |> start(next: {
+                }
+            )
+        
+        compositeDisposable += headerViewContent.editProxy
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Profile, "headerViewContent.editProxy")
+            |> start(
+                next: { [weak self] in
                     let storyboard = UIStoryboard(name: ProfileStoryBoardName, bundle: nil)
                     let viewController = storyboard.instantiateViewControllerWithIdentifier(ProfileEditViewControllerIdentifier) as! ProfileEditViewController
                     let editVM = self?.profileVM.profileEditViewModel
                     viewController.bindToViewModel(editVM!)
                     self?.navigationController?.pushViewController(viewController, animated: true)
-                    sendCompleted(sink)
-                })
-            }
-            }
-        }
-    |> logLifeCycle(LogContext.Profile, "profilepage")
-    
-    
-    private func setupTableView() {
-        var nib = UINib(nibName: "ProfileBusinessCell", bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: "BusinessCell")
+                }
+            )
         
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        self.profileVM.profileBusinessViewModelArr.producer
-            |> start(next: { [weak self] _ in
-                self?.tableView.reloadData()
-                })
     }
     
-
-    public override func viewWillAppear(animated: Bool) {
-        navigationController?.navigationBar.hidden = true // for navigation bar hide
-        UIApplication.sharedApplication().statusBarHidden=false
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        navigationController?.navigationBar.hidden = false
     }
     
     public override func didReceiveMemoryWarning() {
@@ -111,57 +94,59 @@ public final class ProfileViewController : XUIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    private func willAppearTableView() {
+        
+        // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
+        // when the specified row is now selected
+        compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> map { ($0 as! RACTuple).second as! NSIndexPath }
+            |> logLifeCycle(LogContext.Profile, "tableView:didSelectRowAtIndexPath:")
+            |> start(
+                next: { [weak self] indexPath in
+                    self?.profileVM.pushDetailModule(indexPath.row)
+                }
+            )
+        
+        compositeDisposable += rac_signalForSelector(Selector("tableView:commitEditingStyle:forRowAtIndexPath:"), fromProtocol: UITableViewDataSource.self).toSignalProducer()
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> map { parameters -> (UITableViewCellEditingStyle, NSIndexPath) in
+                let tuple = parameters as! RACTuple
+                return (tuple.second as! UITableViewCellEditingStyle, tuple.third as! NSIndexPath)
+            }
+            |> logLifeCycle(LogContext.Profile, "tableView:commitEditingStyle:forRowAtIndexPath:")
+            |> start(
+                next: { [weak self] editingStyle, indexPath in
+                    if let this = self {
+                        if editingStyle == UITableViewCellEditingStyle.Delete {
+                            this.profileVM.undoParticipation(indexPath.row)
+                                |> start()
+                            this.profileVM.profileBusinessViewModelArr.value.removeAtIndex(indexPath.row)
+                            this.tableView.reloadData()
+                        }
+                    }
+                }
+            )
+        
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        profileVM.profileBusinessViewModelArr.producer
+            |> start(next: { [weak self] _ in
+                self?.tableView.reloadData()
+            })
+    }
+    
+    // MARK: - Bindings
+    
     public func bindToViewModel(profileViewModel: ProfileViewModel) {
         profileVM = profileViewModel
-        
-        
     }
     
-
-    private func setupBackButton(btn: UIButton) {
-        let dismissAction = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer<Void, NoError> { [weak self] sink, disposable in
-                self?.navigationController?.popViewControllerAnimated(true)
-                sendCompleted(sink)
-            }
-        }
-        btn.addTarget(dismissAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchDown)
-    }
-    
-    private func setupEditButton(btn: UIButton) {
-        let editAction = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer<Void, NoError> { [weak self] sink, disposable in
-                let storyboard = UIStoryboard(name: ProfileStoryBoardName, bundle: nil)
-                let viewController = storyboard.instantiateViewControllerWithIdentifier(ProfileEditViewControllerIdentifier) as! ProfileEditViewController
-                let editVM = self?.profileVM.profileEditViewModel
-                viewController.bindToViewModel(editVM!)
-                self?.navigationController?.pushViewController(viewController, animated: true)
-                sendCompleted(sink)
-            }
-        }
-        btn.addTarget(editAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchDown)
-    }
-    
-    public func bindViewModel(viewmodel: ProfileViewModel) {
-        self.profileVM = viewmodel
-    }
-    
-    
-    public func changeParticipation (sender:UIButton) {
-        var buttonFrame = sender.convertRect(sender.bounds, toView: self.tableView)
-        var indexPath = self.tableView.indexPathForRowAtPoint(buttonFrame.origin)
-        self.selectedBusinessChoiceIndex = indexPath!.row
-        self.presentPopover()
-    }
-    
-    public func presentPopover () {
-        var popover = ParticipationPopover()
-        popover.delegate = self
-        var alert: (UIAlertController) = popover.createPopover()
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    
+    // MARK: - Others
 }
 
 
@@ -195,19 +180,12 @@ extension ProfileViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var businessCell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as? ProfileBusinessCell
-        if businessCell == nil {
-            businessCell = NSBundle.mainBundle().loadNibNamed("ProfileBusinessCell", owner: self, options: nil)[0] as? ProfileBusinessCell
-        }
+        var businessCell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! ProfileBusinessCell
+        businessCell.bindViewModel(profileVM.profileBusinessViewModelArr.value[indexPath.row])
         
-        businessCell!.bindViewModel(profileVM.profileBusinessViewModelArr.value[indexPath.row])
-        
-        
-        return businessCell!
+        return businessCell
         
     }
-
-    
     
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch (indexPath.row){
@@ -222,39 +200,9 @@ extension ProfileViewController : UITableViewDataSource, UITableViewDelegate {
 *  UITableViewDelegate
 */
 extension ProfileViewController : UITableViewDelegate {
-    /**
-    Tells the delegate that the specified row is now selected.
-    
-    :param: tableView A table-view object informing the delegate about the new row selection.
-    :param: indexPath An index path locating the new selected row in tableView.
-    */
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    }
     
     public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         
         return true
-    }
-    
-    
-    // MARK: delete cells
-    public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        
-        if (editingStyle == UITableViewCellEditingStyle.Delete){
-            profileVM.undoParticipation(indexPath.row)
-                |> start()
-            profileVM.profileBusinessViewModelArr.value.removeAtIndex(indexPath.row);
-//          [self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)]
-            self.tableView.reloadData()
-        }
-        
-    }
-}
-
-
-extension ProfileViewController : ParticipationPopoverDelegate {
-    //switch the participation icon based on the selection from the popover
-    public func alertAction(choiceTag: Int) {
-        self.tableView.reloadData()
     }
 }

@@ -10,38 +10,33 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 
-class ProfileBusinessCell: UITableViewCell {
+public final class ProfileBusinessCell: UITableViewCell {
     
-    // MARK: UI Controls
+    // MARK: - UI Controls
     @IBOutlet private weak var businessImageView: UIImageView!
     @IBOutlet private weak var businessNameLabel: UILabel!
     @IBOutlet private weak var popularityLabel: UILabel!
-    
     @IBOutlet private weak var cityLabel: UILabel!
-    
     @IBOutlet private weak var distanceLabel: UILabel!
     
     
-    // MARK: property
+    // MARK: - Properties
     private var viewModel: ProfileBusinessViewModel!
     
     
-    // MARK: initialize
-    override func awakeFromNib() {
+    // MARK: - Setups
+    public override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = UITableViewCellSelectionStyle.None
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
     
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
     
-    // MARK: bind to view model
-    func bindViewModel(viewmodel: ProfileBusinessViewModel) {
+    // MARK: - Bindings
+    public func bindViewModel(viewmodel: ProfileBusinessViewModel) {
         self.viewModel = viewmodel
+        
         businessNameLabel.rac_text <~ viewmodel.businessName
         cityLabel.rac_text <~ viewmodel.city
         popularityLabel.rac_text <~ viewmodel.participation
@@ -50,7 +45,7 @@ class ProfileBusinessCell: UITableViewCell {
             |> ignoreNil
             |> start (next: { [weak self] in
                 self?.businessImageView.setImageWithAnimation($0)
-                })
+            })
     }
 
 }

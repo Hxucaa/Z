@@ -9,13 +9,12 @@
 import Foundation
 import ReactiveCocoa
 import AVOSCloud
-import Dollar
 
-public struct ProfileViewModel : IProfileViewModel {
+public final class ProfileViewModel : IProfileViewModel {
     
-    public var nickname: MutableProperty<String> = MutableProperty("")
-    public var profileEditViewModel: ProfileEditViewModel
-    public var user: MutableProperty<User> = MutableProperty(User())
+    public let nickname: MutableProperty<String> = MutableProperty("")
+    public let profileEditViewModel: ProfileEditViewModel
+    public let user = MutableProperty<User?>(nil)
     public let profileHeaderViewModel = MutableProperty<ProfileHeaderViewModel?>(nil)
     
     // MARK: Private variables
@@ -26,11 +25,12 @@ public struct ProfileViewModel : IProfileViewModel {
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
     private let imageService: IImageService
-    private var participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
+    private let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
     
     
     public let profileBusinessViewModelArr: MutableProperty<[ProfileBusinessViewModel]> = MutableProperty([ProfileBusinessViewModel]())
     public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
+    private let businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
     
     
     public init(router: IRouter, participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
@@ -47,7 +47,7 @@ public struct ProfileViewModel : IProfileViewModel {
         self.userService.currentLoggedInUser()
             |> start(
                 next: { user in
-                    self.user = MutableProperty(user)
+                    self.user.put(user)
                     var viewmodel = ProfileHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, name: user.nickname, city: "", district: "", horoscope: user.horoscope, ageGroup: user.ageGroup, cover: user.profileImg, geopoint: user.latestLocation)
                     self.profileHeaderViewModel.put(viewmodel)
                     self.getParticipations(user)
@@ -57,24 +57,24 @@ public struct ProfileViewModel : IProfileViewModel {
     }
     
     
-    public func getParticipations(user : User) -> SignalProducer<[ProfileBusinessViewModel], NSError> {
+    private func getParticipations(user : User) -> SignalProducer<[ProfileBusinessViewModel], NSError> {
         let query = Participation.query()!
-        query.whereKey(Participation.Property.User.rawValue, equalTo: user)
-        query.includeKey("business")
+        typealias Property = Participation.Property
+        query.whereKey(Property.User.rawValue, equalTo: user)
+        query.includeKey(Property.Business.rawValue)
+        
         return participationService.findBy(query)
             |> on(next: { participations in
                 self.fetchingData.put(true)
+                self.participationArr.put(participations)
+                self.businessArr.put(participations.map { $0.business })
             })
             |> map { participations -> [ProfileBusinessViewModel] in
-                // shuffle and save the participations
-                self.participationArr.put($.shuffle(participations))
 
-                // map the business models to viewmodels
-                return self.participationArr.value.map {
-                    var viewmodel: ProfileBusinessViewModel = ProfileBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: "", city: "", district: "", cover: nil, geopoint: nil, participationCount: 0)
-                    if let business = $0.objectForKey("business") as? Business{
-                        viewmodel = ProfileBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: business.nameSChinese, city: business.city, district: business.district, cover: business.cover, geopoint: business.geopoint, participationCount: business.wantToGoCounter)
-                    }
+                // map participation to its view model
+                return participations.map {
+                    let business = $0.business
+                    let viewmodel = ProfileBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: business.nameSChinese, city: business.city, district: business.district, cover: business.cover, geopoint: business.geopoint, participationCount: business.wantToGoCounter)
                     return viewmodel
                 }
             }
@@ -83,17 +83,22 @@ public struct ProfileViewModel : IProfileViewModel {
                     self.profileBusinessViewModelArr.put(response)
                     self.fetchingData.put(false)
                 },
-                error: { FeaturedLogError($0.description)}
-        )
+                error: { ProfileLogError($0.customErrorDescription) }
+            )
     }
     
     public func undoParticipation(index: Int) -> SignalProducer<Bool, NSError>{
         return participationService.delete(participationArr.value[index])
-            |> on(completed: {
-                ProfileLogInfo("participation backend completed")
-                self.participationArr.value.removeAtIndex(index)
+            |> on(
+                next: { _ in
+                    ProfileLogInfo("participation backend completed")
+                    self.participationArr.value.removeAtIndex(index)
                 }
-        )
+            )
     
+    }
+    
+    public func pushDetailModule(section: Int) {
+        router.pushDetail(businessArr.value[section])
     }
 }

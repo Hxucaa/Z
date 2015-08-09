@@ -47,10 +47,13 @@ public struct ProfileBusinessViewModel {
         
         participation.put("\(participationCount)+ 人想去")
         
-        imageService.getImage(NSURL(string: "http://lasttear.com/wp-content/uploads/2015/03/interior-design-ideas-furniture-architecture-mesmerizing-chinese-restaurant-interior-with-red-nuance-inspiring.jpg")!)
-            |> start(next: {
-                self.coverImage.put($0)
-            })
+        
+        if let url = cover?.url, nsurl = NSURL(string: url) {
+            imageService.getImage(nsurl)
+                |> start(next: {
+                    self.coverImage.put($0)
+                })
+        }
     }
     
     // MARK: - Private

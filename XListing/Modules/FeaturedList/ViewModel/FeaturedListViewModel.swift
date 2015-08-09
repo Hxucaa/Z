@@ -88,5 +88,5 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
     private let imageService: IImageService
-    private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
+    private let businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
 }
