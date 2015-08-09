@@ -52,6 +52,7 @@ public final class FeaturedBusinessViewModel {
                 })
         }
     }
+    // "http://lasttear.com/wp-content/uploads/2015/03/interior-design-ideas-furniture-architecture-mesmerizing-chinese-restaurant-interior-with-red-nuance-inspiring.jpg"
     
     // MARK: - Private
     
