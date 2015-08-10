@@ -1,24 +1,26 @@
 //
-//  FeaturedBusinessViewModel.swift
+//  ProfileBusinessViewModel.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-06-18.
+//  Created by Anson on 2015-07-24.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import Foundation
 import ReactiveCocoa
 import AVOSCloud
+import Dollar
 
-public final class FeaturedBusinessViewModel {
+public struct ProfileBusinessViewModel {
     
+    // MARK: Property
     public let businessName: ConstantProperty<String>
     public let city: ConstantProperty<String>
-    public let eta: MutableProperty<String> = MutableProperty("")
+    public let popularity: MutableProperty<String> = MutableProperty("")
     public let district: ConstantProperty<String>
     public let coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
-    public let isCoverImageConsumed = MutableProperty<Bool>(false)
     public let participation: MutableProperty<String> = MutableProperty("")
+    public let eta: MutableProperty<String> = MutableProperty("")
     
     public init(geoLocationService: IGeoLocationService, imageService: IImageService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int) {
         self.geoLocationService = geoLocationService
@@ -45,14 +47,14 @@ public final class FeaturedBusinessViewModel {
         
         participation.put("\(participationCount)+ 人想去")
         
+        
         if let url = cover?.url, nsurl = NSURL(string: url) {
-            self.imageService.getImage(nsurl)
+            imageService.getImage(nsurl)
                 |> start(next: {
                     self.coverImage.put($0)
                 })
         }
     }
-    // "http://lasttear.com/wp-content/uploads/2015/03/interior-design-ideas-furniture-architecture-mesmerizing-chinese-restaurant-interior-with-red-nuance-inspiring.jpg"
     
     // MARK: - Private
     
@@ -67,8 +69,8 @@ public final class FeaturedBusinessViewModel {
             |> start(next: { interval in
                 let minute = Int(ceil(interval / 60))
                 self.eta.put(" \(CITY_DISTANCE_SEPARATOR) 开车\(minute)分钟")
-            }, error: { error in
-                FeaturedLogError(error.description)
+                }, error: { error in
+                    FeaturedLogError(error.description)
             })
     }
 }

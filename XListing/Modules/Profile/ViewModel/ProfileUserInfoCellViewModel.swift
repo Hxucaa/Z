@@ -11,10 +11,10 @@ import ReactiveCocoa
 
 public final class ProfileUserInfoCellViewModel {
     
+    // MARK: - Outputs
     public let nickname: ConstantProperty<String?>
-//    public let horoscope: ConstantProperty<String>
-//    public let ageGtoup: ConstantProperty<String>
     
+    // MARK: - Initializers
     public init(currentUser: User) {
         nickname = ConstantProperty(currentUser.nickname)
     }
