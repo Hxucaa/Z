@@ -19,8 +19,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     
     // MARK: Properties
-    private var infoViewContent: InfoPanel
-    private var participationViewContent: ParticipationView
+    private var infoViewContent: InfoPanel!
+    private var participationViewContent: ParticipationView!
     private var viewmodel: FeaturedBusinessViewModel!
     private let compositeDisposable = CompositeDisposable()
     /// whether this instance of cell has been reused
@@ -60,8 +60,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     public func bindViewModel(viewmodel: FeaturedBusinessViewModel) {
         self.viewmodel = viewmodel
         
-        infoViewContent.name.rac_text <~ viewmodel.businessName.producer
-            |> takeUntilPrepareForReuse(self)
+//        self.infoViewContent.name.rac_text <~ viewmodel.businessName.producer
+//           |> takeUntilPrepareForReuse(self)
 //
 //        cityLabel.rac_text <~ viewmodel.city.producer
 //            |> takeUntilPrepareForReuse(self)
