@@ -9,9 +9,23 @@
 import Foundation
 import UIKit
 import XAssets
+import ReactiveCocoa
 
 public final class BoyButton : UIButton {
-    public override func drawRect(rect: CGRect) {
-        AssetsKit.drawMaleIcon()
+    
+    public override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        setImage(AssetsKit.imageOfMaleIcon, forState: UIControlState.Normal)
+        tintColor = AssetsKit.maleIconFill
+        
+        let tapped = Action<UIButton, Void, NoError> { button in
+            return SignalProducer { sink, disposable in
+                button.selected = !button.selected
+                sendCompleted(sink)
+            }
+        }
+        
+        addTarget(tapped.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
 }

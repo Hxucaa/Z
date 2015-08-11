@@ -61,6 +61,7 @@ public final class GenderPickerView : UIView {
         let boy = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
                 self?.viewmodel.value?.gender.put(Gender.Male)
+                self?.girlButton.selected = false
                 sendCompleted(sink)
             }
         }
@@ -70,6 +71,7 @@ public final class GenderPickerView : UIView {
         let girl = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
                 self?.viewmodel.value?.gender.put(Gender.Female)
+                self?.boyButton.selected = false
                 sendCompleted(sink)
             }
         }

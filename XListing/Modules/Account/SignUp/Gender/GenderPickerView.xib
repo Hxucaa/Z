@@ -22,17 +22,18 @@
                     <color key="shadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="0.0" height="0.0"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6y-DW-pue" userLabel="Girl Button" customClass="GirlButton" customModule="XListing" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6y-DW-pue" userLabel="Girl Button" customClass="GirlButton" customModule="XListing" customModuleProvider="target">
                     <rect key="frame" x="137" y="0.0" width="35" height="38"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="35" id="G1H-8t-UTw"/>
                         <constraint firstAttribute="height" constant="38" id="wGz-C5-Hzl"/>
                     </constraints>
+                    <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ud-Q9-t1b" userLabel="Boy Button" customClass="BoyButton" customModule="XListing" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" highlighted="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ud-Q9-t1b" userLabel="Boy Button" customClass="BoyButton" customModule="XListing" customModuleProvider="target">
                     <rect key="frame" x="17" y="0.0" width="35" height="38"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="38" id="dZ3-fd-ins"/>
@@ -44,6 +45,7 @@
                 </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="b6y-DW-pue" firstAttribute="leading" secondItem="jXV-Dx-T0b" secondAttribute="trailing" constant="40" id="67I-vC-cbv"/>
                 <constraint firstAttribute="centerY" secondItem="jXV-Dx-T0b" secondAttribute="centerY" id="8v5-Jj-yfE"/>
@@ -60,7 +62,7 @@
                 <outlet property="boyButton" destination="2ud-Q9-t1b" id="yCe-YB-Xey"/>
                 <outlet property="girlButton" destination="b6y-DW-pue" id="EDx-h9-lh3"/>
             </connections>
-            <point key="canvasLocation" x="202" y="197.5"/>
+            <point key="canvasLocation" x="202" y="197"/>
         </view>
     </objects>
 </document>
