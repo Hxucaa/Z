@@ -142,6 +142,20 @@ public final class AccountViewController: XUIViewController {
                     
                     sendCompleted(sink)
                 })
+            
+            compositeDisposable += this.signUpView.presentUIImagePickerProxy
+                |> logLifeCycle(LogContext.Account, "signUpView.presentUIImagePickerProxy")
+                |> start(next: { imagePicker in
+                    // present image picker
+                    self?.presentViewController(imagePicker, animated: true, completion: nil)
+                })
+            
+            compositeDisposable += this.signUpView.dismissUIImagePickerProxy
+                |> logLifeCycle(LogContext.Account, "signUpView.dismissUIImagePickerProxy")
+                |> start(next: { handler in
+                    // dismiss image picker
+                    self?.dismissViewControllerAnimated(true, completion: handler)
+                })
         }
     }
         |> logLifeCycle(LogContext.Account, "signUp")

@@ -12,21 +12,21 @@ import ReactiveCocoa
 public final class PhotoViewModel {
     
     // MARK: - Input
-    public let photo = MutableProperty<UIImage?>(nil)
+    public let profileImage = MutableProperty<UIImage?>(UIImage(named: ImageAssets.profilepicture))
     
     // MARK: - Output
-    public let isPhotoValid = MutableProperty<Bool>(false)
+    public let isProfileImageValid = MutableProperty<Bool>(false)
     
     // MARK: - Variables
-    public let validPhotoSignal: SignalProducer<UIImage, NoError>
+    public let validProfileImageSignal: SignalProducer<UIImage, NoError>
     
     
     // MARK: - Initializers
     public init() {
-        validPhotoSignal = photo.producer
+        validProfileImageSignal = profileImage.producer
             |> ignoreNil
 
-        isPhotoValid <~ validPhotoSignal
+        isProfileImageValid <~ validProfileImageSignal
             |> map { _ in true }
     }
     

@@ -87,7 +87,7 @@ public final class EditInfoView : UIView {
                         sendNext(this._dismissUIImagePickerSink, { self?.setupImageSelectedSignal() })
                     }
                 }
-        )
+            )
     }
     
     private func setupImagePickerButton() {

@@ -80,7 +80,9 @@ public final class GenderPickerView : UIView {
             |> logLifeCycle(LogContext.Account, "viewmodel.producer")
             |> ignoreNil
             |> start(next: { [weak self] viewmodel in
-                
+                if let this = self {
+                    this._continueButton.rac_enabled <~ viewmodel.isGenderValid
+                }
             })
     }
     

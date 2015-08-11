@@ -70,6 +70,8 @@ public final class SignUpView : UIView {
             setup: { [weak self] view in
                 if let this = self {
                     
+                    this.backButton.hidden = true
+                    
                     this.installSubviewButton(view.continueButton)
                     
                     transitionDisposable += view.viewmodel <~ this.viewmodel.producer
@@ -101,6 +103,8 @@ public final class SignUpView : UIView {
             setup: { [weak self] view in
                 if let this = self {
                     
+                    this.backButton.hidden = true
+                    
                     this.installSubviewButton(view.continueButton)
                     
                     transitionDisposable += view.viewmodel <~ this.viewmodel.producer
@@ -131,6 +135,8 @@ public final class SignUpView : UIView {
             setup: { [weak self] view in
                 
                 if let this = self {
+                    
+                    this.backButton.hidden = true
                     
                     this.installSubviewButton(view.continueButton)
                     
@@ -164,14 +170,96 @@ public final class SignUpView : UIView {
                 
                 if let this = self {
                     
+                    this.backButton.hidden = true
+                    
                     this.installSubviewButton(view.doneButton)
                     
                     transitionDisposable += view.viewmodel <~ this.viewmodel.producer
                         |> ignoreNil
                         |> map { $0.photoViewModel }
                     
+                    transitionDisposable += view.presentUIImagePickerProxy
+                        |> logLifeCycle(LogContext.Account, "photoTransition.presentUIImagePickerProxy")
+                        |> start(next: { imagePicker in
+                            // present image picker
+                            proxyNext(this._presentUIImagePickerSink, imagePicker)
+                        })
+                    
+                    transitionDisposable += view.dismissUIImagePickerProxy
+                        |> logLifeCycle(LogContext.Account, "photoTransition.dismissUIImagePickerProxy")
+                        |> start(next: { handler in
+                            // dismiss image picker
+                            proxyNext(this._dismissUIImagePickerSink, handler)
+                        })
+                    
                     transitionDisposable += view.doneProxy
                         |> logLifeCycle(LogContext.Account, "photoView.doneProxy")
+                        |> promoteErrors(NSError)
+                        |> flatMap(FlattenStrategy.Concat) { _ in
+                            return SignalProducer<Void, NSError> { sink, disposable in
+                                
+                                if let this = self {
+                                    
+                                    // Update profile and show the HUD
+                                    disposable += SignalProducer<Void, NoError>.empty
+                                        // delay the signal due to the animation of retracting keyboard
+                                        // this cannot be executed on main thread, otherwise UI will be blocked
+                                        |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                                        // return the signal to main/ui thread in order to run UI related code
+                                        |> observeOn(UIScheduler())
+                                        |> then(HUD.show())
+                                        // map error to the same type as other signal
+                                        |> promoteErrors(NSError)
+                                        // update profile
+                                        |> then(this.viewmodel.value!.updateProfile)
+                                        // dismiss HUD based on the result of update profile signal
+                                        |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
+                                            AccountLogError(error.description)
+                                            return error.customErrorDescription
+                                        })
+                                        // does not `sendCompleted` because completion is handled when HUD is disappeared
+                                        |> start(
+                                            error: { error in
+                                                sendError(sink, error)
+                                            },
+                                            interrupted: { _ in
+                                                sendInterrupted(sink)
+                                            }
+                                    )
+                                    
+                                    // Subscribe to touch down inside event
+                                    disposable += HUD.didTouchDownInsideNotification()
+                                        |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                                        |> start(
+                                            next: { _ in
+                                                // dismiss HUD
+                                                HUD.dismiss()
+                                            }
+                                    )
+                                    
+                                    // Subscribe to disappear notification
+                                    disposable += HUD.didDissappearNotification()
+                                        |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                                        |> start(next: { status in
+                                            if status == HUD.DisappearStatus.Normal {
+                                                proxyNext(this._finishSignUpSink, ())
+                                            }
+                                            
+                                            // completes the action
+                                            sendNext(sink, ())
+                                            sendCompleted(sink)
+                                        })
+                                    
+                                    // Add the signals to CompositeDisposable for automatic memory management
+                                    disposable.addDisposable {
+                                        AccountLogVerbose("Update profile action is disposed.")
+                                    }
+                                    
+                                    // retract keyboard
+                                    self?.endEditing(true)
+                                }
+                            }
+                        }
                         |> start(next: {
                             
                         })
@@ -188,7 +276,6 @@ public final class SignUpView : UIView {
     
     // MARK: Bottom Stack
     @IBOutlet private weak var bottomStack: UIView!
-    @IBOutlet private weak var confirmButton: UIButton!
     
     // MARK: - Proxies
     
@@ -204,58 +291,68 @@ public final class SignUpView : UIView {
         return _finishSignUpProxy
     }
     
+    /// Present UIImage Picker Controller
+    public var presentUIImagePickerProxy: SignalProducer<UIImagePickerController, NoError> {
+        return _presentUIImagePickerProxy
+    }
+    private let (_presentUIImagePickerProxy, _presentUIImagePickerSink) = SignalProducer<UIImagePickerController, NoError>.proxy()
+    
+    /// Dismiss UIImage Picker Controller
+    public var dismissUIImagePickerProxy: SignalProducer<CompletionHandler?, NoError> {
+        return _dismissUIImagePickerProxy
+    }
+    private let (_dismissUIImagePickerProxy, _dismissUIImagePickerSink) = SignalProducer<CompletionHandler?, NoError>.proxy()
+    
     // MARK: - Properties
     private let viewmodel = MutableProperty<SignUpViewModel?>(nil)
     private let compositeDisposable = CompositeDisposable()
-    private var transitionManager: TransitionManager!
-    
-    // MARK: - Setups
-    public override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        transitionManager = TransitionManager(
-            initial: usernameAndPasswordTransition.transitionActor,
-            followUps: [
-                nicknameTransition.transitionActor,
-                genderPickerTransition.transitionActor,
-                birthdayPickerTransition.transitionActor,
-                photoTransition.transitionActor
-            ]
-            ) { [weak self] (current, next) in
-                if let this = self {
-                    
-                    current.view.removeFromSuperview()
-                    current.runCleanUp()
-                    next.runSetup()
-                    self?.midStack.addSubview(next.view)
-                    self?.centerInSuperview(this.midStack, subview: next.view)
-                    next.runAfterTransition()
-                    // transition animation
+    private lazy var transitionManager: TransitionManager = TransitionManager(
+        initial: self.usernameAndPasswordTransition.transitionActor,
+        followUps: [
+            self.nicknameTransition.transitionActor,
+            self.genderPickerTransition.transitionActor,
+//            self.birthdayPickerTransition.transitionActor,
+            self.photoTransition.transitionActor
+        ],
+        initialTransformation: { [weak self] transition in
+            if let this = self, midStack = self?.midStack {
+                // display the usernameAndPassword view as the first
+                transition.runSetup()
+                // transition animation
+                midStack.addSubview(transition.view)
+                this.centerInSuperview(midStack, subview: transition.view)
+            }
+        },
+        transformation: { [weak self] (current, next) in
+            if let this = self {
+                
+                current.view.removeFromSuperview()
+                current.runCleanUp()
+                next.runSetup()
+                self?.midStack.addSubview(next.view)
+                self?.centerInSuperview(this.midStack, subview: next.view)
+                next.runAfterTransition()
+                // transition animation
 //                    this.animateTransition(current.view, toView: next.view) { success in
 //
 //                        if let afterTransition = next.afterTransition where success {
 //                            afterTransition()
 //                        }
 //                    }
-                }
-                
+            }
         }
-
-        
-        confirmButton.layer.masksToBounds = true
-        confirmButton.layer.cornerRadius = 8
+    )
+    
+    // MARK: - Setups
+    public override func awakeFromNib() {
+        super.awakeFromNib()
         
         setupBackButton()
         
         /**
         Setup view transition.
         */
-        
-        // display the usernameAndPassword view as the first
-        usernameAndPasswordTransition.transitionActor.runSetup()
-        // transition animation
-        midStack.addSubview(usernameAndPasswordTransition.view)
-        centerInSuperview(midStack, subview: usernameAndPasswordTransition.view)
+        transitionManager.installInitial()
     }
     
     private func setupBackButton () {
@@ -279,16 +376,9 @@ public final class SignUpView : UIView {
         AccountLogVerbose("Sign Up View deinitializes.")
     }
     
-    // MARK: Bindings
+    // MARK: - Bindings
     public func bindToViewModel(viewmodel: SignUpViewModel) {
-//        self.viewmodel = viewmodel
         self.viewmodel.put(viewmodel)
-        
-        
-        // bind signals
-        
-        // TODO: implement different validation for different input fields.
-        confirmButton.rac_enabled <~ viewmodel.allInputsValid
     }
     
     // MARK: - Others

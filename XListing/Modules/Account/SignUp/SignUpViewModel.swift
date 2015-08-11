@@ -25,8 +25,6 @@ public final class SignUpViewModel {
     public lazy var usernameAndPasswordViewModel: UsernameAndPasswordViewModel = { [unowned self] in
         let viewmodel = UsernameAndPasswordViewModel()
         
-        self.allInputsValid <~ viewmodel.allInputsValid
-        
         return viewmodel
     }()
     
@@ -52,7 +50,6 @@ public final class SignUpViewModel {
         let viewmodel = BirthdayPickerViewModel()
         
         self.birthday <~ viewmodel.validBirthdaySignal
-        self.allInputsValid <~ viewmodel.isBirthdayValid
         
         return viewmodel
     }()
@@ -60,7 +57,7 @@ public final class SignUpViewModel {
     public lazy var photoViewModel: PhotoViewModel = { [unowned self] in
         let viewmodel = PhotoViewModel()
         
-        self.photo <~ viewmodel.validPhotoSignal
+        self.photo <~ viewmodel.validProfileImageSignal
             |> map { Optional<UIImage>($0) }
         
         return viewmodel
@@ -82,6 +79,29 @@ public final class SignUpViewModel {
 //                return self.userService.signUp(user)
                 return SignalProducer<Bool, NSError> { sink, disposable in
                     sendNext(sink, true)
+                }
+        }
+    }
+    
+    public var updateProfile: SignalProducer<Bool, NSError> {
+        return self.allInputsValid.producer
+            // only allow TRUE value
+            |> filter { $0 }
+            |> promoteErrors(NSError)
+            |> flatMap(.Latest) { _ in self.userService.currentLoggedInUser() }
+            |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
+                return combineLatest(self.nickname.producer, self.birthday.producer, self.photo.producer |> ignoreNil, self.gender.producer |> ignoreNil)
+                    |> promoteErrors(NSError)
+                    |> flatMap(.Latest) { (nickname, birthday, profileImage, gender) -> SignalProducer<Bool, NSError> in
+                        let imageData = UIImagePNGRepresentation(profileImage)
+                        let file = AVFile.fileWithName("profile.png", data: imageData) as! AVFile
+                        user.nickname = nickname
+                        user.birthday = birthday
+                        user.profileImg = file
+                        user.gender = gender.rawValue
+                        user.ageGroup = ""
+                        user.horoscope = ""
+                        return self.userService.save(user)
                 }
         }
     }

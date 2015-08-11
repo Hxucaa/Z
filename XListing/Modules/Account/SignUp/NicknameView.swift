@@ -67,8 +67,7 @@ public final class NicknameView : UIView {
                 if let this = self {
                     viewmodel.nickname <~ this.nicknameField.rac_text
                     
-                    // TODO: implement different validation for different input fields.
-                    //        confirmButton.rac_enabled <~ viewmodel.allInputsValid
+                    this.continueButton.rac_enabled <~ viewmodel.isNicknameValid
                 }
             })
     }

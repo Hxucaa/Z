@@ -47,8 +47,8 @@ public final class BirthdayPickerView : UIView {
                     proxyNext(this._continueSink, ())
                     sendCompleted(sink)
                 }
-                }
-                |> logLifeCycle(LogContext.Account, "continueButton Continue Action")
+            }
+            |> logLifeCycle(LogContext.Account, "continueButton Continue Action")
         }
         
         continueButton.addTarget(continueAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
@@ -87,6 +87,10 @@ public final class BirthdayPickerView : UIView {
                 )
                 picker.hideCancel = true
                 picker.showActionSheetPicker()
+                
+                if let this = self {
+                    this._continueButton.rac_enabled <~ viewmodel.isBirthdayValid
+                }
             })
         
     }

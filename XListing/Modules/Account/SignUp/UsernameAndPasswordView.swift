@@ -131,7 +131,7 @@ public final class UsernameAndPasswordView : UIView {
                     viewmodel.password <~ this.passwordField.rac_text
                     
                     // TODO: implement different validation for different input fields.
-                    //        confirmButton.rac_enabled <~ viewmodel.allInputsValid
+                    this._signUpButton.rac_enabled <~ viewmodel.allInputsValid
                 }
                 
             })

@@ -66,30 +66,7 @@
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vEs-Cx-qC5" userLabel="Bottom Stack">
                     <rect key="frame" x="0.0" y="277" width="600" height="323"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wSW-Xh-HFl">
-                            <rect key="frame" x="168" y="8" width="265" height="60"/>
-                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.14999999999999999" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="60" id="1co-uY-QlG"/>
-                                <constraint firstAttribute="width" constant="265" id="wgP-2J-cHQ"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="19"/>
-                            <state key="normal" title="注 册">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                        </button>
-                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="centerX" secondItem="wSW-Xh-HFl" secondAttribute="centerX" id="8V9-sH-AHk"/>
-                        <constraint firstItem="wSW-Xh-HFl" firstAttribute="top" secondItem="vEs-Cx-qC5" secondAttribute="top" constant="8" id="aMj-Pt-A06"/>
-                    </constraints>
-                    <variation key="default">
-                        <mask key="subviews">
-                            <exclude reference="wSW-Xh-HFl"/>
-                        </mask>
-                    </variation>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -114,7 +91,6 @@
             <connections>
                 <outlet property="backButton" destination="KLv-sg-e4n" id="2XG-9W-KdP"/>
                 <outlet property="bottomStack" destination="vEs-Cx-qC5" id="8md-MW-6Eq"/>
-                <outlet property="confirmButton" destination="wSW-Xh-HFl" id="wfL-J0-5Wh"/>
                 <outlet property="midStack" destination="to8-OD-bQ8" id="qiz-dq-wrF"/>
                 <outlet property="primaryLabel" destination="ITg-JO-3M1" id="qvJ-o3-p1H"/>
                 <outlet property="secondaryLabel" destination="YKV-Hx-EeS" id="JvA-FF-nls"/>
