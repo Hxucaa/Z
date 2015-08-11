@@ -68,6 +68,9 @@ public final class PhotoView : UIView {
         
         setupImageSelectedSignal()
         
+        photoImageView.layer.cornerRadius = photoImageView.frame.width / 2
+        photoImageView.layer.masksToBounds = true
+        
         
         let tapGesture = UITapGestureRecognizer()
         tapGesture.numberOfTapsRequired = 1
