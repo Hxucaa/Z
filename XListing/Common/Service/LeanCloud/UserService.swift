@@ -105,7 +105,7 @@ public final class UserService : IUserService {
                     user.saveInBackgroundWithBlock { (success, error) -> Void in
                         if error == nil {
                             LSLogDebug("save profile return success")
-                            sendCompleted(sink)
+                            sendNext(sink, success)
                         }
                         else {
                             sendError(sink, error)
