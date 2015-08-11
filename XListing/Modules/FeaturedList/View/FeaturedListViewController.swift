@@ -37,6 +37,10 @@ public final class FeaturedListViewController: XUIViewController {
         setupProfileButton()
         
         tableView.dataSource = self
+        
+        let nib = UINib(nibName: "FeaturedListBusinessTableViewCell", bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: CellIdentifier)
+        
     }
     
     public override func didReceiveMemoryWarning() {
