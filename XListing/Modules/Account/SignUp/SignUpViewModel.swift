@@ -52,6 +52,7 @@ public final class SignUpViewModel {
         let viewmodel = BirthdayPickerViewModel()
         
         self.birthday <~ viewmodel.validBirthdaySignal
+        self.allInputsValid <~ viewmodel.isBirthdayValid
         
         return viewmodel
     }()
@@ -67,7 +68,7 @@ public final class SignUpViewModel {
     
     private let userService: IUserService
     
-    // MARK: Actions
+    // MARK: - API
     public var signUp: SignalProducer<Bool, NSError> {
         return self.allInputsValid.producer
             // only allow TRUE value

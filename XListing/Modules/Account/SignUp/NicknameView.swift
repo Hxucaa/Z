@@ -15,6 +15,10 @@ public final class NicknameView : UIView {
     
     // MARK: - UI Controls
     @IBOutlet private weak var nicknameField: UITextField!
+    private let _continueButton = RoundedButton()
+    public var continueButton: RoundedButton {
+        return _continueButton
+    }
     
     // MARK: - Properties
     public let viewmodel = MutableProperty<NicknameViewModel?>(nil)
@@ -30,6 +34,20 @@ public final class NicknameView : UIView {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
+        _continueButton.setTitle("继 续", forState: .Normal)
+        
+        let continueAction = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { sink, disposable in
+                if let this = self {
+                    proxyNext(this._continueSink, ())
+                    sendCompleted(sink)
+                }
+            }
+            |> logLifeCycle(LogContext.Account, "continueButton Continue Action")
+        }
+        
+        continueButton.addTarget(continueAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        
         /**
         Setup constraints
         */
@@ -42,8 +60,9 @@ public final class NicknameView : UIView {
         nicknameField.becomeFirstResponder()
         
         compositeDisposable += viewmodel.producer
-            |> ignoreNil
+            |> takeUntilRemoveFromSuperview(self)
             |> logLifeCycle(LogContext.Account, "viewmodel.producer")
+            |> ignoreNil
             |> start(next: { [weak self] viewmodel in
                 if let this = self {
                     viewmodel.nickname <~ this.nicknameField.rac_text
@@ -81,7 +100,7 @@ extension NicknameView : UITextFieldDelegate {
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == nicknameField {
             nicknameField.resignFirstResponder()
-            sendNext(_continueSink, ())
+            _continueButton.sendActionsForControlEvents(.TouchUpInside)
         }
         
         return false

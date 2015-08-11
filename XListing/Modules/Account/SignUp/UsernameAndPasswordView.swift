@@ -16,6 +16,10 @@ public final class UsernameAndPasswordView : UIView {
     // MARK: - UI Controls
     @IBOutlet private weak var usernameField: UITextField!
     @IBOutlet private weak var passwordField: UITextField!
+    private let _signUpButton = RoundedButton()
+    public var signUpButton: RoundedButton {
+        return _signUpButton
+    }
     
     // MARK: - Properties
     public let viewmodel = MutableProperty<UsernameAndPasswordViewModel?>(nil)
@@ -30,6 +34,92 @@ public final class UsernameAndPasswordView : UIView {
     // MARK: - Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
+        
+        _signUpButton.setTitle("注 册", forState: .Normal)
+        
+        let submitAction = Action<UIButton, Void, NSError> { [weak self] button in
+            return SignalProducer { sink, disposable in
+                if let this = self, viewmodel = self?.viewmodel.value {
+                    // display HUD to indicate work in progress
+                    // check for the validity of inputs first
+                    disposable += viewmodel.allInputsValid.producer
+                        // on error displays error prompt
+                        |> on(next: { validity in
+                            if !validity {
+                                // TODO: implement error prompt
+                            }
+                        })
+                        // only valid inputs can continue through
+                        |> filter { $0 }
+                        // delay the signal due to the animation of retracting keyboard
+                        // this cannot be executed on main thread, otherwise UI will be blocked
+                        |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                        // return the signal to main/ui thread in order to run UI related code
+                        |> observeOn(UIScheduler())
+                        //                        |> then(HUD.show())
+                        |> flatMap(.Latest) { _ in
+                            return HUD.show()
+                        }
+                        // map error to the same type as other signal
+                        |> promoteErrors(NSError)
+                        // sign up
+                        |> flatMap(.Latest) { _ in
+                            return viewmodel.signUp
+                        }
+                        // dismiss HUD based on the result of sign up signal
+                        |> HUD.dismissWithStatusMessage(errorHandler: { [weak self] error -> String in
+                            AccountLogError(error.description)
+                            return error.customErrorDescription
+                            })
+                        // does not `sendCompleted` because completion is handled when HUD is disappeared
+                        |> start(
+                            error: { error in
+                                sendError(sink, error)
+                            },
+                            interrupted: { _ in
+                                sendInterrupted(sink)
+                            }
+                    )
+                    
+                    // Subscribe to touch down inside event
+                    disposable += HUD.didTouchDownInsideNotification()
+                        |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                        |> start(
+                            next: { _ in
+                                // dismiss HUD
+                                HUD.dismiss()
+                                
+                                // interrupts the action
+                                // sendInterrupted(sink)
+                            }
+                    )
+                    
+                    // Subscribe to disappear notification
+                    disposable += HUD.didDissappearNotification()
+                        |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                        |> start(next: { [weak self] status in
+                            if status == HUD.DisappearStatus.Normal {
+                                
+                                // inform that submit is successful
+                                proxyNext(this._submitSink, ())
+                            }
+                            
+                            // completes the action
+                            sendNext(sink, ())
+                            sendCompleted(sink)
+                            
+                        })
+                    
+                    // retract keyboard
+                    self?.endEditing(true)
+                }
+            }
+            |> logLifeCycle(LogContext.Account, "submitButton Submit Action")
+        }
+        
+        
+        // Link UIControl event to actions
+        _signUpButton.addTarget(submitAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         
         compositeDisposable += viewmodel.producer
             |> ignoreNil
@@ -93,8 +183,6 @@ public final class UsernameAndPasswordView : UIView {
         */
         
         
-        
-        
         usernameField.delegate = self
         passwordField.delegate = self
         
@@ -127,15 +215,7 @@ extension UsernameAndPasswordView : UITextFieldDelegate {
         else if passwordField == textField {
             passwordField.resignFirstResponder()
             
-            sendNext(_submitSink, ())
-            // TODO: implement indication for invalid inputs
-//            compositeDisposable += viewmodel.allInputsValid.producer
-//                |> filter { $0 }
-//                |> start(next: { [weak self] _ in
-//                    if let this = self {
-//                        sendNext(this._submitSink, ())
-//                    }
-//                })
+            _signUpButton.sendActionsForControlEvents(.TouchUpInside)
         }
         return false
     }

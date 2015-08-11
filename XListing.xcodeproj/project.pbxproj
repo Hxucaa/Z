@@ -87,6 +87,10 @@
 		B41334F11B60F8B900B5F22D /* ReactiveCocoa+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334F01B60F8B900B5F22D /* ReactiveCocoa+extension.swift */; };
 		B42797431AFD463500AE5A90 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42797421AFD463500AE5A90 /* Router.swift */; };
 		B43032471AE4281D0068E8DF /* TypeAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43032461AE4281D0068E8DF /* TypeAliases.swift */; };
+		B4307F3E1B78C98D00E3D41B /* BoyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F3D1B78C98D00E3D41B /* BoyButton.swift */; };
+		B4307F401B78CADD00E3D41B /* GirlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F3F1B78CADD00E3D41B /* GirlButton.swift */; };
+		B4307F421B78D96F00E3D41B /* CakeIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F411B78D96F00E3D41B /* CakeIcon.swift */; };
+		B4307F441B796B4300E3D41B /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F431B796B4300E3D41B /* RoundedButton.swift */; };
 		B446A61A1B1FA88000106CAF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B446A6191B1FA88000106CAF /* Logger.swift */; };
 		B446A61C1B1FBE9000106CAF /* ASLFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B446A61B1B1FBE9000106CAF /* ASLFormatter.swift */; };
 		B44E35011AD5D0AE00657A31 /* IFeaturedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */; };
@@ -307,6 +311,10 @@
 		B41334F01B60F8B900B5F22D /* ReactiveCocoa+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ReactiveCocoa+extension.swift"; sourceTree = "<group>"; };
 		B42797421AFD463500AE5A90 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		B43032461AE4281D0068E8DF /* TypeAliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeAliases.swift; sourceTree = "<group>"; };
+		B4307F3D1B78C98D00E3D41B /* BoyButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoyButton.swift; sourceTree = "<group>"; };
+		B4307F3F1B78CADD00E3D41B /* GirlButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GirlButton.swift; sourceTree = "<group>"; };
+		B4307F411B78D96F00E3D41B /* CakeIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CakeIcon.swift; sourceTree = "<group>"; };
+		B4307F431B796B4300E3D41B /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		B446A6191B1FA88000106CAF /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		B446A61B1B1FBE9000106CAF /* ASLFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASLFormatter.swift; sourceTree = "<group>"; };
 		B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListViewModel.swift; sourceTree = "<group>"; };
@@ -589,7 +597,6 @@
 			children = (
 				D0ADD8A81B61448000B27885 /* ProfileEditingPage */,
 				D0ADD8A71B6143C200B27885 /* ProfileDisplayPage */,
-				7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */,
 				45CBB717784EC301CD7D042E /* ProfileViewController.swift */,
 				7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */,
 				26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */,
@@ -987,9 +994,12 @@
 				B33C0E041B71653B005F8410 /* NicknameView.xib */,
 				B4ECBE1F1B73ED0900234217 /* NicknameViewModel.swift */,
 				B4ECBE211B74106E00234217 /* GenderPickerView.swift */,
+				B4307F3F1B78CADD00E3D41B /* GirlButton.swift */,
+				B4307F3D1B78C98D00E3D41B /* BoyButton.swift */,
 				B33C0E061B716A3C005F8410 /* GenderPickerView.xib */,
 				B4ECBE231B7410A800234217 /* GenderPickerViewModel.swift */,
 				B4ECBE271B747F7C00234217 /* BirthdayPickerView.swift */,
+				B4307F411B78D96F00E3D41B /* CakeIcon.swift */,
 				B3FFDD7C1B716FA3003710D8 /* BirthdayPickerView.xib */,
 				B4ECBE291B747FC300234217 /* BirthdayPickerViewModel.swift */,
 				B4A3A6241B757D3B00E680E6 /* PhotoView.swift */,
@@ -997,6 +1007,7 @@
 				B4A3A6261B757DB400E680E6 /* PhotoViewModel.swift */,
 				B4ECBE251B747E5800234217 /* Transition.swift */,
 				B4A3A6221B756BED00E680E6 /* SignUpViewController.swift */,
+				B4307F431B796B4300E3D41B /* RoundedButton.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -1147,7 +1158,6 @@
 				D0ADD89E1B608B4200B27885 /* ProfileHeaderView.swift */,
 				D0ADD89F1B608B4200B27885 /* ProfileTabView.swift */,
 				D0ADD8A01B608B4200B27885 /* ProfileTabView.xib */,
-				45CBB717784EC301CD7D042E /* ProfileViewController.swift */,
 			);
 			name = ProfileDisplayPage;
 			sourceTree = "<group>";
@@ -1155,17 +1165,6 @@
 		D0ADD8A81B61448000B27885 /* ProfileEditingPage */ = {
 			isa = PBXGroup;
 			children = (
-				269163651B5C6B0C005D48FA /* PopDateViewController.xib */,
-				7E01738D1B1525DB002E154B /* EditProfileTableViewController.swift */,
-				26645ADA1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift */,
-				26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */,
-				26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */,
-				26645AD41B5A383A00ADDCD1 /* DatePickerTableViewCell.swift */,
-				26645AD61B5A400700ADDCD1 /* BirthdayTableViewCell.swift */,
-				26645ADC1B5C677E00ADDCD1 /* NicknameTableViewCell.swift */,
-				26645ADD1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift */,
-				269163641B5C6B0C005D48FA /* PopDateViewController.swift */,
-				269163681B5C6C1E005D48FA /* PopoverDatePicker.swift */,
 			);
 			name = ProfileEditingPage;
 			sourceTree = "<group>";
@@ -1268,12 +1267,10 @@
 				B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordView.xib in Resources */,
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				2632F12F1B60A4D100CA49AE /* GenderPickerViewController.xib in Resources */,
-				B4F195C61B2E0F0000B8C519 /* Default-568h@2x.png in Resources */,
 				D0ADD8A61B608B4200B27885 /* ProfileTabView.xib in Resources */,
 				269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */,
 				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
 				B4F195811B2789A100B8C519 /* Account.storyboard in Resources */,
-				2ADF3E661B1ECBA200C2971E /* DetailNavigationMapViewController.xib in Resources */,
 				D0ADD8A31B608B4200B27885 /* ProfileHeaderView.xib in Resources */,
 				269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */,
 				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
@@ -1453,6 +1450,7 @@
 				B4694E2D1B72A17E000E2006 /* UsernameAndPasswordViewModel.swift in Sources */,
 				B462BC7E1B2FA50E00070BE5 /* LandingPageViewModel.swift in Sources */,
 				B4CC82581AC0BB7400E85CEA /* RootWireframe.swift in Sources */,
+				B4307F421B78D96F00E3D41B /* CakeIcon.swift in Sources */,
 				2A9A9B9E1B1C31870010EDA9 /* DetailImageTableViewCell.swift in Sources */,
 				B48C99241ADBA4280045BCA9 /* IFeaturedListWireframe.swift in Sources */,
 				B4ECBE281B747F7C00234217 /* BirthdayPickerView.swift in Sources */,
@@ -1520,6 +1518,7 @@
 				B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */,
 				B4E70B3E1AF1735C00A7418F /* IParticipationService.swift in Sources */,
 				D0ADD8A11B608B4200B27885 /* ProfileBusinessCell.swift in Sources */,
+				B4307F3E1B78C98D00E3D41B /* BoyButton.swift in Sources */,
 				3DFA2FA11B43C19800058930 /* IWantToGoListViewModel.swift in Sources */,
 				B44E35011AD5D0AE00657A31 /* IFeaturedListViewModel.swift in Sources */,
 				B4F4AF821B6B000000ABA176 /* DetailParticipationViewModel.swift in Sources */,
@@ -1528,12 +1527,14 @@
 				B4F195B81B2C154900B8C519 /* DetailPhoneWebViewModel.swift in Sources */,
 				7EFEF7421B124B060043E076 /* IRouter.swift in Sources */,
 				B4F195BB1B2C331400B8C519 /* DetailBizInfoViewModel.swift in Sources */,
+				B4307F401B78CADD00E3D41B /* GirlButton.swift in Sources */,
 				B446A61C1B1FBE9000106CAF /* ASLFormatter.swift in Sources */,
 				3D211E881B2C1ABE00161E09 /* BackgroundLocationWorker.swift in Sources */,
 				B4E36BBB1ACE543C000F260E /* Business.swift in Sources */,
 				B462BC7A1B2F94DE00070BE5 /* UserDefaultsService.swift in Sources */,
 				B4FCC7281AE9C71F009B4DF6 /* IAccountViewModel.swift in Sources */,
 				B4E36B9E1AC1F5F1000F260E /* BaseWireframe.swift in Sources */,
+				B4307F441B796B4300E3D41B /* RoundedButton.swift in Sources */,
 				B42797431AFD463500AE5A90 /* Router.swift in Sources */,
 				3DFA2F9B1B43C13700058930 /* WantToGoListViewCell.swift in Sources */,
 				B4F195981B2AA1BF00B8C519 /* NearbyRoute.swift in Sources */,

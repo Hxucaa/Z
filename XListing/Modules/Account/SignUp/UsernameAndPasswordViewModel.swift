@@ -60,6 +60,26 @@ public final class UsernameAndPasswordViewModel {
     
     // MARK: - Setups
     
+    
+    
+    // MARK: - API
+    public var signUp: SignalProducer<Bool, NSError> {
+        return self.allInputsValid.producer
+            // only allow TRUE value
+            |> filter { $0 }
+            |> flatMap(.Concat) { _ in combineLatest(self.username.producer, self.password.producer ) }
+            |> promoteErrors(NSError)
+            |> flatMap(FlattenStrategy.Merge) { username, password -> SignalProducer<Bool, NSError> in
+                let user = User()
+                user.username = username
+                user.password = password
+                //                return self.userService.signUp(user)
+                return SignalProducer<Bool, NSError> { sink, disposable in
+                    sendNext(sink, true)
+                }
+        }
+    }
+    
     // MARK: - Others
     private func testRegex(input: String, pattern: String) -> Bool {
         if let regex = NSRegularExpression(pattern: pattern, options: nil, error: nil) {

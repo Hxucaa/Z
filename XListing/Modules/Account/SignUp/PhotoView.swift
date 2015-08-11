@@ -15,16 +15,28 @@ public final class PhotoView : UIView {
     
     // MARK: - UI Controls
     @IBOutlet private weak var photoImageView: UIImageView!
+    private let _doneButton = RoundedButton()
+    public var doneButton: RoundedButton {
+        return _doneButton
+    }
     
     // MARK: - Properties
     public let viewmodel = MutableProperty<PhotoViewModel?>(nil)
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Proxies
+    private let (_doneProxy, _doneSink) = SimpleProxy.proxy()
+    public var doneProxy: SimpleProxy {
+        return _doneProxy
+    }
     
     // MARK: - Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
+        
+        _doneButton.setTitle("完 成", forState: .Normal)
+        
+        
         
         /**
         Setup constraints

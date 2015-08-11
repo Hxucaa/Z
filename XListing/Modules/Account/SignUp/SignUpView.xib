@@ -85,6 +85,11 @@
                         <constraint firstAttribute="centerX" secondItem="wSW-Xh-HFl" secondAttribute="centerX" id="8V9-sH-AHk"/>
                         <constraint firstItem="wSW-Xh-HFl" firstAttribute="top" secondItem="vEs-Cx-qC5" secondAttribute="top" constant="8" id="aMj-Pt-A06"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="subviews">
+                            <exclude reference="wSW-Xh-HFl"/>
+                        </mask>
+                    </variation>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
