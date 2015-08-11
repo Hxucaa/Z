@@ -311,7 +311,7 @@ public final class SignUpView : UIView {
         followUps: [
             self.nicknameTransition.transitionActor,
             self.genderPickerTransition.transitionActor,
-//            self.birthdayPickerTransition.transitionActor,
+            self.birthdayPickerTransition.transitionActor,
             self.photoTransition.transitionActor
         ],
         initialTransformation: { [weak self] transition in

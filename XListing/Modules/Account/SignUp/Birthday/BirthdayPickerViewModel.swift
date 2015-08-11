@@ -16,6 +16,7 @@ public final class BirthdayPickerViewModel {
     
     // MARK: - Output
     public let isBirthdayValid = MutableProperty<Bool>(false)
+    public let birthdayText = MutableProperty<String?>(nil)
     public private(set) var 年龄上限: ConstantProperty<NSDate>!
     public private(set) var 年龄下限: ConstantProperty<NSDate>!
     
@@ -37,6 +38,14 @@ public final class BirthdayPickerViewModel {
 
         isBirthdayValid <~ validBirthdaySignal
             |> map { _ in true }
+        
+        birthdayText <~ validBirthdaySignal
+            |> map { date in
+                let formatter = NSDateFormatter()
+                formatter.locale = NSLocale(localeIdentifier: "zh_CN")
+                formatter.dateStyle = NSDateFormatterStyle.LongStyle
+                return formatter.stringFromDate(date)
+            }
     }
     
     // MARK: - Setups

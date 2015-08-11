@@ -9,6 +9,7 @@
 import Foundation
 import XAssets
 
+@IBDesignable
 public final class CakeIcon : UIView {
     public override func drawRect(rect: CGRect) {
         AssetsKit.drawCakeIcon()

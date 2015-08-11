@@ -90,6 +90,7 @@ public final class BirthdayPickerView : UIView {
                 
                 if let this = self {
                     this._continueButton.rac_enabled <~ viewmodel.isBirthdayValid
+                    this.birthdayTextField.rac_text <~ viewmodel.birthdayText
                 }
             })
         
