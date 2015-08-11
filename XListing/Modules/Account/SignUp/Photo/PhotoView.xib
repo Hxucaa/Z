@@ -10,7 +10,7 @@
             <rect key="frame" x="0.0" y="0.0" width="130" height="130"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Krh-Tf-WUX" userLabel="Profile Photo">
+                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profilepicture" translatesAutoresizingMaskIntoConstraints="NO" id="Krh-Tf-WUX" userLabel="Profile Photo">
                     <rect key="frame" x="0.0" y="0.0" width="130" height="130"/>
                 </imageView>
             </subviews>
@@ -31,4 +31,7 @@
             <point key="canvasLocation" x="341.5" y="277.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="profilepicture" width="321" height="294"/>
+    </resources>
 </document>

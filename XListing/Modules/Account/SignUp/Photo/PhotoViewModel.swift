@@ -24,6 +24,7 @@ public final class PhotoViewModel {
     // MARK: - Initializers
     public init() {
         validProfileImageSignal = profileImage.producer
+            |> skip(1)
             |> ignoreNil
 
         isProfileImageValid <~ validProfileImageSignal

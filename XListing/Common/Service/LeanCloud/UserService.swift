@@ -41,8 +41,6 @@ public final class UserService : IUserService {
     public func currentLoggedInUser() -> SignalProducer<User, NSError> {
         return SignalProducer { sink, disposable in
             if let currentUser = self.currentUser where currentUser.isAuthenticated() {
-//                let query = User.query()
-//                query.getObjectInBackgroundWithId(currentUser.objectId)
                 currentUser.fetchInBackgroundWithBlock { object, error -> Void in
                     if error == nil {
                         sendNext(sink, object as! User)
@@ -61,7 +59,7 @@ public final class UserService : IUserService {
     
     public func signUp<T: User>(user: T) -> SignalProducer<Bool, NSError> {
         return SignalProducer { sink, disposable in
-            BOLogDebug("User created: \(user.toString())")
+            LSLogDebug("User created: \(user.toString())")
             user.signUpInBackgroundWithBlock { success, error -> Void in
                 if error == nil {
                     sendNext(sink, success)
@@ -98,24 +96,25 @@ public final class UserService : IUserService {
     public func save<T: User>(user: T) -> SignalProducer<Bool, NSError> {
         return SignalProducer { sink, disposable in
             LSLogDebug("User profile created")
-            if user.profileImg != nil{
-            user.profileImg!.saveInBackgroundWithBlock{ (success, error) -> Void in
-                if error == nil {
-                    LSLogDebug("User image uploaded")
-                    user.saveInBackgroundWithBlock { (success, error) -> Void in
-                        if error == nil {
-                            LSLogDebug("save profile return success")
-                            sendCompleted(sink)
-                        }
-                        else {
-                            sendError(sink, error)
+            if let profileImg = user.profileImg {
+                profileImg.saveInBackgroundWithBlock { (success, error) -> Void in
+                    if error == nil {
+                        LSLogDebug("User image uploaded")
+                        user.saveInBackgroundWithBlock { (success, error) -> Void in
+                            if error == nil {
+                                LSLogDebug("save profile return success")
+                                sendNext(sink, success)
+                                sendCompleted(sink)
+                            }
+                            else {
+                                sendError(sink, error)
+                            }
                         }
                     }
+                    else {
+                        sendError(sink, error)
+                    }
                 }
-                else {
-                    sendError(sink, error)
-                }
-            }
             }
         }
     }

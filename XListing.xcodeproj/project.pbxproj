@@ -56,7 +56,6 @@
 		45CBBB3CCC6E72DCE005EE35 /* IProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */; };
 		45CBBDCF399C77A93D0B1C1E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB2272E6DA7ED3BDD24AE /* ProfileViewModel.swift */; };
 		6355331D984FC626C0650774 /* Pods_XListing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		7E0173881B146473002E154B /* EditInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E0173871B146473002E154B /* EditInfoView.xib */; };
 		7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */; };
 		7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */; };
 		7EACBA111AFBDC15009D8CA6 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */; };
@@ -69,7 +68,6 @@
 		7EF371571AB8C9B3009AA3B9 /* BusinessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371551AB8C9B3009AA3B9 /* BusinessSpec.swift */; };
 		7EF371581AB8C9B3009AA3B9 /* BusinessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */; };
 		7EFEF7421B124B060043E076 /* IRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7411B124B060043E076 /* IRouter.swift */; };
-		7EFEF7461B13D0900043E076 /* EditInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7451B13D0900043E076 /* EditInfoView.swift */; };
 		B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */; };
 		B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */; };
 		B33C0E051B71653B005F8410 /* NicknameView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B33C0E041B71653B005F8410 /* NicknameView.xib */; };
@@ -79,7 +77,6 @@
 		B3FFDD7D1B716FA3003710D8 /* BirthdayPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3FFDD7C1B716FA3003710D8 /* BirthdayPickerView.xib */; };
 		B3FFDD7F1B718226003710D8 /* PhotoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3FFDD7E1B718226003710D8 /* PhotoView.xib */; };
 		B40A0D8B1B22455700036986 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8A1B22455700036986 /* Constants.swift */; };
-		B40A0D8D1B23BD2900036986 /* EditInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8C1B23BD2900036986 /* EditInfoViewModel.swift */; };
 		B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */; };
 		B41334E71B57631400B5F22D /* IAccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334E61B57631400B5F22D /* IAccountWireframe.swift */; };
 		B41334ED1B5F44B300B5F22D /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334EC1B5F44B300B5F22D /* Keyboard.swift */; };
@@ -273,7 +270,6 @@
 		45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IProfileViewModel.swift; sourceTree = "<group>"; };
 		45CBB6EB1EBF881F9EB25C64 /* IProfileWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IProfileWireframe.swift; sourceTree = "<group>"; };
 		45CBB717784EC301CD7D042E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		7E0173871B146473002E154B /* EditInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditInfoView.xib; sourceTree = "<group>"; };
 		7E3A1C021B1EF84500E84ABE /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = "Pods/../build/Debug-iphoneos/Pods-XListing/CocoaLumberjack.framework"; sourceTree = "<group>"; };
 		7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CocoaLumberjack+extension.swift"; sourceTree = "<group>"; };
 		7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewController.swift; sourceTree = "<group>"; };
@@ -293,7 +289,6 @@
 		7EF371551AB8C9B3009AA3B9 /* BusinessSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessSpec.swift; sourceTree = "<group>"; };
 		7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessTests.swift; sourceTree = "<group>"; };
 		7EFEF7411B124B060043E076 /* IRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRouter.swift; sourceTree = "<group>"; };
-		7EFEF7451B13D0900043E076 /* EditInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditInfoView.swift; sourceTree = "<group>"; };
 		B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Bold.ttf"; sourceTree = "<group>"; };
 		B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Regular.ttf"; sourceTree = "<group>"; };
 		B33C0E041B71653B005F8410 /* NicknameView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NicknameView.xib; path = XListing/Modules/Account/SignUp/Nickname/NicknameView.xib; sourceTree = SOURCE_ROOT; };
@@ -303,7 +298,6 @@
 		B3FFDD7C1B716FA3003710D8 /* BirthdayPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BirthdayPickerView.xib; path = XListing/Modules/Account/SignUp/Birthday/BirthdayPickerView.xib; sourceTree = SOURCE_ROOT; };
 		B3FFDD7E1B718226003710D8 /* PhotoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PhotoView.xib; path = XListing/Modules/Account/SignUp/Photo/PhotoView.xib; sourceTree = SOURCE_ROOT; };
 		B40A0D8A1B22455700036986 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		B40A0D8C1B23BD2900036986 /* EditInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditInfoViewModel.swift; sourceTree = "<group>"; };
 		B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleFormatter.swift; sourceTree = "<group>"; };
 		B41334E61B57631400B5F22D /* IAccountWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IAccount\U0010Wireframe.swift"; sourceTree = "<group>"; };
 		B41334EC1B5F44B300B5F22D /* Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
@@ -1052,16 +1046,6 @@
 			path = SignUp;
 			sourceTree = "<group>";
 		};
-		B4F1957F1B27873E00B8C519 /* EditInfo */ = {
-			isa = PBXGroup;
-			children = (
-				7EFEF7451B13D0900043E076 /* EditInfoView.swift */,
-				7E0173871B146473002E154B /* EditInfoView.xib */,
-				B40A0D8C1B23BD2900036986 /* EditInfoViewModel.swift */,
-			);
-			path = EditInfo;
-			sourceTree = "<group>";
-		};
 		B4F195961B2A9E2100B8C519 /* Router */ = {
 			isa = PBXGroup;
 			children = (
@@ -1164,7 +1148,6 @@
 				2A99785E1B2C29B700339265 /* LandingPage */,
 				B4F1957D1B27872D00B8C519 /* LogIn */,
 				B4F1957E1B27873500B8C519 /* SignUp */,
-				B4F1957F1B27873E00B8C519 /* EditInfo */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -1316,7 +1299,6 @@
 				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
 				B4F195811B2789A100B8C519 /* Account.storyboard in Resources */,
 				B3F5E2401B65A605007762B4 /* StartUpButtonsView.xib in Resources */,
-				7E0173881B146473002E154B /* EditInfoView.xib in Resources */,
 				B4E7C18E1B5387880038260E /* LandingPageView.xib in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
 				B33C0E051B71653B005F8410 /* NicknameView.xib in Resources */,
@@ -1483,7 +1465,6 @@
 				B4F1958B1B2938FC00B8C519 /* HUD.swift in Sources */,
 				B4F195BF1B2CE2C300B8C519 /* ParticipationType.swift in Sources */,
 				D02A61711B655019007B48E9 /* ProfileHeaderViewModel.swift in Sources */,
-				7EFEF7461B13D0900043E076 /* EditInfoView.swift in Sources */,
 				B4F1959C1B2AA3B400B8C519 /* WithDataRoute.swift in Sources */,
 				B4ECBE2A1B747FC300234217 /* BirthdayPickerViewModel.swift in Sources */,
 				B4ECBE261B747E5800234217 /* Transition.swift in Sources */,
@@ -1504,7 +1485,6 @@
 				B44E35041AD63F6000657A31 /* BusinessService.swift in Sources */,
 				B462BC7C1B2F94E800070BE5 /* IUserDefaultsService.swift in Sources */,
 				B4E7C1941B5389710038260E /* LogInView.swift in Sources */,
-				B40A0D8D1B23BD2900036986 /* EditInfoViewModel.swift in Sources */,
 				B4B665481ADF8DC60084DBE7 /* IDetailWireframe.swift in Sources */,
 				3DFA2FA31B43C19800058930 /* WantToGoViewModel.swift in Sources */,
 				26645ADE1B5C677E00ADDCD1 /* NicknameTableViewCell.swift in Sources */,

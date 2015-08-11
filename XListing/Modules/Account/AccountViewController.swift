@@ -20,7 +20,6 @@ public final class AccountViewController: XUIViewController {
     private var landingPageView: LandingPageView!
     private var logInView: LogInView!
     private var signUpView: SignUpView!
-    private var editInfoView: EditInfoView!
     
     // MARK: - Properties
     
@@ -135,11 +134,15 @@ public final class AccountViewController: XUIViewController {
             compositeDisposable += this.signUpView.finishSignUpProxy
                 |> logLifeCycle(LogContext.Account, "signUpView.finishSignUpProxy")
                 |> start(next: {
-                    // transition to edit info view
-                    this.setupEditInfoView
-                        |> start()
-                    sendNext(this.viewTransitionSink, (view: this.editInfoView, completion: nil))
                     
+                    if self?.viewmodel.gotoNextModuleCallback == nil {
+                        self?.viewmodel.pushFeaturedModule()
+                    }
+                    else {
+                        // dismiss account module, and go to the next module
+                        self?.dismissViewControllerAnimated(true, completion: self?.viewmodel.gotoNextModuleCallback)
+                    }
+                    self?.navigationController?.setNavigationBarHidden(false, animated: false)
                     sendCompleted(sink)
                 })
             
@@ -159,46 +162,6 @@ public final class AccountViewController: XUIViewController {
         }
     }
         |> logLifeCycle(LogContext.Account, "signUp")
-    
-    private lazy var setupEditInfoView: SignalProducer<Void, NoError> = SignalProducer<Void, NoError> { [weak self] sink, compositeDisposable in
-        if let this = self {
-            if this.editInfoView == nil {
-                self?.editInfoView = UINib(nibName: EditInfoViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! EditInfoView
-                self?.editInfoView.bindToViewModel(this.viewmodel.editProfileViewModel)
-            }
-            
-            compositeDisposable += this.editInfoView.presentUIImagePickerProxy
-                |> logLifeCycle(LogContext.Account, "editInfoView.presentUIImagePickerProxy")
-                |> start(next: { imagePicker in
-                    // present image picker
-                    self?.presentViewController(imagePicker, animated: true, completion: nil)
-                })
-            
-            compositeDisposable += this.editInfoView.dismissUIImagePickerProxy
-                |> logLifeCycle(LogContext.Account, "editInfoView.dismissUIImagePickerProxy")
-                |> start(next: { handler in
-                    // dismiss image picker
-                    self?.dismissViewControllerAnimated(true, completion: handler)
-                })
-            
-            compositeDisposable += this.editInfoView.finishEditInfoProxy
-                |> logLifeCycle(LogContext.Account, "editInfoView.finishEditInfoProxy")
-                |> start(next: {
-                    
-                    if self?.viewmodel.gotoNextModuleCallback == nil {
-                        self?.viewmodel.pushFeaturedModule()
-                    }
-                    else {
-                        // dismiss account module, and go to the next module
-                        self?.dismissViewControllerAnimated(true, completion: self?.viewmodel.gotoNextModuleCallback)
-                    }
-                    self?.navigationController?.setNavigationBarHidden(false, animated: false)
-                    sendCompleted(sink)
-                })
-        }
-    }
-        |> logLifeCycle(LogContext.Account, "editInfo")
-
     
     public override func loadView() {
         super.loadView()

@@ -13,17 +13,26 @@ import AVOSCloud
 public final class SignUpViewModel {
     
     // MARK: Input
+    private let username = MutableProperty<String?>(nil)
+    private let password = MutableProperty<String?>(nil)
     private let nickname = MutableProperty<String?>(nil)
-    private let birthday = MutableProperty<NSDate>(NSDate())
+    private let birthday = MutableProperty<NSDate?>(nil)
     private let gender = MutableProperty<Gender?>(nil)
     private let photo = MutableProperty<UIImage?>(nil)
     
     // MARK: Output
-    public let allInputsValid = MutableProperty<Bool>(false)
+    public let areAllProfileInputsPresent = MutableProperty<Bool>(false)
+    public let areSignUpInputsPresent = MutableProperty<Bool>(false)
     
     // MARK: Variables
     public lazy var usernameAndPasswordViewModel: UsernameAndPasswordViewModel = { [unowned self] in
         let viewmodel = UsernameAndPasswordViewModel()
+        
+        self.username <~ viewmodel.validUsernameSignal
+            |> map { Optional<String>($0) }
+        
+        self.password <~ viewmodel.validPasswordSignal
+            |> map { Optional<String>($0) }
         
         return viewmodel
     }()
@@ -50,6 +59,7 @@ public final class SignUpViewModel {
         let viewmodel = BirthdayPickerViewModel()
         
         self.birthday <~ viewmodel.validBirthdaySignal
+            |> map { Optional<NSDate>($0) }
         
         return viewmodel
     }()
@@ -63,34 +73,36 @@ public final class SignUpViewModel {
         return viewmodel
     }()
     
+    private lazy var allProfileInputs: SignalProducer<(String, NSDate, UIImage, Gender), NoError> = combineLatest(self.nickname.producer |> ignoreNil, self.birthday.producer |> ignoreNil, self.photo.producer |> ignoreNil, self.gender.producer |> ignoreNil)
+    private lazy var allSignUpInputs: SignalProducer<(String, String), NoError> = combineLatest(self.username.producer |> ignoreNil, self.password.producer |> ignoreNil)
     private let userService: IUserService
     
     // MARK: - API
     public var signUp: SignalProducer<Bool, NSError> {
-        return self.allInputsValid.producer
+        return self.areSignUpInputsPresent.producer
             // only allow TRUE value
             |> filter { $0 }
-            |> flatMap(.Concat) { _ in combineLatest(self.usernameAndPasswordViewModel.username.producer, self.usernameAndPasswordViewModel.password.producer ) }
+            |> flatMap(.Concat) { _ in self.allSignUpInputs }
             |> promoteErrors(NSError)
             |> flatMap(FlattenStrategy.Merge) { username, password -> SignalProducer<Bool, NSError> in
                 let user = User()
                 user.username = username
                 user.password = password
-//                return self.userService.signUp(user)
-                return SignalProducer<Bool, NSError> { sink, disposable in
-                    sendNext(sink, true)
-                }
+                return self.userService.signUp(user)
+//                return SignalProducer<Bool, NSError> { sink, disposable in
+//                    sendNext(sink, true)
+//                }
         }
     }
     
     public var updateProfile: SignalProducer<Bool, NSError> {
-        return self.allInputsValid.producer
+        return self.areAllProfileInputsPresent.producer
             // only allow TRUE value
             |> filter { $0 }
             |> promoteErrors(NSError)
-            |> flatMap(.Latest) { _ in self.userService.currentLoggedInUser() }
-            |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
-                return combineLatest(self.nickname.producer, self.birthday.producer, self.photo.producer |> ignoreNil, self.gender.producer |> ignoreNil)
+            |> flatMap(.Concat) { _ in self.userService.currentLoggedInUser() }
+            |> flatMap(.Concat) { user -> SignalProducer<Bool, NSError> in
+                return self.allProfileInputs
                     |> promoteErrors(NSError)
                     |> flatMap(.Latest) { (nickname, birthday, profileImage, gender) -> SignalProducer<Bool, NSError> in
                         let imageData = UIImagePNGRepresentation(profileImage)
@@ -99,8 +111,7 @@ public final class SignUpViewModel {
                         user.birthday = birthday
                         user.profileImg = file
                         user.gender = gender.rawValue
-                        user.ageGroup = ""
-                        user.horoscope = ""
+                        
                         return self.userService.save(user)
                 }
         }
@@ -110,6 +121,11 @@ public final class SignUpViewModel {
     public init(userService: IUserService) {
         self.userService = userService
         
+        areAllProfileInputsPresent <~ allProfileInputs
+            |> map { _ in true }
+        
+        areSignUpInputsPresent <~ allSignUpInputs
+            |> map { _ in true }
     }
     
     // MARK: Setup

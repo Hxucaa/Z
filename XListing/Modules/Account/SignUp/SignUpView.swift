@@ -47,9 +47,91 @@ public final class SignUpView : UIView {
                     
                     transitionDisposable += view.submitProxy
                         |> logLifeCycle(LogContext.Account, "usernameAndPasswordView.submitProxy")
-                        |> start(next: {
-                            this.transitionManager.transitionNext()
-                        })
+                        |> promoteErrors(NSError)
+                        |> flatMap(FlattenStrategy.Concat) { _ in
+                            
+                            return SignalProducer<Void, NSError> { sink, disposable in
+                                if let this = self, viewmodel = self?.viewmodel.value {
+                                    // display HUD to indicate work in progress
+                                    // check for the validity of inputs first
+                                    disposable += viewmodel.areSignUpInputsPresent.producer
+                                        |> on(next: { println($0) })
+                                        // on error displays error prompt
+                                        |> on(next: { validity in
+                                            if !validity {
+                                                // TODO: implement error prompt
+                                            }
+                                        })
+                                        // only valid inputs can continue through
+                                        |> filter { $0 }
+                                        |> on(next: { _ in println("wtffffff") })
+                                        // delay the signal due to the animation of retracting keyboard
+                                        // this cannot be executed on main thread, otherwise UI will be blocked
+                                        |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                                        // return the signal to main/ui thread in order to run UI related code
+                                        |> observeOn(UIScheduler())
+                                        //                        |> then(HUD.show())
+                                        |> flatMap(.Latest) { _ in
+                                            return HUD.show()
+                                        }
+                                        // map error to the same type as other signal
+                                        |> promoteErrors(NSError)
+                                        // sign up
+                                        |> flatMap(.Latest) { _ in
+                                            return viewmodel.signUp
+                                        }
+                                        |> on(next: { println($0) })
+                                        // dismiss HUD based on the result of sign up signal
+                                        |> HUD.dismissWithStatusMessage(errorHandler: { [weak self] error -> String in
+                                            AccountLogError(error.description)
+                                            return error.customErrorDescription
+                                        })
+                                        // does not `sendCompleted` because completion is handled when HUD is disappeared
+                                        |> start(
+                                            error: { error in
+                                                sendError(sink, error)
+                                            },
+                                            interrupted: { _ in
+                                                sendInterrupted(sink)
+                                            }
+                                        )
+                                    
+                                    // Subscribe to touch down inside event
+                                    disposable += HUD.didTouchDownInsideNotification()
+                                        |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                                        |> start(
+                                            next: { _ in
+                                                // dismiss HUD
+                                                HUD.dismiss()
+                                                
+                                                // interrupts the action
+                                                // sendInterrupted(sink)
+                                            }
+                                        )
+                                    
+                                    // Subscribe to disappear notification
+                                    disposable += HUD.didDissappearNotification()
+                                        |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                                        |> start(next: { [weak self] status in
+                                            if status == HUD.DisappearStatus.Normal {
+                                                
+                                                // inform that submit is successful
+                                                this.transitionManager.transitionNext()
+                                            }
+                                            
+                                            // completes the action
+                                            sendNext(sink, ())
+                                            sendCompleted(sink)
+                                            
+                                        })
+                                    
+                                    // retract keyboard
+                                    self?.endEditing(true)
+                                }
+                            }
+                        }
+                        |> start()
+                    
                 }
             },
             cleanUp: { [weak self] view in
@@ -198,20 +280,27 @@ public final class SignUpView : UIView {
                         |> flatMap(FlattenStrategy.Concat) { _ in
                             return SignalProducer<Void, NSError> { sink, disposable in
                                 
-                                if let this = self {
+                                if let this = self, viewmodel = self?.viewmodel.value {
                                     
                                     // Update profile and show the HUD
-                                    disposable += SignalProducer<Void, NoError>.empty
+                                    disposable += viewmodel.areAllProfileInputsPresent.producer
+                                        // only valid input goes through
+                                        |> filter { $0 }
+//                                        SignalProducer<Void, NoError>.empty
                                         // delay the signal due to the animation of retracting keyboard
                                         // this cannot be executed on main thread, otherwise UI will be blocked
                                         |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
                                         // return the signal to main/ui thread in order to run UI related code
                                         |> observeOn(UIScheduler())
-                                        |> then(HUD.show())
+                                        |> flatMap(.Concat) { _ in
+                                            return HUD.show()
+                                        }
                                         // map error to the same type as other signal
                                         |> promoteErrors(NSError)
                                         // update profile
-                                        |> then(this.viewmodel.value!.updateProfile)
+                                        |> flatMap(.Concat) { _ in
+                                            return viewmodel.updateProfile
+                                        }
                                         // dismiss HUD based on the result of update profile signal
                                         |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
                                             AccountLogError(error.description)
