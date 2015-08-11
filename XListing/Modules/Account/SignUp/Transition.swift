@@ -8,6 +8,39 @@
 
 import Foundation
 import UIKit
+import ReactiveCocoa
+
+public class TransitionManager {
+    
+    private let compositeDisposable = CompositeDisposable()
+    private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<TransitionActor, NoError>.buffer(0)
+    private var currentTransitionIndex = -1
+    private let initialTransition: TransitionActor
+    private let followUpTransitions: [TransitionActor]
+    
+    public init(initial: TransitionActor, followUps: [TransitionActor], transformation: (current: TransitionActor, next: TransitionActor) -> Void) {
+        
+        initialTransition = initial
+        followUpTransitions = followUps
+        
+        compositeDisposable += viewTransitionProducer
+            // forwards events along with the previous value. The first member is the previous value and the second is the current value.
+            |> combinePrevious(initial)
+            |> start(next: { [weak self] current, next in
+                transformation(current: current, next: next)
+            })
+    }
+    
+    deinit {
+        compositeDisposable.dispose()
+        DDLogVerbose("TransitionManager deinitializes.")
+    }
+    
+    public func transitionNext() {
+        assert(currentTransitionIndex < followUpTransitions.count - 1, "Cannot transition beyond the total number of follow up transitions defined!")
+        sendNext(viewTransitionSink, followUpTransitions[++currentTransitionIndex])
+    }
+}
 
 public class Transition<T: UIView> {
     public let view: T

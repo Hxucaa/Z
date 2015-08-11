@@ -48,7 +48,7 @@ public final class SignUpView : UIView {
                     transitionDisposable += view.submitProxy
                         |> logLifeCycle(LogContext.Account, "usernameAndPasswordView.submitProxy")
                         |> start(next: {
-                            sendNext(this.viewTransitionSink, this.nicknameTransition.transitionActor)
+                            this.transitionManager.transitionNext()
                         })
                 }
             },
@@ -79,7 +79,7 @@ public final class SignUpView : UIView {
                     transitionDisposable += view.continueProxy
                         |> logLifeCycle(LogContext.Account, "usernameAndPasswordView.continueProxy")
                         |> start(next: {
-                            sendNext(this.viewTransitionSink, this.genderPickerTransition.transitionActor)
+                            this.transitionManager.transitionNext()
                         })
                 }
                 
@@ -110,7 +110,7 @@ public final class SignUpView : UIView {
                     transitionDisposable += view.continueProxy
                         |> logLifeCycle(LogContext.Account, "genderPickerView.continueProxy")
                         |> start(next: {
-                            sendNext(this.viewTransitionSink, this.birthdayPickerTransition.transitionActor)
+                            this.transitionManager.transitionNext()
                         })
                 }
             },
@@ -141,7 +141,7 @@ public final class SignUpView : UIView {
                     transitionDisposable += view.continueProxy
                         |> logLifeCycle(LogContext.Account, "birthdayPickerView.continueProxy")
                         |> start(next: {
-                            sendNext(this.viewTransitionSink, this.photoTransition.transitionActor)
+                            this.transitionManager.transitionNext()
                         })
                 }
                 
@@ -206,28 +206,22 @@ public final class SignUpView : UIView {
     
     // MARK: - Properties
     private let viewmodel = MutableProperty<SignUpViewModel?>(nil)
-    
     private let compositeDisposable = CompositeDisposable()
-    private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<TransitionActor, NoError>.buffer(0)
+    private var transitionManager: TransitionManager!
     
     // MARK: - Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
         
-        confirmButton.layer.masksToBounds = true
-        confirmButton.layer.cornerRadius = 8
-        
-        setupBackButton()
-        
-        /**
-        Setup view transition.
-        */
-        
-        // transition to next view.
-        compositeDisposable += viewTransitionProducer
-            // forwards events along with the previous value. The first member is the previous value and the second is the current value.
-            |> combinePrevious(self.usernameAndPasswordTransition.transitionActor)
-            |> start(next: { [weak self] current, next in
+        transitionManager = TransitionManager(
+            initial: usernameAndPasswordTransition.transitionActor,
+            followUps: [
+                nicknameTransition.transitionActor,
+                genderPickerTransition.transitionActor,
+                birthdayPickerTransition.transitionActor,
+                photoTransition.transitionActor
+            ]
+            ) { [weak self] (current, next) in
                 if let this = self {
                     
                     current.view.removeFromSuperview()
@@ -238,15 +232,24 @@ public final class SignUpView : UIView {
                     next.runAfterTransition()
                     // transition animation
 //                    this.animateTransition(current.view, toView: next.view) { success in
-//                        
+//
 //                        if let afterTransition = next.afterTransition where success {
 //                            afterTransition()
 //                        }
 //                    }
                 }
-            })
+                
+        }
+
         
+        confirmButton.layer.masksToBounds = true
+        confirmButton.layer.cornerRadius = 8
         
+        setupBackButton()
+        
+        /**
+        Setup view transition.
+        */
         
         // display the usernameAndPassword view as the first
         usernameAndPasswordTransition.transitionActor.runSetup()
