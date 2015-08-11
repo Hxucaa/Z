@@ -41,7 +41,7 @@ public struct AppDependencies {
         configureFeaturedListDependencies(rootWireframe, router: router, businessService: bs, userService: userService, geoLocationService: gs, userDefaultsService: userDefaultsService)
         configureNearbyDependencies(rootWireframe, router: router, businessService: bs, geoLocationService: gs)
         configureDetailDependencies(rootWireframe, router: router, userService: userService, participationService: ps, geoLocationService: gs)
-        configureProfileDependencies(rootWireframe, router: router, userService: userService)
+        configureProfileDependencies(rootWireframe, router: router, participationService: ps, businessService: bs, userService: userService, geoLocationService: gs, userDefaultsService: userDefaultsService)
         configureWantToGoListDependencies(rootWireframe, router: router, userService: userService, participationService: ps)
         configureProfileEditDependencies(rootWireframe, router: router, userService: userService)
     }
@@ -99,9 +99,9 @@ public struct AppDependencies {
         self.router.accountRouteDelegate = accountWireframe as! AccountRoute
     }
 
-    private mutating func configureProfileDependencies(rootWireframe: IRootWireframe, router: IRouter, userService us: IUserService) {
-
-        profileWireframe = ProfileWireframe(rootWireframe: rootWireframe, router: router, userService: us)
+    private mutating func configureProfileDependencies(rootWireframe: IRootWireframe, router: IRouter, participationService ps: IParticipationService, businessService bs: IBusinessService, userService us: IUserService, geoLocationService gs: IGeoLocationService, userDefaultsService uds: IUserDefaultsService) {
+        
+        profileWireframe = ProfileWireframe(rootWireframe: rootWireframe, router: router, participationService: ps, businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds, imageService: imageService)
         self.router.profileRouteDelegate = profileWireframe as! ProfileRoute
     }
     

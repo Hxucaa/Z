@@ -24,6 +24,7 @@ public final class FeaturedListViewController: XUIViewController {
     // MARK: Properties
     private var viewmodel: IFeaturedListViewModel!
     private let compositeDisposable = CompositeDisposable()
+    private var isLoading = 0
     
     // MARK: Setups
     public override func viewDidLoad() {
@@ -37,7 +38,7 @@ public final class FeaturedListViewController: XUIViewController {
         
         tableView.dataSource = self
     }
-
+    
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -49,7 +50,7 @@ public final class FeaturedListViewController: XUIViewController {
     
     deinit {
         compositeDisposable.dispose()
-        NearbyLogVerbose("Featured List View Controller deinitializes.")
+        FeaturedLogVerbose("Featured List View Controller deinitializes.")
     }
     
     private func setupRefresh() {
@@ -136,7 +137,6 @@ public final class FeaturedListViewController: XUIViewController {
                 sendCompleted(sink)
             }
         }
-        
         profileButton.target = pushProfile.unsafeCocoaAction
         profileButton.action = CocoaAction.selector
     }
@@ -145,6 +145,9 @@ public final class FeaturedListViewController: XUIViewController {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.hidden = false // for navigation bar hide
+        UIApplication.sharedApplication().statusBarHidden = false
         
         nearbyButton.enabled = true
         
@@ -162,10 +165,34 @@ public final class FeaturedListViewController: XUIViewController {
             |> logLifeCycle(LogContext.Featured, "tableView:didSelectRowAtIndexPath:")
             |> start(
                 next: { [weak self] indexPath in
+                    let something = indexPath.row
                     self?.viewmodel.pushDetailModule(indexPath.row)
                 }
-        )
+            )
         
+        rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"),
+            fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
+            |> map { ($0 as! RACTuple).first as! UIScrollView }
+            |> start(
+                next: { scrollView in
+                    if (self.isLoading != 0) {
+                        return
+                    }
+                    
+                    if (self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.bounds.size.height)) {
+                        
+                        // reached bottom of table view
+                        self.isLoading = 1
+                        self.viewmodel.getFeaturedBusinesses()
+                            |> map { _ -> Void in }
+                            |> start(next: { [weak self] _ in
+                                self?.isLoading = 0
+                            })
+
+                        FeaturedLogVerbose("loaded more businesses from LeanCloud")
+                    }
+                }
+        )
         
         compositeDisposable += viewmodel.featuredBusinessViewModelArr.producer
             // forwards events from producer until the view controller is going to disappear
@@ -224,6 +251,7 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as! FeaturedListBusinessTableViewCell
         cell.bindViewModel(viewmodel.featuredBusinessViewModelArr.value[indexPath.row])
+        
         return cell
     }
 }

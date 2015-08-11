@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import UIKit
 
 private let ProfileViewControllerIdentifier = "ProfileViewController"
 private let StoryboardName = "Profile"
@@ -11,17 +12,30 @@ private let StoryboardName = "Profile"
 public final class ProfileWireframe : BaseWireframe, IProfileWireframe {
     
     private let router: IRouter
+    private let businessService: IBusinessService
     private let userService: IUserService
-
-    public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService) {
+    private let geoLocationService: IGeoLocationService
+    private let userDefaultsService: IUserDefaultsService
+    private let imageService: IImageService
+    private let participationService: IParticipationService
+    
+    public required init(rootWireframe: IRootWireframe, router: IRouter, participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
         self.router = router
+        self.businessService = businessService
         self.userService = userService
+        self.geoLocationService = geoLocationService
+        self.userDefaultsService = userDefaultsService
+        self.imageService = imageService
+        self.participationService = participationService
         super.init(rootWireframe: rootWireframe)
     }
-
+    
     private func initViewController() -> ProfileViewController {
         let viewController = getViewControllerFromStoryboard(ProfileViewControllerIdentifier, storyboardName: StoryboardName) as! ProfileViewController
-        viewController.bindToViewModel(ProfileViewModel(router: router, userService: userService))
+        
+        let viewmodel = ProfileViewModel(router: router, participationService: participationService, businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService, imageService: imageService)
+        
+        viewController.bindToViewModel(viewmodel)
         
         return viewController
     }

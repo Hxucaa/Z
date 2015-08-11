@@ -40,11 +40,12 @@ public final class EditInfoViewModel {
                     |> flatMap(.Latest) { (nickname, birthday, profileImage, gender) -> SignalProducer<Bool, NSError> in
                         let imageData = UIImagePNGRepresentation(self.profileImage.value)
                         let file = AVFile.fileWithName("profile.png", data: imageData) as! AVFile
-                        
                         user.nickname = nickname
                         user.birthday = birthday
                         user.profileImg = file
                         user.gender = gender
+                        user.ageGroup = ""
+                        user.horoscope = ""
                         return self.userService.save(user)
                     }
             }

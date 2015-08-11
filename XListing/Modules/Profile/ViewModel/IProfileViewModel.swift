@@ -5,8 +5,9 @@
 
 import ReactiveCocoa
 
-public protocol IProfileViewModel {
-    init(router: IRouter, userService: IUserService)
+public protocol IProfileViewModel : class {
+    init(router: IRouter, participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
     var nickname: MutableProperty<String> { get }
+    func pushDetailModule(section: Int)
     func presentProfileEditModule()
 }
