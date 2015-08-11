@@ -10,12 +10,14 @@ import UIKit
 
 class InfoPanel: UIView {
 
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
+    // MARK: UI Controls
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var price: UILabel!
+    @IBOutlet weak var eta: UILabel!
 
+    
+    
+    
+    
 }
