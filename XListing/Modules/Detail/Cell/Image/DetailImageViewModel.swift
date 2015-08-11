@@ -21,16 +21,11 @@ public struct DetailImageViewModel {
     public init(imageService: IImageService, coverImageURL: String?) {
         self.imageService = imageService
         
-        /*imageService.getImage(NSURL(string: coverImageURL!)!)
-            |> start(next: {
-                self.coverImage.put($0)
-            })*/
-        
-//        if let stringURL = coverImageURL, url = NSURL(string: stringURL) {
-//            imageService.getImage(url)
-//                |> start(next: {
-//                    self.coverImage.put($0)
-//                })
-//        }
+        if let stringURL = coverImageURL, url = NSURL(string: stringURL) {
+            imageService.getImage(url)
+                |> start(next: {
+                    self.coverImage.put($0)
+                })
+        }
     }
 }
