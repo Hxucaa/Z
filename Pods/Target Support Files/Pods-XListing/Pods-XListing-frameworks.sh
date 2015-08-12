@@ -64,6 +64,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-XListing/Result.framework'
   install_framework 'Pods-XListing/SDWebImage.framework'
   install_framework 'Pods-XListing/SVProgressHUD.framework'
+  install_framework 'Pods-XListing/Spring.framework'
   install_framework 'Pods-XListing/XAssets.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -78,5 +79,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-XListing/Result.framework'
   install_framework 'Pods-XListing/SDWebImage.framework'
   install_framework 'Pods-XListing/SVProgressHUD.framework'
+  install_framework 'Pods-XListing/Spring.framework'
   install_framework 'Pods-XListing/XAssets.framework'
 fi
