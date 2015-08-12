@@ -15,6 +15,7 @@ public final class FeaturedBusinessViewModel {
     public let businessName: ConstantProperty<String>
     public let city: ConstantProperty<String>
     public let eta: MutableProperty<String> = MutableProperty("")
+    public let price: MutableProperty<String> = MutableProperty("")
     public let district: ConstantProperty<String>
     public let coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
     public let isCoverImageConsumed = MutableProperty<Bool>(false)

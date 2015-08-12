@@ -50,6 +50,8 @@ public final class FeaturedListViewController: XUIViewController {
     
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        navigationController?.navigationBar.hidden = true // for navigation bar hide
+        UIApplication.sharedApplication().statusBarHidden=false
     }
     
     deinit {
@@ -119,9 +121,7 @@ public final class FeaturedListViewController: XUIViewController {
     private func setupNearbyButton() {
         let pushNearby = Action<UIBarButtonItem, Void, NoError> { [weak self] button in
             return SignalProducer<Void, NoError> { [weak self] sink, disposable in
-                
                 self?.nearbyButton.enabled = false
-                
                 self?.viewmodel.pushNearbyModule()
                 sendCompleted(sink)
             }

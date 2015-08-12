@@ -2,38 +2,50 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeaturedListBusinessTableViewCell" customModule="XListing" customModuleProvider="target">
+            <connections>
+                <outlet property="avatarList" destination="Obb-iM-9Cb" id="FZe-Ot-ZkT"/>
+                <outlet property="joinButton" destination="9JZ-LB-YV7" id="6T2-N4-aaW"/>
+                <outlet property="peopleWantogoLabel" destination="JZa-tM-Asc" id="kln-Lb-5EJ"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ParticipationView" customModule="XListing" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Obb-iM-9Cb">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Obb-iM-9Cb">
                     <rect key="frame" x="0.0" y="39" width="398" height="61"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="0.63617907072368418" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="150人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZa-tM-Asc">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="150人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZa-tM-Asc">
                     <rect key="frame" x="8" y="15" width="80" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9JZ-LB-YV7">
-                    <rect key="frame" x="546" y="62" width="30" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9JZ-LB-YV7">
+                    <rect key="frame" x="546" y="50" width="30" height="30"/>
                     <state key="normal" title="来">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="0.54134971217105265" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Obb-iM-9Cb" secondAttribute="trailing" constant="202" id="86J-3r-q9N"/>
+                <constraint firstItem="Obb-iM-9Cb" firstAttribute="top" secondItem="JZa-tM-Asc" secondAttribute="bottom" constant="3" id="BWm-l5-ptN"/>
+                <constraint firstAttribute="bottom" secondItem="9JZ-LB-YV7" secondAttribute="bottom" id="Rc1-sZ-hrV"/>
+                <constraint firstAttribute="bottom" secondItem="Obb-iM-9Cb" secondAttribute="bottom" constant="-20" id="Uuo-GY-SkM"/>
+                <constraint firstItem="Obb-iM-9Cb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bfY-Rz-bgI"/>
+                <constraint firstItem="JZa-tM-Asc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="mPa-IS-amK"/>
+                <constraint firstItem="Obb-iM-9Cb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="39" id="yRy-5z-0Qc"/>
+                <constraint firstAttribute="trailing" secondItem="9JZ-LB-YV7" secondAttribute="trailing" constant="24" id="z0i-WS-IN7"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="button" destination="9JZ-LB-YV7" id="65i-WH-ktI"/>
-                <outlet property="numOfParticipation" destination="JZa-tM-Asc" id="4Sf-Z3-gxz"/>
-                <outlet property="userPhotos" destination="Obb-iM-9Cb" id="xjI-GN-8hX"/>
-            </connections>
             <point key="canvasLocation" x="196" y="350"/>
         </view>
     </objects>

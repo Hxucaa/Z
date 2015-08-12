@@ -17,10 +17,17 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var participationView: UIView!
     
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var etaLabel: UILabel!
+    
+    @IBOutlet weak var peopleWantogoLabel: UILabel!
+    @IBOutlet weak var avatarList: UIView!
+    @IBOutlet weak var joinButton: UIButton!
     
     // MARK: Properties
-    private var infoViewContent: InfoPanel!
-    private var participationViewContent: ParticipationView!
+
     private var viewmodel: FeaturedBusinessViewModel!
     private let compositeDisposable = CompositeDisposable()
     /// whether this instance of cell has been reused
@@ -30,14 +37,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     public override func awakeFromNib() {
         selectionStyle = UITableViewCellSelectionStyle.None
-        
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
-        
-        var infoViewContent = NSBundle.mainBundle().loadNibNamed("infopanel", owner: self, options: nil)[0] as! InfoPanel
+        var infoViewContent = NSBundle.mainBundle().loadNibNamed("infopanel", owner: self, options: nil)[0] as! UIView
         infoView.addSubview(infoViewContent)
-        
-        var participationViewContent = NSBundle.mainBundle().loadNibNamed("participationview", owner: self, options: nil)[0] as! ParticipationView
+        var participationViewContent = NSBundle.mainBundle().loadNibNamed("participationview", owner: self, options: nil)[0] as! UIView
         participationView.addSubview(participationViewContent)
         
         
@@ -60,31 +64,26 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     public func bindViewModel(viewmodel: FeaturedBusinessViewModel) {
         self.viewmodel = viewmodel
         
-//        self.infoViewContent.name.rac_text <~ viewmodel.businessName.producer
-//           |> takeUntilPrepareForReuse(self)
-//
-//        cityLabel.rac_text <~ viewmodel.city.producer
-//            |> takeUntilPrepareForReuse(self)
-//        
-//        participationLabel.rac_text <~ viewmodel.participation.producer
-//            |> takeUntilPrepareForReuse(self)
-//        
-//        etaLabel.rac_text <~ viewmodel.eta.producer
-//            |> takeUntilPrepareForReuse(self)
-//        
-//        compositeDisposable += self.viewmodel.coverImage.producer
-//            |> takeUntilPrepareForReuse(self)
-//            |> ignoreNil
-//            |> start (next: { [weak self] image in
-//                // if this cell is reused or when the cover image in viewmodel has already been displayed, then do not display the image with fancy animation
-//                if let viewmodel = self?.viewmodel, isReusedCell = self?.isReusedCell where viewmodel.isCoverImageConsumed.value || isReusedCell.value {
-//                    self?.coverImageView.rac_image.put(image)
-//                }
-//                // otherwise display the image without animation
-//                else {
-//                    self?.coverImageView.setImageWithAnimation(image)
-//                    viewmodel.isCoverImageConsumed.put(true)
-//                }
-//            })
+        self.nameLabel.rac_text <~ viewmodel.businessName.producer
+           |> takeUntilPrepareForReuse(self)
+        self.cityLabel.rac_text <~ viewmodel.city.producer
+            |> takeUntilPrepareForReuse(self)
+        self.priceLabel.rac_text <~ viewmodel.price.producer
+            |> takeUntilPrepareForReuse(self)
+        self.etaLabel.rac_text <~ viewmodel.eta.producer
+            |> takeUntilPrepareForReuse(self)
+
+        compositeDisposable += self.viewmodel.coverImage.producer
+            |> takeUntilPrepareForReuse(self)
+            |> ignoreNil
+            |> start (next: { [weak self] image in
+                if let viewmodel = self?.viewmodel, isReusedCell = self?.isReusedCell where viewmodel.isCoverImageConsumed.value || isReusedCell.value {
+                    self?.businessImage.rac_image.put(image)
+                }
+                else {
+                    self?.businessImage.setImageWithAnimation(image)
+                    viewmodel.isCoverImageConsumed.put(true)
+                }
+            })
     }
 }

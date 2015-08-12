@@ -187,9 +187,7 @@
 		D0ADD8A51B608B4200B27885 /* ProfileTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADD89F1B608B4200B27885 /* ProfileTabView.swift */; };
 		D0ADD8A61B608B4200B27885 /* ProfileTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ADD8A01B608B4200B27885 /* ProfileTabView.xib */; };
 		D0D006031B62B23900755B7F /* ProfileBusinessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D006021B62B23900755B7F /* ProfileBusinessViewModel.swift */; };
-		D0F040DA1B79A864003231E1 /* InfoPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F040D91B79A864003231E1 /* InfoPanel.swift */; };
 		D0F040DC1B79A886003231E1 /* participationview.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0F040DB1B79A886003231E1 /* participationview.xib */; };
-		D0F040DE1B79A89A003231E1 /* ParticipationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F040DD1B79A89A003231E1 /* ParticipationView.swift */; };
 		E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -398,9 +396,7 @@
 		D0ADD8A01B608B4200B27885 /* ProfileTabView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileTabView.xib; sourceTree = "<group>"; };
 		D0D006021B62B23900755B7F /* ProfileBusinessViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBusinessViewModel.swift; sourceTree = "<group>"; };
 		D0D006041B63371300755B7F /* HamburgSymbols.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HamburgSymbols.ttf; sourceTree = "<group>"; };
-		D0F040D91B79A864003231E1 /* InfoPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoPanel.swift; sourceTree = "<group>"; };
 		D0F040DB1B79A886003231E1 /* participationview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = participationview.xib; sourceTree = "<group>"; };
-		D0F040DD1B79A89A003231E1 /* ParticipationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -896,9 +892,7 @@
 		B4CC82631AC165E400E85CEA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				D0F040D91B79A864003231E1 /* InfoPanel.swift */,
 				D0ACA3EB1B7834C5003D97AB /* infopanel.xib */,
-				D0F040DD1B79A89A003231E1 /* ParticipationView.swift */,
 				D0F040DB1B79A886003231E1 /* participationview.xib */,
 				7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */,
 				D0ACA3ED1B7835C5003D97AB /* FeaturedListBusinessTableViewCell.xib */,
@@ -1376,7 +1370,6 @@
 				2A714B121B085C63007A8FBB /* AccountViewController.swift in Sources */,
 				B4F195AF1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift in Sources */,
 				B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */,
-				D0F040DA1B79A864003231E1 /* InfoPanel.swift in Sources */,
 				D0ADD8A41B608B4200B27885 /* ProfileHeaderView.swift in Sources */,
 				B4F4AFDE1B6EC70700ABA176 /* Misc.swift in Sources */,
 				3D211E861B2C1AB000161E09 /* IBackgroundLocationWorker.swift in Sources */,
@@ -1449,7 +1442,6 @@
 				3D5D8FB41B3F520000EA4ADA /* WantToGoRoute.swift in Sources */,
 				3D70CCE71B562AE3004588EC /* ImageService.swift in Sources */,
 				B4E1384A1AE1B94C0082DCA3 /* User.swift in Sources */,
-				D0F040DE1B79A89A003231E1 /* ParticipationView.swift in Sources */,
 				B45581FA1B367F7300C4D965 /* ReactiveTableBindingHelper.swift in Sources */,
 				D0D006031B62B23900755B7F /* ProfileBusinessViewModel.swift in Sources */,
 				2A9A9BA41B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift in Sources */,
