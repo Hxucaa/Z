@@ -10,8 +10,9 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 import Cartography
+import Spring
 
-public final class NicknameView : UIView {
+public final class NicknameView : SpringView {
     
     // MARK: - UI Controls
     @IBOutlet private weak var nicknameField: UITextField!
@@ -51,7 +52,7 @@ public final class NicknameView : UIView {
         /**
         Setup constraints
         */
-        let group = layout(self) { view in
+        let group = constrain(self) { view in
             view.width == self.frame.width
             view.height == self.frame.height
         }
@@ -70,6 +71,8 @@ public final class NicknameView : UIView {
                     this.continueButton.rac_enabled <~ viewmodel.isNicknameValid
                 }
             })
+        
+        animate()
     }
     
     public override func removeFromSuperview() {

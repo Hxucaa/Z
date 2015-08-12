@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 import Cartography
+import Spring
 
 private let UsernameAndPasswordViewNibName = "UsernameAndPasswordView"
 private let NicknameViewNibName = "NicknameView"
@@ -64,7 +65,6 @@ public final class SignUpView : UIView {
                                         })
                                         // only valid inputs can continue through
                                         |> filter { $0 }
-                                        |> on(next: { _ in println("wtffffff") })
                                         // delay the signal due to the animation of retracting keyboard
                                         // this cannot be executed on main thread, otherwise UI will be blocked
                                         |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
@@ -80,7 +80,6 @@ public final class SignUpView : UIView {
                                         |> flatMap(.Latest) { _ in
                                             return viewmodel.signUp
                                         }
-                                        |> on(next: { println($0) })
                                         // dismiss HUD based on the result of sign up signal
                                         |> HUD.dismissWithStatusMessage(errorHandler: { [weak self] error -> String in
                                             AccountLogError(error.description)
@@ -410,6 +409,7 @@ public final class SignUpView : UIView {
                 // transition animation
                 midStack.addSubview(transition.view)
                 this.centerInSuperview(midStack, subview: transition.view)
+//                (transition.view as! SpringView).animate()
             }
         },
         transformation: { [weak self] (current, next) in
@@ -421,13 +421,6 @@ public final class SignUpView : UIView {
                 self?.midStack.addSubview(next.view)
                 self?.centerInSuperview(this.midStack, subview: next.view)
                 next.runAfterTransition()
-                // transition animation
-//                    this.animateTransition(current.view, toView: next.view) { success in
-//
-//                        if let afterTransition = next.afterTransition where success {
-//                            afterTransition()
-//                        }
-//                    }
             }
         }
     )
@@ -472,34 +465,9 @@ public final class SignUpView : UIView {
     
     // MARK: - Others
     
-    /**
-    Transition to a view with animation.
-    
-    :param: fromView   From a UIView.
-    :param: toView     To a UIView.
-    :param: completion Completion handler which takes in a parameter indicating success.
-    */
-    private func animateTransition<V: UIView>(fromView: V, toView: V, completion: (Bool -> Void)? = nil) {
-        UIView.transitionWithView(
-            midStack,
-            duration: 0.5,
-            options: UIViewAnimationOptions.TransitionCrossDissolve,
-            animations: { [unowned self] in
-                fromView.removeFromSuperview()
-                
-                self.midStack.addSubview(toView)
-                self.centerInSuperview(self.midStack, subview: toView)
-            },
-            completion: { [unowned self] finished in
-                
-                completion?(finished)
-            }
-        )
-    }
-    
     private func centerInSuperview<T: UIView, U: UIView>(superview: T, subview: U) {
         
-        let group = layout(subview, superview) { view1, view2 in
+        let group = constrain(subview, superview) { view1, view2 in
             view1.center == view2.center
         }
     }

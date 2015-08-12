@@ -10,8 +10,9 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 import Cartography
+import Spring
 
-public final class PhotoView : UIView {
+public final class PhotoView : SpringView {
     
     // MARK: - UI Controls
     @IBOutlet private weak var photoImageView: UIImageView!
@@ -103,6 +104,8 @@ public final class PhotoView : UIView {
                     this.doneButton.rac_enabled <~ viewmodel.isProfileImageValid
                 }
             })
+        
+        animate()
     }
     
     private func setupImageSelectedSignal() {

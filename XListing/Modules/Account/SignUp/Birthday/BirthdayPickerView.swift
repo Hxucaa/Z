@@ -11,8 +11,9 @@ import UIKit
 import ReactiveCocoa
 import Cartography
 import ActionSheetPicker_3_0
+import Spring
 
-public final class BirthdayPickerView : UIView {
+public final class BirthdayPickerView : SpringView {
     
     // MARK: - UI Controls
     @IBOutlet private weak var cakeIcon: CakeIcon!
@@ -94,6 +95,7 @@ public final class BirthdayPickerView : UIView {
                 }
             })
         
+        animate()
     }
     
     

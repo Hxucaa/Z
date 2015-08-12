@@ -10,8 +10,9 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 import Cartography
+import Spring
 
-public final class UsernameAndPasswordView : UIView {
+public final class UsernameAndPasswordView : SpringView {
     
     // MARK: - UI Controls
     @IBOutlet private weak var usernameField: UITextField!
@@ -102,7 +103,7 @@ public final class UsernameAndPasswordView : UIView {
 //            ]
 //        )
         
-        let group = layout(self) { view in
+        let group = constrain(self) { view in
             view.width == self.frame.width
             view.height == self.frame.height
         }
@@ -117,6 +118,7 @@ public final class UsernameAndPasswordView : UIView {
         
         
         usernameField.becomeFirstResponder()
+        animate()
     }
     
     deinit {

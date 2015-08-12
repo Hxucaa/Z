@@ -11,8 +11,9 @@ import UIKit
 import ReactiveCocoa
 import Cartography
 import XAssets
+import Spring
 
-public final class GenderPickerView : UIView {
+public final class GenderPickerView : SpringView {
     
     // MARK: - UI Controls
     @IBOutlet private weak var boyButton: BoyButton!
@@ -86,6 +87,8 @@ public final class GenderPickerView : UIView {
                     this._continueButton.rac_enabled <~ viewmodel.isGenderValid
                 }
             })
+        
+        animate()
     }
     
     
