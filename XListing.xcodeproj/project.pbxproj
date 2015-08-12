@@ -55,7 +55,6 @@
 		45CBB4D53772AB5C9D2FD37D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB717784EC301CD7D042E /* ProfileViewController.swift */; };
 		45CBBB3CCC6E72DCE005EE35 /* IProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */; };
 		45CBBDCF399C77A93D0B1C1E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB2272E6DA7ED3BDD24AE /* ProfileViewModel.swift */; };
-		6355331D984FC626C0650774 /* Pods_XListing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		7E0173881B146473002E154B /* EditInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E0173871B146473002E154B /* EditInfoView.xib */; };
 		7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */; };
 		7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */; };
@@ -176,6 +175,7 @@
 		B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */; };
 		B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */; };
 		B4FCC7411AEB0080009B4DF6 /* IRootWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7401AEB0080009B4DF6 /* IRootWireframe.swift */; };
+		BE82DAFC5DC472E8A0BAF4F7 /* Pods_XListing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D02A61711B655019007B48E9 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02A61701B655019007B48E9 /* ProfileHeaderViewModel.swift */; };
 		D0ADD8A11B608B4200B27885 /* ProfileBusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADD89B1B608B4200B27885 /* ProfileBusinessCell.swift */; };
 		D0ADD8A21B608B4200B27885 /* ProfileBusinessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ADD89C1B608B4200B27885 /* ProfileBusinessCell.xib */; };
@@ -409,7 +409,7 @@
 				B4FA1F9C1B70D5B0003BD3BC /* AVOSCloudIM.framework in Frameworks */,
 				B4FA1F9B1B70D5B0003BD3BC /* AVOSCloudSNS.framework in Frameworks */,
 				B4FA1F9E1B70D5B0003BD3BC /* AVOSCloud.framework in Frameworks */,
-				6355331D984FC626C0650774 /* Pods_XListing.framework in Frameworks */,
+				BE82DAFC5DC472E8A0BAF4F7 /* Pods_XListing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,7 +555,6 @@
 			children = (
 				D0ADD8A81B61448000B27885 /* ProfileEditingPage */,
 				D0ADD8A71B6143C200B27885 /* ProfileDisplayPage */,
-				7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */,
 				45CBB717784EC301CD7D042E /* ProfileViewController.swift */,
 				7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */,
 				26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */,
@@ -1096,7 +1095,6 @@
 				D0ADD89E1B608B4200B27885 /* ProfileHeaderView.swift */,
 				D0ADD89F1B608B4200B27885 /* ProfileTabView.swift */,
 				D0ADD8A01B608B4200B27885 /* ProfileTabView.xib */,
-				45CBB717784EC301CD7D042E /* ProfileViewController.swift */,
 			);
 			name = ProfileDisplayPage;
 			sourceTree = "<group>";
@@ -1104,17 +1102,6 @@
 		D0ADD8A81B61448000B27885 /* ProfileEditingPage */ = {
 			isa = PBXGroup;
 			children = (
-				269163651B5C6B0C005D48FA /* PopDateViewController.xib */,
-				7E01738D1B1525DB002E154B /* EditProfileTableViewController.swift */,
-				26645ADA1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift */,
-				26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */,
-				26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */,
-				26645AD41B5A383A00ADDCD1 /* DatePickerTableViewCell.swift */,
-				26645AD61B5A400700ADDCD1 /* BirthdayTableViewCell.swift */,
-				26645ADC1B5C677E00ADDCD1 /* NicknameTableViewCell.swift */,
-				26645ADD1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift */,
-				269163641B5C6B0C005D48FA /* PopDateViewController.swift */,
-				269163681B5C6C1E005D48FA /* PopoverDatePicker.swift */,
 			);
 			name = ProfileEditingPage;
 			sourceTree = "<group>";
@@ -1215,12 +1202,10 @@
 				B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */,
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				2632F12F1B60A4D100CA49AE /* GenderPickerViewController.xib in Resources */,
-				B4F195C61B2E0F0000B8C519 /* Default-568h@2x.png in Resources */,
 				D0ADD8A61B608B4200B27885 /* ProfileTabView.xib in Resources */,
 				269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */,
 				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
 				B4F195811B2789A100B8C519 /* Account.storyboard in Resources */,
-				2ADF3E661B1ECBA200C2971E /* DetailNavigationMapViewController.xib in Resources */,
 				D0ADD8A31B608B4200B27885 /* ProfileHeaderView.xib in Resources */,
 				269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */,
 				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
