@@ -8,7 +8,6 @@
 import ReactiveCocoa
 
 public protocol IAccountViewModel : class {
-    var editProfileViewModel: EditInfoViewModel { get }
     var logInViewModel: LogInViewModel { get }
     var signUpViewModel: SignUpViewModel { get }
     var landingPageViewModel: LandingPageViewModel { get }

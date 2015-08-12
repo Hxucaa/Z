@@ -14,7 +14,6 @@ public final class AccountViewModel : IAccountViewModel {
     
     // MARK: - Public
     
-    public private(set) lazy var editProfileViewModel: EditInfoViewModel = EditInfoViewModel(userService: self.userService)
     public private(set) lazy var logInViewModel: LogInViewModel = LogInViewModel(userService: self.userService)
     public private(set) lazy var signUpViewModel: SignUpViewModel = SignUpViewModel(userService: self.userService)
     public private(set) lazy var landingPageViewModel: LandingPageViewModel = LandingPageViewModel(userDefaultsService: self.userDefaultsService)
