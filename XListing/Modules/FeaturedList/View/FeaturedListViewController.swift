@@ -29,8 +29,18 @@ public final class FeaturedListViewController: XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.hidesBarsOnSwipe = true
+        // makes the gap between table view and navigation bar go away
+        tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
+        // makes the gap at the bottom of the table view go away
+        tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
+        
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.hidesBarsOnSwipe = true
+        
+        // fill status bar with color
+        let statusView = UIView(frame:CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 20))
+        statusView.backgroundColor = UIColor.x_PrimaryColor()
+        view.addSubview(statusView)
         
         setupRefresh()
         setupNearbyButton()

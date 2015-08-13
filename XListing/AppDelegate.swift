@@ -36,11 +36,6 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
         // initialize root view
         appDependencies.installRootViewControllerIntoWindow()
         
-        // draw colored status bar
-        var view: UIView = UIView(frame:CGRectMake(0, 0,self.window!.rootViewController!.view.bounds.width, 20))
-        view.backgroundColor = UIColor(red: 50/255, green: 173/255, blue: 155/255, alpha: 1)
-        self.window?.rootViewController?.view.addSubview(view)
-        
         return true
     }
     
