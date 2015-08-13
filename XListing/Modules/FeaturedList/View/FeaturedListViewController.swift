@@ -30,6 +30,7 @@ public final class FeaturedListViewController: XUIViewController {
         super.viewDidLoad()
         
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.navigationController?.hidesBarsOnSwipe = true
         
         setupRefresh()
         setupNearbyButton()
