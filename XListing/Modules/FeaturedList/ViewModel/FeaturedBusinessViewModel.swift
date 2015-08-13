@@ -21,7 +21,7 @@ public final class FeaturedBusinessViewModel {
     public let isCoverImageConsumed = MutableProperty<Bool>(false)
     public let participation: MutableProperty<String> = MutableProperty("")
     
-    public init(geoLocationService: IGeoLocationService, imageService: IImageService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int) {
+    public init(geoLocationService: IGeoLocationService, imageService: IImageService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int, business: Business?) {
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         
@@ -52,6 +52,8 @@ public final class FeaturedBusinessViewModel {
                     self.coverImage.put($0)
                 })
         }
+        
+//       getAttendees()
     }
     // "http://lasttear.com/wp-content/uploads/2015/03/interior-design-ideas-furniture-architecture-mesmerizing-chinese-restaurant-interior-with-red-nuance-inspiring.jpg"
     
@@ -72,4 +74,37 @@ public final class FeaturedBusinessViewModel {
                 FeaturedLogError(error.description)
             })
     }
+    
+    
+    // MARK: Network call
+//    private func getParticipations(user : User) -> SignalProducer<[ProfileBusinessViewModel], NSError> {
+//        let query = Participation.query()!
+//        typealias Property = Participation.Property
+//        query.whereKey(Property.User.rawValue, equalTo: user)
+//        query.includeKey(Property.Business.rawValue)
+//        
+//        return participationService.findBy(query)
+//            |> on(next: { participations in
+//                self.fetchingData.put(true)
+//                self.participationArr.put(participations)
+//                self.businessArr.put(participations.map { $0.business })
+//            })
+//            |> map { participations -> [ProfileBusinessViewModel] in
+//                
+//                // map participation to its view model
+//                return participations.map {
+//                    let business = $0.business
+//                    let viewmodel = ProfileBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: business.nameSChinese, city: business.city, district: business.district, cover: business.cover, geopoint: business.geopoint, participationCount: business.wantToGoCounter)
+//                    return viewmodel
+//                }
+//            }
+//            |> on(
+//                next: { response in
+//                    self.profileBusinessViewModelArr.put(response)
+//                    self.fetchingData.put(false)
+//                },
+//                error: { ProfileLogError($0.customErrorDescription) }
+//        )
+//    }
+    
 }

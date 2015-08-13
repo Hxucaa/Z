@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -18,7 +18,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Obb-iM-9Cb">
-                    <rect key="frame" x="0.0" y="39" width="398" height="61"/>
+                    <rect key="frame" x="0.0" y="39" width="398" height="41"/>
                     <color key="backgroundColor" red="1" green="0.63617907072368418" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="150人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZa-tM-Asc">
@@ -36,14 +36,14 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="0.54134971217105265" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="Obb-iM-9Cb" secondAttribute="trailing" constant="202" id="86J-3r-q9N"/>
-                <constraint firstItem="Obb-iM-9Cb" firstAttribute="top" secondItem="JZa-tM-Asc" secondAttribute="bottom" constant="3" id="BWm-l5-ptN"/>
-                <constraint firstAttribute="bottom" secondItem="9JZ-LB-YV7" secondAttribute="bottom" id="Rc1-sZ-hrV"/>
-                <constraint firstAttribute="bottom" secondItem="Obb-iM-9Cb" secondAttribute="bottom" constant="-20" id="Uuo-GY-SkM"/>
-                <constraint firstItem="Obb-iM-9Cb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bfY-Rz-bgI"/>
-                <constraint firstItem="JZa-tM-Asc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="mPa-IS-amK"/>
-                <constraint firstItem="Obb-iM-9Cb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="39" id="yRy-5z-0Qc"/>
-                <constraint firstAttribute="trailing" secondItem="9JZ-LB-YV7" secondAttribute="trailing" constant="24" id="z0i-WS-IN7"/>
+                <constraint firstAttribute="trailing" secondItem="9JZ-LB-YV7" secondAttribute="trailing" constant="24" id="I5G-dJ-bO9"/>
+                <constraint firstItem="JZa-tM-Asc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="KKb-cZ-LTU"/>
+                <constraint firstItem="Obb-iM-9Cb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="UyN-9X-7oy"/>
+                <constraint firstItem="Obb-iM-9Cb" firstAttribute="top" secondItem="JZa-tM-Asc" secondAttribute="bottom" constant="3" id="W8h-Hz-TKL"/>
+                <constraint firstAttribute="trailing" secondItem="Obb-iM-9Cb" secondAttribute="trailing" constant="202" id="bwi-c8-Zi1"/>
+                <constraint firstItem="JZa-tM-Asc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="ce8-HJ-Lyz"/>
+                <constraint firstAttribute="bottom" secondItem="Obb-iM-9Cb" secondAttribute="bottom" id="nMS-cM-lxG"/>
+                <constraint firstItem="9JZ-LB-YV7" firstAttribute="bottom" secondItem="Obb-iM-9Cb" secondAttribute="bottom" id="tpC-97-fUo"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="196" y="350"/>

@@ -40,8 +40,10 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
         var infoViewContent = NSBundle.mainBundle().loadNibNamed("infopanel", owner: self, options: nil)[0] as! UIView
+        infoViewContent.frame = CGRectMake(0, 0, infoView.frame.width, infoView.frame.height+5)
         infoView.addSubview(infoViewContent)
         var participationViewContent = NSBundle.mainBundle().loadNibNamed("participationview", owner: self, options: nil)[0] as! UIView
+        participationViewContent.frame = CGRectMake(0, 0, participationView.frame.width, participationView.frame.height)
         participationView.addSubview(participationViewContent)
         
         
@@ -72,7 +74,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             |> takeUntilPrepareForReuse(self)
         self.etaLabel.rac_text <~ viewmodel.eta.producer
             |> takeUntilPrepareForReuse(self)
-
+        self.peopleWantogoLabel.rac_text <~ viewmodel.participation.producer
+            |> takeUntilPrepareForReuse(self)
         compositeDisposable += self.viewmodel.coverImage.producer
             |> takeUntilPrepareForReuse(self)
             |> ignoreNil
