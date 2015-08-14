@@ -12,40 +12,40 @@ import AVOSCloud
 
 public final class AccountViewModel : IAccountViewModel {
     
-    // MARK: - Public
-    
-    public private(set) lazy var logInViewModel: LogInViewModel = LogInViewModel(userService: self.userService)
-    public private(set) lazy var signUpViewModel: SignUpViewModel = SignUpViewModel(userService: self.userService)
+    // MARK:
     public private(set) lazy var landingPageViewModel: LandingPageViewModel = LandingPageViewModel(userDefaultsService: self.userDefaultsService)
-    public private(set) var gotoNextModuleCallback: (() -> ())?
     
-    public init(userService: IUserService, router: IRouter, userDefaultsService: IUserDefaultsService, dismissCallback: (() -> ())? = nil) {
+    // MARK: Services
+    private weak var accountNavigator: IAccountNavigator!
+    private let userService: IUserService
+    private let userDefaultsService: IUserDefaultsService
+    
+    public init(accountNavigator: IAccountNavigator, userService: IUserService, userDefaultsService: IUserDefaultsService) {
+        self.accountNavigator = accountNavigator
         self.userService = userService
-        self.router = router
         self.userDefaultsService = userDefaultsService
-        self.gotoNextModuleCallback = dismissCallback
     }
     
-    public func pushFeaturedModule() {
-        router.pushFeatured()
+    deinit {
+        // Dispose signals before deinit.
+        AccountLogVerbose("Account View Model deinitializes.")
     }
     
-    public func skipAccount(dismiss: () -> ()) {
-        // if accountModuleSkipped is true, then this function has been called from other module. Call dismiss function to dismiss the current view.
+    public func goToSignUpComponent() {
+        accountNavigator.goToSignUpComponent()
+    }
+    
+    public func goToLogInComponent() {
+        accountNavigator.goToLogInComponent()
+    }
+    
+    public func skipAccountModule(dismiss: () -> ()) {
         if userDefaultsService.accountModuleSkipped {
             dismiss()
         }
-        // else it must be the first time the app is run on device. Go straight to featured list.
         else {
-            router.pushFeatured()
+            accountNavigator.goToFeaturedModule(nil)
             userDefaultsService.accountModuleSkipped = true
         }
     }
-    
-    // MARK: - Private
-    
-    // MARK: Services
-    private let userService: IUserService
-    private let router: IRouter
-    private let userDefaultsService: IUserDefaultsService
 }

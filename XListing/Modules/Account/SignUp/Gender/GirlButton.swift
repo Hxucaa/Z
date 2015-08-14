@@ -17,7 +17,7 @@ public final class GirlButton : UIButton {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
-        setImage(AssetsKit.imageOfFemaleIcon, forState: UIControlState.Normal)
+        setImage(AssetsKit.imageOfFemaleIcon(scale: 1.0), forState: UIControlState.Normal)
         tintColor = AssetsKit.femaleIconFill
         
         let tapped = Action<UIButton, Void, NoError> { button in

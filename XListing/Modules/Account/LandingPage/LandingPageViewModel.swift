@@ -19,6 +19,11 @@ public final class LandingPageViewModel {
         self.userDefaultsService = userDefaultsService
     }
     
+    deinit {
+        // Dispose signals before deinit.
+        AccountLogVerbose("LandingPage View Model deinitializes.")
+    }
+    
     public var rePrompt: Bool {
         return userDefaultsService.accountModuleSkipped
     }

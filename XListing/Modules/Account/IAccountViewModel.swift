@@ -8,11 +8,9 @@
 import ReactiveCocoa
 
 public protocol IAccountViewModel : class {
-    var logInViewModel: LogInViewModel { get }
-    var signUpViewModel: SignUpViewModel { get }
     var landingPageViewModel: LandingPageViewModel { get }
-    var gotoNextModuleCallback: (() -> ())? { get }
-    init(userService: IUserService, router: IRouter, userDefaultsService: IUserDefaultsService, dismissCallback: (() -> ())?)
-    func pushFeaturedModule()
-    func skipAccount(dismiss: () -> ())
+    init(accountNavigator: IAccountNavigator, userService: IUserService, userDefaultsService: IUserDefaultsService)
+    func goToSignUpComponent()
+    func goToLogInComponent()
+    func skipAccountModule(dismiss: () -> ())
 }

@@ -12,7 +12,7 @@ import AVOSCloud
 
 public final class SignUpViewModel {
     
-    // MARK: Input
+    // MARK: - Inputs
     private let username = MutableProperty<String?>(nil)
     private let password = MutableProperty<String?>(nil)
     private let nickname = MutableProperty<String?>(nil)
@@ -20,11 +20,11 @@ public final class SignUpViewModel {
     private let gender = MutableProperty<Gender?>(nil)
     private let photo = MutableProperty<UIImage?>(nil)
     
-    // MARK: Output
+    // MARK: - Outputs
     public let areAllProfileInputsPresent = MutableProperty<Bool>(false)
     public let areSignUpInputsPresent = MutableProperty<Bool>(false)
     
-    // MARK: Variables
+    // MARK: - View Models
     public lazy var usernameAndPasswordViewModel: UsernameAndPasswordViewModel = { [unowned self] in
         let viewmodel = UsernameAndPasswordViewModel()
         
@@ -73,11 +73,33 @@ public final class SignUpViewModel {
         return viewmodel
     }()
     
+    // MARK: - Variables
+    private weak var accountNavigator: IAccountNavigator!
+    private let userService: IUserService
     private lazy var allProfileInputs: SignalProducer<(String, NSDate, UIImage, Gender), NoError> = combineLatest(self.nickname.producer |> ignoreNil, self.birthday.producer |> ignoreNil, self.photo.producer |> ignoreNil, self.gender.producer |> ignoreNil)
     private lazy var allSignUpInputs: SignalProducer<(String, String), NoError> = combineLatest(self.username.producer |> ignoreNil, self.password.producer |> ignoreNil)
-    private let userService: IUserService
     
-    // MARK: - API
+    // MARK: Initializers
+    public init(accountNavigator: IAccountNavigator, userService: IUserService) {
+        self.userService = userService
+        self.accountNavigator = accountNavigator
+        
+        areAllProfileInputsPresent <~ allProfileInputs
+            |> map { _ in true }
+        
+        areSignUpInputsPresent <~ allSignUpInputs
+            |> map { _ in true }
+        
+    }
+    
+    deinit {
+        // Dispose signals before deinit.
+        AccountLogVerbose("Sign Up View Model deinitializes.")
+    }
+    
+    // MARK: Setup
+    
+    // MARK: Others
     public var signUp: SignalProducer<Bool, NSError> {
         return self.areSignUpInputsPresent.producer
             // only allow TRUE value
@@ -89,9 +111,6 @@ public final class SignUpViewModel {
                 user.username = username
                 user.password = password
                 return self.userService.signUp(user)
-//                return SignalProducer<Bool, NSError> { sink, disposable in
-//                    sendNext(sink, true)
-//                }
         }
     }
     
@@ -117,18 +136,9 @@ public final class SignUpViewModel {
         }
     }
     
-    // MARK: Initializers
-    public init(userService: IUserService) {
-        self.userService = userService
-        
-        areAllProfileInputsPresent <~ allProfileInputs
-            |> map { _ in true }
-        
-        areSignUpInputsPresent <~ allSignUpInputs
-            |> map { _ in true }
+    public func goToFeaturedModule(_ callback: (CompletionHandler? -> ())? = nil) {
+        accountNavigator.goToFeaturedModule { handler in
+            callback?(handler)
+        }
     }
-    
-    // MARK: Setup
-    
-    // MARK: Others
 }

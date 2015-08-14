@@ -392,7 +392,7 @@ public final class SignUpView : UIView {
     private let (_dismissUIImagePickerProxy, _dismissUIImagePickerSink) = SignalProducer<CompletionHandler?, NoError>.proxy()
     
     // MARK: - Properties
-    private let viewmodel = MutableProperty<SignUpViewModel?>(nil)
+    public let viewmodel = MutableProperty<SignUpViewModel?>(nil)
     private let compositeDisposable = CompositeDisposable()
     private lazy var transitionManager: TransitionManager = TransitionManager(
         initial: self.usernameAndPasswordTransition.transitionActor,

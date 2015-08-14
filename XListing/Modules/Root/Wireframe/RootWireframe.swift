@@ -23,10 +23,14 @@ public class RootWireframe : IRootWireframe {
     }
     
     public func pushViewController<T: UIViewController>(viewController: T, animated: Bool) {
+        println(navigationController.viewControllers)
+//        println(navigationControoler.set)
         navigationController.pushViewController(viewController, animated: animated)
     }
     
     public func presentViewController<T: UIViewController>(viewController: T, animated: Bool, completion: (() -> ())? = nil) {
         navigationController.presentViewController(viewController, animated: animated, completion: completion)
     }
+    
+//    public func setViewControllers
 }
