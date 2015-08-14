@@ -11,7 +11,7 @@ import ReactiveCocoa
 import AVOSCloud
 import Dollar
 
-public struct FeaturedListViewModel : IFeaturedListViewModel {
+public final class FeaturedListViewModel : IFeaturedListViewModel {
     
     // MARK: - Public
     
@@ -20,9 +20,9 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     // MARK: Output
     public let featuredBusinessViewModelArr: MutableProperty<[FeaturedBusinessViewModel]> = MutableProperty([FeaturedBusinessViewModel]())
     public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
-    private let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
+    
     // MARK: Private Variables
-    private static var loadedBusinesses = 0
+    private let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
     
     // MARK: API
     
@@ -52,7 +52,7 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
                 self.loadedBusinesses.put(businesses.count + self.loadedBusinesses.value)
                 // map the business models to viewmodels
                 return self.businessArr.value.map {
-                    FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter, business: $0)
+                    FeaturedBusinessViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter, business: $0)
                     }
             }
             |> on(

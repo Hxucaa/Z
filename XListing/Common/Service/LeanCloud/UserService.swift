@@ -41,8 +41,7 @@ public final class UserService : IUserService {
     public func currentLoggedInUser() -> SignalProducer<User, NSError> {
         return SignalProducer { sink, disposable in
             if let currentUser = self.currentUser where currentUser.isAuthenticated() {
-//                let query = User.query()
-//                query.getObjectInBackgroundWithId(currentUser.objectId)
+                
                 currentUser.fetchInBackgroundWithBlock { object, error -> Void in
                     if error == nil {
                         sendNext(sink, object as! User)
