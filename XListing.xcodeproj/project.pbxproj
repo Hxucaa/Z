@@ -122,6 +122,8 @@
 		B4A3A6271B757DB400E680E6 /* PhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A3A6261B757DB400E680E6 /* PhotoViewModel.swift */; };
 		B4A3C16D1AD44B7E00B9D699 /* FeaturedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A3C16C1AD44B7E00B9D699 /* FeaturedListViewModel.swift */; };
 		B4AA1A6C1B7EA1AA00119E91 /* LandingPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AA1A6B1B7EA1AA00119E91 /* LandingPageViewModel.swift */; };
+		B4AA1A6D1B7EA7AD00119E91 /* ProfileTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ADD8A01B608B4200B27885 /* ProfileTabView.xib */; };
+		B4AA1A6E1B7EA7AD00119E91 /* ProfileHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ADD89D1B608B4200B27885 /* ProfileHeaderView.xib */; };
 		B4B665401ADF88DB0084DBE7 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B6653F1ADF88DB0084DBE7 /* DetailViewController.swift */; };
 		B4B665421ADF8D070084DBE7 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B665411ADF8D070084DBE7 /* DetailViewModel.swift */; };
 		B4B665441ADF8D2F0084DBE7 /* IDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B665431ADF8D2F0084DBE7 /* IDetailViewModel.swift */; };
@@ -144,7 +146,6 @@
 		B4E7C1921B53893E0038260E /* LogInView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E7C1911B53893E0038260E /* LogInView.xib */; };
 		B4E7C1941B5389710038260E /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E7C1931B5389710038260E /* LogInView.swift */; };
 		B4E7C1961B5390200038260E /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E7C1951B5390200038260E /* SignUpView.swift */; };
-		B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E7C1971B53904D0038260E /* SignUpView.xib */; };
 		B4ECBE1E1B73E0ED00234217 /* NicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE1D1B73E0ED00234217 /* NicknameView.swift */; };
 		B4ECBE201B73ED0900234217 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE1F1B73ED0900234217 /* NicknameViewModel.swift */; };
 		B4ECBE221B74106E00234217 /* GenderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE211B74106E00234217 /* GenderPickerView.swift */; };
@@ -197,10 +198,8 @@
 		D02A61711B655019007B48E9 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02A61701B655019007B48E9 /* ProfileHeaderViewModel.swift */; };
 		D0ADD8A11B608B4200B27885 /* ProfileBusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADD89B1B608B4200B27885 /* ProfileBusinessCell.swift */; };
 		D0ADD8A21B608B4200B27885 /* ProfileBusinessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ADD89C1B608B4200B27885 /* ProfileBusinessCell.xib */; };
-		D0ADD8A31B608B4200B27885 /* ProfileHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ADD89D1B608B4200B27885 /* ProfileHeaderView.xib */; };
 		D0ADD8A41B608B4200B27885 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADD89E1B608B4200B27885 /* ProfileHeaderView.swift */; };
 		D0ADD8A51B608B4200B27885 /* ProfileTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADD89F1B608B4200B27885 /* ProfileTabView.swift */; };
-		D0ADD8A61B608B4200B27885 /* ProfileTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ADD8A01B608B4200B27885 /* ProfileTabView.xib */; };
 		D0D006031B62B23900755B7F /* ProfileBusinessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D006021B62B23900755B7F /* ProfileBusinessViewModel.swift */; };
 		E57221635B494C9E18CE4431 /* Pods_XListingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -1300,15 +1299,11 @@
 				B3FFDD7D1B716FA3003710D8 /* BirthdayPickerView.xib in Resources */,
 				B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordView.xib in Resources */,
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
-				D0ADD8A61B608B4200B27885 /* ProfileTabView.xib in Resources */,
+				B4AA1A6D1B7EA7AD00119E91 /* ProfileTabView.xib in Resources */,
 				B31B50781B7E308100782341 /* (null) in Resources */,
 				B31B50771B7E308100782341 /* SignUpView.xib in Resources */,
 				B31B50761B7E308100782341 /* Account.storyboard in Resources */,
-				D0ADD8A31B608B4200B27885 /* ProfileHeaderView.xib in Resources */,
-				D0ADD8A61B608B4200B27885 /* ProfileTabView.xib in Resources */,
-				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
-				D0ADD8A31B608B4200B27885 /* ProfileHeaderView.xib in Resources */,
-				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
+				B4AA1A6E1B7EA7AD00119E91 /* ProfileHeaderView.xib in Resources */,
 				B3F5E2401B65A605007762B4 /* StartUpButtonsView.xib in Resources */,
 				B4E7C18E1B5387880038260E /* LandingPageView.xib in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
