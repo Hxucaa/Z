@@ -19,11 +19,17 @@ public final class FeaturedBusinessViewModel {
     public let district: ConstantProperty<String>
     public let coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
     public let isCoverImageConsumed = MutableProperty<Bool>(false)
-    public let participation: MutableProperty<String> = MutableProperty("")
+    public let participation: MutableProperty<String> = MutableProperty<String>("")
+    public let userArr: MutableProperty<[User]> = MutableProperty([User]())
+    public let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
+
+    public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
+
     
-    public init(geoLocationService: IGeoLocationService, imageService: IImageService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int, business: Business?) {
+    public init(geoLocationService: IGeoLocationService, imageService: IImageService, participationService: IParticipationService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int, business: Business?) {
         self.geoLocationService = geoLocationService
         self.imageService = imageService
+        self.participationService = participationService
         
         if let businessName = businessName {
             self.businessName = ConstantProperty(businessName)
@@ -52,8 +58,9 @@ public final class FeaturedBusinessViewModel {
                     self.coverImage.put($0)
                 })
         }
-        
-//       getAttendees()
+        if business != nil{
+            getAttendees(business!)
+        }
     }
     // "http://lasttear.com/wp-content/uploads/2015/03/interior-design-ideas-furniture-architecture-mesmerizing-chinese-restaurant-interior-with-red-nuance-inspiring.jpg"
     
@@ -62,6 +69,8 @@ public final class FeaturedBusinessViewModel {
     // MARK: Services
     private let geoLocationService: IGeoLocationService
     private let imageService: IImageService
+    private let participationService: IParticipationService
+
     
     // MARK: Setup
     
@@ -77,34 +86,32 @@ public final class FeaturedBusinessViewModel {
     
     
     // MARK: Network call
-//    private func getParticipations(user : User) -> SignalProducer<[ProfileBusinessViewModel], NSError> {
-//        let query = Participation.query()!
-//        typealias Property = Participation.Property
-//        query.whereKey(Property.User.rawValue, equalTo: user)
-//        query.includeKey(Property.Business.rawValue)
-//        
-//        return participationService.findBy(query)
-//            |> on(next: { participations in
-//                self.fetchingData.put(true)
-//                self.participationArr.put(participations)
-//                self.businessArr.put(participations.map { $0.business })
-//            })
-//            |> map { participations -> [ProfileBusinessViewModel] in
-//                
-//                // map participation to its view model
-//                return participations.map {
-//                    let business = $0.business
-//                    let viewmodel = ProfileBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: business.nameSChinese, city: business.city, district: business.district, cover: business.cover, geopoint: business.geopoint, participationCount: business.wantToGoCounter)
-//                    return viewmodel
-//                }
-//            }
-//            |> on(
-//                next: { response in
-//                    self.profileBusinessViewModelArr.put(response)
-//                    self.fetchingData.put(false)
-//                },
-//                error: { ProfileLogError($0.customErrorDescription) }
-//        )
-//    }
-    
+    private func getAttendees(business : Business) -> SignalProducer<[User], NSError> {
+        let query = Participation.query()!
+        typealias Property = Participation.Property
+        query.whereKey(Property.Business.rawValue, equalTo: business)
+        query.includeKey(Property.User.rawValue)
+        BOLogDebug("built query")
+
+        return participationService.findBy(query)
+            |> on(next: { participations in
+                self.fetchingData.put(true)
+                self.participationArr.put(participations)
+                BOLogDebug("return a participation")
+            })
+            |> map { participations -> [User] in
+                // map participation to its view model
+                BOLogDebug("participation returned \(participations.count)")
+                return participations.map {
+                    $0.user
+                }
+            }
+            |> on(
+                next: { response in
+                    self.userArr.put(response)
+                    self.fetchingData.put(false)
+                },
+                error: { ProfileLogError($0.customErrorDescription) }
+        )
+    }
 }

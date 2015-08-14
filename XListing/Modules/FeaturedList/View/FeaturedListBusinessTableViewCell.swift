@@ -12,6 +12,12 @@ import ReactiveCocoa
 
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
+    //MARK: constants
+    private let avatarWidth = CGFloat(40)
+    private let avatarHeight = CGFloat(40)
+    private let avatarGap = CGFloat(10)
+    
+    
     // MARK: - UI Controls
     @IBOutlet weak var businessImage: UIImageView!
     @IBOutlet weak var infoView: UIView!
@@ -32,6 +38,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     private let compositeDisposable = CompositeDisposable()
     /// whether this instance of cell has been reused
     private let isReusedCell = MutableProperty<Bool>(false)
+    private var users: [User] = [User]()
     
     // MARK: Setups
     
@@ -40,7 +47,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
         var infoViewContent = NSBundle.mainBundle().loadNibNamed("infopanel", owner: self, options: nil)[0] as! UIView
-        infoViewContent.frame = CGRectMake(0, 0, infoView.frame.width, infoView.frame.height+5)
+        infoViewContent.frame = CGRectMake(0, 0, infoView.frame.width, infoView.frame.height)
         infoView.addSubview(infoViewContent)
         var participationViewContent = NSBundle.mainBundle().loadNibNamed("participationview", owner: self, options: nil)[0] as! UIView
         participationViewContent.frame = CGRectMake(0, 0, participationView.frame.width, participationView.frame.height)
@@ -88,5 +95,26 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                     viewmodel.isCoverImageConsumed.put(true)
                 }
             })
+        
+        compositeDisposable += self.viewmodel.userArr.producer
+            |> start (next: { [weak self] users in
+                self?.users = users
+                BOLogDebug("count of returned users \(users.count)")
+                self?.setupParticipationView()
+            })
+    }
+    private func setupParticipationView(){
+        BOLogDebug("setupcalled")
+        for user in self.users{
+            if user.profileImg != nil{
+                BOLogDebug("setupimage")
+                let frame = CGRectMake(0, 0, self.avatarWidth, self.avatarHeight)
+                let imageView = UIImageView(frame: frame)
+                let data = user.profileImg!.getData()
+                let image = UIImage(data: data)
+                imageView.setImageWithAnimation(image!)
+                self.avatarList.addSubview(imageView)
+            }
+        }
     }
 }

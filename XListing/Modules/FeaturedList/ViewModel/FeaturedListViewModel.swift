@@ -20,7 +20,7 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     // MARK: Output
     public let featuredBusinessViewModelArr: MutableProperty<[FeaturedBusinessViewModel]> = MutableProperty([FeaturedBusinessViewModel]())
     public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
-    
+    private let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
     // MARK: Private Variables
     private static var loadedBusinesses = 0
     
@@ -38,9 +38,12 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
         return businessService.findBy(query)
             |> on(next: { businesses in
                 self.fetchingData.put(true)
+                BOLogDebug("find a business")
             })
             |> map { businesses -> [FeaturedBusinessViewModel] in
                 // save the business models
+                BOLogDebug("map business to model")
+
                 let gotBusinesses = businesses
                 let arrayItems = self.businessArr.value.count
                 self.businessArr.put(self.businessArr.value + businesses)
@@ -49,13 +52,15 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
                 self.loadedBusinesses.put(businesses.count + self.loadedBusinesses.value)
                 // map the business models to viewmodels
                 return self.businessArr.value.map {
-                    FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter, business: $0)
+                    FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter, business: $0)
                     }
             }
             |> on(
                 next: { response in
                     self.fetchingData.put(false)
                     self.featuredBusinessViewModelArr.put(response)
+                    BOLogDebug("return businessmodelarr")
+
                 },
                 error: { FeaturedLogError($0.description) }
             )
@@ -75,14 +80,14 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     // MARK: Initializers
-    public init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
+    public init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService, participationService: IParticipationService) {
         self.router = router
         self.businessService = businessService
         self.userService = userService
         self.geoLocationService = geoLocationService
         self.userDefaultsService = userDefaultsService
         self.imageService = imageService
-        
+        self.participationService = participationService
         getFeaturedBusinesses()
             |> start()
     }
@@ -92,6 +97,7 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     // MARK: Private variables
     private let router: IRouter
     private let businessService: IBusinessService
+    private let participationService: IParticipationService
     private let userService: IUserService
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService

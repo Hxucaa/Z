@@ -11,7 +11,7 @@ import ReactiveCocoa
 
 public protocol IFeaturedListViewModel {
     var featuredBusinessViewModelArr: MutableProperty<[FeaturedBusinessViewModel]> { get }
-    init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
+    init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService, participationService: IParticipationService)
     func getFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError>
     func pushNearbyModule()
     func pushDetailModule(section: Int)
