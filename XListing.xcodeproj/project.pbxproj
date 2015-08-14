@@ -19,8 +19,7 @@
 		26645ADB1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ADA1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift */; };
 		26645ADE1B5C677E00ADDCD1 /* NicknameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ADC1B5C677E00ADDCD1 /* NicknameTableViewCell.swift */; };
 		26645ADF1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ADD1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift */; };
-		269163661B5C6B0C005D48FA /* PopDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269163641B5C6B0C005D48FA /* PopDateViewController.swift */; };
-		269163691B5C6C1E005D48FA /* PopoverDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269163681B5C6C1E005D48FA /* PopoverDatePicker.swift */; };
+		269163691B5C6C1E005D48FA /* (null) in Sources */ = {isa = PBXBuildFile; };
 		26979C061B71CB54003F85ED /* ProfileEdit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26979C051B71CB54003F85ED /* ProfileEdit.storyboard */; };
 		2A1B3A201B2574EF003E70E0 /* ParticipationPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */; };
 		2A1B3A221B25751A003E70E0 /* ParticipationPopoverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */; };
@@ -69,11 +68,11 @@
 		7EFEF7421B124B060043E076 /* IRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7411B124B060043E076 /* IRouter.swift */; };
 		B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */; };
 		B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */; };
-		B33C0E051B71653B005F8410 /* NicknameView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B33C0E041B71653B005F8410 /* NicknameView.xib */; };
-		B33C0E071B716A3C005F8410 /* GenderPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B33C0E061B716A3C005F8410 /* GenderPickerView.xib */; };
 		B31B50761B7E308100782341 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F195801B2789A100B8C519 /* Account.storyboard */; };
 		B31B50771B7E308100782341 /* SignUpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E7C1971B53904D0038260E /* SignUpView.xib */; };
-		B31B50781B7E308100782341 /* PopDateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 269163651B5C6B0C005D48FA /* PopDateViewController.xib */; };
+		B31B50781B7E308100782341 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		B33C0E051B71653B005F8410 /* NicknameView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B33C0E041B71653B005F8410 /* NicknameView.xib */; };
+		B33C0E071B716A3C005F8410 /* GenderPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B33C0E061B716A3C005F8410 /* GenderPickerView.xib */; };
 		B3F5E2401B65A605007762B4 /* StartUpButtonsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3F5E23F1B65A605007762B4 /* StartUpButtonsView.xib */; };
 		B3F5E2421B65A620007762B4 /* RePromptButtonsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3F5E2411B65A620007762B4 /* RePromptButtonsView.xib */; };
 		B3FFDD7D1B716FA3003710D8 /* BirthdayPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3FFDD7C1B716FA3003710D8 /* BirthdayPickerView.xib */; };
@@ -122,6 +121,7 @@
 		B4A3A6251B757D3B00E680E6 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A3A6241B757D3B00E680E6 /* PhotoView.swift */; };
 		B4A3A6271B757DB400E680E6 /* PhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A3A6261B757DB400E680E6 /* PhotoViewModel.swift */; };
 		B4A3C16D1AD44B7E00B9D699 /* FeaturedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A3C16C1AD44B7E00B9D699 /* FeaturedListViewModel.swift */; };
+		B4AA1A6C1B7EA1AA00119E91 /* LandingPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AA1A6B1B7EA1AA00119E91 /* LandingPageViewModel.swift */; };
 		B4B665401ADF88DB0084DBE7 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B6653F1ADF88DB0084DBE7 /* DetailViewController.swift */; };
 		B4B665421ADF8D070084DBE7 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B665411ADF8D070084DBE7 /* DetailViewModel.swift */; };
 		B4B665441ADF8D2F0084DBE7 /* IDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B665431ADF8D2F0084DBE7 /* IDetailViewModel.swift */; };
@@ -189,7 +189,6 @@
 		B4FA1FAE1B70D708003BD3BC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FAD1B70D708003BD3BC /* MobileCoreServices.framework */; };
 		B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordView.xib */; };
 		B4FC6B211B678515001F13E9 /* NSObject+Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FC6B201B678515001F13E9 /* NSObject+Swift.m */; };
-		B4FCC7261AE9C707009B4DF6 /* LandingPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7251AE9C707009B4DF6 /* LandingPageViewModel.swift */; };
 		B4FCC7281AE9C71F009B4DF6 /* ILandingPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7271AE9C71F009B4DF6 /* ILandingPageViewModel.swift */; };
 		B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */; };
 		B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */; };
@@ -340,6 +339,7 @@
 		B4A3A6241B757D3B00E680E6 /* PhotoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoView.swift; path = XListing/Modules/Account/SignUp/Photo/PhotoView.swift; sourceTree = SOURCE_ROOT; };
 		B4A3A6261B757DB400E680E6 /* PhotoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoViewModel.swift; path = XListing/Modules/Account/SignUp/Photo/PhotoViewModel.swift; sourceTree = SOURCE_ROOT; };
 		B4A3C16C1AD44B7E00B9D699 /* FeaturedListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewModel.swift; sourceTree = "<group>"; };
+		B4AA1A6B1B7EA1AA00119E91 /* LandingPageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageViewModel.swift; sourceTree = "<group>"; };
 		B4B6653F1ADF88DB0084DBE7 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailViewController.swift; path = Detail/DetailViewController.swift; sourceTree = "<group>"; };
 		B4B665411ADF8D070084DBE7 /* DetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailViewModel.swift; path = Detail/DetailViewModel.swift; sourceTree = "<group>"; };
 		B4B665431ADF8D2F0084DBE7 /* IDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IDetailViewModel.swift; path = Detail/IDetailViewModel.swift; sourceTree = "<group>"; };
@@ -409,7 +409,6 @@
 		B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UsernameAndPasswordView.xib; path = XListing/Modules/Account/SignUp/UsernameAndPassword/UsernameAndPasswordView.xib; sourceTree = SOURCE_ROOT; };
 		B4FC6B201B678515001F13E9 /* NSObject+Swift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swift.m"; sourceTree = "<group>"; };
 		B4FC6B221B678541001F13E9 /* NSObject+Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Swift.h"; sourceTree = "<group>"; };
-		B4FCC7251AE9C707009B4DF6 /* LandingPageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LandingPageViewModel.swift; path = XListing/Modules/Account/LandingPage/LandingPageViewModel.swift; sourceTree = SOURCE_ROOT; };
 		B4FCC7271AE9C71F009B4DF6 /* ILandingPageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ILandingPageViewModel.swift; sourceTree = "<group>"; };
 		B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountWireframe.swift; sourceTree = "<group>"; };
 		B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = INearbyWireframe.swift; sourceTree = "<group>"; };
@@ -546,13 +545,13 @@
 		2A99785E1B2C29B700339265 /* LandingPage */ = {
 			isa = PBXGroup;
 			children = (
+				2A714B101B085C63007A8FBB /* LandingPageViewController.swift */,
 				B4E7C18F1B5387DF0038260E /* LandingPageView.swift */,
 				B4F4AFD91B6E05C300ABA176 /* BackButton.xib */,
 				B4E7C18D1B5387880038260E /* LandingPageView.xib */,
 				B3F5E23F1B65A605007762B4 /* StartUpButtonsView.xib */,
 				B3F5E2411B65A620007762B4 /* RePromptButtonsView.xib */,
-				2A714B101B085C63007A8FBB /* LandingPageViewController.swift */,
-				B4FCC7251AE9C707009B4DF6 /* LandingPageViewModel.swift */,
+				B4AA1A6B1B7EA1AA00119E91 /* LandingPageViewModel.swift */,
 				B4FCC7271AE9C71F009B4DF6 /* ILandingPageViewModel.swift */,
 			);
 			path = LandingPage;
@@ -1204,13 +1203,6 @@
 			name = ProfileDisplayPage;
 			sourceTree = "<group>";
 		};
-		D0ADD8A81B61448000B27885 /* ProfileEditingPage */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = ProfileEditingPage;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1308,18 +1300,15 @@
 				B3FFDD7D1B716FA3003710D8 /* BirthdayPickerView.xib in Resources */,
 				B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordView.xib in Resources */,
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
-				2632F12F1B60A4D100CA49AE /* GenderPickerViewController.xib in Resources */,
 				D0ADD8A61B608B4200B27885 /* ProfileTabView.xib in Resources */,
-				B31B50781B7E308100782341 /* PopDateViewController.xib in Resources */,
+				B31B50781B7E308100782341 /* (null) in Resources */,
 				B31B50771B7E308100782341 /* SignUpView.xib in Resources */,
 				B31B50761B7E308100782341 /* Account.storyboard in Resources */,
 				D0ADD8A31B608B4200B27885 /* ProfileHeaderView.xib in Resources */,
 				D0ADD8A61B608B4200B27885 /* ProfileTabView.xib in Resources */,
 				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
-				B4F195811B2789A100B8C519 /* Account.storyboard in Resources */,
 				D0ADD8A31B608B4200B27885 /* ProfileHeaderView.xib in Resources */,
 				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
-				B4F195811B2789A100B8C519 /* Account.storyboard in Resources */,
 				B3F5E2401B65A605007762B4 /* StartUpButtonsView.xib in Resources */,
 				B4E7C18E1B5387880038260E /* LandingPageView.xib in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
@@ -1455,7 +1444,7 @@
 				B48C99221ADA6A640045BCA9 /* NearbyWireframe.swift in Sources */,
 				B4FCC7411AEB0080009B4DF6 /* IRootWireframe.swift in Sources */,
 				B48C991D1ADA62DA0045BCA9 /* NearbyViewModel.swift in Sources */,
-				269163691B5C6C1E005D48FA /* PopoverDatePicker.swift in Sources */,
+				269163691B5C6C1E005D48FA /* (null) in Sources */,
 				B4A3A6231B756BED00E680E6 /* SignUpViewController.swift in Sources */,
 				B4E70B3C1AF1709400A7418F /* ParticipationService.swift in Sources */,
 				26645ADB1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift in Sources */,
@@ -1475,17 +1464,13 @@
 				B4F4AFDE1B6EC70700ABA176 /* Misc.swift in Sources */,
 				3D211E861B2C1AB000161E09 /* IBackgroundLocationWorker.swift in Sources */,
 				B4F195A11B2AA47300B8C519 /* FeaturedRoute.swift in Sources */,
-				2612CB951B628A9C007BFC33 /* GenderPicker.swift in Sources */,
 				B4A3A6251B757D3B00E680E6 /* PhotoView.swift in Sources */,
 				B48C99121ADA56F70045BCA9 /* NearbyViewController.swift in Sources */,
 				B4F195A91B2B9EC400B8C519 /* DetailImageViewModel.swift in Sources */,
 				B47E15C61B181E160028E07E /* BackgroundOperationsWorkerFactory.swift in Sources */,
 				3D70CCED1B57A951004588EC /* UIImageView+extension.swift in Sources */,
-				2632F12E1B60A4D100CA49AE /* GenderPickerViewController.swift in Sources */,
 				B4ECBE241B7410A800234217 /* GenderPickerViewModel.swift in Sources */,
-				B4FCC7261AE9C707009B4DF6 /* LandingPageViewModel.swift in Sources */,
 				B4307F4B1B7BE47A00E3D41B /* LogInViewController.swift in Sources */,
-				B4FCC7261AE9C707009B4DF6 /* AccountViewModel.swift in Sources */,
 				B4F1958B1B2938FC00B8C519 /* HUD.swift in Sources */,
 				B4F195BF1B2CE2C300B8C519 /* ParticipationType.swift in Sources */,
 				D02A61711B655019007B48E9 /* ProfileHeaderViewModel.swift in Sources */,
@@ -1512,6 +1497,7 @@
 				3DFA2FA31B43C19800058930 /* WantToGoViewModel.swift in Sources */,
 				26645ADE1B5C677E00ADDCD1 /* NicknameTableViewCell.swift in Sources */,
 				B4F195951B2A276C00B8C519 /* XUIViewController.swift in Sources */,
+				B4AA1A6C1B7EA1AA00119E91 /* LandingPageViewModel.swift in Sources */,
 				B4F195A51B2ABE0500B8C519 /* AccountRoute.swift in Sources */,
 				B4F4AF801B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift in Sources */,
 				B4E7C1961B5390200038260E /* SignUpView.swift in Sources */,
