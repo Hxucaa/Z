@@ -20,7 +20,6 @@
 		26645ADE1B5C677E00ADDCD1 /* NicknameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ADC1B5C677E00ADDCD1 /* NicknameTableViewCell.swift */; };
 		26645ADF1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ADD1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift */; };
 		269163661B5C6B0C005D48FA /* PopDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269163641B5C6B0C005D48FA /* PopDateViewController.swift */; };
-		269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 269163651B5C6B0C005D48FA /* PopDateViewController.xib */; };
 		269163691B5C6C1E005D48FA /* PopoverDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269163681B5C6C1E005D48FA /* PopoverDatePicker.swift */; };
 		2A1B3A201B2574EF003E70E0 /* ParticipationPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */; };
 		2A1B3A221B25751A003E70E0 /* ParticipationPopoverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */; };
@@ -71,6 +70,9 @@
 		7EFEF7461B13D0900043E076 /* EditInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFEF7451B13D0900043E076 /* EditInfoView.swift */; };
 		B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */; };
 		B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */; };
+		B31B50761B7E308100782341 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F195801B2789A100B8C519 /* Account.storyboard */; };
+		B31B50771B7E308100782341 /* SignUpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E7C1971B53904D0038260E /* SignUpView.xib */; };
+		B31B50781B7E308100782341 /* PopDateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 269163651B5C6B0C005D48FA /* PopDateViewController.xib */; };
 		B3F5E2401B65A605007762B4 /* StartUpButtonsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3F5E23F1B65A605007762B4 /* StartUpButtonsView.xib */; };
 		B3F5E2421B65A620007762B4 /* RePromptButtonsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3F5E2411B65A620007762B4 /* RePromptButtonsView.xib */; };
 		B40A0D8B1B22455700036986 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8A1B22455700036986 /* Constants.swift */; };
@@ -131,9 +133,7 @@
 		B4E7C1921B53893E0038260E /* LogInView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E7C1911B53893E0038260E /* LogInView.xib */; };
 		B4E7C1941B5389710038260E /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E7C1931B5389710038260E /* LogInView.swift */; };
 		B4E7C1961B5390200038260E /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E7C1951B5390200038260E /* SignUpView.swift */; };
-		B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E7C1971B53904D0038260E /* SignUpView.xib */; };
 		B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F1957A1B26DE3000B8C519 /* LogInViewModel.swift */; };
-		B4F195811B2789A100B8C519 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F195801B2789A100B8C519 /* Account.storyboard */; };
 		B4F195891B27A6FF00B8C519 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195881B27A6FF00B8C519 /* SignUpViewModel.swift */; };
 		B4F1958B1B2938FC00B8C519 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F1958A1B2938FC00B8C519 /* HUD.swift */; };
 		B4F1958F1B29790100B8C519 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F1958E1B29790100B8C519 /* UIColor+extension.swift */; };
@@ -1152,7 +1152,7 @@
 		7EF371031AB8C012009AA3B9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = ZenChat;
 				TargetAttributes = {
 					7EF3710A1AB8C012009AA3B9 = {
@@ -1199,13 +1199,10 @@
 				7EF371161AB8C012009AA3B9 /* Main.storyboard in Resources */,
 				2632F12F1B60A4D100CA49AE /* GenderPickerViewController.xib in Resources */,
 				D0ADD8A61B608B4200B27885 /* ProfileTabView.xib in Resources */,
-				269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */,
-				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
-				B4F195811B2789A100B8C519 /* Account.storyboard in Resources */,
+				B31B50781B7E308100782341 /* PopDateViewController.xib in Resources */,
+				B31B50771B7E308100782341 /* SignUpView.xib in Resources */,
+				B31B50761B7E308100782341 /* Account.storyboard in Resources */,
 				D0ADD8A31B608B4200B27885 /* ProfileHeaderView.xib in Resources */,
-				269163671B5C6B0C005D48FA /* PopDateViewController.xib in Resources */,
-				B4E7C1981B53904D0038260E /* SignUpView.xib in Resources */,
-				B4F195811B2789A100B8C519 /* Account.storyboard in Resources */,
 				B3F5E2401B65A605007762B4 /* StartUpButtonsView.xib in Resources */,
 				7E0173881B146473002E154B /* EditInfoView.xib in Resources */,
 				B4E7C18E1B5387880038260E /* LandingPageView.xib in Resources */,
@@ -1608,6 +1605,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1620,6 +1618,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited) -D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "XListing-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1631,6 +1630,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1643,6 +1643,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "XListing-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
