@@ -18,7 +18,6 @@ target 'XListing' do
 #  pod 'AVOSCloud', '~> 3.1'
 #  pod 'AVOSCloudCrashReporting', '~> 3.1'
 #  pod 'AVOSCloudIM', '~> 3.1'
-#  pod 'AVOSCloudSNS', '~> 3.1'
 end
 
 target 'XListingTests' do
