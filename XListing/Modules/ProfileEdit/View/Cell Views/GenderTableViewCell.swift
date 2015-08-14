@@ -1,30 +1,34 @@
 //
-//  NicknameTableViewCell.swift
-//  
+//  GenderTableViewCell.swift
+//  XListing
 //
-//  Created by Bruce Li on 2015-07-19.
-//
+//  Created by Bruce Li on 2015-07-16.
+//  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import UIKit
 import ReactiveCocoa
 
-protocol NicknameCellTableViewCellDelegate : class {
-    
-    func editPictureButtonAction ()
+protocol GenderCellTableViewCellDelegate : class {
+    //func setUpGenderPopover(textField: UITextField)
+    func editPictureTextButtonAction()
+    func presentGenderPopover()
 }
 
-public final class NicknameTableViewCell: UITableViewCell {
+public final class GenderTableViewCell: UITableViewCell {
 
+    @IBOutlet private weak var genderIcon: UILabel!
     @IBOutlet private weak var textField: UITextField!
     @IBOutlet private weak var editProfilePicButton: UIButton!
-    internal weak var delegate: NicknameCellTableViewCellDelegate!
+    internal weak var delegate: GenderCellTableViewCellDelegate!
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        textField.placeholder = "昵称"
+        textField.placeholder = "性别"
+        genderIcon.text = Icons.Gender
         textField.delegate = self
+
     }
 
     public override func setSelected(selected: Bool, animated: Bool) {
@@ -34,7 +38,7 @@ public final class NicknameTableViewCell: UITableViewCell {
     
     public func setUpEditProfileButton () {
         let editProfilePicAction = Action<UIButton, Bool, NSError> { [weak self] button in
-            self?.delegate.editPictureButtonAction()
+            self?.delegate.editPictureTextButtonAction()
             return SignalProducer { [weak self] sink, disposible in
                 sendCompleted(sink)
             }
@@ -42,19 +46,24 @@ public final class NicknameTableViewCell: UITableViewCell {
         editProfilePicButton.addTarget(editProfilePicAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
     
-    public func getTextfield_rac_text () -> MutableProperty<String?> {
-        return textField.rac_text
+    public func getTextfieldText () -> String{
+        return textField.text
     }
     
-    public func setTextfieldText (text: String) {
+    public func setTextfieldText (text: String?) {
         textField.text = text
     }
-
 }
 
-extension NicknameTableViewCell: UITextFieldDelegate {
+extension GenderTableViewCell: UITextFieldDelegate {
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
         endEditing(true)
+        return false
+    }
+    
+    public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        delegate.presentGenderPopover()
         return false
     }
 }

@@ -1,4 +1,4 @@
-//
+  //
 //  ProfileEditViewModel.swift
 //  XListing
 //
@@ -19,7 +19,7 @@ public struct ProfileEditViewModel {
     public let nickname = MutableProperty<String?>("")
     public let birthday = MutableProperty<NSDate>(NSDate())
     public let profileImage = MutableProperty<UIImage?>(nil)
-    public let gender = MutableProperty<Gender?>(nil)
+    public let gender = MutableProperty<String?>(nil)
     
     // MARK: Output
     public let allInputsValid = MutableProperty<Bool>(false)
@@ -42,7 +42,7 @@ public struct ProfileEditViewModel {
                 user.nickname = self.nickname.value
                 user.birthday = self.birthday.value
                 user.profileImg = file
-                user.gender = self.gender.value?.rawValue
+                user.gender = self.gender.value
                 return self.userService.save(user)
         }
     }
@@ -72,17 +72,20 @@ public struct ProfileEditViewModel {
     
     // MARK: Initializers
     
-    public init(userService: IUserService) {
+    public init(userService: IUserService, userModel: User, dismissCallback: (() -> ())? = nil) {
         self.userService = userService
-        
-        getUserData()
-            |> start()
+        self.user = userModel
         
         setupNickname()
         setupGender()
         setupBirthday()
         setupProfileImage()
         setupAllInputsValid()
+        
+        self.profileImage.put(UIImage(data: user.profileImg!.getData()))
+        self.nickname.put(user.nickname)
+        self.gender.put(user.gender)
+        self.birthday.put(user.birthday!)
     }
     
     // MARK: - Private
@@ -90,6 +93,7 @@ public struct ProfileEditViewModel {
     private var isBirthdayValid = MutableProperty<Bool>(false)
     private var isProfileImageValid = MutableProperty<Bool>(false)
     private var isGenderValid = MutableProperty<Bool>(false)
+    private let user: User
     
     private let symbols = "~`!@#$%^&*()-_+={[}]|\\:;\"'<,>.?/"
     private let chinese = "\\p{script=Han}"
@@ -106,7 +110,7 @@ public struct ProfileEditViewModel {
         // - between 3 and 15 characters
         // - emoji, letters, numbers, chinese characters, and standard symbols only
         isNicknameValid <~ nickname.producer
-            //            |> filter { self.testRegex($0, pattern: "^([\(self.symbols)]|[\(self.chinese)]|[\(self.emoji)]|[A-Za-z\\d]){3,15}$")}
+            |> filter { self.testRegex($0!, pattern: "^([\(self.symbols)]|[\(self.chinese)]|[\(self.emoji)]|[A-Za-z\\d]){3,15}$")}
             |> map { _ in true }
     }
     
