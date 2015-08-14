@@ -89,6 +89,9 @@
 		B4307F401B78CADD00E3D41B /* GirlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F3F1B78CADD00E3D41B /* GirlButton.swift */; };
 		B4307F421B78D96F00E3D41B /* CakeIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F411B78D96F00E3D41B /* CakeIcon.swift */; };
 		B4307F441B796B4300E3D41B /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F431B796B4300E3D41B /* RoundedButton.swift */; };
+		B4307F551B7D84F400E3D41B /* AVOSCloudIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4307F521B7D84F400E3D41B /* AVOSCloudIM.framework */; };
+		B4307F561B7D84F400E3D41B /* AVOSCloudCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4307F531B7D84F400E3D41B /* AVOSCloudCrashReporting.framework */; };
+		B4307F571B7D84F400E3D41B /* AVOSCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4307F541B7D84F400E3D41B /* AVOSCloud.framework */; };
 		B446A61A1B1FA88000106CAF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B446A6191B1FA88000106CAF /* Logger.swift */; };
 		B446A61C1B1FBE9000106CAF /* ASLFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B446A61B1B1FBE9000106CAF /* ASLFormatter.swift */; };
 		B44E35011AD5D0AE00657A31 /* IFeaturedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */; };
@@ -176,10 +179,6 @@
 		B4F4AFDA1B6E05C300ABA176 /* BackButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4F4AFD91B6E05C300ABA176 /* BackButton.xib */; };
 		B4F4AFDE1B6EC70700ABA176 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AFDD1B6EC70700ABA176 /* Misc.swift */; };
 		B4F6DB671B647BCA00DB31D4 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F6DB661B647BCA00DB31D4 /* Detail.storyboard */; };
-		B4FA1F9B1B70D5B0003BD3BC /* AVOSCloudSNS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1F971B70D5B0003BD3BC /* AVOSCloudSNS.framework */; };
-		B4FA1F9C1B70D5B0003BD3BC /* AVOSCloudIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1F981B70D5B0003BD3BC /* AVOSCloudIM.framework */; };
-		B4FA1F9D1B70D5B0003BD3BC /* AVOSCloudCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1F991B70D5B0003BD3BC /* AVOSCloudCrashReporting.framework */; };
-		B4FA1F9E1B70D5B0003BD3BC /* AVOSCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1F9A1B70D5B0003BD3BC /* AVOSCloud.framework */; };
 		B4FA1FA01B70D5F5003BD3BC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1F9F1B70D5F5003BD3BC /* CoreLocation.framework */; };
 		B4FA1FA21B70D5FC003BD3BC /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FA11B70D5FC003BD3BC /* libsqlite3.dylib */; };
 		B4FA1FA41B70D603003BD3BC /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FA31B70D603003BD3BC /* CoreTelephony.framework */; };
@@ -311,6 +310,9 @@
 		B4307F3F1B78CADD00E3D41B /* GirlButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GirlButton.swift; sourceTree = "<group>"; };
 		B4307F411B78D96F00E3D41B /* CakeIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CakeIcon.swift; sourceTree = "<group>"; };
 		B4307F431B796B4300E3D41B /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
+		B4307F521B7D84F400E3D41B /* AVOSCloudIM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVOSCloudIM.framework; path = "Vendor/avoscloud-ios-sdk-v3.1.3.3/AVOSCloudIM.framework"; sourceTree = "<group>"; };
+		B4307F531B7D84F400E3D41B /* AVOSCloudCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVOSCloudCrashReporting.framework; path = "Vendor/avoscloud-ios-sdk-v3.1.3.3/AVOSCloudCrashReporting.framework"; sourceTree = "<group>"; };
+		B4307F541B7D84F400E3D41B /* AVOSCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVOSCloud.framework; path = "Vendor/avoscloud-ios-sdk-v3.1.3.3/AVOSCloud.framework"; sourceTree = "<group>"; };
 		B446A6191B1FA88000106CAF /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		B446A61B1B1FBE9000106CAF /* ASLFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASLFormatter.swift; sourceTree = "<group>"; };
 		B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListViewModel.swift; sourceTree = "<group>"; };
@@ -398,10 +400,6 @@
 		B4F4AFD91B6E05C300ABA176 /* BackButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BackButton.xib; sourceTree = "<group>"; };
 		B4F4AFDD1B6EC70700ABA176 /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		B4F6DB661B647BCA00DB31D4 /* Detail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
-		B4FA1F971B70D5B0003BD3BC /* AVOSCloudSNS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVOSCloudSNS.framework; path = "Vendor/avoscloud-ios-sdk-v3.1.2.9/AVOSCloudSNS.framework"; sourceTree = "<group>"; };
-		B4FA1F981B70D5B0003BD3BC /* AVOSCloudIM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVOSCloudIM.framework; path = "Vendor/avoscloud-ios-sdk-v3.1.2.9/AVOSCloudIM.framework"; sourceTree = "<group>"; };
-		B4FA1F991B70D5B0003BD3BC /* AVOSCloudCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVOSCloudCrashReporting.framework; path = "Vendor/avoscloud-ios-sdk-v3.1.2.9/AVOSCloudCrashReporting.framework"; sourceTree = "<group>"; };
-		B4FA1F9A1B70D5B0003BD3BC /* AVOSCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVOSCloud.framework; path = "Vendor/avoscloud-ios-sdk-v3.1.2.9/AVOSCloud.framework"; sourceTree = "<group>"; };
 		B4FA1F9F1B70D5F5003BD3BC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B4FA1FA11B70D5FC003BD3BC /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		B4FA1FA31B70D603003BD3BC /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -434,19 +432,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4307F561B7D84F400E3D41B /* AVOSCloudCrashReporting.framework in Frameworks */,
 				B4FA1FAE1B70D708003BD3BC /* MobileCoreServices.framework in Frameworks */,
 				B4FA1FAC1B70D700003BD3BC /* SystemConfiguration.framework in Frameworks */,
+				B4307F551B7D84F400E3D41B /* AVOSCloudIM.framework in Frameworks */,
 				B4FA1FAA1B70D638003BD3BC /* libc++.dylib in Frameworks */,
+				B4307F571B7D84F400E3D41B /* AVOSCloud.framework in Frameworks */,
 				B4FA1FA81B70D61D003BD3BC /* CoreAudio.framework in Frameworks */,
 				B4FA1FA61B70D609003BD3BC /* QuartzCore.framework in Frameworks */,
 				B4FA1FA41B70D603003BD3BC /* CoreTelephony.framework in Frameworks */,
 				B4FA1FA21B70D5FC003BD3BC /* libsqlite3.dylib in Frameworks */,
 				B4FA1FA01B70D5F5003BD3BC /* CoreLocation.framework in Frameworks */,
-				B4FA1F9D1B70D5B0003BD3BC /* AVOSCloudCrashReporting.framework in Frameworks */,
 				B4F195931B2995FA00B8C519 /* libicucore.dylib in Frameworks */,
-				B4FA1F9C1B70D5B0003BD3BC /* AVOSCloudIM.framework in Frameworks */,
-				B4FA1F9B1B70D5B0003BD3BC /* AVOSCloudSNS.framework in Frameworks */,
-				B4FA1F9E1B70D5B0003BD3BC /* AVOSCloud.framework in Frameworks */,
 				BE82DAFC5DC472E8A0BAF4F7 /* Pods_XListing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,11 +495,10 @@
 				B4FA1FA31B70D603003BD3BC /* CoreTelephony.framework */,
 				B4FA1FA11B70D5FC003BD3BC /* libsqlite3.dylib */,
 				B4FA1F9F1B70D5F5003BD3BC /* CoreLocation.framework */,
-				B4FA1F971B70D5B0003BD3BC /* AVOSCloudSNS.framework */,
-				B4FA1F981B70D5B0003BD3BC /* AVOSCloudIM.framework */,
-				B4FA1F991B70D5B0003BD3BC /* AVOSCloudCrashReporting.framework */,
-				B4FA1F9A1B70D5B0003BD3BC /* AVOSCloud.framework */,
 				B4F195921B2995FA00B8C519 /* libicucore.dylib */,
+				B4307F521B7D84F400E3D41B /* AVOSCloudIM.framework */,
+				B4307F531B7D84F400E3D41B /* AVOSCloudCrashReporting.framework */,
+				B4307F541B7D84F400E3D41B /* AVOSCloud.framework */,
 				7E3A1C021B1EF84500E84ABE /* CocoaLumberjack.framework */,
 				1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */,
 				3E23B0A956EF9BD7C140F4AC /* Pods_XListingTests.framework */,
@@ -1721,7 +1717,7 @@
 				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Vendor/avoscloud-ios-sdk-v3.1.2.9",
+					"$(PROJECT_DIR)/Vendor/avoscloud-ios-sdk-v3.1.3.3",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				INFOPLIST_FILE = XListing/Info.plist;
@@ -1744,7 +1740,7 @@
 				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Vendor/avoscloud-ios-sdk-v3.1.2.9",
+					"$(PROJECT_DIR)/Vendor/avoscloud-ios-sdk-v3.1.3.3",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INFOPLIST_FILE = XListing/Info.plist;

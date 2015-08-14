@@ -38,7 +38,7 @@ PODS:
   - SDWebImage/Core (3.7.3)
   - Spring (1.0.3)
   - SVProgressHUD (1.1.3)
-  - XAssets (0.1.3)
+  - XAssets (0.1.5)
 
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 1.7.0)
@@ -73,7 +73,7 @@ CHECKOUT OPTIONS:
     :commit: 4cbf1de2f9becbdfe38257bf9129f2930a2668ab
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
-    :commit: 25b7b30724037ed2f27a67deac66951d41a52a6f
+    :commit: 763ed4d7d0bb64ef16f0d83f70241693afdcfef1
     :git: git@bitbucket.org:zenchat/xassets.git
 
 SPEC CHECKSUMS:
@@ -92,6 +92,6 @@ SPEC CHECKSUMS:
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
-  XAssets: 2cfa9781003d4695c5b2193024da95d17fbcbbda
+  XAssets: b7a1c1268d681ca110edd69aaca437939c73261b
 
 COCOAPODS: 0.38.2
