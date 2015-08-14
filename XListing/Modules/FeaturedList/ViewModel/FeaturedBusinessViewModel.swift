@@ -94,7 +94,6 @@ public final class FeaturedBusinessViewModel {
         typealias Property = Participation.Property
         query.whereKey(Property.Business.rawValue, equalTo: business)
         query.includeKey(Property.User.rawValue)
-        //                query.whereKey(Property.User.rawValue, equalTo: currentUser)
         
         return participationService.findBy(query)
             |> on(next: { participations in
