@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 
-private let AccountViewControllerIdentifier = "AccountViewController"
+private let LandingPageViewControllerIdentifier = "LandingPageViewController"
 private let SignUpViewControllerIdentifier = "SignUpViewController"
 private let LogInViewControllerIdentifier = "LogInViewController"
 private let AccountStoryboardName = "Account"
@@ -39,9 +39,9 @@ public final class AccountWireframe : BaseWireframe, IAccountWireframe {
         super.init(rootWireframe: rootWireframe)
     }
     
-    private func injectViewModelToViewController(dismissCallback: CompletionHandler? = nil) -> AccountViewController {
-        let viewController = getViewControllerFromStoryboard(AccountViewControllerIdentifier, storyboardName: AccountStoryboardName) as! AccountViewController
-        let viewmodel = AccountViewModel(accountNavigator: self, userService: userService, userDefaultsService: userDefaultsService)
+    private func injectViewModelToViewController(dismissCallback: CompletionHandler? = nil) -> LandingPageViewController {
+        let viewController = getViewControllerFromStoryboard(LandingPageViewControllerIdentifier, storyboardName: AccountStoryboardName) as! LandingPageViewController
+        let viewmodel = LandingPageViewModel(accountNavigator: self, userService: userService, userDefaultsService: userDefaultsService)
         viewController.bindToViewModel(viewmodel)
         
         return viewController
@@ -76,7 +76,7 @@ extension AccountWireframe : IAccountNavigator {
             rootWireframe.pushViewController(viewController, animated: false)
         }
         else {
-            moduleNavController.pushViewController(viewController, animated: true)
+            moduleNavController.pushViewController(viewController, animated: false)
         }
     }
     
@@ -90,7 +90,7 @@ extension AccountWireframe : IAccountNavigator {
             rootWireframe.pushViewController(viewController, animated: false)
         }
         else {
-            moduleNavController.pushViewController(viewController, animated: true)
+            moduleNavController.pushViewController(viewController, animated: false)
         }
     }
     

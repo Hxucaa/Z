@@ -53,7 +53,7 @@ public final class LandingPageView : UIView {
     
     
     // MARK: - Properties
-    private let viewmodel = MutableProperty<LandingPageViewModel?>(nil)
+    private let viewmodel = MutableProperty<ILandingPageViewModel?>(nil)
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Actions
@@ -250,7 +250,7 @@ public final class LandingPageView : UIView {
     }
     
     // MARK: - Bindings
-    public func bindToViewModel(viewmodel: LandingPageViewModel) {
+    public func bindToViewModel(viewmodel: ILandingPageViewModel) {
         self.viewmodel.put(viewmodel)
     }
     

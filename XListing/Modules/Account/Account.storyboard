@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
-        <!--Account View Controller-->
+        <!--Landing Page View Controller-->
         <scene sceneID="sBG-Ty-l4P">
             <objects>
-                <viewController storyboardIdentifier="AccountViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sAg-Fd-SQe" customClass="AccountViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LandingPageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sAg-Fd-SQe" customClass="LandingPageViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gnt-f2-Va6"/>
                         <viewControllerLayoutGuide type="bottom" id="1lN-qm-HKJ"/>

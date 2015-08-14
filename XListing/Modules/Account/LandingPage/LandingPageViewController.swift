@@ -1,5 +1,5 @@
 //
-//  AccountViewController.swift
+//  LandingPageViewController.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-07-12.
@@ -11,14 +11,14 @@ import ReactiveCocoa
 
 private let LandingPageViewNibName = "LandingPageView"
 
-public final class AccountViewController: XUIViewController {
+public final class LandingPageViewController: XUIViewController {
     
     // MARK: - UI Controls
     private var landingPageView: LandingPageView!
     
     // MARK: - Properties
     
-    private var viewmodel: IAccountViewModel!
+    private var viewmodel: ILandingPageViewModel!
     /// A disposable that will dispose of any number of other disposables.
     private let compositeDisposable = CompositeDisposable()
     
@@ -38,7 +38,7 @@ public final class AccountViewController: XUIViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
         
         // add landing page as the first subview
-        landingPageView.bindToViewModel(viewmodel.landingPageViewModel)
+        landingPageView.bindToViewModel(viewmodel)
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -79,7 +79,7 @@ public final class AccountViewController: XUIViewController {
     
     // MARK: - Bindings
     
-    public func bindToViewModel(viewModel: IAccountViewModel) {
+    public func bindToViewModel(viewModel: ILandingPageViewModel) {
         self.viewmodel = viewModel
     }
     

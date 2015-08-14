@@ -7,8 +7,8 @@
 //
 import ReactiveCocoa
 
-public protocol IAccountViewModel : class {
-    var landingPageViewModel: LandingPageViewModel { get }
+public protocol ILandingPageViewModel : class {
+    var rePrompt: Bool { get }
     init(accountNavigator: IAccountNavigator, userService: IUserService, userDefaultsService: IUserDefaultsService)
     func goToSignUpComponent()
     func goToLogInComponent()
