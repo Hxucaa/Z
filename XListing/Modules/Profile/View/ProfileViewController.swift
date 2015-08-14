@@ -26,6 +26,11 @@ public final class ProfileViewController : XUIViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.navigationItem.title = "个人"
+        
+        // fill status bar with color
+        let statusView = UIView(frame:CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 20))
+        statusView.backgroundColor = UIColor.x_PrimaryColor()
+        view.addSubview(statusView)
     }
     
     public func initializeBusinessArr () {

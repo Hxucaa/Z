@@ -18,6 +18,6 @@ extension UIColor {
     }
     
     internal class func x_PrimaryColor() -> UIColor {
-        return UIColor(red: 50/255, green: 173/255, blue: 155/255, alpha: 1)
+        return UIColor(red: 22/255, green: 165/255, blue: 145/255, alpha: 1)
     }
 }
