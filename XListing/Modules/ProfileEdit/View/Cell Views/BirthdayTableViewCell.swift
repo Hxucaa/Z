@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ReactiveCocoa
 
 protocol BirthdayCellTableViewCellDelegate : class {
     
@@ -16,7 +17,6 @@ protocol BirthdayCellTableViewCellDelegate : class {
 public final class BirthdayTableViewCell: UITableViewCell {
 
     @IBOutlet private weak var textField: UITextField!
-    public var popDatePicker : PopoverDatePicker?
     internal weak var delegate: BirthdayCellTableViewCellDelegate!
     
     public override func awakeFromNib() {
@@ -29,9 +29,6 @@ public final class BirthdayTableViewCell: UITableViewCell {
     public override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
-        if (popDatePicker == nil) {
-            popDatePicker = PopoverDatePicker(forTextField: textField)
-        }
     }
     
     public func getTextfieldText () -> String{

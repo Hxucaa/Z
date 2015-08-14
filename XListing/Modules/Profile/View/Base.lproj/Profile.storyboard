@@ -72,7 +72,7 @@
         <!--编辑-->
         <scene sceneID="96J-hB-7fe">
             <objects>
-                <viewController storyboardIdentifier="ProfileEditViewController" id="KnB-mh-lZe" customClass="ProfileEditViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileEditViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KnB-mh-lZe" customClass="ProfileEditViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rS1-cL-dos"/>
                         <viewControllerLayoutGuide type="bottom" id="ybb-tw-Ug5"/>

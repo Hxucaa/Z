@@ -73,11 +73,7 @@ public final class ProfileViewController : XUIViewController {
             |> logLifeCycle(LogContext.Profile, "headerViewContent.editProxy")
             |> start(
                 next: { [weak self] in
-                    let storyboard = UIStoryboard(name: ProfileStoryBoardName, bundle: nil)
-                    let viewController = storyboard.instantiateViewControllerWithIdentifier(ProfileEditViewControllerIdentifier) as! ProfileEditViewController
-                    let editVM = self?.profileVM.profileEditViewModel
-                    viewController.bindToViewModel(editVM!)
-                    self?.navigationController?.pushViewController(viewController, animated: true)
+                    self!.profileVM.presentProfileEditModule()
                 }
             )
         
