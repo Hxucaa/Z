@@ -43,6 +43,7 @@ public final class LandingPageViewController: XUIViewController {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         compositeDisposable += landingPageView.skipProxy
             |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.Account, "landingPageView.skipProxy")
@@ -74,7 +75,7 @@ public final class LandingPageViewController: XUIViewController {
     deinit {
         // Dispose signals before deinit.
         compositeDisposable.dispose()
-        AccountLogVerbose("Account View Controller deinitializes.")
+        AccountLogVerbose("Landing Page View Controller deinitializes.")
     }
     
     // MARK: - Bindings

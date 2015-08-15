@@ -88,15 +88,6 @@ public final class SignUpViewController : XUIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        compositeDisposable += containerView.goBackProxy
-            |> logLifeCycle(LogContext.Account, "signUpView.goBackProxy")
-            |> start(next: { [weak self] in
-                if let this = self {
-                    // transition to landing page view
-                    self?.navigationController?.popViewControllerAnimated(false)
-                }
-            })
         /**
         Setup view transition.
         */
@@ -105,6 +96,16 @@ public final class SignUpViewController : XUIViewController {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        compositeDisposable += containerView.goBackProxy
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Account, "containerView.goBackProxy")
+            |> start(next: { [weak self] in
+                if let this = self {
+                    // transition to landing page view
+                    self?.navigationController?.popViewControllerAnimated(false)
+                }
+            })
     }
     
     deinit {

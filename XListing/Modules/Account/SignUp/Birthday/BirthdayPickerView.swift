@@ -40,6 +40,9 @@ public final class BirthdayPickerView : SpringView {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
+        /**
+        *  Setup continueButton
+        */
         _continueButton.setTitle("继 续", forState: .Normal)
         
         let continueAction = Action<UIButton, Void, NoError> { [weak self] button in
@@ -62,6 +65,9 @@ public final class BirthdayPickerView : SpringView {
             view.height == self.frame.height
         }
         
+        /**
+        *  Setup birthday picker
+        */
         let pickBirthday = Action<NSDate, Void, NoError> { [weak self] date in
             return SignalProducer { sink, disposable in
                 self?.birthdayTextField.text = date.description
@@ -70,6 +76,7 @@ public final class BirthdayPickerView : SpringView {
             }
         }
         
+        // show the birthday picker as soon as the view is displayed
         compositeDisposable += viewmodel.producer
             |> takeUntilRemoveFromSuperview(self)
             |> logLifeCycle(LogContext.Account, "viewmodel.producer")

@@ -49,6 +49,9 @@ public final class PhotoView : SpringView {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
+        /**
+        *  Setup doneButton
+        */
         _doneButton.setTitle("完 成", forState: .Normal)
         
         // Button action
@@ -127,14 +130,19 @@ public final class PhotoView : SpringView {
         doneButton.addTarget(doneAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
 
         
+        /**
+        *  Setup image picker
+        */
         imagePicker.allowsEditing = true
         imagePicker.sourceType = .PhotoLibrary
         
         setupImageSelectedSignal()
         
+        /**
+        *  Setup photo image view
+        */
         photoImageView.layer.cornerRadius = photoImageView.frame.width / 2
         photoImageView.layer.masksToBounds = true
-        
         
         let tapGesture = UITapGestureRecognizer()
         tapGesture.numberOfTapsRequired = 1
@@ -158,6 +166,9 @@ public final class PhotoView : SpringView {
         }
         
         
+        /**
+        *  Setup view model
+        */
         compositeDisposable += viewmodel.producer
             |> ignoreNil
             |> logLifeCycle(LogContext.Account, "viewmodel.producer")
@@ -198,7 +209,7 @@ public final class PhotoView : SpringView {
     
     deinit {
         compositeDisposable.dispose()
-        AccountLogVerbose("NicknameView deinitializes.")
+        AccountLogVerbose("PhotoView deinitializes.")
     }
     
     // MARK: - Bindings

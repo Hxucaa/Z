@@ -35,6 +35,9 @@ public final class NicknameView : SpringView {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
+        /**
+        *  Setup continue button
+        */
         _continueButton.setTitle("继 续", forState: .Normal)
         
         let continueAction = Action<UIButton, Void, NoError> { [weak self] button in
@@ -57,9 +60,15 @@ public final class NicknameView : SpringView {
             view.height == self.frame.height
         }
         
+        /**
+        *  Setup nickname field
+        */
         nicknameField.delegate = self
         nicknameField.becomeFirstResponder()
         
+        /**
+        *  Setup view model
+        */
         compositeDisposable += viewmodel.producer
             |> takeUntilRemoveFromSuperview(self)
             |> logLifeCycle(LogContext.Account, "viewmodel.producer")
@@ -101,7 +110,9 @@ extension NicknameView : UITextFieldDelegate {
     */
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == nicknameField {
+            // resign nickname field from first responder
             nicknameField.resignFirstResponder()
+            // send touch event to continue button
             _continueButton.sendActionsForControlEvents(.TouchUpInside)
         }
         

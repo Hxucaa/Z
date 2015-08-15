@@ -12,6 +12,8 @@ import ReactiveCocoa
 
 /**
 Each `Transition` object contains 4 items: I) UIView, that is going to be transitioned into. II) Setup, the setup code that is going to be run before the transition starts to properly configure the UIView. III) After, code that runs right after the transition is done. IV) CleanUp, which cleans up the current transition as it goes away. The `TransitionManager` takes 4 items: I) the initial transition, II) the rest of the transitions, III) the behaviour of the initial transition, III) the behaviour of the rest of the transitions.
+
+The `TransitionActor` is a wrapper around `Transition` so that it can pass through the `SignalProducer`.
 */
 
 public class TransitionManager {

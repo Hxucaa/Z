@@ -37,20 +37,19 @@ public final class LogInViewController : XUIViewController {
         
         usernameAndPasswordView = UINib(nibName: UsernameAndPasswordViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UsernameAndPasswordView
         
-    }
-    
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        compositeDisposable += usernameAndPasswordView.viewmodel <~ viewmodel.producer
-            |> ignoreNil
-            |> map { $0.usernameAndPasswordViewModel }
         containerView.midStack.addSubview(usernameAndPasswordView)
         view = containerView
         layout(usernameAndPasswordView) { view in
             view.center == view.superview!.center
         }
+    }
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
         
+        /**
+        *  Setup submit button
+        */
         let submitButton = usernameAndPasswordView.signUpButton
         containerView.bottomStack.addSubview(submitButton)
         
@@ -63,15 +62,27 @@ public final class LogInViewController : XUIViewController {
             button.topMargin == stack.topMargin
             button.centerX == stack.centerX
         }
+    }
+    
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        compositeDisposable += usernameAndPasswordView.viewmodel <~ viewmodel.producer
+            |> takeUntilViewWillDisappear(self)
+            |> ignoreNil
+            |> map { $0.usernameAndPasswordViewModel }
+        
         
         compositeDisposable += containerView.goBackProxy
-            |> logLifeCycle(LogContext.Account, "logInView.goBackProxy")
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Account, "containerView.goBackProxy")
             |> start(next: { [weak self] in
                 // transition to landing page view
                 self?.navigationController?.popViewControllerAnimated(false)
             })
         
         compositeDisposable += usernameAndPasswordView.submitProxy
+            |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.Account, "usernameAndPasswordView.submitProxy")
             |> start(next: { [weak self] in
                 if let viewmodel = self?.viewmodel.value {
@@ -83,7 +94,12 @@ public final class LogInViewController : XUIViewController {
             })
     }
     
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    deinit {
+        compositeDisposable.dispose()
+        AccountLogVerbose("LogInViewController deinitializes.")
     }
+    
+    // MARK: - Bindings
+    
+    // MARK: - Others
 }

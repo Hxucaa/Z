@@ -37,6 +37,9 @@ public final class GenderPickerView : SpringView {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
+        /**
+        *  Setup continueButton
+        */
         _continueButton.setTitle("继 续", forState: .Normal)
         
         let continueAction = Action<UIButton, Void, NoError> { [weak self] button in
@@ -59,6 +62,9 @@ public final class GenderPickerView : SpringView {
             view.height == self.frame.height
         }
         
+        /**
+        *  Setup boy button
+        */
         let boy = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
                 self?.viewmodel.value?.gender.put(Gender.Male)
@@ -69,6 +75,9 @@ public final class GenderPickerView : SpringView {
         boyButton.addTarget(boy.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
         
         
+        /**
+        *  Setup girl button
+        */
         let girl = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
                 self?.viewmodel.value?.gender.put(Gender.Female)
@@ -78,6 +87,9 @@ public final class GenderPickerView : SpringView {
         }
         girlButton.addTarget(girl.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
         
+        /**
+        *  Setup view model
+        */
         compositeDisposable += viewmodel.producer
             |> takeUntilRemoveFromSuperview(self)
             |> logLifeCycle(LogContext.Account, "viewmodel.producer")
