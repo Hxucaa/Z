@@ -108,12 +108,6 @@ public final class SignUpViewController : XUIViewController {
             })
     }
     
-    deinit {
-        // Dispose signals before deinit.
-        compositeDisposable.dispose()
-        AccountLogVerbose("SignUp View Controller deinitializes.")
-    }
-    
     // username and password
     private lazy var usernameAndPasswordTransition: Transition<UsernameAndPasswordView> = {
         
@@ -264,14 +258,14 @@ public final class SignUpViewController : XUIViewController {
                         |> map { $0.photoViewModel }
                     
                     transitionDisposable += view.presentUIImagePickerProxy
-                        |> logLifeCycle(LogContext.Account, "photoTransition.presentUIImagePickerProxy")
+                        |> logLifeCycle(LogContext.Account, "photoView.presentUIImagePickerProxy")
                         |> start(next: { imagePicker in
                             // present image picker
                             self?.presentViewController(imagePicker, animated: true, completion: nil)
                         })
                     
                     transitionDisposable += view.dismissUIImagePickerProxy
-                        |> logLifeCycle(LogContext.Account, "photoTransition.dismissUIImagePickerProxy")
+                        |> logLifeCycle(LogContext.Account, "photoView.dismissUIImagePickerProxy")
                         |> start(next: { handler in
                             // dismiss image picker
                             self?.dismissViewControllerAnimated(true, completion: handler)
@@ -297,6 +291,13 @@ public final class SignUpViewController : XUIViewController {
             }
         )
     }()
+    
+    
+    deinit {
+        // Dispose signals before deinit.
+        compositeDisposable.dispose()
+        AccountLogVerbose("SignUp View Controller deinitializes.")
+    }
     
     // MARK: - Others
     
