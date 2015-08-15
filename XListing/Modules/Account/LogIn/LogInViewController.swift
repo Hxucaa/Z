@@ -11,12 +11,15 @@ import UIKit
 import ReactiveCocoa
 import Cartography
 
+private let UsernameAndPasswordViewNibName = "UsernameAndPasswordView"
 private let LogInViewNibName = "LogInView"
+private let ContainerViewNibName = "ContainerView"
 
 public final class LogInViewController : XUIViewController {
     
     // MARK: - UI Controls
-    private var logInView: LogInView!
+    private var containerView: ContainerView!
+    private var usernameAndPasswordView: UsernameAndPasswordView!
     
     // MARK: - Proxies
     
@@ -30,47 +33,57 @@ public final class LogInViewController : XUIViewController {
     public override func loadView() {
         super.loadView()
         
-        logInView = UINib(nibName: LogInViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! LogInView
-        view = logInView
+        containerView = UINib(nibName: ContainerViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! ContainerView
+        
+        usernameAndPasswordView = UINib(nibName: UsernameAndPasswordViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UsernameAndPasswordView
+        
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewmodel.producer
+        compositeDisposable += usernameAndPasswordView.viewmodel <~ viewmodel.producer
             |> ignoreNil
-            |> start(next: { [weak self] viewmodel in
-                self?.logInView.bindToViewModel(viewmodel)
-            })
-    }
-    
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+            |> map { $0.usernameAndPasswordViewModel }
+        containerView.midStack.addSubview(usernameAndPasswordView)
+        view = containerView
+        layout(usernameAndPasswordView) { view in
+            view.center == view.superview!.center
+        }
         
+        let submitButton = usernameAndPasswordView.signUpButton
+        containerView.bottomStack.addSubview(submitButton)
         
-        compositeDisposable += logInView.goBackProxy
+        layout(submitButton) { b in
+            b.width == submitButton.frame.width
+            b.height == submitButton.frame.height
+        }
+        
+        layout(submitButton, containerView.bottomStack) { button, stack in
+            button.topMargin == stack.topMargin
+            button.centerX == stack.centerX
+        }
+        
+        compositeDisposable += containerView.goBackProxy
             |> logLifeCycle(LogContext.Account, "logInView.goBackProxy")
             |> start(next: { [weak self] in
                 // transition to landing page view
                 self?.navigationController?.popViewControllerAnimated(false)
             })
         
-        compositeDisposable += logInView.finishLoginProxy
-            |> logLifeCycle(LogContext.Account, "logInView.finishLoginProxy")
+        compositeDisposable += usernameAndPasswordView.submitProxy
+            |> logLifeCycle(LogContext.Account, "usernameAndPasswordView.submitProxy")
             |> start(next: { [weak self] in
                 if let viewmodel = self?.viewmodel.value {
                     viewmodel.goToFeaturedModule { handler in
                         self?.dismissViewControllerAnimated(true, completion: handler)
                     }
-//                    if viewmodel.gotoNextModuleCallback == nil {
-//                        viewmodel.pushFeaturedModule()
-//                    }
-//                    else {
-//                        // dismiss account module, and go to the next module
-//                        self?.dismissViewControllerAnimated(true, completion: viewmodel.gotoNextModuleCallback)
-//                    }
                     self?.navigationController?.setNavigationBarHidden(false, animated: false)
                 }
             })
+    }
+    
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
     }
 }

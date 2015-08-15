@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SignUpView" customModule="XListing" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ContainerView" customModule="XListing" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -89,12 +89,12 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <connections>
-                <outlet property="backButton" destination="KLv-sg-e4n" id="2XG-9W-KdP"/>
-                <outlet property="bottomStack" destination="vEs-Cx-qC5" id="8md-MW-6Eq"/>
-                <outlet property="midStack" destination="to8-OD-bQ8" id="qiz-dq-wrF"/>
-                <outlet property="primaryLabel" destination="ITg-JO-3M1" id="qvJ-o3-p1H"/>
-                <outlet property="secondaryLabel" destination="YKV-Hx-EeS" id="JvA-FF-nls"/>
-                <outlet property="topStack" destination="GhI-ha-8B4" id="Pjh-0Y-kpE"/>
+                <outlet property="_backButton" destination="KLv-sg-e4n" id="dZG-PE-zKc"/>
+                <outlet property="_bottomStack" destination="vEs-Cx-qC5" id="faJ-D9-Rhh"/>
+                <outlet property="_midStack" destination="to8-OD-bQ8" id="uic-of-wnG"/>
+                <outlet property="_primaryLabel" destination="ITg-JO-3M1" id="iNc-iY-Pkx"/>
+                <outlet property="_secondaryLabel" destination="YKV-Hx-EeS" id="F2T-iF-O4v"/>
+                <outlet property="_topStack" destination="GhI-ha-8B4" id="qJq-ik-cvv"/>
             </connections>
             <point key="canvasLocation" x="821" y="540"/>
         </view>

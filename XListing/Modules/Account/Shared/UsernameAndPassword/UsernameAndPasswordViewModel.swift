@@ -20,15 +20,17 @@ public final class UsernameAndPasswordViewModel {
     public let isPasswordValid = MutableProperty<Bool>(false)
     public let allInputsValid = MutableProperty<Bool>(false)
     
-    // MARK: - Variables
+    // MARK: - Properties
     /// Signal containing a valid username
     public private(set) var validUsernameSignal: SignalProducer<String, NoError>!
     /// Signal containing a valid password
     public private(set) var validPasswordSignal: SignalProducer<String, NoError>!
-    
+    public let submit: SignalProducer<Bool, NSError>
     
     // MARK: - Initializers
-    public init() {
+    public init(submit: SignalProducer<Bool, NSError>) {
+        self.submit = submit
+        
         // only allow usernames with:
         // - between 3 and 30 characters
         // - letters, numbers, dashes, periods, and underscores only

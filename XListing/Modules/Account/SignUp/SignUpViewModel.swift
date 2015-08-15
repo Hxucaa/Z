@@ -26,7 +26,7 @@ public final class SignUpViewModel {
     
     // MARK: - View Models
     public lazy var usernameAndPasswordViewModel: UsernameAndPasswordViewModel = { [unowned self] in
-        let viewmodel = UsernameAndPasswordViewModel()
+        let viewmodel = UsernameAndPasswordViewModel(submit: self.signUp)
         
         self.username <~ viewmodel.validUsernameSignal
             |> map { Optional<String>($0) }
@@ -73,7 +73,7 @@ public final class SignUpViewModel {
         return viewmodel
     }()
     
-    // MARK: - Variables
+    // MARK: - Properties
     private weak var accountNavigator: IAccountNavigator!
     private let userService: IUserService
     private lazy var allProfileInputs: SignalProducer<(String, NSDate, UIImage, Gender), NoError> = combineLatest(self.nickname.producer |> ignoreNil, self.birthday.producer |> ignoreNil, self.photo.producer |> ignoreNil, self.gender.producer |> ignoreNil)
