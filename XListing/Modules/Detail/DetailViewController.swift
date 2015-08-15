@@ -110,6 +110,9 @@ public final class DetailViewController : XUIViewController, UITableViewDelegate
         tableView.layoutMargins = UIEdgeInsetsZero
         tableView.separatorInset = UIEdgeInsetsZero
         
+        tableView.estimatedRowHeight = 35.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
         compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
             |> logLifeCycle(LogContext.Detail, "tableView:didSelectRowAtIndexPath:")
             |> map { ($0 as! RACTuple).second as! NSIndexPath }
@@ -333,54 +336,6 @@ extension DetailViewController : UITableViewDataSource {
             }
         }
     }
-    
-    
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
-        let row = indexPath.row
-        let section = indexPath.section
-        
-        switch Section(rawValue: section)! {
-            
-            case .Primary:
-                switch Primary(rawValue: row)! {
-                    case .Image: return 226
-                    case .Info: return 65
-                    case .参与: return 44
-                }
-                
-            case .推荐:
-                switch 推荐(rawValue: row)! {
-                    case .Header: return 35
-                    case .推荐物品: return 70
-                }
-            case .营业:
-                switch 营业(rawValue: row)! {
-                    
-                    case .Header: return 35
-                    case .营业时间:
-                        if (expandHours.value) {
-                            return 215
-                        }
-                        else {
-                            return 44
-                        }
-                    }
-            case .特设:
-                switch 特设(rawValue: row)! {
-                    case .Header: return 35
-                    case .介绍: return 91
-                }
-            case .其他:
-                switch 其他(rawValue: row)! {
-                    case .Header: return 35
-                    case .Map: return 226
-                    case .Address: return 44
-                    case .PhoneAndWeb: return 44
-                }
-        }
-    }
-    
     
     public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 2

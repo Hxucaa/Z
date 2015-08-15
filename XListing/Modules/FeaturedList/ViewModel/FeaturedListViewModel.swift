@@ -21,7 +21,8 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     public let featuredBusinessViewModelArr: MutableProperty<[FeaturedBusinessViewModel]> = MutableProperty([FeaturedBusinessViewModel]())
     public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
     
-    // MARK: Actions
+    // MARK: Private Variables
+    private static var loadedBusinesses = 0
     
     // MARK: API
     
@@ -31,15 +32,21 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     public func getFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
         let query = Business.query()!
         query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
+        query.limit = 7
+        query.skip = self.loadedBusinesses.value
         
         return businessService.findBy(query)
             |> on(next: { businesses in
                 self.fetchingData.put(true)
             })
             |> map { businesses -> [FeaturedBusinessViewModel] in
-                // shuffle and save the business models
-                self.businessArr.put($.shuffle(businesses))
+                // save the business models
+                let gotBusinesses = businesses
+                let arrayItems = self.businessArr.value.count
+                self.businessArr.put(self.businessArr.value + businesses)
                 
+                // increment loaded businesses counter
+                self.loadedBusinesses.put(businesses.count + self.loadedBusinesses.value)
                 // map the business models to viewmodels
                 return self.businessArr.value.map {
                     FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
@@ -59,6 +66,7 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     public func pushDetailModule(section: Int) {
+        let debugArray = businessArr.value
         router.pushDetail(businessArr.value[section])
     }
     
@@ -88,5 +96,6 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
     private let imageService: IImageService
-    private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
+    private let businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
+    private var loadedBusinesses: MutableProperty<Int> = MutableProperty(0)
 }

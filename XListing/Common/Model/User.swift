@@ -22,6 +22,16 @@ public final class User: AVUser, AVSubclassing {
         case AgeGroup = "ageGroup"
     }
     
+    public func toString() -> String{
+        var s = ""
+        s += "birthday: \(self[Property.Birthday.rawValue])"
+        s += "NickName: \(self[Property.NickName.rawValue])"
+        s += "Gender: \(self[Property.Gender.rawValue])"
+        s += "AgeGroup: \(self[Property.AgeGroup.rawValue])"
+        s += "Horoscope: \(self[Property.Horoscope.rawValue])"
+        return s
+    }
+    
     // Class Name
 //    public class func parseClassName() -> String {
 //        return "_User"
