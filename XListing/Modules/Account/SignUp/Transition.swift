@@ -10,16 +10,20 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 
+/**
+Each `Transition` object contains 4 items: I) UIView, that is going to be transitioned into. II) Setup, the setup code that is going to be run before the transition starts to properly configure the UIView. III) After, code that runs right after the transition is done. IV) CleanUp, which cleans up the current transition as it goes away. The `TransitionManager` takes 4 items: I) the initial transition, II) the rest of the transitions, III) the behaviour of the initial transition, III) the behaviour of the rest of the transitions.
+*/
+
 public class TransitionManager {
     
     private let compositeDisposable = CompositeDisposable()
     private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<TransitionActor, NoError>.buffer(0)
     private var currentIndex = -1
-    private let initial: TransitionActor
+    private let initial: () -> TransitionActor
     private let followUps: [() -> TransitionActor]
     private let initialTransformation: (transition: TransitionActor) -> Void
     
-    public init(initial: TransitionActor, followUps: [() -> TransitionActor], initialTransformation: (transition: TransitionActor) -> Void, transformation: (current: TransitionActor, next: TransitionActor) -> Void) {
+    public init(@autoclosure(escaping) initial: () -> TransitionActor, followUps: [() -> TransitionActor], initialTransformation: (transition: TransitionActor) -> Void, transformation: (current: TransitionActor, next: TransitionActor) -> Void) {
         
         self.initial = initial
         self.followUps = followUps
@@ -27,7 +31,7 @@ public class TransitionManager {
         
         compositeDisposable += viewTransitionProducer
             // forwards events along with the previous value. The first member is the previous value and the second is the current value.
-            |> combinePrevious(initial)
+            |> combinePrevious(initial())
             |> start(next: { [weak self] current, next in
                 transformation(current: current, next: next)
             })
@@ -44,7 +48,7 @@ public class TransitionManager {
     }
     
     public func installInitial() {
-        initialTransformation(transition: initial)
+        initialTransformation(transition: initial())
     }
 }
 
@@ -83,14 +87,23 @@ public class TransitionActor {
         self.cleanUp = cleanUp
     }
     
+    /**
+    Run setup.
+    */
     public func runSetup() {
         setup?()
     }
     
+    /**
+    Run after transition.
+    */
     public func runAfterTransition() {
         afterTransition?()
     }
     
+    /**
+    Run clean up.
+    */
     public func runCleanUp() {
         cleanUp?()
     }

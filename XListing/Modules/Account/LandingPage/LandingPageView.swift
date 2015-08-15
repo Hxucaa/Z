@@ -21,7 +21,6 @@ private let StartUpButtonsViewNibName = "StartUpButtonsView"
 private let RePromptButtonsViewNibName = "RePromptButtonsView"
 private let BackButtonNibName = "BackButton"
 
-@IBDesignable
 public final class LandingPageView : UIView {
     
     // MARK: - UI Controls

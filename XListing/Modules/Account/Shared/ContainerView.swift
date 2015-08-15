@@ -12,6 +12,16 @@ import ReactiveCocoa
 import Cartography
 import Spring
 
+/**
+This is a container view which is shared between the log in and sign up views.
+
+This view contains three UIViews that are stacked horizontally. The top and middle stacks have a fixed height and are
+clipped to leading, top and trailing of the container view. The bottom part can be resized to fit the height of 
+different devices. The middle stack will have different text fields or input methods based on the need of the calling
+view controllers.
+
+*/
+
 public final class ContainerView : UIView {
     
     // MARK: - UI Controls

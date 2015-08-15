@@ -13,6 +13,9 @@ import AVOSCloud
 public final class SignUpViewModel {
     
     // MARK: - Inputs
+    /**
+    The data of these inputs are coming from the sub-viewmodels.
+    */
     private let username = MutableProperty<String?>(nil)
     private let password = MutableProperty<String?>(nil)
     private let nickname = MutableProperty<String?>(nil)
@@ -65,10 +68,13 @@ public final class SignUpViewModel {
     }()
     
     public lazy var photoViewModel: PhotoViewModel = { [unowned self] in
-        let viewmodel = PhotoViewModel()
+        let viewmodel = PhotoViewModel(updateProfile: self.updateProfile)
         
         self.photo <~ viewmodel.validProfileImageSignal
             |> map { Optional<UIImage>($0) }
+        
+        // output `areAllProfileInputsPresent` to the sub-viewmodel so that it is aware that all info for the profile are collected
+        viewmodel.areAllProfileInputsPresent <~ self.areAllProfileInputsPresent
         
         return viewmodel
     }()
@@ -100,7 +106,7 @@ public final class SignUpViewModel {
     // MARK: Setup
     
     // MARK: Others
-    public var signUp: SignalProducer<Bool, NSError> {
+    private var signUp: SignalProducer<Bool, NSError> {
         return self.areSignUpInputsPresent.producer
             // only allow TRUE value
             |> filter { $0 }
@@ -114,7 +120,7 @@ public final class SignUpViewModel {
         }
     }
     
-    public var updateProfile: SignalProducer<Bool, NSError> {
+    private var updateProfile: SignalProducer<Bool, NSError> {
         return self.areAllProfileInputsPresent.producer
             // only allow TRUE value
             |> filter { $0 }

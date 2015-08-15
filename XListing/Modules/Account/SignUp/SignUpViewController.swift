@@ -18,6 +18,14 @@ private let BirthdayPickerViewNibName = "BirthdayPickerView"
 private let PhotoViewNibName = "PhotoView"
 private let ContainerViewNibName = "ContainerView"
 
+/**
+The sign up interface is composed of several different UIViews. The ContainerView, three UIViews vertically stacked, is the base of the interface. The top stack is hosts brand label and back button. The middle stack hosts several different ui elements that require users interactions. The UI elements are separated into several XIB files and are loaded at runtime during different stages of user interation. The bottom stack hosts submit or continue buttons, depending on the UI elements loaded in the middle stack.
+
+The challenge of implementation is to figure out an intuitive and easy to understand/maintain way to transition between different UI elements. For example, the `UsernameAndPasswordView` contains the textfield for username and password. It also contains the submit button which starts a network request. When loading the `UsernameAndPasswordView`, the textfields are placed horizontally and vertically centered in the middle stack. The button, designed only programatically (not on XIB file), is placed programatically in the bottom stack. The placement of the aforementioned UI elements are done programatically via autolayout. When it comes to transition to the next set of UI elements, for instance, the `NicknameView`, the previous set of elements in both the middle stack and the bottom stack have to be removed. Then the new elements are loaded. The same method repeats itself until the last transition.
+
+A custom `Transition` and `TransitionManager` are implemented to handle the above scenarios. Each `Transition` object contains 4 items: I) UIView, that is going to be transitioned into. II) Setup, the setup code that is going to be run before the transition starts to properly configure the UIView. III) After, code that runs right after the transition is done. IV) CleanUp, which cleans up the current transition as it goes away. The `TransitionManager` takes 4 items: I) the initial transition, II) the rest of the transitions, III) the behaviour of the initial transition, III) the behaviour of the rest of the transitions.
+*/
+
 public final class SignUpViewController : XUIViewController {
     
     // MARK: - UI Controls
@@ -27,10 +35,14 @@ public final class SignUpViewController : XUIViewController {
     
     // MARK: - Properties
     public let viewmodel = MutableProperty<SignUpViewModel?>(nil)
+    
     /// A disposable that will dispose of any number of other disposables.
     private let compositeDisposable = CompositeDisposable()
+    
+    /// a TransitionManager which manages the transitions
     private lazy var transitionManager: TransitionManager = TransitionManager(
         initial: self.usernameAndPasswordTransition.transitionActor,
+        // note that the transitions are wrapped in closures so that they will be loaded on demand instead of during initialization
         followUps: [
             { self.nicknameTransition.transitionActor },
             { self.genderPickerTransition.transitionActor },
@@ -49,11 +61,16 @@ public final class SignUpViewController : XUIViewController {
         transformation: { [weak self] (current, next) in
             if let this = self {
                 
+                // remove the current transition first
                 current.view.removeFromSuperview()
                 current.runCleanUp()
+                
+                // start the next transition
                 next.runSetup()
                 self?.containerView.midStack.addSubview(next.view)
                 self?.centerInSuperview(this.containerView.midStack, subview: next.view)
+                
+                // after code for the transition
                 next.runAfterTransition()
             }
         }
@@ -64,6 +81,7 @@ public final class SignUpViewController : XUIViewController {
     public override func loadView() {
         super.loadView()
         
+        // load container
         containerView = UINib(nibName: ContainerViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! ContainerView
         view = containerView
     }
@@ -262,88 +280,14 @@ public final class SignUpViewController : XUIViewController {
                     
                     transitionDisposable += view.doneProxy
                         |> logLifeCycle(LogContext.Account, "photoView.doneProxy")
-                        |> promoteErrors(NSError)
-                        |> flatMap(FlattenStrategy.Concat) { _ in
-                            return SignalProducer<Void, NSError> { sink, disposable in
-                                
-                                if let this = self, viewmodel = self?.viewmodel.value {
-                                    
-                                    // Update profile and show the HUD
-                                    disposable += viewmodel.areAllProfileInputsPresent.producer
-                                        // only valid input goes through
-                                        |> filter { $0 }
-                                        //                                        SignalProducer<Void, NoError>.empty
-                                        // delay the signal due to the animation of retracting keyboard
-                                        // this cannot be executed on main thread, otherwise UI will be blocked
-                                        |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
-                                        // return the signal to main/ui thread in order to run UI related code
-                                        |> observeOn(UIScheduler())
-                                        |> flatMap(.Concat) { _ in
-                                            return HUD.show()
-                                        }
-                                        // map error to the same type as other signal
-                                        |> promoteErrors(NSError)
-                                        // update profile
-                                        |> flatMap(.Concat) { _ in
-                                            return viewmodel.updateProfile
-                                        }
-                                        // dismiss HUD based on the result of update profile signal
-                                        |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
-                                            AccountLogError(error.description)
-                                            return error.customErrorDescription
-                                        })
-                                        // does not `sendCompleted` because completion is handled when HUD is disappeared
-                                        |> start(
-                                            error: { error in
-                                                sendError(sink, error)
-                                            },
-                                            interrupted: { _ in
-                                                sendInterrupted(sink)
-                                            }
-                                    )
-                                    
-                                    // Subscribe to touch down inside event
-                                    disposable += HUD.didTouchDownInsideNotification()
-                                        |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
-                                        |> start(
-                                            next: { _ in
-                                                // dismiss HUD
-                                                HUD.dismiss()
-                                            }
-                                    )
-                                    
-                                    // Subscribe to disappear notification
-                                    disposable += HUD.didDissappearNotification()
-                                        |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
-                                        |> start(next: { status in
-                                            if status == HUD.DisappearStatus.Normal {
-                                                //                                                proxyNext(this._finishSignUpSink, ())
-                                                if let viewmodel = self?.viewmodel.value {
-                                                    viewmodel.goToFeaturedModule { handler in
-                                                        self?.dismissViewControllerAnimated(true, completion: handler)
-                                                    }
-                                                    
-                                                    self?.navigationController?.setNavigationBarHidden(false, animated: false)
-                                                }
-                                            }
-                                            
-                                            // completes the action
-                                            sendNext(sink, ())
-                                            sendCompleted(sink)
-                                        })
-                                    
-                                    // Add the signals to CompositeDisposable for automatic memory management
-                                    disposable.addDisposable {
-                                        AccountLogVerbose("Update profile action is disposed.")
-                                    }
-                                    
-                                    // retract keyboard
-                                    self?.view.endEditing(true)
-                                }
-                            }
-                        }
                         |> start(next: {
-                            
+                            if let viewmodel = self?.viewmodel.value {
+                                viewmodel.goToFeaturedModule { handler in
+                                    self?.dismissViewControllerAnimated(true, completion: handler)
+                                }
+                                
+                                self?.navigationController?.setNavigationBarHidden(false, animated: false)
+                            }
                         })
                 }
                 
@@ -357,6 +301,10 @@ public final class SignUpViewController : XUIViewController {
     
     // MARK: - Others
     
+    /**
+    Place the subview in the center, horizontally and vertically, of the superview.
+    
+    */
     private func centerInSuperview<T: UIView, U: UIView>(superview: T, subview: U) {
         
         let group = constrain(subview, superview) { view1, view2 in
@@ -364,6 +312,11 @@ public final class SignUpViewController : XUIViewController {
         }
     }
     
+    /**
+    Install a button in the bottom stack.
+    
+    :param: button The UIButton.
+    */
     private func installSubviewButton<T: UIButton>(button: T) {
         
         containerView.bottomStack.addSubview(button)

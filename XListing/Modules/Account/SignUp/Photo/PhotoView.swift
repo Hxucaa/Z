@@ -53,11 +53,74 @@ public final class PhotoView : SpringView {
         
         // Button action
         let doneAction = Action<UIButton, Void, NSError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                if let this = self {
-                    proxyNext(this._doneSink, ())
+            return SignalProducer<Void, NSError> { sink, disposable in
+                
+                if let this = self, viewmodel = self?.viewmodel.value {
+                    
+                    // Update profile and show the HUD
+                    disposable += viewmodel.areAllProfileInputsPresent.producer
+                        // only valid input goes through
+                        |> filter { $0 }
+                        // delay the signal due to the animation of retracting keyboard
+                        // this cannot be executed on main thread, otherwise UI will be blocked
+                        |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                        // return the signal to main/ui thread in order to run UI related code
+                        |> observeOn(UIScheduler())
+                        |> flatMap(.Concat) { _ in
+                            return HUD.show()
+                        }
+                        // map error to the same type as other signal
+                        |> promoteErrors(NSError)
+                        // update profile
+                        |> flatMap(.Concat) { _ in
+                            return viewmodel.updateProfile
+                        }
+                        // dismiss HUD based on the result of update profile signal
+                        |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
+                            AccountLogError(error.description)
+                            return error.customErrorDescription
+                        })
+                        // does not `sendCompleted` because completion is handled when HUD is disappeared
+                        |> start(
+                            error: { error in
+                                sendError(sink, error)
+                            },
+                            interrupted: { _ in
+                                sendInterrupted(sink)
+                            }
+                    )
+                    
+                    // Subscribe to touch down inside event
+                    disposable += HUD.didTouchDownInsideNotification()
+                        |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                        |> start(
+                            next: { _ in
+                                // dismiss HUD
+                                HUD.dismiss()
+                            }
+                    )
+                    
+                    // Subscribe to disappear notification
+                    disposable += HUD.didDissappearNotification()
+                        |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                        |> start(next: { status in
+                            if status == HUD.DisappearStatus.Normal {
+                                proxyNext(this._doneSink, ())
+                            }
+                            
+                            // completes the action
+                            sendNext(sink, ())
+                            sendCompleted(sink)
+                        })
+                    
+                    // Add the signals to CompositeDisposable for automatic memory management
+                    disposable.addDisposable {
+                        AccountLogVerbose("Update profile action is disposed.")
+                    }
+                    
+                    // retract keyboard
+                    self?.endEditing(true)
                 }
-                sendCompleted(sink)
             }
         }
         

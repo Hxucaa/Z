@@ -19,10 +19,14 @@ public final class PhotoViewModel {
     
     // MARK: - Variables
     public let validProfileImageSignal: SignalProducer<UIImage, NoError>
+    public let areAllProfileInputsPresent = MutableProperty<Bool>(false)
+    public let updateProfile: SignalProducer<Bool, NSError>
     
     
     // MARK: - Initializers
-    public init() {
+    public init(updateProfile: SignalProducer<Bool, NSError>) {
+        self.updateProfile = updateProfile
+        
         validProfileImageSignal = profileImage.producer
             |> skip(1)
             |> ignoreNil
