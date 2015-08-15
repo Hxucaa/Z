@@ -32,10 +32,10 @@ public final class SignUpViewController : XUIViewController {
     private lazy var transitionManager: TransitionManager = TransitionManager(
         initial: self.usernameAndPasswordTransition.transitionActor,
         followUps: [
-            self.nicknameTransition.transitionActor,
-            self.genderPickerTransition.transitionActor,
-            self.birthdayPickerTransition.transitionActor,
-            self.photoTransition.transitionActor
+            { self.nicknameTransition.transitionActor },
+            { self.genderPickerTransition.transitionActor },
+            { self.birthdayPickerTransition.transitionActor },
+            { self.photoTransition.transitionActor }
         ],
         initialTransformation: { [weak self] transition in
             if let this = self, midStack = self?.containerView.midStack {
@@ -71,45 +71,14 @@ public final class SignUpViewController : XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-//        containerView.viewmodel <~ viewmodel
-        
         compositeDisposable += containerView.goBackProxy
             |> logLifeCycle(LogContext.Account, "signUpView.goBackProxy")
             |> start(next: { [weak self] in
                 if let this = self {
                     // transition to landing page view
-                    //                    proxyNext(this._goBackSink, ())
                     self?.navigationController?.popViewControllerAnimated(false)
                 }
             })
-        
-//        compositeDisposable += containerView.finishSignUpProxy
-//            |> logLifeCycle(LogContext.Account, "signUpView.finishSignUpProxy")
-//            |> start(next: { [weak self] in
-//                if let viewmodel = self?.viewmodel.value {
-//                    viewmodel.goToFeaturedModule { handler in
-//                        self?.dismissViewControllerAnimated(true, completion: handler)
-//                    }
-//                    
-//                    self?.navigationController?.setNavigationBarHidden(false, animated: false)
-//                }
-//            })
-//        
-//        compositeDisposable += signUpView.presentUIImagePickerProxy
-//            |> logLifeCycle(LogContext.Account, "signUpView.presentUIImagePickerProxy")
-//            |> start(next: { [weak self] imagePicker in
-//                // present image picker
-//                self?.presentViewController(imagePicker, animated: true, completion: nil)
-//            })
-//        
-//        compositeDisposable += signUpView.dismissUIImagePickerProxy
-//            |> logLifeCycle(LogContext.Account, "signUpView.dismissUIImagePickerProxy")
-//            |> start(next: { [weak self] handler in
-//                // dismiss image picker
-//                self?.dismissViewControllerAnimated(true, completion: handler)
-//            })
-        
-        
         /**
         Setup view transition.
         */

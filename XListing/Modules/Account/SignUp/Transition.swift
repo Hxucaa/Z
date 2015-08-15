@@ -16,10 +16,10 @@ public class TransitionManager {
     private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<TransitionActor, NoError>.buffer(0)
     private var currentIndex = -1
     private let initial: TransitionActor
-    private let followUps: [TransitionActor]
+    private let followUps: [() -> TransitionActor]
     private let initialTransformation: (transition: TransitionActor) -> Void
     
-    public init(initial: TransitionActor, followUps: [TransitionActor], initialTransformation: (transition: TransitionActor) -> Void, transformation: (current: TransitionActor, next: TransitionActor) -> Void) {
+    public init(initial: TransitionActor, followUps: [() -> TransitionActor], initialTransformation: (transition: TransitionActor) -> Void, transformation: (current: TransitionActor, next: TransitionActor) -> Void) {
         
         self.initial = initial
         self.followUps = followUps
@@ -40,7 +40,7 @@ public class TransitionManager {
     
     public func transitionNext() {
         assert(currentIndex < followUps.count - 1, "Cannot transition beyond the total number of follow up transitions defined!")
-        sendNext(viewTransitionSink, followUps[++currentIndex])
+        sendNext(viewTransitionSink, followUps[++currentIndex]())
     }
     
     public func installInitial() {
