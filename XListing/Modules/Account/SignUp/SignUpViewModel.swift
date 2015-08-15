@@ -12,23 +12,105 @@ import AVOSCloud
 
 public final class SignUpViewModel {
     
-    // MARK: - Public
+    // MARK: - Inputs
+    /**
+    The data of these inputs are coming from the sub-viewmodels.
+    */
+    private let username = MutableProperty<String?>(nil)
+    private let password = MutableProperty<String?>(nil)
+    private let nickname = MutableProperty<String?>(nil)
+    private let birthday = MutableProperty<NSDate?>(nil)
+    private let gender = MutableProperty<Gender?>(nil)
+    private let photo = MutableProperty<UIImage?>(nil)
     
-    // MARK: Input
-    public let username = MutableProperty<String?>(nil)
-    public let password = MutableProperty<String?>(nil)
+    // MARK: - Outputs
+    public let areAllProfileInputsPresent = MutableProperty<Bool>(false)
+    public let areSignUpInputsPresent = MutableProperty<Bool>(false)
     
-    // MARK: Output
-    public let isUsernameValid = MutableProperty<Bool>(false)
-    public let isPasswordValid = MutableProperty<Bool>(false)
-    public let allInputsValid = MutableProperty<Bool>(false)
+    // MARK: - View Models
+    public lazy var usernameAndPasswordViewModel: UsernameAndPasswordViewModel = { [unowned self] in
+        let viewmodel = UsernameAndPasswordViewModel(submit: self.signUp)
+        
+        self.username <~ viewmodel.validUsernameSignal
+            |> map { Optional<String>($0) }
+        
+        self.password <~ viewmodel.validPasswordSignal
+            |> map { Optional<String>($0) }
+        
+        return viewmodel
+    }()
     
-    // MARK: Actions
-    public var signUp: SignalProducer<Bool, NSError> {
-        return self.allInputsValid.producer
+    public lazy var nicknameViewModel: NicknameViewModel = { [unowned self] in
+        let viewmodel = NicknameViewModel()
+        
+        self.nickname <~ viewmodel.validNicknameSignal
+            |> map { Optional<String>($0) }
+        
+        return viewmodel
+    }()
+    
+    public lazy var genderPickerViewModel: GenderPickerViewModel = { [unowned self] in
+        let viewmodel = GenderPickerViewModel()
+        
+        self.gender <~ viewmodel.validGenderSignal
+            |> map { Optional<Gender>($0) }
+        
+        return viewmodel
+    }()
+    
+    public lazy var birthdayPickerViewModel: BirthdayPickerViewModel = { [unowned self] in
+        let viewmodel = BirthdayPickerViewModel()
+        
+        self.birthday <~ viewmodel.validBirthdaySignal
+            |> map { Optional<NSDate>($0) }
+        
+        return viewmodel
+    }()
+    
+    public lazy var photoViewModel: PhotoViewModel = { [unowned self] in
+        let viewmodel = PhotoViewModel(updateProfile: self.updateProfile)
+        
+        self.photo <~ viewmodel.validProfileImageSignal
+            |> map { Optional<UIImage>($0) }
+        
+        // output `areAllProfileInputsPresent` to the sub-viewmodel so that it is aware that all info for the profile are collected
+        viewmodel.areAllProfileInputsPresent <~ self.areAllProfileInputsPresent
+        
+        return viewmodel
+    }()
+    
+    // MARK: - Properties
+    private weak var accountNavigator: IAccountNavigator!
+    private let userService: IUserService
+    private lazy var allProfileInputs: SignalProducer<(String, NSDate, UIImage, Gender), NoError> = combineLatest(self.nickname.producer |> ignoreNil, self.birthday.producer |> ignoreNil, self.photo.producer |> ignoreNil, self.gender.producer |> ignoreNil)
+    private lazy var allSignUpInputs: SignalProducer<(String, String), NoError> = combineLatest(self.username.producer |> ignoreNil, self.password.producer |> ignoreNil)
+    
+    // MARK: Initializers
+    public init(accountNavigator: IAccountNavigator, userService: IUserService) {
+        self.userService = userService
+        self.accountNavigator = accountNavigator
+        
+        areAllProfileInputsPresent <~ allProfileInputs
+            |> map { _ in true }
+        
+        areSignUpInputsPresent <~ allSignUpInputs
+            |> map { _ in true }
+        
+    }
+    
+    deinit {
+        // Dispose signals before deinit.
+        AccountLogVerbose("Sign Up View Model deinitializes.")
+    }
+    
+    // MARK: Setup
+    
+    // MARK: Others
+    private var signUp: SignalProducer<Bool, NSError> {
+        return self.areSignUpInputsPresent.producer
             // only allow TRUE value
             |> filter { $0 }
-            |> flatMap(.Concat) { _ in combineLatest(self.validUsernameSignal, self.validPasswordSignal) }
+            |> flatMap(.Concat) { _ in self.allSignUpInputs }
             |> promoteErrors(NSError)
             |> flatMap(FlattenStrategy.Merge) { username, password -> SignalProducer<Bool, NSError> in
                 let user = User()
@@ -38,59 +120,31 @@ public final class SignUpViewModel {
         }
     }
     
-    // MARK: Initializers
-    public init(userService: IUserService) {
-        self.userService = userService
-        
-        setupUsername()
-        setupPassword()
-        setupAllInputsValid()
-    }
-    // MARK: - Private
-    
-    // MARK: Variables
-    private let userService: IUserService
-    /// Signal containing a valid username
-    private var validUsernameSignal: SignalProducer<String, NoError>!
-    /// Signal containing a valid password
-    private var validPasswordSignal: SignalProducer<String, NoError>!
-    
-    // MARK: Setup
-    private func setupUsername() {
-        // only allow usernames with:
-        // - between 3 and 30 characters
-        // - letters, numbers, dashes, periods, and underscores only
-        validUsernameSignal = username.producer
-            |> ignoreNil
-            |> filter { self.testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
-
-        isUsernameValid <~ validUsernameSignal
-            |> map { _ in true }
+    private var updateProfile: SignalProducer<Bool, NSError> {
+        return self.areAllProfileInputsPresent.producer
+            // only allow TRUE value
+            |> filter { $0 }
+            |> promoteErrors(NSError)
+            |> flatMap(.Concat) { _ in self.userService.currentLoggedInUser() }
+            |> flatMap(.Concat) { user -> SignalProducer<Bool, NSError> in
+                return self.allProfileInputs
+                    |> promoteErrors(NSError)
+                    |> flatMap(.Latest) { (nickname, birthday, profileImage, gender) -> SignalProducer<Bool, NSError> in
+                        let imageData = UIImagePNGRepresentation(profileImage)
+                        let file = AVFile.fileWithName("profile.png", data: imageData) as! AVFile
+                        user.nickname = nickname
+                        user.birthday = birthday
+                        user.profileImg = file
+                        user.gender = gender.rawValue
+                        
+                        return self.userService.save(user)
+                }
+        }
     }
     
-    private func setupPassword() {
-        // only allow passwords with:
-        // - more than 8 characters
-        // - letters, numbers, and most standard symbols
-        // - at least one number, capital letter, or special character
-        validPasswordSignal = password.producer
-            |> ignoreNil
-            |> filter { count($0) > 0 }
-//            |> filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
-        
-        isPasswordValid <~ validPasswordSignal
-            |> map { _ in true }
-    }
-    
-    private func setupAllInputsValid() {
-        allInputsValid <~ combineLatest(isUsernameValid.producer, isPasswordValid.producer)
-            |> map { $0.0 && $0.1 }
-    }
-    
-    // MARK: Private Methods
-    private func testRegex(input: String, pattern: String) -> Bool {
-        let regex = NSRegularExpression(pattern: pattern, options: nil, error: nil)
-        let matches = regex!.matchesInString(input, options: nil, range:NSMakeRange(0, count(input)))
-        return matches.count == 1
+    public func goToFeaturedModule(_ callback: (CompletionHandler? -> ())? = nil) {
+        accountNavigator.goToFeaturedModule { handler in
+            callback?(handler)
+        }
     }
 }

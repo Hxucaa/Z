@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="pd4-oR-LoD" customClass="GenderPickerView" customModule="XListing" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="188" height="38"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="l" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jXV-Dx-T0b" userLabel="divider">
+                    <rect key="frame" x="92" y="0.0" width="5" height="38"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="38" id="Zpg-7J-ZNH"/>
+                        <constraint firstAttribute="width" constant="5" id="pRI-kg-1L1"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="49"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="0.0"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6y-DW-pue" userLabel="Girl Button" customClass="GirlButton" customModule="XListing" customModuleProvider="target">
+                    <rect key="frame" x="137" y="0.0" width="35" height="38"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="35" id="G1H-8t-UTw"/>
+                        <constraint firstAttribute="height" constant="38" id="wGz-C5-Hzl"/>
+                    </constraints>
+                    <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" highlighted="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ud-Q9-t1b" userLabel="Boy Button" customClass="BoyButton" customModule="XListing" customModuleProvider="target">
+                    <rect key="frame" x="17" y="0.0" width="35" height="38"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="38" id="dZ3-fd-ins"/>
+                        <constraint firstAttribute="width" constant="35" id="rg1-DY-63Y"/>
+                    </constraints>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="b6y-DW-pue" firstAttribute="leading" secondItem="jXV-Dx-T0b" secondAttribute="trailing" constant="40" id="67I-vC-cbv"/>
+                <constraint firstAttribute="centerY" secondItem="jXV-Dx-T0b" secondAttribute="centerY" id="8v5-Jj-yfE"/>
+                <constraint firstItem="2ud-Q9-t1b" firstAttribute="centerY" secondItem="jXV-Dx-T0b" secondAttribute="centerY" id="Qj0-dd-eeH"/>
+                <constraint firstItem="2ud-Q9-t1b" firstAttribute="centerY" secondItem="b6y-DW-pue" secondAttribute="centerY" id="YR1-gL-Cwq"/>
+                <constraint firstAttribute="centerX" secondItem="jXV-Dx-T0b" secondAttribute="centerX" id="hbO-LA-A5l"/>
+                <constraint firstItem="jXV-Dx-T0b" firstAttribute="leading" secondItem="2ud-Q9-t1b" secondAttribute="trailing" constant="40" id="mP2-DP-mc5"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="autostart" value="YES"/>
+                <userDefinedRuntimeAttribute type="number" keyPath="force">
+                    <real key="value" value="1.5"/>
+                </userDefinedRuntimeAttribute>
+                <userDefinedRuntimeAttribute type="number" keyPath="damping">
+                    <real key="value" value="0.69999999999999996"/>
+                </userDefinedRuntimeAttribute>
+                <userDefinedRuntimeAttribute type="number" keyPath="velocity">
+                    <real key="value" value="1"/>
+                </userDefinedRuntimeAttribute>
+                <userDefinedRuntimeAttribute type="string" keyPath="animation" value="slideLeft"/>
+                <userDefinedRuntimeAttribute type="string" keyPath="curve" value="spring"/>
+                <userDefinedRuntimeAttribute type="number" keyPath="duration">
+                    <real key="value" value="2.2999999999999998"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
+            <connections>
+                <outlet property="boyButton" destination="2ud-Q9-t1b" id="yCe-YB-Xey"/>
+                <outlet property="girlButton" destination="b6y-DW-pue" id="EDx-h9-lh3"/>
+            </connections>
+            <point key="canvasLocation" x="202" y="197"/>
+        </view>
+    </objects>
+</document>
