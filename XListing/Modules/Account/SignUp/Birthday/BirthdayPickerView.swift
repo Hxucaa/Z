@@ -101,8 +101,6 @@ public final class BirthdayPickerView : SpringView {
                     this.birthdayTextField.rac_text <~ viewmodel.birthdayText
                 }
             })
-        
-        animate()
     }
     
     

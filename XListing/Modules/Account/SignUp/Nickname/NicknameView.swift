@@ -80,8 +80,6 @@ public final class NicknameView : SpringView {
                     this.continueButton.rac_enabled <~ viewmodel.isNicknameValid
                 }
             })
-        
-        animate()
     }
     
     public override func removeFromSuperview() {

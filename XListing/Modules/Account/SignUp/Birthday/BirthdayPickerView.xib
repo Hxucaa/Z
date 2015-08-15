@@ -46,6 +46,23 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="autostart" value="YES"/>
+                <userDefinedRuntimeAttribute type="string" keyPath="curve" value="spring"/>
+                <userDefinedRuntimeAttribute type="string" keyPath="animation" value="slideLeft"/>
+                <userDefinedRuntimeAttribute type="number" keyPath="force">
+                    <real key="value" value="1.5"/>
+                </userDefinedRuntimeAttribute>
+                <userDefinedRuntimeAttribute type="number" keyPath="damping">
+                    <real key="value" value="0.69999999999999996"/>
+                </userDefinedRuntimeAttribute>
+                <userDefinedRuntimeAttribute type="number" keyPath="velocity">
+                    <real key="value" value="1"/>
+                </userDefinedRuntimeAttribute>
+                <userDefinedRuntimeAttribute type="number" keyPath="duration">
+                    <real key="value" value="2.2999999999999998"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
             <connections>
                 <outlet property="birthdayTextField" destination="szP-hv-tPC" id="wdS-3j-lFW"/>
                 <outlet property="cakeIcon" destination="YHV-Eo-cVz" id="iDh-PR-e1B"/>

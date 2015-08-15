@@ -150,8 +150,6 @@ public final class UsernameAndPasswordView : SpringView {
         usernameField.delegate = self
         passwordField.delegate = self
         usernameField.becomeFirstResponder()
-        
-        animate()
     }
     
     deinit {

@@ -267,7 +267,6 @@ public final class SignUpViewController : XUIViewController {
                         |> logLifeCycle(LogContext.Account, "photoTransition.presentUIImagePickerProxy")
                         |> start(next: { imagePicker in
                             // present image picker
-                            //                            proxyNext(this._presentUIImagePickerSink, imagePicker)
                             self?.presentViewController(imagePicker, animated: true, completion: nil)
                         })
                     
@@ -275,7 +274,6 @@ public final class SignUpViewController : XUIViewController {
                         |> logLifeCycle(LogContext.Account, "photoTransition.dismissUIImagePickerProxy")
                         |> start(next: { handler in
                             // dismiss image picker
-                            //                            proxyNext(this._dismissUIImagePickerSink, handler)
                             self?.dismissViewControllerAnimated(true, completion: handler)
                         })
                     

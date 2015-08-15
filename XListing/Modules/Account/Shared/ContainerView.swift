@@ -55,18 +55,13 @@ public final class ContainerView : UIView {
     public var bottomStack: UIView {
         return _bottomStack
     }
+    
     // MARK: - Proxies
     
     /// Go back to previous page.
     private let (_goBackProxy, _goBackSink) = SimpleProxy.proxy()
     public var goBackProxy: SimpleProxy {
         return _goBackProxy
-    }
-    
-    /// Sign Up view is finished.
-    private let (_finishSignUpProxy, _finishSignUpSink) = SimpleProxy.proxy()
-    public var finishSignUpProxy: SimpleProxy {
-        return _finishSignUpProxy
     }
     
     // MARK: - Setups

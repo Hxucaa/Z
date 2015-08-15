@@ -70,9 +70,6 @@
                 <userDefinedRuntimeAttribute type="number" keyPath="force">
                     <real key="value" value="1.5"/>
                 </userDefinedRuntimeAttribute>
-                <userDefinedRuntimeAttribute type="number" keyPath="spring_delay">
-                    <real key="value" value="2.2999999999999998"/>
-                </userDefinedRuntimeAttribute>
                 <userDefinedRuntimeAttribute type="number" keyPath="damping">
                     <real key="value" value="0.69999999999999996"/>
                 </userDefinedRuntimeAttribute>
@@ -81,6 +78,10 @@
                 </userDefinedRuntimeAttribute>
                 <userDefinedRuntimeAttribute type="string" keyPath="animation" value="slideLeft"/>
                 <userDefinedRuntimeAttribute type="string" keyPath="curve" value="spring"/>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="autostart" value="YES"/>
+                <userDefinedRuntimeAttribute type="number" keyPath="duration">
+                    <real key="value" value="2.2999999999999998"/>
+                </userDefinedRuntimeAttribute>
             </userDefinedRuntimeAttributes>
             <variation key="default">
                 <mask key="constraints">

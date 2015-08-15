@@ -99,8 +99,6 @@ public final class GenderPickerView : SpringView {
                     this._continueButton.rac_enabled <~ viewmodel.isGenderValid
                 }
             })
-        
-        animate()
     }
     
     

@@ -178,8 +178,6 @@ public final class PhotoView : SpringView {
                     this.doneButton.rac_enabled <~ viewmodel.isProfileImageValid
                 }
             })
-        
-        animate()
     }
     
     private func setupImageSelectedSignal() {
