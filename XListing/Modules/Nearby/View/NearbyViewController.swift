@@ -78,6 +78,7 @@ public final class NearbyViewController: XUIViewController {
     
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        navigationController?.hidesBarsOnSwipe = false
     }
     
     public override func viewWillDisappear(animated: Bool) {

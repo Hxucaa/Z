@@ -73,7 +73,7 @@ public final class DetailViewController : XUIViewController, UITableViewDelegate
         // fill status bar with color
         let statusView = UIView(frame:CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 20))
         statusView.backgroundColor = UIColor.x_PrimaryColor()
-        view.addSubview(statusView)
+        self.navigationController!.view.addSubview(statusView)
     }
     
     public override func didReceiveMemoryWarning() {

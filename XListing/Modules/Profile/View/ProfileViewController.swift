@@ -29,11 +29,6 @@ public final class ProfileViewController : XUIViewController {
     // MARK: - Setups
     public override func viewDidLoad() {
         super.viewDidLoad()
-
-        // fill status bar with color
-        let statusView = UIView(frame:CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 20))
-        statusView.backgroundColor = UIColor.x_PrimaryColor()
-        view.addSubview(statusView)
         
         navigationItem.title = "个人"
         
@@ -57,8 +52,14 @@ public final class ProfileViewController : XUIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.navigationBar.hidden = true // for navigation bar hide
         UIApplication.sharedApplication().statusBarHidden=false
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        navigationController?.hidesBarsOnSwipe = false
+        
+        // fill status bar with color
+        let statusView = UIView(frame:CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 20))
+        statusView.backgroundColor = UIColor.x_PrimaryColor()
+        self.navigationController!.view.addSubview(statusView)
         
         willAppearTableView()
         
