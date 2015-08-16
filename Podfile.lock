@@ -12,6 +12,7 @@ PODS:
     - CocoaLumberjack/Default
   - Dollar (3.0.3)
   - FLEX (2.0.3)
+  - INSPullToRefresh (1.0.11)
   - Locksmith (1.2.2)
   - Nimble (1.0.0)
   - OAStackView (0.1.0)
@@ -46,6 +47,7 @@ DEPENDENCIES:
   - CocoaLumberjack (= 2.0.0)
   - Dollar (~> 3.0)
   - FLEX (~> 2.0)
+  - INSPullToRefresh (~> 1.0.11)
   - Locksmith (~> 1.2)
   - Nimble (~> 1.0)
   - OAStackView (~> 0.1.0)
@@ -83,6 +85,7 @@ SPEC CHECKSUMS:
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   Dollar: ae37f1da42cdc16061fcc1e91a070281b207f5c8
   FLEX: 4f04fe0b0594163c00879e2b3db888e5ae37c8d5
+  INSPullToRefresh: fe1792e49a869f90389aa7761ef2a794309fe5aa
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88
   Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87
   OAStackView: 76e64242351e2746374b9161a03021cbc19341ff
