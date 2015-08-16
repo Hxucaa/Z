@@ -1,52 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeaturedListBusinessTableViewCell" customModule="XListing" customModuleProvider="target">
             <connections>
                 <outlet property="avatarList" destination="Obb-iM-9Cb" id="FZe-Ot-ZkT"/>
-                <outlet property="joinButton" destination="9JZ-LB-YV7" id="6T2-N4-aaW"/>
+                <outlet property="joinButton" destination="rKq-AP-foL" id="MCj-lO-tKM"/>
                 <outlet property="peopleWantogoLabel" destination="JZa-tM-Asc" id="kln-Lb-5EJ"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
+            <rect key="frame" x="0.0" y="0.0" width="334" height="80"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Obb-iM-9Cb">
-                    <rect key="frame" x="0.0" y="39" width="398" height="41"/>
+                    <rect key="frame" x="0.0" y="21" width="235" height="59"/>
                     <color key="backgroundColor" red="1" green="0.63617907072368418" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="150人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZa-tM-Asc">
-                    <rect key="frame" x="8" y="15" width="80" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="4" y="0.0" width="137" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="Vnv-Vl-6sJ"/>
+                        <constraint firstAttribute="width" constant="137" id="Wg7-UV-YG9"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.4823529411764706" green="0.4823529411764706" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9JZ-LB-YV7">
-                    <rect key="frame" x="546" y="50" width="30" height="30"/>
-                    <state key="normal" title="来">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKq-AP-foL">
+                    <rect key="frame" x="263" y="9" width="52" height="71"/>
+                    <state key="normal" title="WTG">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="0.54134971217105265" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="9JZ-LB-YV7" secondAttribute="trailing" constant="24" id="I5G-dJ-bO9"/>
-                <constraint firstItem="JZa-tM-Asc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="KKb-cZ-LTU"/>
-                <constraint firstItem="Obb-iM-9Cb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="UyN-9X-7oy"/>
-                <constraint firstItem="Obb-iM-9Cb" firstAttribute="top" secondItem="JZa-tM-Asc" secondAttribute="bottom" constant="3" id="W8h-Hz-TKL"/>
-                <constraint firstAttribute="trailing" secondItem="Obb-iM-9Cb" secondAttribute="trailing" constant="202" id="bwi-c8-Zi1"/>
-                <constraint firstItem="JZa-tM-Asc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="ce8-HJ-Lyz"/>
-                <constraint firstAttribute="bottom" secondItem="Obb-iM-9Cb" secondAttribute="bottom" id="nMS-cM-lxG"/>
-                <constraint firstItem="9JZ-LB-YV7" firstAttribute="bottom" secondItem="Obb-iM-9Cb" secondAttribute="bottom" id="tpC-97-fUo"/>
+                <constraint firstItem="JZa-tM-Asc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Csq-Kl-RCF"/>
+                <constraint firstAttribute="bottom" secondItem="Obb-iM-9Cb" secondAttribute="bottom" id="Pep-t9-AlT"/>
+                <constraint firstItem="rKq-AP-foL" firstAttribute="height" secondItem="Obb-iM-9Cb" secondAttribute="height" multiplier="1.2" id="cBq-ZS-Ttm"/>
+                <constraint firstItem="JZa-tM-Asc" firstAttribute="leading" secondItem="Obb-iM-9Cb" secondAttribute="leading" constant="4" id="e6f-Km-GGa"/>
+                <constraint firstAttribute="trailing" secondItem="Obb-iM-9Cb" secondAttribute="trailing" constant="99" id="eNM-u1-nTB"/>
+                <constraint firstItem="rKq-AP-foL" firstAttribute="leading" secondItem="Obb-iM-9Cb" secondAttribute="trailing" constant="28" id="hfG-80-0Uw"/>
+                <constraint firstItem="Obb-iM-9Cb" firstAttribute="top" secondItem="JZa-tM-Asc" secondAttribute="bottom" id="iF6-dj-xdf"/>
+                <constraint firstItem="rKq-AP-foL" firstAttribute="bottom" secondItem="Obb-iM-9Cb" secondAttribute="bottom" id="ldC-R8-ldr"/>
+                <constraint firstAttribute="trailing" secondItem="rKq-AP-foL" secondAttribute="trailing" constant="19" id="rve-mg-Gmj"/>
+                <constraint firstItem="Obb-iM-9Cb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="v0C-93-KVt"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="196" y="350"/>
+            <point key="canvasLocation" x="63" y="350"/>
         </view>
     </objects>
 </document>
