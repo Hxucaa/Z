@@ -35,8 +35,11 @@ public final class FeaturedListViewController: XUIViewController {
         setupRefresh()
         setupNearbyButton()
         setupProfileButton()
-        
+
         tableView.dataSource = self
+        
+        // set cell height based on devices
+        tableView.rowHeight = UIScreen.mainScreen().bounds.width * 0.51
         
         let nib = UINib(nibName: "FeaturedListBusinessTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: CellIdentifier)

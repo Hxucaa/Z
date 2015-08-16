@@ -40,19 +40,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         selectionStyle = UITableViewCellSelectionStyle.None
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
-        
-        
-        
-        //add layouts
-        
-        layout(businessImage, participationView) { businessImage, participationView in
-
-            //sizes
-            businessImage.width == businessImage.superview!.width * 0.544
-            businessImage.height == businessImage.width * 0.6078
-
-            
-        }
 
         var infoViewContent = NSBundle.mainBundle().loadNibNamed("infopanel", owner: self, options: nil)[0] as! UIView
         infoView.addSubview(infoViewContent)
@@ -60,6 +47,14 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         var participationViewContent = NSBundle.mainBundle().loadNibNamed("participationview", owner: self, options: nil)[0] as! UIView
         participationView.addSubview(participationViewContent)
         
+        //Set anchor size for all related views
+        
+        layout(businessImage) { businessImage in
+            
+            //sizes
+            businessImage.width == businessImage.superview!.width * 0.544
+            businessImage.height == businessImage.width * 0.6078
+        }
         
         //Make subview same size as the parent view
         
@@ -74,9 +69,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             participationViewContent.width == participationViewContent.superview!.width
             participationViewContent.height == participationViewContent.superview!.height
         }
-        
-    
-
         
         /**
         *  When the cell is prepared for reuse, set the state.
