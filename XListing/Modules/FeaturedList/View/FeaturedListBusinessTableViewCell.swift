@@ -13,10 +13,12 @@ import ReactiveCocoa
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     //MARK: constants
-    private let avatarWidth = CGFloat(40)
-    private let avatarHeight = CGFloat(40)
+    private let avatarWidth = CGFloat(30)
+    private let avatarHeight = CGFloat(30)
     private let avatarGap = CGFloat(10)
-    
+    private let avatarLeadingMargin = CGFloat(5)
+    private let avatarTailingMargin = CGFloat(5)
+
     
     // MARK: - UI Controls
     @IBOutlet weak var businessImage: UIImageView!
@@ -54,6 +56,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         participationView.addSubview(participationViewContent)
         
         
+        let join = Action<UIButton, Bool, NSError>{ button in
+            return self.viewmodel.participate(ParticipationChoice.我想去)
+        }
+        joinButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        
         /**
         *  When the cell is prepared for reuse, set the state.
         *
@@ -67,12 +74,14 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     deinit {
         compositeDisposable.dispose()
     }
+
     
     // MARK: Bindings
     
     public func bindViewModel(viewmodel: FeaturedBusinessViewModel) {
         self.viewmodel = viewmodel
         
+        self.joinButton.rac_enabled <~ viewmodel.buttonEnabled.producer
         self.nameLabel.rac_text <~ viewmodel.businessName.producer
            |> takeUntilPrepareForReuse(self)
         self.cityLabel.rac_text <~ viewmodel.city.producer
@@ -99,20 +108,51 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         compositeDisposable += self.viewmodel.userArr.producer
             |> start (next: { [weak self] users in
                 self?.users = users
-                BOLogDebug("count of returned users \(users.count)")
-                self?.setupParticipationView()
+                self?.setupParticipationView(users)
             })
     }
-    private func setupParticipationView(){
-        BOLogDebug("setupcalled")
-        for user in self.users{
-            if user.profileImg != nil{
-                BOLogDebug("setupimage")
-                let frame = CGRectMake(0, 0, self.avatarWidth, self.avatarHeight)
-                let imageView = UIImageView(frame: frame)
-                let data = user.profileImg!.getData()
-                let image = UIImage(data: data)
-                imageView.setImageWithAnimation(image!)
+    
+    
+    private func setupParticipationView(users: [User]){
+//        FeaturedLogDebug("setup count of users: \(users.count)")
+        
+        var count = Int(floor((self.avatarList.frame.width - self.avatarLeadingMargin - self.avatarTailingMargin - self.avatarWidth)/(self.avatarWidth + self.avatarGap))) + 1
+        var hasMoreUsers = users.count > count
+
+//        FeaturedLogDebug("count: \(count)")
+//        FeaturedLogDebug("hasMoreusers: \(hasMoreUsers)")
+        
+        var images = [UIImage]()
+        var imageViews = [UIImageView]()
+        
+        // populate images
+        for (var i = 0; i<users.count && i<count; i++){
+            let user = users[i]
+            if let image = user.profileImg{
+                let data = image.getData()
+                if let uiImage = UIImage(data: data){
+                    images.append(uiImage)
+                }
+            }
+        }
+        
+        if hasMoreUsers && images.count > 0{
+            if let image = UIImage(named: "downArrow"){
+                images[images.count-1] = image
+            }
+        }
+        
+        // populate imageViews
+        
+        for i in 0...count-1{
+            let x = self.avatarLeadingMargin + CGFloat(i)*(self.avatarWidth + self.avatarGap)
+            let y = (self.avatarList.frame.height - self.avatarHeight)/CGFloat(2.0)
+            let frame = CGRectMake(x, y, self.avatarWidth, self.avatarHeight)
+            let imageView = UIImageView(frame: frame)
+            if i<images.count{
+                let image = images[i]
+                imageView.setImageWithAnimation(image)
+                imageView.toCircle()
                 self.avatarList.addSubview(imageView)
             }
         }

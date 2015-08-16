@@ -18,4 +18,10 @@ extension UIImageView {
 //            self.alpha = 1}
 //            , completion: nil)
     }
+    
+    public func toCircle(){
+            let imgWidth = CGFloat(self.frame.width)
+            self.layer.cornerRadius = imgWidth / 2
+            self.layer.masksToBounds = true;
+    }
 }

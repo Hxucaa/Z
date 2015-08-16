@@ -30,12 +30,7 @@ public struct DetailBizInfoViewModel {
     private let geoLocationService: IGeoLocationService
     private let business: Business
     
-    // MARK: API
-    public enum ParticipationChoice : String {
-        case 我想去 = "我想去"
-        case 我想请客 = "我想请客"
-        case 我想AA = "我想 AA"
-    }
+
     
     /**
     Participate the business with one of the given choices.

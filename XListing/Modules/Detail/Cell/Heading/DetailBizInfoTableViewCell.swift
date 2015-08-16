@@ -30,7 +30,7 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
         separatorInset = UIEdgeInsetsZero
         
         let participate = Action<UIButton, Bool, NSError>{ button in
-            return self.viewmodel.participate(DetailBizInfoViewModel.ParticipationChoice.我想去)
+            return self.viewmodel.participate(ParticipationChoice.我想去)
         }
         
         participateButton.addTarget(participate.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
@@ -38,7 +38,6 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
     
     public override func prepareForReuse() {
         super.prepareForReuse()
-        
         compositeDisposable.dispose()
     }
 

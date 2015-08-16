@@ -176,6 +176,7 @@
 		B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */; };
 		B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */; };
 		B4FCC7411AEB0080009B4DF6 /* IRootWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7401AEB0080009B4DF6 /* IRootWireframe.swift */; };
+		D00705341B80F330009C1465 /* ParticipationChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00705331B80F330009C1465 /* ParticipationChoice.swift */; };
 		D02A61711B655019007B48E9 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02A61701B655019007B48E9 /* ProfileHeaderViewModel.swift */; };
 		D0ACA3EC1B7834C5003D97AB /* infopanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ACA3EB1B7834C5003D97AB /* infopanel.xib */; };
 		D0ACA3EE1B7835C5003D97AB /* FeaturedListBusinessTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ACA3ED1B7835C5003D97AB /* FeaturedListBusinessTableViewCell.xib */; };
@@ -384,6 +385,7 @@
 		B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountWireframe.swift; sourceTree = "<group>"; };
 		B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = INearbyWireframe.swift; sourceTree = "<group>"; };
 		B4FCC7401AEB0080009B4DF6 /* IRootWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRootWireframe.swift; sourceTree = "<group>"; };
+		D00705331B80F330009C1465 /* ParticipationChoice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationChoice.swift; sourceTree = "<group>"; };
 		D02A61701B655019007B48E9 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
 		D0ACA3EB1B7834C5003D97AB /* infopanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = infopanel.xib; sourceTree = "<group>"; };
 		D0ACA3ED1B7835C5003D97AB /* FeaturedListBusinessTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeaturedListBusinessTableViewCell.xib; sourceTree = "<group>"; };
@@ -749,6 +751,7 @@
 				B4FC6B221B678541001F13E9 /* NSObject+Swift.h */,
 				B4F4AFDD1B6EC70700ABA176 /* Misc.swift */,
 				261D91021B6873D5004B1CF6 /* Icons.swift */,
+				D00705331B80F330009C1465 /* ParticipationChoice.swift */,
 			);
 			name = Utility;
 			path = Common/Utility;
@@ -1422,6 +1425,7 @@
 				26645AD71B5A400700ADDCD1 /* BirthdayTableViewCell.swift in Sources */,
 				3DFA2F951B43C0FF00058930 /* WantToGoListWireframe.swift in Sources */,
 				B4DB9AC41AF954C8009FBFE1 /* IGeoLocationService.swift in Sources */,
+				D00705341B80F330009C1465 /* ParticipationChoice.swift in Sources */,
 				2A9A9B9C1B1C31510010EDA9 /* DetailBizInfoTableViewCell.swift in Sources */,
 				B4B665401ADF88DB0084DBE7 /* DetailViewController.swift in Sources */,
 				B4F195A31B2AA4BA00B8C519 /* DetailRoute.swift in Sources */,

@@ -38,16 +38,12 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
         return businessService.findBy(query)
             |> on(next: { businesses in
                 self.fetchingData.put(true)
-                BOLogDebug("find a business")
             })
             |> map { businesses -> [FeaturedBusinessViewModel] in
                 // save the business models
-                BOLogDebug("map business to model")
-
                 let gotBusinesses = businesses
                 let arrayItems = self.businessArr.value.count
                 self.businessArr.put(self.businessArr.value + businesses)
-                
                 // increment loaded businesses counter
                 self.loadedBusinesses.put(businesses.count + self.loadedBusinesses.value)
                 // map the business models to viewmodels
@@ -59,8 +55,6 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
                 next: { response in
                     self.fetchingData.put(false)
                     self.featuredBusinessViewModelArr.put(response)
-                    BOLogDebug("return businessmodelarr")
-
                 },
                 error: { FeaturedLogError($0.description) }
             )
