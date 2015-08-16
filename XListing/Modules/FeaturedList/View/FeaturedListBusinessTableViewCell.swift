@@ -25,10 +25,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     @IBOutlet weak var businessImage: UIImageView!
     @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var participationView: UIView!
+    @IBOutlet weak var ETAIcon: UIView!
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var priceLabel: UIView!
     @IBOutlet weak var etaLabel: UILabel!
     
     @IBOutlet weak var peopleWantogoLabel: UILabel!
@@ -52,6 +53,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
 
         var infoViewContent = NSBundle.mainBundle().loadNibNamed("infopanel", owner: self, options: nil)[0] as! UIView
         infoView.addSubview(infoViewContent)
+        
         
         var participationViewContent = NSBundle.mainBundle().loadNibNamed("participationview", owner: self, options: nil)[0] as! UIView
         participationView.addSubview(participationViewContent)
@@ -109,8 +111,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
            |> takeUntilPrepareForReuse(self)
         self.cityLabel.rac_text <~ viewmodel.city.producer
             |> takeUntilPrepareForReuse(self)
-        self.priceLabel.rac_text <~ viewmodel.price.producer
-            |> takeUntilPrepareForReuse(self)
+//        self.priceLabel.rac_text <~ viewmodel.price.producer
+//            |> takeUntilPrepareForReuse(self)
         self.etaLabel.rac_text <~ viewmodel.eta.producer
             |> takeUntilPrepareForReuse(self)
         self.peopleWantogoLabel.rac_text <~ viewmodel.participation.producer
