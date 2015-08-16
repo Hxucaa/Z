@@ -76,6 +76,7 @@
                     </mask>
                 </variation>
             </tableViewCellContentView>
+            <color key="backgroundColor" red="0.83529411764705885" green="0.83529411764705885" blue="0.83529411764705885" alpha="1" colorSpace="calibratedRGB"/>
             <connections>
                 <outlet property="businessImage" destination="iyM-Pv-UcA" id="dTL-KS-ncy"/>
                 <outlet property="imageView" destination="iyM-Pv-UcA" id="btT-Bt-ck0"/>
