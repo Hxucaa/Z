@@ -9,6 +9,7 @@
 import UIKit
 import SDWebImage
 import ReactiveCocoa
+import INSPullToRefresh
 
 private let CellIdentifier = "Cell"
 
@@ -24,7 +25,6 @@ public final class FeaturedListViewController: XUIViewController {
     // MARK: Properties
     private var viewmodel: IFeaturedListViewModel!
     private let compositeDisposable = CompositeDisposable()
-    private var isLoading = 0
     
     // MARK: Setups
     public override func viewDidLoad() {
@@ -32,7 +32,6 @@ public final class FeaturedListViewController: XUIViewController {
         
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         
-        setupRefresh()
         setupNearbyButton()
         setupProfileButton()
         
@@ -49,64 +48,10 @@ public final class FeaturedListViewController: XUIViewController {
     }
     
     deinit {
+        tableView.ins_removeInfinityScroll()
+        tableView.ins_removePullToRefresh()
         compositeDisposable.dispose()
         FeaturedLogVerbose("Featured List View Controller deinitializes.")
-    }
-    
-    private func setupRefresh() {
-        refreshControl.attributedTitle = NSAttributedString(string: "刷新中")
-        
-        let refresh = Action<UIRefreshControl, Void, NSError> { refreshControl in
-            return self.viewmodel.getFeaturedBusinesses()
-                |> map { _ -> Void in }
-                |> on(next: { [weak self] _ in
-                    self?.tableView.reloadData()
-                    self?.refreshControl.endRefreshing()
-                })
-        }
-        
-        refreshControl.addTarget(refresh.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .ValueChanged)
-        
-        tableView.addSubview(refreshControl)
-        
-        // turn off autoresizing mask off to allow custom autolayout constraints
-        refreshControl.setTranslatesAutoresizingMaskIntoConstraints(false)
-        
-        // add constraints
-        view.addConstraints(
-            [
-                // center X alignment
-                NSLayoutConstraint(
-                    item: refreshControl,
-                    attribute: NSLayoutAttribute.CenterX,
-                    relatedBy: NSLayoutRelation.Equal,
-                    toItem: view,
-                    attribute: NSLayoutAttribute.CenterX,
-                    multiplier: 1.0,
-                    constant: 0.0
-                ),
-                // top space to topLayoutGuide is 90
-                NSLayoutConstraint(
-                    item: refreshControl,
-                    attribute: NSLayoutAttribute.Top,
-                    relatedBy: NSLayoutRelation.Equal,
-                    toItem: topLayoutGuide,
-                    attribute: NSLayoutAttribute.Top,
-                    multiplier: 1.0,
-                    constant: 90.0
-                ),
-                // width set to 150
-                NSLayoutConstraint(
-                    item: refreshControl,
-                    attribute: NSLayoutAttribute.Width,
-                    relatedBy: NSLayoutRelation.Equal,
-                    toItem: nil,
-                    attribute: NSLayoutAttribute.NotAnAttribute,
-                    multiplier: 1.0,
-                    constant: 150.0
-                )
-            ]
-        )
     }
     
     /**
@@ -156,6 +101,43 @@ public final class FeaturedListViewController: XUIViewController {
     
     private func willAppearTableView() {
         
+        /**
+        *  Setup Pull to Refresh
+        */
+        tableView.ins_addPullToRefreshWithHeight(60.0) { [weak self] scrollView -> Void in
+            if let this = self {
+                this.viewmodel.getFeaturedBusinesses()
+                    |> map { _ -> Void in }
+                    |> start(next: { _ in
+                        scrollView.ins_endPullToRefresh()
+                    })
+            }
+        }
+        
+        let pullToRefresh = PullToRefresh(frame: CGRectMake(0, 30, 24, 24))
+        tableView.ins_pullToRefreshBackgroundView.delegate = pullToRefresh
+        tableView.ins_pullToRefreshBackgroundView.addSubview(pullToRefresh)
+        
+        /**
+        Setup bottom scroll refresh
+        */
+        tableView.ins_addInfinityScrollWithHeight(60.0) { [weak self] scrollView -> Void in
+            if let this = self {
+                this.viewmodel.getFeaturedBusinesses()
+                    |> map { _ -> Void in }
+                    |> start(next: { _ in
+                        scrollView.ins_endInfinityScrollWithStoppingContentOffset(true)
+                    })
+            }
+        }
+        
+        let infinityIndicator = INSDefaultInfiniteIndicator(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        tableView.ins_infiniteScrollBackgroundView.addSubview(infinityIndicator)
+        infinityIndicator.startAnimating()
+        
+        tableView.ins_infiniteScrollBackgroundView.preserveContentInset = false
+        
+        
         // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
         // when the specified row is now selected
         compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
@@ -169,30 +151,6 @@ public final class FeaturedListViewController: XUIViewController {
                     self?.viewmodel.pushDetailModule(indexPath.row)
                 }
             )
-        
-        rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"),
-            fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
-            |> map { ($0 as! RACTuple).first as! UIScrollView }
-            |> start(
-                next: { scrollView in
-                    if (self.isLoading != 0) {
-                        return
-                    }
-                    
-                    if (self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.bounds.size.height)) {
-                        
-                        // reached bottom of table view
-                        self.isLoading = 1
-                        self.viewmodel.getFeaturedBusinesses()
-                            |> map { _ -> Void in }
-                            |> start(next: { [weak self] _ in
-                                self?.isLoading = 0
-                            })
-
-                        FeaturedLogVerbose("loaded more businesses from LeanCloud")
-                    }
-                }
-        )
         
         compositeDisposable += viewmodel.featuredBusinessViewModelArr.producer
             // forwards events from producer until the view controller is going to disappear
