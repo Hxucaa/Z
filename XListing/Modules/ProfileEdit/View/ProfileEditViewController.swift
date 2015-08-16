@@ -353,7 +353,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
         let genderCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow:Primary.Gender.rawValue, inSection: Section.Primary.rawValue)) as! GenderTableViewCell
 
         // create the gender action sheet
-        var actionGenderPicker = ActionSheetStringPicker(title: "性别", rows: [Gender.Male, Gender.Female], initialSelection: 0, doneBlock: {
+        var actionGenderPicker = ActionSheetStringPicker(title: "性别", rows: [Gender.Male.rawValue, Gender.Female.rawValue], initialSelection: 0, doneBlock: {
             picker, index, value in
             
             var genderData = value as! String

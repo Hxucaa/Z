@@ -127,6 +127,38 @@ public func logLifeCycle<T, E>(context: LogContext, signalName: String, file: St
     }
 }
 
+/**
+Alias for `sendNext`.
+Puts a `Next` event into the given sink.
+*/
+public func proxyNext<T, E: ErrorType, S: SinkType where S.Element == Event<T, E>>(sink: S, value: T) {
+    sendNext(sink, value)
+}
+
+/**
+Alias for `sendError`.
+Puts a `Error` event into the given sink.
+*/
+public func proxyError<T, E: ErrorType, S: SinkType where S.Element == Event<T, E>>(sink: S, error: E) {
+    sendError(sink, error)
+}
+
+/**
+Alias for `sendCompleted`.
+Puts a `Completed` event into the given sink.
+*/
+public func proxyCompleted<T, E: ErrorType, S: SinkType where S.Element == Event<T, E>>(sink: S) {
+    sendCompleted(sink)
+}
+
+/**
+Alias for `sendInterrupted`.
+Puts a `Interrupted` event into the given sink.
+*/
+public func proxyInterrupted<T, E: ErrorType, S: SinkType where S.Element == Event<T, E>>(sink: S) {
+    sendInterrupted(sink)
+}
+
 public typealias SimpleProxy = SignalProducer<Void, NoError>
 
 extension SignalProducer {
