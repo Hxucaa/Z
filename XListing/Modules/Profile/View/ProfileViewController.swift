@@ -52,14 +52,9 @@ public final class ProfileViewController : XUIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        UIApplication.sharedApplication().statusBarHidden=false
+        // add statusBarBackgroundView to navigationController
         navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.hidesBarsOnSwipe = false
-        
-        // fill status bar with color
-        let statusView = UIView(frame:CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 20))
-        statusView.backgroundColor = UIColor.x_PrimaryColor()
-        self.navigationController!.view.addSubview(statusView)
         
         willAppearTableView()
         
@@ -88,7 +83,7 @@ public final class ProfileViewController : XUIViewController {
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        navigationController?.navigationBar.hidden = false
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     public override func didReceiveMemoryWarning() {
