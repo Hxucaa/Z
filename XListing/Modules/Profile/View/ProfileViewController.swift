@@ -52,8 +52,9 @@ public final class ProfileViewController : XUIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.navigationBar.hidden = true // for navigation bar hide
-        UIApplication.sharedApplication().statusBarHidden=false
+        // add statusBarBackgroundView to navigationController
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        navigationController?.hidesBarsOnSwipe = false
         
         willAppearTableView()
         
@@ -82,7 +83,7 @@ public final class ProfileViewController : XUIViewController {
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        navigationController?.navigationBar.hidden = false
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     public override func didReceiveMemoryWarning() {
