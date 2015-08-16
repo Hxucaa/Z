@@ -561,7 +561,7 @@ public class AssetsKit : NSObject {
         CGContextRestoreGState(context)
     }
 
-    public class func drawPriceTagBackground(#scale: CGFloat) {
+    public class func drawPriceTagBackground(#scale: CGFloat, pricetag: String) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -580,6 +580,26 @@ public class AssetsKit : NSObject {
         rectanglePath.closePath()
         AssetsKit.priceTagColor.setFill()
         rectanglePath.fill()
+
+        CGContextRestoreGState(context)
+
+
+        //// Text Drawing
+        CGContextSaveGState(context)
+        CGContextScaleCTM(context, scale, scale)
+
+        let textRect = CGRectMake(0, 0, 218, 76)
+        let textStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+        textStyle.alignment = NSTextAlignment.Left
+
+        let textFontAttributes = [NSFontAttributeName: UIFont(name: "STHeitiSC-Light", size: 52)!, NSForegroundColorAttributeName: AssetsKit.iconUntapped, NSParagraphStyleAttributeName: textStyle]
+
+        let textInset: CGRect = CGRectInset(textRect, 4, 0)
+        let textTextHeight: CGFloat = NSString(string: pricetag).boundingRectWithSize(CGSizeMake(textInset.width, CGFloat.infinity), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.height
+        CGContextSaveGState(context)
+        CGContextClipToRect(context, textInset);
+        NSString(string: pricetag).drawInRect(CGRectMake(textInset.minX, textInset.minY + (textInset.height - textTextHeight) / 2, textInset.width, textTextHeight), withAttributes: textFontAttributes)
+        CGContextRestoreGState(context)
 
         CGContextRestoreGState(context)
     }
@@ -1095,9 +1115,9 @@ public class AssetsKit : NSObject {
         return imageOfWTGButtonUntapped
     }
 
-    public class func imageOfPriceTagBackground(#scale: CGFloat) -> UIImage {
+    public class func imageOfPriceTagBackground(#scale: CGFloat, pricetag: String) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(218, 76), false, 0)
-            AssetsKit.drawPriceTagBackground(scale: scale)
+            AssetsKit.drawPriceTagBackground(scale: scale, pricetag: pricetag)
 
         let imageOfPriceTagBackground = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
