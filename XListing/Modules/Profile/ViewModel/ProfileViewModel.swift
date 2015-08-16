@@ -13,7 +13,6 @@ import AVOSCloud
 public final class ProfileViewModel : IProfileViewModel {
     
     public let nickname: MutableProperty<String> = MutableProperty("")
-    public let profileEditViewModel: ProfileEditViewModel
     public let user = MutableProperty<User?>(nil)
     public let profileHeaderViewModel = MutableProperty<ProfileHeaderViewModel?>(nil)
     
@@ -41,8 +40,7 @@ public final class ProfileViewModel : IProfileViewModel {
         self.geoLocationService = geoLocationService
         self.userDefaultsService = userDefaultsService
         self.imageService = imageService
-        
-        profileEditViewModel = ProfileEditViewModel(userService: self.userService)
+
         
         self.userService.currentLoggedInUser()
             |> start(
@@ -100,5 +98,9 @@ public final class ProfileViewModel : IProfileViewModel {
     
     public func pushDetailModule(section: Int) {
         router.pushDetail(businessArr.value[section])
+    }
+    
+    public func presentProfileEditModule() {
+        router.presentProfileEdit(user.value!, completion: nil)
     }
 }

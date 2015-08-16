@@ -5,6 +5,7 @@ use_frameworks!
 target 'XListing' do
   pod 'XAssets', :git => 'git@bitbucket.org:zenchat/xassets.git'
   pod 'FLEX', '~> 2.0', :configurations => ['DEBUG']
+  pod 'Spring', :git => 'https://github.com/Hxucaa/Spring', :branch => 'compatibility'
   pod 'SVProgressHUD', :git => 'https://github.com/Hxucaa/SVProgressHUD.git'
   pod 'CocoaLumberjack', '= 2.0.0'
   pod 'Dollar', '~> 3.0'
@@ -14,10 +15,10 @@ target 'XListing' do
   pod 'ActionSheetPicker-3.0', '~> 1.7.0'
   pod 'OAStackView', '~> 0.1.0'
   pod 'Cartography', '~> 0.5.0'
+  pod 'INSPullToRefresh', '~> 1.0.11'
 #  pod 'AVOSCloud', '~> 3.1'
 #  pod 'AVOSCloudCrashReporting', '~> 3.1'
 #  pod 'AVOSCloudIM', '~> 3.1'
-#  pod 'AVOSCloudSNS', '~> 3.1'
 end
 
 target 'XListingTests' do

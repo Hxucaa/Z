@@ -58,12 +58,14 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-XListing/CocoaLumberjack.framework'
   install_framework 'Pods-XListing/Dollar.framework'
   install_framework 'Pods-XListing/FLEX.framework'
+  install_framework 'Pods-XListing/INSPullToRefresh.framework'
   install_framework 'Pods-XListing/Locksmith.framework'
   install_framework 'Pods-XListing/OAStackView.framework'
   install_framework 'Pods-XListing/ReactiveCocoa.framework'
   install_framework 'Pods-XListing/Result.framework'
   install_framework 'Pods-XListing/SDWebImage.framework'
   install_framework 'Pods-XListing/SVProgressHUD.framework'
+  install_framework 'Pods-XListing/Spring.framework'
   install_framework 'Pods-XListing/XAssets.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -72,11 +74,13 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-XListing/Cartography.framework'
   install_framework 'Pods-XListing/CocoaLumberjack.framework'
   install_framework 'Pods-XListing/Dollar.framework'
+  install_framework 'Pods-XListing/INSPullToRefresh.framework'
   install_framework 'Pods-XListing/Locksmith.framework'
   install_framework 'Pods-XListing/OAStackView.framework'
   install_framework 'Pods-XListing/ReactiveCocoa.framework'
   install_framework 'Pods-XListing/Result.framework'
   install_framework 'Pods-XListing/SDWebImage.framework'
   install_framework 'Pods-XListing/SVProgressHUD.framework'
+  install_framework 'Pods-XListing/Spring.framework'
   install_framework 'Pods-XListing/XAssets.framework'
 fi
