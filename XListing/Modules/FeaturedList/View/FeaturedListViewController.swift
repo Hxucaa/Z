@@ -30,10 +30,47 @@ public final class FeaturedListViewController: XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: false)
         
         setupNearbyButton()
         setupProfileButton()
+        
+        /**
+        *  Setup Pull to Refresh
+        */
+        tableView.ins_addPullToRefreshWithHeight(60.0) { [weak self] scrollView -> Void in
+            if let this = self {
+                this.viewmodel.getFeaturedBusinesses()
+                    |> map { _ -> Void in }
+                    |> start(next: { _ in
+                        scrollView.ins_endPullToRefresh()
+                    })
+            }
+        }
+        
+        let pullToRefresh = PullToRefresh(frame: CGRectMake(0, 30, 24, 24))
+        tableView.ins_pullToRefreshBackgroundView.delegate = pullToRefresh
+        tableView.ins_pullToRefreshBackgroundView.addSubview(pullToRefresh)
+        
+        /**
+        Setup bottom scroll refresh
+        */
+        tableView.ins_addInfinityScrollWithHeight(60.0) { [weak self] scrollView -> Void in
+            if let this = self {
+                this.viewmodel.getFeaturedBusinesses()
+                    |> map { _ -> Void in }
+                    |> start(next: { _ in
+                        scrollView.ins_endInfinityScrollWithStoppingContentOffset(true)
+                    })
+            }
+        }
+        
+        let infinityIndicator = INSDefaultInfiniteIndicator(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        tableView.ins_infiniteScrollBackgroundView.addSubview(infinityIndicator)
+        infinityIndicator.startAnimating()
+        
+        tableView.ins_infiniteScrollBackgroundView.preserveContentInset = false
+        
         
         tableView.dataSource = self
     }
@@ -100,43 +137,6 @@ public final class FeaturedListViewController: XUIViewController {
     }
     
     private func willAppearTableView() {
-        
-        /**
-        *  Setup Pull to Refresh
-        */
-        tableView.ins_addPullToRefreshWithHeight(60.0) { [weak self] scrollView -> Void in
-            if let this = self {
-                this.viewmodel.getFeaturedBusinesses()
-                    |> map { _ -> Void in }
-                    |> start(next: { _ in
-                        scrollView.ins_endPullToRefresh()
-                    })
-            }
-        }
-        
-        let pullToRefresh = PullToRefresh(frame: CGRectMake(0, 30, 24, 24))
-        tableView.ins_pullToRefreshBackgroundView.delegate = pullToRefresh
-        tableView.ins_pullToRefreshBackgroundView.addSubview(pullToRefresh)
-        
-        /**
-        Setup bottom scroll refresh
-        */
-        tableView.ins_addInfinityScrollWithHeight(60.0) { [weak self] scrollView -> Void in
-            if let this = self {
-                this.viewmodel.getFeaturedBusinesses()
-                    |> map { _ -> Void in }
-                    |> start(next: { _ in
-                        scrollView.ins_endInfinityScrollWithStoppingContentOffset(true)
-                    })
-            }
-        }
-        
-        let infinityIndicator = INSDefaultInfiniteIndicator(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-        tableView.ins_infiniteScrollBackgroundView.addSubview(infinityIndicator)
-        infinityIndicator.startAnimating()
-        
-        tableView.ins_infiniteScrollBackgroundView.preserveContentInset = false
-        
         
         // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
         // when the specified row is now selected
