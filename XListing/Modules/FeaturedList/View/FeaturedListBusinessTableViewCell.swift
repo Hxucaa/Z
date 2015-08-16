@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import ReactiveCocoa
+import Cartography
 
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
@@ -39,13 +40,43 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         selectionStyle = UITableViewCellSelectionStyle.None
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
+        
+        
+        
+        //add layouts
+        
+        layout(businessImage, participationView) { businessImage, participationView in
+
+            //sizes
+            businessImage.width == businessImage.superview!.width * 0.544
+            businessImage.height == businessImage.width * 0.6078
+
+            
+        }
+
         var infoViewContent = NSBundle.mainBundle().loadNibNamed("infopanel", owner: self, options: nil)[0] as! UIView
-        infoViewContent.frame = CGRectMake(0, 0, infoView.frame.width, infoView.frame.height+5)
         infoView.addSubview(infoViewContent)
+        
         var participationViewContent = NSBundle.mainBundle().loadNibNamed("participationview", owner: self, options: nil)[0] as! UIView
-        participationViewContent.frame = CGRectMake(0, 0, participationView.frame.width, participationView.frame.height)
         participationView.addSubview(participationViewContent)
         
+        
+        //Make subview same size as the parent view
+        
+        layout(infoViewContent, participationViewContent) { infoViewContent, participationViewContent in
+            infoViewContent.left == infoViewContent.superview!.left
+            infoViewContent.top == infoViewContent.superview!.top
+            infoViewContent.width == infoViewContent.superview!.width
+            infoViewContent.height == infoViewContent.superview!.height
+            
+            participationViewContent.left == participationViewContent.superview!.left
+            participationViewContent.top == participationViewContent.superview!.top
+            participationViewContent.width == participationViewContent.superview!.width
+            participationViewContent.height == participationViewContent.superview!.height
+        }
+        
+    
+
         
         /**
         *  When the cell is prepared for reuse, set the state.
