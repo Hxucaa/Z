@@ -22,7 +22,6 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
     
     // MARK: Private Variables
-    private static var loadedBusinesses = 0
     
     // MARK: API
     
@@ -32,21 +31,21 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     public func getFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
         let query = Business.query()!
         query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
-        query.limit = 7
+        query.limit = 1
         query.skip = self.loadedBusinesses.value
         
         return businessService.findBy(query)
             |> on(next: { businesses in
                 self.fetchingData.put(true)
-            })
-            |> map { businesses -> [FeaturedBusinessViewModel] in
-                // save the business models
-                let gotBusinesses = businesses
-                let arrayItems = self.businessArr.value.count
-                self.businessArr.put(self.businessArr.value + businesses)
                 
                 // increment loaded businesses counter
                 self.loadedBusinesses.put(businesses.count + self.loadedBusinesses.value)
+                
+                // save the business models
+                self.businessArr.put(self.businessArr.value + businesses)
+            })
+            |> map { businesses -> [FeaturedBusinessViewModel] in
+                
                 // map the business models to viewmodels
                 return self.businessArr.value.map {
                     FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
