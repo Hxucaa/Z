@@ -69,12 +69,13 @@ public final class FeaturedBusinessViewModel {
         self.geoLocationService.calculateETA(destination)
             |> start(next: { interval in
                 let minute = Int(ceil(interval / 60))
-                self.eta.put(" \(CITY_DISTANCE_SEPARATOR) 开车\(minute)分钟")
+                self.eta.put("\(minute)分钟")
             }, error: { error in
                 FeaturedLogError(error.description)
             })
     }
     
+
     
     // MARK: Network call
 //    private func getParticipations(user : User) -> SignalProducer<[ProfileBusinessViewModel], NSError> {
