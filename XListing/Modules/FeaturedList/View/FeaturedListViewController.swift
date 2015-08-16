@@ -20,6 +20,7 @@ public final class FeaturedListViewController: XUIViewController {
     @IBOutlet private weak var nearbyButton: UIBarButtonItem!
     @IBOutlet private weak var profileButton: UIBarButtonItem!
     private let refreshControl = UIRefreshControl()
+    private let statusBarBackgroundView = StatusBarBackgroundView()
     
     // MARK: Properties
     private var viewmodel: IFeaturedListViewModel!
@@ -30,7 +31,10 @@ public final class FeaturedListViewController: XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        // makes the gap between table view and navigation bar go away
+        tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
+        // makes the gap at the bottom of the table view go away
+        tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         
         setupRefresh()
         setupNearbyButton()
@@ -51,10 +55,26 @@ public final class FeaturedListViewController: XUIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.hidesBarsOnSwipe = true
+        
+        // add statusBarBackgroundView to navigationController
+        navigationController?.view.addSubview(statusBarBackgroundView)
+        navigationController?.navigationBar.translucent = false
+        
+        willAppearTableView()
+    }
+    
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        statusBarBackgroundView.removeFromSuperview()
+    }
+    
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        navigationController?.navigationBar.hidden = true // for navigation bar hide
-        UIApplication.sharedApplication().statusBarHidden=false
     }
     
     deinit {
@@ -146,19 +166,6 @@ public final class FeaturedListViewController: XUIViewController {
         }
         profileButton.target = pushProfile.unsafeCocoaAction
         profileButton.action = CocoaAction.selector
-    }
-    
-    // MARK: Will Appear
-    
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.navigationBar.hidden = false // for navigation bar hide
-        UIApplication.sharedApplication().statusBarHidden = false
-        
-        nearbyButton.enabled = true
-        
-        willAppearTableView()
     }
     
     private func willAppearTableView() {

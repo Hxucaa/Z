@@ -54,6 +54,7 @@
 		45CBB4D53772AB5C9D2FD37D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB717784EC301CD7D042E /* ProfileViewController.swift */; };
 		45CBBB3CCC6E72DCE005EE35 /* IProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */; };
 		45CBBDCF399C77A93D0B1C1E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB2272E6DA7ED3BDD24AE /* ProfileViewModel.swift */; };
+		7E2EB1E11B8131650012BAB3 /* StatusBarBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2EB1E01B8131650012BAB3 /* StatusBarBackgroundView.swift */; };
 		7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */; };
 		7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */; };
 		7EACBA111AFBDC15009D8CA6 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */; };
@@ -269,6 +270,7 @@
 		45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IProfileViewModel.swift; sourceTree = "<group>"; };
 		45CBB6EB1EBF881F9EB25C64 /* IProfileWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IProfileWireframe.swift; sourceTree = "<group>"; };
 		45CBB717784EC301CD7D042E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		7E2EB1E01B8131650012BAB3 /* StatusBarBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarBackgroundView.swift; sourceTree = "<group>"; };
 		7E3A1C021B1EF84500E84ABE /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = "Pods/../build/Debug-iphoneos/Pods-XListing/CocoaLumberjack.framework"; sourceTree = "<group>"; };
 		7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CocoaLumberjack+extension.swift"; sourceTree = "<group>"; };
 		7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewController.swift; sourceTree = "<group>"; };
@@ -540,6 +542,7 @@
 				B4F1958A1B2938FC00B8C519 /* HUD.swift */,
 				B4F195941B2A276C00B8C519 /* XUIViewController.swift */,
 				B41334EC1B5F44B300B5F22D /* Keyboard.swift */,
+				7E2EB1E01B8131650012BAB3 /* StatusBarBackgroundView.swift */,
 			);
 			name = View;
 			path = Common/View;
@@ -1531,6 +1534,7 @@
 				B4B665461ADF8D5C0084DBE7 /* DetailWireframe.swift in Sources */,
 				B4694E2B1B72A045000E2006 /* UsernameAndPasswordView.swift in Sources */,
 				3DB8AC301B06D0DF00E51F0E /* Profile.swift in Sources */,
+				7E2EB1E11B8131650012BAB3 /* StatusBarBackgroundView.swift in Sources */,
 				261687C31B71B8AF0094F315 /* IProfileEditWireframe.swift in Sources */,
 				B4F195AB1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift in Sources */,
 				B4A3A6271B757DB400E680E6 /* PhotoViewModel.swift in Sources */,

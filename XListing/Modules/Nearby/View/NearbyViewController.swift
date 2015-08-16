@@ -74,6 +74,8 @@ public final class NearbyViewController: XUIViewController {
         
         setupMapView()
         setupBusinessCollectionView()
+        
+        navigationController?.hidesBarsOnSwipe = false
     }
     
     public override func viewDidAppear(animated: Bool) {
