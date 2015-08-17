@@ -68,7 +68,7 @@ public final class FeaturedListViewController: XUIViewController {
                         let currentTime = NSDate.timeIntervalSinceReferenceDate()
                         let elapsedTime = currentTime - startTime
                         
-                        if elapsedTime <= Constants.PULL_TO_REFRESH_DELAY {
+                        if elapsedTime < Constants.PULL_TO_REFRESH_DELAY {
                             return SignalProducer<Void, NSError>.empty
                                 // delay the signal due to the animation of retracting keyboard
                                 // this cannot be executed on main thread, otherwise UI will be blocked
@@ -332,10 +332,4 @@ extension FeaturedListViewController : UIScrollViewDelegate {
                 }
         }
     }
-    
-//    public func scrollViewDidScroll(scrollView: UIScrollView) {
-//        if scrollView.contentOffset.y < -145.0 {
-//            scrollView.contentOffset = CGPoint(x: 0.0, y: -145.0)
-//        }
-//    }
 }
