@@ -11,7 +11,7 @@ import ReactiveCocoa
 import AVOSCloud
 import Dollar
 
-private let 启动无限scrolling参数 = 0.7
+private let 启动无限scrolling参数 = 0.4
 private let PaginationLimit = 20
 
 public final class FeaturedListViewModel : IFeaturedListViewModel {
@@ -77,7 +77,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     :returns: A Boolean value.
     */
     public func havePlentyOfData(index: Int) -> Bool {
-        return Double(index % PaginationLimit) > ceil(Double(PaginationLimit) * 启动无限scrolling参数)
+        return Double(index) < Double(featuredBusinessViewModelArr.value.count) - Double(PaginationLimit) * Double(启动无限scrolling参数)
     }
     
     public func pushNearbyModule() {

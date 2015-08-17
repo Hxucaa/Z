@@ -57,7 +57,7 @@ public final class FeaturedListViewController: XUIViewController {
                 let startTime = NSDate.timeIntervalSinceReferenceDate()
                 this.viewmodel.getFeaturedBusinesses()
                     |> on(next: { _ in
-                        FeaturedLogDebug("Pull to refresh fetched additional data for infinite scrolling.")
+                        FeaturedLogVerbose("Pull to refresh fetched additional data for infinite scrolling.")
                     })
                     |> map { _ -> Void in }
                     |> flatMap(.Merge) { _ -> SignalProducer<Void, NSError> in
@@ -103,7 +103,7 @@ public final class FeaturedListViewController: XUIViewController {
             if let this = self {
                 this.viewmodel.getFeaturedBusinesses()
                     |> on(next: { _ in
-                        FeaturedLogDebug("Infinity scroll fetched additional data for infinite scrolling.")
+                        FeaturedLogVerbose("Infinity scroll fetched additional data for infinite scrolling.")
                     })
                     |> start(next: { businesses in
                         scrollView.ins_endInfinityScrollWithStoppingContentOffset(false)
@@ -211,35 +211,40 @@ public final class FeaturedListViewController: XUIViewController {
             )
         
         /// Triggered when scrolling is done
-        rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
-            |> takeUntilViewWillDisappear(self)
-            |> map { ($0 as! RACTuple).first as! UIScrollView }
-            |> start(
-                next: { [weak self] scrollView in
-                    if let this = self,
-                        tableView = self?.tableView
-                        // make sure the scrollView instance returned by the signal is the same instance as tha tableView in this class.
-                        where tableView === scrollView &&
-                            /// Only fetch more data if both pull to refresh and infinity scroll are not already triggered. We don't want to trigger network request repeatedly.
-                            tableView.ins_pullToRefreshBackgroundView.state != INSPullToRefreshBackgroundViewState.Triggered &&
-                            tableView.ins_infiniteScrollBackgroundView.state != INSInfiniteScrollBackgroundViewState.Loading {
-                        
-                        // get the indexpath of currently visible cells and map the array to indexPath.row
-                        if let rows = tableView.indexPathsForVisibleRows()?.map({ $0.row ?? 0 }),
-                            // then find the largest row
-                            max = $.max(rows)
-                            // check if there is still enough data to be displayed, otherwise fetch more data
-                            where !this.viewmodel.havePlentyOfData(max) {
-                            
-                            this.viewmodel.getFeaturedBusinesses()
-                                |> on(next: { _ in
-                                    FeaturedLogDebug("TableView `scrollViewDidEndDragging:willDecelerate:` fetched additional data for infinite scrolling.")
-                                })
-                                |> start()
-                        }
-                    }
-                }
-            )
+//        rac_signalForSelector(Selector("scrollViewWillEndDragging:withVelocity:targetContentOffset:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
+//            |> takeUntilViewWillDisappear(self)
+//            |> map { parameters -> (UIScrollView, CGPoint) in
+//                let tuple = parameters as! RACTuple
+//                return (tuple.first as! UIScrollView, (tuple.second as! NSValue).CGPointValue())
+//            }
+//            |> start(
+//                next: { [weak self] scrollView, velocity in
+//                    if let this = self,
+//                        tableView = self?.tableView
+//                        // make sure the scrollView instance returned by the signal is the same instance as tha tableView in this class.
+//                        where tableView === scrollView &&
+//                            // table view is being scrolled down, not up
+//                            velocity.y > 0.0 &&
+//                            /// Only fetch more data if both pull to refresh and infinity scroll are not already triggered. We don't want to trigger network request repeatedly.
+//                            tableView.ins_pullToRefreshBackgroundView.state != INSPullToRefreshBackgroundViewState.Triggered &&
+//                            tableView.ins_infiniteScrollBackgroundView.state != INSInfiniteScrollBackgroundViewState.Loading {
+//                                
+//                        // get the indexpath of currently visible cells and map the array to indexPath.row
+//                        if let rows = tableView.indexPathsForVisibleRows()?.map({ $0.row ?? 0 }),
+//                            // then find the largest row
+//                            max = $.max(rows)
+//                            // if there isn't enough data to be displayed, fetch more data
+//                            where !this.viewmodel.havePlentyOfData(max) {
+//                            
+//                            this.viewmodel.getFeaturedBusinesses()
+//                                |> on(next: { _ in
+//                                    FeaturedLogVerbose("TableView `scrollViewDidEndDragging:willDecelerate:` fetched additional data for infinite scrolling.")
+//                                })
+//                                |> start()
+//                        }
+//                    }
+//                }
+//            )
         
         /**
         Assigning UITableView delegate has to happen after signals are established.
@@ -263,7 +268,35 @@ public final class FeaturedListViewController: XUIViewController {
     }
 }
 
-extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegate {
+extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
+    
+    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        // make sure the scrollView instance returned by the signal is the same instance as tha tableView in this class.
+        if tableView === scrollView &&
+            // table view is being scrolled down, not up
+            velocity.y > 0.0 &&
+            /// Only fetch more data if both pull to refresh and infinity scroll are not already triggered. We don't want to trigger network request repeatedly.
+            tableView.ins_pullToRefreshBackgroundView.state != INSPullToRefreshBackgroundViewState.Triggered &&
+            tableView.ins_infiniteScrollBackgroundView.state != INSInfiniteScrollBackgroundViewState.Loading {
+                
+                // targetContentOffset is the offset of the top-left point of the top of the cells that are being displayed
+                let contentHeight = targetContentOffset.memory.y
+                // height of the table
+                let tableHeight = tableView.bounds.size.height
+                // content inset
+                let contentInsetBottom = tableView.contentInset.bottom
+                // get the index path of the bottom cell that is being displayed on table view
+                let indexPath = tableView.indexPathForRowAtPoint(CGPoint(x: 0.0, y: contentHeight + tableHeight - contentInsetBottom))
+                
+                if let row = indexPath?.row where !viewmodel.havePlentyOfData(row) {
+                    viewmodel.getFeaturedBusinesses()
+                        |> on(next: { _ in
+                            FeaturedLogVerbose("TableView `scrollViewDidEndDragging:willDecelerate:` fetched additional data for infinite scrolling.")
+                        })
+                        |> start()
+                }
+        }
+    }
     /**
     Tells the data source to return the number of rows in a given section of a table view. (required)
     
