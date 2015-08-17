@@ -326,7 +326,7 @@ extension FeaturedListViewController : UIScrollViewDelegate {
                 if let row = indexPath?.row where !viewmodel.havePlentyOfData(row) {
                     viewmodel.getFeaturedBusinesses()
                         |> on(next: { _ in
-                            FeaturedLogVerbose("TableView `scrollViewDidEndDragging:willDecelerate:` fetched additional data for infinite scrolling.")
+                            FeaturedLogVerbose("TableView `scrollViewWillEndDragging:withVelocity:targetContentOffset:` fetched additional data for infinite scrolling.")
                         })
                         |> start()
                 }
