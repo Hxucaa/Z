@@ -54,14 +54,37 @@ public final class FeaturedListViewController: XUIViewController {
         tableView.ins_addPullToRefreshWithHeight(PullToRefreshHeight) { [weak self] scrollView -> Void in
             // When pull to refresh is triggered, fetch more data if not already happening
             if let this = self {
+                let startTime = NSDate.timeIntervalSinceReferenceDate()
                 this.viewmodel.getFeaturedBusinesses()
                     |> on(next: { _ in
                         FeaturedLogDebug("Pull to refresh fetched additional data for infinite scrolling.")
                     })
                     |> map { _ -> Void in }
-                    |> start(next: { _ in
-                        scrollView.ins_endPullToRefresh()
-                    })
+                    |> flatMap(.Merge) { _ -> SignalProducer<Void, NSError> in
+                        
+                        /**
+                        *  Ensure the pull to refresh is displayed for a minimum amount of time even if network request is very fast.
+                        */
+                        let currentTime = NSDate.timeIntervalSinceReferenceDate()
+                        let elapsedTime = currentTime - startTime
+                        
+                        if elapsedTime <= Constants.PULL_TO_REFRESH_DELAY {
+                            return SignalProducer<Void, NSError>.empty
+                                // delay the signal due to the animation of retracting keyboard
+                                // this cannot be executed on main thread, otherwise UI will be blocked
+                                |> delay(Constants.PULL_TO_REFRESH_DELAY - elapsedTime, onScheduler: QueueScheduler())
+                                // return the signal to main/ui thread in order to run UI related code
+                                |> observeOn(UIScheduler())
+                        }
+                        else {
+                            return SignalProducer<Void, NSError>.empty
+                        }
+                    }
+                    |> start(
+                        completed: {
+                            scrollView.ins_endPullToRefresh()
+                        }
+                    )
             }
         }
         

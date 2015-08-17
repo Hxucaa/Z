@@ -11,6 +11,8 @@ import Foundation
 struct Constants {
     // HUD显示延迟时间，如键盘回收时需要短暂等待，否则HUD animation会有异常显示
     static let HUD_DELAY = 0.5
+    // Pull To Refresh收回延迟时间，保证Pull To Refresh在网速很快情况下不会马上消失
+    static let PULL_TO_REFRESH_DELAY = 1.0
     static let MIN_AGE = 17
     static let MAX_AGE = 90
 }
