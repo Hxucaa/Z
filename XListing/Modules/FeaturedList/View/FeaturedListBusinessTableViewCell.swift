@@ -43,7 +43,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     /// whether this instance of cell has been reused
     private let isReusedCell = MutableProperty<Bool>(false)
     private var users: [User] = [User]()
-    
+ //   private let
     // MARK: Setups
     
     public override func awakeFromNib() {
@@ -113,6 +113,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             |> takeUntilPrepareForReuse(self)
 //        self.priceLabel.rac_text <~ viewmodel.price.producer
 //            |> takeUntilPrepareForReuse(self)
+        compositeDisposable += viewmodel.price.producer
+            |> start(next: { [weak self] price in
+                self!.priceLabel.setPriceLabel(price)
+                self!.priceLabel.setNeedsDisplay()
+            })
         self.etaLabel.rac_text <~ viewmodel.eta.producer
             |> takeUntilPrepareForReuse(self)
         self.peopleWantogoLabel.rac_text <~ viewmodel.participation.producer
