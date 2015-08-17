@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 import Cartography
+import XAssets
 
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
@@ -43,7 +44,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     /// whether this instance of cell has been reused
     private let isReusedCell = MutableProperty<Bool>(false)
     private var users: [User] = [User]()
- //   private let
+    private var btnNormalImage = UIImage()
+    private var btnDisabledImage = UIImage()
+    
     // MARK: Setups
     
     public override func awakeFromNib() {
@@ -94,6 +97,22 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             |> start(next: { [weak self] _ in
                 self?.isReusedCell.put(true)
             })
+        
+//        UIGraphicsBeginImageContextWithOptions(CGSizeMake(30, 30), false, CGFloat(1))
+//        AssetsKit.drawWTGButtonUntapped(scale: 0.2)
+//        self.btnNormalImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        
+//        UIGraphicsBeginImageContextWithOptions(CGSizeMake(30, 30), false, CGFloat(1))
+//        AssetsKit.drawWTGButtonTapped(scale: 0.2)
+//        self.btnDisabledImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+        
+        self.btnNormalImage = AssetsKit.imageOfWTGButtonUntapped(scale: 1)
+        self.btnDisabledImage = AssetsKit.imageOfWTGButtonTapped(scale: 1)
+        joinButton.setBackgroundImage(self.btnNormalImage, forState: UIControlState.Normal)
+        joinButton.setBackgroundImage(self.btnDisabledImage, forState: UIControlState.Disabled)
+        
     }
     
     deinit {
