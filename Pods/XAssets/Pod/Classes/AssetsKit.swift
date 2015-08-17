@@ -484,20 +484,16 @@ public class AssetsKit : NSObject {
         //// Text Drawing
         CGContextSaveGState(context)
         CGContextScaleCTM(context, scale, scale)
-
         let textRect = CGRectMake(23, 23, 89, 92)
         var textTextContent = NSString(string: "来 ")
         let textStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
         textStyle.alignment = NSTextAlignment.Center
-
-        let textFontAttributes = [NSFontAttributeName: UIFont(name: "NotoSansCJKsc-Bold", size: 80)!, NSForegroundColorAttributeName: UIColor.whiteColor(), NSParagraphStyleAttributeName: textStyle]
-
+        let textFontAttributes = [NSFontAttributeName: UIFont(name: "NotoSans-Bold", size: 80)!, NSForegroundColorAttributeName: UIColor.whiteColor(), NSParagraphStyleAttributeName: textStyle]
         let textTextHeight: CGFloat = textTextContent.boundingRectWithSize(CGSizeMake(textRect.width, CGFloat.infinity), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.height
         CGContextSaveGState(context)
         CGContextClipToRect(context, textRect);
         textTextContent.drawInRect(CGRectMake(textRect.minX, textRect.minY + (textRect.height - textTextHeight) / 2, textRect.width, textTextHeight), withAttributes: textFontAttributes)
         CGContextRestoreGState(context)
-
         CGContextRestoreGState(context)
     }
 
@@ -550,7 +546,9 @@ public class AssetsKit : NSObject {
         let textStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
         textStyle.alignment = NSTextAlignment.Center
 
-        let textFontAttributes = [NSFontAttributeName: UIFont(name: "NotoSansCJKsc-Bold", size: 80)!, NSForegroundColorAttributeName: AssetsKit.themeColor, NSParagraphStyleAttributeName: textStyle]
+        //"NotoSansCJKsc-Bold"
+        
+        let textFontAttributes = [NSFontAttributeName: UIFont(name: "NotoSans-Bold", size: 80)!, NSForegroundColorAttributeName: AssetsKit.themeColor, NSParagraphStyleAttributeName: textStyle]
 
         let textTextHeight: CGFloat = textTextContent.boundingRectWithSize(CGSizeMake(textRect.width, CGFloat.infinity), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.height
         CGContextSaveGState(context)

@@ -41,6 +41,7 @@ public final class Business: AVObject, AVSubclassing {
         case CrossStreets = "crossStreets"
         case Neighborhoods = "neighborhoods"
         case Geopoint = "geopoint"
+        case Price = "price"
     }
     
     public override init() {
@@ -101,6 +102,8 @@ public final class Business: AVObject, AVSubclassing {
     @NSManaged public var rating: Double
     
     @NSManaged public var cover: AVFile?
+    
+    @NSManaged public var price: Int
     
     /**
     Featured

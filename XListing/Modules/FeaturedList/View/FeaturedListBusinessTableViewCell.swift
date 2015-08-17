@@ -29,7 +29,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var priceLabel: UIView!
+    @IBOutlet weak var priceLabel: PriceLabel!
     @IBOutlet weak var etaLabel: UILabel!
     
     @IBOutlet weak var peopleWantogoLabel: UILabel!

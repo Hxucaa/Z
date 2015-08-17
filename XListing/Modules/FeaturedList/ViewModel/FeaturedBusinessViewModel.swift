@@ -15,7 +15,7 @@ public final class FeaturedBusinessViewModel {
     public let businessName: ConstantProperty<String>
     public let city: ConstantProperty<String>
     public let eta: MutableProperty<String> = MutableProperty("")
-    public let price: MutableProperty<String> = MutableProperty("")
+    public let price: MutableProperty<Int> = MutableProperty(0)
     public let district: ConstantProperty<String>
     public let coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
     public let isCoverImageConsumed = MutableProperty<Bool>(false)
@@ -24,6 +24,7 @@ public final class FeaturedBusinessViewModel {
     public let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
     public let business: MutableProperty<Business> = MutableProperty(Business())
     public let buttonEnabled: MutableProperty<Bool> = MutableProperty(true)
+    
     
     public init(userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService, participationService: IParticipationService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int, business: Business?) {
         self.userService = userService
@@ -53,6 +54,7 @@ public final class FeaturedBusinessViewModel {
             self.business.put(business)
         }
         
+        
         participation.put("\(participationCount)+ 人想去")
         
         if let url = cover?.url, nsurl = NSURL(string: url) {
@@ -62,6 +64,7 @@ public final class FeaturedBusinessViewModel {
                 })
         }
         if let business = business {
+                self.price.put(business.price)
             getAttendees(business)
                 |> start()
             setupParticipation(business)
@@ -153,7 +156,7 @@ public final class FeaturedBusinessViewModel {
                 return self.participationService.get(query)
             }
             |> start(next: { participation in
-                self.buttonEnabled.put(false)
+//                self.buttonEnabled.put(false)
             })
     }
 
