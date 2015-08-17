@@ -11,7 +11,8 @@ import ReactiveCocoa
 import AVOSCloud
 import Dollar
 
-private let 启动无限scrolling参数 = 0.8
+private let 启动无限scrolling参数 = 0.7
+private let PaginationLimit = 20
 
 public final class FeaturedListViewModel : IFeaturedListViewModel {
     
@@ -32,9 +33,10 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     */
     public func getFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
         let query = Business.query()!
+        // TODO: temporarily disabled until we have more featured businesses
 //        query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
-        query.limit = 20
-        query.skip = self.loadedBusinesses.value
+        query.limit = PaginationLimit
+        query.skip = loadedBusinesses.value
         
         return SignalProducer<[Business], NSError>.empty
             |> on(completed: { [weak self] in
@@ -52,23 +54,30 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
             |> map { businesses -> [FeaturedBusinessViewModel] in
                 
                 // map the business models to viewmodels
-                return self.businessArr.value.map {
+                return businesses.map {
                     FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
-                    }
+                }
             }
             |> on(event: { [weak self] event in
                 self?.isFetchingData.put(false)
             })
             |> on(
                 next: { response in
-                    self.featuredBusinessViewModelArr.put(response)
+                    self.featuredBusinessViewModelArr.put(self.featuredBusinessViewModelArr.value + response)
                 },
                 error: { FeaturedLogError($0.description) }
             )
     }
     
+    /**
+    Return a boolean value indicating whether there are still plenty of data for display.
+    
+    :param: index The index of the currently displaying Business.
+    
+    :returns: A Boolean value.
+    */
     public func havePlentyOfData(index: Int) -> Bool {
-        return Double(index) > ceil(Double(featuredBusinessViewModelArr.value.count) * 启动无限scrolling参数)
+        return Double(index % PaginationLimit) > ceil(Double(PaginationLimit) * 启动无限scrolling参数)
     }
     
     public func pushNearbyModule() {

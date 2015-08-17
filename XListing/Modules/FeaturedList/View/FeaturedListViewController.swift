@@ -16,6 +16,16 @@ private let CellIdentifier = "Cell"
 private let PullToRefreshHeight: CGFloat = 60.0
 private let InfinityScrollHeight: CGFloat = 60.0
 
+/**
+How is Infinite Scrolling implemented?
+
+The `INSPullToRefresh` is used to assist in the implementation of Infinite Scrolling. The library allows to customize Pull To Refresh and Infinity Scroll.
+
+Install the pull to refresh view like so `tableView.ins_pullToRefreshBackgroundView.addSubview(pullToRefresh)`. Add action to pull to refresh via `tableView.ins_addPullToRefreshWithHeight`. Install infinity scroll view like so `tableView.ins_infiniteScrollBackgroundView.addSubview(infinityIndicator)`. Add action to infinity scroll via `tableView.ins_addInfinityScrollWithHeight`.
+
+We also detect when user scrolls pass a certain point, fetch more data from remote so that user don't have to scroll to the bottom of the table view to trigger fetching. This improves user experience.
+*/
+
 public final class FeaturedListViewController: XUIViewController {
 
     // MARK: - UI
@@ -39,14 +49,14 @@ public final class FeaturedListViewController: XUIViewController {
         setupProfileButton()
         
         /**
-        *  Setup Pull to Refresh
+        *  Setup the action to Pull to Refresh
         */
         tableView.ins_addPullToRefreshWithHeight(PullToRefreshHeight) { [weak self] scrollView -> Void in
             // When pull to refresh is triggered, fetch more data if not already happening
-            if let this = self where !this.viewmodel.isFetchingData.value {
+            if let this = self {
                 this.viewmodel.getFeaturedBusinesses()
                     |> on(next: { _ in
-                        FeaturedLogDebug("Fetching additional data for infinite scrolling.")
+                        FeaturedLogDebug("Pull to refresh fetched additional data for infinite scrolling.")
                     })
                     |> map { _ -> Void in }
                     |> start(next: { _ in
@@ -55,32 +65,36 @@ public final class FeaturedListViewController: XUIViewController {
             }
         }
         
+        /**
+        *  Setup the view to Pull to Refresh
+        */
         let pullToRefresh = PullToRefresh(frame: CGRectMake(0, 30, 24, 24))
         tableView.ins_pullToRefreshBackgroundView.delegate = pullToRefresh
         tableView.ins_pullToRefreshBackgroundView.addSubview(pullToRefresh)
         
         /**
-        Setup bottom scroll refresh
+        *  Setup the action to infinity scroll at the bottom
         */
         tableView.ins_addInfinityScrollWithHeight(InfinityScrollHeight) { [weak self] scrollView -> Void in
             // When infinity scroll is triggered, fetch more data if not already happening
-            if let this = self where !this.viewmodel.isFetchingData.value {
+            if let this = self {
                 this.viewmodel.getFeaturedBusinesses()
                     |> on(next: { _ in
-                        FeaturedLogDebug("Fetching additional data for infinite scrolling.")
+                        FeaturedLogDebug("Infinity scroll fetched additional data for infinite scrolling.")
                     })
-                    |> map { _ -> Void in }
-                    |> start(next: { _ in
-                        scrollView.ins_endInfinityScrollWithStoppingContentOffset(true)
+                    |> start(next: { businesses in
+                        scrollView.ins_endInfinityScrollWithStoppingContentOffset(false)
                     })
             }
         }
         
+        /**
+        *  Setup the view to Infinity Scroll
+        */
         let infinityIndicator = INSDefaultInfiniteIndicator(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
         tableView.ins_infiniteScrollBackgroundView.addSubview(infinityIndicator)
-        infinityIndicator.startAnimating()
-        
         tableView.ins_infiniteScrollBackgroundView.preserveContentInset = false
+        infinityIndicator.startAnimating()
         
         
         tableView.dataSource = self
@@ -174,31 +188,32 @@ public final class FeaturedListViewController: XUIViewController {
             )
         
         /// Triggered when scrolling is done
-        rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"),
-            fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
+        rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
             |> takeUntilViewWillDisappear(self)
             |> map { ($0 as! RACTuple).first as! UIScrollView }
             |> start(
-                next: { scrollView in
-                    
-                    // get the currently visible cells
-                    let rows = self.tableView.indexPathsForVisibleRows()?.map { indexPath -> Int in
-                        if let row = indexPath.row {
-                            return row
-                        }
-                        else {
-                            return 0
-                        }
-                    }
-                    
-                    // there isn't enough data to be displayed, fetch more data
-                    if let rows = rows, max = $.max(rows) where !self.viewmodel.havePlentyOfData(max) && !self.viewmodel.isFetchingData.value {
+                next: { [weak self] scrollView in
+                    if let this = self,
+                        tableView = self?.tableView
+                        // make sure the scrollView instance returned by the signal is the same instance as tha tableView in this class.
+                        where tableView === scrollView &&
+                            /// Only fetch more data if both pull to refresh and infinity scroll are not already triggered. We don't want to trigger network request repeatedly.
+                            tableView.ins_pullToRefreshBackgroundView.state != INSPullToRefreshBackgroundViewState.Triggered &&
+                            tableView.ins_infiniteScrollBackgroundView.state != INSInfiniteScrollBackgroundViewState.Loading {
                         
-                        self.viewmodel.getFeaturedBusinesses()
-                            |> on(next: { _ in
-                                FeaturedLogDebug("Fetching additional data for infinite scrolling.")
-                            })
-                            |> start()
+                        // get the indexpath of currently visible cells and map the array to indexPath.row
+                        if let rows = tableView.indexPathsForVisibleRows()?.map({ $0.row ?? 0 }),
+                            // then find the largest row
+                            max = $.max(rows)
+                            // check if there is still enough data to be displayed, otherwise fetch more data
+                            where !this.viewmodel.havePlentyOfData(max) {
+                            
+                            this.viewmodel.getFeaturedBusinesses()
+                                |> on(next: { _ in
+                                    FeaturedLogDebug("TableView `scrollViewDidEndDragging:willDecelerate:` fetched additional data for infinite scrolling.")
+                                })
+                                |> start()
+                        }
                     }
                 }
             )
