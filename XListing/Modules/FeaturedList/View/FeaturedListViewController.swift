@@ -10,8 +10,11 @@ import UIKit
 import SDWebImage
 import ReactiveCocoa
 import INSPullToRefresh
+import Dollar
 
 private let CellIdentifier = "Cell"
+private let PullToRefreshHeight: CGFloat = 60.0
+private let InfinityScrollHeight: CGFloat = 60.0
 
 public final class FeaturedListViewController: XUIViewController {
 
@@ -38,9 +41,13 @@ public final class FeaturedListViewController: XUIViewController {
         /**
         *  Setup Pull to Refresh
         */
-        tableView.ins_addPullToRefreshWithHeight(60.0) { [weak self] scrollView -> Void in
-            if let this = self {
+        tableView.ins_addPullToRefreshWithHeight(PullToRefreshHeight) { [weak self] scrollView -> Void in
+            // When pull to refresh is triggered, fetch more data if not already happening
+            if let this = self where !this.viewmodel.isFetchingData.value {
                 this.viewmodel.getFeaturedBusinesses()
+                    |> on(next: { _ in
+                        FeaturedLogDebug("Fetching additional data for infinite scrolling.")
+                    })
                     |> map { _ -> Void in }
                     |> start(next: { _ in
                         scrollView.ins_endPullToRefresh()
@@ -55,9 +62,13 @@ public final class FeaturedListViewController: XUIViewController {
         /**
         Setup bottom scroll refresh
         */
-        tableView.ins_addInfinityScrollWithHeight(60.0) { [weak self] scrollView -> Void in
-            if let this = self {
+        tableView.ins_addInfinityScrollWithHeight(InfinityScrollHeight) { [weak self] scrollView -> Void in
+            // When infinity scroll is triggered, fetch more data if not already happening
+            if let this = self where !this.viewmodel.isFetchingData.value {
                 this.viewmodel.getFeaturedBusinesses()
+                    |> on(next: { _ in
+                        FeaturedLogDebug("Fetching additional data for infinite scrolling.")
+                    })
                     |> map { _ -> Void in }
                     |> start(next: { _ in
                         scrollView.ins_endInfinityScrollWithStoppingContentOffset(true)
@@ -162,6 +173,35 @@ public final class FeaturedListViewController: XUIViewController {
                 }
             )
         
+        /// Triggered when scrolling is done
+        rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"),
+            fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
+            |> takeUntilViewWillDisappear(self)
+            |> map { ($0 as! RACTuple).first as! UIScrollView }
+            |> start(
+                next: { scrollView in
+                    
+                    // get the currently visible cells
+                    let rows = self.tableView.indexPathsForVisibleRows()?.map { indexPath -> Int in
+                        if let row = indexPath.row {
+                            return row
+                        }
+                        else {
+                            return 0
+                        }
+                    }
+                    
+                    // there isn't enough data to be displayed, fetch more data
+                    if let rows = rows, max = $.max(rows) where !self.viewmodel.havePlentyOfData(max) && !self.viewmodel.isFetchingData.value {
+                        
+                        self.viewmodel.getFeaturedBusinesses()
+                            |> on(next: { _ in
+                                FeaturedLogDebug("Fetching additional data for infinite scrolling.")
+                            })
+                            |> start()
+                    }
+                }
+            )
         
         /**
         Assigning UITableView delegate has to happen after signals are established.

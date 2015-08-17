@@ -11,7 +11,9 @@ import ReactiveCocoa
 import AVOSCloud
 import Dollar
 
-public struct FeaturedListViewModel : IFeaturedListViewModel {
+private let 启动无限scrolling参数 = 0.8
+
+public final class FeaturedListViewModel : IFeaturedListViewModel {
     
     // MARK: - Public
     
@@ -19,7 +21,7 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     
     // MARK: Output
     public let featuredBusinessViewModelArr: MutableProperty<[FeaturedBusinessViewModel]> = MutableProperty([FeaturedBusinessViewModel]())
-    public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
+    public let isFetchingData: MutableProperty<Bool> = MutableProperty(false)
     
     // MARK: Private Variables
     
@@ -30,13 +32,16 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
     */
     public func getFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
         let query = Business.query()!
-        query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
-        query.limit = 1
+//        query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
+        query.limit = 20
         query.skip = self.loadedBusinesses.value
         
-        return businessService.findBy(query)
+        return SignalProducer<[Business], NSError>.empty
+            |> on(completed: { [weak self] in
+                self?.isFetchingData.put(true)
+            })
+            |> then(businessService.findBy(query))
             |> on(next: { businesses in
-                self.fetchingData.put(true)
                 
                 // increment loaded businesses counter
                 self.loadedBusinesses.put(businesses.count + self.loadedBusinesses.value)
@@ -51,13 +56,19 @@ public struct FeaturedListViewModel : IFeaturedListViewModel {
                     FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
                     }
             }
+            |> on(event: { [weak self] event in
+                self?.isFetchingData.put(false)
+            })
             |> on(
                 next: { response in
-                    self.fetchingData.put(false)
                     self.featuredBusinessViewModelArr.put(response)
                 },
                 error: { FeaturedLogError($0.description) }
             )
+    }
+    
+    public func havePlentyOfData(index: Int) -> Bool {
+        return Double(index) > ceil(Double(featuredBusinessViewModelArr.value.count) * 启动无限scrolling参数)
     }
     
     public func pushNearbyModule() {
