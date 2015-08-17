@@ -106,7 +106,7 @@ public final class FeaturedListViewController: XUIViewController {
                         FeaturedLogVerbose("Infinity scroll fetched additional data for infinite scrolling.")
                     })
                     |> start(next: { businesses in
-                        scrollView.ins_endInfinityScrollWithStoppingContentOffset(false)
+                        scrollView.ins_endInfinityScroll()
                     })
             }
         }
