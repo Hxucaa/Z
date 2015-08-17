@@ -333,10 +333,9 @@ extension FeaturedListViewController : UIScrollViewDelegate {
         }
     }
     
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
-        println(scrollView.contentOffset.y)
-        if scrollView.contentOffset.y < -145.0 {
-            scrollView.contentOffset = CGPoint(x: 0.0, y: -145.0)
-        }
-    }
+//    public func scrollViewDidScroll(scrollView: UIScrollView) {
+//        if scrollView.contentOffset.y < -145.0 {
+//            scrollView.contentOffset = CGPoint(x: 0.0, y: -145.0)
+//        }
+//    }
 }
