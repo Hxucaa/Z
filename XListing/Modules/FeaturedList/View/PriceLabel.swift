@@ -9,8 +9,16 @@
 import UIKit
 import XAssets
 
-@IBDesignable final class PriceLabel : UIView {
-    override func drawRect(rect: CGRect) {
-        AssetsKit.drawPriceTagBackground(scale: 0.2, pricetag: "人均100")
+@IBDesignable public final class PriceLabel : UIView {
+    var price = 100
+    var text = "人均100"
+    
+    override public func drawRect(rect: CGRect) {
+        AssetsKit.drawPriceTagBackground(scale: 0.2, pricetag: text)
+    }
+    
+    public func setPriceLabel(price: Int){
+        self.price = price
+        self.text = "人均\(price)"
     }
 }
