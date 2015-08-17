@@ -269,34 +269,6 @@ public final class FeaturedListViewController: XUIViewController {
 }
 
 extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
-    
-    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        // make sure the scrollView instance returned by the signal is the same instance as tha tableView in this class.
-        if tableView === scrollView &&
-            // table view is being scrolled down, not up
-            velocity.y > 0.0 &&
-            /// Only fetch more data if both pull to refresh and infinity scroll are not already triggered. We don't want to trigger network request repeatedly.
-            tableView.ins_pullToRefreshBackgroundView.state != INSPullToRefreshBackgroundViewState.Triggered &&
-            tableView.ins_infiniteScrollBackgroundView.state != INSInfiniteScrollBackgroundViewState.Loading {
-                
-                // targetContentOffset is the offset of the top-left point of the top of the cells that are being displayed
-                let contentHeight = targetContentOffset.memory.y
-                // height of the table
-                let tableHeight = tableView.bounds.size.height
-                // content inset
-                let contentInsetBottom = tableView.contentInset.bottom
-                // get the index path of the bottom cell that is being displayed on table view
-                let indexPath = tableView.indexPathForRowAtPoint(CGPoint(x: 0.0, y: contentHeight + tableHeight - contentInsetBottom))
-                
-                if let row = indexPath?.row where !viewmodel.havePlentyOfData(row) {
-                    viewmodel.getFeaturedBusinesses()
-                        |> on(next: { _ in
-                            FeaturedLogVerbose("TableView `scrollViewDidEndDragging:willDecelerate:` fetched additional data for infinite scrolling.")
-                        })
-                        |> start()
-                }
-        }
-    }
     /**
     Tells the data source to return the number of rows in a given section of a table view. (required)
     
@@ -322,5 +294,49 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
         cell.bindViewModel(viewmodel.featuredBusinessViewModelArr.value[indexPath.row])
         
         return cell
+    }
+}
+
+extension FeaturedListViewController : UIScrollViewDelegate {
+    /**
+    Tells the delegate when the user finishes scrolling the content.
+    
+    :param: scrollView          The scroll-view object where the user ended the touch..
+    :param: velocity            The velocity of the scroll view (in points) at the moment the touch was released.
+    :param: targetContentOffset The expected offset when the scrolling action decelerates to a stop.
+    */
+    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        // make sure the scrollView instance is the same instance as tha tableView in this class.
+        if tableView === scrollView &&
+            // table view is being scrolled down, not up
+            velocity.y > 0.0 &&
+            /// Only fetch more data if both pull to refresh and infinity scroll are not already triggered. We don't want to trigger network request repeatedly.
+            tableView.ins_pullToRefreshBackgroundView.state != INSPullToRefreshBackgroundViewState.Triggered &&
+            tableView.ins_infiniteScrollBackgroundView.state != INSInfiniteScrollBackgroundViewState.Loading {
+                
+                // targetContentOffset is the offset of the top-left point of the top of the cells that are being displayed
+                let contentHeight = targetContentOffset.memory.y
+                // height of the table
+                let tableHeight = tableView.bounds.size.height
+                // content inset
+                let contentInsetBottom = tableView.contentInset.bottom
+                // get the index path of the bottom cell that is being displayed on table view
+                let indexPath = tableView.indexPathForRowAtPoint(CGPoint(x: 0.0, y: contentHeight + tableHeight - contentInsetBottom))
+                
+                if let row = indexPath?.row where !viewmodel.havePlentyOfData(row) {
+                    viewmodel.getFeaturedBusinesses()
+                        |> on(next: { _ in
+                            FeaturedLogVerbose("TableView `scrollViewDidEndDragging:willDecelerate:` fetched additional data for infinite scrolling.")
+                        })
+                        |> start()
+                }
+        }
+    }
+    
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
+        println(scrollView.contentOffset.y)
+        if scrollView.contentOffset.y < -145.0 {
+            scrollView.contentOffset = CGPoint(x: 0.0, y: -145.0)
+        }
     }
 }
