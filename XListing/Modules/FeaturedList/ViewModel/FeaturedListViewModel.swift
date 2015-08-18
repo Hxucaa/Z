@@ -34,7 +34,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     private let businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
     private var numberOfBusinessesLoaded = 0
     
-    // MARK: Initializers
+    // MARK: - Initializers
     public init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
         self.router = router
         self.businessService = businessService
