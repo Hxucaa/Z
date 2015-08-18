@@ -55,31 +55,20 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         selectionStyle = UITableViewCellSelectionStyle.None
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
-
         var infoViewContent = NSBundle.mainBundle().loadNibNamed("infopanel", owner: self, options: nil)[0] as! UIView
         infoView.addSubview(infoViewContent)
-        
-        
         var participationViewContent = NSBundle.mainBundle().loadNibNamed("participationview", owner: self, options: nil)[0] as! UIView
         participationView.addSubview(participationViewContent)
         
         //Set anchor size for all related views
         
         layout(businessImage) { businessImage in
-            
             //sizes
             businessImage.width == businessImage.superview!.width * self.imageWidthtoParentRatio
             businessImage.height == businessImage.width * self.imageHeighttoWidthRatio
         }
         
-        
-//        layout(avatarList) { avatarList in
-//            avatarList.width == avatarList.superView!.width * self.imageWidthtoParentRatio
-//        }
-        
-        
         layout(businessImage) { businessImage in
-            
             //sizes
             businessImage.width == businessImage.superview!.width * self.imageWidthtoParentRatio
             businessImage.height == businessImage.width * self.imageHeighttoWidthRatio

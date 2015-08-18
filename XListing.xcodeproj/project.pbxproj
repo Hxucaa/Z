@@ -433,6 +433,7 @@
 		D0ADD8A01B608B4200B27885 /* ProfileTabView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileTabView.xib; sourceTree = "<group>"; };
 		D0D006021B62B23900755B7F /* ProfileBusinessViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBusinessViewModel.swift; sourceTree = "<group>"; };
 		D0D006041B63371300755B7F /* HamburgSymbols.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HamburgSymbols.ttf; sourceTree = "<group>"; };
+		D0DA5E5F1B82F7FC00E9391A /* NotoSansCJKsc-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansCJKsc-Bold.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -703,6 +704,7 @@
 		7EF3710E1AB8C012009AA3B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D0DA5E5F1B82F7FC00E9391A /* NotoSansCJKsc-Bold.otf */,
 				B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */,
 				B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */,
 				2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */,
