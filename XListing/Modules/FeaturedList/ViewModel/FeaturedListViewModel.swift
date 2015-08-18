@@ -68,10 +68,6 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     :returns: A Boolean value.
     */
     public func havePlentyOfData(index: Int) -> Bool {
-        println(Double(index))
-        println(Double(featuredBusinessViewModelArr.value.count))
-        println(Double(featuredBusinessViewModelArr.value.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数))
-        
         return Double(index) < Double(featuredBusinessViewModelArr.value.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数)
     }
     
