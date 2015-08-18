@@ -9,6 +9,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>fontawesome-webfont.ttf</string>
+		<string>NotoSansCJKsc-Bold.otf</string>
 	</array>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Update background location to provide information on local events! 获取地理位置信息帮助个性化信息推荐!</string>

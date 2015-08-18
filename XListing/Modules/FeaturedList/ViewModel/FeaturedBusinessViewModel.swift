@@ -156,7 +156,7 @@ public final class FeaturedBusinessViewModel {
                 return self.participationService.get(query)
             }
             |> start(next: { participation in
-//                self.buttonEnabled.put(false)
+                self.buttonEnabled.put(false)
             })
     }
 
