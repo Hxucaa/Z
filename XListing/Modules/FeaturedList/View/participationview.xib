@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -17,22 +17,29 @@
             <rect key="frame" x="0.0" y="0.0" width="334" height="80"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Obb-iM-9Cb">
+                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Obb-iM-9Cb" userLabel="Avatar List">
                     <rect key="frame" x="0.0" y="21" width="235" height="59"/>
                     <color key="backgroundColor" red="1" green="0.63617907072368418" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="150人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZa-tM-Asc">
-                    <rect key="frame" x="4" y="0.0" width="137" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="150人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZa-tM-Asc">
+                    <rect key="frame" x="4" y="0.0" width="57" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="Vnv-Vl-6sJ"/>
                         <constraint firstAttribute="width" constant="137" id="Wg7-UV-YG9"/>
+                        <constraint firstAttribute="height" constant="21" id="bRl-0K-RMV"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.4823529411764706" green="0.4823529411764706" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="Vnv-Vl-6sJ"/>
+                            <exclude reference="Wg7-UV-YG9"/>
+                        </mask>
+                    </variation>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKq-AP-foL">
-                    <rect key="frame" x="285" y="36" width="30" height="30"/>
+                <button opaque="NO" contentMode="center" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKq-AP-foL">
+                    <rect key="frame" x="289" y="8" width="26" height="65"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="30" id="POf-G6-jcd"/>
                         <constraint firstAttribute="height" constant="30" id="WTd-HY-Z41"/>
@@ -41,33 +48,47 @@
                         <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="POf-G6-jcd"/>
+                            <exclude reference="WTd-HY-Z41"/>
+                        </mask>
+                    </variation>
                 </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="0.54134971217105265" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="JZa-tM-Asc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Csq-Kl-RCF"/>
-                <constraint firstAttribute="bottom" secondItem="Obb-iM-9Cb" secondAttribute="bottom" id="Pep-t9-AlT"/>
+                <constraint firstItem="rKq-AP-foL" firstAttribute="leading" secondItem="Obb-iM-9Cb" secondAttribute="trailing" constant="34" id="Qq1-B6-rnp"/>
                 <constraint firstItem="rKq-AP-foL" firstAttribute="height" secondItem="Obb-iM-9Cb" secondAttribute="height" multiplier="1.2" id="cBq-ZS-Ttm"/>
                 <constraint firstItem="JZa-tM-Asc" firstAttribute="leading" secondItem="Obb-iM-9Cb" secondAttribute="leading" constant="4" id="e6f-Km-GGa"/>
                 <constraint firstAttribute="trailing" secondItem="Obb-iM-9Cb" secondAttribute="trailing" constant="99" id="eNM-u1-nTB"/>
                 <constraint firstItem="rKq-AP-foL" firstAttribute="leading" secondItem="Obb-iM-9Cb" secondAttribute="trailing" constant="28" id="hfG-80-0Uw"/>
-                <constraint firstItem="Obb-iM-9Cb" firstAttribute="top" secondItem="JZa-tM-Asc" secondAttribute="bottom" id="iF6-dj-xdf"/>
                 <constraint firstItem="rKq-AP-foL" firstAttribute="centerY" secondItem="Obb-iM-9Cb" secondAttribute="centerY" id="jGW-85-7ml"/>
                 <constraint firstItem="rKq-AP-foL" firstAttribute="bottom" secondItem="Obb-iM-9Cb" secondAttribute="bottom" id="ldC-R8-ldr"/>
                 <constraint firstAttribute="trailing" secondItem="rKq-AP-foL" secondAttribute="trailing" constant="19" id="rve-mg-Gmj"/>
-                <constraint firstItem="Obb-iM-9Cb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="v0C-93-KVt"/>
                 <constraint firstItem="rKq-AP-foL" firstAttribute="centerX" secondItem="Obb-iM-9Cb" secondAttribute="centerX" id="ven-u4-few"/>
+                <constraint firstAttribute="bottom" secondItem="rKq-AP-foL" secondAttribute="bottom" constant="14" id="yGz-um-dOg"/>
             </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
                 <mask key="constraints">
+                    <exclude reference="e6f-Km-GGa"/>
+                    <exclude reference="eNM-u1-nTB"/>
+                    <exclude reference="Qq1-B6-rnp"/>
                     <exclude reference="cBq-ZS-Ttm"/>
                     <exclude reference="hfG-80-0Uw"/>
+                    <exclude reference="jGW-85-7ml"/>
                     <exclude reference="ldC-R8-ldr"/>
+                    <exclude reference="rve-mg-Gmj"/>
                     <exclude reference="ven-u4-few"/>
+                    <exclude reference="yGz-um-dOg"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="63" y="350"/>
+            <point key="canvasLocation" x="814" y="488"/>
         </view>
     </objects>
 </document>

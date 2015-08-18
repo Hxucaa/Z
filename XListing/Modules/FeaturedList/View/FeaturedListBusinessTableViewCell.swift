@@ -46,8 +46,10 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     private var users: [User] = [User]()
     private var btnNormalImage = UIImage()
     private var btnDisabledImage = UIImage()
-    private let imageWidthtoParentRatio = 0.544
-    private let imageHeighttoWidthRatio = 0.6078
+    private let imageWidthToParentRatio = 0.544
+    private let imageHeightToWidthRatio = 0.6078
+    private let avatarListWidthtoParentRatio = 0.65
+    private let avatarListHeightToParentRatio = 0.8
     
     // MARK: Setups
     
@@ -64,16 +66,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         layout(businessImage) { businessImage in
             //sizes
-            businessImage.width == businessImage.superview!.width * self.imageWidthtoParentRatio
-            businessImage.height == businessImage.width * self.imageHeighttoWidthRatio
+            businessImage.width == businessImage.superview!.width * self.imageWidthToParentRatio
+            businessImage.height == businessImage.width * self.imageHeightToWidthRatio
         }
-        
-        layout(businessImage) { businessImage in
-            //sizes
-            businessImage.width == businessImage.superview!.width * self.imageWidthtoParentRatio
-            businessImage.height == businessImage.width * self.imageHeighttoWidthRatio
-        }
-        
         
         //Make subview same size as the parent view
         
@@ -88,10 +83,16 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             participationViewContent.width == participationViewContent.superview!.width
             participationViewContent.height == participationViewContent.superview!.height
         }
-        
+
+        layout(avatarList) { avatarList in
+            avatarList.width == avatarList.superview!.width * self.avatarListWidthtoParentRatio
+            avatarList.height == avatarList.superview!.height * self.avatarListHeightToParentRatio
+        }
+
         let join = Action<UIButton, Bool, NSError>{ button in
             return self.viewmodel.participate(ParticipationChoice.我想去)
         }
+        
         joinButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         
         /**

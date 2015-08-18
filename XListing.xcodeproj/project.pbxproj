@@ -1019,9 +1019,9 @@
 			children = (
 				D01DD86C1B813AFD00FD0BCE /* FeaturedListBusinessTableViewCell.xib */,
 				D01DD86D1B813AFD00FD0BCE /* infopanel.xib */,
+				D01DD86E1B813AFD00FD0BCE /* participationview.xib */,
 				B3C935271B814B840099B947 /* PriceLabel.swift */,
 				B3C935231B8144690099B947 /* TrendingIcon.swift */,
-				D01DD86E1B813AFD00FD0BCE /* participationview.xib */,
 				B3C935211B8142F10099B947 /* ETAIcon.swift */,
 				7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */,
 				B45581FB1B3689AB00C4D965 /* FeaturedListBusinessTableViewCell.swift */,

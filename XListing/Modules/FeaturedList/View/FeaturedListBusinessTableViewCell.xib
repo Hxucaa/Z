@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -19,8 +19,19 @@
                         <rect key="frame" x="144" y="8" width="198" height="146"/>
                         <color key="backgroundColor" red="0.17728732005986825" green="0.12292958011112065" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="253" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="iyM-Pv-UcA">
+                        <rect key="frame" x="8" y="8" width="136" height="146"/>
+                        <color key="backgroundColor" red="1" green="0.05221632140848298" blue="0.15441615116468899" alpha="1" colorSpace="calibratedRGB"/>
+                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T96-ob-woW" userLabel="Divider">
+                        <rect key="frame" x="16" y="153" width="326" height="1"/>
+                        <color key="backgroundColor" red="0.50980392159999999" green="0.50980392159999999" blue="0.50980392159999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="TEu-o8-td1"/>
+                        </constraints>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LYg-mn-BdT" userLabel="ViewofParticipants">
-                        <rect key="frame" x="8" y="154" width="334" height="73"/>
+                        <rect key="frame" x="8" y="154" width="334" height="45"/>
                         <color key="backgroundColor" red="1" green="0.93778529122233589" blue="0.19745667736184225" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="LYg-mn-BdT" secondAttribute="height" multiplier="167:29" id="3aC-nn-tg8"/>
@@ -33,17 +44,6 @@
                             </mask>
                         </variation>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="253" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="iyM-Pv-UcA">
-                        <rect key="frame" x="8" y="8" width="136" height="146"/>
-                        <color key="backgroundColor" red="1" green="0.05221632140848298" blue="0.15441615116468899" alpha="1" colorSpace="calibratedRGB"/>
-                    </imageView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T96-ob-woW" userLabel="Divider">
-                        <rect key="frame" x="16" y="153" width="326" height="1"/>
-                        <color key="backgroundColor" red="0.50980392159999999" green="0.50980392159999999" blue="0.50980392159999999" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="1" id="TEu-o8-td1"/>
-                        </constraints>
-                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="T96-ob-woW" firstAttribute="leading" secondItem="iyM-Pv-UcA" secondAttribute="leading" constant="8" id="3eZ-2Z-RHJ"/>
@@ -54,6 +54,7 @@
                     <constraint firstItem="LYg-mn-BdT" firstAttribute="top" secondItem="6lj-Ep-95x" secondAttribute="bottom" id="BCG-kh-sor"/>
                     <constraint firstItem="LYg-mn-BdT" firstAttribute="trailing" secondItem="wLJ-Zu-Foj" secondAttribute="trailingMargin" id="Bh8-cb-BTr"/>
                     <constraint firstItem="T96-ob-woW" firstAttribute="top" secondItem="LYg-mn-BdT" secondAttribute="top" constant="3" id="E5d-lR-AyS"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="LYg-mn-BdT" secondAttribute="bottom" constant="-8" id="JiF-Bd-X9n"/>
                     <constraint firstAttribute="bottom" secondItem="LYg-mn-BdT" secondAttribute="bottom" id="OgI-dy-T2j"/>
                     <constraint firstItem="LYg-mn-BdT" firstAttribute="top" secondItem="T96-ob-woW" secondAttribute="bottom" id="S9y-oR-q6G"/>
                     <constraint firstItem="iyM-Pv-UcA" firstAttribute="height" secondItem="LYg-mn-BdT" secondAttribute="height" multiplier="2" id="XaT-wd-qec"/>
@@ -64,15 +65,19 @@
                     <constraint firstItem="iyM-Pv-UcA" firstAttribute="height" secondItem="LYg-mn-BdT" secondAttribute="height" multiplier="5" id="kvT-7T-xeP"/>
                     <constraint firstItem="iyM-Pv-UcA" firstAttribute="leading" secondItem="wLJ-Zu-Foj" secondAttribute="leadingMargin" id="qLd-4N-ENl"/>
                     <constraint firstItem="6lj-Ep-95x" firstAttribute="bottom" secondItem="iyM-Pv-UcA" secondAttribute="bottom" id="s2w-SO-iZ1"/>
+                    <constraint firstItem="6lj-Ep-95x" firstAttribute="trailing" secondItem="T96-ob-woW" secondAttribute="trailing" id="sGj-po-mRM"/>
                     <constraint firstItem="T96-ob-woW" firstAttribute="width" secondItem="LYg-mn-BdT" secondAttribute="width" constant="-8" id="wgC-62-YAd"/>
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
+                        <exclude reference="XaT-wd-qec"/>
                         <exclude reference="bp6-r0-ZRO"/>
                         <exclude reference="kvT-7T-xeP"/>
                         <exclude reference="E5d-lR-AyS"/>
+                        <exclude reference="wgC-62-YAd"/>
                         <exclude reference="BCG-kh-sor"/>
                         <exclude reference="OgI-dy-T2j"/>
+                        <exclude reference="eFd-ur-ezJ"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
