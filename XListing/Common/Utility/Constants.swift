@@ -15,6 +15,7 @@ struct Constants {
     static let PULL_TO_REFRESH_DELAY = 1.0
     static let MIN_AGE = 17
     static let MAX_AGE = 90
+    static let PAGINATION_LIMIT = 20
 }
 
 public let LOGO_SCALE_BASE_FACTOR = 400.0

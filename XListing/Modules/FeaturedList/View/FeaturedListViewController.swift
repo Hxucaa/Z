@@ -55,7 +55,7 @@ public final class FeaturedListViewController: XUIViewController {
             // When pull to refresh is triggered, fetch more data if not already happening
             if let this = self {
                 let startTime = NSDate.timeIntervalSinceReferenceDate()
-                this.viewmodel.getFeaturedBusinesses()
+                this.viewmodel.refreshFeaturedBusinesses()
                     |> on(next: { _ in
                         FeaturedLogVerbose("Pull to refresh fetched additional data for infinite scrolling.")
                     })
@@ -101,7 +101,7 @@ public final class FeaturedListViewController: XUIViewController {
         tableView.ins_addInfinityScrollWithHeight(InfinityScrollHeight) { [weak self] scrollView -> Void in
             // When infinity scroll is triggered, fetch more data if not already happening
             if let this = self {
-                this.viewmodel.getFeaturedBusinesses()
+                this.viewmodel.getMoreFeaturedBusinesses()
                     |> on(next: { _ in
                         FeaturedLogVerbose("Infinity scroll fetched additional data for infinite scrolling.")
                     })
@@ -265,10 +265,13 @@ public final class FeaturedListViewController: XUIViewController {
     
     public func bindToViewModel(viewmodel: IFeaturedListViewModel) {
         self.viewmodel = viewmodel
+        
+        self.viewmodel.getMoreFeaturedBusinesses()
+            |> start()
     }
 }
 
-extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
+extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegate {
     /**
     Tells the data source to return the number of rows in a given section of a table view. (required)
     
@@ -298,6 +301,7 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
 }
 
 extension FeaturedListViewController : UIScrollViewDelegate {
+    
     /**
     Tells the delegate when the user finishes scrolling the content.
     
@@ -324,7 +328,7 @@ extension FeaturedListViewController : UIScrollViewDelegate {
                 let indexPath = tableView.indexPathForRowAtPoint(CGPoint(x: 0.0, y: contentHeight + tableHeight - contentInsetBottom))
                 
                 if let row = indexPath?.row where !viewmodel.havePlentyOfData(row) {
-                    viewmodel.getFeaturedBusinesses()
+                    viewmodel.getMoreFeaturedBusinesses()
                         |> on(next: { _ in
                             FeaturedLogVerbose("TableView `scrollViewWillEndDragging:withVelocity:targetContentOffset:` fetched additional data for infinite scrolling.")
                         })
