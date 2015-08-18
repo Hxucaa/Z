@@ -46,6 +46,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     private var users: [User] = [User]()
     private var btnNormalImage = UIImage()
     private var btnDisabledImage = UIImage()
+    private let imageWidthtoParentRatio = 0.544
+    private let imageHeighttoWidthRatio = 0.6078
     
     // MARK: Setups
     
@@ -66,9 +68,23 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         layout(businessImage) { businessImage in
             
             //sizes
-            businessImage.width == businessImage.superview!.width * 0.544
-            businessImage.height == businessImage.width * 0.6078
+            businessImage.width == businessImage.superview!.width * self.imageWidthtoParentRatio
+            businessImage.height == businessImage.width * self.imageHeighttoWidthRatio
         }
+        
+        
+//        layout(avatarList) { avatarList in
+//            avatarList.width == avatarList.superView!.width * self.imageWidthtoParentRatio
+//        }
+        
+        
+        layout(businessImage) { businessImage in
+            
+            //sizes
+            businessImage.width == businessImage.superview!.width * self.imageWidthtoParentRatio
+            businessImage.height == businessImage.width * self.imageHeighttoWidthRatio
+        }
+        
         
         //Make subview same size as the parent view
         
