@@ -22,7 +22,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     private let WTGButtonScale = CGFloat(0.5)
     private let avatarLeadingMargin = CGFloat(5)
     private let avatarTailingMargin = CGFloat(5)
-
+    private lazy var infoViewContent = UIView()
+    private lazy var participationViewContent = UIView()
     
     // MARK: - UI Controls
     @IBOutlet private weak var businessImage: UIImageView!
@@ -58,24 +59,20 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         selectionStyle = UITableViewCellSelectionStyle.None
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
-//        var infoViewContent = NSBundle.mainBundle().loadNibNamed("infopanel", owner: self, options: nil)[0] as! UIView
-//        infoView.addSubview(infoViewContent)
-//        var participationViewContent = NSBundle.mainBundle().loadNibNamed("participationview", owner: self, options: nil)[0] as! UIView
-//        participationView.addSubview(participationViewContent)
         var infoViewContent = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil)[0] as! UIView
         infoView.addSubview(infoViewContent)
         var participationViewContent = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil)[0] as! UIView
         participationView.addSubview(participationViewContent)
         
         //Set anchor size for all related views
-        layout(businessImage) { businessImage in
+        constrain(businessImage) { businessImage in
             //sizes
             businessImage.width == businessImage.superview!.width * self.businessImageWidthToParentRatio
             businessImage.height == businessImage.width * self.businessImageHeightToWidthRatio
         }
         
         //Make subview same size as the parent view
-        layout(infoViewContent) { infoViewContent in
+        constrain(infoViewContent) { infoViewContent in
             infoViewContent.left == infoViewContent.superview!.left
             infoViewContent.top == infoViewContent.superview!.top
             infoViewContent.width == infoViewContent.superview!.width
@@ -83,7 +80,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         }
         
         //Make subview same size as the parent view
-        layout(participationViewContent) { participationViewContent in
+        constrain(participationViewContent) { participationViewContent in
             participationViewContent.left == participationViewContent.superview!.left
             participationViewContent.top == participationViewContent.superview!.top
             participationViewContent.width == participationViewContent.superview!.width
@@ -91,13 +88,13 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         }
         
         //Set avatar list size
-        layout(avatarList) { avatarList in
+        constrain(avatarList) { avatarList in
             avatarList.width == avatarList.superview!.width * self.avatarListWidthtoParentRatio
             avatarList.height == avatarList.superview!.height * self.avatarListHeightToParentRatio
         }
         
         //Set WTG button size
-        layout(joinButton, avatarList) { joinButton, avatarList in
+        constrain(joinButton, avatarList) { joinButton, avatarList in
             joinButton.height == avatarList.height * 1.618
             joinButton.width == joinButton.height * 0.935
         }
@@ -116,17 +113,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             |> start(next: { [weak self] _ in
                 self?.isReusedCell.put(true)
             })
-        
-//        UIGraphicsBeginImageContextWithOptions(CGSizeMake(30, 30), false, CGFloat(1))
-//        AssetsKit.drawWTGButtonUntapped(scale: 0.2)
-//        self.btnNormalImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        
-//        UIGraphicsBeginImageContextWithOptions(CGSizeMake(30, 30), false, CGFloat(1))
-//        AssetsKit.drawWTGButtonTapped(scale: 0.2)
-//        self.btnDisabledImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-        
+       
         self.btnNormalImage = AssetsKit.imageOfWTGButtonUntapped(scale: WTGButtonScale)
         self.btnDisabledImage = AssetsKit.imageOfWTGButtonTapped(scale: WTGButtonScale)
         joinButton.setBackgroundImage(self.btnNormalImage, forState: UIControlState.Normal)
@@ -151,8 +138,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
 //            |> takeUntilPrepareForReuse(self)
         compositeDisposable += viewmodel.price.producer
             |> start(next: { [weak self] price in
-                self!.priceLabel.setPriceLabel(price)
-                self!.priceLabel.setNeedsDisplay()
+                self?.priceLabel.setPriceLabel(price)
+                self?.priceLabel.setNeedsDisplay()
             })
         self.etaLabel.rac_text <~ viewmodel.eta.producer
             |> takeUntilPrepareForReuse(self)
