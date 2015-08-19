@@ -72,6 +72,10 @@ public class PullToRefreshConductor<T: UITableView, U: IPullToRefreshable> {
         tableView.ins_pullToRefreshBackgroundView.addSubview(pullToRefresh)
     }
     
+    public func removePullToRefresh() {
+        tableView.ins_removePullToRefresh()
+    }
+    
     deinit {
         DDLogVerbose("PullToRefreshConductor deinitializes.")
     }

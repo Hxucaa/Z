@@ -50,6 +50,10 @@ public class InfinityScrollConductor<T: UITableView, U: IInfinityScrollable> {
         infinityIndicator.startAnimating()
     }
     
+    public func removeInfinityScroll() {
+        tableView.ins_removeInfinityScroll()
+    }
+    
     deinit {
         DDLogVerbose("InfinityScrollConductor deinitializes.")
     }

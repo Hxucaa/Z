@@ -64,8 +64,8 @@ public final class FeaturedListViewController: XUIViewController {
     }
     
     deinit {
-        tableView.ins_removeInfinityScroll()
-        tableView.ins_removePullToRefresh()
+        infinityScrollConductor.removeInfinityScroll()
+        pullToRefreshConductor.removePullToRefresh()
         compositeDisposable.dispose()
         FeaturedLogVerbose("Featured List View Controller deinitializes.")
     }
