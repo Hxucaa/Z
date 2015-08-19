@@ -18,7 +18,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     private let avatarHeight = UIScreen.mainScreen().bounds.height * 0.07
     private let avatarWidth = UIScreen.mainScreen().bounds.height * 0.07
     private let avatarGap = UIScreen.mainScreen().bounds.width * 0.015
-    private let WTGButtonScale = UIScreen.mainScreen().bounds.height / UIScreen.mainScreen().bounds.width / 4.618
+//    private let WTGButtonScale = UIScreen.mainScreen().bounds.height / UIScreen.mainScreen().bounds.width / 5
+    private let WTGButtonScale = CGFloat(0.5)
     private let avatarLeadingMargin = CGFloat(5)
     private let avatarTailingMargin = CGFloat(5)
 
@@ -49,9 +50,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     private var btnDisabledImage = UIImage()
     private let businessImageWidthToParentRatio = 0.57
     private let businessImageHeightToWidthRatio = 0.68
-    private let avatarListWidthtoParentRatio = 0.65
-    private let avatarListHeightToParentRatio = 0.8
-    
+    private let avatarListWidthtoParentRatio = 1.0
+    private let avatarListHeightToParentRatio = 1.0
+
     // MARK: Setups
     public override func awakeFromNib() {
         selectionStyle = UITableViewCellSelectionStyle.None
@@ -70,21 +71,28 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         }
         
         //Make subview same size as the parent view
-        layout(infoViewContent, participationViewContent) { infoViewContent, participationViewContent in
+        layout(infoViewContent) { infoViewContent in
             infoViewContent.left == infoViewContent.superview!.left
             infoViewContent.top == infoViewContent.superview!.top
             infoViewContent.width == infoViewContent.superview!.width
             infoViewContent.height == infoViewContent.superview!.height
-            
+        }
+        
+        layout(participationViewContent) { participationViewContent in
             participationViewContent.left == participationViewContent.superview!.left
             participationViewContent.top == participationViewContent.superview!.top
             participationViewContent.width == participationViewContent.superview!.width
             participationViewContent.height == participationViewContent.superview!.height
         }
-
+        
         layout(avatarList) { avatarList in
             avatarList.width == avatarList.superview!.width * self.avatarListWidthtoParentRatio
             avatarList.height == avatarList.superview!.height * self.avatarListHeightToParentRatio
+        }
+        
+        layout(joinButton, avatarList) { joinButton, avatarList in
+            joinButton.height == avatarList.height * 1.618
+            joinButton.width == joinButton.height * 0.935
         }
 
         let join = Action<UIButton, Bool, NSError>{ button in
@@ -116,7 +124,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         self.btnDisabledImage = AssetsKit.imageOfWTGButtonTapped(scale: WTGButtonScale)
         joinButton.setBackgroundImage(self.btnNormalImage, forState: UIControlState.Normal)
         joinButton.setBackgroundImage(self.btnDisabledImage, forState: UIControlState.Disabled)
-        
     }
     
     deinit {
@@ -197,7 +204,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         // populate imageViews
         for i in 0...count-1{
             let x = self.avatarLeadingMargin + CGFloat(i)*(self.avatarWidth + self.avatarGap)
-            let y = (self.avatarList.frame.height - self.avatarHeight)/CGFloat(2.0)
+            let y = (self.avatarList.frame.height - self.avatarHeight) / CGFloat(3.0)
+//            let y = CGFloat(0.0)
             let frame = CGRectMake(x, y, self.avatarWidth, self.avatarHeight)
             let imageView = UIImageView(frame: frame)
   
