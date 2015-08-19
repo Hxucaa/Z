@@ -9,7 +9,7 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol IWantToGoListViewModel {
+public protocol IWantToGoListViewModel : IInfinityScrollable, IPullToRefreshable {
     var wantToGoViewModelArr: MutableProperty<[WantToGoViewModel]> { get }
     init(router: IRouter, userService: IUserService, participationService: IParticipationService, imageService: IImageService, business: Business)
     func getWantToGoUsers() -> SignalProducer<[WantToGoViewModel], NSError>
