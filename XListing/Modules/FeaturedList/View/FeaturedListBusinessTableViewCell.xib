@@ -17,7 +17,7 @@
                 <subviews>
                     <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6lj-Ep-95x" userLabel="InfoView">
                         <rect key="frame" x="144" y="8" width="198" height="146"/>
-                        <color key="backgroundColor" red="0.17728732005986825" green="0.12292958011112065" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="253" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="iyM-Pv-UcA">
                         <rect key="frame" x="8" y="8" width="136" height="146"/>
@@ -25,14 +25,14 @@
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T96-ob-woW" userLabel="Divider">
                         <rect key="frame" x="16" y="153" width="326" height="1"/>
-                        <color key="backgroundColor" red="0.50980392159999999" green="0.50980392159999999" blue="0.50980392159999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.82115270934923734" green="0.82115270934923734" blue="0.82115270934923734" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="TEu-o8-td1"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LYg-mn-BdT" userLabel="ViewofParticipants">
                         <rect key="frame" x="8" y="154" width="334" height="45"/>
-                        <color key="backgroundColor" red="1" green="0.93778529122233589" blue="0.19745667736184225" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="LYg-mn-BdT" secondAttribute="height" multiplier="167:29" id="3aC-nn-tg8"/>
                             <constraint firstAttribute="height" constant="58" id="npt-Wo-F7o"/>
@@ -87,7 +87,7 @@
                 <outlet property="infoView" destination="6lj-Ep-95x" id="2nz-Se-mvA"/>
                 <outlet property="participationView" destination="LYg-mn-BdT" id="nqZ-ec-XTc"/>
             </connections>
-            <point key="canvasLocation" x="-334" y="-305"/>
+            <point key="canvasLocation" x="-101" y="-266"/>
         </tableViewCell>
     </objects>
     <resources>
