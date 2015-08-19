@@ -58,9 +58,13 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         selectionStyle = UITableViewCellSelectionStyle.None
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
-        var infoViewContent = NSBundle.mainBundle().loadNibNamed("infopanel", owner: self, options: nil)[0] as! UIView
+//        var infoViewContent = NSBundle.mainBundle().loadNibNamed("infopanel", owner: self, options: nil)[0] as! UIView
+//        infoView.addSubview(infoViewContent)
+//        var participationViewContent = NSBundle.mainBundle().loadNibNamed("participationview", owner: self, options: nil)[0] as! UIView
+//        participationView.addSubview(participationViewContent)
+        var infoViewContent = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil)[0] as! UIView
         infoView.addSubview(infoViewContent)
-        var participationViewContent = NSBundle.mainBundle().loadNibNamed("participationview", owner: self, options: nil)[0] as! UIView
+        var participationViewContent = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil)[0] as! UIView
         participationView.addSubview(participationViewContent)
         
         //Set anchor size for all related views
