@@ -18,7 +18,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     private let avatarHeight = UIScreen.mainScreen().bounds.height * 0.07
     private let avatarWidth = UIScreen.mainScreen().bounds.height * 0.07
     private let avatarGap = UIScreen.mainScreen().bounds.width * 0.015
-//    private let WTGButtonScale = UIScreen.mainScreen().bounds.height / UIScreen.mainScreen().bounds.width / 5
     private let WTGButtonScale = CGFloat(0.5)
     private let avatarLeadingMargin = CGFloat(5)
     private let avatarTailingMargin = CGFloat(5)
@@ -59,9 +58,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         selectionStyle = UITableViewCellSelectionStyle.None
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
-        var infoViewContent = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil)[0] as! UIView
+        infoViewContent = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil)[0] as! UIView
         infoView.addSubview(infoViewContent)
-        var participationViewContent = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil)[0] as! UIView
+        participationViewContent = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil)[0] as! UIView
         participationView.addSubview(participationViewContent)
         
         //Set anchor size for all related views
