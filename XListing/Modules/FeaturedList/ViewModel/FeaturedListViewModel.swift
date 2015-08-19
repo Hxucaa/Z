@@ -45,19 +45,21 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     // MARK: - API
-    
-    /**
-    Refresh the list of featured businesses. NOTE: the new list replaces the original one.
-    */
-    public func refreshFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
-        return fetchBusinesses(refresh: true)
-    }
-    
     /**
     Retrieve featured business with pagination enabled.
     */
     public func getMoreFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
         return fetchBusinesses(refresh: false)
+    }
+    
+    public func fetchMoreData() -> SignalProducer<Void, NSError> {
+        return fetchBusinesses(refresh: false)
+            |> map { _ in }
+    }
+    
+    public func refreshData() -> SignalProducer<Void, NSError> {
+        return fetchBusinesses(refresh: true)
+            |> map { _ in }
     }
     
     /**

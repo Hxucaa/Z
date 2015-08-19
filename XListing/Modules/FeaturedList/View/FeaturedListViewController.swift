@@ -13,8 +13,6 @@ import INSPullToRefresh
 import Dollar
 
 private let CellIdentifier = "Cell"
-private let PullToRefreshHeight: CGFloat = 60.0
-private let InfinityScrollHeight: CGFloat = 60.0
 
 /**
 How is Infinite Scrolling implemented?
@@ -34,6 +32,8 @@ public final class FeaturedListViewController: XUIViewController {
     @IBOutlet private weak var nearbyButton: UIBarButtonItem!
     @IBOutlet private weak var profileButton: UIBarButtonItem!
     private let refreshControl = UIRefreshControl()
+    private lazy var infinityScrollConductor: InfinityScrollConductor<UITableView, FeaturedListViewModel> = InfinityScrollConductor<UITableView, FeaturedListViewModel>(tableView: self.tableView, infinityScrollable: self.viewmodel as! FeaturedListViewModel)
+    private lazy var pullToRefreshConductor: PullToRefreshConductor<UITableView, FeaturedListViewModel> = PullToRefreshConductor<UITableView, FeaturedListViewModel>(tableView: self.tableView, pullToRefreshable: self.viewmodel as! FeaturedListViewModel)
     
     // MARK: Properties
     private var viewmodel: IFeaturedListViewModel!
@@ -48,77 +48,8 @@ public final class FeaturedListViewController: XUIViewController {
         setupNearbyButton()
         setupProfileButton()
         
-        /**
-        *  Setup the action to Pull to Refresh
-        */
-        tableView.ins_addPullToRefreshWithHeight(PullToRefreshHeight) { [weak self] scrollView -> Void in
-            // When pull to refresh is triggered, fetch more data if not already happening
-            if let this = self {
-                let startTime = NSDate.timeIntervalSinceReferenceDate()
-                this.viewmodel.refreshFeaturedBusinesses()
-                    |> on(next: { _ in
-                        FeaturedLogVerbose("Pull to refresh fetched additional data for infinite scrolling.")
-                    })
-                    |> map { _ -> Void in }
-                    |> flatMap(.Merge) { _ -> SignalProducer<Void, NSError> in
-                        
-                        /**
-                        *  Ensure the pull to refresh is displayed for a minimum amount of time even if network request is very fast.
-                        */
-                        let currentTime = NSDate.timeIntervalSinceReferenceDate()
-                        let elapsedTime = currentTime - startTime
-                        
-                        if elapsedTime < Constants.PULL_TO_REFRESH_DELAY {
-                            return SignalProducer<Void, NSError>.empty
-                                // delay the signal due to the animation of retracting keyboard
-                                // this cannot be executed on main thread, otherwise UI will be blocked
-                                |> delay(Constants.PULL_TO_REFRESH_DELAY - elapsedTime, onScheduler: QueueScheduler())
-                                // return the signal to main/ui thread in order to run UI related code
-                                |> observeOn(UIScheduler())
-                        }
-                        else {
-                            return SignalProducer<Void, NSError>.empty
-                        }
-                    }
-                    |> start(
-                        completed: {
-                            scrollView.ins_endPullToRefresh()
-                        }
-                    )
-            }
-        }
-        
-        /**
-        *  Setup the view to Pull to Refresh
-        */
-        let pullToRefresh = PullToRefresh(frame: CGRectMake(0, 30, 24, 24))
-        tableView.ins_pullToRefreshBackgroundView.delegate = pullToRefresh
-        tableView.ins_pullToRefreshBackgroundView.addSubview(pullToRefresh)
-        
-        /**
-        *  Setup the action to infinity scroll at the bottom
-        */
-        tableView.ins_addInfinityScrollWithHeight(InfinityScrollHeight) { [weak self] scrollView -> Void in
-            // When infinity scroll is triggered, fetch more data if not already happening
-            if let this = self {
-                this.viewmodel.getMoreFeaturedBusinesses()
-                    |> on(next: { _ in
-                        FeaturedLogVerbose("Infinity scroll fetched additional data for infinite scrolling.")
-                    })
-                    |> start(next: { businesses in
-                        scrollView.ins_endInfinityScroll()
-                    })
-            }
-        }
-        
-        /**
-        *  Setup the view to Infinity Scroll
-        */
-        let infinityIndicator = INSDefaultInfiniteIndicator(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-        tableView.ins_infiniteScrollBackgroundView.addSubview(infinityIndicator)
-        tableView.ins_infiniteScrollBackgroundView.preserveContentInset = false
-        infinityIndicator.startAnimating()
-        
+        infinityScrollConductor.setup()
+        pullToRefreshConductor.setup()
         
         tableView.dataSource = self
     }
