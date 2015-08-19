@@ -25,19 +25,19 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
 
     
     // MARK: - UI Controls
-    @IBOutlet weak var businessImage: UIImageView!
-    @IBOutlet weak var infoView: UIView!
-    @IBOutlet weak var participationView: UIView!
-    @IBOutlet weak var ETAIcon: UIView!
+    @IBOutlet private weak var businessImage: UIImageView!
+    @IBOutlet private weak var infoView: UIView!
+    @IBOutlet private weak var participationView: UIView!
+    @IBOutlet private weak var ETAIcon: UIView!
     
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var priceLabel: PriceLabel!
-    @IBOutlet weak var etaLabel: UILabel!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var cityLabel: UILabel!
+    @IBOutlet private weak var priceLabel: PriceLabel!
+    @IBOutlet private weak var etaLabel: UILabel!
     
-    @IBOutlet weak var peopleWantogoLabel: UILabel!
-    @IBOutlet weak var avatarList: UIView!
-    @IBOutlet weak var joinButton: UIButton!
+    @IBOutlet private weak var peopleWantogoLabel: UILabel!
+    @IBOutlet private weak var avatarList: UIView!
+    @IBOutlet private weak var joinButton: UIButton!
     
     // MARK: Properties
     private var viewmodel: FeaturedBusinessViewModel!
@@ -78,6 +78,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             infoViewContent.height == infoViewContent.superview!.height
         }
         
+        //Make subview same size as the parent view
         layout(participationViewContent) { participationViewContent in
             participationViewContent.left == participationViewContent.superview!.left
             participationViewContent.top == participationViewContent.superview!.top
@@ -85,11 +86,13 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             participationViewContent.height == participationViewContent.superview!.height
         }
         
+        //Set avatar list size
         layout(avatarList) { avatarList in
             avatarList.width == avatarList.superview!.width * self.avatarListWidthtoParentRatio
             avatarList.height == avatarList.superview!.height * self.avatarListHeightToParentRatio
         }
         
+        //Set WTG button size
         layout(joinButton, avatarList) { joinButton, avatarList in
             joinButton.height == avatarList.height * 1.618
             joinButton.width == joinButton.height * 0.935
@@ -205,7 +208,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         for i in 0...count-1{
             let x = self.avatarLeadingMargin + CGFloat(i)*(self.avatarWidth + self.avatarGap)
             let y = (self.avatarList.frame.height - self.avatarHeight) / CGFloat(3.0)
-//            let y = CGFloat(0.0)
             let frame = CGRectMake(x, y, self.avatarWidth, self.avatarHeight)
             let imageView = UIImageView(frame: frame)
   
