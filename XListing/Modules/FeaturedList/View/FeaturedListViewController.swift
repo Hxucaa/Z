@@ -51,6 +51,7 @@ public final class FeaturedListViewController: XUIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        navigationController?.navigationBarHidden = false
         navigationController?.hidesBarsOnSwipe = true
         
         // add statusBarBackgroundView to navigationController
@@ -115,7 +116,7 @@ public final class FeaturedListViewController: XUIViewController {
                     toItem: topLayoutGuide,
                     attribute: NSLayoutAttribute.Top,
                     multiplier: 1.0,
-                    constant: 90.0
+                    constant: 30.0
                 ),
                 // width set to 150
                 NSLayoutConstraint(
