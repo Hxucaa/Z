@@ -109,7 +109,14 @@ public final class NearbyViewController: XUIViewController {
     React to Current Location Button and centre the map on the user location
     */
     private func setupCurrentLocationButton() {
+        
+        // Set the button icon
         currentLocationButton.setAttributedTitle(NSAttributedString(string: Icons.Location), forState: UIControlState.Normal)
+        
+        // make the button a circle shape
+        currentLocationButton.layer.cornerRadius = CGFloat(self.currentLocationButton.frame.width) / 2
+        currentLocationButton.layer.masksToBounds = true
+        
         let centreCurrentLocation = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer<Void, NoError> { sink, disposable in
                 self!.viewmodel.currentLocation.start(next: { [weak self] location in
