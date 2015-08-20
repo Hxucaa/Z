@@ -11,9 +11,7 @@ import ReactiveCocoa
 import AVOSCloud
 import Dollar
 
-private let 启动无限scrolling参数 = 0.4
-
-public final class WantToGoListViewModel : IWantToGoListViewModel {
+public struct WantToGoListViewModel : IWantToGoListViewModel {
     // MARK: - Public
     
     // MARK: Input
@@ -64,27 +62,6 @@ public final class WantToGoListViewModel : IWantToGoListViewModel {
             $0.gender.value == "female"
             }
         )
-    }
-    
-    public func fetchMoreData() -> SignalProducer<Void, NSError> {
-        return getWantToGoUsers()
-            |> map { _ in }
-    }
-    
-    public func refreshData() -> SignalProducer<Void, NSError> {
-        return getWantToGoUsers()
-            |> map { _ in }
-    }
-    
-    /**
-    Return a boolean value indicating whether there are still plenty of data for display.
-    
-    :param: index The index of the currently displaying Business.
-    
-    :returns: A Boolean value.
-    */
-    public func havePlentyOfData(index: Int) -> Bool {
-        return Double(index) < Double(wantToGoViewModelArr.value.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数)
     }
     
 

@@ -11,7 +11,7 @@ import UIKit
 import SDWebImage
 import ReactiveCocoa
 
-public final class WantToGoListViewCell : UITableViewCell {
+public final class WantToGoListViewCell : UITableViewCell, ReactiveTableCellView {
     
     // MARK: - UI Controls
     @IBOutlet private weak var profilePicture: UIImageView!
@@ -29,8 +29,8 @@ public final class WantToGoListViewCell : UITableViewCell {
     }
     
     // MARK: - Bindings
-    public func bindViewModel(viewmodel: WantToGoViewModel) {
-        self.viewmodel = viewmodel
+    public func bindViewModel(viewmodel: ReactiveTableCellViewModel) {
+        self.viewmodel = viewmodel as! WantToGoViewModel
         
         displayName.rac_text <~ self.viewmodel.displayName
         horoscope.rac_text   <~ self.viewmodel.horoscope

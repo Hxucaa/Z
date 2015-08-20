@@ -49,7 +49,7 @@ public final class FeaturedListViewController: XUIViewController {
         setupProfileButton()
         
         infinityScrollConductor.setup()
-        pullToRefreshConductor.setup(30)
+        pullToRefreshConductor.setup()
         
         tableView.dataSource = self
     }
