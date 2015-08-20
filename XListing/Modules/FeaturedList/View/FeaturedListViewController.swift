@@ -32,11 +32,11 @@ public final class FeaturedListViewController: XUIViewController {
     @IBOutlet private weak var nearbyButton: UIBarButtonItem!
     @IBOutlet private weak var profileButton: UIBarButtonItem!
     private let refreshControl = UIRefreshControl()
-    private lazy var infinityScrollConductor: InfinityScrollConductor<UITableView, FeaturedListViewModel> = InfinityScrollConductor<UITableView, FeaturedListViewModel>(tableView: self.tableView, infinityScrollable: self.viewmodel as! FeaturedListViewModel)
-    private lazy var pullToRefreshConductor: PullToRefreshConductor<UITableView, FeaturedListViewModel> = PullToRefreshConductor<UITableView, FeaturedListViewModel>(tableView: self.tableView, pullToRefreshable: self.viewmodel as! FeaturedListViewModel)
+    private lazy var infinityScrollConductor: InfinityScrollConductor<UITableView, FeaturedListViewModel> = InfinityScrollConductor<UITableView, FeaturedListViewModel>(tableView: self.tableView, infinityScrollable: self.viewmodel)
+    private lazy var pullToRefreshConductor: PullToRefreshConductor<UITableView, FeaturedListViewModel> = PullToRefreshConductor<UITableView, FeaturedListViewModel>(tableView: self.tableView, pullToRefreshable: self.viewmodel)
     
     // MARK: Properties
-    private var viewmodel: IFeaturedListViewModel!
+    private var viewmodel: FeaturedListViewModel!
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: Setups
@@ -131,7 +131,7 @@ public final class FeaturedListViewController: XUIViewController {
                 }
             )
         
-        compositeDisposable += viewmodel.featuredBusinessViewModelArr.producer
+        compositeDisposable += viewmodel.collectionDataSource.producer
             // forwards events from producer until the view controller is going to disappear
             |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.Featured, "viewmodel.featuredBusinessViewModelArr.producer")
@@ -140,42 +140,6 @@ public final class FeaturedListViewController: XUIViewController {
                     self?.tableView.reloadData()
                 }
             )
-        
-        /// Triggered when scrolling is done
-//        rac_signalForSelector(Selector("scrollViewWillEndDragging:withVelocity:targetContentOffset:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
-//            |> takeUntilViewWillDisappear(self)
-//            |> map { parameters -> (UIScrollView, CGPoint) in
-//                let tuple = parameters as! RACTuple
-//                return (tuple.first as! UIScrollView, (tuple.second as! NSValue).CGPointValue())
-//            }
-//            |> start(
-//                next: { [weak self] scrollView, velocity in
-//                    if let this = self,
-//                        tableView = self?.tableView
-//                        // make sure the scrollView instance returned by the signal is the same instance as tha tableView in this class.
-//                        where tableView === scrollView &&
-//                            // table view is being scrolled down, not up
-//                            velocity.y > 0.0 &&
-//                            /// Only fetch more data if both pull to refresh and infinity scroll are not already triggered. We don't want to trigger network request repeatedly.
-//                            tableView.ins_pullToRefreshBackgroundView.state != INSPullToRefreshBackgroundViewState.Triggered &&
-//                            tableView.ins_infiniteScrollBackgroundView.state != INSInfiniteScrollBackgroundViewState.Loading {
-//                                
-//                        // get the indexpath of currently visible cells and map the array to indexPath.row
-//                        if let rows = tableView.indexPathsForVisibleRows()?.map({ $0.row ?? 0 }),
-//                            // then find the largest row
-//                            max = $.max(rows)
-//                            // if there isn't enough data to be displayed, fetch more data
-//                            where !this.viewmodel.havePlentyOfData(max) {
-//                            
-//                            this.viewmodel.getFeaturedBusinesses()
-//                                |> on(next: { _ in
-//                                    FeaturedLogVerbose("TableView `scrollViewDidEndDragging:willDecelerate:` fetched additional data for infinite scrolling.")
-//                                })
-//                                |> start()
-//                        }
-//                    }
-//                }
-//            )
         
         /**
         Assigning UITableView delegate has to happen after signals are established.
@@ -194,10 +158,10 @@ public final class FeaturedListViewController: XUIViewController {
     // MARK: Bindings
     
     
-    public func bindToViewModel(viewmodel: IFeaturedListViewModel) {
+    public func bindToViewModel(viewmodel: FeaturedListViewModel) {
         self.viewmodel = viewmodel
         
-        self.viewmodel.getMoreFeaturedBusinesses()
+        self.viewmodel.fetchMoreData()
             |> start()
     }
 }
@@ -212,7 +176,7 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     :returns: The number of rows in section.
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.featuredBusinessViewModelArr.value.count
+        return viewmodel.collectionDataSource.value.count
     }
     
     /**
@@ -225,7 +189,7 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as! FeaturedListBusinessTableViewCell
-        cell.bindViewModel(viewmodel.featuredBusinessViewModelArr.value[indexPath.row])
+        cell.bindViewModel(viewmodel.collectionDataSource.value[indexPath.row])
         
         return cell
     }
@@ -242,29 +206,8 @@ extension FeaturedListViewController : UIScrollViewDelegate {
     */
     public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         // make sure the scrollView instance is the same instance as tha tableView in this class.
-        if tableView === scrollView &&
-            // table view is being scrolled down, not up
-            velocity.y > 0.0 &&
-            /// Only fetch more data if both pull to refresh and infinity scroll are not already triggered. We don't want to trigger network request repeatedly.
-            tableView.ins_pullToRefreshBackgroundView.state != INSPullToRefreshBackgroundViewState.Triggered &&
-            tableView.ins_infiniteScrollBackgroundView.state != INSInfiniteScrollBackgroundViewState.Loading {
-                
-                // targetContentOffset is the offset of the top-left point of the top of the cells that are being displayed
-                let contentHeight = targetContentOffset.memory.y
-                // height of the table
-                let tableHeight = tableView.bounds.size.height
-                // content inset
-                let contentInsetBottom = tableView.contentInset.bottom
-                // get the index path of the bottom cell that is being displayed on table view
-                let indexPath = tableView.indexPathForRowAtPoint(CGPoint(x: 0.0, y: contentHeight + tableHeight - contentInsetBottom))
-                
-                if let row = indexPath?.row where !viewmodel.havePlentyOfData(row) {
-                    viewmodel.getMoreFeaturedBusinesses()
-                        |> on(next: { _ in
-                            FeaturedLogVerbose("TableView `scrollViewWillEndDragging:withVelocity:targetContentOffset:` fetched additional data for infinite scrolling.")
-                        })
-                        |> start()
-                }
+        if tableView === scrollView {
+            predictiveScrolling(tableView, withVelocity: velocity, targetContentOffset: targetContentOffset, predictiveScrollable: viewmodel)
         }
     }
 }

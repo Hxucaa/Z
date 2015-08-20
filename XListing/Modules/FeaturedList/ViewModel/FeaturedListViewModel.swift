@@ -15,10 +15,12 @@ private let 启动无限scrolling参数 = 0.4
 
 public final class FeaturedListViewModel : IFeaturedListViewModel {
     
+    public typealias Payload = FeaturedBusinessViewModel
+    
     // MARK: - Inputs
     
     // MARK: - Outputs
-    public let featuredBusinessViewModelArr: MutableProperty<[FeaturedBusinessViewModel]> = MutableProperty([FeaturedBusinessViewModel]())
+    public let collectionDataSource = MutableProperty<[FeaturedBusinessViewModel]>([FeaturedBusinessViewModel]())
     public let isFetchingData: MutableProperty<Bool> = MutableProperty(false)
     
     // MARK: - Properties
@@ -48,9 +50,6 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     /**
     Retrieve featured business with pagination enabled.
     */
-    public func getMoreFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
-        return fetchBusinesses(refresh: false)
-    }
     
     public func fetchMoreData() -> SignalProducer<Void, NSError> {
         return fetchBusinesses(refresh: false)
@@ -62,15 +61,16 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
             |> map { _ in }
     }
     
-    /**
-    Return a boolean value indicating whether there are still plenty of data for display.
-    
-    :param: index The index of the currently displaying Business.
-    
-    :returns: A Boolean value.
-    */
-    public func havePlentyOfData(index: Int) -> Bool {
-        return Double(index) < Double(featuredBusinessViewModelArr.value.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数)
+    public func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
+        // if there are still plenty of data for display, don't fetch more businesses
+        if Double(targetContentIndex) < Double(collectionDataSource.value.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数) {
+            return SignalProducer<Void, NSError>.empty
+        }
+        // else fetch more data
+        else {
+            return fetchBusinesses(refresh: false)
+                |> map { _ in }
+        }
     }
     
     public func pushNearbyModule() {
@@ -78,7 +78,6 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     }
     
     public func pushDetailModule(section: Int) {
-        let debugArray = businessArr.value
         router.pushDetail(businessArr.value[section])
     }
     
@@ -97,7 +96,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
         let query = Business.query()!
         // TODO: temporarily disabled until we have more featured businesses
         //        query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
-        query.limit = Constants.PAGINATION_LIMIT
+        query.limit = 3
         if refresh {
             // don't skip any content if we are refresh the list
             query.skip = 0
@@ -142,14 +141,15 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
                 next: { viewmodels in
                     if refresh {
                         // ignore old data
-                        self.featuredBusinessViewModelArr.put(viewmodels)
+                        self.collectionDataSource.put(viewmodels)
                     }
                     else {
                         // save the new data with old ones
-                        self.featuredBusinessViewModelArr.put(self.featuredBusinessViewModelArr.value + viewmodels)
+                        self.collectionDataSource.put(self.collectionDataSource.value + viewmodels)
                     }
                 },
                 error: { FeaturedLogError($0.description) }
             )
     }
+    
 }

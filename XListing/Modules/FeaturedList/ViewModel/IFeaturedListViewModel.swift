@@ -9,12 +9,9 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol IFeaturedListViewModel : IInfinityScrollable, IPullToRefreshable {
-    var featuredBusinessViewModelArr: MutableProperty<[FeaturedBusinessViewModel]> { get }
+public protocol IFeaturedListViewModel : ICollectionDataSource, IInfinityScrollable, IPullToRefreshable, IPredictiveScrollable {
     var isFetchingData: MutableProperty<Bool> { get }
     init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
-    func getMoreFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError>
-    func havePlentyOfData(index: Int) -> Bool
     func pushNearbyModule()
     func pushDetailModule(section: Int)
     func pushProfileModule()
