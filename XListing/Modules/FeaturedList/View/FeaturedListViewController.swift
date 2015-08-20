@@ -26,6 +26,7 @@ public final class FeaturedListViewController: XUIViewController {
     private var viewmodel: IFeaturedListViewModel!
     private let compositeDisposable = CompositeDisposable()
     private var isLoading = 0
+    private let cellHeightToScreenWidthRatio = 0.618
     
     // MARK: Setups
     public override func viewDidLoad() {
@@ -43,7 +44,7 @@ public final class FeaturedListViewController: XUIViewController {
         tableView.dataSource = self
         
         // set cell height based on devices
-        tableView.rowHeight = UIScreen.mainScreen().bounds.width * 0.51
+        tableView.rowHeight = UIScreen.mainScreen().bounds.width * CGFloat(cellHeightToScreenWidthRatio)
         
         let nib = UINib(nibName: "FeaturedListBusinessTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: CellIdentifier)

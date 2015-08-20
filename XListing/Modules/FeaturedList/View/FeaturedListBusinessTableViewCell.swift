@@ -15,83 +15,59 @@ import XAssets
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     //MARK: constants
-    private let avatarWidth = CGFloat(30)
-    private let avatarHeight = CGFloat(30)
-    private let avatarGap = CGFloat(10)
+    private let avatarHeight = UIScreen.mainScreen().bounds.height * 0.07
+    private let avatarWidth = UIScreen.mainScreen().bounds.height * 0.07
+    private let avatarGap = UIScreen.mainScreen().bounds.width * 0.015
+    private let WTGButtonScale = CGFloat(0.5)
     private let avatarLeadingMargin = CGFloat(5)
     private let avatarTailingMargin = CGFloat(5)
-
     
     // MARK: - UI Controls
-    @IBOutlet weak var businessImage: UIImageView!
-    @IBOutlet weak var infoView: UIView!
-    @IBOutlet weak var participationView: UIView!
-    @IBOutlet weak var ETAIcon: UIView!
+    @IBOutlet private weak var businessImage: UIImageView!
+    @IBOutlet private weak var infoView: UIView!
+    @IBOutlet private weak var participationView: UIView!
+    @IBOutlet private weak var ETAIcon: UIView!
     
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var priceLabel: PriceLabel!
-    @IBOutlet weak var etaLabel: UILabel!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var cityLabel: UILabel!
+    @IBOutlet private weak var priceLabel: PriceLabel!
+    @IBOutlet private weak var etaLabel: UILabel!
     
-    @IBOutlet weak var peopleWantogoLabel: UILabel!
-    @IBOutlet weak var avatarList: UIView!
-    @IBOutlet weak var joinButton: UIButton!
+    @IBOutlet private weak var peopleWantogoLabel: UILabel!
+    @IBOutlet private weak var avatarList: UIView!
+    @IBOutlet private weak var joinButton: UIButton!
+    private lazy var infoViewContent: UIView = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
+    private lazy var participationViewContent: UIView = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
     
     // MARK: Properties
-
     private var viewmodel: FeaturedBusinessViewModel!
     private let compositeDisposable = CompositeDisposable()
+    // a state value for whether the setup constraints have already been run
+    private var setupConstraintsDone = false
+    
     /// whether this instance of cell has been reused
     private let isReusedCell = MutableProperty<Bool>(false)
     private var users: [User] = [User]()
-    private var btnNormalImage = UIImage()
-    private var btnDisabledImage = UIImage()
-    private let imageWidthtoParentRatio = 0.544
-    private let imageHeighttoWidthRatio = 0.6078
-    
+    private lazy var btnNormalImage: UIImage = AssetsKit.imageOfWTGButtonUntapped(scale: self.WTGButtonScale)
+    private lazy var btnDisabledImage: UIImage = AssetsKit.imageOfWTGButtonTapped(scale: self.WTGButtonScale)
+    private let businessImageWidthToParentRatio = 0.57
+    private let businessImageHeightToWidthRatio = 0.68
+    private let avatarListWidthtoParentRatio = 1.0
+    private let avatarListHeightToParentRatio = 1.0
+
     // MARK: Setups
-    
     public override func awakeFromNib() {
         selectionStyle = UITableViewCellSelectionStyle.None
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
-        var infoViewContent = NSBundle.mainBundle().loadNibNamed("infopanel", owner: self, options: nil)[0] as! UIView
+        
         infoView.addSubview(infoViewContent)
-        var participationViewContent = NSBundle.mainBundle().loadNibNamed("participationview", owner: self, options: nil)[0] as! UIView
         participationView.addSubview(participationViewContent)
-        
-        //Set anchor size for all related views
-        
-        layout(businessImage) { businessImage in
-            //sizes
-            businessImage.width == businessImage.superview!.width * self.imageWidthtoParentRatio
-            businessImage.height == businessImage.width * self.imageHeighttoWidthRatio
-        }
-        
-        layout(businessImage) { businessImage in
-            //sizes
-            businessImage.width == businessImage.superview!.width * self.imageWidthtoParentRatio
-            businessImage.height == businessImage.width * self.imageHeighttoWidthRatio
-        }
-        
-        
-        //Make subview same size as the parent view
-        
-        layout(infoViewContent, participationViewContent) { infoViewContent, participationViewContent in
-            infoViewContent.left == infoViewContent.superview!.left
-            infoViewContent.top == infoViewContent.superview!.top
-            infoViewContent.width == infoViewContent.superview!.width
-            infoViewContent.height == infoViewContent.superview!.height
-            
-            participationViewContent.left == participationViewContent.superview!.left
-            participationViewContent.top == participationViewContent.superview!.top
-            participationViewContent.width == participationViewContent.superview!.width
-            participationViewContent.height == participationViewContent.superview!.height
-        }
-        
+
         let join = Action<UIButton, Bool, NSError>{ button in
             return self.viewmodel.participate(ParticipationChoice.我想去)
         }
+        
         joinButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         
         /**
@@ -102,22 +78,54 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             |> start(next: { [weak self] _ in
                 self?.isReusedCell.put(true)
             })
+       
+        joinButton.setBackgroundImage(btnNormalImage, forState: UIControlState.Normal)
+        joinButton.setBackgroundImage(btnDisabledImage, forState: UIControlState.Disabled)
+    }
+    
+    public override func updateConstraints() {
         
-//        UIGraphicsBeginImageContextWithOptions(CGSizeMake(30, 30), false, CGFloat(1))
-//        AssetsKit.drawWTGButtonUntapped(scale: 0.2)
-//        self.btnNormalImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        
-//        UIGraphicsBeginImageContextWithOptions(CGSizeMake(30, 30), false, CGFloat(1))
-//        AssetsKit.drawWTGButtonTapped(scale: 0.2)
-//        self.btnDisabledImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
+        // only run the setup constraints the first time the cell is constructed for perfomance reason
+        if !setupConstraintsDone {
+            setupConstraintsDone = true
+            
+            //Set anchor size for all related views
+            constrain(businessImage) { businessImage in
+                //sizes
+                businessImage.width == businessImage.superview!.width * self.businessImageWidthToParentRatio
+                businessImage.height == businessImage.width * self.businessImageHeightToWidthRatio
+            }
+            
+            //Make subview same size as the parent view
+            constrain(infoViewContent) { infoViewContent in
+                infoViewContent.left == infoViewContent.superview!.left
+                infoViewContent.top == infoViewContent.superview!.top
+                infoViewContent.width == infoViewContent.superview!.width
+                infoViewContent.height == infoViewContent.superview!.height
+            }
+            
+            //Make subview same size as the parent view
+            constrain(participationViewContent) { participationViewContent in
+                participationViewContent.left == participationViewContent.superview!.left
+                participationViewContent.top == participationViewContent.superview!.top
+                participationViewContent.width == participationViewContent.superview!.width
+                participationViewContent.height == participationViewContent.superview!.height
+            }
+            
+            //Set avatar list size
+            constrain(avatarList) { avatarList in
+                avatarList.width == avatarList.superview!.width * self.avatarListWidthtoParentRatio
+                avatarList.height == avatarList.superview!.height * self.avatarListHeightToParentRatio
+            }
+            
+            //Set WTG button size
+            constrain(joinButton, avatarList) { joinButton, avatarList in
+                joinButton.height == avatarList.height * 1.618
+                joinButton.width == joinButton.height * 0.935
+            }
+        }
         
-        self.btnNormalImage = AssetsKit.imageOfWTGButtonUntapped(scale: 1)
-        self.btnDisabledImage = AssetsKit.imageOfWTGButtonTapped(scale: 1)
-        joinButton.setBackgroundImage(self.btnNormalImage, forState: UIControlState.Normal)
-        joinButton.setBackgroundImage(self.btnDisabledImage, forState: UIControlState.Disabled)
-        
+        super.updateConstraints()
     }
     
     deinit {
@@ -126,7 +134,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
 
     
     // MARK: Bindings
-    
     public func bindViewModel(viewmodel: FeaturedBusinessViewModel) {
         self.viewmodel = viewmodel
         
@@ -139,8 +146,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
 //            |> takeUntilPrepareForReuse(self)
         compositeDisposable += viewmodel.price.producer
             |> start(next: { [weak self] price in
-                self!.priceLabel.setPriceLabel(price)
-                self!.priceLabel.setNeedsDisplay()
+                self?.priceLabel.setPriceLabel(price)
+                self?.priceLabel.setNeedsDisplay()
             })
         self.etaLabel.rac_text <~ viewmodel.eta.producer
             |> takeUntilPrepareForReuse(self)
@@ -168,8 +175,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     
     private func setupParticipationView(users: [User]){
-//        FeaturedLogDebug("setup count of users: \(users.count)")
         
+//        FeaturedLogDebug("setup count of users: \(users.count)")
         var count = Int(floor((self.avatarList.frame.width - self.avatarLeadingMargin - self.avatarTailingMargin - self.avatarWidth)/(self.avatarWidth + self.avatarGap))) + 1
         var hasMoreUsers = users.count > count
 
@@ -190,23 +197,25 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             }
         }
         
-        if hasMoreUsers && images.count > 0{
-            if let image = UIImage(named: "downArrow"){
+        if hasMoreUsers && images.count > 0 {
+            if let image = AssetsKit.imageOfEtcIcon(scale: 0.5) as UIImage? {
                 images[images.count-1] = image
             }
         }
         
         // populate imageViews
-        
         for i in 0...count-1{
             let x = self.avatarLeadingMargin + CGFloat(i)*(self.avatarWidth + self.avatarGap)
-            let y = (self.avatarList.frame.height - self.avatarHeight)/CGFloat(2.0)
+            let y = (self.avatarList.frame.height - self.avatarHeight) / CGFloat(3.0)
             let frame = CGRectMake(x, y, self.avatarWidth, self.avatarHeight)
             let imageView = UIImageView(frame: frame)
+  
+            imageView.contentMode = .ScaleAspectFit
+            imageView.toCircle()
+            
             if i<images.count{
                 let image = images[i]
                 imageView.setImageWithAnimation(image)
-                imageView.toCircle()
                 self.avatarList.addSubview(imageView)
             }
         }
