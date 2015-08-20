@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="fontawesome-webfont.ttf">
+            <string>FontAwesome</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--逛一逛-->
         <scene sceneID="xc5-WU-XSE">
@@ -50,7 +56,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Business Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snd-If-TKw">
-                                                    <rect key="frame" x="122" y="8" width="120" height="21"/>
+                                                    <rect key="frame" x="122" y="8" width="120" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -59,19 +65,19 @@
                                                     </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Business Hours" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J5e-6q-0Af">
-                                                    <rect key="frame" x="122" y="35" width="95" height="16"/>
+                                                    <rect key="frame" x="122" y="34" width="94.5" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k7u-rG-ElT">
-                                                    <rect key="frame" x="122" y="57" width="24" height="16"/>
+                                                    <rect key="frame" x="122" y="56" width="24" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ETA" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ybB-UT-QEe">
-                                                    <rect key="frame" x="146" y="55" width="70" height="21"/>
+                                                    <rect key="frame" x="146" y="54" width="70" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="JWd-W6-cXb"/>
                                                     </constraints>
@@ -110,13 +116,25 @@
                                     <outlet property="delegate" destination="4bQ-3z-K0t" id="yAb-iD-I0w"/>
                                 </connections>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XCG-OL-yDB">
+                                <rect key="frame" x="16" y="478" width="34" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="XCG-OL-yDB" secondAttribute="height" multiplier="1:1" id="nO0-oO-0yz"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="22"/>
+                                <state key="normal" title="hi">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="5IX-6x-QV7" secondAttribute="trailing" id="0gC-xu-klP"/>
                             <constraint firstAttribute="trailing" secondItem="Dui-HC-aMg" secondAttribute="trailing" id="11p-xK-87y"/>
+                            <constraint firstItem="5IX-6x-QV7" firstAttribute="leading" secondItem="XCG-OL-yDB" secondAttribute="trailing" constant="-50" id="3ew-dp-TMV"/>
                             <constraint firstItem="5IX-6x-QV7" firstAttribute="top" secondItem="nPG-w6-ixR" secondAttribute="top" id="Rht-9B-UIg"/>
                             <constraint firstAttribute="bottom" secondItem="5IX-6x-QV7" secondAttribute="bottom" id="Ror-AC-Y0i"/>
+                            <constraint firstItem="Dui-HC-aMg" firstAttribute="top" secondItem="XCG-OL-yDB" secondAttribute="bottom" constant="8" id="Tm2-pD-p7v"/>
                             <constraint firstItem="5IX-6x-QV7" firstAttribute="leading" secondItem="nPG-w6-ixR" secondAttribute="leading" id="dpL-cq-OHk"/>
                             <constraint firstItem="Dui-HC-aMg" firstAttribute="leading" secondItem="nPG-w6-ixR" secondAttribute="leading" id="meM-Kr-5AE"/>
                             <constraint firstAttribute="bottom" secondItem="Dui-HC-aMg" secondAttribute="bottom" id="shV-Bf-2ui"/>
@@ -127,6 +145,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="businessCollectionView" destination="Dui-HC-aMg" id="Fc2-Eg-8WN"/>
+                        <outlet property="currentLocationButton" destination="XCG-OL-yDB" id="DjE-8q-N7C"/>
                         <outlet property="mapView" destination="5IX-6x-QV7" id="Kaf-j5-8So"/>
                         <outlet property="profileButton" destination="F5P-zq-bT2" id="d9Q-gN-cu6"/>
                     </connections>

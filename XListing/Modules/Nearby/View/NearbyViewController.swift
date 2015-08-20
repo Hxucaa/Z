@@ -40,6 +40,7 @@ public final class NearbyViewController: XUIViewController {
     
     @IBOutlet private weak var profileButton: UIBarButtonItem!
     @IBOutlet private weak var mapView: MKMapView!
+    @IBOutlet private weak var currentLocationButton: UIButton!
     @IBOutlet private weak var businessCollectionView: UICollectionView!
     
     // MARK: Properties
@@ -58,6 +59,8 @@ public final class NearbyViewController: XUIViewController {
         businessCollectionView.pagingEnabled = true
         
         setupProfileButton()
+        setupCurrentLocationButton()
+        
         
         // set the initial view region based on current location
         compositeDisposable += viewmodel.currentLocation
@@ -103,8 +106,25 @@ public final class NearbyViewController: XUIViewController {
     }
     
     /**
-    Initialize map view.
+    React to Current Location Button and centre the map on the user location
+    */
+    private func setupCurrentLocationButton() {
+        currentLocationButton.setAttributedTitle(NSAttributedString(string: Icons.Location), forState: UIControlState.Normal)
+        let centreCurrentLocation = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer<Void, NoError> { sink, disposable in
+                self!.viewmodel.currentLocation.start(next: { [weak self] location in
+                    self?.mapView.setCenterCoordinate(location.coordinate, animated: true)
+                        }
+                    )
+                sendCompleted(sink)
+            }
+        }
+
+        currentLocationButton.addTarget(centreCurrentLocation.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+    }
     
+    /**
+    Initialize map view.
     */
     private func setupMapView() {
         
