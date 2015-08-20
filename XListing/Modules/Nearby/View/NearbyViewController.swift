@@ -114,15 +114,14 @@ public final class NearbyViewController: XUIViewController {
         currentLocationButton.setAttributedTitle(NSAttributedString(string: Icons.Location), forState: UIControlState.Normal)
         
         // make the button a circle shape
-        currentLocationButton.layer.cornerRadius = CGFloat(self.currentLocationButton.frame.width) / 2
+        currentLocationButton.layer.cornerRadius = CGFloat(currentLocationButton.frame.width) / 2
         currentLocationButton.layer.masksToBounds = true
         
         let centreCurrentLocation = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer<Void, NoError> { sink, disposable in
-                self!.viewmodel.currentLocation.start(next: { [weak self] location in
-                    self?.mapView.setCenterCoordinate(location.coordinate, animated: true)
-                        }
-                    )
+                if let this = self {
+                    this.mapView.setCenterCoordinate(this.mapView.userLocation.coordinate, animated: true)
+                }
                 sendCompleted(sink)
             }
         }
