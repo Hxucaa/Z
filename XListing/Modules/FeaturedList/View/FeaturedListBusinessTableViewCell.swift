@@ -21,8 +21,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     private let WTGButtonScale = CGFloat(0.5)
     private let avatarLeadingMargin = CGFloat(5)
     private let avatarTailingMargin = CGFloat(5)
-    private lazy var infoViewContent = UIView()
-    private lazy var participationViewContent = UIView()
     
     // MARK: - UI Controls
     @IBOutlet private weak var businessImage: UIImageView!
@@ -38,16 +36,20 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     @IBOutlet private weak var peopleWantogoLabel: UILabel!
     @IBOutlet private weak var avatarList: UIView!
     @IBOutlet private weak var joinButton: UIButton!
+    private lazy var infoViewContent: UIView = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
+    private lazy var participationViewContent: UIView = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
     
     // MARK: Properties
     private var viewmodel: FeaturedBusinessViewModel!
     private let compositeDisposable = CompositeDisposable()
+    // a state value for whether the setup constraints have already been run
+    private var setupConstraintsDone = false
     
     /// whether this instance of cell has been reused
     private let isReusedCell = MutableProperty<Bool>(false)
     private var users: [User] = [User]()
-    private var btnNormalImage = UIImage()
-    private var btnDisabledImage = UIImage()
+    private lazy var btnNormalImage: UIImage = AssetsKit.imageOfWTGButtonUntapped(scale: self.WTGButtonScale)
+    private lazy var btnDisabledImage: UIImage = AssetsKit.imageOfWTGButtonTapped(scale: self.WTGButtonScale)
     private let businessImageWidthToParentRatio = 0.57
     private let businessImageHeightToWidthRatio = 0.68
     private let avatarListWidthtoParentRatio = 1.0
@@ -58,45 +60,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         selectionStyle = UITableViewCellSelectionStyle.None
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
-        infoViewContent = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil)[0] as! UIView
+        
         infoView.addSubview(infoViewContent)
-        participationViewContent = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil)[0] as! UIView
         participationView.addSubview(participationViewContent)
-        
-        //Set anchor size for all related views
-        constrain(businessImage) { businessImage in
-            //sizes
-            businessImage.width == businessImage.superview!.width * self.businessImageWidthToParentRatio
-            businessImage.height == businessImage.width * self.businessImageHeightToWidthRatio
-        }
-        
-        //Make subview same size as the parent view
-        constrain(infoViewContent) { infoViewContent in
-            infoViewContent.left == infoViewContent.superview!.left
-            infoViewContent.top == infoViewContent.superview!.top
-            infoViewContent.width == infoViewContent.superview!.width
-            infoViewContent.height == infoViewContent.superview!.height
-        }
-        
-        //Make subview same size as the parent view
-        constrain(participationViewContent) { participationViewContent in
-            participationViewContent.left == participationViewContent.superview!.left
-            participationViewContent.top == participationViewContent.superview!.top
-            participationViewContent.width == participationViewContent.superview!.width
-            participationViewContent.height == participationViewContent.superview!.height
-        }
-        
-        //Set avatar list size
-        constrain(avatarList) { avatarList in
-            avatarList.width == avatarList.superview!.width * self.avatarListWidthtoParentRatio
-            avatarList.height == avatarList.superview!.height * self.avatarListHeightToParentRatio
-        }
-        
-        //Set WTG button size
-        constrain(joinButton, avatarList) { joinButton, avatarList in
-            joinButton.height == avatarList.height * 1.618
-            joinButton.width == joinButton.height * 0.935
-        }
 
         let join = Action<UIButton, Bool, NSError>{ button in
             return self.viewmodel.participate(ParticipationChoice.我想去)
@@ -113,10 +79,53 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 self?.isReusedCell.put(true)
             })
        
-        self.btnNormalImage = AssetsKit.imageOfWTGButtonUntapped(scale: WTGButtonScale)
-        self.btnDisabledImage = AssetsKit.imageOfWTGButtonTapped(scale: WTGButtonScale)
-        joinButton.setBackgroundImage(self.btnNormalImage, forState: UIControlState.Normal)
-        joinButton.setBackgroundImage(self.btnDisabledImage, forState: UIControlState.Disabled)
+        joinButton.setBackgroundImage(btnNormalImage, forState: UIControlState.Normal)
+        joinButton.setBackgroundImage(btnDisabledImage, forState: UIControlState.Disabled)
+    }
+    
+    public override func updateConstraints() {
+        
+        // only run the setup constraints the first time the cell is constructed for perfomance reason
+        if !setupConstraintsDone {
+            setupConstraintsDone = true
+            
+            //Set anchor size for all related views
+            constrain(businessImage) { businessImage in
+                //sizes
+                businessImage.width == businessImage.superview!.width * self.businessImageWidthToParentRatio
+                businessImage.height == businessImage.width * self.businessImageHeightToWidthRatio
+            }
+            
+            //Make subview same size as the parent view
+            constrain(infoViewContent) { infoViewContent in
+                infoViewContent.left == infoViewContent.superview!.left
+                infoViewContent.top == infoViewContent.superview!.top
+                infoViewContent.width == infoViewContent.superview!.width
+                infoViewContent.height == infoViewContent.superview!.height
+            }
+            
+            //Make subview same size as the parent view
+            constrain(participationViewContent) { participationViewContent in
+                participationViewContent.left == participationViewContent.superview!.left
+                participationViewContent.top == participationViewContent.superview!.top
+                participationViewContent.width == participationViewContent.superview!.width
+                participationViewContent.height == participationViewContent.superview!.height
+            }
+            
+            //Set avatar list size
+            constrain(avatarList) { avatarList in
+                avatarList.width == avatarList.superview!.width * self.avatarListWidthtoParentRatio
+                avatarList.height == avatarList.superview!.height * self.avatarListHeightToParentRatio
+            }
+            
+            //Set WTG button size
+            constrain(joinButton, avatarList) { joinButton, avatarList in
+                joinButton.height == avatarList.height * 1.618
+                joinButton.width == joinButton.height * 0.935
+            }
+        }
+        
+        super.updateConstraints()
     }
     
     deinit {
