@@ -12,6 +12,7 @@ import AVOSCloud
 
 public final class FeaturedBusinessViewModel {
     
+    //MARK: property
     public let businessName: ConstantProperty<String>
     public let city: ConstantProperty<String>
     public let eta: MutableProperty<String> = MutableProperty("")
@@ -20,12 +21,12 @@ public final class FeaturedBusinessViewModel {
     public let coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
     public let isCoverImageConsumed = MutableProperty<Bool>(false)
     public let participation: MutableProperty<String> = MutableProperty<String>("")
-    public let userArr: MutableProperty<[User]> = MutableProperty([User]())
     public let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
+    public let participantViewModelArr: MutableProperty<[ParticipantViewModel]> = MutableProperty([ParticipantViewModel]())
     public let business: MutableProperty<Business> = MutableProperty(Business())
     public let buttonEnabled: MutableProperty<Bool> = MutableProperty(true)
     
-    
+    //MARK: init
     public init(userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService, participationService: IParticipationService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int, business: Business?) {
         self.userService = userService
         self.geoLocationService = geoLocationService
@@ -70,9 +71,6 @@ public final class FeaturedBusinessViewModel {
             setupParticipation(business)
         }
     }
-    // "http://lasttear.com/wp-content/uploads/2015/03/interior-design-ideas-furniture-architecture-mesmerizing-chinese-restaurant-interior-with-red-nuance-inspiring.jpg"
-    
-    // MARK: - Private
     
     // MARK: Services
     private let userService: IUserService
@@ -96,7 +94,7 @@ public final class FeaturedBusinessViewModel {
 
     
     // MARK: Network call
-    private func getAttendees(business: Business) -> SignalProducer<[User], NSError> {
+    private func getAttendees(business: Business) -> SignalProducer<[ParticipantViewModel], NSError> {
         let query = Participation.query()!
         typealias Property = Participation.Property
         query.whereKey(Property.Business.rawValue, equalTo: business)
@@ -106,24 +104,23 @@ public final class FeaturedBusinessViewModel {
         
         return participationService.findBy(query)
             |> on(next: { participations in
-                self.participationArr.put(participations)
+                self.participationArr.put(self.participationArr.value + participations)
             })
-            |> map { participations -> [User] in
-                // map participation to its view model
- //               FeaturedLogDebug("participation returned \(participations.count)")
+            |> map { participations -> [ParticipantViewModel] in
                 return participations.map {
-                    $0.user
+                    ParticipantViewModel(user: $0.user)
                 }
             }
             |> on(
                 next: { response in
-                    self.userArr.put(response)
+                    FeaturedLogDebug("\(response.count) participants returned for \(self.businessName.value)")
+                    self.participantViewModelArr.put(response)
                 },
                 error: { FeaturedLogError($0.customErrorDescription) }
             )
     }
     
-    
+    // MARK: Participate Button Action
     public func participate(choice: ParticipationChoice) -> SignalProducer<Bool, NSError> {
         return self.userService.currentLoggedInUser()
             |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
@@ -140,6 +137,8 @@ public final class FeaturedBusinessViewModel {
             })
     }
     
+    
+    //MARK: setup participation view
     private func setupParticipation(business: Business) -> Disposable {
         /**
         *  Query database to check if user has already participated in this business.
@@ -159,5 +158,15 @@ public final class FeaturedBusinessViewModel {
                 self.buttonEnabled.put(false)
             })
     }
+    
+    
+    //MARK: memory clean up called when cell is reused. 
+    public func cleanup(){
+        coverImage.put(nil)
+        for participant in participantViewModelArr.value{
+            participant.cleanup()
+        }
+    }
+    
 
 }

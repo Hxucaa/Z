@@ -202,6 +202,7 @@
 		D01DD8701B813AFD00FD0BCE /* infopanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = D01DD86D1B813AFD00FD0BCE /* infopanel.xib */; };
 		D01DD8711B813AFD00FD0BCE /* participationview.xib in Resources */ = {isa = PBXBuildFile; fileRef = D01DD86E1B813AFD00FD0BCE /* participationview.xib */; };
 		D02A61711B655019007B48E9 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02A61701B655019007B48E9 /* ProfileHeaderViewModel.swift */; };
+		D0A75A091B88D100003E15BC /* ParticipantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A75A081B88D100003E15BC /* ParticipantViewModel.swift */; };
 		D0ADD8A11B608B4200B27885 /* ProfileBusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADD89B1B608B4200B27885 /* ProfileBusinessCell.swift */; };
 		D0ADD8A21B608B4200B27885 /* ProfileBusinessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ADD89C1B608B4200B27885 /* ProfileBusinessCell.xib */; };
 		D0ADD8A41B608B4200B27885 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADD89E1B608B4200B27885 /* ProfileHeaderView.swift */; };
@@ -426,6 +427,7 @@
 		D01DD86D1B813AFD00FD0BCE /* infopanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = infopanel.xib; sourceTree = "<group>"; };
 		D01DD86E1B813AFD00FD0BCE /* participationview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = participationview.xib; sourceTree = "<group>"; };
 		D02A61701B655019007B48E9 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
+		D0A75A081B88D100003E15BC /* ParticipantViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipantViewModel.swift; sourceTree = "<group>"; };
 		D0ADD89B1B608B4200B27885 /* ProfileBusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBusinessCell.swift; sourceTree = "<group>"; };
 		D0ADD89C1B608B4200B27885 /* ProfileBusinessCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileBusinessCell.xib; sourceTree = "<group>"; };
 		D0ADD89D1B608B4200B27885 /* ProfileHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileHeaderView.xib; sourceTree = "<group>"; };
@@ -948,6 +950,7 @@
 			children = (
 				B4A3C16C1AD44B7E00B9D699 /* FeaturedListViewModel.swift */,
 				B45581F71B33E89D00C4D965 /* FeaturedBusinessViewModel.swift */,
+				D0A75A081B88D100003E15BC /* ParticipantViewModel.swift */,
 				B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */,
 			);
 			path = ViewModel;
@@ -1517,6 +1520,7 @@
 				D0ADD8A51B608B4200B27885 /* ProfileTabView.swift in Sources */,
 				3DE38A801B11BB3D00DFA128 /* KeychainService.swift in Sources */,
 				B4F195A71B2ADA9700B8C519 /* ProfileRoute.swift in Sources */,
+				D0A75A091B88D100003E15BC /* ParticipantViewModel.swift in Sources */,
 				3DFA2F971B43C11800058930 /* IWantToGoListWireframe.swift in Sources */,
 				B41334F11B60F8B900B5F22D /* ReactiveCocoa+extension.swift in Sources */,
 				B44E35041AD63F6000657A31 /* BusinessService.swift in Sources */,

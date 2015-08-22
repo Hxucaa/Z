@@ -13,19 +13,12 @@ import Dollar
 
 public final class FeaturedListViewModel : IFeaturedListViewModel {
     
-    // MARK: - Public
-    
-    // MARK: Input
-    
-    // MARK: Output
+    // MARK: Property
     public let featuredBusinessViewModelArr: MutableProperty<[FeaturedBusinessViewModel]> = MutableProperty([FeaturedBusinessViewModel]())
     public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
     
-    // MARK: Private Variables
-    private let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
     
     // MARK: API
-    
     /**
     Retrieve featured business from database
     */

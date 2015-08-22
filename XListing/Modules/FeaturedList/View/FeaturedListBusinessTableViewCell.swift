@@ -38,6 +38,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     @IBOutlet private weak var joinButton: UIButton!
     private lazy var infoViewContent: UIView = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
     private lazy var participationViewContent: UIView = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
+    private var avatarImageViews = [UIImageView]()
+    private var count = 0
     
     // MARK: Properties
     private var viewmodel: FeaturedBusinessViewModel!
@@ -81,6 +83,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
        
         joinButton.setBackgroundImage(btnNormalImage, forState: UIControlState.Normal)
         joinButton.setBackgroundImage(btnDisabledImage, forState: UIControlState.Disabled)
+        
+        setupAvatarImageViews()
     }
     
     public override func updateConstraints() {
@@ -138,6 +142,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         self.viewmodel = viewmodel
         
         self.joinButton.rac_enabled <~ viewmodel.buttonEnabled.producer
+            |> takeUntilPrepareForReuse(self)
         self.nameLabel.rac_text <~ viewmodel.businessName.producer
            |> takeUntilPrepareForReuse(self)
         self.cityLabel.rac_text <~ viewmodel.city.producer
@@ -145,6 +150,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
 //        self.priceLabel.rac_text <~ viewmodel.price.producer
 //            |> takeUntilPrepareForReuse(self)
         compositeDisposable += viewmodel.price.producer
+            |> takeUntilPrepareForReuse(self)
             |> start(next: { [weak self] price in
                 self?.priceLabel.setPriceLabel(price)
                 self?.priceLabel.setNeedsDisplay()
@@ -166,58 +172,76 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 }
             })
         
-        compositeDisposable += self.viewmodel.userArr.producer
-            |> start (next: { [weak self] users in
-                self?.users = users
-                self?.setupParticipationView(users)
+        compositeDisposable += self.viewmodel.participantViewModelArr.producer
+            |> takeUntilPrepareForReuse(self)
+            |> start (next: { [weak self] participants in
+                self?.bindAvatartoParticipant()
             })
     }
     
-    
-    private func setupParticipationView(users: [User]){
-        
-//        FeaturedLogDebug("setup count of users: \(users.count)")
-        var count = Int(floor((self.avatarList.frame.width - self.avatarLeadingMargin - self.avatarTailingMargin - self.avatarWidth)/(self.avatarWidth + self.avatarGap))) + 1
-        var hasMoreUsers = users.count > count
-
-//        FeaturedLogDebug("count: \(count)")
-//        FeaturedLogDebug("hasMoreusers: \(hasMoreUsers)")
-        
-        var images = [UIImage]()
-        var imageViews = [UIImageView]()
-        
-        // populate images
-        for (var i = 0; i<users.count && i<count; i++){
-            let user = users[i]
-            if let image = user.profileImg{
-                let data = image.getData()
-                if let uiImage = UIImage(data: data){
-                    images.append(uiImage)
+    private func bindAvatartoParticipant(){
+        if count == 0{
+            FeaturedLogError("count is zero! \(self.viewmodel.businessName.value)")
+            return
+        }
+        FeaturedLogDebug("\(self.viewmodel.businessName.value)")
+        FeaturedLogDebug("participant count: \(self.self.viewmodel.participantViewModelArr.value.count)")
+        var i = 0
+        loopofparticipants:  for participant in self.viewmodel.participantViewModelArr.value{
+            if let img = participant.user.profileImg {
+                if i == count{
+                    FeaturedLogDebug("has more participants")
+                    if let image = AssetsKit.imageOfEtcIcon(scale: 0.5) as UIImage?{
+                        avatarImageViews[i-1].setImageWithAnimation(image)
+                    }
+                    break loopofparticipants
+                }
+                else{
+                    if let img = participant.avatar.value{
+                        FeaturedLogDebug("avatar image exist")
+                        if i < self.avatarImageViews.count{
+                            FeaturedLogDebug("set image")
+                            self.avatarImageViews[i].setImageWithAnimation(img)
+                        }
+                    }
+                    
+                    compositeDisposable += participant.avatar.producer
+                        |> takeUntilPrepareForReuse(self)
+                        |> ignoreNil
+                        |> start(next: {[weak self] image in
+                            if i < self?.avatarImageViews.count{
+                                self?.avatarImageViews[i].rac_image.put(image)
+                            }
+                        })
+                    i++
                 }
             }
         }
-        
-        if hasMoreUsers && images.count > 0 {
-            if let image = AssetsKit.imageOfEtcIcon(scale: 0.5) as UIImage? {
-                images[images.count-1] = image
-            }
-        }
-        
+        self.participationView.setNeedsDisplay()
+    }
+    
+    private func setupAvatarImageViews(){
+        count = Int(floor((self.avatarList.frame.width - self.avatarLeadingMargin - self.avatarTailingMargin - self.avatarWidth)/(self.avatarWidth + self.avatarGap))) + 1
         // populate imageViews
         for i in 0...count-1{
             let x = self.avatarLeadingMargin + CGFloat(i)*(self.avatarWidth + self.avatarGap)
             let y = (self.avatarList.frame.height - self.avatarHeight) / CGFloat(3.0)
             let frame = CGRectMake(x, y, self.avatarWidth, self.avatarHeight)
             let imageView = UIImageView(frame: frame)
-  
+            
             imageView.contentMode = .ScaleAspectFit
             imageView.toCircle()
-            
-            if i<images.count{
-                let image = images[i]
-                imageView.setImageWithAnimation(image)
-                self.avatarList.addSubview(imageView)
-            }
+            avatarList.addSubview(imageView)
+            avatarImageViews.append(imageView)
         }
+    }
+    
+    
+    
+    
+    
+    public override func prepareForReuse() {
+        compositeDisposable.dispose()
+        viewmodel.cleanup()
     }
 }
