@@ -13,7 +13,7 @@ public class ParticipantViewModel{
     
     //MARK: Property
     
-    public let avatar: MutableProperty<UIImage?> = MutableProperty(UIImage())
+    public let avatar: MutableProperty<UIImage?> = MutableProperty(nil)
     public let user: User
     
     

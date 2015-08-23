@@ -39,7 +39,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     private lazy var infoViewContent: UIView = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
     private lazy var participationViewContent: UIView = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
     private var avatarImageViews = [UIImageView]()
-    private var count = 0
     
     // MARK: Properties
     private var viewmodel: FeaturedBusinessViewModel!
@@ -81,15 +80,14 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 self?.isReusedCell.put(true)
             })
         AssetManager.getImage(name: ImageName.WTGButtonTapped, scale: self.WTGButtonScale, tag: "", oncomplete: { image in
-            self.joinButton.setBackgroundImage(image, forState: UIControlState.Normal)
+            self.joinButton.setBackgroundImage(image, forState: UIControlState.Disabled)
         })
         AssetManager.getImage(name: ImageName.WTGButtonUntapped, scale: self.WTGButtonScale, tag: "", oncomplete: { image in
-            self.joinButton.setBackgroundImage(image, forState: UIControlState.Disabled)
+            self.joinButton.setBackgroundImage(image, forState: UIControlState.Normal)
         })
 //        joinButton.setBackgroundImage(btnNormalImage, forState: UIControlState.Normal)
 //        joinButton.setBackgroundImage(btnDisabledImage, forState: UIControlState.Disabled)
         
-        setupAvatarImageViews()
     }
     
     public override func updateConstraints() {
@@ -162,7 +160,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             })
         self.etaLabel.rac_text <~ viewmodel.eta.producer
             |> takeUntilPrepareForReuse(self)
-        self.peopleWantogoLabel.rac_text <~ viewmodel.participation.producer
+        self.peopleWantogoLabel.rac_text <~ viewmodel.participationString.producer
             |> takeUntilPrepareForReuse(self)
         compositeDisposable += self.viewmodel.coverImage.producer
             |> takeUntilPrepareForReuse(self)
@@ -177,22 +175,31 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 }
             })
         
+
         compositeDisposable += self.viewmodel.participantViewModelArr.producer
             |> takeUntilPrepareForReuse(self)
             |> start (next: { [weak self] participants in
-                self?.bindAvatartoParticipant()
+                self?.bindAvatartoParticipant(participants)
             })
     }
     
-    private func bindAvatartoParticipant(){
-        if count == 0{
-            FeaturedLogError("count is zero! \(self.viewmodel.businessName.value)")
-            return
+    private func bindAvatartoParticipant(participants: [ParticipantViewModel]){
+        var count = Int(floor((self.avatarList.frame.width - self.avatarLeadingMargin - self.avatarTailingMargin - self.avatarWidth)/(self.avatarWidth + self.avatarGap))) + 1
+        // populate imageViews
+        for i in 0...count-1{
+            let x = self.avatarLeadingMargin + CGFloat(i)*(self.avatarWidth + self.avatarGap)
+            let y = (self.avatarList.frame.height - self.avatarHeight) / CGFloat(3.0)
+            let frame = CGRectMake(x, y, self.avatarWidth, self.avatarHeight)
+            let imageView = UIImageView(frame: frame)
+            
+            imageView.contentMode = .ScaleAspectFit
+            imageView.toCircle()
+            avatarList.addSubview(imageView)
+            avatarImageViews.append(imageView)
         }
         FeaturedLogDebug("\(self.viewmodel.businessName.value)")
-        FeaturedLogDebug("participant count: \(self.self.viewmodel.participantViewModelArr.value.count)")
         var i = 0
-        loopofparticipants:  for participant in self.viewmodel.participantViewModelArr.value{
+        loopofparticipants:  for participant in participants{
             if let img = participant.user.profileImg {
                 if i == count{
                     FeaturedLogDebug("has more participants")
@@ -202,14 +209,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                     break loopofparticipants
                 }
                 else{
-                    if let img = participant.avatar.value{
-                        FeaturedLogDebug("avatar image exist")
-                        if i < self.avatarImageViews.count{
-                            FeaturedLogDebug("set image")
-                            self.avatarImageViews[i].setImageWithAnimation(img)
-                        }
-                    }
-                    
                     compositeDisposable += participant.avatar.producer
                         |> takeUntilPrepareForReuse(self)
                         |> ignoreNil
@@ -226,19 +225,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     }
     
     private func setupAvatarImageViews(){
-        count = Int(floor((self.avatarList.frame.width - self.avatarLeadingMargin - self.avatarTailingMargin - self.avatarWidth)/(self.avatarWidth + self.avatarGap))) + 1
-        // populate imageViews
-        for i in 0...count-1{
-            let x = self.avatarLeadingMargin + CGFloat(i)*(self.avatarWidth + self.avatarGap)
-            let y = (self.avatarList.frame.height - self.avatarHeight) / CGFloat(3.0)
-            let frame = CGRectMake(x, y, self.avatarWidth, self.avatarHeight)
-            let imageView = UIImageView(frame: frame)
-            
-            imageView.contentMode = .ScaleAspectFit
-            imageView.toCircle()
-            avatarList.addSubview(imageView)
-            avatarImageViews.append(imageView)
-        }
+        
     }
     
     
@@ -246,7 +233,22 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     
     public override func prepareForReuse() {
+        super.prepareForReuse()
+        cleanupView()
         compositeDisposable.dispose()
-        viewmodel.cleanup()
+        avatarImageViews.removeAll(keepCapacity: true)
+//        viewmodel.cleanup()
+    }
+    
+    
+    public func cleanupView(){
+        cleanupParticipant()
+        joinButton.removeFromSuperview()
+    }
+    
+    public func cleanupParticipant(){
+        for imageView in avatarImageViews{
+            imageView.removeFromSuperview()
+        }
     }
 }

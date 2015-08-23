@@ -20,10 +20,10 @@ public final class FeaturedBusinessViewModel {
     public let district: ConstantProperty<String>
     public let coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
     public let isCoverImageConsumed = MutableProperty<Bool>(false)
-    public let participation: MutableProperty<String> = MutableProperty<String>("")
+    public let participationString: MutableProperty<String> = MutableProperty("")
     public let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
     public let participantViewModelArr: MutableProperty<[ParticipantViewModel]> = MutableProperty([ParticipantViewModel]())
-    public let business: MutableProperty<Business> = MutableProperty(Business())
+    public let business: MutableProperty<Business?> = MutableProperty(nil)
     public let buttonEnabled: MutableProperty<Bool> = MutableProperty(true)
     
     //MARK: init
@@ -56,7 +56,7 @@ public final class FeaturedBusinessViewModel {
         }
         
         
-        participation.put("\(participationCount)+ 人想去")
+        participationString.put("\(participationCount)+ 人想去")
         
         if let url = cover?.url, nsurl = NSURL(string: url) {
             self.imageService.getImage(nsurl)
@@ -126,7 +126,9 @@ public final class FeaturedBusinessViewModel {
             |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
                 let p = Participation()
                 p.user = user
-                p.business = self.business.value
+                if let business = self.business.value{
+                    p.business = business
+                }
                 return self.participationService.create(p)
             }
             |> on(next: { success in
@@ -163,9 +165,9 @@ public final class FeaturedBusinessViewModel {
     //MARK: memory clean up called when cell is reused. 
     public func cleanup(){
         coverImage.put(nil)
-        for participant in participantViewModelArr.value{
-            participant.cleanup()
-        }
+            for participant in participantViewModelArr.value {
+                participant.cleanup()
+            }
     }
     
 
