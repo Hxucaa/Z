@@ -74,7 +74,7 @@ public final class NearbyViewController: XUIViewController {
                 let region = MKCoordinateRegion(center: location.coordinate, span: span)
                 self?.mapView.setRegion(region, animated: false)
                 self?.isInitialLoad = false
-                })
+            })
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -188,8 +188,7 @@ public final class NearbyViewController: XUIViewController {
         // not tracking user movement beacause it can be a battery hog
         //        mapView.setUserTrackingMode(.Follow, animated: false)
         mapView.delegate = self
-        
-        
+
         // add annotation to map view
         compositeDisposable += viewmodel.businessViewModelArr.producer
             |> takeUntilViewWillDisappear(self)
@@ -203,24 +202,17 @@ public final class NearbyViewController: XUIViewController {
                     self?.rectangleSearchTriggered = false
                     if businessArr.count > 0 {
                         
-                        // get the middle result
-                        let index = (businessArr.count-1)/2
-                        let middleAnnotation = businessArr[index].annotation.value
+                        // get the first result
+                        let firstAnnotation = businessArr[0].annotation.value
                         
-                        // select and centre the map on the middle result
-                        self?.mapView.selectAnnotation(middleAnnotation, animated: true)
-                        self?.mapView.setCenterCoordinate(middleAnnotation.coordinate, animated: true)
+                        // select and centre the map on the first result
+                        self?.mapView.selectAnnotation(firstAnnotation, animated: true)
+                        self?.mapView.setCenterCoordinate(firstAnnotation.coordinate, animated: true)
                         
                         // scroll the collection view to match
-                        let indexPath = NSIndexPath(forRow: 0, inSection: index)
+                        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
                         self?.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
                         
-                        // otherwise alert the user there are no results
-                    } else {
-                        // TO DO: change alert to chinese, handle what happens to collection view if there are no results
-                        let alert = UIAlertController(title: "No businesses found", message: "We didn't find any businesses in this area, try searching a different part of the map", preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Cancel, handler: nil))
-                        self?.presentViewController(alert, animated: true, completion: nil)
                     }
                 }
                 })

@@ -16,5 +16,5 @@ public protocol INearbyViewModel {
     init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService, imageService: IImageService)
     func pushDetailModule(section: Int)
     func pushProfileModule()
-    func getBusinessesWithMap(centreLat: CLLocationDegrees, centreLong: CLLocationDegrees, radius: Double) -> SignalProducer<[NearbyTableCellViewModel], NSError> 
+    func getBusinessesWithMap(centreLat: CLLocationDegrees, centreLong: CLLocationDegrees, radius: Double) -> SignalProducer<Void, NSError>
 }
