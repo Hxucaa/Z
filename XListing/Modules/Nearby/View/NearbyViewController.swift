@@ -9,7 +9,7 @@
 /**
 IMPLEMENTATION DETAILS:
 
-This view controller has a map view and a horizontal collection view. The business info is displayed as 
+This view controller has a map view and a horizontal collection view. The business info is displayed as
 both annotation in the map and cell in the collection view. When swiping on the collection view,
 the map view should center on the corresponding annotation. When clicking on an annotation, the collection
 view should scroll to the corresponding cell.
@@ -46,7 +46,7 @@ public final class NearbyViewController: XUIViewController {
     
     // MARK: Properties
     private var rectangleSearchTriggered = false
-    private var isInitialLoad = false
+    private var isInitialLoad = true
     
     /// View Model
     private var viewmodel: INearbyViewModel!
@@ -60,7 +60,6 @@ public final class NearbyViewController: XUIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
         
         businessCollectionView.pagingEnabled = true
-        isInitialLoad = true
         
         setupProfileButton()
         setupCurrentLocationButton()
@@ -72,18 +71,15 @@ public final class NearbyViewController: XUIViewController {
             |> logLifeCycle(LogContext.Nearby, "viewmodel.currentLocation")
             |> start(next: { [weak self] location in
                 let span = MapViewSpan
-                //let region = MKCoordinateRegion(center: location.coordinate, span: span)
-                let coordinate = CLLocationCoordinate2DMake(49.1963792, -123.126166)
-                let region = MKCoordinateRegion(center: coordinate, span: span)
+                let region = MKCoordinateRegion(center: location.coordinate, span: span)
                 self?.mapView.setRegion(region, animated: false)
                 self?.isInitialLoad = false
-
-            })
+                })
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         setupMapView()
         setupBusinessCollectionView()
         
@@ -134,7 +130,7 @@ public final class NearbyViewController: XUIViewController {
                 sendCompleted(sink)
             }
         }
-
+        
         currentLocationButton.addTarget(centreCurrentLocation.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
@@ -146,32 +142,37 @@ public final class NearbyViewController: XUIViewController {
         redoSearchButton.layer.cornerRadius = 8
         redoSearchButton.layer.masksToBounds = true
         
-        let reQueryMapAction = Action<UIButton, Void, NSError> { button in
+        let reQueryMapAction = Action<UIButton, Void, NSError> { [weak self] button in
             return SignalProducer{ sink, disposable in
-                self.rectangleSearchTriggered = true
+                if let this = self {
+                    this.rectangleSearchTriggered = true
+                    
+                    let latDelta = this.mapView.region.span.latitudeDelta
+                    let longDelta = this.mapView.region.span.longitudeDelta
+                    let mapCentreLat = this.mapView.region.center.latitude
+                    let mapCentreLong = this.mapView.region.center.longitude
+                    
+                    // get the coordinates of the north east corner of the map
+                    let neLat = mapCentreLat - latDelta/2
+                    let neLong = mapCentreLong + longDelta/2
+                    let cornerCoordinate = CLLocation(latitude: neLat, longitude: neLong)
+                    
+                    // get the coordinates of the centre location of the map
+                    let centreLocation = CLLocation(latitude: mapCentreLat, longitude: mapCentreLong)
+                    
+                    // get the number of km between the centre and the corner to form the search radius
+                    let radiusOfMapInKm = centreLocation.distanceFromLocation(cornerCoordinate) / 1000
+                    
+                    // clear the map of the previous pins
+                    this.mapView.removeAnnotations(this.mapView.annotations)
+                    
+                    // start the query
+                    disposable += this.viewmodel.getBusinessesWithMap(mapCentreLat, centreLong: mapCentreLong, radius: radiusOfMapInKm)
+                        |> start(completed: {
+                            sendCompleted(sink)
+                        })
+                }
                 
-                var latDelta = self.mapView.region.span.latitudeDelta
-                var longDelta = self.mapView.region.span.longitudeDelta
-                var mapCentreLat = self.mapView.region.center.latitude
-                var mapCentreLong = self.mapView.region.center.longitude
-                
-                // get the coordinates of the north east corner of the map
-                var neLat = mapCentreLat - latDelta/2
-                var neLong = mapCentreLong + longDelta/2
-                var cornerCoordinate = CLLocation(latitude: neLat, longitude: neLong)
-                
-                // get the coordinates of the centre location of the map
-                var centreLocation = CLLocation(latitude: mapCentreLat, longitude: mapCentreLong)
-                
-                // get the number of km between the centre and the corner to form the search radius
-                var radiusOfMapInKm = centreLocation.distanceFromLocation(cornerCoordinate) / 1000
-                
-                // start the query
-                self.viewmodel.startMapQuery(mapCentreLat, centreLong: mapCentreLong, radius: radiusOfMapInKm)
-                
-                // clear the map of the previous pins
-                self.mapView.removeAnnotations(self.mapView.annotations)
-                sendCompleted(sink)
             }
         }
         
@@ -185,7 +186,7 @@ public final class NearbyViewController: XUIViewController {
         
         // track user movement
         // not tracking user movement beacause it can be a battery hog
-//        mapView.setUserTrackingMode(.Follow, animated: false)
+        //        mapView.setUserTrackingMode(.Follow, animated: false)
         mapView.delegate = self
         
         
@@ -201,20 +202,20 @@ public final class NearbyViewController: XUIViewController {
                 if let this = self where this.rectangleSearchTriggered {
                     self?.rectangleSearchTriggered = false
                     if businessArr.count > 0 {
-                    
-                    // get the middle result
-                    var index = (businessArr.count-1)/2
-                    var middleAnnotation = businessArr[index].annotation.value
                         
-                    // select and centre the map on the middle result
-                    self?.mapView.selectAnnotation(middleAnnotation, animated: true)
-                    self?.mapView.setCenterCoordinate(middleAnnotation.coordinate, animated: true)
+                        // get the middle result
+                        var index = (businessArr.count-1)/2
+                        var middleAnnotation = businessArr[index].annotation.value
                         
-                    // scroll the collection view to match
-                    var indexPath = NSIndexPath(forRow: 0, inSection: index)
-                    self?.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
-                    
-                    // otherwise alert the user there are no results
+                        // select and centre the map on the middle result
+                        self?.mapView.selectAnnotation(middleAnnotation, animated: true)
+                        self?.mapView.setCenterCoordinate(middleAnnotation.coordinate, animated: true)
+                        
+                        // scroll the collection view to match
+                        var indexPath = NSIndexPath(forRow: 0, inSection: index)
+                        self?.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+                        
+                        // otherwise alert the user there are no results
                     } else {
                         // TO DO: change alert to chinese, handle what happens to collection view if there are no results
                         var alert = UIAlertController(title: "No businesses found", message: "We didn't find any businesses in this area, try searching a different part of the map", preferredStyle: UIAlertControllerStyle.Alert)
@@ -222,7 +223,7 @@ public final class NearbyViewController: XUIViewController {
                         self?.presentViewController(alert, animated: true, completion: nil)
                     }
                 }
-            })
+                })
         
         
         // create a signal associated with `mapView:didAddAnnotationViews:` from delegate `MKMapViewDelegate`
@@ -247,7 +248,7 @@ public final class NearbyViewController: XUIViewController {
                     self?.compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
                         // forwards events from the producer until the annotation view is prepared to be reused
                         |> takeUntilPrepareForReuse(view)
-//                        |> logLifeCycle(LogContext.Nearby, "\(typeNameAndAddress(view)) tapGesture")
+                        //                        |> logLifeCycle(LogContext.Nearby, "\(typeNameAndAddress(view)) tapGesture")
                         |> start(next: { _ in
                             if let this = self, mapView = self?.mapView {
                                 let annotation = view.annotation
@@ -279,7 +280,7 @@ public final class NearbyViewController: XUIViewController {
                             }
                         })
                 })
-            })
+                })
     }
     
     private func addMapPinDropAnimation(view: MKAnnotationView) {
@@ -287,12 +288,12 @@ public final class NearbyViewController: XUIViewController {
         let endFrame:CGRect = view.frame
         var startFrame:CGRect = endFrame
         startFrame.origin.y = visibleRect.origin.y - startFrame.size.height
-        view.frame = startFrame;
+        view.frame = startFrame
         
         UIView.beginAnimations("drop", context: nil)
         UIView.setAnimationDuration(0.6)
         
-        view.frame = endFrame;
+        view.frame = endFrame
         
         UIView.commitAnimations()
     }
@@ -310,7 +311,7 @@ public final class NearbyViewController: XUIViewController {
                 next: { [weak self] indexPath in
                     self?.viewmodel.pushDetailModule(indexPath.section)
                 }
-            )
+        )
         
         compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndScrollingAnimation:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
             
@@ -345,7 +346,7 @@ public final class NearbyViewController: XUIViewController {
                             }
                     }
                 }
-            )
+        )
         
         /**
         Assigning UITableView delegate has to happen after signals are established.
