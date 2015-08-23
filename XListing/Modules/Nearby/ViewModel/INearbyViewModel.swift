@@ -16,4 +16,5 @@ public protocol INearbyViewModel {
     init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService, imageService: IImageService)
     func pushDetailModule(section: Int)
     func pushProfileModule()
+    func startMapQuery(centreLat: CLLocationDegrees, centreLong: CLLocationDegrees, radius: Double)
 }

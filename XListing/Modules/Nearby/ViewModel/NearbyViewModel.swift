@@ -65,6 +65,12 @@ public struct NearbyViewModel : INearbyViewModel {
             |> start()
     }
     
+    // start a query to retrieve businesses that are 'radius' km away from the map centre 
+    public func startMapQuery(centreLat: CLLocationDegrees, centreLong: CLLocationDegrees, radius: Double) {
+        getBusinessesWithMap(centreLat, centreLong: centreLong, radius: radius)
+            |> start()
+    }
+    
     // MARK: - Private
     
     // MARK: Services
@@ -74,6 +80,32 @@ public struct NearbyViewModel : INearbyViewModel {
     private let imageService: IImageService
     
     private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
+    
+    // fetch the businesses that are within radius km of the centre coordinates of the map
+    private func getBusinessesWithMap(centreLat: CLLocationDegrees, centreLong: CLLocationDegrees, radius: Double) -> SignalProducer<[NearbyTableCellViewModel], NSError> {
+        let query = Business.query()!
+        var centreGeoPoint = AVGeoPoint(latitude: centreLat, longitude: centreLong)
+        query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint, withinKilometers: radius)
+        var objects = query.findObjects()
+
+        return businessService.findBy(query)
+            |> on(next: { businesses in
+                self.fetchingData.put(true)
+                self.businessArr.put(businesses)
+            })
+            |> map { businesses -> [NearbyTableCellViewModel] in
+                return businesses.map {
+                    NearbyTableCellViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
+                }
+            }
+            |> on(
+                next: { response in
+                    self.fetchingData.put(false)
+                    self.businessViewModelArr.put(response)
+                },
+                error: { NearbyLogError($0.description) }
+        )
+    }
     
     private func getBusinesses() -> SignalProducer<[NearbyTableCellViewModel], NSError> {
         let query = Business.query()!
