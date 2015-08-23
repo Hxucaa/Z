@@ -80,9 +80,14 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             |> start(next: { [weak self] _ in
                 self?.isReusedCell.put(true)
             })
-       
-        joinButton.setBackgroundImage(btnNormalImage, forState: UIControlState.Normal)
-        joinButton.setBackgroundImage(btnDisabledImage, forState: UIControlState.Disabled)
+        AssetManager.getImage(name: ImageName.WTGButtonTapped, scale: self.WTGButtonScale, tag: "", oncomplete: { image in
+            self.joinButton.setBackgroundImage(image, forState: UIControlState.Normal)
+        })
+        AssetManager.getImage(name: ImageName.WTGButtonUntapped, scale: self.WTGButtonScale, tag: "", oncomplete: { image in
+            self.joinButton.setBackgroundImage(image, forState: UIControlState.Disabled)
+        })
+//        joinButton.setBackgroundImage(btnNormalImage, forState: UIControlState.Normal)
+//        joinButton.setBackgroundImage(btnDisabledImage, forState: UIControlState.Disabled)
         
         setupAvatarImageViews()
     }
