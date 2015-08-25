@@ -17,4 +17,5 @@ public struct Icons {
     static let Phone = "\u{f095}"
     static let X = "\u{f00d}"
     static let Chevron = "\u{f053}"
+    static let Location = "\u{f124}"
 }

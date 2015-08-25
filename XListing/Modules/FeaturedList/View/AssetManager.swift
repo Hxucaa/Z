@@ -42,7 +42,7 @@ public class AssetManager {
             case ImageName.EtcIcon: image =  AssetsKit.imageOfEtcIcon(scale: scale)
             case ImageName.WTGButtonTapped: image =  AssetsKit.imageOfWTGButtonTapped(scale: scale)
             case ImageName.WTGButtonUntapped: image =  AssetsKit.imageOfWTGButtonUntapped(scale: scale)
-            case ImageName.PriceTag: image =  AssetsKit.imageOfPriceTagBackground(scale: scale, pricetag: tag)
+            case ImageName.PriceTag: image =  AssetsKit.imageOfPriceTagBackground(scale: scale)
             case ImageName.HomeButtonTapped: image =  AssetsKit.imageOfHomeButtonTapped(scale: scale)
             case ImageName.HomeButtonUntapped: image =  AssetsKit.imageOfHomeButtonUntapped(scale: scale)
             case ImageName.NearbyButtonTapped: image =  AssetsKit.imageOfNearbyButtonTapped(scale: scale)

@@ -14,7 +14,7 @@ import XAssets
     var text = "人均100"
     
     override public func drawRect(rect: CGRect) {
-        AssetsKit.drawPriceTagBackground(scale: 0.2, pricetag: text)
+        AssetsKit.drawPriceTagBackground(scale: 0.2)
     }
     
     public func setPriceLabel(price: Int){

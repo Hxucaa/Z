@@ -3,13 +3,13 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'XListing' do
-  pod 'XAssets', :git => 'git@bitbucket.org:zenchat/xassets.git', :tag => '0.2.0'
+  pod 'XAssets', :git => 'git@bitbucket.org:zenchat/xassets.git'
   pod 'FLEX', '~> 2.0', :configurations => ['DEBUG']
   pod 'Spring', :git => 'https://github.com/Hxucaa/Spring', :branch => 'compatibility'
   pod 'SVProgressHUD', :git => 'https://github.com/Hxucaa/SVProgressHUD.git'
   pod 'CocoaLumberjack', '= 2.0.0'
   pod 'Dollar', '~> 3.0'
-  pod 'SDWebImage'
+  pod 'SDWebImage', '~> 3.7.0'
   pod 'Locksmith', '~> 1.2'
   pod 'ReactiveCocoa', '= 3.0-RC.1'
   pod 'ActionSheetPicker-3.0', '~> 1.7.0'

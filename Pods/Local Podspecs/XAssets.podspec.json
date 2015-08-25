@@ -1,6 +1,6 @@
 {
   "name": "XAssets",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "summary": "Assets for iOS.",
   "description": "Assets repo for iOS app.",
   "homepage": "https://bitbucket.org/zenchat/xassets",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "git@bitbucket.org:zenchat/xassets.git",
-    "tag": "0.2.0"
+    "tag": "0.2.2"
   },
   "platforms": {
     "ios": "8.0"
@@ -22,5 +22,13 @@
       "Pod/Assets/*.png"
     ]
   },
-  "frameworks": "UIKit"
+  "frameworks": "UIKit",
+  "dependencies": {
+    "SDWebImage": [
+      "~> 3.7.0"
+    ],
+    "ReactiveCocoa": [
+      "= 3.0-RC.1"
+    ]
+  }
 }
