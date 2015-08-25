@@ -69,16 +69,20 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         joinButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         
-        AssetFactory.getImage(Asset.WTGButtonTapped(scale: WTGButtonScale))
-            |> takeUntilPrepareForReuse(self)
-            |> start(next: { [weak self] image in
-                self?.joinButton.setBackgroundImage(image, forState: .Disabled)
-            })
-        AssetFactory.getImage(Asset.WTGButtonUntapped(scale: WTGButtonScale))
-            |> takeUntilPrepareForReuse(self)
-            |> start(next: { [weak self] image in
-                self?.joinButton.setBackgroundImage(image, forState: .Normal)
-            })
+        $.once({ [weak self] () -> () in
+            if let this = self {
+                AssetFactory.getImage(Asset.WTGButtonTapped(scale: WTGButtonScale))
+                    |> takeUntilPrepareForReuse(this)
+                    |> start(next: { image in
+                        self?.joinButton.setBackgroundImage(image, forState: .Disabled)
+                    })
+                AssetFactory.getImage(Asset.WTGButtonUntapped(scale: WTGButtonScale))
+                    |> takeUntilPrepareForReuse(this)
+                    |> start(next: { image in
+                        self?.joinButton.setBackgroundImage(image, forState: .Normal)
+                    })
+            }
+        })()
         
         /**
         *  When the cell is prepared for reuse, set the state.
@@ -238,8 +242,13 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                                 let avatarView = this.avatarImageViews[i]
                                 
                                 // place the image into image view
-                                avatarView.rac_image <~ participants[i].avatar.producer
+                                participants[i].avatar.producer
                                     |> takeUntilPrepareForReuse(this)
+                                    |> ignoreNil
+                                    |> map { $0.withRoundedCorner(avatarView.bounds.size, cornerRadius: avatarView.bounds.height, backgroundColor: BackgroundColor) }
+                                    |> start(next: { image in
+                                        avatarView.image = image
+                                    })
                                 
                                 // unhide the image view
                                 avatarView.hidden = false

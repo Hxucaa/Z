@@ -188,6 +188,7 @@
 		B4FA1FAC1B70D700003BD3BC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FAB1B70D700003BD3BC /* SystemConfiguration.framework */; };
 		B4FA1FAE1B70D708003BD3BC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FA1FAD1B70D708003BD3BC /* MobileCoreServices.framework */; };
 		B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordView.xib */; };
+		B4FC0CF31B8C02DD001D7A4F /* UIImage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FC0CF21B8C02DD001D7A4F /* UIImage+extension.swift */; };
 		B4FC6B211B678515001F13E9 /* NSObject+Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FC6B201B678515001F13E9 /* NSObject+Swift.m */; };
 		B4FCC7281AE9C71F009B4DF6 /* ILandingPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7271AE9C71F009B4DF6 /* ILandingPageViewModel.swift */; };
 		B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */; };
@@ -410,6 +411,7 @@
 		B4FA1FAB1B70D700003BD3BC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B4FA1FAD1B70D708003BD3BC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UsernameAndPasswordView.xib; path = XListing/Modules/Account/Shared/UsernameAndPassword/UsernameAndPasswordView.xib; sourceTree = SOURCE_ROOT; };
+		B4FC0CF21B8C02DD001D7A4F /* UIImage+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+extension.swift"; sourceTree = "<group>"; };
 		B4FC6B201B678515001F13E9 /* NSObject+Swift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swift.m"; sourceTree = "<group>"; };
 		B4FC6B221B678541001F13E9 /* NSObject+Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Swift.h"; sourceTree = "<group>"; };
 		B4FCC7271AE9C71F009B4DF6 /* ILandingPageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ILandingPageViewModel.swift; sourceTree = "<group>"; };
@@ -547,6 +549,7 @@
 				B4F195941B2A276C00B8C519 /* XUIViewController.swift */,
 				B41334EC1B5F44B300B5F22D /* Keyboard.swift */,
 				7E2EB1E01B8131650012BAB3 /* StatusBarBackgroundView.swift */,
+				B4FC0CF21B8C02DD001D7A4F /* UIImage+extension.swift */,
 			);
 			name = View;
 			path = Common/View;
@@ -1484,6 +1487,7 @@
 				D0ADD8A41B608B4200B27885 /* ProfileHeaderView.swift in Sources */,
 				B4F4AFDE1B6EC70700ABA176 /* Misc.swift in Sources */,
 				3D211E861B2C1AB000161E09 /* IBackgroundLocationWorker.swift in Sources */,
+				B4FC0CF31B8C02DD001D7A4F /* UIImage+extension.swift in Sources */,
 				B4F195A11B2AA47300B8C519 /* FeaturedRoute.swift in Sources */,
 				B4A3A6251B757D3B00E680E6 /* PhotoView.swift in Sources */,
 				B48C99121ADA56F70045BCA9 /* NearbyViewController.swift in Sources */,
