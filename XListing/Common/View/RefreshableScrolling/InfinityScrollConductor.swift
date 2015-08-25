@@ -13,7 +13,7 @@ import ReactiveCocoa
 
 private let InfinityScrollHeight: CGFloat = 60.0
 
-public class InfinityScrollConductor<T: UITableView, U: IInfinityScrollable> {
+public class InfinityScrollConductor<T: UITableView, U: IInfinityScrollDataSource> {
     
     private weak var tableView: T!
     private weak var infinityScrollable: U!

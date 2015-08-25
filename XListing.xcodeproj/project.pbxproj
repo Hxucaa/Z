@@ -80,9 +80,9 @@
 		B3FFDD7F1B718226003710D8 /* PhotoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3FFDD7E1B718226003710D8 /* PhotoView.xib */; };
 		B40A0D8B1B22455700036986 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8A1B22455700036986 /* Constants.swift */; };
 		B40EF67A1B804ABF0067AE9B /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40EF6791B804ABF0067AE9B /* PullToRefresh.swift */; };
-		B4104F5E1B84245200D7E4BD /* IPullToRefreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F5D1B84245200D7E4BD /* IPullToRefreshable.swift */; };
-		B4104F601B84246F00D7E4BD /* IInfinityScrollable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F5F1B84246F00D7E4BD /* IInfinityScrollable.swift */; };
-		B4104F621B843DC300D7E4BD /* IPredictiveScrollable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F611B843DC300D7E4BD /* IPredictiveScrollable.swift */; };
+		B4104F5E1B84245200D7E4BD /* IPullToRefreshDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F5D1B84245200D7E4BD /* IPullToRefreshDataSource.swift */; };
+		B4104F601B84246F00D7E4BD /* IInfinityScrollDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F5F1B84246F00D7E4BD /* IInfinityScrollDataSource.swift */; };
+		B4104F621B843DC300D7E4BD /* IPredictiveScrollDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F611B843DC300D7E4BD /* IPredictiveScrollDataSource.swift */; };
 		B4104F651B846D7600D7E4BD /* PullToRefreshConductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F641B846D7600D7E4BD /* PullToRefreshConductor.swift */; };
 		B4104F671B846D9B00D7E4BD /* InfinityScrollConductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F661B846D9B00D7E4BD /* InfinityScrollConductor.swift */; };
 		B4104F691B85152F00D7E4BD /* PredictiveScrollConductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F681B85152F00D7E4BD /* PredictiveScrollConductor.swift */; };
@@ -292,9 +292,9 @@
 		B3FFDD7E1B718226003710D8 /* PhotoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PhotoView.xib; path = XListing/Modules/Account/SignUp/Photo/PhotoView.xib; sourceTree = SOURCE_ROOT; };
 		B40A0D8A1B22455700036986 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B40EF6791B804ABF0067AE9B /* PullToRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
-		B4104F5D1B84245200D7E4BD /* IPullToRefreshable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPullToRefreshable.swift; sourceTree = "<group>"; };
-		B4104F5F1B84246F00D7E4BD /* IInfinityScrollable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IInfinityScrollable.swift; sourceTree = "<group>"; };
-		B4104F611B843DC300D7E4BD /* IPredictiveScrollable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPredictiveScrollable.swift; sourceTree = "<group>"; };
+		B4104F5D1B84245200D7E4BD /* IPullToRefreshDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPullToRefreshDataSource.swift; sourceTree = "<group>"; };
+		B4104F5F1B84246F00D7E4BD /* IInfinityScrollDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IInfinityScrollDataSource.swift; sourceTree = "<group>"; };
+		B4104F611B843DC300D7E4BD /* IPredictiveScrollDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPredictiveScrollDataSource.swift; sourceTree = "<group>"; };
 		B4104F641B846D7600D7E4BD /* PullToRefreshConductor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefreshConductor.swift; sourceTree = "<group>"; };
 		B4104F661B846D9B00D7E4BD /* InfinityScrollConductor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityScrollConductor.swift; sourceTree = "<group>"; };
 		B4104F681B85152F00D7E4BD /* PredictiveScrollConductor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PredictiveScrollConductor.swift; sourceTree = "<group>"; };
@@ -737,9 +737,9 @@
 			isa = PBXGroup;
 			children = (
 				B40EF6791B804ABF0067AE9B /* PullToRefresh.swift */,
-				B4104F5D1B84245200D7E4BD /* IPullToRefreshable.swift */,
-				B4104F5F1B84246F00D7E4BD /* IInfinityScrollable.swift */,
-				B4104F611B843DC300D7E4BD /* IPredictiveScrollable.swift */,
+				B4104F5D1B84245200D7E4BD /* IPullToRefreshDataSource.swift */,
+				B4104F5F1B84246F00D7E4BD /* IInfinityScrollDataSource.swift */,
+				B4104F611B843DC300D7E4BD /* IPredictiveScrollDataSource.swift */,
 				B4104F641B846D7600D7E4BD /* PullToRefreshConductor.swift */,
 				B4104F661B846D9B00D7E4BD /* InfinityScrollConductor.swift */,
 				B4104F681B85152F00D7E4BD /* PredictiveScrollConductor.swift */,
@@ -1438,7 +1438,7 @@
 				B4FCC7411AEB0080009B4DF6 /* IRootWireframe.swift in Sources */,
 				B48C991D1ADA62DA0045BCA9 /* NearbyViewModel.swift in Sources */,
 				269163691B5C6C1E005D48FA /* (null) in Sources */,
-				B4104F5E1B84245200D7E4BD /* IPullToRefreshable.swift in Sources */,
+				B4104F5E1B84245200D7E4BD /* IPullToRefreshDataSource.swift in Sources */,
 				B4A3A6231B756BED00E680E6 /* SignUpViewController.swift in Sources */,
 				B4E70B3C1AF1709400A7418F /* ParticipationService.swift in Sources */,
 				26645ADB1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift in Sources */,
@@ -1495,7 +1495,7 @@
 				B4AA1A6C1B7EA1AA00119E91 /* LandingPageViewModel.swift in Sources */,
 				B4F195A51B2ABE0500B8C519 /* AccountRoute.swift in Sources */,
 				B4F4AF801B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift in Sources */,
-				B4104F601B84246F00D7E4BD /* IInfinityScrollable.swift in Sources */,
+				B4104F601B84246F00D7E4BD /* IInfinityScrollDataSource.swift in Sources */,
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,
 				B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */,
 				26645ADF1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift in Sources */,
@@ -1516,7 +1516,7 @@
 				B4B665461ADF8D5C0084DBE7 /* DetailWireframe.swift in Sources */,
 				B4694E2B1B72A045000E2006 /* UsernameAndPasswordView.swift in Sources */,
 				3DB8AC301B06D0DF00E51F0E /* Profile.swift in Sources */,
-				B4104F621B843DC300D7E4BD /* IPredictiveScrollable.swift in Sources */,
+				B4104F621B843DC300D7E4BD /* IPredictiveScrollDataSource.swift in Sources */,
 				7E2EB1E11B8131650012BAB3 /* StatusBarBackgroundView.swift in Sources */,
 				261687C31B71B8AF0094F315 /* IProfileEditWireframe.swift in Sources */,
 				B4F195AB1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift in Sources */,

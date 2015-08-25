@@ -10,6 +10,7 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 import Dollar
+import ReactiveArray
 
 private let 启动无限scrolling参数 = 0.4
 

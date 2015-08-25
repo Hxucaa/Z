@@ -1,5 +1,5 @@
 //
-//  IPredictiveScrollable.swift
+//  IPredictiveScrollDataSource.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-08-18.
@@ -9,6 +9,6 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol IPredictiveScrollable : class {
+public protocol IPredictiveScrollDataSource : class, ICollectionDataSource {
     func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError>
 }

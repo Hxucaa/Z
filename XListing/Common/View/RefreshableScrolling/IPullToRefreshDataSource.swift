@@ -1,5 +1,5 @@
 //
-//  IPullToRefreshable.swift
+//  IPullToRefreshDataSource.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-08-18.
@@ -9,6 +9,6 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol IPullToRefreshable : class {
+public protocol IPullToRefreshDataSource : class, ICollectionDataSource {
     func refreshData() -> SignalProducer<Void, NSError>
 }

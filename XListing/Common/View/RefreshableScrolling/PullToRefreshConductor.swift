@@ -13,7 +13,7 @@ import ReactiveCocoa
 
 private let PullToRefreshHeight: CGFloat = 60.0
 
-public class PullToRefreshConductor<T: UITableView, U: IPullToRefreshable> {
+public class PullToRefreshConductor<T: UITableView, U: IPullToRefreshDataSource> {
     
     private weak var tableView: T!
     private weak var pullToRefreshable: U!

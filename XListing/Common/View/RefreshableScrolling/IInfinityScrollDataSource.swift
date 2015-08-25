@@ -1,5 +1,5 @@
 //
-//  IInfinityScrollable.swift
+//  IInfinityScrollDataSource.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-08-18.
@@ -9,6 +9,6 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol IInfinityScrollable : class {
+public protocol IInfinityScrollDataSource : class, ICollectionDataSource {
     func fetchMoreData() -> SignalProducer<Void, NSError>
 }
