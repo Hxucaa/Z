@@ -24,8 +24,8 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     */
     public func getFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
         let query = Business.query()!
-        query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
-        query.limit = 7
+//        query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
+//        query.limit = 10
         query.skip = self.loadedBusinesses.value
         
         return businessService.findBy(query)

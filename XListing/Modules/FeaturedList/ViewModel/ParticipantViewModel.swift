@@ -9,30 +9,27 @@
 import Foundation
 import ReactiveCocoa
 
-public class ParticipantViewModel{
+public final class ParticipantViewModel {
     
-    //MARK: Property
+    // MARK: - Inputs
     
+    // MARK: - Outputs
     public let avatar: MutableProperty<UIImage?> = MutableProperty(nil)
-    public let user: User
     
+    // MARK: - Properties
+    private let imageService: IImageService
+    private let user: User
     
-    
-    //MARK: init
-    public init(user: User){
+    // MARK: - Initializers
+    public init(imageService: IImageService, user: User){
+        self.imageService = imageService
         self.user = user
-        if let image = user.profileImg, url = image.url, nsurl = NSURL(string: url){
-            let imageService = ImageService()
-            imageService.getImage(nsurl)
+        
+        if let image = user.profileImg, url = image.url, nsurl = NSURL(string: url) {
+            self.imageService.getImage(nsurl)
                 |> start (next :{ [weak self] in
                     self?.avatar.put($0)
                 })
         }
-    }
-    
-    
-    //MARK: clean memory
-    public func cleanup(){
-        avatar.put(nil)
     }
 }

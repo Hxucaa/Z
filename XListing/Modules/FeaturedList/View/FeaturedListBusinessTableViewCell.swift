@@ -1,4 +1,4 @@
-//
+    //
 //  FeaturedListBusinessTableViewCell.swift
 //  XListing
 //
@@ -11,16 +11,21 @@ import UIKit
 import ReactiveCocoa
 import Cartography
 import XAssets
+import Dollar
+
+private let avatarHeight = UIScreen.mainScreen().bounds.height * 0.07
+private let avatarWidth = UIScreen.mainScreen().bounds.height * 0.07
+private let avatarGap = UIScreen.mainScreen().bounds.width * 0.015
+private let WTGButtonScale = CGFloat(0.5)
+private let avatarLeadingMargin = CGFloat(5)
+private let avatarTailingMargin = CGFloat(5)
+private let businessImageWidthToParentRatio = 0.57
+private let businessImageHeightToWidthRatio = 0.68
+private let avatarListWidthtoParentRatio = 1.0
+private let avatarListHeightToParentRatio = 1.0
+private let BackgroundColor = UIColor(hex: "EEEEEE")
 
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
-    
-    //MARK: constants
-    private let avatarHeight = UIScreen.mainScreen().bounds.height * 0.07
-    private let avatarWidth = UIScreen.mainScreen().bounds.height * 0.07
-    private let avatarGap = UIScreen.mainScreen().bounds.width * 0.015
-    private let WTGButtonScale = CGFloat(0.5)
-    private let avatarLeadingMargin = CGFloat(5)
-    private let avatarTailingMargin = CGFloat(5)
     
     // MARK: - UI Controls
     @IBOutlet private weak var businessImage: UIImageView!
@@ -30,7 +35,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var cityLabel: UILabel!
-    @IBOutlet private weak var priceLabel: PriceLabel!
+    @IBOutlet private weak var priceLabel: UIView!
     @IBOutlet private weak var etaLabel: UILabel!
     
     @IBOutlet private weak var peopleWantogoLabel: UILabel!
@@ -43,18 +48,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     // MARK: Properties
     private var viewmodel: FeaturedBusinessViewModel!
     private let compositeDisposable = CompositeDisposable()
-    // a state value for whether the setup constraints have already been run
-    private var setupConstraintsDone = false
     
     /// whether this instance of cell has been reused
     private let isReusedCell = MutableProperty<Bool>(false)
-    private var users: [User] = [User]()
-    private lazy var btnNormalImage: UIImage = AssetsKit.imageOfWTGButtonUntapped(scale: self.WTGButtonScale)
-    private lazy var btnDisabledImage: UIImage = AssetsKit.imageOfWTGButtonTapped(scale: self.WTGButtonScale)
-    private let businessImageWidthToParentRatio = 0.57
-    private let businessImageHeightToWidthRatio = 0.68
-    private let avatarListWidthtoParentRatio = 1.0
-    private let avatarListHeightToParentRatio = 1.0
 
     // MARK: Setups
     public override func awakeFromNib() {
@@ -64,12 +60,24 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         infoView.addSubview(infoViewContent)
         participationView.addSubview(participationViewContent)
-
+        
+        /**
+        *   Setup joinButton
+        */
         let join = Action<UIButton, Bool, NSError>{ button in
             return self.viewmodel.participate(ParticipationChoice.我想去)
         }
         
         joinButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        
+        compositeDisposable += AssetFactory.getImage(Asset.WTGButtonTapped(scale: WTGButtonScale))
+            |> start(next: { [weak self] image in
+                self?.joinButton.setBackgroundImage(image, forState: .Disabled)
+                })
+        compositeDisposable += AssetFactory.getImage(Asset.WTGButtonUntapped(scale: WTGButtonScale))
+            |> start(next: { [weak self] image in
+                self?.joinButton.setBackgroundImage(image, forState: .Normal)
+                })
         
         /**
         *  When the cell is prepared for reuse, set the state.
@@ -79,60 +87,98 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             |> start(next: { [weak self] _ in
                 self?.isReusedCell.put(true)
             })
-        AssetManager.getImage(name: ImageName.WTGButtonTapped, scale: self.WTGButtonScale, tag: "", oncomplete: { image in
-            self.joinButton.setBackgroundImage(image, forState: UIControlState.Disabled)
-        })
-        AssetManager.getImage(name: ImageName.WTGButtonUntapped, scale: self.WTGButtonScale, tag: "", oncomplete: { image in
-            self.joinButton.setBackgroundImage(image, forState: UIControlState.Normal)
-        })
-//        joinButton.setBackgroundImage(btnNormalImage, forState: UIControlState.Normal)
-//        joinButton.setBackgroundImage(btnDisabledImage, forState: UIControlState.Disabled)
         
+        /**
+        *   Setup avatar image views.
+        */
+
+        let count = Int(floor((avatarList.frame.width - avatarLeadingMargin - avatarTailingMargin - avatarWidth) / (avatarWidth + avatarGap))) + 1
+        var previousImageView: UIImageView? = nil
+        for i in 1...count {
+            
+            let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: avatarWidth, height: avatarHeight))
+            imageView.backgroundColor = BackgroundColor
+            imageView.opaque = true
+            imageView.contentMode = UIViewContentMode.ScaleAspectFill
+            imageView.clipsToBounds = true
+            
+            avatarList.addSubview(imageView)
+            
+            if i == 1 {
+                constrain(imageView) { view in
+                    view.leading == view.superview!.leading + avatarLeadingMargin
+                    view.centerY == view.superview!.centerY
+                    view.width == avatarWidth
+                    view.height == avatarHeight
+                }
+            }
+            if let previousImageView = previousImageView {
+                constrain(previousImageView, imageView) { previous, current in
+                    previous.trailing == current.leading - avatarGap
+                    current.centerY == current.superview!.centerY
+                    current.width == avatarWidth
+                    current.height == avatarHeight
+                }
+            }
+            
+            previousImageView = imageView
+            
+            avatarImageViews.append(imageView)
+            
+        }
     }
     
     public override func updateConstraints() {
         
         // only run the setup constraints the first time the cell is constructed for perfomance reason
-        if !setupConstraintsDone {
-            setupConstraintsDone = true
-            
-            //Set anchor size for all related views
-            constrain(businessImage) { businessImage in
-                //sizes
-                businessImage.width == businessImage.superview!.width * self.businessImageWidthToParentRatio
-                businessImage.height == businessImage.width * self.businessImageHeightToWidthRatio
+        $.once({ [weak self] Void -> Void in
+            if let this = self {
+                //Set anchor size for all related views
+                constrain(this.businessImage) { businessImage in
+                    //sizes
+                    businessImage.width == businessImage.superview!.width * businessImageWidthToParentRatio
+                    businessImage.height == businessImage.width * businessImageHeightToWidthRatio
+                }
+                
+                //Make subview same size as the parent view
+                constrain(this.infoViewContent) { infoViewContent in
+                    infoViewContent.left == infoViewContent.superview!.left
+                    infoViewContent.top == infoViewContent.superview!.top
+                    infoViewContent.width == infoViewContent.superview!.width
+                    infoViewContent.height == infoViewContent.superview!.height
+                }
+                
+                //Make subview same size as the parent view
+                constrain(this.participationViewContent) { participationViewContent in
+                    participationViewContent.left == participationViewContent.superview!.left
+                    participationViewContent.top == participationViewContent.superview!.top
+                    participationViewContent.width == participationViewContent.superview!.width
+                    participationViewContent.height == participationViewContent.superview!.height
+                }
+                
+                //Set avatar list size
+                constrain(this.avatarList) { avatarList in
+                    avatarList.width == avatarList.superview!.width * avatarListWidthtoParentRatio
+                    avatarList.height == avatarList.superview!.height * avatarListHeightToParentRatio
+                }
+                
+                //Set WTG button size
+                constrain(this.joinButton, this.avatarList) { joinButton, avatarList in
+                    joinButton.height == avatarList.height * 1.618
+                    joinButton.width == joinButton.height * 0.935
+                }
             }
-            
-            //Make subview same size as the parent view
-            constrain(infoViewContent) { infoViewContent in
-                infoViewContent.left == infoViewContent.superview!.left
-                infoViewContent.top == infoViewContent.superview!.top
-                infoViewContent.width == infoViewContent.superview!.width
-                infoViewContent.height == infoViewContent.superview!.height
-            }
-            
-            //Make subview same size as the parent view
-            constrain(participationViewContent) { participationViewContent in
-                participationViewContent.left == participationViewContent.superview!.left
-                participationViewContent.top == participationViewContent.superview!.top
-                participationViewContent.width == participationViewContent.superview!.width
-                participationViewContent.height == participationViewContent.superview!.height
-            }
-            
-            //Set avatar list size
-            constrain(avatarList) { avatarList in
-                avatarList.width == avatarList.superview!.width * self.avatarListWidthtoParentRatio
-                avatarList.height == avatarList.superview!.height * self.avatarListHeightToParentRatio
-            }
-            
-            //Set WTG button size
-            constrain(joinButton, avatarList) { joinButton, avatarList in
-                joinButton.height == avatarList.height * 1.618
-                joinButton.width == joinButton.height * 0.935
-            }
-        }
+        })()
         
         super.updateConstraints()
+    }
+    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        $.each(avatarImageViews) { _, view in
+            view.image = nil
+        }
     }
     
     deinit {
@@ -144,26 +190,30 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     public func bindViewModel(viewmodel: FeaturedBusinessViewModel) {
         self.viewmodel = viewmodel
         
-        self.joinButton.rac_enabled <~ viewmodel.buttonEnabled.producer
+        joinButton.rac_enabled <~ viewmodel.buttonEnabled.producer
             |> takeUntilPrepareForReuse(self)
-        self.nameLabel.rac_text <~ viewmodel.businessName.producer
+        
+        nameLabel.rac_text <~ viewmodel.businessName.producer
            |> takeUntilPrepareForReuse(self)
-        self.cityLabel.rac_text <~ viewmodel.city.producer
+        
+        cityLabel.rac_text <~ viewmodel.city.producer
             |> takeUntilPrepareForReuse(self)
-//        self.priceLabel.rac_text <~ viewmodel.price.producer
-//            |> takeUntilPrepareForReuse(self)
+        
         compositeDisposable += viewmodel.price.producer
             |> takeUntilPrepareForReuse(self)
+            |> ignoreNil
             |> start(next: { [weak self] price in
-                self?.priceLabel.setPriceLabel(price)
-                self?.priceLabel.setNeedsDisplay()
+//                self?.priceLabel.setPriceLabel(price)
+//                self?.priceLabel.setNeedsDisplay()
             })
-        self.etaLabel.rac_text <~ viewmodel.eta.producer
+        
+        etaLabel.rac_text <~ viewmodel.eta.producer
             |> takeUntilPrepareForReuse(self)
-        self.peopleWantogoLabel.rac_text <~ viewmodel.participationString.producer
+        
+        peopleWantogoLabel.rac_text <~ viewmodel.participationString.producer
             |> takeUntilPrepareForReuse(self)
+        
         compositeDisposable += self.viewmodel.coverImage.producer
-            |> takeUntilPrepareForReuse(self)
             |> ignoreNil
             |> start (next: { [weak self] image in
                 if let viewmodel = self?.viewmodel, isReusedCell = self?.isReusedCell where viewmodel.isCoverImageConsumed.value || isReusedCell.value {
@@ -175,80 +225,45 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 }
             })
         
-
         compositeDisposable += self.viewmodel.participantViewModelArr.producer
-            |> takeUntilPrepareForReuse(self)
             |> start (next: { [weak self] participants in
-                self?.bindAvatartoParticipant(participants)
-            })
-    }
-    
-    private func bindAvatartoParticipant(participants: [ParticipantViewModel]){
-        var count = Int(floor((self.avatarList.frame.width - self.avatarLeadingMargin - self.avatarTailingMargin - self.avatarWidth)/(self.avatarWidth + self.avatarGap))) + 1
-        // populate imageViews
-        for i in 0...count-1{
-            let x = self.avatarLeadingMargin + CGFloat(i)*(self.avatarWidth + self.avatarGap)
-            let y = (self.avatarList.frame.height - self.avatarHeight) / CGFloat(3.0)
-            let frame = CGRectMake(x, y, self.avatarWidth, self.avatarHeight)
-            let imageView = UIImageView(frame: frame)
-            
-            imageView.contentMode = .ScaleAspectFit
-            imageView.toCircle()
-            avatarList.addSubview(imageView)
-            avatarImageViews.append(imageView)
-        }
-        FeaturedLogDebug("\(self.viewmodel.businessName.value)")
-        var i = 0
-        loopofparticipants:  for participant in participants{
-            if let img = participant.user.profileImg {
-                if i == count{
-                    FeaturedLogDebug("has more participants")
-                    if let image = AssetsKit.imageOfEtcIcon(scale: 0.5) as UIImage?{
-                        avatarImageViews[i-1].setImageWithAnimation(image)
-                    }
-                    break loopofparticipants
-                }
-                else{
-                    compositeDisposable += participant.avatar.producer
-                        |> takeUntilPrepareForReuse(self)
-                        |> ignoreNil
-                        |> start(next: {[weak self] image in
-                            if i < self?.avatarImageViews.count{
-                                self?.avatarImageViews[i].rac_image.put(image)
+                if let this = self {
+                    
+                    var filledAvatarImageViews = [UIImageView]()
+                    // only add images to image views if the participants count is greater than 0
+                    if participants.count > 0 {
+                        // iterate through avatarImageViews - 1 (leaving space for etc icon)
+                        for i in 0..<(this.avatarImageViews.count - 1) {
+                            if i < participants.count {
+                                let avatarView = this.avatarImageViews[i]
+                                
+                                // place the image into image view
+                                this.compositeDisposable += avatarView.rac_image <~ participants[i].avatar
+                                
+                                // unhide the image view
+                                avatarView.hidden = false
+                                
+                                // add the image view to the list of already processed
+                                filledAvatarImageViews.append(avatarView)
                             }
-                        })
-                    i++
+                        }
+                        
+                        let etcImageView = this.avatarImageViews[filledAvatarImageViews.count]
+                        // assign etc icon to image view
+                        this.compositeDisposable += etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(scale: 1.0))
+                            |> map { Optional<UIImage>($0) }
+                        
+                        // unhide the image view
+                        etcImageView.hidden = false
+                        
+                        // add the image view to the list of already processed
+                        filledAvatarImageViews.append(etcImageView)
+                    }
+                    
+                    for i in (filledAvatarImageViews.count)..<(this.avatarImageViews.count) {
+                        this.avatarImageViews[i].hidden = true
+                    }
                 }
-            }
-        }
-        self.participationView.setNeedsDisplay()
-    }
-    
-    private func setupAvatarImageViews(){
-        
-    }
-    
-    
-    
-    
-    
-    public override func prepareForReuse() {
-        super.prepareForReuse()
-        cleanupView()
-        compositeDisposable.dispose()
-        avatarImageViews.removeAll(keepCapacity: true)
-//        viewmodel.cleanup()
-    }
-    
-    
-    public func cleanupView(){
-        cleanupParticipant()
-        joinButton.removeFromSuperview()
-    }
-    
-    public func cleanupParticipant(){
-        for imageView in avatarImageViews{
-            imageView.removeFromSuperview()
-        }
+            })
     }
 }

@@ -12,22 +12,29 @@ import AVOSCloud
 
 public final class FeaturedBusinessViewModel {
     
-    //MARK: property
+    // MARK: - Outputs
     public let businessName: ConstantProperty<String>
     public let city: ConstantProperty<String>
     public let eta: MutableProperty<String> = MutableProperty("")
-    public let price: MutableProperty<Int> = MutableProperty(0)
+    public let price: MutableProperty<Int?>
     public let district: ConstantProperty<String>
     public let coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
     public let isCoverImageConsumed = MutableProperty<Bool>(false)
     public let participationString: MutableProperty<String> = MutableProperty("")
     public let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
     public let participantViewModelArr: MutableProperty<[ParticipantViewModel]> = MutableProperty([ParticipantViewModel]())
-    public let business: MutableProperty<Business?> = MutableProperty(nil)
     public let buttonEnabled: MutableProperty<Bool> = MutableProperty(true)
     
-    //MARK: init
+    // MARK: - Properties
+    private let userService: IUserService
+    private let geoLocationService: IGeoLocationService
+    private let imageService: IImageService
+    private let participationService: IParticipationService
+    private let business: Business?
+    
+    // MARK: - Initializers
     public init(userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService, participationService: IParticipationService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int, business: Business?) {
+        
         self.userService = userService
         self.geoLocationService = geoLocationService
         self.imageService = imageService
@@ -48,12 +55,8 @@ public final class FeaturedBusinessViewModel {
         } else {
             self.district = ConstantProperty("")
         }
-        if let geopoint = geopoint {
-            setupEta(CLLocation(latitude: geopoint.latitude, longitude: geopoint.longitude))
-        }
-        if let business = business{
-            self.business.put(business)
-        }
+        self.business = business
+        self.price = MutableProperty<Int?>(business?.price)
         
         
         participationString.put("\(participationCount)+ 人想去")
@@ -65,41 +68,39 @@ public final class FeaturedBusinessViewModel {
                 })
         }
         if let business = business {
-                self.price.put(business.price)
-            getAttendees(business)
+            getPreviewAttendees(business)
                 |> start()
             setupParticipation(business)
+                |> start()
+        }
+        if let geopoint = geopoint {
+            setupEta(CLLocation(latitude: geopoint.latitude, longitude: geopoint.longitude))
+                |> start()
         }
     }
-    
-    // MARK: Services
-    private let userService: IUserService
-    private let geoLocationService: IGeoLocationService
-    private let imageService: IImageService
-    private let participationService: IParticipationService
 
     
-    // MARK: Setup
+    // MARK: - Setups
     
-    private func setupEta(destination: CLLocation) {
-        self.geoLocationService.calculateETA(destination)
-            |> start(next: { interval in
-                let minute = Int(ceil(interval / 60))
-                self.eta.put("\(minute)分钟")
-            }, error: { error in
-                FeaturedLogError(error.description)
-            })
+    private func setupEta(destination: CLLocation) -> SignalProducer<NSTimeInterval, NSError> {
+        return geoLocationService.calculateETA(destination)
+            |> on(
+                next: { interval in
+                    let minute = Int(ceil(interval / 60))
+                    self.eta.put("\(minute)分钟")
+                },
+                error: { error in
+                    FeaturedLogError(error.description)
+                }
+            )
     }
     
-
-    
-    // MARK: Network call
-    private func getAttendees(business: Business) -> SignalProducer<[ParticipantViewModel], NSError> {
+    private func getPreviewAttendees(business: Business) -> SignalProducer<[ParticipantViewModel], NSError> {
         let query = Participation.query()!
         typealias Property = Participation.Property
         query.whereKey(Property.Business.rawValue, equalTo: business)
+        // TODO: Only retrieve users that have uploaded photoes and have
         query.includeKey(Property.User.rawValue)
-        query.includeKey(Property.User.rawValue+"."+User.Property.ProfileImg.rawValue)
         query.limit = 8
         
         return participationService.findBy(query)
@@ -108,7 +109,7 @@ public final class FeaturedBusinessViewModel {
             })
             |> map { participations -> [ParticipantViewModel] in
                 return participations.map {
-                    ParticipantViewModel(user: $0.user)
+                    ParticipantViewModel(imageService: self.imageService, user: $0.user)
                 }
             }
             |> on(
@@ -126,7 +127,7 @@ public final class FeaturedBusinessViewModel {
             |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
                 let p = Participation()
                 p.user = user
-                if let business = self.business.value{
+                if let business = self.business {
                     p.business = business
                 }
                 return self.participationService.create(p)
@@ -141,7 +142,7 @@ public final class FeaturedBusinessViewModel {
     
     
     //MARK: setup participation view
-    private func setupParticipation(business: Business) -> Disposable {
+    private func setupParticipation(business: Business) -> SignalProducer<Participation, NSError> {
         /**
         *  Query database to check if user has already participated in this business.
         */
@@ -156,19 +157,8 @@ public final class FeaturedBusinessViewModel {
                 
                 return self.participationService.get(query)
             }
-            |> start(next: { participation in
-                self.buttonEnabled.put(false)
+            |> on(next: { [weak self] participation in
+                self?.buttonEnabled.put(false)
             })
     }
-    
-    
-    //MARK: memory clean up called when cell is reused. 
-    public func cleanup(){
-        coverImage.put(nil)
-            for participant in participantViewModelArr.value {
-                participant.cleanup()
-            }
-    }
-    
-
 }
