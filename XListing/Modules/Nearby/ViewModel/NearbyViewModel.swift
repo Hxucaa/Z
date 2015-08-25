@@ -60,19 +60,28 @@ public final class NearbyViewModel : INearbyViewModel {
         self.businessService = businessService
         self.geoLocationService = geoLocationService
         self.imageService = imageService
-
-        getBusinessesWithQuery(Business.query())
+        getBusinessesWithQuery(Business.query(), isPagination: false)
             |> start()
     }
     
-    private func getNearestBusinesses(centreGeoPoint: AVGeoPoint, radius: Double) -> SignalProducer<Void, NSError>{
+    private func getNearestBusinesses(centreGeoPoint: AVGeoPoint) -> SignalProducer<Void, NSError>{
         let query = Business.query()
         query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint)
-        query.limit = 20
-        return getBusinessesWithQuery(query)
+        return getBusinessesWithQuery(query, isPagination: false)
             |> map { [weak self] _ in
                 return
             }
+    }
+    
+    public func getAdditionalBusinesses(centreLat: CLLocationDegrees, centreLong: CLLocationDegrees, skip: Int) -> SignalProducer<Void, NSError> {
+        let query = Business.query()
+        let centreGeoPoint = AVGeoPoint(latitude: centreLat, longitude: centreLong)
+        query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint)
+        query.skip = skip
+        return getBusinessesWithQuery(query, isPagination: true)
+            |> map { [weak self] _ in
+                return
+        }
     }
     
     // fetch the businesses that are within radius km of the centre coordinates of the map
@@ -80,12 +89,11 @@ public final class NearbyViewModel : INearbyViewModel {
         let query = Business.query()!
         let centreGeoPoint = AVGeoPoint(latitude: centreLat, longitude: centreLong)
         query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint, withinKilometers: radius)
-        query.limit = 20
         
-        return getBusinessesWithQuery(query)
+        return getBusinessesWithQuery(query, isPagination: false)
             |> flatMap(.Merge) { data in
                 if data.count < 1 {
-                    return self.getNearestBusinesses(centreGeoPoint, radius: 50)
+                    return self.getNearestBusinesses(centreGeoPoint)
                 }
                 else {
                     return SignalProducer<Void, NSError>.empty
@@ -103,12 +111,17 @@ public final class NearbyViewModel : INearbyViewModel {
     
     private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
 
-    private func getBusinessesWithQuery(query: AVQuery) -> SignalProducer<[NearbyTableCellViewModel], NSError> {
+    private func getBusinessesWithQuery(query: AVQuery, isPagination: Bool) -> SignalProducer<[NearbyTableCellViewModel], NSError> {
         // TODO: implement default location.
+        query.limit = 10
         return businessService.findBy(query)
             |> on(next: { businesses in
                 self.fetchingData.put(true)
-                self.businessArr.put(businesses)
+                if isPagination {
+                    self.businessArr.value.extend(businesses)
+                } else {
+                    self.businessArr.put(businesses)
+                }
             })
             |> map { businesses -> [NearbyTableCellViewModel] in
                 businesses.map {
@@ -119,7 +132,11 @@ public final class NearbyViewModel : INearbyViewModel {
                 next: { response in
                     self.fetchingData.put(false)
                     if response.count > 0 {
+                    if isPagination {
+                        self.businessViewModelArr.value.extend(response)
+                    } else {
                         self.businessViewModelArr.put(response)
+                        }
                     }
                 },
                 error: { NearbyLogError($0.description) }

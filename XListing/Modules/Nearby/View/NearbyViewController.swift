@@ -273,6 +273,21 @@ public final class NearbyViewController: XUIViewController {
                         })
                 })
                 })
+        
+        compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"),
+            fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
+            |> map { ($0 as! RACTuple).first as! UIScrollView }
+            |> start(
+                next: { scrollView in
+                    let currentIndexPath = self.businessCollectionView.indexPathsForVisibleItems()[0] as! NSIndexPath
+                    if (currentIndexPath.section == self.businessCollectionView.numberOfSections() - 1) {
+                        self.viewmodel.getAdditionalBusinesses(self.mapView.centerCoordinate.latitude, centreLong: self.mapView.centerCoordinate.longitude, skip: self.businessCollectionView.numberOfSections())
+                            |> start(next: { [weak self] _ in
+                                }
+                            )
+                    }
+                }
+        )
     }
     
     private func addMapPinDropAnimation(view: MKAnnotationView) {
