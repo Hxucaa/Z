@@ -47,7 +47,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     // MARK: Properties
     private var viewmodel: FeaturedBusinessViewModel!
-    private let compositeDisposable = CompositeDisposable()
     
     /// whether this instance of cell has been reused
     private let isReusedCell = MutableProperty<Bool>(false)
@@ -70,20 +69,23 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         joinButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         
-        compositeDisposable += AssetFactory.getImage(Asset.WTGButtonTapped(scale: WTGButtonScale))
+        AssetFactory.getImage(Asset.WTGButtonTapped(scale: WTGButtonScale))
+            |> takeUntilPrepareForReuse(self)
             |> start(next: { [weak self] image in
                 self?.joinButton.setBackgroundImage(image, forState: .Disabled)
-                })
-        compositeDisposable += AssetFactory.getImage(Asset.WTGButtonUntapped(scale: WTGButtonScale))
+            })
+        AssetFactory.getImage(Asset.WTGButtonUntapped(scale: WTGButtonScale))
+            |> takeUntilPrepareForReuse(self)
             |> start(next: { [weak self] image in
                 self?.joinButton.setBackgroundImage(image, forState: .Normal)
-                })
+            })
         
         /**
         *  When the cell is prepared for reuse, set the state.
         *
         */
-        compositeDisposable += rac_prepareForReuseSignal.toSignalProducer()
+        rac_prepareForReuseSignal.toSignalProducer()
+            |> takeUntilPrepareForReuse(self)
             |> start(next: { [weak self] _ in
                 self?.isReusedCell.put(true)
             })
@@ -97,6 +99,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         for i in 1...count {
             
             let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: avatarWidth, height: avatarHeight))
+            // TODO: set the correct background color
             imageView.backgroundColor = BackgroundColor
             imageView.opaque = true
             imageView.contentMode = UIViewContentMode.ScaleAspectFill
@@ -181,11 +184,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         }
     }
     
-    deinit {
-        compositeDisposable.dispose()
-    }
-
-    
     // MARK: Bindings
     public func bindViewModel(viewmodel: FeaturedBusinessViewModel) {
         self.viewmodel = viewmodel
@@ -199,7 +197,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         cityLabel.rac_text <~ viewmodel.city.producer
             |> takeUntilPrepareForReuse(self)
         
-        compositeDisposable += viewmodel.price.producer
+        viewmodel.price.producer
             |> takeUntilPrepareForReuse(self)
             |> ignoreNil
             |> start(next: { [weak self] price in
@@ -213,7 +211,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         peopleWantogoLabel.rac_text <~ viewmodel.participationString.producer
             |> takeUntilPrepareForReuse(self)
         
-        compositeDisposable += self.viewmodel.coverImage.producer
+        self.viewmodel.coverImage.producer
+            |> takeUntilPrepareForReuse(self)
             |> ignoreNil
             |> start (next: { [weak self] image in
                 if let viewmodel = self?.viewmodel, isReusedCell = self?.isReusedCell where viewmodel.isCoverImageConsumed.value || isReusedCell.value {
@@ -225,7 +224,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 }
             })
         
-        compositeDisposable += self.viewmodel.participantViewModelArr.producer
+        self.viewmodel.participantViewModelArr.producer
+            |> takeUntilPrepareForReuse(self)
             |> start (next: { [weak self] participants in
                 if let this = self {
                     
@@ -238,7 +238,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                                 let avatarView = this.avatarImageViews[i]
                                 
                                 // place the image into image view
-                                this.compositeDisposable += avatarView.rac_image <~ participants[i].avatar
+                                avatarView.rac_image <~ participants[i].avatar.producer
+                                    |> takeUntilPrepareForReuse(this)
                                 
                                 // unhide the image view
                                 avatarView.hidden = false
@@ -250,8 +251,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                         
                         let etcImageView = this.avatarImageViews[filledAvatarImageViews.count]
                         // assign etc icon to image view
-                        this.compositeDisposable += etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(scale: 1.0))
+                        etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(scale: 1.0))
                             |> map { Optional<UIImage>($0) }
+                            |> takeUntilPrepareForReuse(this)
                         
                         // unhide the image view
                         etcImageView.hidden = false
