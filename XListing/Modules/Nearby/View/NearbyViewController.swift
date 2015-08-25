@@ -280,13 +280,16 @@ public final class NearbyViewController: XUIViewController {
                 })
                 })
         
+        // create a signal associated with `scrollViewDidEndDragging:willDecelerate:` from delegate `UIScrollViewDelegate`
         compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"),
             fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
             |> map { ($0 as! RACTuple).first as! UIScrollView }
             |> logLifeCycle(LogContext.Nearby, "scrollViewDidEndDragging:willDecelerate:")
             |> start(
                 next: { scrollView in
+                    //return the index of the currently visible cell from the collection view
                     let currentIndexPath = self.businessCollectionView.indexPathsForVisibleItems()[0] as! NSIndexPath
+                    //if we reach the last item of the collection view, start the query for pagination
                     if (currentIndexPath.section == self.businessCollectionView.numberOfSections() - 1) {
                         self.compositeDisposable += self.viewmodel.getAdditionalBusinesses(self.searchOrigin, skip: self.businessCollectionView.numberOfSections())
                             |> start(next: { [weak self] _ in

@@ -64,6 +64,7 @@ public final class NearbyViewModel : INearbyViewModel {
             |> start()
     }
     
+    // get the closest businesses from a certain geopoint
     private func getNearestBusinesses(centreGeoPoint: AVGeoPoint) -> SignalProducer<Void, NSError>{
         let query = Business.query()
         query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint)
@@ -73,6 +74,7 @@ public final class NearbyViewModel : INearbyViewModel {
             }
     }
     
+    // fetch additional businesses from the search origin while skipping the number of businesses already on the map-- query used for pagination
     public func getAdditionalBusinesses(searchOrigin: CLLocation, skip: Int) -> SignalProducer<Void, NSError> {
         let query = Business.query()
         let centreGeoPoint = AVGeoPoint(latitude: searchOrigin.coordinate.latitude, longitude: searchOrigin.coordinate.longitude)
@@ -84,7 +86,7 @@ public final class NearbyViewModel : INearbyViewModel {
         }
     }
     
-    // fetch the businesses that are within radius km of the centre coordinates of the map
+    // fetch the businesses that are within radius km of the search origin
     public func getBusinessesWithMap(searchOrigin: CLLocation, radius: Double) -> SignalProducer<Void, NSError> {
         let query = Business.query()!
         let centreGeoPoint = AVGeoPoint(latitude: searchOrigin.coordinate.latitude, longitude: searchOrigin.coordinate.longitude)
@@ -132,6 +134,8 @@ public final class NearbyViewModel : INearbyViewModel {
                 next: { response in
                     self.fetchingData.put(false)
                     if response.count > 0 {
+                        
+                        // if we are doing pagination, append the new businesses to the existing array, otherwise replace it
                         if isPagination {
                             self.businessViewModelArr.value.extend(response)
                         } else {
