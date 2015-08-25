@@ -67,7 +67,7 @@ public class PullToRefreshConductor<T: UITableView, U: IPullToRefreshable> {
         /**
         *  Setup the view to Pull to Refresh
         */
-        let pullToRefresh = PullToRefresh(frame: CGRectMake(0, 30, 24, 24))
+        let pullToRefresh = PullToRefresh(frame: CGRectMake(0, 0, 24, 24))
         tableView.ins_pullToRefreshBackgroundView.delegate = pullToRefresh
         tableView.ins_pullToRefreshBackgroundView.addSubview(pullToRefresh)
     }

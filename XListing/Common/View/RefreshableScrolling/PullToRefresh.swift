@@ -10,6 +10,7 @@ import Foundation
 import INSPullToRefresh
 
 public final class PullToRefresh : UIView {
+    
     private let activityIndicator: UIActivityIndicatorView
     private let imageView: UIImageView
     
@@ -20,6 +21,7 @@ public final class PullToRefresh : UIView {
         
         imageView = UIImageView(frame: frame)
         imageView.image = UIImage(named: ImageAssets.pullToRefreshArrow)
+        imageView.opaque = true
         imageView.hidden = false
         imageView.contentMode = UIViewContentMode.Center
         

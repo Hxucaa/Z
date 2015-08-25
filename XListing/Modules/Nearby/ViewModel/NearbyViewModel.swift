@@ -11,7 +11,7 @@ import ReactiveCocoa
 import MapKit
 import AVOSCloud
 
-public struct NearbyViewModel : INearbyViewModel {
+public final class NearbyViewModel : INearbyViewModel {
     
     // MARK: - Public
     // MARK: Input
@@ -61,8 +61,36 @@ public struct NearbyViewModel : INearbyViewModel {
         self.geoLocationService = geoLocationService
         self.imageService = imageService
 
-        getBusinesses()
+        getBusinessesWithQuery(Business.query())
             |> start()
+    }
+    
+    private func getNearestBusinesses(centreGeoPoint: AVGeoPoint, radius: Double) -> SignalProducer<Void, NSError>{
+        let query = Business.query()
+        query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint)
+        query.limit = 20
+        return getBusinessesWithQuery(query)
+            |> map { [weak self] _ in
+                return
+            }
+    }
+    
+    // fetch the businesses that are within radius km of the centre coordinates of the map
+    public func getBusinessesWithMap(centreLat: CLLocationDegrees, centreLong: CLLocationDegrees, radius: Double) -> SignalProducer<Void, NSError> {
+        let query = Business.query()!
+        let centreGeoPoint = AVGeoPoint(latitude: centreLat, longitude: centreLong)
+        query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint, withinKilometers: radius)
+        query.limit = 20
+        
+        return getBusinessesWithQuery(query)
+            |> flatMap(.Merge) { data in
+                if data.count < 1 {
+                    return self.getNearestBusinesses(centreGeoPoint, radius: 50)
+                }
+                else {
+                    return SignalProducer<Void, NSError>.empty
+                }
+            }
     }
     
     // MARK: - Private
@@ -74,10 +102,8 @@ public struct NearbyViewModel : INearbyViewModel {
     private let imageService: IImageService
     
     private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
-    
-    private func getBusinesses() -> SignalProducer<[NearbyTableCellViewModel], NSError> {
-        let query = Business.query()!
-        
+
+    private func getBusinessesWithQuery(query: AVQuery) -> SignalProducer<[NearbyTableCellViewModel], NSError> {
         // TODO: implement default location.
         return businessService.findBy(query)
             |> on(next: { businesses in
@@ -85,14 +111,16 @@ public struct NearbyViewModel : INearbyViewModel {
                 self.businessArr.put(businesses)
             })
             |> map { businesses -> [NearbyTableCellViewModel] in
-                return businesses.map {
+                businesses.map {
                     NearbyTableCellViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
                 }
             }
             |> on(
                 next: { response in
                     self.fetchingData.put(false)
-                    self.businessViewModelArr.put(response)
+                    if response.count > 0 {
+                        self.businessViewModelArr.put(response)
+                    }
                 },
                 error: { NearbyLogError($0.description) }
             )

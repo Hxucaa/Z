@@ -16,4 +16,12 @@ extension UIColor {
     internal class func x_HUDForegroundColor() -> UIColor {
         return UIColor(red: 255.0/255, green: 255.0/255, blue: 255.0/255, alpha: 1)
     }
+    
+    internal class func x_PrimaryColor() -> UIColor {
+        return UIColor(red: 22/255, green: 165/255, blue: 145/255, alpha: 1)
+    }
+
+    internal class func x_Transparent() -> UIColor {
+        return UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
+    }
 }

@@ -96,7 +96,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
         let query = Business.query()!
         // TODO: temporarily disabled until we have more featured businesses
         //        query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
-        query.limit = 3
+        query.limit = 20
         if refresh {
             // don't skip any content if we are refresh the list
             query.skip = 0

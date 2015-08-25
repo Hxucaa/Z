@@ -9,7 +9,7 @@ target 'XListing' do
   pod 'SVProgressHUD', :git => 'https://github.com/Hxucaa/SVProgressHUD.git'
   pod 'CocoaLumberjack', '= 2.0.0'
   pod 'Dollar', '~> 3.0'
-  pod 'SDWebImage'
+  pod 'SDWebImage', '~> 3.7.0'
   pod 'Locksmith', '~> 1.2'
   pod 'ReactiveCocoa', '= 3.0-RC.1'
   pod 'ActionSheetPicker-3.0', '~> 1.7.0'
