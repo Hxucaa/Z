@@ -17,6 +17,8 @@ PODS:
   - Nimble (1.0.0)
   - OAStackView (0.1.0)
   - Quick (0.3.1)
+  - ReactiveArray (0.1.1):
+    - ReactiveCocoa (= 3.0-RC.1)
   - ReactiveCocoa (3.0-RC.1):
     - Box (~> 1.2.0)
     - ReactiveCocoa/UI (= 3.0-RC.1)
@@ -54,6 +56,7 @@ DEPENDENCIES:
   - Nimble (~> 1.0)
   - OAStackView (~> 0.1.0)
   - Quick (= 0.3.1)
+  - ReactiveArray (from `https://github.com/Hxucaa/ReactiveArray`, branch `compatibility`)
   - ReactiveCocoa (= 3.0-RC.1)
   - SDWebImage (~> 3.7.0)
   - Spring (from `https://github.com/Hxucaa/Spring`, branch `compatibility`)
@@ -61,6 +64,9 @@ DEPENDENCIES:
   - XAssets (from `git@bitbucket.org:zenchat/xassets.git`)
 
 EXTERNAL SOURCES:
+  ReactiveArray:
+    :branch: compatibility
+    :git: https://github.com/Hxucaa/ReactiveArray
   Spring:
     :branch: compatibility
     :git: https://github.com/Hxucaa/Spring
@@ -70,6 +76,9 @@ EXTERNAL SOURCES:
     :git: git@bitbucket.org:zenchat/xassets.git
 
 CHECKOUT OPTIONS:
+  ReactiveArray:
+    :commit: 2e6b8b4aba691763fec139d22d72367955d29e79
+    :git: https://github.com/Hxucaa/ReactiveArray
   Spring:
     :commit: 6d983b48535d8ef69f8afa404030e518abe78ca3
     :git: https://github.com/Hxucaa/Spring
@@ -92,6 +101,7 @@ SPEC CHECKSUMS:
   Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87
   OAStackView: 76e64242351e2746374b9161a03021cbc19341ff
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
+  ReactiveArray: 0b22d43b97ad9b801bbd5253738ead82bf656ca8
   ReactiveCocoa: c85fe01be4e047dc1d9fba3e1e0b7070846d3296
   Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84

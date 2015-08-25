@@ -1,0 +1,26 @@
+{
+  "name": "ReactiveArray",
+  "version": "0.1.1",
+  "summary": "Reactive array for ReactiveCocoa.",
+  "description": "ReactiveArray",
+  "homepage": "https://github.com/Hxucaa/ReactiveArray",
+  "license": "MIT",
+  "authors": {
+    "Lance Zhu": "lancezhu77@gmail.com"
+  },
+  "source": {
+    "git": "git@github.com:Hxucaa/ReactiveArray.git",
+    "tag": "0.1.1"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "source_files": "ReactiveArray/**/*",
+  "exclude_files": "ReactiveArray/Info.plist",
+  "dependencies": {
+    "ReactiveCocoa": [
+      "= 3.0-RC.1"
+    ]
+  }
+}
