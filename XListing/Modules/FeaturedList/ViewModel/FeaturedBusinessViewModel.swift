@@ -23,7 +23,7 @@ public final class FeaturedBusinessViewModel {
     public let participationString: MutableProperty<String> = MutableProperty("")
     public let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
     public let participantViewModelArr: MutableProperty<[ParticipantViewModel]> = MutableProperty([ParticipantViewModel]())
-    public let buttonEnabled: MutableProperty<Bool> = MutableProperty(true)
+    public let buttonEnabled: MutableProperty<Bool?> = MutableProperty(nil)
     
     // MARK: - Properties
     private let userService: IUserService
@@ -157,8 +157,8 @@ public final class FeaturedBusinessViewModel {
                 
                 return self.participationService.get(query)
             }
-            |> on(next: { [weak self] participation in
+            |> on(error: {[weak self] error in self?.buttonEnabled.put(true)}, next: { [weak self] participation in
                 self?.buttonEnabled.put(false)
-            })
+                })
     }
 }

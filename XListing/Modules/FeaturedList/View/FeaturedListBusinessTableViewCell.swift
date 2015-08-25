@@ -84,6 +84,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             }
         })()
         
+        joinButton.hidden = true
+        
         /**
         *  When the cell is prepared for reuse, set the state.
         *
@@ -192,8 +194,15 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     public func bindViewModel(viewmodel: FeaturedBusinessViewModel) {
         self.viewmodel = viewmodel
         
-        joinButton.rac_enabled <~ viewmodel.buttonEnabled.producer
-            |> takeUntilPrepareForReuse(self)
+//        joinButton.rac_enabled <~ viewmodel.buttonEnabled.producer
+//            |> takeUntilPrepareForReuse(self)
+  
+        viewmodel.buttonEnabled.producer
+            |> ignoreNil
+            |> start(next: {[weak self] input in
+                    self?.joinButton.enabled = input
+                    self?.joinButton.hidden  = false
+                })
         
         nameLabel.rac_text <~ viewmodel.businessName.producer
            |> takeUntilPrepareForReuse(self)
