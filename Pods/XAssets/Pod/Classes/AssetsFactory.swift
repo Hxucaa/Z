@@ -11,25 +11,27 @@ import SDWebImage
 import XAssets
 import ReactiveCocoa
 
+private let CacheNamespace = "org.xassets.XAssets.ImageCache"
+
 public final class AssetFactory {
     
+    /// Retrieve the image from cache. If it is not already in the cache, one will be created and stored in cache.
     public class func getImage(asset: Asset) -> SignalProducer<UIImage, NoError> {
         let key = cacheKey(asset)
         
         return SignalProducer { sink, disposable in
             // cache has to be declared locally to solve a compile time compatibility issue between SDWebImage and ReactiveCocoa
-            let cache = SDImageCache(namespace: "org.xassets.XAssets.ImageCache")
-            cache.clearMemory()
+            let cache = SDImageCache(namespace: CacheNamespace)
+            
             cache.queryDiskCacheForKey(key) { image, type in
-                println(image)
                 if image != nil {
                     sendNext(sink, image)
                     sendCompleted(sink)
                 }
                 else {
                     let image = self.drawImage(asset)
-                    
                     cache.storeImage(image, forKey: key)
+                    
                     sendNext(sink, image)
                     sendCompleted(sink)
                 }
@@ -37,6 +39,36 @@ public final class AssetFactory {
         }
     }
     
+    /// Remove image from memory cache. Optionally remove from disk cache.
+    public class func removeImage(asset: Asset, fromDisk: Bool? = true) -> SignalProducer<Void, NoError> {
+        return SignalProducer { sink, disposable in
+            // cache has to be declared locally to solve a compile time compatibility issue between SDWebImage and ReactiveCocoa
+            let cache = SDImageCache(namespace: CacheNamespace)
+            cache.removeImageForKey(self.cacheKey(asset), fromDisk: fromDisk!) { () -> Void in
+                sendNext(sink, ())
+                sendCompleted(sink)
+            }
+        }
+    }
+    
+    /// Clear memory cache.
+    public class func clearMemoryCache() {
+        let cache = SDImageCache(namespace: CacheNamespace)
+        cache.clearMemory()
+    }
+    
+    /// Clear disk cache.
+    public class func clearDiskCache() -> SignalProducer<Void, NoError> {
+        return SignalProducer { sink, disposable in
+            let cache = SDImageCache(namespace: CacheNamespace)
+            cache.clearDiskOnCompletion { () -> Void in
+                sendNext(sink, ())
+                sendCompleted(sink)
+            }
+        }
+    }
+
+    /// Retrieve the drawing in `UIImage` for the `Asset`.
     private class func drawImage(asset: Asset) -> UIImage {
         
         switch(asset){
@@ -81,6 +113,7 @@ public final class AssetFactory {
         }
     }
     
+    /// Retrieve the cache key for the `Asset`.
     private class func cacheKey(asset: Asset) -> String {
         
         switch(asset){
