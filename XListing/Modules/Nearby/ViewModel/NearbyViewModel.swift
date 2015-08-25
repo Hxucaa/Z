@@ -73,9 +73,9 @@ public final class NearbyViewModel : INearbyViewModel {
             }
     }
     
-    public func getAdditionalBusinesses(centreLat: CLLocationDegrees, centreLong: CLLocationDegrees, skip: Int) -> SignalProducer<Void, NSError> {
+    public func getAdditionalBusinesses(searchOrigin: CLLocation, skip: Int) -> SignalProducer<Void, NSError> {
         let query = Business.query()
-        let centreGeoPoint = AVGeoPoint(latitude: centreLat, longitude: centreLong)
+        let centreGeoPoint = AVGeoPoint(latitude: searchOrigin.coordinate.latitude, longitude: searchOrigin.coordinate.longitude)
         query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint)
         query.skip = skip
         return getBusinessesWithQuery(query, isPagination: true)
@@ -85,9 +85,9 @@ public final class NearbyViewModel : INearbyViewModel {
     }
     
     // fetch the businesses that are within radius km of the centre coordinates of the map
-    public func getBusinessesWithMap(centreLat: CLLocationDegrees, centreLong: CLLocationDegrees, radius: Double) -> SignalProducer<Void, NSError> {
+    public func getBusinessesWithMap(searchOrigin: CLLocation, radius: Double) -> SignalProducer<Void, NSError> {
         let query = Business.query()!
-        let centreGeoPoint = AVGeoPoint(latitude: centreLat, longitude: centreLong)
+        let centreGeoPoint = AVGeoPoint(latitude: searchOrigin.coordinate.latitude, longitude: searchOrigin.coordinate.longitude)
         query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint, withinKilometers: radius)
         
         return getBusinessesWithQuery(query, isPagination: false)
@@ -132,10 +132,10 @@ public final class NearbyViewModel : INearbyViewModel {
                 next: { response in
                     self.fetchingData.put(false)
                     if response.count > 0 {
-                    if isPagination {
-                        self.businessViewModelArr.value.extend(response)
-                    } else {
-                        self.businessViewModelArr.put(response)
+                        if isPagination {
+                            self.businessViewModelArr.value.extend(response)
+                        } else {
+                            self.businessViewModelArr.put(response)
                         }
                     }
                 },

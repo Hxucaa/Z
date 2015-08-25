@@ -47,6 +47,7 @@ public final class NearbyViewController: XUIViewController {
     // MARK: Properties
     private var rectangleSearchTriggered = false
     private var isInitialLoad = true
+    private var searchOrigin : CLLocation!
     
     /// View Model
     private var viewmodel: INearbyViewModel!
@@ -72,8 +73,11 @@ public final class NearbyViewController: XUIViewController {
             |> start(next: { [weak self] location in
                 let span = MapViewSpan
                 let region = MKCoordinateRegion(center: location.coordinate, span: span)
-                self?.mapView.setRegion(region, animated: false)
-                self?.isInitialLoad = false
+                if let this = self {
+                    this.mapView.setRegion(region, animated: false)
+                    this.searchOrigin = location
+                    this.isInitialLoad = false
+                }
             })
     }
     
@@ -166,8 +170,10 @@ public final class NearbyViewController: XUIViewController {
                     // clear the map of the previous pins
                     this.mapView.removeAnnotations(this.mapView.annotations)
                     
+                    this.searchOrigin = centreLocation
+                    
                     // start the query
-                    disposable += this.viewmodel.getBusinessesWithMap(mapCentreLat, centreLong: mapCentreLong, radius: radiusOfMapInKm)
+                    disposable += this.viewmodel.getBusinessesWithMap(this.searchOrigin, radius: radiusOfMapInKm)
                         |> start(completed: {
                             sendCompleted(sink)
                         })
@@ -199,19 +205,19 @@ public final class NearbyViewController: XUIViewController {
                 
                 // if we are reloading after a map search, then select and centre the map on the middle result
                 if let this = self where this.rectangleSearchTriggered {
-                    self?.rectangleSearchTriggered = false
+                    this.rectangleSearchTriggered = false
                     if businessArr.count > 0 {
                         
                         // get the first result
                         let firstAnnotation = businessArr[0].annotation.value
                         
                         // select and centre the map on the first result
-                        self?.mapView.selectAnnotation(firstAnnotation, animated: true)
-                        self?.mapView.setCenterCoordinate(firstAnnotation.coordinate, animated: true)
+                        this.mapView.selectAnnotation(firstAnnotation, animated: true)
+                        this.mapView.setCenterCoordinate(firstAnnotation.coordinate, animated: true)
                         
                         // scroll the collection view to match
                         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-                        self?.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+                        this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
                         
                     }
                 }
@@ -277,11 +283,12 @@ public final class NearbyViewController: XUIViewController {
         compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"),
             fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
             |> map { ($0 as! RACTuple).first as! UIScrollView }
+            |> logLifeCycle(LogContext.Nearby, "scrollViewDidEndDragging:willDecelerate:")
             |> start(
                 next: { scrollView in
                     let currentIndexPath = self.businessCollectionView.indexPathsForVisibleItems()[0] as! NSIndexPath
                     if (currentIndexPath.section == self.businessCollectionView.numberOfSections() - 1) {
-                        self.viewmodel.getAdditionalBusinesses(self.mapView.centerCoordinate.latitude, centreLong: self.mapView.centerCoordinate.longitude, skip: self.businessCollectionView.numberOfSections())
+                        self.compositeDisposable += self.viewmodel.getAdditionalBusinesses(self.searchOrigin, skip: self.businessCollectionView.numberOfSections())
                             |> start(next: { [weak self] _ in
                                 }
                             )

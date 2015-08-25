@@ -16,6 +16,6 @@ public protocol INearbyViewModel {
     init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService, imageService: IImageService)
     func pushDetailModule(section: Int)
     func pushProfileModule()
-    func getBusinessesWithMap(centreLat: CLLocationDegrees, centreLong: CLLocationDegrees, radius: Double) -> SignalProducer<Void, NSError>
-    func getAdditionalBusinesses(centreLat: CLLocationDegrees, centreLong: CLLocationDegrees, skip: Int)  -> SignalProducer<Void, NSError> 
+    func getBusinessesWithMap(searchOrigin: CLLocation, radius: Double) -> SignalProducer<Void, NSError>
+    func getAdditionalBusinesses(searchOrigin: CLLocation, skip: Int)  -> SignalProducer<Void, NSError>
 }
