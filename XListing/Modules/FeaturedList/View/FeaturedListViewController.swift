@@ -45,6 +45,7 @@ public final class FeaturedListViewController: XUIViewController {
         super.viewDidLoad()
         
         navigationController?.setNavigationBarHidden(false, animated: false)
+        
         // makes the gap between table view and navigation bar go away
         tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         // makes the gap at the bottom of the table view go away

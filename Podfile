@@ -16,6 +16,7 @@ target 'XListing' do
   pod 'OAStackView', '~> 0.1.0'
   pod 'Cartography', '~> 0.5.0'
   pod 'INSPullToRefresh', '~> 1.0.11'
+  pod 'ReactiveArray', :git => 'https://github.com/Hxucaa/ReactiveArray', :branch => 'compatibility'
 #  pod 'AVOSCloud', '~> 3.1'
 #  pod 'AVOSCloudCrashReporting', '~> 3.1'
 #  pod 'AVOSCloudIM', '~> 3.1'
