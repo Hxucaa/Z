@@ -82,6 +82,34 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        // observing collection data source
+        compositeDisposable += viewmodel.businessViewModelArr.producer
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Nearby, "viewmodel.businessViewModelArr.producer")
+            |> start(next: { [weak self] businessArr in
+                self?.businessCollectionView.reloadData()
+                self?.mapView.addAnnotations(businessArr.map { $0.annotation.value })
+                
+                // if we are reloading after a map search, then select and centre the map on the middle result
+                if let this = self where this.rectangleSearchTriggered {
+                    this.rectangleSearchTriggered = false
+                    if businessArr.count > 0 {
+                        
+                        // get the first result
+                        let firstAnnotation = businessArr[0].annotation.value
+                        
+                        // select and centre the map on the first result
+                        this.mapView.selectAnnotation(firstAnnotation, animated: true)
+                        this.mapView.setCenterCoordinate(firstAnnotation.coordinate, animated: true)
+                        
+                        // scroll the collection view to match
+                        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+                        this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+                        
+                    }
+                }
+            })
+        
         setupMapView()
         setupBusinessCollectionView()
         
@@ -192,35 +220,6 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         // track user movement
         // not tracking user movement beacause it can be a battery hog
         //        mapView.setUserTrackingMode(.Follow, animated: false)
-
-        // add annotation to map view
-        compositeDisposable += viewmodel.businessViewModelArr.producer
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Nearby, "viewmodel.businessViewModelArr.producer")
-            |> start(next: { [weak self] businessArr in
-                self?.businessCollectionView.reloadData()
-                self?.mapView.addAnnotations(businessArr.map { $0.annotation.value })
-                
-                // if we are reloading after a map search, then select and centre the map on the middle result
-                if let this = self where this.rectangleSearchTriggered {
-                    this.rectangleSearchTriggered = false
-                    if businessArr.count > 0 {
-                        
-                        // get the first result
-                        let firstAnnotation = businessArr[0].annotation.value
-                        
-                        // select and centre the map on the first result
-                        this.mapView.selectAnnotation(firstAnnotation, animated: true)
-                        this.mapView.setCenterCoordinate(firstAnnotation.coordinate, animated: true)
-                        
-                        // scroll the collection view to match
-                        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-                        this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
-                        
-                    }
-                }
-            })
-        
         
         // create a signal associated with `mapView:didAddAnnotationViews:` from delegate `MKMapViewDelegate`
         // when annotation is added to the mapview, this signal receives the next event
