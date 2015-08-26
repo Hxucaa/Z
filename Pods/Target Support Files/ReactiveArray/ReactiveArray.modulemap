@@ -1,0 +1,6 @@
+framework module ReactiveArray {
+  umbrella header "ReactiveArray-umbrella.h"
+
+  export *
+  module * { export * }
+}

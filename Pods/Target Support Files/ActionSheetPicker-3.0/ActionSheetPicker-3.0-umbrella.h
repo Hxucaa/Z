@@ -6,6 +6,7 @@
 #import "ActionSheetDatePicker.h"
 #import "ActionSheetDistancePicker.h"
 #import "ActionSheetLocalePicker.h"
+#import "ActionSheetMultipleStringPicker.h"
 #import "ActionSheetPicker.h"
 #import "ActionSheetStringPicker.h"
 #import "DistancePickerView.h"
