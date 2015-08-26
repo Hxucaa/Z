@@ -1,16 +1,16 @@
 {
   "name": "ReactiveArray",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "summary": "Reactive array for ReactiveCocoa.",
-  "description": "ReactiveArray",
+  "description": "An array class implemented in Swift that can be observed using ReactiveCocoa's Signals.",
   "homepage": "https://github.com/Hxucaa/ReactiveArray",
   "license": "MIT",
   "authors": {
     "Lance Zhu": "lancezhu77@gmail.com"
   },
   "source": {
-    "git": "git@github.com:Hxucaa/ReactiveArray.git",
-    "tag": "0.1.1"
+    "git": "https://github.com/Hxucaa/ReactiveArray.git",
+    "tag": "0.1.2"
   },
   "platforms": {
     "ios": "8.0"

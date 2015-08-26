@@ -14,18 +14,22 @@ public enum Operation<T>: DebugPrintable {
     case Append(value: Box<T>)
     case Insert(value: Box<T>, atIndex: Int)
     case RemoveElement(atIndex: Int)
+    case ReplaceAll(values: Box<[T]>)
+    case RemoveAll(keepCapacity: Bool)
     
     public func map<U>(mapper: T -> U) -> Operation<U> {
-        let result: Operation<U>
         switch self {
         case .Append(let boxedValue):
-            result = Operation<U>.Append(value: Box(mapper(boxedValue.value)))
+            return Operation<U>.Append(value: Box(mapper(boxedValue.value)))
         case .Insert(let boxedValue, let index):
-            result = Operation<U>.Insert(value: Box(mapper(boxedValue.value)), atIndex: index)
+            return Operation<U>.Insert(value: Box(mapper(boxedValue.value)), atIndex: index)
         case .RemoveElement(let index):
-            result = Operation<U>.RemoveElement(atIndex: index)
+            return Operation<U>.RemoveElement(atIndex: index)
+        case .ReplaceAll(let boxedValues):
+            return Operation<U>.ReplaceAll(values: Box(boxedValues.value.map { mapper($0) }))
+        default:
+            fatalError("Use the other version of the map function!")
         }
-        return result
     }
     
     public var debugDescription: String {
@@ -37,6 +41,10 @@ public enum Operation<T>: DebugPrintable {
             description = ".Insert(value: \(boxedValue.value), atIndex:\(index))"
         case .RemoveElement(let index):
             description = ".RemoveElement(atIndex:\(index))"
+        case .ReplaceAll(let boxedValues):
+            description = ".ReplaceAll(values:\(boxedValues.value))"
+        case .RemoveAll(let keepCapacity):
+            description = ".RemoveAll(keepCapacity:\(keepCapacity)"
         }
         return description
     }
@@ -52,6 +60,14 @@ public enum Operation<T>: DebugPrintable {
         }
     }
     
+    public var arrayValue: [T]? {
+        switch self {
+        case .ReplaceAll(let boxedValues):
+            return boxedValues.value
+        default:
+            return Optional.None
+        }
+    }
 }
 
 // TODO: Uses constrained protocol extension when moving to Swift 2.0
@@ -65,6 +81,8 @@ public func ==<T: Equatable>(lhs: Operation<T>, rhs: Operation<T>) -> Bool {
         return leftIndex == rightIndex && leftBoxedValue.value == rightBoxedValue.value
     case (.RemoveElement(let leftIndex), .RemoveElement(let rightIndex)):
         return leftIndex == rightIndex
+    case (.ReplaceAll(let leftBoxedValues), .ReplaceAll(let rightBoxedValues)):
+        return leftBoxedValues.value == rightBoxedValues.value
     default:
         return false
     }
