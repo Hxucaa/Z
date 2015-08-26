@@ -11,7 +11,7 @@ import ReactiveCocoa
 import MapKit
 
 public protocol INearbyViewModel {
-    var businessViewModelArr: MutableProperty<[NearbyTableCellViewModel]> { get }
+    var businessViewModelArr: PropertyOf<[NearbyTableCellViewModel]> { get }
     var currentLocation: SignalProducer<CLLocation, NSError> { get }
     init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService, imageService: IImageService)
     func pushDetailModule(section: Int)

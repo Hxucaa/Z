@@ -13,14 +13,28 @@ import AVOSCloud
 
 public final class NearbyViewModel : INearbyViewModel {
     
-    // MARK: - Public
-    // MARK: Input
+    // MARK: - Inputs
     
-    // MARK: Output
-    public let businessViewModelArr: MutableProperty<[NearbyTableCellViewModel]> = MutableProperty([NearbyTableCellViewModel]())
-    public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
+    // MARK: - Outputd
+    private let _businessViewModelArr: MutableProperty<[NearbyTableCellViewModel]> = MutableProperty([NearbyTableCellViewModel]())
+    public var businessViewModelArr: PropertyOf<[NearbyTableCellViewModel]> {
+        return PropertyOf(_businessViewModelArr)
+    }
+    private let _fetchingData: MutableProperty<Bool> = MutableProperty(false)
+    public var fetchingData: PropertyOf<Bool> {
+        return PropertyOf(_fetchingData)
+    }
     
-    // MARK: API
+    // MARK: - Properties
+    // MARK: Services
+    private let router: IRouter
+    private let businessService: IBusinessService
+    private let geoLocationService: IGeoLocationService
+    private let imageService: IImageService
+    
+    private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
+    
+    // MARK: - API
     
     /**
     Get current geo location. If location service fails for any reason, use hardcoded geo location instead.
@@ -41,39 +55,6 @@ public final class NearbyViewModel : INearbyViewModel {
         }
     }
     
-    /**
-    Navigate to Detail Module.
-    
-    :param: businessViewModel The business information to pass along.
-    */
-    public func pushDetailModule(section: Int) {
-        router.pushDetail(businessArr.value[section])
-    }
-    
-    public func pushProfileModule() {
-        router.pushProfile()
-    }
-    
-    // MARK: Initializers
-    public init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService, imageService: IImageService) {
-        self.router = router
-        self.businessService = businessService
-        self.geoLocationService = geoLocationService
-        self.imageService = imageService
-        getBusinessesWithQuery(Business.query(), isPagination: false)
-            |> start()
-    }
-    
-    // get the closest businesses from a certain geopoint
-    private func getNearestBusinesses(centreGeoPoint: AVGeoPoint) -> SignalProducer<Void, NSError>{
-        let query = Business.query()
-        query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint)
-        return getBusinessesWithQuery(query, isPagination: false)
-            |> map { [weak self] _ in
-                return
-            }
-    }
-    
     // fetch additional businesses from the search origin while skipping the number of businesses already on the map-- query used for pagination
     public func getAdditionalBusinesses(searchOrigin: CLLocation, skip: Int) -> SignalProducer<Void, NSError> {
         let query = Business.query()
@@ -83,7 +64,7 @@ public final class NearbyViewModel : INearbyViewModel {
         return getBusinessesWithQuery(query, isPagination: true)
             |> map { [weak self] _ in
                 return
-        }
+            }
     }
     
     // fetch the businesses that are within radius km of the search origin
@@ -100,25 +81,50 @@ public final class NearbyViewModel : INearbyViewModel {
                 else {
                     return SignalProducer<Void, NSError>.empty
                 }
-            }
+        }
     }
     
-    // MARK: - Private
+    /**
+    Navigate to Detail Module.
     
-    // MARK: Services
-    private let router: IRouter
-    private let businessService: IBusinessService
-    private let geoLocationService: IGeoLocationService
-    private let imageService: IImageService
+    :param: businessViewModel The business information to pass along.
+    */
+    public func pushDetailModule(section: Int) {
+        router.pushDetail(businessArr.value[section])
+    }
     
-    private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
+    public func pushProfileModule() {
+        router.pushProfile()
+    }
+    
+    // MARK: - Initializers
+    public init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService, imageService: IImageService) {
+        self.router = router
+        self.businessService = businessService
+        self.geoLocationService = geoLocationService
+        self.imageService = imageService
+        getBusinessesWithQuery(Business.query(), isPagination: false)
+            |> start()
+    }
+    
+    // MARK - Others
+    
+    // get the closest businesses from a certain geopoint
+    private func getNearestBusinesses(centreGeoPoint: AVGeoPoint) -> SignalProducer<Void, NSError>{
+        let query = Business.query()
+        query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint)
+        return getBusinessesWithQuery(query, isPagination: false)
+            |> map { [weak self] _ in
+                return
+            }
+    }
 
     private func getBusinessesWithQuery(query: AVQuery, isPagination: Bool) -> SignalProducer<[NearbyTableCellViewModel], NSError> {
         // TODO: implement default location.
-        query.limit = 10
+        query.limit = 3
         return businessService.findBy(query)
             |> on(next: { businesses in
-                self.fetchingData.put(true)
+                self._fetchingData.put(true)
                 if isPagination {
                     self.businessArr.value.extend(businesses)
                 } else {
@@ -132,14 +138,14 @@ public final class NearbyViewModel : INearbyViewModel {
             }
             |> on(
                 next: { response in
-                    self.fetchingData.put(false)
+                    self._fetchingData.put(false)
                     if response.count > 0 {
                         
                         // if we are doing pagination, append the new businesses to the existing array, otherwise replace it
                         if isPagination {
-                            self.businessViewModelArr.value.extend(response)
+                            self._businessViewModelArr.value.extend(response)
                         } else {
-                            self.businessViewModelArr.put(response)
+                            self._businessViewModelArr.put(response)
                         }
                     }
                 },

@@ -221,7 +221,7 @@ public final class NearbyViewController: XUIViewController {
                         
                     }
                 }
-                })
+            })
         
         
         // create a signal associated with `mapView:didAddAnnotationViews:` from delegate `MKMapViewDelegate`
@@ -278,7 +278,7 @@ public final class NearbyViewController: XUIViewController {
                             }
                         })
                 })
-                })
+            })
         
         // create a signal associated with `scrollViewDidEndDragging:willDecelerate:` from delegate `UIScrollViewDelegate`
         compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"),
@@ -292,27 +292,10 @@ public final class NearbyViewController: XUIViewController {
                     //if we reach the last item of the collection view, start the query for pagination
                     if (currentIndexPath.section == self.businessCollectionView.numberOfSections() - 1) {
                         self.compositeDisposable += self.viewmodel.getAdditionalBusinesses(self.searchOrigin, skip: self.businessCollectionView.numberOfSections())
-                            |> start(next: { [weak self] _ in
-                                }
-                            )
+                            |> start()
                     }
                 }
         )
-    }
-    
-    private func addMapPinDropAnimation(view: MKAnnotationView) {
-        let visibleRect = mapView.annotationVisibleRect
-        let endFrame:CGRect = view.frame
-        var startFrame:CGRect = endFrame
-        startFrame.origin.y = visibleRect.origin.y - startFrame.size.height
-        view.frame = startFrame
-        
-        UIView.beginAnimations("drop", context: nil)
-        UIView.setAnimationDuration(0.6)
-        
-        view.frame = endFrame
-        
-        UIView.commitAnimations()
     }
     
     private func setupBusinessCollectionView() {
@@ -391,6 +374,21 @@ public final class NearbyViewController: XUIViewController {
     }
     
     // MARK: Others
+    
+    private func addMapPinDropAnimation(view: MKAnnotationView) {
+//        let visibleRect = mapView.annotationVisibleRect
+//        let endFrame = view.frame
+//        var startFrame = endFrame
+//        startFrame.origin.y = visibleRect.origin.y - startFrame.size.height
+//        view.frame = startFrame
+//        
+//        UIView.beginAnimations("drop", context: nil)
+//        UIView.setAnimationDuration(0.6)
+//        
+//        view.frame = endFrame
+//        
+//        UIView.commitAnimations()
+    }
 }
 
 extension NearbyViewController : UICollectionViewDataSource {
