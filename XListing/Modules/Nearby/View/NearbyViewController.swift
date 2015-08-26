@@ -173,6 +173,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                     // start the query
                     disposable += this.viewmodel.getBusinessesWithMap(this.searchOrigin, radius: radiusOfMapInKm)
                         |> start(completed: {
+                            self?.redoSearchButton.hidden = true
                             sendCompleted(sink)
                         })
                 }
