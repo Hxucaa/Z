@@ -22,7 +22,6 @@ public final class BoyButton : UIButton {
         let tapped = Action<UIButton, Void, NoError> { button in
             return SignalProducer { sink, disposable in
                 self.tintColor = AssetsKit.maleIconFill
-                //button.selected = !button.selected
                 sendCompleted(sink)
             }
         }

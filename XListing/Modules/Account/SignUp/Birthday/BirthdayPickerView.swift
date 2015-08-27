@@ -71,6 +71,7 @@ public final class BirthdayPickerView : SpringView {
         let pickBirthday = Action<NSDate, Void, NoError> { [weak self] date in
             return SignalProducer { sink, disposable in
                 self?.birthdayTextField.text = date.description
+                println(date.description)
                 self?._viewmodel.birthday.put(date)
                 sendCompleted(sink)
             }
@@ -86,9 +87,9 @@ public final class BirthdayPickerView : SpringView {
                 let picker = ActionSheetDatePicker(
                     title: "生日",
                     datePickerMode: UIDatePickerMode.Date,
-                    selectedDate: viewmodel.年龄上限.value,
-                    minimumDate: viewmodel.年龄下限.value,
-                    maximumDate: viewmodel.年龄上限.value,
+                    selectedDate: viewmodel.pickerUpperLimit.value,
+                    minimumDate: viewmodel.pickerLowerLimit.value,
+                    maximumDate: viewmodel.pickerUpperLimit.value,
                     target: pickBirthday.unsafeCocoaAction,
                     action: CocoaAction.selector,
                     origin: self

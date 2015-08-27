@@ -19,6 +19,8 @@ public final class BirthdayPickerViewModel {
     public let birthdayText = MutableProperty<String?>(nil)
     public private(set) var 年龄上限: ConstantProperty<NSDate>!
     public private(set) var 年龄下限: ConstantProperty<NSDate>!
+    public private(set) var pickerUpperLimit: ConstantProperty<NSDate>!
+    public private(set) var pickerLowerLimit: ConstantProperty<NSDate>!
     
     // MARK: - Variables
     /// Signal containing a valid username
@@ -31,6 +33,8 @@ public final class BirthdayPickerViewModel {
         let currentDate = NSDate()
         年龄上限 = ConstantProperty<NSDate>(calDate(currentDate, age: Constants.MIN_AGE))
         年龄下限 = ConstantProperty<NSDate>(calDate(currentDate, age: Constants.MAX_AGE))
+        pickerUpperLimit = ConstantProperty<NSDate>(NSDate(timeInterval: -1, sinceDate: 年龄上限.value))
+        pickerLowerLimit = ConstantProperty<NSDate>(NSDate(timeInterval: 1, sinceDate: 年龄下限.value))
         
         validBirthdaySignal = birthday.producer
             |> ignoreNil
