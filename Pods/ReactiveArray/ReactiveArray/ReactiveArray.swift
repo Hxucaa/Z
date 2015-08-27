@@ -19,11 +19,12 @@ public final class ReactiveArray<T>: MutableCollectionType {
     
     private let (_signal, _sink) = OperationSignal.pipe()
     
-    private lazy var _mutableCount: MutableProperty<Int> = MutableProperty<Int>(self._elements.count)
+    private let _mutableCount: MutableProperty<Int>
     
     // MARK: - Initializers
     public init(elements:[T]) {
         _elements = elements
+        _mutableCount = MutableProperty<Int>(elements.count)
         
         _signal.observe { [unowned self](operation) in
             self.updateArray(operation)
@@ -64,8 +65,12 @@ public final class ReactiveArray<T>: MutableCollectionType {
     // MARK: Operations
     public func append(element: T) {
         let operation: Operation<T> = .Append(value: Box(element))
-        
-        _sink.put(Event.Next(Box(operation)))
+        sendNext(_sink, operation)
+    }
+    
+    public func extend(elements: [T]) {
+        let operation: Operation<T> = .Extend(values: Box(elements))
+        sendNext(_sink, operation)
     }
     
     public func insert(newElement: T, atIndex index : Int) {
@@ -113,8 +118,12 @@ public final class ReactiveArray<T>: MutableCollectionType {
         case .Append(let boxedValue):
             _elements.append(boxedValue.value)
             _mutableCount.put(_elements.count)
+        case .Extend(let boxedValues):
+            _elements.extend(boxedValues.value)
+            _mutableCount.put(_elements.count)
         case .Insert(let boxedValue, let index):
             _elements[index] = boxedValue.value
+            _mutableCount.put(_elements.count)
         case .RemoveElement(let index):
             _elements.removeAtIndex(index)
             _mutableCount.put(_elements.count)
