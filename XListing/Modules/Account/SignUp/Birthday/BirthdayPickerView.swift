@@ -86,7 +86,7 @@ public final class BirthdayPickerView : SpringView {
                 let picker = ActionSheetDatePicker(
                     title: "生日",
                     datePickerMode: UIDatePickerMode.Date,
-                    selectedDate: NSDate(),
+                    selectedDate: viewmodel.年龄上限.value,
                     minimumDate: viewmodel.年龄下限.value,
                     maximumDate: viewmodel.年龄上限.value,
                     target: pickBirthday.unsafeCocoaAction,

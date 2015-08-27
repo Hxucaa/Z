@@ -18,11 +18,12 @@ public final class GirlButton : UIButton {
         super.awakeFromNib()
         
         setImage(AssetsKit.imageOfFemaleIcon(scale: 1.0), forState: UIControlState.Normal)
-        tintColor = AssetsKit.femaleIconFill
+        self.tintColor = UIColor.whiteColor()
         
         let tapped = Action<UIButton, Void, NoError> { button in
             return SignalProducer { sink, disposable in
-                button.selected = !button.selected
+                self.tintColor = AssetsKit.femaleIconFill
+                //button.selected = !button.selected
                 sendCompleted(sink)
             }
         }

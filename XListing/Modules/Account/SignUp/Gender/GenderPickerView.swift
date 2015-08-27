@@ -68,6 +68,7 @@ public final class GenderPickerView : SpringView {
         let boy = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
                 self?.viewmodel.value?.gender.put(Gender.Male)
+                self?.girlButton.tintColor = UIColor.whiteColor()
                 self?.girlButton.selected = false
                 sendCompleted(sink)
             }
@@ -81,6 +82,7 @@ public final class GenderPickerView : SpringView {
         let girl = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
                 self?.viewmodel.value?.gender.put(Gender.Female)
+                self?.boyButton.tintColor = UIColor.whiteColor()
                 self?.boyButton.selected = false
                 sendCompleted(sink)
             }
