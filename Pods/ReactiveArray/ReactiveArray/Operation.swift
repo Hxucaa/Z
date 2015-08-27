@@ -12,6 +12,7 @@ import Box
 public enum Operation<T>: DebugPrintable {
     
     case Append(value: Box<T>)
+    case Extend(values: Box<[T]>)
     case Insert(value: Box<T>, atIndex: Int)
     case RemoveElement(atIndex: Int)
     case ReplaceAll(values: Box<[T]>)
@@ -21,6 +22,8 @@ public enum Operation<T>: DebugPrintable {
         switch self {
         case .Append(let boxedValue):
             return Operation<U>.Append(value: Box(mapper(boxedValue.value)))
+        case .Extend(let boxedValues):
+            return Operation<U>.Extend(values: Box(boxedValues.value.map { mapper($0) }))
         case .Insert(let boxedValue, let index):
             return Operation<U>.Insert(value: Box(mapper(boxedValue.value)), atIndex: index)
         case .RemoveElement(let index):
@@ -37,6 +40,8 @@ public enum Operation<T>: DebugPrintable {
         switch self {
         case .Append(let boxedValue):
             description = ".Append(value:\(boxedValue.value))"
+        case .Extend(let boxedValues):
+            description = ".Extend(values:\(boxedValues.value))"
         case .Insert(let boxedValue, let index):
             description = ".Insert(value: \(boxedValue.value), atIndex:\(index))"
         case .RemoveElement(let index):
@@ -62,6 +67,8 @@ public enum Operation<T>: DebugPrintable {
     
     public var arrayValue: [T]? {
         switch self {
+        case .Extend(let boxedValues):
+            return boxedValues.value
         case .ReplaceAll(let boxedValues):
             return boxedValues.value
         default:
@@ -77,6 +84,8 @@ public func ==<T: Equatable>(lhs: Operation<T>, rhs: Operation<T>) -> Bool {
     switch (lhs, rhs) {
     case (.Append(let leftBoxedValue), .Append(let rightBoxedValue)):
         return leftBoxedValue.value == rightBoxedValue.value
+    case (.Extend(let leftBoxedValues), .Extend(let rightBoxedValues)):
+        return leftBoxedValues.value == rightBoxedValues.value
     case (.Insert(let leftBoxedValue, let leftIndex), .Insert(let rightBoxedValue, let rightIndex)):
         return leftIndex == rightIndex && leftBoxedValue.value == rightBoxedValue.value
     case (.RemoveElement(let leftIndex), .RemoveElement(let rightIndex)):
