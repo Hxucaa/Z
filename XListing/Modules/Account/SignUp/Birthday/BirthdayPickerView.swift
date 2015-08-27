@@ -71,7 +71,6 @@ public final class BirthdayPickerView : SpringView {
         let pickBirthday = Action<NSDate, Void, NoError> { [weak self] date in
             return SignalProducer { sink, disposable in
                 self?.birthdayTextField.text = date.description
-                println(date.description)
                 self?._viewmodel.birthday.put(date)
                 sendCompleted(sink)
             }
