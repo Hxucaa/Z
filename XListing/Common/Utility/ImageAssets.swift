@@ -10,10 +10,7 @@ import Foundation
 
 public struct ImageAssets {
     static let appIcon = "appIcon"
-    static let background = "background"
-    static let curry = "curry"
     static let downArrow = "downArrow"
-    static let lebron = "lebron"
     static let lowPoly = "Low-Polyy"
     static let mapPin = "mapPin"
     static let profile = "profile"
@@ -21,4 +18,5 @@ public struct ImageAssets {
     static let divider = "rowDividerBackground"
     static let businessplaceholder = "businessplaceholder"
     static let logo = "Logo"
+    static let pullToRefreshArrow = "Pull To Refresh Arrow"
 }

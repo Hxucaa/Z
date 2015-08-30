@@ -93,6 +93,7 @@ public func logLifeCycle<T, E>(context: LogContext, signalName: String, file: St
     let log = { (context: LogContext, message: String) -> Void in
         switch context {
         case .LeanCloud: LSLogVerbose(message, file: file, function: function, line: line)
+        case .Misc: MiscLogVerbose(message, file: file, function: function, line: line)
         case .Root: RootLogVerbose(message, file: file, function: function, line: line)
         case .BackgroundOp: BOLogVerbose(message, file: file, function: function, line: line)
         case .Account: AccountLogVerbose(message, file: file, function: function, line: line)

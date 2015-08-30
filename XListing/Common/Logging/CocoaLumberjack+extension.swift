@@ -52,6 +52,7 @@ extension DDLogFlag {
 
 public enum LogContext : Int {
     case LeanCloud = 800
+    case Misc = 700
     case Root = 100
     case BackgroundOp = 200
     case Account = 300
@@ -330,6 +331,33 @@ public func WTGLogVerbose(@autoclosure(escaping) logText: () -> String, level: D
 
 public func WTGLogError(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
     SwiftLogMacro(async, level, flag: .Error, context: .WantToGo, file: file, function: function, line: line, string: logText)
+}
+
+
+/********************************
+*                               *
+*       Misc                    *
+*                               *
+*********************************/
+
+public func MiscLogDebug(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Debug, context: .Misc, file: file, function: function, line: line, string: logText)
+}
+
+public func MiscLogInfo(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Info, context: .Misc, file: file, function: function, line: line, string: logText)
+}
+
+public func MiscLogWarning(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Warning, context: .Misc, file: file, function: function, line: line, string: logText)
+}
+
+public func MiscLogVerbose(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Verbose, context: .Misc, file: file, function: function, line: line, string: logText)
+}
+
+public func MiscLogError(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Error, context: .Misc, file: file, function: function, line: line, string: logText)
 }
 
 /// Analogous to the C preprocessor macro THIS_FILE
