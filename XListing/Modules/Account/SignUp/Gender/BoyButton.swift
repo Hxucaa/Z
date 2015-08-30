@@ -17,11 +17,11 @@ public final class BoyButton : UIButton {
         super.awakeFromNib()
         
         setImage(AssetsKit.imageOfMaleIcon(scale: 1.0), forState: UIControlState.Normal)
-        tintColor = AssetsKit.maleIconFill
+        self.tintColor = UIColor.whiteColor()
         
         let tapped = Action<UIButton, Void, NoError> { button in
             return SignalProducer { sink, disposable in
-                button.selected = !button.selected
+                self.tintColor = AssetsKit.maleIconFill
                 sendCompleted(sink)
             }
         }

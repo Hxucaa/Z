@@ -9,8 +9,20 @@
 import UIKit
 import SDWebImage
 import ReactiveCocoa
+import Dollar
+import Cartography
 
 private let CellIdentifier = "Cell"
+
+/**
+How is Infinite Scrolling implemented?
+
+The `INSPullToRefresh` is used to assist in the implementation of Infinite Scrolling. The library allows to customize Pull To Refresh and Infinity Scroll.
+
+Install the pull to refresh view like so `tableView.ins_pullToRefreshBackgroundView.addSubview(pullToRefresh)`. Add action to pull to refresh via `tableView.ins_addPullToRefreshWithHeight`. Install infinity scroll view like so `tableView.ins_infiniteScrollBackgroundView.addSubview(infinityIndicator)`. Add action to infinity scroll via `tableView.ins_addInfinityScrollWithHeight`.
+
+We also detect when user scrolls pass a certain point, fetch more data from remote so that user don't have to scroll to the bottom of the table view to trigger fetching. This improves user experience.
+*/
 
 public final class FeaturedListViewController: XUIViewController {
 
@@ -19,27 +31,29 @@ public final class FeaturedListViewController: XUIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var nearbyButton: UIBarButtonItem!
     @IBOutlet private weak var profileButton: UIBarButtonItem!
-    private let refreshControl = UIRefreshControl()
+    private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, FeaturedListViewModel>!
     private let statusBarBackgroundView = StatusBarBackgroundView()
     
-    // MARK: Properties
+    // MARK: - Properties
     private var viewmodel: IFeaturedListViewModel!
     private let compositeDisposable = CompositeDisposable()
-    private var isLoading = 0
     
-    // MARK: Setups
+    // MARK: - Setups
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.setNavigationBarHidden(false, animated: false)
         
         // makes the gap between table view and navigation bar go away
         tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         // makes the gap at the bottom of the table view go away
         tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         
-        setupRefresh()
         setupNearbyButton()
         setupProfileButton()
         
+        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: self.tableView, viewmodel: self.viewmodel as! FeaturedListViewModel)
+
         tableView.dataSource = self
     }
     
@@ -58,6 +72,11 @@ public final class FeaturedListViewController: XUIViewController {
         navigationController?.view.addSubview(statusBarBackgroundView)
         navigationController?.navigationBar.translucent = false
         
+        compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource()
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Featured, "viewmodel.collectionDataSource.producer")
+            |> start()
+        
         willAppearTableView()
     }
     
@@ -72,64 +91,9 @@ public final class FeaturedListViewController: XUIViewController {
     }
     
     deinit {
+        singleSectionInfiniteTableViewManager.cleanUp()
         compositeDisposable.dispose()
         FeaturedLogVerbose("Featured List View Controller deinitializes.")
-    }
-    
-    private func setupRefresh() {
-        refreshControl.attributedTitle = NSAttributedString(string: "刷新中")
-        
-        let refresh = Action<UIRefreshControl, Void, NSError> { refreshControl in
-            return self.viewmodel.getFeaturedBusinesses()
-                |> map { _ -> Void in }
-                |> on(next: { [weak self] _ in
-                    self?.tableView.reloadData()
-                    self?.refreshControl.endRefreshing()
-                })
-        }
-        
-        refreshControl.addTarget(refresh.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .ValueChanged)
-        
-        tableView.addSubview(refreshControl)
-        
-        // turn off autoresizing mask off to allow custom autolayout constraints
-        refreshControl.setTranslatesAutoresizingMaskIntoConstraints(false)
-        
-        // add constraints
-        view.addConstraints(
-            [
-                // center X alignment
-                NSLayoutConstraint(
-                    item: refreshControl,
-                    attribute: NSLayoutAttribute.CenterX,
-                    relatedBy: NSLayoutRelation.Equal,
-                    toItem: view,
-                    attribute: NSLayoutAttribute.CenterX,
-                    multiplier: 1.0,
-                    constant: 0.0
-                ),
-                // top space to topLayoutGuide is 90
-                NSLayoutConstraint(
-                    item: refreshControl,
-                    attribute: NSLayoutAttribute.Top,
-                    relatedBy: NSLayoutRelation.Equal,
-                    toItem: topLayoutGuide,
-                    attribute: NSLayoutAttribute.Top,
-                    multiplier: 1.0,
-                    constant: 30.0
-                ),
-                // width set to 150
-                NSLayoutConstraint(
-                    item: refreshControl,
-                    attribute: NSLayoutAttribute.Width,
-                    relatedBy: NSLayoutRelation.Equal,
-                    toItem: nil,
-                    attribute: NSLayoutAttribute.NotAnAttribute,
-                    multiplier: 1.0,
-                    constant: 150.0
-                )
-            ]
-        )
     }
     
     /**
@@ -180,41 +144,6 @@ public final class FeaturedListViewController: XUIViewController {
                 }
             )
         
-        rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"),
-            fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
-            |> map { ($0 as! RACTuple).first as! UIScrollView }
-            |> start(
-                next: { scrollView in
-                    if (self.isLoading != 0) {
-                        return
-                    }
-                    
-                    if (self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.bounds.size.height)) {
-                        
-                        // reached bottom of table view
-                        self.isLoading = 1
-                        self.viewmodel.getFeaturedBusinesses()
-                            |> map { _ -> Void in }
-                            |> start(next: { [weak self] _ in
-                                self?.isLoading = 0
-                            })
-
-                        FeaturedLogVerbose("loaded more businesses from LeanCloud")
-                    }
-                }
-        )
-        
-        compositeDisposable += viewmodel.featuredBusinessViewModelArr.producer
-            // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Featured, "viewmodel.featuredBusinessViewModelArr.producer")
-            |> start(
-                next: { [weak self] _ in
-                    self?.tableView.reloadData()
-                }
-            )
-        
-        
         /**
         Assigning UITableView delegate has to happen after signals are established.
         
@@ -226,14 +155,17 @@ public final class FeaturedListViewController: XUIViewController {
         
         The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
         */
+        tableView.delegate = nil
         tableView.delegate = self
     }
     
-    // MARK: Bindings
-    
+    // MARK: - Bindings
     
     public func bindToViewModel(viewmodel: IFeaturedListViewModel) {
         self.viewmodel = viewmodel
+        
+        self.viewmodel.fetchMoreData()
+            |> start()
     }
 }
 
@@ -247,7 +179,7 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     :returns: The number of rows in section.
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.featuredBusinessViewModelArr.value.count
+        return viewmodel.collectionDataSource.count
     }
     
     /**
@@ -260,8 +192,24 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as! FeaturedListBusinessTableViewCell
-        cell.bindViewModel(viewmodel.featuredBusinessViewModelArr.value[indexPath.row])
-        
+        cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return cell
+    }
+}
+
+extension FeaturedListViewController : UIScrollViewDelegate {
+    
+    /**
+    Tells the delegate when the user finishes scrolling the content.
+    
+    :param: scrollView          The scroll-view object where the user ended the touch..
+    :param: velocity            The velocity of the scroll view (in points) at the moment the touch was released.
+    :param: targetContentOffset The expected offset when the scrolling action decelerates to a stop.
+    */
+    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        // make sure the scrollView instance is the same instance as tha tableView in this class.
+        if tableView === scrollView {
+            predictiveScrolling(tableView, withVelocity: velocity, targetContentOffset: targetContentOffset, predictiveScrollable: viewmodel as! FeaturedListViewModel)
+        }
     }
 }
