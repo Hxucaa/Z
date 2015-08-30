@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol INearbyWireframe : class {
-    init(rootWireframe: IRootWireframe, router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService, imageService: IImageService)
+public protocol INearbyWireframe : class, Wireframe {
+    init(router: IRouter, businessService: IBusinessService, geoLocationService: IGeoLocationService, imageService: IImageService)
 }

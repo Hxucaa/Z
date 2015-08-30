@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol IFeaturedListWireframe {
-    init(rootWireframe: IRootWireframe, router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
+public protocol IFeaturedListWireframe : class, Wireframe {
+    init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
 }
