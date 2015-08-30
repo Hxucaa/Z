@@ -9,6 +9,6 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol IPredictiveScrollDataSource : class, ICollectionDataSource {
+public protocol IPredictiveScrollDataSource : class {
     func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError>
 }

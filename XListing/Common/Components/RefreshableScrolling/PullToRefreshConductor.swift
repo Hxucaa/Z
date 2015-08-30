@@ -34,7 +34,7 @@ public class PullToRefreshConductor<T: UITableView, U: IPullToRefreshDataSource>
                 let startTime = NSDate.timeIntervalSinceReferenceDate()
                 this.pullToRefreshable.refreshData()
                     |> on(next: { _ in
-                        FeaturedLogVerbose("Pull to refresh fetched additional data for infinite scrolling.")
+                        DDLogVerbose("Pull to refresh fetched additional data for infinite scrolling.")
                     })
                     |> flatMap(.Merge) { _ -> SignalProducer<Void, NSError> in
                         

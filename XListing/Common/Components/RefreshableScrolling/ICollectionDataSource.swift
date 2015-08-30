@@ -8,10 +8,11 @@
 
 import Foundation
 import ReactiveCocoa
+import ReactiveArray
 
 public protocol ICollectionDataSource {
     /// Associated Types
     typealias Payload
     
-    var collectionDataSource: MutableProperty<[Payload]> { get }
+    var collectionDataSource: ReactiveArray<Payload> { get }
 }

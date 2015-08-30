@@ -8,9 +8,10 @@
 
 import Foundation
 import ReactiveCocoa
+import ReactiveArray
 
-public protocol IFeaturedListViewModel : ICollectionDataSource, IInfinityScrollDataSource, IPullToRefreshDataSource, IPredictiveScrollDataSource {
-    var isFetchingData: MutableProperty<Bool> { get }
+public protocol IFeaturedListViewModel : IInfinityScrollDataSource, IPullToRefreshDataSource, IPredictiveScrollDataSource {
+    var collectionDataSource: ReactiveArray<FeaturedBusinessViewModel> { get }
     init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
     func pushNearbyModule()
     func pushDetailModule(section: Int)

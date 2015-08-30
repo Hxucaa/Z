@@ -14,15 +14,14 @@ import ReactiveArray
 
 private let 启动无限scrolling参数 = 0.4
 
-public final class FeaturedListViewModel : IFeaturedListViewModel {
+public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDataSource {
     
     public typealias Payload = FeaturedBusinessViewModel
     
     // MARK: - Inputs
     
     // MARK: - Outputs
-    public let collectionDataSource = MutableProperty<[FeaturedBusinessViewModel]>([FeaturedBusinessViewModel]())
-    public let isFetchingData: MutableProperty<Bool> = MutableProperty(false)
+    public let collectionDataSource = ReactiveArray<FeaturedBusinessViewModel>()
     
     // MARK: - Properties
     // MARK: Services
@@ -64,7 +63,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
     
     public func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
         // if there are still plenty of data for display, don't fetch more businesses
-        if Double(targetContentIndex) < Double(collectionDataSource.value.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数) {
+        if Double(targetContentIndex) < Double(collectionDataSource.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数) {
             return SignalProducer<Void, NSError>.empty
         }
         // else fetch more data
@@ -97,7 +96,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
         let query = Business.query()!
         // TODO: temporarily disabled until we have more featured businesses
         //        query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
-        query.limit = 20
+        query.limit = Constants.PAGINATION_LIMIT
         if refresh {
             // don't skip any content if we are refresh the list
             query.skip = 0
@@ -107,9 +106,6 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
         }
         
         return SignalProducer<[Business], NSError>.empty
-            |> on(completed: { [weak self] in
-                self?.isFetchingData.put(true)
-            })
             |> then(businessService.findBy(query))
             |> on(next: { businesses in
                 
@@ -135,22 +131,18 @@ public final class FeaturedListViewModel : IFeaturedListViewModel {
                     FeaturedBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
                 }
             }
-            |> on(event: { [weak self] event in
-                self?.isFetchingData.put(false)
-            })
             |> on(
                 next: { viewmodels in
                     if refresh {
                         // ignore old data
-                        self.collectionDataSource.put(viewmodels)
+                        self.collectionDataSource.replaceAll(viewmodels)
                     }
                     else {
                         // save the new data with old ones
-                        self.collectionDataSource.put(self.collectionDataSource.value + viewmodels)
+                        self.collectionDataSource.extend(viewmodels)
                     }
                 },
                 error: { FeaturedLogError($0.description) }
             )
     }
-    
 }

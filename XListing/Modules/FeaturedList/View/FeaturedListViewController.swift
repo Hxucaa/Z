@@ -9,7 +9,6 @@
 import UIKit
 import SDWebImage
 import ReactiveCocoa
-import INSPullToRefresh
 import Dollar
 import Cartography
 
@@ -32,12 +31,11 @@ public final class FeaturedListViewController: XUIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var nearbyButton: UIBarButtonItem!
     @IBOutlet private weak var profileButton: UIBarButtonItem!
-    private lazy var infinityScrollConductor: InfinityScrollConductor<UITableView, FeaturedListViewModel> = InfinityScrollConductor<UITableView, FeaturedListViewModel>(tableView: self.tableView, infinityScrollable: self.viewmodel)
-    private lazy var pullToRefreshConductor: PullToRefreshConductor<UITableView, FeaturedListViewModel> = PullToRefreshConductor<UITableView, FeaturedListViewModel>(tableView: self.tableView, pullToRefreshable: self.viewmodel)
+    private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, FeaturedListViewModel>!
     private let statusBarBackgroundView = StatusBarBackgroundView()
     
     // MARK: - Properties
-    private var viewmodel: FeaturedListViewModel!
+    private var viewmodel: IFeaturedListViewModel!
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Setups
@@ -54,10 +52,8 @@ public final class FeaturedListViewController: XUIViewController {
         setupNearbyButton()
         setupProfileButton()
         
-        infinityScrollConductor.setup()
-        pullToRefreshConductor.setup()
-        
-        
+        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: self.tableView, viewmodel: self.viewmodel as! FeaturedListViewModel)
+
         tableView.dataSource = self
     }
     
@@ -76,6 +72,11 @@ public final class FeaturedListViewController: XUIViewController {
         navigationController?.view.addSubview(statusBarBackgroundView)
         navigationController?.navigationBar.translucent = false
         
+        compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource()
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Featured, "viewmodel.collectionDataSource.producer")
+            |> start()
+        
         willAppearTableView()
     }
     
@@ -90,8 +91,7 @@ public final class FeaturedListViewController: XUIViewController {
     }
     
     deinit {
-        infinityScrollConductor.removeInfinityScroll()
-        pullToRefreshConductor.removePullToRefresh()
+        singleSectionInfiniteTableViewManager.cleanUp()
         compositeDisposable.dispose()
         FeaturedLogVerbose("Featured List View Controller deinitializes.")
     }
@@ -144,16 +144,6 @@ public final class FeaturedListViewController: XUIViewController {
                 }
             )
         
-        compositeDisposable += viewmodel.collectionDataSource.producer
-            // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Featured, "viewmodel.featuredBusinessViewModelArr.producer")
-            |> start(
-                next: { [weak self] _ in
-                    self?.tableView.reloadData()
-                }
-            )
-        
         /**
         Assigning UITableView delegate has to happen after signals are established.
         
@@ -165,13 +155,13 @@ public final class FeaturedListViewController: XUIViewController {
         
         The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
         */
+        tableView.delegate = nil
         tableView.delegate = self
     }
     
     // MARK: - Bindings
     
-    
-    public func bindToViewModel(viewmodel: FeaturedListViewModel) {
+    public func bindToViewModel(viewmodel: IFeaturedListViewModel) {
         self.viewmodel = viewmodel
         
         self.viewmodel.fetchMoreData()
@@ -189,7 +179,7 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     :returns: The number of rows in section.
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.collectionDataSource.value.count
+        return viewmodel.collectionDataSource.count
     }
     
     /**
@@ -202,8 +192,7 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as! FeaturedListBusinessTableViewCell
-        cell.bindViewModel(viewmodel.collectionDataSource.value[indexPath.row])
-        
+        cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return cell
     }
 }
@@ -220,7 +209,7 @@ extension FeaturedListViewController : UIScrollViewDelegate {
     public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         // make sure the scrollView instance is the same instance as tha tableView in this class.
         if tableView === scrollView {
-            predictiveScrolling(tableView, withVelocity: velocity, targetContentOffset: targetContentOffset, predictiveScrollable: viewmodel)
+            predictiveScrolling(tableView, withVelocity: velocity, targetContentOffset: targetContentOffset, predictiveScrollable: viewmodel as! FeaturedListViewModel)
         }
     }
 }

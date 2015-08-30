@@ -9,6 +9,6 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol IPullToRefreshDataSource : class, ICollectionDataSource {
+public protocol IPullToRefreshDataSource : class {
     func refreshData() -> SignalProducer<Void, NSError>
 }

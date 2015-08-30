@@ -9,6 +9,6 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol IInfinityScrollDataSource : class, ICollectionDataSource {
+public protocol IInfinityScrollDataSource : class {
     func fetchMoreData() -> SignalProducer<Void, NSError>
 }

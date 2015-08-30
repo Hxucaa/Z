@@ -1,0 +1,145 @@
+//
+//  SingleSectionInfiniteTableViewManager.swift
+//  XListing
+//
+//  Created by Lance Zhu on 2015-08-29.
+//  Copyright (c) 2015 ZenChat. All rights reserved.
+//
+
+import Foundation
+import UIKit
+import INSPullToRefresh
+import ReactiveCocoa
+import ReactiveArray
+import Dollar
+
+private let OnlyTableViewSection = 0
+
+public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<IPullToRefreshDataSource, IInfinityScrollDataSource, IPredictiveScrollDataSource, ICollectionDataSource>> {
+    
+    public typealias AppendHandler = (value: U.Payload) -> Void
+    public typealias ExtendHandler = (values: [U.Payload]) -> Void
+    public typealias InsertHandler = (value: U.Payload, index: Int) -> Void
+    public typealias ReplaceHandler = (value: U.Payload, index: Int) -> Void
+    public typealias RemoveElementHandler = (index: Int) -> Void
+    public typealias ReplaceAllHandler = (values: [U.Payload]) -> Void
+    public typealias RemoveAllHandler = (keepCapacity: Bool) -> Void
+    
+    private weak var tableView: T!
+    private weak var viewmodel: U!
+    private lazy var infinityScrollConductor: InfinityScrollConductor<T, U> = InfinityScrollConductor<T, U>(tableView: self.tableView, infinityScrollable: self.viewmodel)
+    private lazy var pullToRefreshConductor: PullToRefreshConductor<T, U> = PullToRefreshConductor<T, U>(tableView: self.tableView, pullToRefreshable: self.viewmodel)
+    
+    private var isFirstLoad = true
+    
+    public init(tableView: T, viewmodel: U) {
+        self.tableView = tableView
+        self.viewmodel = viewmodel
+        
+        infinityScrollConductor.setup()
+        pullToRefreshConductor.setup()
+    }
+    
+    public func reactToDataSource(
+        appendHandler: AppendHandler? = nil,
+        extendHandler: ExtendHandler? = nil,
+        insertHandler: InsertHandler? = nil,
+        replaceHandler: ReplaceHandler? = nil,
+        removeElementHandler: RemoveElementHandler? = nil,
+        replaceAllHandler: ReplaceAllHandler? = nil,
+        removeAllHandler: RemoveAllHandler? = nil
+        ) -> SignalProducer<Operation<U.Payload>, NoError> {
+        
+            return viewmodel.collectionDataSource.producer
+                |> logLifeCycle(LogContext.Misc, "SingleSectionInfiniteTableViewManager viewmodel.collectionDataSource.producer")
+                |> on(
+                    next: { [weak self] operation in
+                        if let this = self {
+                            switch operation {
+                            case let .Append(boxedValue):
+                                if let appendHandler = appendHandler {
+                                    appendHandler(value: boxedValue.value)
+                                }
+                                else {
+                                    if this.isFirstLoad {
+                                        this.tableView.reloadData()
+                                        this.isFirstLoad = false
+                                    }
+                                    else {
+                                        let rows = this.tableView.numberOfRowsInSection(OnlyTableViewSection)
+                                        this.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: rows, inSection: OnlyTableViewSection)], withRowAnimation: UITableViewRowAnimation.None)
+                                    }
+                                }
+                            case let .Extend(boxedValues):
+                                if let extendHandler = extendHandler {
+                                    extendHandler(values: boxedValues.value)
+                                }
+                                else {
+                                    if this.isFirstLoad {
+                                        this.tableView.reloadData()
+                                        this.isFirstLoad = false
+                                    }
+                                    else {
+                                        var rows = this.tableView.numberOfRowsInSection(OnlyTableViewSection)
+                                        this.tableView.insertRowsAtIndexPaths(boxedValues.value.map { viewmodel in NSIndexPath(forRow: rows++, inSection: OnlyTableViewSection) }, withRowAnimation: UITableViewRowAnimation.None)
+                                    }
+                                }
+                            case let .Insert(boxedValue, index):
+                                if let insertHandler = insertHandler {
+                                    insertHandler(value: boxedValue.value, index: index)
+                                }
+                                else {
+                                    this.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: OnlyTableViewSection)], withRowAnimation: UITableViewRowAnimation.None)
+                                }
+                            case let .Replace(boxedValue, index):
+                                if let replaceHandler = replaceHandler {
+                                    replaceHandler(value: boxedValue.value, index: index)
+                                }
+                                else {
+                                    this.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: OnlyTableViewSection)], withRowAnimation: UITableViewRowAnimation.None)
+                                }
+                            case let .RemoveElement(atIndex):
+                                if let removeElementHandler = removeElementHandler {
+                                    removeElementHandler(index: atIndex)
+                                }
+                                else {
+                                    this.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: atIndex, inSection: OnlyTableViewSection)], withRowAnimation: UITableViewRowAnimation.None)
+                                }
+                            case let .ReplaceAll(boxedValues):
+                                if let replaceAllHandler = replaceAllHandler {
+                                    replaceAllHandler(values: boxedValues.value)
+                                }
+                                else {
+                                    this.tableView.reloadSections(NSIndexSet(index: OnlyTableViewSection), withRowAnimation: UITableViewRowAnimation.None)
+                                }
+                            case let .RemoveAll(keepCapacity):
+                                if let removeAllHandler = removeAllHandler {
+                                    removeAllHandler(keepCapacity: keepCapacity)
+                                }
+                                else {
+                                    let rows = this.tableView.numberOfRowsInSection(OnlyTableViewSection)
+                                    var paths = [NSIndexPath]()
+                                    for i in 0...rows {
+                                        paths.append(NSIndexPath(forRow: i, inSection: OnlyTableViewSection))
+                                    }
+                                    this.tableView.deleteRowsAtIndexPaths(paths, withRowAnimation: UITableViewRowAnimation.None)
+                                }
+                            }
+                        }
+                    }
+                )
+    }
+    
+    public func predictivelyScroll(velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        predictiveScrolling(tableView, withVelocity: velocity, targetContentOffset: targetContentOffset, predictiveScrollable: viewmodel)
+    }
+    
+    public func cleanUp() {
+        infinityScrollConductor.removeInfinityScroll()
+        pullToRefreshConductor.removePullToRefresh()
+    }
+    
+    deinit {
+        MiscLogVerbose("SingleSectionInfiniteTableViewManager deinitializes.")
+    }
+}

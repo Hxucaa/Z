@@ -184,6 +184,7 @@
 		B4F4AFDE1B6EC70700ABA176 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AFDD1B6EC70700ABA176 /* Misc.swift */; };
 		B4F6DB671B647BCA00DB31D4 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F6DB661B647BCA00DB31D4 /* Detail.storyboard */; };
 		B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordView.xib */; };
+		B4FC0CFD1B923738001D7A4F /* SingleSectionInfiniteTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FC0CFC1B923738001D7A4F /* SingleSectionInfiniteTableViewManager.swift */; };
 		B4FC6B211B678515001F13E9 /* NSObject+Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FC6B201B678515001F13E9 /* NSObject+Swift.m */; };
 		B4FCC7281AE9C71F009B4DF6 /* ILandingPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7271AE9C71F009B4DF6 /* ILandingPageViewModel.swift */; };
 		B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC72B1AE9D339009B4DF6 /* AccountWireframe.swift */; };
@@ -396,6 +397,7 @@
 		B4F4AFDD1B6EC70700ABA176 /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		B4F6DB661B647BCA00DB31D4 /* Detail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
 		B4FA1FBB1B719C08003BD3BC /* UsernameAndPasswordView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UsernameAndPasswordView.xib; path = XListing/Modules/Account/Shared/UsernameAndPassword/UsernameAndPasswordView.xib; sourceTree = SOURCE_ROOT; };
+		B4FC0CFC1B923738001D7A4F /* SingleSectionInfiniteTableViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleSectionInfiniteTableViewManager.swift; sourceTree = "<group>"; };
 		B4FC6B201B678515001F13E9 /* NSObject+Swift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swift.m"; sourceTree = "<group>"; };
 		B4FC6B221B678541001F13E9 /* NSObject+Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Swift.h"; sourceTree = "<group>"; };
 		B4FCC7271AE9C71F009B4DF6 /* ILandingPageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ILandingPageViewModel.swift; sourceTree = "<group>"; };
@@ -497,7 +499,6 @@
 		2A1B3A1C1B256BCF003E70E0 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B4104F631B846B3E00D7E4BD /* RefreshableScrolling */,
 				2A1B3A1F1B2574EF003E70E0 /* ParticipationPopover.swift */,
 				2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */,
 				B4F1958A1B2938FC00B8C519 /* HUD.swift */,
@@ -733,6 +734,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		B401EA0C1B927AE00048BCD1 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B4104F631B846B3E00D7E4BD /* RefreshableScrolling */,
+			);
+			name = Components;
+			path = Common/Components;
+			sourceTree = "<group>";
+		};
 		B4104F631B846B3E00D7E4BD /* RefreshableScrolling */ = {
 			isa = PBXGroup;
 			children = (
@@ -743,17 +753,10 @@
 				B4104F641B846D7600D7E4BD /* PullToRefreshConductor.swift */,
 				B4104F661B846D9B00D7E4BD /* InfinityScrollConductor.swift */,
 				B4104F681B85152F00D7E4BD /* PredictiveScrollConductor.swift */,
-			);
-			path = RefreshableScrolling;
-			sourceTree = "<group>";
-		};
-		B4104F6A1B8565FE00D7E4BD /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
+				B4FC0CFC1B923738001D7A4F /* SingleSectionInfiniteTableViewManager.swift */,
 				B4104F6B1B85664D00D7E4BD /* ICollectionDataSource.swift */,
 			);
-			name = ViewModel;
-			path = Common/ViewModel;
+			path = RefreshableScrolling;
 			sourceTree = "<group>";
 		};
 		B4117CFA1B1F8F06001700C8 /* Logging */ = {
@@ -1000,9 +1003,9 @@
 		B4CC82671AC1662900E85CEA /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				B401EA0C1B927AE00048BCD1 /* Components */,
 				B4F195961B2A9E2100B8C519 /* Router */,
 				2A1B3A1C1B256BCF003E70E0 /* View */,
-				B4104F6A1B8565FE00D7E4BD /* ViewModel */,
 				B4117CFA1B1F8F06001700C8 /* Logging */,
 				B43032451AE427D50068E8DF /* Utility */,
 				B4E36B9C1AC1F5C9000F260E /* Wireframe */,
@@ -1571,6 +1574,7 @@
 				B4F195981B2AA1BF00B8C519 /* NearbyRoute.swift in Sources */,
 				B4C6EA231AFE845B00A166AD /* DetailWebViewViewController.swift in Sources */,
 				2A9A9BA61B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift in Sources */,
+				B4FC0CFD1B923738001D7A4F /* SingleSectionInfiniteTableViewManager.swift in Sources */,
 				7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */,
 				B47E15BF1B17AD790028E07E /* UIKit&ReactiveCocoa+extension.swift in Sources */,
 				B4E1384E1AE1CA9D0082DCA3 /* IUserService.swift in Sources */,
