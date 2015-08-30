@@ -69,6 +69,10 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
                     next: { [weak self] operation in
                         if let this = self {
                             switch operation {
+                            case let .Initiate(boxedValues):
+                                if boxedValues.value.count != this.tableView.numberOfRowsInSection(OnlyTableViewSection) {
+                                    this.tableView.reloadData()
+                                }
                             case let .Append(boxedValue):
                                 if let appendHandler = appendHandler {
                                     appendHandler(value: boxedValue.value)

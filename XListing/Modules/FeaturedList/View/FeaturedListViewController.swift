@@ -88,6 +88,8 @@ public final class FeaturedListViewController: XUIViewController {
     
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        nearbyButton.enabled = true
     }
     
     deinit {

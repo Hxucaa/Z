@@ -133,11 +133,11 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
             }
             |> on(
                 next: { viewmodels in
-                    if refresh {
+                    if refresh && viewmodels.count > 0 {
                         // ignore old data
                         self.collectionDataSource.replaceAll(viewmodels)
                     }
-                    else {
+                    else if !refresh && viewmodels.count > 0 {
                         // save the new data with old ones
                         self.collectionDataSource.extend(viewmodels)
                     }
