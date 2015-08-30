@@ -40,6 +40,19 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
         pullToRefreshConductor.setup()
     }
     
+    /**
+    Modify the `SignalProducer` on the `collectionDataSource`. This function accepts several handlers for each of the opeartion that can occur in a `ReactiveArray`. If you don't provide a custom implementation for a handler, the default implementation will get executed.
+    
+    :param: appendHandler        `Append` operation
+    :param: extendHandler        `Extend` operation
+    :param: insertHandler        `Insert` operation
+    :param: replaceHandler       `Replace` operation
+    :param: removeElementHandler `RemoveAtIndex` operation
+    :param: replaceAllHandler    `ReplaceAll` operation
+    :param: removeAllHandler     `RemoveAll` operation
+    
+    :returns: The `SignalProducer`
+    */
     public func reactToDataSource(
         appendHandler: AppendHandler? = nil,
         extendHandler: ExtendHandler? = nil,
@@ -130,10 +143,19 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
                 )
     }
     
+    /**
+    Predictive scroll.
+    
+    :param: velocity            The velocity of the scroll view (in points) at the moment the touch was released.
+    :param: targetContentOffset The expected offset when the scrolling action decelerates to a stop.
+    */
     public func predictivelyScroll(velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         predictiveScrolling(tableView, withVelocity: velocity, targetContentOffset: targetContentOffset, predictiveScrollable: viewmodel)
     }
     
+    /**
+    Must call this function before the view controller is about to end its life cycle.
+    */
     public func cleanUp() {
         infinityScrollConductor.removeInfinityScroll()
         pullToRefreshConductor.removePullToRefresh()
