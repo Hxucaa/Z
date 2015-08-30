@@ -11,6 +11,7 @@ import Box
 
 public enum Operation<T>: DebugPrintable {
     
+    case Initiate(values: Box<[T]>)
     case Append(value: Box<T>)
     case Extend(values: Box<[T]>)
     case Insert(value: Box<T>, atIndex: Int)
@@ -21,6 +22,8 @@ public enum Operation<T>: DebugPrintable {
     
     public func map<U>(mapper: T -> U) -> Operation<U> {
         switch self {
+        case .Initiate(let boxedValues):
+            return Operation<U>.Initiate(values: Box(boxedValues.value.map { mapper($0) }))
         case .Append(let boxedValue):
             return Operation<U>.Append(value: Box(mapper(boxedValue.value)))
         case .Extend(let boxedValues):
@@ -41,6 +44,8 @@ public enum Operation<T>: DebugPrintable {
     public var debugDescription: String {
         let description: String
         switch self {
+        case .Initiate(let boxedValues):
+            description = ".Initiate(values:\(boxedValues.value))"
         case .Append(let boxedValue):
             description = ".Append(value:\(boxedValue.value))"
         case .Extend(let boxedValues):
@@ -74,6 +79,8 @@ public enum Operation<T>: DebugPrintable {
     
     public var arrayValue: [T]? {
         switch self {
+        case .Initiate(let boxedValues):
+            return boxedValues.value
         case .Extend(let boxedValues):
             return boxedValues.value
         case .ReplaceAll(let boxedValues):
@@ -89,6 +96,8 @@ public enum Operation<T>: DebugPrintable {
 
 public func ==<T: Equatable>(lhs: Operation<T>, rhs: Operation<T>) -> Bool {
     switch (lhs, rhs) {
+    case (.Initiate(let leftBoxedValues), .Initiate(let rightBoxedValues)):
+        return leftBoxedValues.value == rightBoxedValues.value
     case (.Append(let leftBoxedValue), .Append(let rightBoxedValue)):
         return leftBoxedValue.value == rightBoxedValue.value
     case (.Extend(let leftBoxedValues), .Extend(let rightBoxedValues)):

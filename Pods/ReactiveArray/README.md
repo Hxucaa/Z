@@ -35,6 +35,11 @@ project.
 [Result]: https://github.com/antitypical/Result
 [ReactiveCocoa]: https://github.com/ReactiveCocoa/ReactiveCocoa
 
+### [Cocoapods]
+
+[Cocoapods]: https://cocoapods.org/
+
+
 ## Usage
 
 ### Array operations
@@ -51,6 +56,25 @@ array.removeAtIndex(4) // => [5,2,3,4]
 
 `ReactiveArray` conforms to `CollectionType` and `MutableCollectionType` which allows you to perform operations like
 `map` or `filter`.
+
+### Operations
+
+There are several types of `Operations`:
+
+```swift
+
+public enum Operation<T> {
+    case Append(value: Box<T>)
+    case Extend(values: Box<[T]>)
+    case Insert(value: Box<T>, atIndex: Int)
+    case Replace(value: Box<T>, atIndex: Int)
+    case RemoveElement(atIndex: Int)
+    case ReplaceAll(values: Box<[T]>)
+    case RemoveAll(keepCapacity: Bool)
+}
+
+```
+
 
 ### Observing changes
 
@@ -73,17 +97,27 @@ array[0] = 5
 array[1] = 4
 array.append(2)
 array.removeAtIndex(2)
+array.extend([7,8,9,0])
+array.insert(10, 3)
+array.replaceAll([100, 101, 102, 103])
+array.removeAll(true)
 ```
 
 will print the following output:
 
 ```
-.Append(value: 1)
-.Append(value: 2)
-.Append(value: 3)
-.Insert(value: 5, atIndex: 0)
-.Insert(value: 4, atIndex: 1)
-.RemoveElement(atIndex:2)
+.Append(value: 1)   // => [1]
+.Append(value: 2)   // => [1, 2]
+.Append(value: 3)   // => [1, 2, 3]
+.Replace(value: 5, atIndex: 0)  // => [5, 2, 3]
+.Replace(value: 4, atIndex: 1)  // => [5, 4, 3]
+.Append(value: 2)   // => [5, 4, 3, 2]
+.RemoveElement(atIndex:2)   // => [5, 4, 2]
+.Extend(values: [7,8,9,0])  // => [5, 4, 2, 7, 8, 9, 0]
+.Insert(value: 10, index: 3)    // => [5, 4, 2, 10, 7, 8, 9, 0]
+.ReplaceAll(values: [100, 101, 102, 103])   // => [100, 101, 102, 103]
+.RemoveAll(keepCapacity: true)  // => []
+
 ```
 
 #### Using `Signal`
@@ -102,8 +136,9 @@ array.removeAtIndex(2)
 will print the following output:
 
 ```
-.Insert(value: 5, atIndex: 0)
-.Insert(value: 4, atIndex: 1)
+.Replace(value: 5, atIndex: 0)
+.Replace(value: 4, atIndex: 1)
+.Append(value: 2)
 .RemoveElement(atIndex:2)
 ```
 
@@ -147,7 +182,7 @@ will print the following output:
 .Append(value: 6)
 .Append(value: 8)
 .Append(value: 10)
-.Insert(value: 12, atIndex: 0)
+.Replace(value: 12, atIndex: 0)
 ```
 
 

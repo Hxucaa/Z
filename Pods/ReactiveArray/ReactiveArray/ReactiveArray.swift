@@ -38,6 +38,13 @@ public final class ReactiveArray<T>: MutableCollectionType {
         producer |> start(_sink)
     }
     
+    public convenience init(producer: OperationProducer, startWithElements: Array<T>) {
+        self.init()
+        
+        _elements = startWithElements
+        producer |> start(_sink)
+    }
+    
     public convenience init() {
         self.init(elements: [])
     }
@@ -50,7 +57,7 @@ public final class ReactiveArray<T>: MutableCollectionType {
     }
     
     public var producer: OperationProducer {
-        let appendCurrentElements = OperationProducer(values:_elements.map { Operation.Append(value: Box($0)) })
+        let appendCurrentElements = OperationProducer(value: Operation.Initiate(values: Box(_elements)))
         
         let forwardOperations = OperationProducer { (observer, dispoable) in self._signal.observe(observer) }
         
@@ -152,7 +159,7 @@ public final class ReactiveArray<T>: MutableCollectionType {
     // MARK: Array Functions
     
     public func mirror<U>(transformer: T -> U) -> ReactiveArray<U> {
-        return ReactiveArray<U>(producer: producer |> ReactiveCocoa.map { $0.map(transformer) })
+        return ReactiveArray<U>(producer: producer |> ReactiveCocoa.map { $0.map(transformer) }, startWithElements: _elements.map(transformer))
     }
     
     public subscript(index: Int) -> T {
@@ -172,6 +179,9 @@ public final class ReactiveArray<T>: MutableCollectionType {
     // MARK: - Others
     private func updateArray(operation: Operation<T>) {
         switch operation {
+        case .Initiate(let boxedValues):
+            // do nothing as the data is present when `Initiate` opearation occurs
+            break
         case .Append(let boxedValue):
             _elements.append(boxedValue.value)
         case .Extend(let boxedValues):

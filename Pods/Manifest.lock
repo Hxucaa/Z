@@ -22,7 +22,7 @@ PODS:
   - Nimble (1.0.0)
   - OAStackView (0.1.0)
   - Quick (0.3.1)
-  - ReactiveArray (0.1.4):
+  - ReactiveArray (0.1.5):
     - ReactiveCocoa (= 3.0-RC.1)
   - ReactiveCocoa (3.0-RC.1):
     - Box (~> 1.2.0)
@@ -84,7 +84,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   ReactiveArray:
-    :commit: 6b614eaaaea9d0f75cb69337b66c3b8fddeea176
+    :commit: 113a0a0365dc0a932292b15cc0365ecec49cd31c
     :git: git@bitbucket.org:hxucaa/reactivearray.git
   Spring:
     :commit: 6d983b48535d8ef69f8afa404030e518abe78ca3
@@ -111,7 +111,7 @@ SPEC CHECKSUMS:
   Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87
   OAStackView: 76e64242351e2746374b9161a03021cbc19341ff
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
-  ReactiveArray: b1129e400610eefcc682330d7bc54a47f0857b96
+  ReactiveArray: cffcbb778acb3b066e361a341cffe90578c12559
   ReactiveCocoa: c85fe01be4e047dc1d9fba3e1e0b7070846d3296
   Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
