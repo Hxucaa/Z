@@ -197,6 +197,7 @@
 		D08B58961B93FBD500F3945F /* FeaturedListBusinessTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B58951B93FBD500F3945F /* FeaturedListBusinessTableViewCell.xib */; };
 		D08B58981B93FBE300F3945F /* ParticipantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B58971B93FBE300F3945F /* ParticipantViewModel.swift */; };
 		D08B589A1B93FD0500F3945F /* ParticipationChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B58991B93FD0500F3945F /* ParticipationChoice.swift */; };
+		D08B589C1B94001500F3945F /* UIImage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B589B1B94001500F3945F /* UIImage+extension.swift */; };
 		D0ADD8A11B608B4200B27885 /* ProfileBusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADD89B1B608B4200B27885 /* ProfileBusinessCell.swift */; };
 		D0ADD8A21B608B4200B27885 /* ProfileBusinessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ADD89C1B608B4200B27885 /* ProfileBusinessCell.xib */; };
 		D0ADD8A41B608B4200B27885 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADD89E1B608B4200B27885 /* ProfileHeaderView.swift */; };
@@ -415,6 +416,7 @@
 		D08B58951B93FBD500F3945F /* FeaturedListBusinessTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeaturedListBusinessTableViewCell.xib; sourceTree = "<group>"; };
 		D08B58971B93FBE300F3945F /* ParticipantViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipantViewModel.swift; sourceTree = "<group>"; };
 		D08B58991B93FD0500F3945F /* ParticipationChoice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationChoice.swift; sourceTree = "<group>"; };
+		D08B589B1B94001500F3945F /* UIImage+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+extension.swift"; sourceTree = "<group>"; };
 		D0ADD89B1B608B4200B27885 /* ProfileBusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBusinessCell.swift; sourceTree = "<group>"; };
 		D0ADD89C1B608B4200B27885 /* ProfileBusinessCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileBusinessCell.xib; sourceTree = "<group>"; };
 		D0ADD89D1B608B4200B27885 /* ProfileHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileHeaderView.xib; sourceTree = "<group>"; };
@@ -513,6 +515,7 @@
 				2A1B3A211B25751A003E70E0 /* ParticipationPopoverDelegate.swift */,
 				B4F1958A1B2938FC00B8C519 /* HUD.swift */,
 				B4F195941B2A276C00B8C519 /* XUIViewController.swift */,
+				D08B589B1B94001500F3945F /* UIImage+extension.swift */,
 				B41334EC1B5F44B300B5F22D /* Keyboard.swift */,
 				7E2EB1E01B8131650012BAB3 /* StatusBarBackgroundView.swift */,
 			);
@@ -1609,6 +1612,7 @@
 				B446A61A1B1FA88000106CAF /* Logger.swift in Sources */,
 				B4104F671B846D9B00D7E4BD /* InfinityScrollConductor.swift in Sources */,
 				3D70CCEB1B562AFD004588EC /* IImageService.swift in Sources */,
+				D08B589C1B94001500F3945F /* UIImage+extension.swift in Sources */,
 				45CBBDCF399C77A93D0B1C1E /* ProfileViewModel.swift in Sources */,
 				45CBB4D53772AB5C9D2FD37D /* ProfileViewController.swift in Sources */,
 				B41334ED1B5F44B300B5F22D /* Keyboard.swift in Sources */,

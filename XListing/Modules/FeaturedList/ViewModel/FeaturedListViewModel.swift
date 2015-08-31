@@ -31,19 +31,21 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
     private let imageService: IImageService
+    private let participationService: IParticipationService
     
     // MARK: Variables
     private let businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
     private var numberOfBusinessesLoaded = 0
     
     // MARK: - Initializers
-    public init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
+    public init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService, participationService: IParticipationService) {
         self.router = router
         self.businessService = businessService
         self.userService = userService
         self.geoLocationService = geoLocationService
         self.userDefaultsService = userDefaultsService
         self.imageService = imageService
+        self.participationService = participationService
     }
     
     // MARK: - API
@@ -128,7 +130,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
                 
                 // map the business models to viewmodels
                 return businesses.map {
-                    FeaturedBusinessViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
+                    FeaturedBusinessViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter, business: $0)
                 }
             }
             |> on(
