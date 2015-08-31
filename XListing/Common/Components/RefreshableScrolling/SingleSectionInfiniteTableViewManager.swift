@@ -13,8 +13,6 @@ import ReactiveCocoa
 import ReactiveArray
 import Dollar
 
-private let OnlyTableViewSection = 0
-
 public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<IPullToRefreshDataSource, IInfinityScrollDataSource, IPredictiveScrollDataSource, ICollectionDataSource>> {
     
     public typealias AppendHandler = (value: U.Payload) -> Void
@@ -43,6 +41,7 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
     /**
     Modify the `SignalProducer` on the `collectionDataSource`. This function accepts several handlers for each of the opeartion that can occur in a `ReactiveArray`. If you don't provide a custom implementation for a handler, the default implementation will get executed.
     
+    :param: targetedSection      The section number in the table view that should react to change in data source.
     :param: appendHandler        `Append` operation
     :param: extendHandler        `Extend` operation
     :param: insertHandler        `Insert` operation
@@ -54,6 +53,7 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
     :returns: The `SignalProducer`
     */
     public func reactToDataSource(
+        #targetedSection: Int,
         appendHandler: AppendHandler? = nil,
         extendHandler: ExtendHandler? = nil,
         insertHandler: InsertHandler? = nil,
@@ -70,7 +70,7 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
                         if let this = self {
                             switch operation {
                             case let .Initiate(boxedValues):
-                                if boxedValues.value.count != this.tableView.numberOfRowsInSection(OnlyTableViewSection) {
+                                if boxedValues.value.count != this.tableView.numberOfRowsInSection(targetedSection) {
                                     this.tableView.reloadData()
                                 }
                             case let .Append(boxedValue):
@@ -83,8 +83,8 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
                                         this.isFirstLoad = false
                                     }
                                     else {
-                                        let rows = this.tableView.numberOfRowsInSection(OnlyTableViewSection)
-                                        this.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: rows, inSection: OnlyTableViewSection)], withRowAnimation: UITableViewRowAnimation.None)
+                                        let rows = this.tableView.numberOfRowsInSection(targetedSection)
+                                        this.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: rows, inSection: targetedSection)], withRowAnimation: UITableViewRowAnimation.None)
                                     }
                                 }
                             case let .Extend(boxedValues):
@@ -97,8 +97,8 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
                                         this.isFirstLoad = false
                                     }
                                     else {
-                                        var rows = this.tableView.numberOfRowsInSection(OnlyTableViewSection)
-                                        this.tableView.insertRowsAtIndexPaths(boxedValues.value.map { viewmodel in NSIndexPath(forRow: rows++, inSection: OnlyTableViewSection) }, withRowAnimation: UITableViewRowAnimation.None)
+                                        var rows = this.tableView.numberOfRowsInSection(targetedSection)
+                                        this.tableView.insertRowsAtIndexPaths(boxedValues.value.map { viewmodel in NSIndexPath(forRow: rows++, inSection: targetedSection) }, withRowAnimation: UITableViewRowAnimation.None)
                                     }
                                 }
                             case let .Insert(boxedValue, index):
@@ -106,38 +106,38 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
                                     insertHandler(value: boxedValue.value, index: index)
                                 }
                                 else {
-                                    this.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: OnlyTableViewSection)], withRowAnimation: UITableViewRowAnimation.None)
+                                    this.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: targetedSection)], withRowAnimation: UITableViewRowAnimation.None)
                                 }
                             case let .Replace(boxedValue, index):
                                 if let replaceHandler = replaceHandler {
                                     replaceHandler(value: boxedValue.value, index: index)
                                 }
                                 else {
-                                    this.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: OnlyTableViewSection)], withRowAnimation: UITableViewRowAnimation.None)
+                                    this.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: targetedSection)], withRowAnimation: UITableViewRowAnimation.None)
                                 }
                             case let .RemoveElement(atIndex):
                                 if let removeElementHandler = removeElementHandler {
                                     removeElementHandler(index: atIndex)
                                 }
                                 else {
-                                    this.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: atIndex, inSection: OnlyTableViewSection)], withRowAnimation: UITableViewRowAnimation.None)
+                                    this.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: atIndex, inSection: targetedSection)], withRowAnimation: UITableViewRowAnimation.None)
                                 }
                             case let .ReplaceAll(boxedValues):
                                 if let replaceAllHandler = replaceAllHandler {
                                     replaceAllHandler(values: boxedValues.value)
                                 }
                                 else {
-                                    this.tableView.reloadSections(NSIndexSet(index: OnlyTableViewSection), withRowAnimation: UITableViewRowAnimation.None)
+                                    this.tableView.reloadSections(NSIndexSet(index: targetedSection), withRowAnimation: UITableViewRowAnimation.None)
                                 }
                             case let .RemoveAll(keepCapacity):
                                 if let removeAllHandler = removeAllHandler {
                                     removeAllHandler(keepCapacity: keepCapacity)
                                 }
                                 else {
-                                    let rows = this.tableView.numberOfRowsInSection(OnlyTableViewSection)
+                                    let rows = this.tableView.numberOfRowsInSection(targetedSection)
                                     var paths = [NSIndexPath]()
                                     for i in 0...rows {
-                                        paths.append(NSIndexPath(forRow: i, inSection: OnlyTableViewSection))
+                                        paths.append(NSIndexPath(forRow: i, inSection: targetedSection))
                                     }
                                     this.tableView.deleteRowsAtIndexPaths(paths, withRowAnimation: UITableViewRowAnimation.None)
                                 }
