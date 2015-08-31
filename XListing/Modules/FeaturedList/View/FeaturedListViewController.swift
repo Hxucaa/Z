@@ -33,10 +33,13 @@ public final class FeaturedListViewController: XUIViewController {
     @IBOutlet private weak var profileButton: UIBarButtonItem!
     private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, FeaturedListViewModel>!
     private let statusBarBackgroundView = StatusBarBackgroundView()
-    
+    private let refreshControl = UIRefreshControl()
+
     // MARK: - Properties
     private var viewmodel: IFeaturedListViewModel!
     private let compositeDisposable = CompositeDisposable()
+    private let cellHeightToScreenWidthRatio = 0.618
+
     
     // MARK: - Setups
     public override func viewDidLoad() {
@@ -55,6 +58,14 @@ public final class FeaturedListViewController: XUIViewController {
         singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: viewmodel as! FeaturedListViewModel)
 
         tableView.dataSource = self
+        
+        // set cell height based on devices
+        tableView.rowHeight = UIScreen.mainScreen().bounds.width * CGFloat(cellHeightToScreenWidthRatio)
+        
+        let nib = UINib(nibName: "FeaturedListBusinessTableViewCell", bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: CellIdentifier)
+        
+
     }
     
     public override func didReceiveMemoryWarning() {
@@ -145,7 +156,7 @@ public final class FeaturedListViewController: XUIViewController {
                     self?.viewmodel.pushDetailModule(indexPath.row)
                 }
             )
-        
+                                
         /**
         Assigning UITableView delegate has to happen after signals are established.
         
