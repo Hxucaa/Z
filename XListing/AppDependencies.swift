@@ -16,6 +16,7 @@ public final class AppDependencies {
 
     private var featuredListTabItem: TabItem<FeaturedListTabContent>!
     private var nearbyTabItem: TabItem<NearbyTabContent>!
+    private var profileTabItem: TabItem<ProfileTabContent>!
     private var rootTabControllerWireframe: RootTabControllerWireframe!
 //    private var rootTabBarWireframe: RootTabBarWireframe!
 //    private var nearbyTab: Tab<NearbyWireframe>!
@@ -48,15 +49,15 @@ public final class AppDependencies {
         configureFeaturedListDependencies(router, businessService: bs, userService: userService, geoLocationService: gs, userDefaultsService: userDefaultsService)
         configureNearbyDependencies(router, businessService: bs, geoLocationService: gs)
 //        configureDetailDependencies(rootWireframe, router: router, userService: userService, participationService: ps, geoLocationService: gs)
-//        configureProfileDependencies(rootWireframe, router: router, participationService: ps, businessService: bs, userService: userService, geoLocationService: gs, userDefaultsService: userDefaultsService)
+        configureProfileDependencies(router, participationService: ps, businessService: bs, userService: userService, geoLocationService: gs, userDefaultsService: userDefaultsService)
 //        configureWantToGoListDependencies(rootWireframe, router: router, userService: userService, participationService: ps)
 //        configureProfileEditDependencies(rootWireframe, router: router, userService: userService)
 
-//        featuredTab = Tab(wireframe: featuredListWireframe as! FeaturedListWireframe)
 //        rootTabBarWireframe = RootTabBarWireframe(inWindow: window, featuredTab: featuredTab)
         featuredListTabItem = TabItem(tabContent: FeaturedListTabContent(featuredListWireframe: featuredListWireframe))
         nearbyTabItem = TabItem(tabContent: NearbyTabContent(nearbyWireframe: nearbyWireframe))
-        rootTabControllerWireframe = RootTabControllerWireframe(inWindow: window, featuredListTabItem: featuredListTabItem, nearbyTabItem: nearbyTabItem)
+        profileTabItem = TabItem(tabContent: ProfileTabContent(profileWireframe: profileWireframe))
+        rootTabControllerWireframe = RootTabControllerWireframe(inWindow: window, featuredListTabItem: featuredListTabItem, nearbyTabItem: nearbyTabItem, profileTabItem: profileTabItem)
     }
 
     /**
@@ -112,9 +113,9 @@ public final class AppDependencies {
         self.router.accountRouteDelegate = accountWireframe as! AccountRoute
     }
 
-    private func configureProfileDependencies(rootWireframe: IRootWireframe, router: IRouter, participationService ps: IParticipationService, businessService bs: IBusinessService, userService us: IUserService, geoLocationService gs: IGeoLocationService, userDefaultsService uds: IUserDefaultsService) {
+    private func configureProfileDependencies(router: IRouter, participationService ps: IParticipationService, businessService bs: IBusinessService, userService us: IUserService, geoLocationService gs: IGeoLocationService, userDefaultsService uds: IUserDefaultsService) {
 
-        profileWireframe = ProfileWireframe(rootWireframe: rootWireframe, router: router, participationService: ps, businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds, imageService: imageService)
+        profileWireframe = ProfileWireframe(router: router, participationService: ps, businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds, imageService: imageService)
         self.router.profileRouteDelegate = profileWireframe as! ProfileRoute
     }
 

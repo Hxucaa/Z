@@ -5,6 +5,20 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--资料-->
+        <scene sceneID="GeV-C4-ddN">
+            <objects>
+                <navigationController storyboardIdentifier="ProfileTabNavigationController" title="资料" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Piu-FQ-53d" customClass="ProfileTabNavigationController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="aou-uc-HWT">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6s2-NR-c72" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-517" y="389"/>
+        </scene>
         <!--Profile View Controller-->
         <scene sceneID="Qxk-7m-Mz4">
             <objects>

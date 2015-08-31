@@ -9,8 +9,12 @@ import UIKit
 private let ProfileViewControllerIdentifier = "ProfileViewController"
 private let StoryboardName = "Profile"
 
-public final class ProfileWireframe : BaseWireframe, IProfileWireframe {
-    
+public final class ProfileWireframe : IProfileWireframe {
+
+    public var viewController: UIViewController {
+        return initViewController()
+    }
+
     private let router: IRouter
     private let businessService: IBusinessService
     private let userService: IUserService
@@ -19,7 +23,7 @@ public final class ProfileWireframe : BaseWireframe, IProfileWireframe {
     private let imageService: IImageService
     private let participationService: IParticipationService
     
-    public required init(rootWireframe: IRootWireframe, router: IRouter, participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
+    public required init(router: IRouter, participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
         self.router = router
         self.businessService = businessService
         self.userService = userService
@@ -27,11 +31,10 @@ public final class ProfileWireframe : BaseWireframe, IProfileWireframe {
         self.userDefaultsService = userDefaultsService
         self.imageService = imageService
         self.participationService = participationService
-        super.init(rootWireframe: rootWireframe)
     }
     
     private func initViewController() -> ProfileViewController {
-        let viewController = getViewControllerFromStoryboard(ProfileViewControllerIdentifier, storyboardName: StoryboardName) as! ProfileViewController
+        let viewController = UIStoryboard(name: StoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(ProfileViewControllerIdentifier) as! ProfileViewController
         
         let viewmodel = ProfileViewModel(router: router, participationService: participationService, businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService, imageService: imageService)
         
@@ -44,6 +47,6 @@ public final class ProfileWireframe : BaseWireframe, IProfileWireframe {
 extension ProfileWireframe : ProfileRoute {
     public func push() {
         let injectedViewController = initViewController()
-        rootWireframe.pushViewController(injectedViewController, animated: true)
+//        rootWireframe.pushViewController(injectedViewController, animated: true)
     }
 }

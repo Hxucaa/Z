@@ -8,7 +8,7 @@
         <!--推荐-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="FeaturedListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="FeaturedListViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FeaturedListViewController" title="推荐" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="FeaturedListViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -131,6 +131,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="MEt-fk-66n" secondAttribute="bottom" constant="-2" id="cfn-ss-IY3"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" title="推荐" id="Bo2-mg-wo7">
                         <barButtonItem key="leftBarButtonItem" title="逛一逛" id="HNp-F3-8PD"/>
                         <barButtonItem key="rightBarButtonItem" image="profile" id="TfN-ot-KeU"/>
@@ -163,20 +164,6 @@
             </objects>
             <point key="canvasLocation" x="-763" y="115"/>
         </scene>
-        <!--Item-->
-        <scene sceneID="yEO-VO-OM8">
-            <objects>
-                <navigationController storyboardIdentifier="FeaturedListTabNavigationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dVT-FZ-020" customClass="FeaturedListTabNavigationController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="Yxc-xn-Y6d"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="VRe-wH-VWW">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="J9g-ew-KzD" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-671" y="1609"/>
-        </scene>
         <!--Root Tab Bar Controller-->
         <scene sceneID="elM-KO-XLo">
             <objects>
@@ -191,6 +178,19 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhu-pU-plb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-763" y="806"/>
+        </scene>
+        <!--推荐-->
+        <scene sceneID="RQd-Rg-rGp">
+            <objects>
+                <navigationController storyboardIdentifier="FeaturedListTabNavigationController" title="推荐" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xgH-bX-NmO" customClass="FeaturedListTabNavigationController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="md2-D3-765">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kh1-8I-KQs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-696" y="1600"/>
         </scene>
     </scenes>
     <resources>

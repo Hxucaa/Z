@@ -5,6 +5,6 @@
 
 import Foundation
 
-public protocol IProfileWireframe : class {
-    init(rootWireframe: IRootWireframe, router: IRouter, participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
+public protocol IProfileWireframe : class, Wireframe {
+    init(router: IRouter, participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
 }

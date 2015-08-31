@@ -35,9 +35,9 @@ public final class RootTabControllerWireframe {
 
     private let rootTabBarController: RootTabBarController
 
-    public init(inWindow: UIWindow, featuredListTabItem: TabItem<FeaturedListTabContent>, nearbyTabItem: TabItem<NearbyTabContent>) {
+    public init(inWindow: UIWindow, featuredListTabItem: TabItem<FeaturedListTabContent>, nearbyTabItem: TabItem<NearbyTabContent>, profileTabItem: TabItem<ProfileTabContent>) {
         rootTabBarController = inWindow.rootViewController as! RootTabBarController
-        rootTabBarController.setViewControllers([featuredListTabItem.rootNavigationController, nearbyTabItem.rootNavigationController], animated: false)
+        rootTabBarController.setViewControllers([featuredListTabItem.rootNavigationController, nearbyTabItem.rootNavigationController, profileTabItem.rootNavigationController], animated: false)
     }
 }
 
@@ -92,6 +92,24 @@ public final class NearbyTabContent : TabContent {
 
 public final class NearbyTabNavigationController : UINavigationController {
     
+}
+
+public final class ProfileTabContent : TabContent {
+
+    private let profileTabNavigationController: ProfileTabNavigationController
+    public var navigationController: UINavigationController {
+        return profileTabNavigationController
+    }
+
+    public init(profileWireframe: IProfileWireframe) {
+        profileTabNavigationController = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileTabNavigationController") as! ProfileTabNavigationController
+        profileTabNavigationController.viewControllers = [profileWireframe.viewController]
+    }
+
+}
+
+public final class ProfileTabNavigationController : UINavigationController {
+
 }
 //
 //public final class ProfileTab : TabContent {
