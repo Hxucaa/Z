@@ -30,6 +30,7 @@ public final class Router : IRouter {
     public weak var profileRouteDelegate: ProfileRoute!
     public weak var wantToGoListRouteDelegate: WantToGoRoute!
     public weak var profileEditRouteDelegate: ProfileEditRoute!
+    public weak var socialBusinessRouteDelegate: SocialBusinessRoute!
     
     public func pushNearby() {
         nearbyRouteDelegate.push()
@@ -63,6 +64,10 @@ public final class Router : IRouter {
     
     public func presentProfileEdit<T: User>(user: T, completion: CompletionHandler? = nil) {
         profileEditRouteDelegate.presentWithData(user, completion: completion, dismissCallback: nil)
+    }
+    
+    public func pushSocialBusiness<T: Business>(business: T) {
+        socialBusinessRouteDelegate.pushWithData(business)
     }
     
     /**

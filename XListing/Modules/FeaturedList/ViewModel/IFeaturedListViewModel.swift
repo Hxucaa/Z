@@ -14,6 +14,6 @@ public protocol IFeaturedListViewModel : IInfinityScrollDataSource, IPullToRefre
     var collectionDataSource: ReactiveArray<FeaturedBusinessViewModel> { get }
     init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
     func pushNearbyModule()
-    func pushDetailModule(section: Int)
+    func pushSocialBusinessModule(section: Int)
     func pushProfileModule()
 }

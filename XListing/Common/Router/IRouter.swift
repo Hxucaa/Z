@@ -17,4 +17,5 @@ public protocol IRouter {
     func pushProfile()
     func pushWantToGo<T: Business>(business: T)
     func presentProfileEdit<T: User>(user: T, completion: CompletionHandler?)
+    func pushSocialBusiness<T: Business>(business: T)
 }

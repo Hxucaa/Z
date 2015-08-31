@@ -21,6 +21,7 @@ public struct AppDependencies {
     private var profileWireframe: IProfileWireframe?
     private var wantToGoListWireframe: IWantToGoListWireframe?
     private var profileEditWireframe: IProfileEditWireframe?
+    private var socialBusinessWireframe: ISocialBusinessWireframe?
     
     private let router: Router = Router.sharedInstance
     private let gs: IGeoLocationService = GeoLocationService()
@@ -44,6 +45,7 @@ public struct AppDependencies {
         configureProfileDependencies(rootWireframe, router: router, participationService: ps, businessService: bs, userService: userService, geoLocationService: gs, userDefaultsService: userDefaultsService)
         configureWantToGoListDependencies(rootWireframe, router: router, userService: userService, participationService: ps)
         configureProfileEditDependencies(rootWireframe, router: router, userService: userService)
+        configureSocialBusinessDependencies(rootWireframe, router: router, userService: userService, participationService: ps, geoLocationService: gs)
     }
     
     /**
@@ -115,5 +117,11 @@ public struct AppDependencies {
         
         profileEditWireframe = ProfileEditWireframe(rootWireframe: rootWireframe, router: router, userService: us)
         self.router.profileEditRouteDelegate = profileEditWireframe as! ProfileEditRoute
+    }
+    
+    private mutating func configureSocialBusinessDependencies(rootWireframe: IRootWireframe, router: IRouter, userService us: IUserService, participationService ps: IParticipationService, geoLocationService gs: IGeoLocationService) {
+        
+        socialBusinessWireframe = SocialBusinessWireframe(rootWireframe: rootWireframe, router: router, userService: us, participationService: ps, geoLocationService: gs, imageService: imageService)
+        self.router.socialBusinessRouteDelegate = socialBusinessWireframe as! SocialBusinessRoute
     }
 }
