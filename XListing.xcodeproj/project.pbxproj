@@ -150,6 +150,13 @@
 		B4E70B3E1AF1735C00A7418F /* IParticipationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E70B3D1AF1735C00A7418F /* IParticipationService.swift */; };
 		B4E7C18E1B5387880038260E /* LandingPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E7C18D1B5387880038260E /* LandingPageView.xib */; };
 		B4E7C1901B5387E00038260E /* LandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E7C18F1B5387DF0038260E /* LandingPageView.swift */; };
+		B4E7E5051B93F3160034B093 /* SocialBusiness.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4E7E5041B93F3160034B093 /* SocialBusiness.storyboard */; };
+		B4E7E5071B93F32C0034B093 /* SocialBusinessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E7E5061B93F32C0034B093 /* SocialBusinessViewController.swift */; };
+		B4E7E5091B93F3610034B093 /* SocialBusinessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E7E5081B93F3610034B093 /* SocialBusinessViewModel.swift */; };
+		B4E7E50B1B93F36E0034B093 /* ISocialBusinessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E7E50A1B93F36E0034B093 /* ISocialBusinessViewModel.swift */; };
+		B4E7E50D1B93F44E0034B093 /* SocialBusinessRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E7E50C1B93F44E0034B093 /* SocialBusinessRoute.swift */; };
+		B4E7E50F1B93F4D10034B093 /* SocialBusinessWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E7E50E1B93F4D10034B093 /* SocialBusinessWireframe.swift */; };
+		B4E7E5111B93F5800034B093 /* ISocialBusinessWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E7E5101B93F5800034B093 /* ISocialBusinessWireframe.swift */; };
 		B4ECBE1E1B73E0ED00234217 /* NicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE1D1B73E0ED00234217 /* NicknameView.swift */; };
 		B4ECBE201B73ED0900234217 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE1F1B73ED0900234217 /* NicknameViewModel.swift */; };
 		B4ECBE221B74106E00234217 /* GenderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ECBE211B74106E00234217 /* GenderPickerView.swift */; };
@@ -362,6 +369,13 @@
 		B4E7C18D1B5387880038260E /* LandingPageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LandingPageView.xib; sourceTree = "<group>"; };
 		B4E7C18F1B5387DF0038260E /* LandingPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageView.swift; sourceTree = "<group>"; };
 		B4E7C1971B53904D0038260E /* ContainerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContainerView.xib; sourceTree = "<group>"; };
+		B4E7E5041B93F3160034B093 /* SocialBusiness.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SocialBusiness.storyboard; sourceTree = "<group>"; };
+		B4E7E5061B93F32C0034B093 /* SocialBusinessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialBusinessViewController.swift; sourceTree = "<group>"; };
+		B4E7E5081B93F3610034B093 /* SocialBusinessViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialBusinessViewModel.swift; sourceTree = "<group>"; };
+		B4E7E50A1B93F36E0034B093 /* ISocialBusinessViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ISocialBusinessViewModel.swift; sourceTree = "<group>"; };
+		B4E7E50C1B93F44E0034B093 /* SocialBusinessRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialBusinessRoute.swift; sourceTree = "<group>"; };
+		B4E7E50E1B93F4D10034B093 /* SocialBusinessWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialBusinessWireframe.swift; sourceTree = "<group>"; };
+		B4E7E5101B93F5800034B093 /* ISocialBusinessWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ISocialBusinessWireframe.swift; sourceTree = "<group>"; };
 		B4ECBE1D1B73E0ED00234217 /* NicknameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NicknameView.swift; path = XListing/Modules/Account/SignUp/Nickname/NicknameView.swift; sourceTree = SOURCE_ROOT; };
 		B4ECBE1F1B73ED0900234217 /* NicknameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NicknameViewModel.swift; path = XListing/Modules/Account/SignUp/Nickname/NicknameViewModel.swift; sourceTree = SOURCE_ROOT; };
 		B4ECBE211B74106E00234217 /* GenderPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GenderPickerView.swift; path = XListing/Modules/Account/SignUp/Gender/GenderPickerView.swift; sourceTree = SOURCE_ROOT; };
@@ -970,6 +984,7 @@
 			children = (
 				B47E15C21B181D540028E07E /* BackgroundOperations */,
 				B4FCC7231AE9C627009B4DF6 /* Account */,
+				B4E7E5021B93F27C0034B093 /* SocialBusiness */,
 				B4B6653B1ADF88070084DBE7 /* Detail */,
 				3D5D8FAB1B3F3CD900EA4ADA /* WantToGo */,
 				B4CC82681AC1673100E85CEA /* Root */,
@@ -1041,6 +1056,27 @@
 			path = Common/Wireframe;
 			sourceTree = "<group>";
 		};
+		B4E7E5021B93F27C0034B093 /* SocialBusiness */ = {
+			isa = PBXGroup;
+			children = (
+				B4E7E5031B93F2CA0034B093 /* Wireframe */,
+				B4E7E5041B93F3160034B093 /* SocialBusiness.storyboard */,
+				B4E7E5061B93F32C0034B093 /* SocialBusinessViewController.swift */,
+				B4E7E50A1B93F36E0034B093 /* ISocialBusinessViewModel.swift */,
+				B4E7E5081B93F3610034B093 /* SocialBusinessViewModel.swift */,
+			);
+			path = SocialBusiness;
+			sourceTree = "<group>";
+		};
+		B4E7E5031B93F2CA0034B093 /* Wireframe */ = {
+			isa = PBXGroup;
+			children = (
+				B4E7E50E1B93F4D10034B093 /* SocialBusinessWireframe.swift */,
+				B4E7E5101B93F5800034B093 /* ISocialBusinessWireframe.swift */,
+			);
+			path = Wireframe;
+			sourceTree = "<group>";
+		};
 		B4F1957D1B27872D00B8C519 /* LogIn */ = {
 			isa = PBXGroup;
 			children = (
@@ -1089,6 +1125,7 @@
 				B4F195A61B2ADA9700B8C519 /* ProfileRoute.swift */,
 				3D5D8FB31B3F520000EA4ADA /* WantToGoRoute.swift */,
 				261687BC1B71B7DD0094F315 /* ProfileEditRoute.swift */,
+				B4E7E50C1B93F44E0034B093 /* SocialBusinessRoute.swift */,
 			);
 			path = Route;
 			sourceTree = "<group>";
@@ -1323,6 +1360,7 @@
 				7EACBA111AFBDC15009D8CA6 /* Profile.storyboard in Resources */,
 				B33C0E071B716A3C005F8410 /* GenderPickerView.xib in Resources */,
 				7EF371181AB8C012009AA3B9 /* Images.xcassets in Resources */,
+				B4E7E5051B93F3160034B093 /* SocialBusiness.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1439,6 +1477,7 @@
 				B4E7C1901B5387E00038260E /* LandingPageView.swift in Sources */,
 				B48C99221ADA6A640045BCA9 /* NearbyWireframe.swift in Sources */,
 				B4FCC7411AEB0080009B4DF6 /* IRootWireframe.swift in Sources */,
+				B4E7E50D1B93F44E0034B093 /* SocialBusinessRoute.swift in Sources */,
 				B48C991D1ADA62DA0045BCA9 /* NearbyViewModel.swift in Sources */,
 				269163691B5C6C1E005D48FA /* (null) in Sources */,
 				B4104F5E1B84245200D7E4BD /* IPullToRefreshDataSource.swift in Sources */,
@@ -1453,6 +1492,7 @@
 				B41334E71B57631400B5F22D /* IAccountWireframe.swift in Sources */,
 				7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */,
 				B4ECBE221B74106E00234217 /* GenderPickerView.swift in Sources */,
+				B4E7E5111B93F5800034B093 /* ISocialBusinessWireframe.swift in Sources */,
 				B45582001B37670500C4D965 /* NSError+extension.swift in Sources */,
 				2A714B121B085C63007A8FBB /* LandingPageViewController.swift in Sources */,
 				B4F195AF1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift in Sources */,
@@ -1495,6 +1535,7 @@
 				3DFA2FA31B43C19800058930 /* WantToGoViewModel.swift in Sources */,
 				26645ADE1B5C677E00ADDCD1 /* NicknameTableViewCell.swift in Sources */,
 				B4F195951B2A276C00B8C519 /* XUIViewController.swift in Sources */,
+				B4E7E50F1B93F4D10034B093 /* SocialBusinessWireframe.swift in Sources */,
 				B4AA1A6C1B7EA1AA00119E91 /* LandingPageViewModel.swift in Sources */,
 				B4F195A51B2ABE0500B8C519 /* AccountRoute.swift in Sources */,
 				B4F4AF801B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift in Sources */,
@@ -1519,6 +1560,7 @@
 				B4B665461ADF8D5C0084DBE7 /* DetailWireframe.swift in Sources */,
 				B4694E2B1B72A045000E2006 /* UsernameAndPasswordView.swift in Sources */,
 				3DB8AC301B06D0DF00E51F0E /* Profile.swift in Sources */,
+				B4E7E5071B93F32C0034B093 /* SocialBusinessViewController.swift in Sources */,
 				B4104F621B843DC300D7E4BD /* IPredictiveScrollDataSource.swift in Sources */,
 				7E2EB1E11B8131650012BAB3 /* StatusBarBackgroundView.swift in Sources */,
 				261687C31B71B8AF0094F315 /* IProfileEditWireframe.swift in Sources */,
@@ -1531,6 +1573,7 @@
 				B4DB9AC21AF954AC009FBFE1 /* GeoLocationService.swift in Sources */,
 				26645ACB1B54C4F200ADDCD1 /* ProfileEditViewController.swift in Sources */,
 				2ADF3E651B1ECBA200C2971E /* DetailNavigationMapViewController.swift in Sources */,
+				B4E7E5091B93F3610034B093 /* SocialBusinessViewModel.swift in Sources */,
 				B4FC6B211B678515001F13E9 /* NSObject+Swift.m in Sources */,
 				B47E15C81B181E370028E07E /* IBackgroundOperationsWorkerFactory.swift in Sources */,
 				B4E1384C1AE1BD0D0082DCA3 /* UserService.swift in Sources */,
@@ -1544,6 +1587,7 @@
 				B4F1959E1B2AA3C400B8C519 /* WithoutDataRoute.swift in Sources */,
 				26645AD31B58B58200ADDCD1 /* ProfileEditViewModel.swift in Sources */,
 				B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */,
+				B4E7E50B1B93F36E0034B093 /* ISocialBusinessViewModel.swift in Sources */,
 				7EF3714E1AB8C1E8009AA3B9 /* LeanCloudClient.swift in Sources */,
 				261687C11B71B8990094F315 /* ProfileEditWireframe.swift in Sources */,
 				B4AA1A711B7ED20F00119E91 /* ContainerView.swift in Sources */,
@@ -1734,10 +1778,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Vendor/avoscloud-ios-sdk-v3.1.3.3",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				INFOPLIST_FILE = XListing/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1759,10 +1800,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Vendor/avoscloud-ios-sdk-v3.1.3.3",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INFOPLIST_FILE = XListing/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

@@ -52,7 +52,7 @@ public final class FeaturedListViewController: XUIViewController {
         setupNearbyButton()
         setupProfileButton()
         
-        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: self.tableView, viewmodel: self.viewmodel as! FeaturedListViewModel)
+        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: viewmodel as! FeaturedListViewModel)
 
         tableView.dataSource = self
     }
@@ -72,7 +72,7 @@ public final class FeaturedListViewController: XUIViewController {
         navigationController?.view.addSubview(statusBarBackgroundView)
         navigationController?.navigationBar.translucent = false
         
-        compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource()
+        compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
             |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.Featured, "viewmodel.collectionDataSource.producer")
             |> start()
@@ -142,7 +142,7 @@ public final class FeaturedListViewController: XUIViewController {
             |> start(
                 next: { [weak self] indexPath in
                     let something = indexPath.row
-                    self?.viewmodel.pushDetailModule(indexPath.row)
+                    self?.viewmodel.pushSocialBusinessModule(indexPath.row)
                 }
             )
         

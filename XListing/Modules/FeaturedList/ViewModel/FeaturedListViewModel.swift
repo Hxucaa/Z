@@ -77,8 +77,8 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
         router.pushNearby()
     }
     
-    public func pushDetailModule(section: Int) {
-        router.pushDetail(businessArr.value[section])
+    public func pushSocialBusinessModule(section: Int) {
+        router.pushSocialBusiness(businessArr.value[section])
     }
     
     public func pushProfileModule() {
