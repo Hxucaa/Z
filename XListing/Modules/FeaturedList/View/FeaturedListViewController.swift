@@ -33,7 +33,6 @@ public final class FeaturedListViewController: XUIViewController {
     @IBOutlet private weak var profileButton: UIBarButtonItem!
     private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, FeaturedListViewModel>!
     private let statusBarBackgroundView = StatusBarBackgroundView()
-    private let refreshControl = UIRefreshControl()
 
     // MARK: - Properties
     private var viewmodel: IFeaturedListViewModel!
