@@ -8,11 +8,11 @@
 
 import Foundation
 import ReactiveCocoa
+import ReactiveArray
 
-public protocol IFeaturedListViewModel {
-    var featuredBusinessViewModelArr: MutableProperty<[FeaturedBusinessViewModel]> { get }
-    init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService, participationService: IParticipationService)
-    func getFeaturedBusinesses() -> SignalProducer<[FeaturedBusinessViewModel], NSError>
+public protocol IFeaturedListViewModel : IInfinityScrollDataSource, IPullToRefreshDataSource, IPredictiveScrollDataSource {
+    var collectionDataSource: ReactiveArray<FeaturedBusinessViewModel> { get }
+    init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
     func pushNearbyModule()
     func pushDetailModule(section: Int)
     func pushProfileModule()

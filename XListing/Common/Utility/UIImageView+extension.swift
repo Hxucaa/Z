@@ -11,11 +11,15 @@ import UIKit
 
 extension UIImageView {
     public func setImageWithAnimation(image: UIImage) {
-        // animation currently disabled due to transition bug
-        
-//        UIView.transitionWithView(self, duration: 1.0, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {() -> Void in
-            self.image = image
-//            self.alpha = 1}
-//            , completion: nil)
+        UIView.transitionWithView(
+            self,
+            duration: 1.0,
+            options: UIViewAnimationOptions.TransitionCrossDissolve,
+            animations: {() -> Void in
+                self.image = image
+                self.alpha = 1
+            },
+            completion: nil
+        )
     }
 }
