@@ -142,7 +142,7 @@ public final class FeaturedListViewController: XUIViewController {
             |> start(
                 next: { [weak self] indexPath in
                     let something = indexPath.row
-                    self?.viewmodel.pushDetailModule(indexPath.row)
+                    self?.viewmodel.pushSocialBusinessModule(indexPath.row)
                 }
             )
         
