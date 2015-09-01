@@ -72,6 +72,7 @@
                                                     <rect key="frame" x="-8" y="-1" width="616" height="224"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="224" id="dwH-di-bF5"/>
+                                                        <constraint firstAttribute="width" constant="616" id="wLt-cD-wOd"/>
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -113,11 +114,11 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="businessNameLabel" destination="ftk-xE-VaQ" id="uRg-nt-B0A"/>
-                                            <outlet property="cityLabel" destination="dg4-CG-a5C" id="xxl-5D-TyL"/>
-                                            <outlet property="coverImageView" destination="BM2-2g-CSY" id="tS2-wT-ttn"/>
-                                            <outlet property="etaLabel" destination="ndM-Yx-v56" id="9zB-zm-S92"/>
-                                            <outlet property="participationLabel" destination="c4d-36-RgL" id="nki-O2-g7d"/>
+                                            <outlet property="businessNameLabel" destination="ftk-xE-VaQ" id="7t5-Jt-ijd"/>
+                                            <outlet property="cityLabel" destination="dg4-CG-a5C" id="XBd-A8-N3a"/>
+                                            <outlet property="coverImageView" destination="BM2-2g-CSY" id="9jM-yo-OD0"/>
+                                            <outlet property="etaLabel" destination="ndM-Yx-v56" id="KIj-Y3-OLe"/>
+                                            <outlet property="participationLabel" destination="c4d-36-RgL" id="zKe-od-d2E"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
