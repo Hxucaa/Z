@@ -134,7 +134,7 @@ public final class DetailViewController : XUIViewController, UITableViewDelegate
                     switch Primary(rawValue: row)! {
                     // send data
                     case .参与:
-                        self.viewmodel.pushWantToGo()
+                        break
                     default: break
                     }
                 default: break

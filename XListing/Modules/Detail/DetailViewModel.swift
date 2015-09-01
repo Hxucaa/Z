@@ -26,9 +26,6 @@ public struct DetailViewModel : IDetailViewModel {
     public let detailParticipationViewModel: DetailParticipationViewModel
     
     // MARK: Actions
-    public func pushWantToGo() {
-//        router.pushWantToGo(business)
-    }
     
     // MARK: Initializers
     public init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, businessModel: Business) {

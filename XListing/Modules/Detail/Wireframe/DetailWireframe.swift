@@ -41,10 +41,3 @@ public final class DetailWireframe : IDetailWireframe {
         return viewController
     }
 }
-
-//extension DetailWireframe : DetailRoute {
-//    public func pushWithData<T : Business>(business: T) {
-//        let injectedViewController = injectViewModelToViewController(business)
-////        rootWireframe.pushViewController(injectedViewController, animated: true)
-//    }
-//}
