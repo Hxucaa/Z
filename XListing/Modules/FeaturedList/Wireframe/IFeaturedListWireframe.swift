@@ -7,7 +7,9 @@
 //
 
 import Foundation
+import ReactiveCocoa
 
-public protocol IFeaturedListWireframe : class, Wireframe {
-    init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
+public protocol IFeaturedListWireframe : class, ITabRootWireframe {
+    var navigationControllerDelegate: FeaturedListNavigationControllerDelegate! { get set }
+    init(businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
 }

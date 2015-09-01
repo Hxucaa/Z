@@ -21,9 +21,8 @@ public protocol IAccountNavigator : class {
     func goToFeaturedModule(callback: (CompletionHandler? -> ())?)
 }
 
-public final class AccountWireframe : BaseWireframe, IAccountWireframe {
+public final class AccountWireframe : IAccountWireframe {
     
-    private let router: IRouter
     private let userService: IUserService
     private let userDefaultsService: IUserDefaultsService
     
@@ -31,16 +30,13 @@ public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     
     private var moduleNavController: UINavigationController!
     
-    public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService, userDefaultsService: IUserDefaultsService) {
-        self.router = router
+    public required init(userService: IUserService, userDefaultsService: IUserDefaultsService) {
         self.userService = userService
         self.userDefaultsService = userDefaultsService
-        
-        super.init(rootWireframe: rootWireframe)
     }
     
     private func injectViewModelToViewController(dismissCallback: CompletionHandler? = nil) -> LandingPageViewController {
-        let viewController = getViewControllerFromStoryboard(LandingPageViewControllerIdentifier, storyboardName: AccountStoryboardName) as! LandingPageViewController
+        let viewController = UIStoryboard(name: AccountStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(LandingPageViewControllerIdentifier) as! LandingPageViewController
         let viewmodel = LandingPageViewModel(accountNavigator: self, userService: userService, userDefaultsService: userDefaultsService)
         viewController.bindToViewModel(viewmodel)
         
@@ -48,32 +44,32 @@ public final class AccountWireframe : BaseWireframe, IAccountWireframe {
     }
 }
 
-extension AccountWireframe : AccountRoute {
-    public func push() {
-        let injectedViewController = injectViewModelToViewController(dismissCallback: nil)
-        rootWireframe.pushViewController(injectedViewController, animated: true)
-    }
-    
-    public func present(completion: CompletionHandler?, dismissCallback: CompletionHandler?) {
-        self.dismissCallback = dismissCallback
-        
-        let injectedViewController = injectViewModelToViewController(dismissCallback: dismissCallback)
-        
-        moduleNavController = UINavigationController(rootViewController: injectedViewController)
-        
-        rootWireframe.presentViewController(moduleNavController, animated: true, completion: completion)
-    }
-}
+//extension AccountWireframe : AccountRoute {
+//    public func push() {
+//        let injectedViewController = injectViewModelToViewController(dismissCallback: nil)
+////        rootWireframe.pushViewController(injectedViewController, animated: true)
+//    }
+//    
+//    public func present(completion: CompletionHandler?, dismissCallback: CompletionHandler?) {
+//        self.dismissCallback = dismissCallback
+//        
+//        let injectedViewController = injectViewModelToViewController(dismissCallback: dismissCallback)
+//        
+//        moduleNavController = UINavigationController(rootViewController: injectedViewController)
+//        
+////        rootWireframe.presentViewController(moduleNavController, animated: true, completion: completion)
+//    }
+//}
 
 extension AccountWireframe : IAccountNavigator {
     
     public func goToSignUpComponent() {
-        let viewController = getViewControllerFromStoryboard(SignUpViewControllerIdentifier, storyboardName: AccountStoryboardName) as! SignUpViewController
+        let viewController = UIStoryboard(name: AccountStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(SignUpViewControllerIdentifier) as! SignUpViewController
         let viewmodel = SignUpViewModel(accountNavigator: self, userService: userService)
         viewController.viewmodel.put(viewmodel)
         
         if dismissCallback == nil {
-            rootWireframe.pushViewController(viewController, animated: false)
+//            rootWireframe.pushViewController(viewController, animated: false)
         }
         else {
             moduleNavController.pushViewController(viewController, animated: false)
@@ -82,12 +78,12 @@ extension AccountWireframe : IAccountNavigator {
     
     
     public func goToLogInComponent() {
-        let viewController = getViewControllerFromStoryboard(LogInViewControllerIdentifier, storyboardName: AccountStoryboardName) as! LogInViewController
+        let viewController = UIStoryboard(name: AccountStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(LogInViewControllerIdentifier) as! LogInViewController
         let viewmodel = LogInViewModel(accountNavigator: self, userService: userService)
         viewController.viewmodel.put(viewmodel)
         
         if dismissCallback == nil {
-            rootWireframe.pushViewController(viewController, animated: false)
+//            rootWireframe.pushViewController(viewController, animated: false)
         }
         else {
             moduleNavController.pushViewController(viewController, animated: false)
@@ -99,7 +95,7 @@ extension AccountWireframe : IAccountNavigator {
             callback?(dismissCallback)
         }
         else {
-            router.pushFeatured()
+//            router.pushFeatured()
         }
         self.dismissCallback = nil
         moduleNavController = nil

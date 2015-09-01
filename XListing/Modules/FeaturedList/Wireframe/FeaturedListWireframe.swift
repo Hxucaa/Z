@@ -8,24 +8,30 @@
 
 import Foundation
 import UIKit
+import ReactiveCocoa
 
 private let FeaturedListViewControllerIdentifier = "FeaturedListViewController"
+private let StoryboardName = "Main"
+
+public protocol FeaturedListNavigationControllerDelegate : class {
+    func pushSocialBusiness<T : Business>(business: T)
+}
 
 public final class FeaturedListWireframe : IFeaturedListWireframe {
     
-    public var viewController: UIViewController {
+    public var rootViewController: UIViewController {
         return initViewController()
     }
     
-    private let router: IRouter
+    public weak var navigationControllerDelegate: FeaturedListNavigationControllerDelegate!
+    
     private let businessService: IBusinessService
     private let userService: IUserService
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
     private let imageService: IImageService
     
-    public required init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
-        self.router = router
+    public required init(businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
         self.businessService = businessService
         self.userService = userService
         self.geoLocationService = geoLocationService
@@ -40,19 +46,17 @@ public final class FeaturedListWireframe : IFeaturedListWireframe {
     */
     private func initViewController() -> FeaturedListViewController {
         // retrieve view controller from storyboard
-        let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
-        let viewmodel = FeaturedListViewModel(router: router, businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService, imageService: imageService)
+        let viewController = UIStoryboard(name: StoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
+        let viewmodel = FeaturedListViewModel(navigator: self, businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService, imageService: imageService)
         viewController.bindToViewModel(viewmodel)
         
         return viewController
     }
 }
 
-extension FeaturedListWireframe : FeaturedRoute {
-    public func push() {
-        
-        let injectedViewController = initViewController()
-//        rootWireframe.showRootViewController(injectedViewController)
-        
+extension FeaturedListWireframe : FeaturedListNavigator {
+    
+    public func pushSocialBusiness(business: Business) {
+        navigationControllerDelegate.pushSocialBusiness(business)
     }
 }

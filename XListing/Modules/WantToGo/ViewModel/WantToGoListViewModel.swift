@@ -67,8 +67,7 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
 
     
     // MARK: Initializers
-    public init(router: IRouter, userService: IUserService, participationService: IParticipationService, imageService: IImageService, business: Business) {
-        self.router = router
+    public init(userService: IUserService, participationService: IParticipationService, imageService: IImageService, business: Business) {
         self.userService = userService
         self.participationService = participationService
         self.imageService = imageService
@@ -81,7 +80,6 @@ public struct WantToGoListViewModel : IWantToGoListViewModel {
     // MARK: - Private
     
     // MARK: Private Variables
-    private let router: IRouter
     private let userService: IUserService
     private let participationService: IParticipationService
     private let imageService: IImageService

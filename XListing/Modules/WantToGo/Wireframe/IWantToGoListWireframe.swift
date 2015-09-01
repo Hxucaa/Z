@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol IWantToGoListWireframe {
-    init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService, participationService: IParticipationService, imageService: IImageService)
+    init(userService: IUserService, participationService: IParticipationService, imageService: IImageService)
 }

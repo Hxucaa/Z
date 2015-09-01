@@ -29,8 +29,6 @@ public final class FeaturedListViewController: XUIViewController {
     // MARK: - UI
     // MARK: Controls
     @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet private weak var nearbyButton: UIBarButtonItem!
-    @IBOutlet private weak var profileButton: UIBarButtonItem!
     private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, FeaturedListViewModel>!
     private let statusBarBackgroundView = StatusBarBackgroundView()
     
@@ -48,9 +46,6 @@ public final class FeaturedListViewController: XUIViewController {
         tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         // makes the gap at the bottom of the table view go away
         tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
-        
-        setupNearbyButton()
-        setupProfileButton()
         
         singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: viewmodel as! FeaturedListViewModel)
 
@@ -88,8 +83,6 @@ public final class FeaturedListViewController: XUIViewController {
     
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        nearbyButton.enabled = true
     }
     
     deinit {
@@ -97,39 +90,7 @@ public final class FeaturedListViewController: XUIViewController {
         compositeDisposable.dispose()
         FeaturedLogVerbose("Featured List View Controller deinitializes.")
     }
-    
-    /**
-    React to Nearby Button and present NearbyViewController.
-    */
-    private func setupNearbyButton() {
-        let pushNearby = Action<UIBarButtonItem, Void, NoError> { [weak self] button in
-            return SignalProducer<Void, NoError> { [weak self] sink, disposable in
-                
-                self?.nearbyButton.enabled = false
-                
-                self?.viewmodel.pushNearbyModule()
-                sendCompleted(sink)
-            }
-        }
-        
-        nearbyButton.target = pushNearby.unsafeCocoaAction
-        nearbyButton.action = CocoaAction.selector
-    }
 
-    /**
-    React to Profile Button and present ProfileViewController.
-    */
-    private func setupProfileButton() {
-        let pushProfile = Action<UIBarButtonItem, Void, NoError> { [weak self] button in
-            return SignalProducer<Void, NoError> { [weak self] sink, disposable in
-                self?.viewmodel.pushProfileModule()
-                sendCompleted(sink)
-            }
-        }
-        profileButton.target = pushProfile.unsafeCocoaAction
-        profileButton.action = CocoaAction.selector
-    }
-    
     private func willAppearTableView() {
         
         // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
