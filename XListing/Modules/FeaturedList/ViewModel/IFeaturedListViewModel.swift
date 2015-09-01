@@ -12,6 +12,6 @@ import ReactiveArray
 
 public protocol IFeaturedListViewModel : IInfinityScrollDataSource, IPullToRefreshDataSource, IPredictiveScrollDataSource {
     var collectionDataSource: ReactiveArray<FeaturedBusinessViewModel> { get }
-    init(navigator: FeaturedListNavigator, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
+    init(businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
     func pushSocialBusinessModule(section: Int)
 }

@@ -36,13 +36,12 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
     private let imageService: IImageService
     
     // MARK: Variables
-    private weak var navigator: FeaturedListNavigator!
+    public weak var navigator: FeaturedListNavigator!
     private let businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
     private var numberOfBusinessesLoaded = 0
     
     // MARK: - Initializers
-    public init(navigator: FeaturedListNavigator, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
-        self.navigator = navigator
+    public init(businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
         self.businessService = businessService
         self.userService = userService
         self.geoLocationService = geoLocationService

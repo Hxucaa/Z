@@ -47,7 +47,10 @@ public final class FeaturedListWireframe : IFeaturedListWireframe {
     private func initViewController() -> FeaturedListViewController {
         // retrieve view controller from storyboard
         let viewController = UIStoryboard(name: StoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
-        let viewmodel = FeaturedListViewModel(navigator: self, businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService, imageService: imageService)
+        let viewmodel = FeaturedListViewModel(businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService, imageService: imageService)
+
+        viewmodel.navigator = self
+
         viewController.bindToViewModel(viewmodel)
         
         return viewController

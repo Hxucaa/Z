@@ -6,5 +6,6 @@
 import Foundation
 
 public protocol IProfileWireframe : class, ITabRootWireframe {
+    var navigationControllerDelegate: ProfileNavigationControllerDelegate! { get set }
     init(participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
 }

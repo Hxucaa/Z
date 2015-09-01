@@ -28,14 +28,11 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // start background workers
-        backgroundOperationsWorkerFactory.startWorkers()
+//        backgroundOperationsWorkerFactory.startWorkers()
                 
         // start dependency injector
         appDependencies = AppDependencies(window: window!)
-        
-        // initialize root view
-        appDependencies.installRootViewControllerIntoWindow()
-        
+
         return true
     }
     

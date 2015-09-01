@@ -15,15 +15,14 @@ public struct ProfileEditViewModel {
     public typealias AgeLimit = (floor: NSDate, ceil: NSDate)
     public var currentUser = MutableProperty<User?>(nil)
     
-    // MARK: Input
-    public let nickname = MutableProperty<String?>("")
-    public let birthday = MutableProperty<NSDate>(NSDate())
-    public let profileImage = MutableProperty<UIImage?>(nil)
-    public let gender = MutableProperty<String?>(nil)
+    // MARK: - Inputs
+    public let nickname: MutableProperty<String?>
+    public let birthday: MutableProperty<NSDate>
+    public let profileImage: MutableProperty<UIImage?>
+    public let gender: MutableProperty<String?>
     
-    // MARK: Output
+    // MARK: - Outputs
     public let allInputsValid = MutableProperty<Bool>(false)
-    public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
     
     // MARK: Actions
     public var updateProfile: SignalProducer<Bool, NSError> {
@@ -72,9 +71,27 @@ public struct ProfileEditViewModel {
     
     // MARK: Initializers
     
-    public init(userService: IUserService, userModel: User, dismissCallback: (() -> ())? = nil) {
+    public init(userService: IUserService, userModel: User) {
         self.userService = userService
         self.user = userModel
+        
+        if let profileImage = user.profileImg {
+            self.profileImage = MutableProperty(UIImage(data: profileImage.getData()))
+        }
+        else {
+            self.profileImage = MutableProperty(nil)
+        }
+        
+        self.nickname = MutableProperty(user.nickname)
+        
+        self.gender = MutableProperty(user.gender)
+        
+        if let birthday = user.birthday {
+            self.birthday = MutableProperty(birthday)
+        }
+        else {
+            self.birthday = MutableProperty(NSDate())
+        }
         
         setupNickname()
         setupGender()
@@ -82,10 +99,6 @@ public struct ProfileEditViewModel {
         setupProfileImage()
         setupAllInputsValid()
         
-        self.profileImage.put(UIImage(data: user.profileImg!.getData()))
-        self.nickname.put(user.nickname)
-        self.gender.put(user.gender)
-        self.birthday.put(user.birthday!)
     }
     
     // MARK: - Private
@@ -172,15 +185,8 @@ public struct ProfileEditViewModel {
     */
     public func getUserData() -> SignalProducer<(), NSError> {
         return userService.currentLoggedInUser()
-            |> on(next: { user in
-                    self.fetchingData.put(true)
-            })
             |> map { user -> () in
                self.currentUser.put(user)
             }
-            |> on(next: { response in
-                self.fetchingData.put(false)
-                }
-            )
         }
 }

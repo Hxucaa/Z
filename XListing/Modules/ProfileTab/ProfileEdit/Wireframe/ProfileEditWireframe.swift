@@ -13,28 +13,23 @@ private let ProfileEditViewControllerIdentifier = "ProfileEditViewController"
 private let ProfileEditStoryboardName = "ProfileEdit"
 
 public final class ProfileEditWireframe : IProfileEditWireframe {
-    
+
     private let userService: IUserService
     
     public required init(userService: IUserService) {
         self.userService = userService
     }
     
-    private func injectViewModelToViewController(user: User, dismissCallback: CompletionHandler? = nil) -> ProfileEditViewController {
+    private func injectViewModelToViewController(user: User) -> ProfileEditViewController {
         let viewController = UIStoryboard(name: ProfileEditStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(ProfileEditViewControllerIdentifier) as! ProfileEditViewController
-        let viewmodel = ProfileEditViewModel(userService: userService, userModel: user, dismissCallback: dismissCallback)
+        let viewmodel = ProfileEditViewModel(userService: userService, userModel: user)
         viewController.bindToViewModel(viewmodel)
         
         return viewController
     }
-    
-    public func pushWithData<T: User>(user: T) {
-        let injectedViewController = injectViewModelToViewController(user, dismissCallback: nil)
-//        rootWireframe.pushViewController(injectedViewController, animated: true)
-    }
-    
-    public func presentWithData<T: User>(user: T, completion: CompletionHandler?, dismissCallback: CompletionHandler?) {
-        let injectedViewController = injectViewModelToViewController(user, dismissCallback: dismissCallback)
-//        rootWireframe.presentViewController(injectedViewController, animated: true, completion: completion)
+
+
+    public func viewController(user: User) -> ProfileEditViewController {
+        return injectViewModelToViewController(user)
     }
 }

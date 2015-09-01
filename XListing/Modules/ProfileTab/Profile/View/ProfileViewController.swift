@@ -8,9 +8,9 @@ import UIKit
 import ReactiveCocoa
 import AVOSCloud
 import Dollar
+import Cartography
 
-private let ProfileEditViewControllerIdentifier = "ProfileEditViewController"
-private let ProfileStoryBoardName = "Profile"
+private let BusinessCellIdentifier = "BusinessCell"
 
 public final class ProfileViewController : XUIViewController {
 
@@ -21,32 +21,42 @@ public final class ProfileViewController : XUIViewController {
     private var headerViewContent: ProfileHeaderView!
     
     // MARK: - Properties
-    private var profileVM: ProfileViewModel!
+    private var viewmodel: IProfileViewModel!
     private var firstSegSelected = true
     private var selectedBusinessChoiceIndex = 0
     private let compositeDisposable = CompositeDisposable()
 
     // MARK: - Setups
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        navigationItem.title = "个人"
+    public override func loadView() {
+        super.loadView()
         
         headerViewContent = NSBundle.mainBundle().loadNibNamed("ProfileHeaderView", owner: self, options: nil).first as! ProfileHeaderView
-        headerViewContent.frame = CGRectMake(0, 0, headerView.frame.width, headerView.frame.height)
         headerView.addSubview(headerViewContent)
-        
-        profileVM.profileHeaderViewModel.producer
-            |> ignoreNil
-            |> start(next: { [weak self] viewmodel in
-                self?.headerViewContent.bindViewModel(viewmodel)
-            })
+        constrain(headerViewContent) { view in
+            view.leading == view.superview!.leading
+            view.top == view.superview!.top
+            view.trailing == view.superview!.trailing
+            view.bottom == view.superview!.bottom
+        }
         
         let tabViewContent = NSBundle.mainBundle().loadNibNamed("ProfileTabView", owner: self, options: nil).first as! ProfileTabView
         tabView.addSubview(tabViewContent)
         
         let nib = UINib(nibName: "ProfileBusinessCell", bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: "BusinessCell")
+        tableView.registerNib(nib, forCellReuseIdentifier: BusinessCellIdentifier)
+    }
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        navigationItem.title = "个人"
+        
+        viewmodel.profileHeaderViewModel.producer
+            |> ignoreNil
+            |> start(next: { [weak self] viewmodel in
+                self?.headerViewContent.bindViewModel(viewmodel)
+            })
+        
         tableView.rowHeight = 90
     }
     
@@ -65,7 +75,7 @@ public final class ProfileViewController : XUIViewController {
             |> logLifeCycle(LogContext.Profile, "headerViewContent.editProxy")
             |> start(
                 next: { [weak self] in
-                    self!.profileVM.presentProfileEditModule()
+                    self?.viewmodel.presentProfileEditModule(true, completion: nil)
                 }
             )
         
@@ -93,7 +103,7 @@ public final class ProfileViewController : XUIViewController {
             |> logLifeCycle(LogContext.Profile, "tableView:didSelectRowAtIndexPath:")
             |> start(
                 next: { [weak self] indexPath in
-                    self?.profileVM.pushDetailModule(indexPath.row)
+                    self?.viewmodel.pushSocialBusinessModule(indexPath.row, animated: true)
                 }
             )
         
@@ -109,9 +119,9 @@ public final class ProfileViewController : XUIViewController {
                 next: { [weak self] editingStyle, indexPath in
                     if let this = self {
                         if editingStyle == UITableViewCellEditingStyle.Delete {
-                            this.profileVM.undoParticipation(indexPath.row)
+                            this.viewmodel.undoParticipation(indexPath.row)
                                 |> start()
-                            this.profileVM.profileBusinessViewModelArr.value.removeAtIndex(indexPath.row)
+                            this.viewmodel.profileBusinessViewModelArr.value.removeAtIndex(indexPath.row)
                             this.tableView.reloadData()
                         }
                     }
@@ -122,7 +132,7 @@ public final class ProfileViewController : XUIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        profileVM.profileBusinessViewModelArr.producer
+        viewmodel.profileBusinessViewModelArr.producer
             |> start(next: { [weak self] _ in
                 self?.tableView.reloadData()
             })
@@ -130,8 +140,8 @@ public final class ProfileViewController : XUIViewController {
     
     // MARK: - Bindings
     
-    public func bindToViewModel(profileViewModel: ProfileViewModel) {
-        profileVM = profileViewModel
+    public func bindToViewModel(profileViewModel: IProfileViewModel) {
+        viewmodel = profileViewModel
     }
     
     // MARK: - Others
@@ -164,12 +174,12 @@ extension ProfileViewController : UITableViewDataSource, UITableViewDelegate {
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         //return numberOfChats
-        return profileVM.profileBusinessViewModelArr.value.count
+        return viewmodel.profileBusinessViewModelArr.value.count
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var businessCell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! ProfileBusinessCell
-        businessCell.bindViewModel(profileVM.profileBusinessViewModelArr.value[indexPath.row])
+        var businessCell = tableView.dequeueReusableCellWithIdentifier(BusinessCellIdentifier, forIndexPath: indexPath) as! ProfileBusinessCell
+        businessCell.bindViewModel(viewmodel.profileBusinessViewModelArr.value[indexPath.row])
         
         return businessCell
         

@@ -2,7 +2,7 @@
 // ProfileViewModel.swift
 // XListing
 //
-// Created by Lance on 15-05-06.
+// Created by Lance Zhu on 15-05-06.
 // Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
@@ -10,24 +10,34 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
+public protocol ProfileNavigator : class {
+    func pushSocialBusiness(business: Business, animated: Bool)
+    func presentProfileEdit(user: User, animated: Bool, completion: CompletionHandler?)
+}
+
 public final class ProfileViewModel : IProfileViewModel {
-    
+
+    // MARK: - Inputs
+
+    // MARK: - Outputs
+    public let profileBusinessViewModelArr: MutableProperty<[ProfileBusinessViewModel]> = MutableProperty([ProfileBusinessViewModel]())
     public let nickname: MutableProperty<String> = MutableProperty("")
+
     public let user = MutableProperty<User?>(nil)
     public let profileHeaderViewModel = MutableProperty<ProfileHeaderViewModel?>(nil)
     
-    // MARK: Private variables
+    // MARK: - Properties
+    // MARK: Services
     private let businessService: IBusinessService
     private let participationService: IParticipationService
     private let userService: IUserService
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
     private let imageService: IImageService
+
+    // MARK: Variables
+    public weak var navigator: ProfileNavigator!
     private let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
-    
-    
-    public let profileBusinessViewModelArr: MutableProperty<[ProfileBusinessViewModel]> = MutableProperty([ProfileBusinessViewModel]())
-    public let fetchingData: MutableProperty<Bool> = MutableProperty(false)
     private let businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
     
     
@@ -51,8 +61,29 @@ public final class ProfileViewModel : IProfileViewModel {
                 }
         )
     }
-    
-    
+
+    // MARK: - API
+
+    public func pushSocialBusinessModule(section: Int, animated: Bool) {
+        navigator.pushSocialBusiness(businessArr.value[section], animated: animated)
+    }
+
+    public func presentProfileEditModule(animated: Bool, completion: CompletionHandler? = nil) {
+        navigator.presentProfileEdit(user.value!, animated: animated, completion: completion)
+    }
+
+    public func undoParticipation(index: Int) -> SignalProducer<Bool, NSError> {
+        return participationService.delete(participationArr.value[index])
+            |> on(
+                next: { _ in
+                    ProfileLogInfo("participation backend completed")
+                    self.participationArr.value.removeAtIndex(index)
+                }
+            )
+    }
+
+    // MARK: - Others
+
     private func getParticipations(user : User) -> SignalProducer<[ProfileBusinessViewModel], NSError> {
         let query = Participation.query()!
         typealias Property = Participation.Property
@@ -61,7 +92,6 @@ public final class ProfileViewModel : IProfileViewModel {
         
         return participationService.findBy(query)
             |> on(next: { participations in
-                self.fetchingData.put(true)
                 self.participationArr.put(participations)
                 self.businessArr.put(participations.map { $0.business })
             })
@@ -77,28 +107,9 @@ public final class ProfileViewModel : IProfileViewModel {
             |> on(
                 next: { response in
                     self.profileBusinessViewModelArr.put(response)
-                    self.fetchingData.put(false)
                 },
                 error: { ProfileLogError($0.customErrorDescription) }
             )
     }
-    
-    public func undoParticipation(index: Int) -> SignalProducer<Bool, NSError>{
-        return participationService.delete(participationArr.value[index])
-            |> on(
-                next: { _ in
-                    ProfileLogInfo("participation backend completed")
-                    self.participationArr.value.removeAtIndex(index)
-                }
-            )
-    
-    }
-    
-    public func pushDetailModule(section: Int) {
-//        router.pushDetail(businessArr.value[section])
-    }
-    
-    public func presentProfileEditModule() {
-//        router.presentProfileEdit(user.value!, completion: nil)
-    }
+
 }

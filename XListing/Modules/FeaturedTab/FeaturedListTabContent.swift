@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public final class FeaturedTabContent : ITabContent, FeaturedListNavigationControllerDelegate {
+public final class FeaturedTabContent : ITabContent {
     
     private let featuredTabNavigationController: FeaturedTabNavigationController
     public var navigationController: UINavigationController {
@@ -26,9 +26,13 @@ public final class FeaturedTabContent : ITabContent, FeaturedListNavigationContr
         self.featuredListWireframe = featuredListWireframe
         self.socialBusinessWireframe = socialBusinessWireframe
         
-        featuredListWireframe.navigationControllerDelegate = self
+        self.featuredListWireframe.navigationControllerDelegate = self
     }
-    
+
+}
+
+extension FeaturedTabContent : FeaturedListNavigationControllerDelegate {
+
     public func pushSocialBusiness<T : Business>(business: T) {
         featuredTabNavigationController.pushViewController(socialBusinessWireframe.viewController(business), animated: true)
     }

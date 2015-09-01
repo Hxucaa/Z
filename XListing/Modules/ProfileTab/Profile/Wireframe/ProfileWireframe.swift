@@ -1,5 +1,5 @@
 //
-// Created by Lance on 15-05-06.
+// Created by Lance Zhu on 15-05-06.
 // Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
@@ -9,11 +9,18 @@ import UIKit
 private let ProfileViewControllerIdentifier = "ProfileViewController"
 private let StoryboardName = "Profile"
 
+public protocol ProfileNavigationControllerDelegate : class {
+    func pushSocialBusiness<T: Business>(business: T, animated: Bool)
+    func presentProfileEdit<T: User>(user: T, animated: Bool, completion: CompletionHandler?)
+}
+
 public final class ProfileWireframe : IProfileWireframe {
 
     public var rootViewController: UIViewController {
         return initViewController()
     }
+
+    public weak var navigationControllerDelegate: ProfileNavigationControllerDelegate!
 
     private let businessService: IBusinessService
     private let userService: IUserService
@@ -35,6 +42,8 @@ public final class ProfileWireframe : IProfileWireframe {
         let viewController = UIStoryboard(name: StoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(ProfileViewControllerIdentifier) as! ProfileViewController
         
         let viewmodel = ProfileViewModel(participationService: participationService, businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService, imageService: imageService)
+
+        viewmodel.navigator = self
         
         viewController.bindToViewModel(viewmodel)
         
@@ -42,9 +51,11 @@ public final class ProfileWireframe : IProfileWireframe {
     }
 }
 
-//extension ProfileWireframe : ProfileRoute {
-//    public func push() {
-//        let injectedViewController = initViewController()
-////        rootWireframe.pushViewController(injectedViewController, animated: true)
-//    }
-//}
+extension ProfileWireframe : ProfileNavigator {
+    public func pushSocialBusiness(business: Business, animated: Bool) {
+        navigationControllerDelegate.pushSocialBusiness(business, animated: animated)
+    }
+    public func presentProfileEdit(user: User, animated: Bool, completion: CompletionHandler?) {
+        navigationControllerDelegate.presentProfileEdit(user, animated: animated, completion: completion)
+    }
+}

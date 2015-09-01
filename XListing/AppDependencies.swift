@@ -24,7 +24,6 @@ public final class AppDependencies {
     private let detailWireframe: IDetailWireframe
     private let accountWireframe: IAccountWireframe
     private let profileWireframe: IProfileWireframe
-    private let wantToGoListWireframe: IWantToGoListWireframe
     private let profileEditWireframe: IProfileEditWireframe
     private let socialBusinessWireframe: ISocialBusinessWireframe
 
@@ -42,7 +41,6 @@ public final class AppDependencies {
         
         detailWireframe = DetailWireframe(userService: us, participationService: ps, geoLocationService: gs, imageService: imageService)
         accountWireframe = AccountWireframe(userService: us, userDefaultsService: uds)
-        wantToGoListWireframe = WantToGoListWireframe(userService: us, participationService: ps, imageService: imageService)
         
         featuredListWireframe = FeaturedListWireframe(businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds, imageService: imageService)
         nearbyWireframe = NearbyWireframe(businessService: bs, geoLocationService: gs, imageService: imageService)
@@ -52,22 +50,8 @@ public final class AppDependencies {
 
         featuredTabItem = TabItem(tabContent: FeaturedTabContent(featuredListWireframe: featuredListWireframe, socialBusinessWireframe: socialBusinessWireframe))
         nearbyTabItem = TabItem(tabContent: NearbyTabContent(nearbyWireframe: nearbyWireframe, socialBusinessWireframe: socialBusinessWireframe))
-        profileTabItem = TabItem(tabContent: ProfileTabContent(profileWireframe: profileWireframe, profileEditWireframe: profileEditWireframe))
+        profileTabItem = TabItem(tabContent: ProfileTabContent(profileWireframe: profileWireframe, socialBusinessWireframe: socialBusinessWireframe, profileEditWireframe: profileEditWireframe))
         
         rootTabBarWireframe = RootTabBarWireframe(inWindow: window, featuredListTabItem: featuredTabItem, nearbyTabItem: nearbyTabItem, profileTabItem: profileTabItem)
-    }
-
-    /**
-        Install the root view controller to the window for display.
-    
-        :param: window The UIWindow that needs to have a root view installed.
-    */
-    public func installRootViewControllerIntoWindow() {
-//        if !userDefaultsService.accountModuleSkipped && !userService.isLoggedInAlready() {
-//            router.pushAccount()
-//        }
-//        else {
-//            router.pushFeatured()
-//        }
     }
 }
