@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import ReactiveCocoa
+import UIKit
 
 /**
     Dependency injector.
@@ -17,7 +17,8 @@ public final class AppDependencies {
     private let featuredTabItem: TabItem<FeaturedTabContent>
     private let nearbyTabItem: TabItem<NearbyTabContent>
     private let profileTabItem: TabItem<ProfileTabContent>
-    private let rootTabBarWireframe: IRootTabBarWireframe
+    
+    private var rootTabBarWireframe: IRootTabBarWireframe?
 
     private let featuredListWireframe: IFeaturedListWireframe
     private let nearbyWireframe: INearbyWireframe
@@ -40,18 +41,29 @@ public final class AppDependencies {
         HUD.sharedInstance
         
         detailWireframe = DetailWireframe(userService: us, participationService: ps, geoLocationService: gs, imageService: imageService)
-        accountWireframe = AccountWireframe(userService: us, userDefaultsService: uds)
         
         featuredListWireframe = FeaturedListWireframe(businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds, imageService: imageService)
         nearbyWireframe = NearbyWireframe(businessService: bs, geoLocationService: gs, imageService: imageService)
         profileWireframe = ProfileWireframe(participationService: ps, businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds, imageService: imageService)
         profileEditWireframe = ProfileEditWireframe(userService: us)
         socialBusinessWireframe = SocialBusinessWireframe(userService: us, participationService: ps, geoLocationService: gs, imageService: imageService)
+        accountWireframe = AccountWireframe(userService: us, userDefaultsService: uds)
 
         featuredTabItem = TabItem(tabContent: FeaturedTabContent(featuredListWireframe: featuredListWireframe, socialBusinessWireframe: socialBusinessWireframe))
         nearbyTabItem = TabItem(tabContent: NearbyTabContent(nearbyWireframe: nearbyWireframe, socialBusinessWireframe: socialBusinessWireframe))
         profileTabItem = TabItem(tabContent: ProfileTabContent(profileWireframe: profileWireframe, socialBusinessWireframe: socialBusinessWireframe, profileEditWireframe: profileEditWireframe))
         
-        rootTabBarWireframe = RootTabBarWireframe(inWindow: window, featuredListTabItem: featuredTabItem, nearbyTabItem: nearbyTabItem, profileTabItem: profileTabItem)
+        if !uds.accountModuleSkipped && !us.isLoggedInAlready() {
+            window.rootViewController = accountWireframe.rootViewController
+        }
+        else {
+            startTabBarApplication(window)
+        }
+        window.makeKeyAndVisible()
+    }
+    
+    public func startTabBarApplication(window: UIWindow) {
+        window.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("RootTabBarController") as! RootTabBarController
+        rootTabBarWireframe = RootTabBarWireframe(inWindow: window, userService: us, accountWireframe: accountWireframe, featuredListTabItem: featuredTabItem, nearbyTabItem: nearbyTabItem, profileTabItem: profileTabItem)
     }
 }

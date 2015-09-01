@@ -14,12 +14,42 @@ public final class RootTabBarWireframe : IRootTabBarWireframe {
 
     private let rootTabBarController: RootTabBarController
 
-    public required init(inWindow: UIWindow, featuredListTabItem: TabItem<FeaturedTabContent>, nearbyTabItem: TabItem<NearbyTabContent>, profileTabItem: TabItem<ProfileTabContent>) {
+    public required init(inWindow: UIWindow, userService: IUserService, accountWireframe: IAccountWireframe, featuredListTabItem: TabItem<FeaturedTabContent>, nearbyTabItem: TabItem<NearbyTabContent>, profileTabItem: TabItem<ProfileTabContent>) {
         rootTabBarController = inWindow.rootViewController as! RootTabBarController
         rootTabBarController.setViewControllers([featuredListTabItem.rootNavigationController, nearbyTabItem.rootNavigationController, profileTabItem.rootNavigationController], animated: false)
+        rootTabBarController.userService = userService
+        rootTabBarController.accountWireframe = accountWireframe
     }
 }
 
-public final class RootTabBarController : UITabBarController {
-
+public final class RootTabBarController : UITabBarController, UITabBarControllerDelegate {
+    
+    public weak var userService: IUserService!
+    public weak var accountWireframe: IAccountWireframe!
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        delegate = self
+    }
+    
+    public func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+        if viewController is ProfileTabNavigationController {
+            // if user is logged in already, continue on
+            if userService.isLoggedInAlready() {
+                return true
+            }
+            // else make the user log in / sign up first
+            else {
+                accountWireframe.finishedCallback = { [weak self] in
+                    if let this = self where this.userService.isLoggedInAlready() {
+                        self?.selectedViewController = viewController
+                    }
+                }
+                presentViewController(accountWireframe.rootViewController, animated: true, completion: nil)
+                return false
+            }
+        }
+        return true
+    }
 }

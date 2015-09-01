@@ -15,12 +15,10 @@ public final class LandingPageViewModel : ILandingPageViewModel {
     // MARK: Services
     private weak var accountNavigator: IAccountNavigator!
     private let userService: IUserService
-    private let userDefaultsService: IUserDefaultsService
     
-    public init(accountNavigator: IAccountNavigator, userService: IUserService, userDefaultsService: IUserDefaultsService) {
+    public init(accountNavigator: IAccountNavigator, userService: IUserService) {
         self.accountNavigator = accountNavigator
         self.userService = userService
-        self.userDefaultsService = userDefaultsService
     }
     
     deinit {
@@ -36,17 +34,16 @@ public final class LandingPageViewModel : ILandingPageViewModel {
         accountNavigator.goToLogInComponent()
     }
     
-    public func skipAccountModule(dismiss: () -> ()) {
-        if userDefaultsService.accountModuleSkipped {
-            dismiss()
-        }
-        else {
-            accountNavigator.goToFeaturedModule(nil)
-            userDefaultsService.accountModuleSkipped = true
-        }
+    public func skipAccountModule() {
+        accountNavigator.skipAccount()
     }
     
     public var rePrompt: Bool {
-        return userDefaultsService.accountModuleSkipped
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate, rootViewController = appDelegate.window?.rootViewController where rootViewController is RootTabBarController {
+            return true
+        }
+        else {
+            return false
+        }
     }
 }

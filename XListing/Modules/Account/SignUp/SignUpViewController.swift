@@ -275,7 +275,7 @@ public final class SignUpViewController : XUIViewController {
                         |> logLifeCycle(LogContext.Account, "photoView.doneProxy")
                         |> start(next: {
                             if let viewmodel = self?.viewmodel.value {
-                                viewmodel.goToFeaturedModule { handler in
+                                viewmodel.finishModule { handler in
                                     self?.dismissViewControllerAnimated(true, completion: handler)
                                 }
                                 

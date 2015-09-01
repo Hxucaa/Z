@@ -12,12 +12,16 @@ import UIKit
 public final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public var window: UIWindow?
+    public func startTabBarApplication() {
+        appDependencies.startTabBarApplication(window!)
+    }
     private var appDependencies: AppDependencies!
     private let backgroundOperationsWorkerFactory: IBackgroundOperationsWorkerFactory = BackgroundOperationsWorkerFactory()
     
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        
         // configure CocoaLumberjack
         Logger.configure()
         
@@ -32,7 +36,7 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         // start dependency injector
         appDependencies = AppDependencies(window: window!)
-
+        
         return true
     }
     
