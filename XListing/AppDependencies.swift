@@ -53,6 +53,8 @@ public final class AppDependencies {
         nearbyTabItem = TabItem(tabContent: NearbyTabContent(nearbyWireframe: nearbyWireframe, socialBusinessWireframe: socialBusinessWireframe))
         profileTabItem = TabItem(tabContent: ProfileTabContent(profileWireframe: profileWireframe, socialBusinessWireframe: socialBusinessWireframe, profileEditWireframe: profileEditWireframe))
         
+        rootTabBarWireframe = RootTabBarWireframe(inWindow: window, userService: us, accountWireframe: accountWireframe, featuredListTabItem: featuredTabItem, nearbyTabItem: nearbyTabItem, profileTabItem: profileTabItem)
+        
         if !uds.accountModuleSkipped && !us.isLoggedInAlready() {
             window.rootViewController = accountWireframe.rootViewController
         }
@@ -63,7 +65,6 @@ public final class AppDependencies {
     }
     
     public func startTabBarApplication(window: UIWindow) {
-        window.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("RootTabBarController") as! RootTabBarController
-        rootTabBarWireframe = RootTabBarWireframe(inWindow: window, userService: us, accountWireframe: accountWireframe, featuredListTabItem: featuredTabItem, nearbyTabItem: nearbyTabItem, profileTabItem: profileTabItem)
+        window.rootViewController = rootTabBarWireframe?.rootViewController
     }
 }

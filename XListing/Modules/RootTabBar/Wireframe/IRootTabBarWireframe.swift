@@ -9,6 +9,6 @@
 import Foundation
 import UIKit
 
-public protocol IRootTabBarWireframe : class {
+public protocol IRootTabBarWireframe : class, ITabRootWireframe {
     init(inWindow: UIWindow, userService: IUserService, accountWireframe: IAccountWireframe, featuredListTabItem: TabItem<FeaturedTabContent>, nearbyTabItem: TabItem<NearbyTabContent>, profileTabItem: TabItem<ProfileTabContent>)
 }

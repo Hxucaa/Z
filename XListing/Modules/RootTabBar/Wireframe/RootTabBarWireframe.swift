@@ -12,10 +12,13 @@ import ReactiveCocoa
 
 public final class RootTabBarWireframe : IRootTabBarWireframe {
 
-    private let rootTabBarController: RootTabBarController
+    private let rootTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("RootTabBarController") as! RootTabBarController
+    public var rootViewController: UIViewController {
+        return rootTabBarController
+    }
 
     public required init(inWindow: UIWindow, userService: IUserService, accountWireframe: IAccountWireframe, featuredListTabItem: TabItem<FeaturedTabContent>, nearbyTabItem: TabItem<NearbyTabContent>, profileTabItem: TabItem<ProfileTabContent>) {
-        rootTabBarController = inWindow.rootViewController as! RootTabBarController
+        
         rootTabBarController.setViewControllers([featuredListTabItem.rootNavigationController, nearbyTabItem.rootNavigationController, profileTabItem.rootNavigationController], animated: false)
         rootTabBarController.userService = userService
         rootTabBarController.accountWireframe = accountWireframe

@@ -39,17 +39,17 @@ public final class LandingPageViewController: XUIViewController {
         
         // add landing page as the first subview
         landingPageView.bindToViewModel(viewmodel)
-    }
-    
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
+
         compositeDisposable += landingPageView.skipProxy
             |> logLifeCycle(LogContext.Account, "landingPageView.skipProxy")
             |> start(next: { [weak self] in
                 self?.viewmodel.skipAccountModule()
             })
-        
+    }
+    
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
         compositeDisposable += landingPageView.loginProxy
             |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.Account, "landingPageView.loginProxy")
