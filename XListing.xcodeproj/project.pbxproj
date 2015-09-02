@@ -199,6 +199,9 @@
 		B4FCC7411AEB0080009B4DF6 /* IRootWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7401AEB0080009B4DF6 /* IRootWireframe.swift */; };
 		BE82DAFC5DC472E8A0BAF4F7 /* Pods_XListing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D02A61711B655019007B48E9 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02A61701B655019007B48E9 /* ProfileHeaderViewModel.swift */; };
+		D0A1B8AA1B96BD54005BFBBD /* BusinessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0A1B8A91B96BD54005BFBBD /* BusinessCell.xib */; };
+		D0A1B8AC1B96BD6D005BFBBD /* WTGBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0A1B8AB1B96BD6D005BFBBD /* WTGBar.xib */; };
+		D0A1B8AE1B96BD77005BFBBD /* UserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0A1B8AD1B96BD77005BFBBD /* UserCell.xib */; };
 		D0ADD8A11B608B4200B27885 /* ProfileBusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADD89B1B608B4200B27885 /* ProfileBusinessCell.swift */; };
 		D0ADD8A21B608B4200B27885 /* ProfileBusinessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0ADD89C1B608B4200B27885 /* ProfileBusinessCell.xib */; };
 		D0ADD8A41B608B4200B27885 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADD89E1B608B4200B27885 /* ProfileHeaderView.swift */; };
@@ -419,6 +422,9 @@
 		B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = INearbyWireframe.swift; sourceTree = "<group>"; };
 		B4FCC7401AEB0080009B4DF6 /* IRootWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRootWireframe.swift; sourceTree = "<group>"; };
 		D02A61701B655019007B48E9 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
+		D0A1B8A91B96BD54005BFBBD /* BusinessCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BusinessCell.xib; sourceTree = "<group>"; };
+		D0A1B8AB1B96BD6D005BFBBD /* WTGBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WTGBar.xib; sourceTree = "<group>"; };
+		D0A1B8AD1B96BD77005BFBBD /* UserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCell.xib; sourceTree = "<group>"; };
 		D0ADD89B1B608B4200B27885 /* ProfileBusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBusinessCell.swift; sourceTree = "<group>"; };
 		D0ADD89C1B608B4200B27885 /* ProfileBusinessCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileBusinessCell.xib; sourceTree = "<group>"; };
 		D0ADD89D1B608B4200B27885 /* ProfileHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileHeaderView.xib; sourceTree = "<group>"; };
@@ -1059,6 +1065,7 @@
 		B4E7E5021B93F27C0034B093 /* SocialBusiness */ = {
 			isa = PBXGroup;
 			children = (
+				D0A1B8A81B96BCCC005BFBBD /* BusinessSocialpage */,
 				B4E7E5031B93F2CA0034B093 /* Wireframe */,
 				B4E7E5041B93F3160034B093 /* SocialBusiness.storyboard */,
 				B4E7E5061B93F32C0034B093 /* SocialBusinessViewController.swift */,
@@ -1227,6 +1234,16 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		D0A1B8A81B96BCCC005BFBBD /* BusinessSocialpage */ = {
+			isa = PBXGroup;
+			children = (
+				D0A1B8A91B96BD54005BFBBD /* BusinessCell.xib */,
+				D0A1B8AB1B96BD6D005BFBBD /* WTGBar.xib */,
+				D0A1B8AD1B96BD77005BFBBD /* UserCell.xib */,
+			);
+			name = BusinessSocialpage;
+			sourceTree = "<group>";
+		};
 		D0ADD8A71B6143C200B27885 /* ProfileDisplayPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -1345,9 +1362,12 @@
 				B3F5E2401B65A605007762B4 /* StartUpButtonsView.xib in Resources */,
 				B4E7C18E1B5387880038260E /* LandingPageView.xib in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
+				D0A1B8AC1B96BD6D005BFBBD /* WTGBar.xib in Resources */,
 				B33C0E051B71653B005F8410 /* NicknameView.xib in Resources */,
+				D0A1B8AE1B96BD77005BFBBD /* UserCell.xib in Resources */,
 				B41334EF1B60E46C00B5F22D /* Nearby.storyboard in Resources */,
 				2A41A30E1AF3133F0086D24B /* fontawesome-webfont.ttf in Resources */,
+				D0A1B8AA1B96BD54005BFBBD /* BusinessCell.xib in Resources */,
 				B4F4AFDA1B6E05C300ABA176 /* BackButton.xib in Resources */,
 				B4F6DB671B647BCA00DB31D4 /* Detail.storyboard in Resources */,
 				B3FFDD7F1B718226003710D8 /* PhotoView.xib in Resources */,
