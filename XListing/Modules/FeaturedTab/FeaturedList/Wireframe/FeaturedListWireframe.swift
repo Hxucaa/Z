@@ -11,7 +11,7 @@ import UIKit
 import ReactiveCocoa
 
 private let FeaturedListViewControllerIdentifier = "FeaturedListViewController"
-private let StoryboardName = "Main"
+private let StoryboardName = "FeaturedList"
 
 public protocol FeaturedListNavigationControllerDelegate : class {
     func pushSocialBusiness<T : Business>(business: T)

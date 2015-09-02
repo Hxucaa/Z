@@ -2,60 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--推荐-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController storyboardIdentifier="FeaturedListViewController" title="推荐" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="FeaturedListViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView autoresizesSubviews="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="285" sectionHeaderHeight="1" sectionFooterHeight="2" translatesAutoresizingMaskIntoConstraints="NO" id="MEt-fk-66n">
-                                <rect key="frame" x="0.0" y="-62" width="600" height="662"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell autoresizesSubviews="NO" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="285" id="AWt-ya-CYC" customClass="FeaturedListBusinessTableViewCell" customModule="XListing" customModuleProvider="target">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AWt-ya-CYC" id="1DV-Lc-dp7">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="MEt-fk-66n" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="5uY-pd-a3h"/>
-                            <constraint firstAttribute="trailing" secondItem="MEt-fk-66n" secondAttribute="trailing" id="GUV-10-AAK"/>
-                            <constraint firstItem="MEt-fk-66n" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-62" id="MZb-ZP-6zx"/>
-                            <constraint firstItem="MEt-fk-66n" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-50" id="ZW1-Cf-vJB"/>
-                            <constraint firstItem="MEt-fk-66n" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cdn-jS-haU"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="MEt-fk-66n" secondAttribute="bottom" id="cfn-ss-IY3"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="5uY-pd-a3h"/>
-                                <exclude reference="ZW1-Cf-vJB"/>
-                            </mask>
-                        </variation>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="推荐" id="Bo2-mg-wo7"/>
-                    <connections>
-                        <outlet property="tableView" destination="MEt-fk-66n" id="vpO-Ly-fAN"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="840" y="686"/>
-        </scene>
         <!--Root Tab Bar Controller-->
         <scene sceneID="elM-KO-XLo">
             <objects>
@@ -70,19 +18,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhu-pU-plb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-819" y="714"/>
-        </scene>
-        <!--推荐-->
-        <scene sceneID="RQd-Rg-rGp">
-            <objects>
-                <navigationController storyboardIdentifier="FeaturedTabNavigationController" title="推荐" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xgH-bX-NmO" customClass="FeaturedTabNavigationController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="md2-D3-765">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Kh1-8I-KQs" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6" y="692"/>
         </scene>
     </scenes>
 </document>
