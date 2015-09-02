@@ -174,6 +174,9 @@
 		B4F332841B969E680048D1B4 /* ParticipationChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F332831B969E680048D1B4 /* ParticipationChoice.swift */; };
 		B4F332881B969FE00048D1B4 /* FeaturedList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F332871B969FE00048D1B4 /* FeaturedList.storyboard */; };
 		B4F3328A1B96A03F0048D1B4 /* FeaturedTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F332891B96A03F0048D1B4 /* FeaturedTab.storyboard */; };
+		B4F3328C1B96A9960048D1B4 /* ProfileTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F3328B1B96A9960048D1B4 /* ProfileTab.storyboard */; };
+		B4F3328E1B96A9BB0048D1B4 /* RootTabBar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F3328D1B96A9BB0048D1B4 /* RootTabBar.storyboard */; };
+		B4F332901B96A9E60048D1B4 /* NearbyTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F3328F1B96A9E60048D1B4 /* NearbyTab.storyboard */; };
 		B4F4AF801B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AF7F1B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift */; };
 		B4F4AF821B6B000000ABA176 /* DetailParticipationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AF811B6B000000ABA176 /* DetailParticipationViewModel.swift */; };
 		B4F4AFDA1B6E05C300ABA176 /* BackButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4F4AFD91B6E05C300ABA176 /* BackButton.xib */; };
@@ -389,6 +392,9 @@
 		B4F332831B969E680048D1B4 /* ParticipationChoice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationChoice.swift; sourceTree = "<group>"; };
 		B4F332871B969FE00048D1B4 /* FeaturedList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FeaturedList.storyboard; sourceTree = "<group>"; };
 		B4F332891B96A03F0048D1B4 /* FeaturedTab.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FeaturedTab.storyboard; sourceTree = "<group>"; };
+		B4F3328B1B96A9960048D1B4 /* ProfileTab.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProfileTab.storyboard; sourceTree = "<group>"; };
+		B4F3328D1B96A9BB0048D1B4 /* RootTabBar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = RootTabBar.storyboard; sourceTree = "<group>"; };
+		B4F3328F1B96A9E60048D1B4 /* NearbyTab.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NearbyTab.storyboard; sourceTree = "<group>"; };
 		B4F4AF7F1B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailParticipationTableViewCell.swift; sourceTree = "<group>"; };
 		B4F4AF811B6B000000ABA176 /* DetailParticipationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailParticipationViewModel.swift; sourceTree = "<group>"; };
 		B4F4AFD91B6E05C300ABA176 /* BackButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BackButton.xib; sourceTree = "<group>"; };
@@ -981,6 +987,7 @@
 				B4F3327F1B9699330048D1B4 /* RootTabBarController.swift */,
 				B4E7E5191B9514880034B093 /* TabItem.swift */,
 				B4E7E51B1B9514AB0034B093 /* TabContent.swift */,
+				B4F3328D1B96A9BB0048D1B4 /* RootTabBar.storyboard */,
 			);
 			path = RootTabBar;
 			sourceTree = "<group>";
@@ -1041,6 +1048,7 @@
 				B4E7E51D1B9515040034B093 /* NearbyTabContent.swift */,
 				B4E7E51F1B95153C0034B093 /* NearbyTabNavigationController.swift */,
 				B48C990F1ADA55AF0045BCA9 /* Nearby */,
+				B4F3328F1B96A9E60048D1B4 /* NearbyTab.storyboard */,
 			);
 			path = NearbyTab;
 			sourceTree = "<group>";
@@ -1050,6 +1058,7 @@
 			children = (
 				B4E7E5251B9521EF0034B093 /* ProfileTabContent.swift */,
 				B4E7E5271B95221F0034B093 /* ProfileTabNavigationController.swift */,
+				B4F3328B1B96A9960048D1B4 /* ProfileTab.storyboard */,
 				261687BE1B71B7FC0094F315 /* ProfileEdit */,
 				45CBB561E439B467C9084702 /* Profile */,
 			);
@@ -1284,17 +1293,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */,
+				B4F332901B96A9E60048D1B4 /* NearbyTab.storyboard in Resources */,
 				B3FFDD7D1B716FA3003710D8 /* BirthdayPickerView.xib in Resources */,
 				B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordView.xib in Resources */,
 				B4AA1A6D1B7EA7AD00119E91 /* ProfileTabView.xib in Resources */,
 				B4F332881B969FE00048D1B4 /* FeaturedList.storyboard in Resources */,
 				B31B50781B7E308100782341 /* (null) in Resources */,
 				B31B50771B7E308100782341 /* ContainerView.xib in Resources */,
+				B4F3328E1B96A9BB0048D1B4 /* RootTabBar.storyboard in Resources */,
 				B31B50761B7E308100782341 /* Account.storyboard in Resources */,
 				B4AA1A6E1B7EA7AD00119E91 /* ProfileHeaderView.xib in Resources */,
 				B3F5E2401B65A605007762B4 /* StartUpButtonsView.xib in Resources */,
 				B4E7C18E1B5387880038260E /* LandingPageView.xib in Resources */,
 				7EF3711B1AB8C012009AA3B9 /* LaunchScreen.xib in Resources */,
+				B4F3328C1B96A9960048D1B4 /* ProfileTab.storyboard in Resources */,
 				B33C0E051B71653B005F8410 /* NicknameView.xib in Resources */,
 				B41334EF1B60E46C00B5F22D /* Nearby.storyboard in Resources */,
 				D08B58931B93FBC500F3945F /* infopanel.xib in Resources */,
