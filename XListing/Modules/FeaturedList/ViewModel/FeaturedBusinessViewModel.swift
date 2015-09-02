@@ -114,7 +114,6 @@ public final class FeaturedBusinessViewModel {
             }
             |> on(
                 next: { response in
-                    FeaturedLogDebug("\(response.count) participants returned for \(self.businessName.value)")
                     self.participantViewModelArr.put(response)
                 },
                 error: { FeaturedLogError($0.customErrorDescription) }
@@ -159,6 +158,6 @@ public final class FeaturedBusinessViewModel {
             }
             |> on(error: {[weak self] error in self?.buttonEnabled.put(true)}, next: { [weak self] participation in
                 self?.buttonEnabled.put(false)
-                })
+            })
     }
 }

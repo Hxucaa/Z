@@ -95,14 +95,11 @@ public final class UserService : IUserService {
     
     public func save<T: User>(user: T) -> SignalProducer<Bool, NSError> {
         return SignalProducer { sink, disposable in
-            LSLogDebug("User profile created")
             if let profileImg = user.profileImg {
                 profileImg.saveInBackgroundWithBlock { (success, error) -> Void in
                     if error == nil {
-                        LSLogDebug("User image uploaded")
                         user.saveInBackgroundWithBlock { (success, error) -> Void in
                             if error == nil {
-                                LSLogDebug("save profile return success")
                                 sendNext(sink, success)
                                 sendCompleted(sink)
                             }
