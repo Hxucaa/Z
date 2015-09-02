@@ -66,6 +66,7 @@
                             <constraint firstItem="BQn-bY-dmX" firstAttribute="top" secondItem="iRd-gL-gRp" secondAttribute="bottom" id="xjD-cM-kVj"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="headerView" destination="7QZ-kC-8mU" id="eUF-4e-AGX"/>

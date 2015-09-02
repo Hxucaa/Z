@@ -169,6 +169,7 @@
                             <constraint firstAttribute="bottom" secondItem="Dui-HC-aMg" secondAttribute="bottom" id="shV-Bf-2ui"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="逛一逛" id="Ylt-1b-2CZ"/>
                     <connections>
                         <outlet property="businessCollectionView" destination="Dui-HC-aMg" id="Fc2-Eg-8WN"/>

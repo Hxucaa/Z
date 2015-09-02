@@ -131,7 +131,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="MEt-fk-66n" secondAttribute="bottom" constant="-2" id="cfn-ss-IY3"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="推荐" id="Bo2-mg-wo7"/>
                     <connections>
                         <outlet property="tableView" destination="MEt-fk-66n" id="vpO-Ly-fAN"/>
@@ -140,24 +140,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="840" y="686"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Tnu-rh-Soi">
-            <objects>
-                <navigationController storyboardIdentifier="RootNavigationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="OjV-3x-cL1" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="s0g-AD-m0w">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.0" green="0.69803921570000005" blue="0.63529411759999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </textAttributes>
-                    </navigationBar>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Q1C-zc-nwi" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-763" y="115"/>
         </scene>
         <!--Root Tab Bar Controller-->
         <scene sceneID="elM-KO-XLo">
@@ -172,7 +154,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhu-pU-plb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-763" y="806"/>
+            <point key="canvasLocation" x="-819" y="714"/>
         </scene>
         <!--推荐-->
         <scene sceneID="RQd-Rg-rGp">
@@ -185,7 +167,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kh1-8I-KQs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-696" y="1600"/>
+            <point key="canvasLocation" x="6" y="692"/>
         </scene>
     </scenes>
 </document>

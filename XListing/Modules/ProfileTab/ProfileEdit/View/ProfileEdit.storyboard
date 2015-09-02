@@ -301,6 +301,7 @@
                             <constraint firstItem="bW8-5s-73s" firstAttribute="top" secondItem="Vgz-nw-22Q" secondAttribute="bottom" id="xBb-e9-Erq"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="编辑" id="3qu-uU-HFX"/>
                     <connections>
                         <outlet property="tableView" destination="Vgz-nw-22Q" id="t1P-bz-3ht"/>
