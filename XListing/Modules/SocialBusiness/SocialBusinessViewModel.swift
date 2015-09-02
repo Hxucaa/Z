@@ -12,7 +12,6 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel {
     
     
     // MARK: Services
-    private let router: IRouter
     private let userService: IUserService
     private let participationService: IParticipationService
     private let geoLocationService: IGeoLocationService
@@ -20,8 +19,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel {
     private let business: Business
     
     // MARK: Initializers
-    public init(router: IRouter, userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, businessModel: Business) {
-        self.router = router
+    public init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, businessModel: Business) {
         self.userService = userService
         self.participationService = participationService
         self.geoLocationService = geoLocationService

@@ -14,6 +14,10 @@ import ReactiveArray
 
 private let 启动无限scrolling参数 = 0.4
 
+public protocol FeaturedListNavigator : class {
+    func pushSocialBusiness(business: Business)
+}
+
 public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDataSource {
     
     public typealias Payload = FeaturedBusinessViewModel
@@ -25,7 +29,6 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
     
     // MARK: - Properties
     // MARK: Services
-    private let router: IRouter
     private let businessService: IBusinessService
     private let userService: IUserService
     private let geoLocationService: IGeoLocationService
@@ -33,12 +36,12 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
     private let imageService: IImageService
     
     // MARK: Variables
+    public weak var navigator: FeaturedListNavigator!
     private let businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
     private var numberOfBusinessesLoaded = 0
     
     // MARK: - Initializers
-    public init(router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
-        self.router = router
+    public init(businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
         self.businessService = businessService
         self.userService = userService
         self.geoLocationService = geoLocationService
@@ -73,16 +76,8 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
         }
     }
     
-    public func pushNearbyModule() {
-        router.pushNearby()
-    }
-    
     public func pushSocialBusinessModule(section: Int) {
-        router.pushSocialBusiness(businessArr.value[section])
-    }
-    
-    public func pushProfileModule() {
-        router.pushProfile()
+        navigator.pushSocialBusiness(businessArr.value[section])
     }
     
     // MARK: - Others

@@ -39,22 +39,17 @@ public final class LandingPageViewController: XUIViewController {
         
         // add landing page as the first subview
         landingPageView.bindToViewModel(viewmodel)
+
+        compositeDisposable += landingPageView.skipProxy
+            |> logLifeCycle(LogContext.Account, "landingPageView.skipProxy")
+            |> start(next: { [weak self] in
+                self?.viewmodel.skipAccountModule()
+            })
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        compositeDisposable += landingPageView.skipProxy
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Account, "landingPageView.skipProxy")
-            |> start(next: { [weak self] in
-                self?.viewmodel.skipAccountModule {
-                    self?.navigationController?.setNavigationBarHidden(true, animated: false)
-                    // dismiss account module, but no callback
-                    self?.dismissViewControllerAnimated(true, completion: nil)
-                }
-            })
-        
+
         compositeDisposable += landingPageView.loginProxy
             |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.Account, "landingPageView.loginProxy")
@@ -72,9 +67,13 @@ public final class LandingPageViewController: XUIViewController {
 
     }
     
-    deinit {
-        // Dispose signals before deinit.
+    public override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
         compositeDisposable.dispose()
+    }
+    
+    deinit {
         AccountLogVerbose("Landing Page View Controller deinitializes.")
     }
     

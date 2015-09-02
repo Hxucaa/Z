@@ -75,8 +75,8 @@ public final class LogInViewModel {
             }
     }
     
-    public func goToFeaturedModule(_ callback: (CompletionHandler? -> ())? = nil) {
-        accountNavigator.goToFeaturedModule { handler in
+    public func finishModule(_ callback: (CompletionHandler? -> ())? = nil) {
+        accountNavigator.finishModule { handler in
             callback?(handler)
         }
     }

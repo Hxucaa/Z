@@ -7,27 +7,36 @@
 //
 
 import Foundation
+import UIKit
+import ReactiveCocoa
 
 private let FeaturedListViewControllerIdentifier = "FeaturedListViewController"
+private let StoryboardName = "Main"
 
-public final class FeaturedListWireframe : BaseWireframe, IFeaturedListWireframe {
+public protocol FeaturedListNavigationControllerDelegate : class {
+    func pushSocialBusiness<T : Business>(business: T)
+}
+
+public final class FeaturedListWireframe : IFeaturedListWireframe {
     
-    private let router: IRouter
+    public var rootViewController: UIViewController {
+        return initViewController()
+    }
+    
+    public weak var navigationControllerDelegate: FeaturedListNavigationControllerDelegate!
+    
     private let businessService: IBusinessService
     private let userService: IUserService
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
     private let imageService: IImageService
     
-    public required init(rootWireframe: IRootWireframe, router: IRouter, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
-        self.router = router
+    public required init(businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
         self.businessService = businessService
         self.userService = userService
         self.geoLocationService = geoLocationService
         self.userDefaultsService = userDefaultsService
         self.imageService = imageService
-        
-        super.init(rootWireframe: rootWireframe)
     }
     
     /**
@@ -37,19 +46,20 @@ public final class FeaturedListWireframe : BaseWireframe, IFeaturedListWireframe
     */
     private func initViewController() -> FeaturedListViewController {
         // retrieve view controller from storyboard
-        let viewController = getViewControllerFromStoryboard(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
-        let viewmodel = FeaturedListViewModel(router: router, businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService, imageService: imageService)
+        let viewController = UIStoryboard(name: StoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
+        let viewmodel = FeaturedListViewModel(businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService, imageService: imageService)
+
+        viewmodel.navigator = self
+
         viewController.bindToViewModel(viewmodel)
         
         return viewController
     }
 }
 
-extension FeaturedListWireframe : FeaturedRoute {
-    public func push() {
-        
-        let injectedViewController = initViewController()
-        rootWireframe.showRootViewController(injectedViewController)
-        
+extension FeaturedListWireframe : FeaturedListNavigator {
+    
+    public func pushSocialBusiness(business: Business) {
+        navigationControllerDelegate.pushSocialBusiness(business)
     }
 }

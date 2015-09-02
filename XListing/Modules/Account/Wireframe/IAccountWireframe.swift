@@ -8,6 +8,7 @@
 
 import Foundation
 
-public protocol IAccountWireframe : class {
-    init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService, userDefaultsService: IUserDefaultsService)
+public protocol IAccountWireframe : class, ITabRootWireframe {
+    var finishedCallback: CompletionHandler? { get set }
+    init(userService: IUserService, userDefaultsService: IUserDefaultsService)
 }
