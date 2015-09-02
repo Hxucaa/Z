@@ -9,6 +9,6 @@
 import Foundation
 import UIKit
 
-public final class FeaturedTabNavigationController : UINavigationController {
+public final class FeaturedTabNavigationController : XBaseUINavigationController {
     
 }

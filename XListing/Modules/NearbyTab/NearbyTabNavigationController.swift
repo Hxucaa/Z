@@ -9,6 +9,6 @@
 import Foundation
 import UIKit
 
-public final class NearbyTabNavigationController : UINavigationController {
+public final class NearbyTabNavigationController : XBaseUINavigationController {
     
 }

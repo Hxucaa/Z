@@ -9,6 +9,6 @@
 import Foundation
 import UIKit
 
-public final class ProfileTabNavigationController : UINavigationController {
+public final class ProfileTabNavigationController : XBaseUINavigationController {
     
 }

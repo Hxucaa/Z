@@ -171,6 +171,7 @@
 		B4F195BF1B2CE2C300B8C519 /* ParticipationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F195BE1B2CE2C300B8C519 /* ParticipationType.swift */; };
 		B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */; };
 		B4F332801B9699330048D1B4 /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F3327F1B9699330048D1B4 /* RootTabBarController.swift */; };
+		B4F332821B9699D10048D1B4 /* XBaseUINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F332811B9699D10048D1B4 /* XBaseUINavigationController.swift */; };
 		B4F4AF801B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AF7F1B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift */; };
 		B4F4AF821B6B000000ABA176 /* DetailParticipationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F4AF811B6B000000ABA176 /* DetailParticipationViewModel.swift */; };
 		B4F4AFDA1B6E05C300ABA176 /* BackButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4F4AFD91B6E05C300ABA176 /* BackButton.xib */; };
@@ -377,6 +378,7 @@
 		B4F195BE1B2CE2C300B8C519 /* ParticipationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationType.swift; sourceTree = "<group>"; };
 		B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessService.swift; sourceTree = "<group>"; };
 		B4F3327F1B9699330048D1B4 /* RootTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
+		B4F332811B9699D10048D1B4 /* XBaseUINavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XBaseUINavigationController.swift; sourceTree = "<group>"; };
 		B4F4AF7F1B6AFE8700ABA176 /* DetailParticipationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailParticipationTableViewCell.swift; sourceTree = "<group>"; };
 		B4F4AF811B6B000000ABA176 /* DetailParticipationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailParticipationViewModel.swift; sourceTree = "<group>"; };
 		B4F4AFD91B6E05C300ABA176 /* BackButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BackButton.xib; sourceTree = "<group>"; };
@@ -487,6 +489,7 @@
 				B4F195941B2A276C00B8C519 /* XUIViewController.swift */,
 				B41334EC1B5F44B300B5F22D /* Keyboard.swift */,
 				7E2EB1E01B8131650012BAB3 /* StatusBarBackgroundView.swift */,
+				B4F332811B9699D10048D1B4 /* XBaseUINavigationController.swift */,
 			);
 			name = View;
 			path = Common/View;
@@ -1508,6 +1511,7 @@
 				2A9A9BA41B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift in Sources */,
 				26645AD31B58B58200ADDCD1 /* ProfileEditViewModel.swift in Sources */,
 				B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */,
+				B4F332821B9699D10048D1B4 /* XBaseUINavigationController.swift in Sources */,
 				B4E7E50B1B93F36E0034B093 /* ISocialBusinessViewModel.swift in Sources */,
 				7EF3714E1AB8C1E8009AA3B9 /* LeanCloudClient.swift in Sources */,
 				261687C11B71B8990094F315 /* ProfileEditWireframe.swift in Sources */,
