@@ -30,7 +30,7 @@ public final class FeaturedListViewController: XUIViewController {
     // MARK: Controls
     @IBOutlet private weak var tableView: UITableView!
     private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, FeaturedListViewModel>!
-    private let statusBarBackgroundView = StatusBarBackgroundView()
+//    private let statusBarBackgroundView = StatusBarBackgroundView()
     
     // MARK: - Properties
     private var viewmodel: IFeaturedListViewModel!
@@ -64,7 +64,7 @@ public final class FeaturedListViewController: XUIViewController {
         navigationController?.hidesBarsOnSwipe = true
         
         // add statusBarBackgroundView to navigationController
-        navigationController?.view.addSubview(statusBarBackgroundView)
+//        navigationController?.view.addSubview(statusBarBackgroundView)
         navigationController?.navigationBar.translucent = false
         
         compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
@@ -78,7 +78,7 @@ public final class FeaturedListViewController: XUIViewController {
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        statusBarBackgroundView.removeFromSuperview()
+//        statusBarBackgroundView.removeFromSuperview()
     }
     
     public override func viewDidAppear(animated: Bool) {
