@@ -11,19 +11,6 @@
         </mutableArray>
     </customFonts>
     <scenes>
-        <!--附近-->
-        <scene sceneID="3YG-HL-wYr">
-            <objects>
-                <navigationController storyboardIdentifier="NearbyTabNavigationController" title="附近" useStoryboardIdentifierAsRestorationIdentifier="YES" id="2v8-8e-1r4" customClass="NearbyTabNavigationController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="BKD-bz-kT6">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2xq-vc-kHc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1155" y="417"/>
-        </scene>
         <!--逛一逛-->
         <scene sceneID="xc5-WU-XSE">
             <objects>
