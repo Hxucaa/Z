@@ -1,6 +1,6 @@
 {
   "name": "ReactiveArray",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "summary": "Reactive array for ReactiveCocoa.",
   "description": "An array class implemented in Swift that can be observed using ReactiveCocoa's Signals.",
   "homepage": "https://github.com/Hxucaa/ReactiveArray",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/Hxucaa/ReactiveArray.git",
-    "tag": "0.1.4"
+    "tag": "0.1.5"
   },
   "platforms": {
     "ios": "8.0"

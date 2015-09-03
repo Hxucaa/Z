@@ -86,7 +86,7 @@ public final class LogInViewController : XUIViewController {
             |> logLifeCycle(LogContext.Account, "usernameAndPasswordView.submitProxy")
             |> start(next: { [weak self] in
                 if let viewmodel = self?.viewmodel.value {
-                    viewmodel.goToFeaturedModule { handler in
+                    viewmodel.finishModule { handler in
                         self?.dismissViewControllerAnimated(true, completion: handler)
                     }
                     self?.navigationController?.setNavigationBarHidden(false, animated: false)
