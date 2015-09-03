@@ -26,6 +26,7 @@ determined. A workaround is implemented such that when a scroll event initiates,
 import UIKit
 import MapKit
 import ReactiveCocoa
+import ReactiveArray
 import Dollar
 
 private let NearbyTableViewCellXIB = "NearbyTableViewCell"
@@ -43,7 +44,6 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
     @IBOutlet private weak var redoSearchButton: UIButton!
     
     // MARK: Properties
-    private var rectangleSearchTriggered = false
     private var searchOrigin : CLLocation!
     
     /// View Model
@@ -80,38 +80,83 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         super.viewWillAppear(animated)
         
         // observing collection data source
-        compositeDisposable += viewmodel.businessViewModelArr.producer
+        compositeDisposable += reactToDataSource()
             |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Nearby, "viewmodel.businessViewModelArr.producer")
-            |> start(next: { [weak self] businessArr in
-                self?.businessCollectionView.reloadData()
-                self?.mapView.addAnnotations(businessArr.map { $0.annotation.value })
-                
-                // if we are reloading after a map search, then select and centre the map on the middle result
-                if let this = self where this.rectangleSearchTriggered {
-                    this.rectangleSearchTriggered = false
-                    if businessArr.count > 0 {
-                        
-                        // get the first result
-                        let firstAnnotation = businessArr[0].annotation.value
-                        
-                        // select and centre the map on the first result
-                        this.mapView.selectAnnotation(firstAnnotation, animated: true)
-                        this.mapView.setCenterCoordinate(firstAnnotation.coordinate, animated: true)
-                        
-                        // scroll the collection view to match
-                        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-                        this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
-                        
-                    }
-                }
-            })
+            |> logLifeCycle(LogContext.Nearby, "viewmodel.collectionDataSource.producer")
+            |> start()
         
         setupMapView()
         setupBusinessCollectionView()
         
         navigationController?.hidesBarsOnSwipe = false
     }
+    
+    /*
+    Modify the `SignalProducer` on the `collectionDataSource`. This function accepts several handlers for each of the opeartion that can occur in a `ReactiveArray`. If you don't provide a custom implementation for a handler, the default implementation will get executed.
+    
+    :param: targetedSection      The section number in the table view that should react to change in data source.
+    :param: extendHandler        `Extend` operation
+    :param: replaceAllHandler    `ReplaceAll` operation
+    
+    :returns: The `SignalProducer`*/
+    
+    public typealias ExtendHandler = (values: [NearbyViewModel.Payload]) -> Void
+    public typealias ReplaceAllHandler = (values: [NearbyViewModel.Payload]) -> Void
+
+    public func reactToDataSource(
+        extendHandler: ExtendHandler? = nil,
+        replaceAllHandler: ReplaceAllHandler? = nil
+        ) -> SignalProducer<Operation<NearbyViewModel.Payload>, NoError> {
+            
+            return viewmodel.collectionDataSource.producer
+                |> logLifeCycle(LogContext.Misc, "viewmodel.collectionDataSource.producer")
+                |> on(
+                    next: { [weak self] operation in
+                        if let this = self {
+                            switch operation {
+                            case let .Initiate(boxedValues):
+                                this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
+                                this.businessCollectionView.reloadData()
+
+                            case let .Extend(boxedValues):
+                                if let extendHandler = extendHandler {
+                                    extendHandler(values: boxedValues.value)
+                                }
+                                else {
+                                    this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
+                                    this.businessCollectionView.reloadData()
+                                }
+
+                            case let .ReplaceAll(boxedValues):
+                                if let replaceAllHandler = replaceAllHandler {
+                                    replaceAllHandler(values: boxedValues.value)
+                                }
+                                else {
+                                    
+                                    if boxedValues.value.count > 0 {
+                                        
+                                        // get the first result
+                                        let firstAnnotation = boxedValues.value[0].annotation.value
+                                        
+                                        // select and centre the map on the first result
+                                        this.mapView.selectAnnotation(firstAnnotation, animated: true)
+                                        this.mapView.setCenterCoordinate(firstAnnotation.coordinate, animated: true)
+                                        
+                                        // scroll the collection view to match
+                                        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+                                        this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+                                        
+                                        this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
+                                    }
+                                    this.businessCollectionView.reloadData()
+                                }
+                            default: this.businessCollectionView.reloadData()
+                            }
+                        }
+                    }
+            )
+    }
+
     
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -157,7 +202,6 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         let reQueryMapAction = Action<UIButton, Void, NSError> { [weak self] button in
             return SignalProducer{ sink, disposable in
                 if let this = self {
-                    this.rectangleSearchTriggered = true
                     
                     let latDelta = this.mapView.region.span.latitudeDelta
                     let longDelta = this.mapView.region.span.longitudeDelta
@@ -235,7 +279,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                                 }
                                 
                                 // find the index of the business
-                                let index = $.findIndex(this.viewmodel.businessViewModelArr.value) { business in
+                                let index = $.findIndex(this.viewmodel.collectionDataSource.array) { business in
                                     if let anno = annotation as? MKPointAnnotation {
                                         return business.annotation.value == anno
                                     }
@@ -353,7 +397,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                             // After an end scrolling is detected, we must cancel the `performSelector`, otherwise this function will get called multiple times.
                             NSObject.cancelPreviousPerformRequestsWithTarget(this)
                             
-                            let business = this.viewmodel.businessViewModelArr.value[indexPath.section]
+                            let business = this.viewmodel.collectionDataSource.array[indexPath.section]
                             
                             /// Center the map to the annotation.
                             let annotation = business.annotation.value
@@ -429,7 +473,7 @@ extension NearbyViewController : UICollectionViewDataSource {
     :returns: The number of sections in collectionView.
     */
     public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return viewmodel.businessViewModelArr.value.count
+        return viewmodel.collectionDataSource.array.count
     }
     
     /**
@@ -454,7 +498,7 @@ extension NearbyViewController : UICollectionViewDataSource {
     */
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = businessCollectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier, forIndexPath: indexPath) as! NearbyCollectionViewCell
-        let business = viewmodel.businessViewModelArr.value[indexPath.section]
+        let business = viewmodel.collectionDataSource.array[indexPath.section]
         cell.bindToViewModel(business)
         
         return cell

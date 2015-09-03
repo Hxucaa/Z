@@ -8,18 +8,16 @@
 
 import Foundation
 import ReactiveCocoa
+import ReactiveArray
 import MapKit
 import AVOSCloud
 
-public final class NearbyViewModel : INearbyViewModel {
+public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
     
     // MARK: - Inputs
     
-    // MARK: - Outputd
-    private let _businessViewModelArr: MutableProperty<[NearbyTableCellViewModel]> = MutableProperty([NearbyTableCellViewModel]())
-    public var businessViewModelArr: PropertyOf<[NearbyTableCellViewModel]> {
-        return PropertyOf(_businessViewModelArr)
-    }
+    // MARK: - Outputs
+    public let collectionDataSource = ReactiveArray<NearbyTableCellViewModel>()
     private let _fetchingData: MutableProperty<Bool> = MutableProperty(false)
     public var fetchingData: PropertyOf<Bool> {
         return PropertyOf(_fetchingData)
@@ -117,7 +115,7 @@ public final class NearbyViewModel : INearbyViewModel {
 
     private func getBusinessesWithQuery(query: AVQuery, isPagination: Bool) -> SignalProducer<[NearbyTableCellViewModel], NSError> {
         // TODO: implement default location.
-        query.limit = 3
+        query.limit = 4
         return businessService.findBy(query)
             |> on(next: { businesses in
                 self._fetchingData.put(true)
@@ -139,14 +137,13 @@ public final class NearbyViewModel : INearbyViewModel {
                         
                         // if we are doing pagination, append the new businesses to the existing array, otherwise replace it
                         if isPagination {
-                            self._businessViewModelArr.value.extend(response)
+                            self.collectionDataSource.extend(response)
                         } else {
-                            self._businessViewModelArr.put(response)
+                            self.collectionDataSource.replaceAll(response)
                         }
                     }
                 },
                 error: { NearbyLogError($0.description) }
             )
     }
-
 }
