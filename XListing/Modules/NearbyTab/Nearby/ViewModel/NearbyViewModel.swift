@@ -115,7 +115,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
 
     private func getBusinessesWithQuery(query: AVQuery, isPagination: Bool) -> SignalProducer<[NearbyTableCellViewModel], NSError> {
         // TODO: implement default location.
-        query.limit = 4
+        query.limit = Constants.PAGINATION_LIMIT
         return businessService.findBy(query)
             |> on(next: { businesses in
                 self._fetchingData.put(true)
