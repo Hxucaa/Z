@@ -18,90 +18,76 @@ private let AccountStoryboardName = "Account"
 public protocol IAccountNavigator : class {
     func goToSignUpComponent()
     func goToLogInComponent()
-    func goToFeaturedModule(callback: (CompletionHandler? -> ())?)
+    func skipAccount()
+    func finishModule(callback: (CompletionHandler? -> ())?)
 }
 
-public final class AccountWireframe : BaseWireframe, IAccountWireframe {
+public final class AccountWireframe : IAccountWireframe {
     
-    private let router: IRouter
     private let userService: IUserService
     private let userDefaultsService: IUserDefaultsService
     
-    private var dismissCallback: CompletionHandler?
+    public var finishedCallback: CompletionHandler?
     
-    private var moduleNavController: UINavigationController!
-    
-    public required init(rootWireframe: IRootWireframe, router: IRouter, userService: IUserService, userDefaultsService: IUserDefaultsService) {
-        self.router = router
-        self.userService = userService
-        self.userDefaultsService = userDefaultsService
-        
-        super.init(rootWireframe: rootWireframe)
+    private lazy var moduleNavController: UINavigationController = UINavigationController(rootViewController: self.injectViewModelToViewController())
+    public var rootViewController: UIViewController {
+        return moduleNavController
     }
     
-    private func injectViewModelToViewController(dismissCallback: CompletionHandler? = nil) -> LandingPageViewController {
-        let viewController = getViewControllerFromStoryboard(LandingPageViewControllerIdentifier, storyboardName: AccountStoryboardName) as! LandingPageViewController
-        let viewmodel = LandingPageViewModel(accountNavigator: self, userService: userService, userDefaultsService: userDefaultsService)
+    public required init(userService: IUserService, userDefaultsService: IUserDefaultsService) {
+        self.userService = userService
+        self.userDefaultsService = userDefaultsService
+    }
+    
+    private func injectViewModelToViewController() -> LandingPageViewController {
+        let viewController = UIStoryboard(name: AccountStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(LandingPageViewControllerIdentifier) as! LandingPageViewController
+        let viewmodel = LandingPageViewModel(accountNavigator: self, userService: userService)
         viewController.bindToViewModel(viewmodel)
         
         return viewController
     }
 }
 
-extension AccountWireframe : AccountRoute {
-    public func push() {
-        let injectedViewController = injectViewModelToViewController(dismissCallback: nil)
-        rootWireframe.pushViewController(injectedViewController, animated: true)
-    }
-    
-    public func present(completion: CompletionHandler?, dismissCallback: CompletionHandler?) {
-        self.dismissCallback = dismissCallback
-        
-        let injectedViewController = injectViewModelToViewController(dismissCallback: dismissCallback)
-        
-        moduleNavController = UINavigationController(rootViewController: injectedViewController)
-        
-        rootWireframe.presentViewController(moduleNavController, animated: true, completion: completion)
-    }
-}
-
 extension AccountWireframe : IAccountNavigator {
     
     public func goToSignUpComponent() {
-        let viewController = getViewControllerFromStoryboard(SignUpViewControllerIdentifier, storyboardName: AccountStoryboardName) as! SignUpViewController
+        let viewController = UIStoryboard(name: AccountStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(SignUpViewControllerIdentifier) as! SignUpViewController
         let viewmodel = SignUpViewModel(accountNavigator: self, userService: userService)
         viewController.viewmodel.put(viewmodel)
         
-        if dismissCallback == nil {
-            rootWireframe.pushViewController(viewController, animated: false)
-        }
-        else {
-            moduleNavController.pushViewController(viewController, animated: false)
-        }
+        moduleNavController.pushViewController(viewController, animated: false)
     }
     
     
     public func goToLogInComponent() {
-        let viewController = getViewControllerFromStoryboard(LogInViewControllerIdentifier, storyboardName: AccountStoryboardName) as! LogInViewController
+        let viewController = UIStoryboard(name: AccountStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(LogInViewControllerIdentifier) as! LogInViewController
         let viewmodel = LogInViewModel(accountNavigator: self, userService: userService)
         viewController.viewmodel.put(viewmodel)
         
-        if dismissCallback == nil {
-            rootWireframe.pushViewController(viewController, animated: false)
+        moduleNavController.pushViewController(viewController, animated: false)
+    }
+    
+    public func skipAccount() {
+        userDefaultsService.accountModuleSkipped = true
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+        if let rootViewController = appDelegate?.window?.rootViewController where rootViewController is RootTabBarController {
+            moduleNavController.dismissViewControllerAnimated(true, completion: nil)
         }
         else {
-            moduleNavController.pushViewController(viewController, animated: false)
+            appDelegate?.startTabBarApplication()
         }
     }
     
-    public func goToFeaturedModule(_ callback: (CompletionHandler? -> ())? = nil) {
-        if let dismissCallback = dismissCallback {
-            callback?(dismissCallback)
+    public func finishModule(_ callback: (CompletionHandler? -> ())? = nil) {
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+        if let rootViewController = appDelegate?.window?.rootViewController where rootViewController is RootTabBarController {
+            moduleNavController.dismissViewControllerAnimated(true, completion: finishedCallback)
+            finishedCallback = nil
         }
         else {
-            router.pushFeatured()
+            appDelegate?.startTabBarApplication()
         }
-        self.dismissCallback = nil
-        moduleNavController = nil
     }
 }

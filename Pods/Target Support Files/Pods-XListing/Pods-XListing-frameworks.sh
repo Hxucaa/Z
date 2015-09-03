@@ -53,6 +53,7 @@ code_sign_if_enabled() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-XListing/ActionSheetPicker_3_0.framework'
+  install_framework 'Pods-XListing/Aspects.framework'
   install_framework 'Pods-XListing/Box.framework'
   install_framework 'Pods-XListing/Cartography.framework'
   install_framework 'Pods-XListing/CocoaLumberjack.framework'
@@ -71,6 +72,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-XListing/ActionSheetPicker_3_0.framework'
+  install_framework 'Pods-XListing/Aspects.framework'
   install_framework 'Pods-XListing/Box.framework'
   install_framework 'Pods-XListing/Cartography.framework'
   install_framework 'Pods-XListing/CocoaLumberjack.framework'
