@@ -10,6 +10,7 @@ public protocol IProfileViewModel : class {
     var nickname: MutableProperty<String> { get }
     var profileHeaderViewModel: MutableProperty<ProfileHeaderViewModel?> { get }
     init(participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
+    func getUserInfo() -> SignalProducer<Void, NSError>
     func pushSocialBusinessModule(section: Int, animated: Bool)
     func presentProfileEditModule(aniated: Bool, completion: CompletionHandler?)
     func undoParticipation(index: Int) -> SignalProducer<Bool, NSError>

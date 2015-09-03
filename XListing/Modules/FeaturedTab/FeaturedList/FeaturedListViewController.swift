@@ -70,6 +70,9 @@ public final class FeaturedListViewController: XUIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        viewmodel.fetchMoreData()
+            |> start()
+        
         navigationController?.navigationBarHidden = false
         navigationController?.hidesBarsOnSwipe = true
         
@@ -137,8 +140,6 @@ public final class FeaturedListViewController: XUIViewController {
     public func bindToViewModel(viewmodel: IFeaturedListViewModel) {
         self.viewmodel = viewmodel
         
-        self.viewmodel.fetchMoreData()
-            |> start()
     }
 }
 

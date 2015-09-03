@@ -48,21 +48,21 @@ public final class ProfileViewModel : IProfileViewModel {
         self.geoLocationService = geoLocationService
         self.userDefaultsService = userDefaultsService
         self.imageService = imageService
-
-        
-        self.userService.currentLoggedInUser()
-            |> start(
-                next: { user in
-                    self.user.put(user)
-                    var viewmodel = ProfileHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, name: user.nickname, city: "", district: "", horoscope: user.horoscope, ageGroup: user.ageGroup, cover: user.profileImg, geopoint: user.latestLocation)
-                    self.profileHeaderViewModel.put(viewmodel)
-                    self.getParticipations(user)
-                        |> start()
-                }
-        )
     }
 
     // MARK: - API
+    
+    public func getUserInfo() -> SignalProducer<Void, NSError> {
+        return self.userService.currentLoggedInUser()
+            |> on(next: { user in
+                self.user.put(user)
+                var viewmodel = ProfileHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, name: user.nickname, city: "", district: "", horoscope: user.horoscope, ageGroup: user.ageGroup, cover: user.profileImg, geopoint: user.latestLocation)
+                self.profileHeaderViewModel.put(viewmodel)
+                self.getParticipations(user)
+                    |> start()
+            })
+            |> map { _ in }
+    }
 
     public func pushSocialBusinessModule(section: Int, animated: Bool) {
         navigator.pushSocialBusiness(businessArr.value[section], animated: animated)
