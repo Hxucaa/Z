@@ -80,11 +80,11 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="ageGroupView" destination="seR-C9-teN" id="C43-8r-3Vg"/>
-                <outlet property="avatarImage" destination="V29-kn-d8r" id="JEi-0A-ew1"/>
-                <outlet property="constellationLabel" destination="tgC-7k-9oh" id="0ZP-Xd-doy"/>
-                <outlet property="messageLabel" destination="Wrd-d3-Nvg" id="ftb-UZ-Qk1"/>
-                <outlet property="nameLabel" destination="NZI-4m-2Lq" id="8Bt-QC-nlQ"/>
-                <outlet property="typeLabel" destination="HgQ-X3-Jdb" id="ULL-LP-RLS"/>
+                <outlet property="horoscopeLabel" destination="tgC-7k-9oh" id="IoC-op-5HO"/>
+                <outlet property="nicknameLabel" destination="NZI-4m-2Lq" id="LYz-kb-4ml"/>
+                <outlet property="participationTypeLabel" destination="HgQ-X3-Jdb" id="pjY-ev-yme"/>
+                <outlet property="profileImageView" destination="V29-kn-d8r" id="gw3-xl-sFN"/>
+                <outlet property="statusLabel" destination="Wrd-d3-Nvg" id="sHk-Mp-UZT"/>
             </connections>
             <point key="canvasLocation" x="285" y="139"/>
         </tableViewCell>

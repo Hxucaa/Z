@@ -11,8 +11,8 @@ import UIKit
 public final class SocialBusiness_BusinessCell: UITableViewCell {
     
     // MARK: - UI Controls
-    @IBOutlet private weak var centerImage: UIImageView!
-    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var coverImageView: UIImageView!
+    @IBOutlet private weak var businessNameLabel: UILabel!
     @IBOutlet private weak var dishtypeLabel: UILabel!
     @IBOutlet private weak var locationLabel: UILabel!
 

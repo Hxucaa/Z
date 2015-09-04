@@ -13,13 +13,16 @@ import Dollar
 import ReactiveArray
 
 public protocol SocialBusinessNavigator : class {
-    
+    func pushUserProfile(user: User)
 }
 
-// TODO: Make this class comform to `ICollectionDataSource`
-public final class SocialBusinessViewModel : ISocialBusinessViewModel  {
+
+public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollectionDataSource  {
+    
+    public typealias Payload = SocialBusiness_UserViewModel
     
     // MARK: - Inputs
+    public let collectionDataSource = ReactiveArray<SocialBusiness_UserViewModel>()
     
     // MARK: - Outputs
     
@@ -35,7 +38,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel  {
     public weak var navigator: SocialBusinessNavigator!
     
     // MARK: - Initializers
-    public init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, businessModel: Business) {
+    public required init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, businessModel: Business) {
         self.userService = userService
         self.participationService = participationService
         self.geoLocationService = geoLocationService
@@ -45,6 +48,18 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel  {
     }
     
     // MARK: - API
+    
+    public func fetchMoreData() -> SignalProducer<Void, NSError> {
+        fatalError("Not yet implemented")
+    }
+    
+    public func refreshData() -> SignalProducer<Void, NSError> {
+        fatalError("Not yet implemented")
+    }
+    
+    public func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
+        fatalError("Not yet implemented")
+    }
     
     // MARK: - Others
 }

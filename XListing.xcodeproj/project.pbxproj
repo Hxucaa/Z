@@ -123,6 +123,10 @@
 		B4C6EA231AFE845B00A166AD /* DetailWebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6EA221AFE845B00A166AD /* DetailWebViewViewController.swift */; };
 		B4CC82581AC0BB7400E85CEA /* RootTabBarWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CC82571AC0BB7400E85CEA /* RootTabBarWireframe.swift */; };
 		B4D5707C1B02AC1600D2C06C /* NearbyHorizontalScrollCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D5707B1B02AC1600D2C06C /* NearbyHorizontalScrollCellViewModel.swift */; };
+		B4D733911B9A2D5000B599B9 /* SocialBusiness_UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D733901B9A2D5000B599B9 /* SocialBusiness_UserViewModel.swift */; };
+		B4D733931B9A2D8A00B599B9 /* SocialBusiness_BusinessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D733921B9A2D8A00B599B9 /* SocialBusiness_BusinessViewModel.swift */; };
+		B4D733951B9A2FD700B599B9 /* ISocialBusiness_UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D733941B9A2FD700B599B9 /* ISocialBusiness_UserViewModel.swift */; };
+		B4D733971B9A334000B599B9 /* ISocialBusiness_BusinessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D733961B9A334000B599B9 /* ISocialBusiness_BusinessViewModel.swift */; };
 		B4DB9AC21AF954AC009FBFE1 /* GeoLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9AC11AF954AC009FBFE1 /* GeoLocationService.swift */; };
 		B4DB9AC41AF954C8009FBFE1 /* IGeoLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9AC31AF954C8009FBFE1 /* IGeoLocationService.swift */; };
 		B4E1384A1AE1B94C0082DCA3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E138491AE1B94C0082DCA3 /* User.swift */; };
@@ -344,6 +348,10 @@
 		B4C6EA221AFE845B00A166AD /* DetailWebViewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailWebViewViewController.swift; sourceTree = "<group>"; };
 		B4CC82571AC0BB7400E85CEA /* RootTabBarWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTabBarWireframe.swift; sourceTree = "<group>"; };
 		B4D5707B1B02AC1600D2C06C /* NearbyHorizontalScrollCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyHorizontalScrollCellViewModel.swift; sourceTree = "<group>"; };
+		B4D733901B9A2D5000B599B9 /* SocialBusiness_UserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialBusiness_UserViewModel.swift; sourceTree = "<group>"; };
+		B4D733921B9A2D8A00B599B9 /* SocialBusiness_BusinessViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialBusiness_BusinessViewModel.swift; sourceTree = "<group>"; };
+		B4D733941B9A2FD700B599B9 /* ISocialBusiness_UserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ISocialBusiness_UserViewModel.swift; sourceTree = "<group>"; };
+		B4D733961B9A334000B599B9 /* ISocialBusiness_BusinessViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ISocialBusiness_BusinessViewModel.swift; sourceTree = "<group>"; };
 		B4DB9AC11AF954AC009FBFE1 /* GeoLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoLocationService.swift; sourceTree = "<group>"; };
 		B4DB9AC31AF954C8009FBFE1 /* IGeoLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IGeoLocationService.swift; sourceTree = "<group>"; };
 		B4E138491AE1B94C0082DCA3 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -1016,6 +1024,8 @@
 			children = (
 				D04BAE6D1B97FF5000074E34 /* SocialBusiness_UserCell.swift */,
 				D04BAE631B97FD2100074E34 /* SocialBusiness_UserCell.xib */,
+				B4D733901B9A2D5000B599B9 /* SocialBusiness_UserViewModel.swift */,
+				B4D733941B9A2FD700B599B9 /* ISocialBusiness_UserViewModel.swift */,
 			);
 			path = "User Cell";
 			sourceTree = "<group>";
@@ -1033,6 +1043,8 @@
 			children = (
 				D04BAE6C1B97FF5000074E34 /* SocialBusiness_BusinessCell.swift */,
 				D04BAE621B97FD2100074E34 /* SocialBusiness_BusinessCell.xib */,
+				B4D733921B9A2D8A00B599B9 /* SocialBusiness_BusinessViewModel.swift */,
+				B4D733961B9A334000B599B9 /* ISocialBusiness_BusinessViewModel.swift */,
 			);
 			path = "Business Cell";
 			sourceTree = "<group>";
@@ -1505,6 +1517,7 @@
 				B45582001B37670500C4D965 /* NSError+extension.swift in Sources */,
 				2A714B121B085C63007A8FBB /* LandingPageViewController.swift in Sources */,
 				B4F195AF1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift in Sources */,
+				B4D733971B9A334000B599B9 /* ISocialBusiness_BusinessViewModel.swift in Sources */,
 				B4104F651B846D7600D7E4BD /* PullToRefreshConductor.swift in Sources */,
 				B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */,
 				D0ADD8A41B608B4200B27885 /* ProfileHeaderView.swift in Sources */,
@@ -1529,6 +1542,7 @@
 				B4694E2D1B72A17E000E2006 /* UsernameAndPasswordViewModel.swift in Sources */,
 				B4CC82581AC0BB7400E85CEA /* RootTabBarWireframe.swift in Sources */,
 				B4307F421B78D96F00E3D41B /* CakeIcon.swift in Sources */,
+				B4D733951B9A2FD700B599B9 /* ISocialBusiness_UserViewModel.swift in Sources */,
 				2A9A9B9E1B1C31870010EDA9 /* DetailImageTableViewCell.swift in Sources */,
 				B48C99241ADBA4280045BCA9 /* IFeaturedListWireframe.swift in Sources */,
 				B4ECBE281B747F7C00234217 /* BirthdayPickerView.swift in Sources */,
@@ -1549,6 +1563,7 @@
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,
 				B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */,
 				26645ADF1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift in Sources */,
+				B4D733911B9A2D5000B599B9 /* SocialBusiness_UserViewModel.swift in Sources */,
 				2661B9201B4B72C9005D9C41 /* Gender.swift in Sources */,
 				B4E7E51C1B9514AB0034B093 /* TabContent.swift in Sources */,
 				B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */,
@@ -1585,6 +1600,7 @@
 				3D70CCE71B562AE3004588EC /* ImageService.swift in Sources */,
 				B4E1384A1AE1B94C0082DCA3 /* User.swift in Sources */,
 				D0D006031B62B23900755B7F /* ProfileBusinessViewModel.swift in Sources */,
+				B4D733931B9A2D8A00B599B9 /* SocialBusiness_BusinessViewModel.swift in Sources */,
 				2A9A9BA41B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift in Sources */,
 				26645AD31B58B58200ADDCD1 /* ProfileEditViewModel.swift in Sources */,
 				B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */,

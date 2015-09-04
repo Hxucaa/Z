@@ -11,12 +11,12 @@ import UIKit
 public final class SocialBusiness_UserCell: UITableViewCell {
     
     // MARK: - UI Controls
-    @IBOutlet private weak var avatarImage: UIImageView!
-    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var profileImageView: UIImageView!
+    @IBOutlet private weak var nicknameLabel: UILabel!
     @IBOutlet private weak var ageGroupView: UIView!
-    @IBOutlet private weak var constellationLabel: UILabel!
-    @IBOutlet private weak var messageLabel: UILabel!
-    @IBOutlet private weak var typeLabel: UILabel!
+    @IBOutlet private weak var horoscopeLabel: UILabel!
+    @IBOutlet private weak var statusLabel: UILabel!
+    @IBOutlet private weak var participationTypeLabel: UILabel!
 
     // MARK: - Setups
     public override func awakeFromNib() {

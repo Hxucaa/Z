@@ -7,7 +7,10 @@
 //
 
 import Foundation
+import ReactiveCocoa
+import ReactiveArray
 
-public protocol ISocialBusinessViewModel : class {
-    
+public protocol ISocialBusinessViewModel : class, IInfinityScrollDataSource, IPullToRefreshDataSource, IPredictiveScrollDataSource {
+    var collectionDataSource: ReactiveArray<SocialBusiness_UserViewModel> { get }
+    init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, businessModel: Business)
 }

@@ -66,10 +66,10 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="centerImage" destination="UHf-QS-c1M" id="ffe-Nx-25c"/>
+                <outlet property="businessNameLabel" destination="vDg-du-vE2" id="JkP-0V-Z2T"/>
+                <outlet property="coverImageView" destination="UHf-QS-c1M" id="qaO-ZH-zJT"/>
                 <outlet property="dishtypeLabel" destination="jTQ-y4-6yj" id="6Kz-kp-Pfi"/>
                 <outlet property="locationLabel" destination="B7e-Jv-sYz" id="iza-mo-Uwu"/>
-                <outlet property="nameLabel" destination="vDg-du-vE2" id="esU-pB-t2r"/>
             </connections>
             <point key="canvasLocation" x="328" y="148"/>
         </tableViewCell>
