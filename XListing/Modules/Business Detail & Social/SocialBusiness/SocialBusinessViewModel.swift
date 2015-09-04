@@ -13,7 +13,7 @@ import Dollar
 import ReactiveArray
 
 public protocol SocialBusinessNavigator : class {
-    func pushUserProfile(user: User)
+    func pushUserProfile(user: User, animated: Bool)
 }
 
 
@@ -59,6 +59,11 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     
     public func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
         fatalError("Not yet implemented")
+    }
+    
+    public func pushUserProfile(index: Int, animated: Bool) {
+        fatalError("Not yet implemented")
+        
     }
     
     // MARK: - Others

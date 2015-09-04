@@ -30,6 +30,7 @@ public final class NearbyTabContent : ITabContent, NearbyNavigationControllerDel
     }
     
     public func pushSocialBusiness<T : Business>(business: T) {
+        socialBusinessWireframe.sharedNavigationController = nearbyTabNavigationController
         nearbyTabNavigationController.pushViewController(socialBusinessWireframe.viewController(business), animated: true)
     }
 }

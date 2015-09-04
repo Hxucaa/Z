@@ -11,6 +11,8 @@ import UIKit
 
 private let SocialBusinessViewControllerIdentifier = "SocialBusinessViewController"
 private let SocialBusinessStoryboardName = "SocialBusiness"
+private let UserProfileViewControllerIdentifier = "UserProfileViewController"
+private let UserProfileStoryboardName = "UserProfile"
 
 public final class SocialBusinessWireframe : ISocialBusinessWireframe {
     
@@ -18,6 +20,8 @@ public final class SocialBusinessWireframe : ISocialBusinessWireframe {
     private let participationService: IParticipationService
     private let geoLocationService: IGeoLocationService
     private let imageService: IImageService
+    
+    public weak var sharedNavigationController: UINavigationController?
     
     public required init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService) {
         self.userService = userService
@@ -43,5 +47,16 @@ public final class SocialBusinessWireframe : ISocialBusinessWireframe {
     
     public func viewController(business: Business) -> SocialBusinessViewController {
         return injectViewModelToViewController(business)
+    }
+}
+
+extension SocialBusinessWireframe : SocialBusinessNavigator {
+    public func pushUserProfile(user: User, animated: Bool) {
+        let viewController = UIStoryboard(name: UserProfileStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(UserProfileViewControllerIdentifier) as! UserProfileViewController
+        
+        let userProfileViewModel = UserProfileViewModel()
+        viewController.bindToViewModel(userProfileViewModel)
+        
+        sharedNavigationController?.pushViewController(viewController, animated: animated)
     }
 }

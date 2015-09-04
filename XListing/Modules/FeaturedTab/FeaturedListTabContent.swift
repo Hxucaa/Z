@@ -34,6 +34,7 @@ public final class FeaturedTabContent : ITabContent {
 extension FeaturedTabContent : FeaturedListNavigationControllerDelegate {
 
     public func pushSocialBusiness<T : Business>(business: T) {
+        socialBusinessWireframe.sharedNavigationController = featuredTabNavigationController
         featuredTabNavigationController.pushViewController(socialBusinessWireframe.viewController(business), animated: true)
     }
 }
