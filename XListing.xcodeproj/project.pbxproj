@@ -191,11 +191,11 @@
 		B4FCC7411AEB0080009B4DF6 /* IRootTabBarWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7401AEB0080009B4DF6 /* IRootTabBarWireframe.swift */; };
 		BE82DAFC5DC472E8A0BAF4F7 /* Pods_XListing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D02A61711B655019007B48E9 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02A61701B655019007B48E9 /* ProfileHeaderViewModel.swift */; };
-		D04BAE651B97FD2100074E34 /* BusinessSocialBusinessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D04BAE621B97FD2100074E34 /* BusinessSocialBusinessCell.xib */; };
-		D04BAE661B97FD2100074E34 /* BusinessSocialUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D04BAE631B97FD2100074E34 /* BusinessSocialUserCell.xib */; };
-		D04BAE671B97FD2100074E34 /* WTGBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = D04BAE641B97FD2100074E34 /* WTGBar.xib */; };
-		D04BAE6E1B97FF5000074E34 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04BAE6C1B97FF5000074E34 /* BusinessCell.swift */; };
-		D04BAE6F1B97FF5000074E34 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04BAE6D1B97FF5000074E34 /* UserCell.swift */; };
+		D04BAE651B97FD2100074E34 /* SocialBusiness_BusinessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D04BAE621B97FD2100074E34 /* SocialBusiness_BusinessCell.xib */; };
+		D04BAE661B97FD2100074E34 /* SocialBusiness_UserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D04BAE631B97FD2100074E34 /* SocialBusiness_UserCell.xib */; };
+		D04BAE671B97FD2100074E34 /* SocialBusiness_UtilityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D04BAE641B97FD2100074E34 /* SocialBusiness_UtilityCell.xib */; };
+		D04BAE6E1B97FF5000074E34 /* SocialBusiness_BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04BAE6C1B97FF5000074E34 /* SocialBusiness_BusinessCell.swift */; };
+		D04BAE6F1B97FF5000074E34 /* SocialBusiness_UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04BAE6D1B97FF5000074E34 /* SocialBusiness_UserCell.swift */; };
 		D04C825B1B9563C5003BB7D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D04C82591B9563C5003BB7D7 /* Main.storyboard */; };
 		D08B58931B93FBC500F3945F /* infopanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B58911B93FBC500F3945F /* infopanel.xib */; };
 		D08B58941B93FBC500F3945F /* participationview.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B58921B93FBC500F3945F /* participationview.xib */; };
@@ -414,11 +414,11 @@
 		B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = INearbyWireframe.swift; sourceTree = "<group>"; };
 		B4FCC7401AEB0080009B4DF6 /* IRootTabBarWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRootTabBarWireframe.swift; sourceTree = "<group>"; };
 		D02A61701B655019007B48E9 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
-		D04BAE621B97FD2100074E34 /* BusinessSocialBusinessCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BusinessSocialBusinessCell.xib; sourceTree = "<group>"; };
-		D04BAE631B97FD2100074E34 /* BusinessSocialUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BusinessSocialUserCell.xib; sourceTree = "<group>"; };
-		D04BAE641B97FD2100074E34 /* WTGBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WTGBar.xib; sourceTree = "<group>"; };
-		D04BAE6C1B97FF5000074E34 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
-		D04BAE6D1B97FF5000074E34 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		D04BAE621B97FD2100074E34 /* SocialBusiness_BusinessCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialBusiness_BusinessCell.xib; sourceTree = "<group>"; };
+		D04BAE631B97FD2100074E34 /* SocialBusiness_UserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialBusiness_UserCell.xib; sourceTree = "<group>"; };
+		D04BAE641B97FD2100074E34 /* SocialBusiness_UtilityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialBusiness_UtilityCell.xib; sourceTree = "<group>"; };
+		D04BAE6C1B97FF5000074E34 /* SocialBusiness_BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialBusiness_BusinessCell.swift; sourceTree = "<group>"; };
+		D04BAE6D1B97FF5000074E34 /* SocialBusiness_UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialBusiness_UserCell.swift; sourceTree = "<group>"; };
 		D04C825A1B9563C5003BB7D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D08B58911B93FBC500F3945F /* infopanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = infopanel.xib; sourceTree = "<group>"; };
 		D08B58921B93FBC500F3945F /* participationview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = participationview.xib; sourceTree = "<group>"; };
@@ -1011,6 +1011,32 @@
 			path = Wireframe;
 			sourceTree = "<group>";
 		};
+		B4D7338D1B9A286A00B599B9 /* User Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D04BAE6D1B97FF5000074E34 /* SocialBusiness_UserCell.swift */,
+				D04BAE631B97FD2100074E34 /* SocialBusiness_UserCell.xib */,
+			);
+			path = "User Cell";
+			sourceTree = "<group>";
+		};
+		B4D7338E1B9A28C000B599B9 /* Utility Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D04BAE641B97FD2100074E34 /* SocialBusiness_UtilityCell.xib */,
+			);
+			path = "Utility Cell";
+			sourceTree = "<group>";
+		};
+		B4D7338F1B9A28F900B599B9 /* Business Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D04BAE6C1B97FF5000074E34 /* SocialBusiness_BusinessCell.swift */,
+				D04BAE621B97FD2100074E34 /* SocialBusiness_BusinessCell.xib */,
+			);
+			path = "Business Cell";
+			sourceTree = "<group>";
+		};
 		B4E36B9C1AC1F5C9000F260E /* Wireframe */ = {
 			isa = PBXGroup;
 			children = (
@@ -1024,8 +1050,13 @@
 			isa = PBXGroup;
 			children = (
 				B4E7E5031B93F2CA0034B093 /* Wireframe */,
-				D04BAE611B97FD0100074E34 /* BusinessSocialPage */,
+				B4E7E5061B93F32C0034B093 /* SocialBusinessViewController.swift */,
+				B4E7E50A1B93F36E0034B093 /* ISocialBusinessViewModel.swift */,
+				B4E7E5081B93F3610034B093 /* SocialBusinessViewModel.swift */,
 				B4E7E5041B93F3160034B093 /* SocialBusiness.storyboard */,
+				B4D7338F1B9A28F900B599B9 /* Business Cell */,
+				B4D7338E1B9A28C000B599B9 /* Utility Cell */,
+				B4D7338D1B9A286A00B599B9 /* User Cell */,
 			);
 			path = SocialBusiness;
 			sourceTree = "<group>";
@@ -1194,21 +1225,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		D04BAE611B97FD0100074E34 /* BusinessSocialPage */ = {
-			isa = PBXGroup;
-			children = (
-				D04BAE6C1B97FF5000074E34 /* BusinessCell.swift */,
-				D04BAE6D1B97FF5000074E34 /* UserCell.swift */,
-				D04BAE621B97FD2100074E34 /* BusinessSocialBusinessCell.xib */,
-				D04BAE631B97FD2100074E34 /* BusinessSocialUserCell.xib */,
-				D04BAE641B97FD2100074E34 /* WTGBar.xib */,
-				B4E7E5061B93F32C0034B093 /* SocialBusinessViewController.swift */,
-				B4E7E50A1B93F36E0034B093 /* ISocialBusinessViewModel.swift */,
-				B4E7E5081B93F3610034B093 /* SocialBusinessViewModel.swift */,
-			);
-			name = BusinessSocialPage;
-			sourceTree = "<group>";
-		};
 		D0ADD8A71B6143C200B27885 /* ProfileDisplayPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -1320,10 +1336,10 @@
 				B3FFDD7D1B716FA3003710D8 /* BirthdayPickerView.xib in Resources */,
 				B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordView.xib in Resources */,
 				B4AA1A6D1B7EA7AD00119E91 /* ProfileTabView.xib in Resources */,
-				D04BAE651B97FD2100074E34 /* BusinessSocialBusinessCell.xib in Resources */,
+				D04BAE651B97FD2100074E34 /* SocialBusiness_BusinessCell.xib in Resources */,
 				B4F332881B969FE00048D1B4 /* FeaturedList.storyboard in Resources */,
 				B31B50781B7E308100782341 /* (null) in Resources */,
-				D04BAE671B97FD2100074E34 /* WTGBar.xib in Resources */,
+				D04BAE671B97FD2100074E34 /* SocialBusiness_UtilityCell.xib in Resources */,
 				B31B50771B7E308100782341 /* ContainerView.xib in Resources */,
 				B4F3328E1B96A9BB0048D1B4 /* RootTabBar.storyboard in Resources */,
 				B31B50761B7E308100782341 /* Account.storyboard in Resources */,
@@ -1338,7 +1354,7 @@
 				D08B58961B93FBD500F3945F /* FeaturedListBusinessTableViewCell.xib in Resources */,
 				2A41A30E1AF3133F0086D24B /* fontawesome-webfont.ttf in Resources */,
 				B4F4AFDA1B6E05C300ABA176 /* BackButton.xib in Resources */,
-				D04BAE661B97FD2100074E34 /* BusinessSocialUserCell.xib in Resources */,
+				D04BAE661B97FD2100074E34 /* SocialBusiness_UserCell.xib in Resources */,
 				B4F6DB671B647BCA00DB31D4 /* Detail.storyboard in Resources */,
 				B3FFDD7F1B718226003710D8 /* PhotoView.xib in Resources */,
 				B4F3328A1B96A03F0048D1B4 /* FeaturedTab.storyboard in Resources */,
@@ -1597,13 +1613,13 @@
 				B4307F441B796B4300E3D41B /* RoundedButton.swift in Sources */,
 				B40EF67A1B804ABF0067AE9B /* PullToRefresh.swift in Sources */,
 				B4C6EA231AFE845B00A166AD /* DetailWebViewViewController.swift in Sources */,
-				D04BAE6F1B97FF5000074E34 /* UserCell.swift in Sources */,
+				D04BAE6F1B97FF5000074E34 /* SocialBusiness_UserCell.swift in Sources */,
 				2A9A9BA61B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift in Sources */,
 				B4FC0CFD1B923738001D7A4F /* SingleSectionInfiniteTableViewManager.swift in Sources */,
 				7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */,
 				B4E7E5241B9517770034B093 /* FeaturedTabNavigationController.swift in Sources */,
 				B47E15BF1B17AD790028E07E /* UIKit&ReactiveCocoa+extension.swift in Sources */,
-				D04BAE6E1B97FF5000074E34 /* BusinessCell.swift in Sources */,
+				D04BAE6E1B97FF5000074E34 /* SocialBusiness_BusinessCell.swift in Sources */,
 				B4E1384E1AE1CA9D0082DCA3 /* IUserService.swift in Sources */,
 				45CBB368E7FE3FD3551D6C35 /* ProfileWireframe.swift in Sources */,
 				45CBB1BF173283F19EC8C446 /* IProfileWireframe.swift in Sources */,
