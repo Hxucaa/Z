@@ -1023,8 +1023,8 @@
 		B4E7E5021B93F27C0034B093 /* SocialBusiness */ = {
 			isa = PBXGroup;
 			children = (
-				D04BAE611B97FD0100074E34 /* BusinessSocialPage */,
 				B4E7E5031B93F2CA0034B093 /* Wireframe */,
+				D04BAE611B97FD0100074E34 /* BusinessSocialPage */,
 				B4E7E5041B93F3160034B093 /* SocialBusiness.storyboard */,
 			);
 			path = SocialBusiness;

@@ -8,18 +8,21 @@
 
 import UIKit
 
-class BusinessCell: UITableViewCell {
-    @IBOutlet weak var centerImage: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var dishtypeLabel: UILabel!
-    @IBOutlet weak var locationLabel: UILabel!
+public final class BusinessCell: UITableViewCell {
+    
+    // MARK: - UI Controls
+    @IBOutlet private weak var centerImage: UIImageView!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var dishtypeLabel: UILabel!
+    @IBOutlet private weak var locationLabel: UILabel!
 
-    override func awakeFromNib() {
+    // MARK: - Setups
+    public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    public override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

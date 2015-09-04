@@ -12,19 +12,38 @@ import ReactiveCocoa
 import ReactiveArray
 import Dollar
 
+private let UserCellIdentifier = "usercell"
+private let BusinessCellIdentifier = "businesscell"
+private let BusinessHeightRatio = 0.6
+private let UserHeightRatio = 0.25
+private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
+private let WTGBarHeight = CGFloat(70)
+
 public final class SocialBusinessViewController : UIViewController {
+    
+    // MARK: - UI Controls
     @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet weak var infoButton: UIButton!
-    @IBOutlet weak var startEventButton: UIButton!
+    @IBOutlet private weak var infoButton: UIButton!
+    @IBOutlet private weak var startEventButton: UIButton!
     
     // MARK: - Properties
     private var viewmodel: ISocialBusinessViewModel!
-    private let userCellIdentifier = "usercell"
-    private let businessCellIdentifier = "businesscell"
-    private let businessHeightRatio = 0.6
-    private let userHeightRatio = 0.25
-    private let WTGBarHeight = CGFloat(70)
-    let screenWidth = UIScreen.mainScreen().bounds.size.width
+    
+    // MARK: - Setups
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        let userNib = UINib(nibName: "BusinessSocialUserCell", bundle: nil)
+        let businessNib = UINib(nibName: "BusinessSocialBusinessCell", bundle: nil)
+        tableView.registerNib(userNib, forCellReuseIdentifier: UserCellIdentifier)
+        tableView.registerNib(businessNib, forCellReuseIdentifier: BusinessCellIdentifier)
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+    }
 
     // MARK: - Bindings
     
@@ -34,19 +53,6 @@ public final class SocialBusinessViewController : UIViewController {
     }
     
     // MARK: - Others
-    override public func viewDidLoad() {
-        super.viewDidLoad()
-        let userNib = UINib(nibName: "BusinessSocialUserCell", bundle: nil)
-        let businessNib = UINib(nibName: "BusinessSocialBusinessCell", bundle: nil)
-        tableView.registerNib(userNib, forCellReuseIdentifier: userCellIdentifier)
-        tableView.registerNib(businessNib, forCellReuseIdentifier: businessCellIdentifier)
-        tableView.delegate = self
-        tableView.dataSource = self
-    }
-    
-    override public func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-    }
 }
 
 extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSource{
@@ -55,7 +61,7 @@ extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        switch(section){
+        switch(section) {
         case 0: return 1
         case 1: return 10
         default: return 0
@@ -65,29 +71,28 @@ extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSour
     public func tableView(tableView: UITableView,
         cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
             switch(indexPath.section){
-            case 0: var cell = tableView.dequeueReusableCellWithIdentifier(businessCellIdentifier) as! BusinessCell
-                cell.frame = CGRectMake(0, 0, CGFloat(screenWidth), CGFloat(screenWidth) * CGFloat(businessHeightRatio))
+            case 0: var cell = tableView.dequeueReusableCellWithIdentifier(BusinessCellIdentifier) as! BusinessCell
+                cell.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio))
                 return cell
-            default: var cell = tableView.dequeueReusableCellWithIdentifier(userCellIdentifier) as!
+            default: var cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as!
                 UserCell
-                cell.frame = CGRectMake(0, 0, CGFloat(screenWidth), CGFloat(screenWidth) * CGFloat(userHeightRatio))
+                cell.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), CGFloat(ScreenWidth) * CGFloat(UserHeightRatio))
                 return cell
             }
     }
     
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath
-        indexPath: NSIndexPath) -> CGFloat{
-        switch(indexPath.section){
-        case 0: return CGFloat(screenWidth) * CGFloat(businessHeightRatio)
-        default: return CGFloat(screenWidth) * CGFloat(userHeightRatio)
+    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        switch(indexPath.section) {
+        case 0: return CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)
+        default: return CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
         }
     }
     
-    public func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView?{
+    public func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         var view: UIView?
-        if section == 0{
+        if section == 0 {
             view = NSBundle.mainBundle().loadNibNamed("WTGBar", owner: self, options: nil)[0] as? UIView
-            view?.frame = CGRectMake(0, 0, CGFloat(screenWidth), WTGBarHeight)
+            view?.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), WTGBarHeight)
         }
         return view
     }

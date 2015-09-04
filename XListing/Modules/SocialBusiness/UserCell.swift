@@ -8,7 +8,9 @@
 
 import UIKit
 
-class UserCell: UITableViewCell {
+public final class UserCell: UITableViewCell {
+    
+    // MARK: - UI Controls
     @IBOutlet private weak var avatarImage: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var ageGroupView: UIView!
@@ -16,12 +18,13 @@ class UserCell: UITableViewCell {
     @IBOutlet private weak var messageLabel: UILabel!
     @IBOutlet private weak var typeLabel: UILabel!
 
-    override func awakeFromNib() {
+    // MARK: - Setups
+    public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    public override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
