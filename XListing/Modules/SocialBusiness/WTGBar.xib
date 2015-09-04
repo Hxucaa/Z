@@ -4,21 +4,26 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SocialBusinessViewController" customModule="XListing" customModuleProvider="target">
+            <connections>
+                <outlet property="infoButton" destination="3U0-BE-QTN" id="DnV-T4-qBB"/>
+                <outlet property="startEventButton" destination="6qC-5j-fTY" id="YbX-KD-a27"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="JHN-Zx-N7y">
             <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XhL-Et-pbS">
-                    <rect key="frame" x="80" y="29" width="42" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6qC-5j-fTY">
-                    <rect key="frame" x="454" y="25" width="46" height="30"/>
-                    <state key="normal" title="Button">
+                    <rect key="frame" x="470" y="25" width="30" height="30"/>
+                    <state key="normal" title="约起">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3U0-BE-QTN">
+                    <rect key="frame" x="64" y="25" width="60" height="30"/>
+                    <state key="normal" title="详细信息">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
@@ -27,8 +32,8 @@
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="6qC-5j-fTY" secondAttribute="centerY" id="42U-wt-NsQ"/>
                 <constraint firstAttribute="trailing" secondItem="6qC-5j-fTY" secondAttribute="trailing" constant="100" id="Pml-xT-M2G"/>
-                <constraint firstAttribute="centerY" secondItem="XhL-Et-pbS" secondAttribute="centerY" id="qfB-db-QlU"/>
-                <constraint firstItem="XhL-Et-pbS" firstAttribute="leading" secondItem="JHN-Zx-N7y" secondAttribute="leading" constant="80" id="t5l-oU-J7t"/>
+                <constraint firstAttribute="centerY" secondItem="3U0-BE-QTN" secondAttribute="centerY" id="dfX-qq-FpQ"/>
+                <constraint firstItem="3U0-BE-QTN" firstAttribute="leading" secondItem="JHN-Zx-N7y" secondAttribute="leading" constant="64" id="xJz-cY-CkC"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="257" y="152"/>
