@@ -965,7 +965,7 @@
 				B4E7E5141B9502830034B093 /* FeaturedTab */,
 				B47E15C21B181D540028E07E /* BackgroundOperations */,
 				B4FCC7231AE9C627009B4DF6 /* Account */,
-				B4E7E5021B93F27C0034B093 /* SocialBusiness */,
+				B4D7339A1B9A400A00B599B9 /* Business Detail & Social */,
 				B4B6653B1ADF88070084DBE7 /* Detail */,
 			);
 			path = Modules;
@@ -1049,6 +1049,31 @@
 			path = "Business Cell";
 			sourceTree = "<group>";
 		};
+		B4D733981B9A3FD300B599B9 /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UserProfile;
+			sourceTree = "<group>";
+		};
+		B4D733991B9A3FE700B599B9 /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UserProfile;
+			path = "Business Detail & Social/UserProfile";
+			sourceTree = "<group>";
+		};
+		B4D7339A1B9A400A00B599B9 /* Business Detail & Social */ = {
+			isa = PBXGroup;
+			children = (
+				B4E7E5031B93F2CA0034B093 /* Wireframe */,
+				B4D733991B9A3FE700B599B9 /* UserProfile */,
+				B4E7E5021B93F27C0034B093 /* SocialBusiness */,
+			);
+			name = "Business Detail & Social";
+			sourceTree = "<group>";
+		};
 		B4E36B9C1AC1F5C9000F260E /* Wireframe */ = {
 			isa = PBXGroup;
 			children = (
@@ -1061,7 +1086,7 @@
 		B4E7E5021B93F27C0034B093 /* SocialBusiness */ = {
 			isa = PBXGroup;
 			children = (
-				B4E7E5031B93F2CA0034B093 /* Wireframe */,
+				B4D733981B9A3FD300B599B9 /* UserProfile */,
 				B4E7E5061B93F32C0034B093 /* SocialBusinessViewController.swift */,
 				B4E7E50A1B93F36E0034B093 /* ISocialBusinessViewModel.swift */,
 				B4E7E5081B93F3610034B093 /* SocialBusinessViewModel.swift */,
@@ -1070,7 +1095,8 @@
 				B4D7338E1B9A28C000B599B9 /* Utility Cell */,
 				B4D7338D1B9A286A00B599B9 /* User Cell */,
 			);
-			path = SocialBusiness;
+			name = SocialBusiness;
+			path = "Business Detail & Social/SocialBusiness";
 			sourceTree = "<group>";
 		};
 		B4E7E5031B93F2CA0034B093 /* Wireframe */ = {
@@ -1079,7 +1105,8 @@
 				B4E7E50E1B93F4D10034B093 /* SocialBusinessWireframe.swift */,
 				B4E7E5101B93F5800034B093 /* ISocialBusinessWireframe.swift */,
 			);
-			path = Wireframe;
+			name = Wireframe;
+			path = "Business Detail & Social/Wireframe";
 			sourceTree = "<group>";
 		};
 		B4E7E5141B9502830034B093 /* FeaturedTab */ = {
