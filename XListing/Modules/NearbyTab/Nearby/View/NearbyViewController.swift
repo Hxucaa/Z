@@ -94,7 +94,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                             
                         case let .Extend(boxedValues):
                             this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
-                            var sections = this.businessCollectionView.numberOfSections()
+                            let sections = this.businessCollectionView.numberOfSections()
                             
                             // manually insert sections to collection view.
                             this.businessCollectionView.insertSections(NSIndexSet(indexesInRange: NSMakeRange(sections, boxedValues.value.count)))
@@ -276,20 +276,9 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         
         var mapChangedFromUserInteraction = false
         
-        /// Determine whether the region change is triggered by user interaction.
-        /// Note that this implementation depends on the internal impelmentation MKMapView by Apple, which could break at later versions.
-        let mapViewRegionDidChangeFromUserInteraction = { () -> Bool in
-            let view = self.mapView.subviews.first as! UIView
-            //  Look through gesture recognizers to determine whether this region change is from user interaction
-            if let gestureRecognizers = view.gestureRecognizers {
-                for recognizer in gestureRecognizers {
-                    if( recognizer.state == UIGestureRecognizerState.Began || recognizer.state == UIGestureRecognizerState.Ended ) {
-                        return true
-                    }
-                }
-            }
-            return false
-        }
+        /**
+        *   Workaround for the lack API of determine whether the movement of the view map is triggered by user touch event.
+        */
         
         compositeDisposable += rac_signalForSelector(Selector("mapView:regionWillChangeAnimated:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
             // Completes the signal when the view controller disappears
@@ -298,7 +287,21 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
             |> logLifeCycle(LogContext.Nearby, "mapView:regionWillChangeAnimated:")
             |> start(
                 next: { [weak self] regionDidChangeAnimated in
-                    mapChangedFromUserInteraction = mapViewRegionDidChangeFromUserInteraction()
+                    
+                    /// Determine whether the region change is triggered by user interaction.
+                    /// Note that this implementation depends on the internal impelmentation MKMapView by Apple, which could break at later versions.
+                    mapChangedFromUserInteraction = { () -> Bool in
+                        
+                        //  Look through gesture recognizers to determine whether this region change is from user interaction
+                        if let view = self?.mapView.subviews.first as? UIView, gestureRecognizers = view.gestureRecognizers {
+                            for recognizer in gestureRecognizers {
+                                if( recognizer.state == UIGestureRecognizerState.Began || recognizer.state == UIGestureRecognizerState.Ended ) {
+                                    return true
+                                }
+                            }
+                        }
+                        return false
+                    }()
                     if (mapChangedFromUserInteraction) {
                         // show the redo search button when user moves the map
                         self?.redoSearchButton.hidden = false
