@@ -18,10 +18,6 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
     
     // MARK: - Outputs
     public let collectionDataSource = ReactiveArray<NearbyTableCellViewModel>()
-    private let _fetchingData: MutableProperty<Bool> = MutableProperty(false)
-    public var fetchingData: PropertyOf<Bool> {
-        return PropertyOf(_fetchingData)
-    }
     
     // MARK: - API
     
@@ -115,10 +111,9 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
 
     private func getBusinessesWithQuery(query: AVQuery, isPagination: Bool) -> SignalProducer<[NearbyTableCellViewModel], NSError> {
         // TODO: implement default location.
-        query.limit = Constants.PAGINATION_LIMIT
+        query.limit = 4 //Constants.PAGINATION_LIMIT
         return businessService.findBy(query)
             |> on(next: { businesses in
-                self._fetchingData.put(true)
                 if isPagination {
                     self.businessArr.value.extend(businesses)
                 } else {
@@ -132,7 +127,6 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
             }
             |> on(
                 next: { response in
-                    self._fetchingData.put(false)
                     if response.count > 0 {
                         
                         // if we are doing pagination, append the new businesses to the existing array, otherwise replace it

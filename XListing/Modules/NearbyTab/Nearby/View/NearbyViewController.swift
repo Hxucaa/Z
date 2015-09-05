@@ -76,13 +76,15 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
             })
     }
     
+    
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         // observing collection data source
         compositeDisposable += viewmodel.collectionDataSource.producer
-            |> logLifeCycle(LogContext.Misc, "viewmodel.collectionDataSource.producer")
-            |> on(
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Nearby, "viewmodel.collectionDataSource.producer")
+            |> start(
                 next: { [weak self] operation in
                     if let this = self {
                         switch operation {
@@ -91,36 +93,38 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                             this.businessCollectionView.reloadData()
                             
                         case let .Extend(boxedValues):
-                                this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
-                                this.businessCollectionView.reloadData()
+                            this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
+                            var sections = this.businessCollectionView.numberOfSections()
+                            // trying to change to insert instead of reload but getting error
+                            //this.businessCollectionView.insertItemsAtIndexPaths(boxedValues.value.map { _ in NSIndexPath(forRow: 0, inSection: sections++) })
+                            this.businessCollectionView.reloadData()
                             
                         case let .ReplaceAll(boxedValues):
-                                if boxedValues.value.count > 0 {
-                                    
-                                    // get the first result
-                                    let firstAnnotation = boxedValues.value[0].annotation.value
-                                    
-                                    // select and centre the map on the first result
-                                    this.mapView.selectAnnotation(firstAnnotation, animated: true)
-                                    this.mapView.setCenterCoordinate(firstAnnotation.coordinate, animated: true)
-                                    
-                                    // scroll the collection view to match
-                                    let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-                                    this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
-                                    
-                                    this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
-                                }
-                                this.businessCollectionView.reloadData()
+                            if boxedValues.value.count > 0 {
+                                
+                                // get the first result
+                                let firstAnnotation = boxedValues.value[0].annotation.value
+                                
+                                // select and centre the map on the first result
+                                this.mapView.selectAnnotation(firstAnnotation, animated: true)
+                                this.mapView.setCenterCoordinate(firstAnnotation.coordinate, animated: true)
+                                
+                                // scroll the collection view to match
+                                let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+                                this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+                                
+                                this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
+                            }
+                            this.businessCollectionView.reloadData()
                         default:
                             this.businessCollectionView.reloadData()
                             assertionFailure("Unexpected case during changes to Nearby business collection array")
                         }
                     }
                 }
-            )
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Nearby, "viewmodel.collectionDataSource.producer")
-            |> start()
+        )
+        
+        
         
         setupMapView()
         setupBusinessCollectionView()
@@ -317,7 +321,6 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
             )
         
         
-        
         /**
         Assigning MKMapView delegate has to happen after signals are established.
         
@@ -415,6 +418,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         */
         businessCollectionView.delegate = nil
         businessCollectionView.delegate = self
+        
     }
     
     deinit {
