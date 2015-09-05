@@ -61,10 +61,15 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         
         setupCurrentLocationButton()
         setupRedoSearchButton()
-        
+    }
+    
+    
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
         // set the initial view region based on current location
         compositeDisposable += viewmodel.currentLocation
+            |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.Nearby, "viewmodel.currentLocation")
             |> start(next: { [weak self] location in
                 let span = MapViewSpan
@@ -74,11 +79,6 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                     this.searchOrigin = location
                 }
             })
-    }
-    
-    
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         
         // observing collection data source
         compositeDisposable += viewmodel.collectionDataSource.producer
@@ -95,9 +95,9 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                         case let .Extend(boxedValues):
                             this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
                             var sections = this.businessCollectionView.numberOfSections()
-                            // trying to change to insert instead of reload but getting error
-                            //this.businessCollectionView.insertItemsAtIndexPaths(boxedValues.value.map { _ in NSIndexPath(forRow: 0, inSection: sections++) })
-                            this.businessCollectionView.reloadData()
+                            
+                            // manually insert sections to collection view.
+                            this.businessCollectionView.insertSections(NSIndexSet(indexesInRange: NSMakeRange(sections, boxedValues.value.count)))
                             
                         case let .ReplaceAll(boxedValues):
                             if boxedValues.value.count > 0 {
@@ -387,18 +387,20 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         )
         
         // create a signal associated with `scrollViewDidEndDragging:willDecelerate:` from delegate `UIScrollViewDelegate`
-        compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"),
-            fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
+        compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
             // Completes the signal when the view controller disappears
             |> takeUntilViewWillDisappear(self)
             |> map { ($0 as! RACTuple).first as! UIScrollView }
             |> logLifeCycle(LogContext.Nearby, "scrollViewDidEndDragging:willDecelerate:")
             |> start(
                 next: { scrollView in
-                    //return the index of the currently visible cell from the collection view
-                    let currentIndexPath = self.businessCollectionView.indexPathsForVisibleItems()[0] as! NSIndexPath
+                    
                     //if we reach the last item of the collection view, start the query for pagination
-                    if (currentIndexPath.section == self.businessCollectionView.numberOfSections() - 1) {
+                    
+                    //return the index of the currently visible cell from the collection view
+                    if let currentIndexPath = self.businessCollectionView.indexPathsForVisibleItems().first as? NSIndexPath
+                        where currentIndexPath.section == self.businessCollectionView.numberOfSections() - 1 {
+                            
                         self.compositeDisposable += self.viewmodel.getAdditionalBusinesses(self.searchOrigin, skip: self.businessCollectionView.numberOfSections())
                             |> start()
                     }
