@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="mJS-wE-4dW">
+            <rect key="frame" x="0.0" y="0.0" width="115" height="90"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="115" height="90"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="profile" translatesAutoresizingMaskIntoConstraints="NO" id="Wy9-3g-0GZ">
+                        <rect key="frame" x="12" y="7" width="91" height="75"/>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="Wy9-3g-0GZ" firstAttribute="leading" secondItem="mJS-wE-4dW" secondAttribute="leading" constant="10" id="0CD-aU-gt1"/>
+                <constraint firstAttribute="bottom" secondItem="Wy9-3g-0GZ" secondAttribute="bottom" constant="5" id="Jtk-ED-R7J"/>
+                <constraint firstAttribute="trailing" secondItem="Wy9-3g-0GZ" secondAttribute="trailing" constant="10" id="ddQ-9Y-JVJ"/>
+                <constraint firstItem="Wy9-3g-0GZ" firstAttribute="top" secondItem="mJS-wE-4dW" secondAttribute="top" constant="5" id="skc-Wc-Oqz"/>
+            </constraints>
+            <size key="customSize" width="115" height="90"/>
+            <point key="canvasLocation" x="240.5" y="138"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="profile" width="22" height="22"/>
+    </resources>
+</document>

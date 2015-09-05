@@ -14,6 +14,7 @@ import Dollar
 
 private let UserCellIdentifier = "SocialBusiness_UserCell"
 private let BusinessCellIdentifier = "SocialBusiness_BusinessCell"
+private let userControllerIdentifier = "UserProfileViewController"
 private let BusinessHeightRatio = 0.6
 private let UserHeightRatio = 0.25
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
@@ -28,7 +29,7 @@ public final class SocialBusinessViewController : UIViewController {
     
     // MARK: - Properties
     private var viewmodel: ISocialBusinessViewModel!
-    
+
     // MARK: - Setups
     
     public override func viewDidLoad() {
@@ -91,7 +92,7 @@ extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSour
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if (section == 1) {
             let view = UIView(frame: CGRectMake(0, 0, CGFloat(ScreenWidth), WTGBarHeight))
-            let bar = NSBundle.mainBundle().loadNibNamed("WTGBar", owner: self, options:nil)[0] as? UIView
+            let bar = NSBundle.mainBundle().loadNibNamed("SocialBusiness_UtilityView", owner: self, options:nil)[0] as? UIView
             bar?.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), WTGBarHeight)
             if let bar = bar{
                 view.addSubview(bar)
@@ -107,7 +108,17 @@ extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSour
         case 1: return WTGBarHeight
         default: return 0
         }
-    
     }
-        
+    
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        DDLogDebug("cell selected")
+        if(indexPath.section == 1){
+            let storyboard = UIStoryboard(name: "UserProfile", bundle: nil)
+            if let controller = storyboard.instantiateViewControllerWithIdentifier(userControllerIdentifier) as? UserProfileViewController{
+                self.presentViewController(controller, animated: true, completion: {})
+            }
+        }
+    }
+    
+    
 }
