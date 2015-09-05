@@ -88,13 +88,26 @@ extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    public func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        var view: UIView?
-        if section == 0 {
-            view = NSBundle.mainBundle().loadNibNamed("WTGBar", owner: self, options: nil)[0] as? UIView
-            view?.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), WTGBarHeight)
+    public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if (section == 1) {
+            let view = UIView(frame: CGRectMake(0, 0, CGFloat(ScreenWidth), WTGBarHeight))
+            let bar = NSBundle.mainBundle().loadNibNamed("WTGBar", owner: self, options:nil)[0] as? UIView
+            bar?.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), WTGBarHeight)
+            if let bar = bar{
+                view.addSubview(bar)
+            }
+            return view
         }
-        return view
+        return nil
+    }
+    
+    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
+        switch(section){
+        case 0: return 0
+        case 1: return WTGBarHeight
+        default: return 0
+        }
+    
     }
         
 }
