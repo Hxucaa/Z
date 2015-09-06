@@ -4,7 +4,17 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserProfileViewController" customModule="XListing" customModuleProvider="target">
+            <connections>
+                <outlet property="ageGroupView" destination="0I7-2X-h6w" id="H0C-6c-HTd"/>
+                <outlet property="cityLabel" destination="10H-6O-lWn" id="Say-9T-noE"/>
+                <outlet property="constellationLabel" destination="fcw-P2-fAh" id="pFq-FU-zCq"/>
+                <outlet property="joinButton" destination="6rP-vR-EDx" id="PkB-Vm-YhA"/>
+                <outlet property="messageLabel" destination="Sd2-Mb-qTG" id="SkR-CZ-VK8"/>
+                <outlet property="nameLabel" destination="83u-hP-vV3" id="bSO-dg-7zs"/>
+                <outlet property="typeLabel" destination="hoP-NJ-8K9" id="3np-IE-LBl"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="QK6-4f-Wh1" customClass="UserInfoView" customModule="XListing" customModuleProvider="target">
             <rect key="frame" x="0.0" y="-2" width="600" height="112"/>

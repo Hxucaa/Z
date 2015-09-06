@@ -15,11 +15,23 @@ import Cartography
 public final class UserProfileViewController : XUIViewController {
     
     // MARK: - UI Controls
-    @IBOutlet weak var coverImage: UIImageView!
+    @IBOutlet private weak var coverImage: UIImageView!
+    @IBOutlet private weak var userInfoView: UIView!
+    @IBOutlet private weak var collectionView: UICollectionView!
     
-    @IBOutlet weak var userInfoView: UIView!
+    @IBOutlet weak var nameLabel: UILabel!
     
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var typeLabel: UILabel!
+    
+    @IBOutlet weak var ageGroupView: UIView!
+    
+    @IBOutlet weak var constellationLabel: UILabel!
+    
+    @IBOutlet weak var cityLabel: UILabel!
+    
+    @IBOutlet weak var joinButton: UIButton!
+    
+    @IBOutlet weak var messageLabel: UILabel!
     
     
     // MARK: - Properties
@@ -36,6 +48,8 @@ public final class UserProfileViewController : XUIViewController {
     // MARK: - Others
     public override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView.delegate = self
+        collectionView.dataSource = self
         let nib = UINib(nibName: "CollectionCell", bundle: nil)
         collectionView.registerNib(nib, forCellWithReuseIdentifier: cellIdentifier)
         if let view = NSBundle.mainBundle().loadNibNamed("UserInfoView", owner: self, options: nil)[0] as? UIView{
