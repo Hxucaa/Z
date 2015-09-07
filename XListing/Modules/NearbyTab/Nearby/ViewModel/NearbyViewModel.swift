@@ -19,6 +19,17 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
     // MARK: - Outputs
     public let collectionDataSource = ReactiveArray<NearbyTableCellViewModel>()
     
+    // MARK: - Properties
+    
+    // MARK: Services
+    private let businessService: IBusinessService
+    private let geoLocationService: IGeoLocationService
+    private let imageService: IImageService
+    
+    // MARK: Variables
+    public weak var navigationDelegate: NearbyNavigationDelegate!
+    private let businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
+    
     // MARK: - API
     
     /**
@@ -77,14 +88,6 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
     public func pushSocialBusinessModule(section: Int) {
         navigationDelegate.pushSocialBusiness(businessArr.value[section])
     }
-
-    
-    public func getInitialBusinesses()  -> SignalProducer<Void, NSError>{
-        return getBusinessesWithQuery(Business.query(), isPagination: false)
-            |> map { [weak self] _ in
-                return
-        }
-    }
     
     // MARK: Initializers
     public init(businessService: IBusinessService, geoLocationService: IGeoLocationService, imageService: IImageService) {
@@ -104,16 +107,6 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
                 return
             }
     }
-    
-    // MARK: - Private
-    
-    // MARK: Services
-    private let businessService: IBusinessService
-    private let geoLocationService: IGeoLocationService
-    private let imageService: IImageService
-    
-    public weak var navigationDelegate: NearbyNavigationDelegate!
-    private var businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
 
     private func getBusinessesWithQuery(query: AVQuery, isPagination: Bool) -> SignalProducer<[NearbyTableCellViewModel], NSError> {
         // TODO: implement default location.

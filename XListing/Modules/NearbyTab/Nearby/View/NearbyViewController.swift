@@ -67,9 +67,6 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        compositeDisposable += viewmodel.getInitialBusinesses()
-            |> start()
-        
         // set the initial view region based on current location
         compositeDisposable += viewmodel.currentLocation
             |> takeUntilViewWillDisappear(self)
@@ -80,7 +77,13 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                 if let this = self {
                     this.mapView.setRegion(region, animated: false)
                     this.searchOrigin = location
+                    
+                    this.compositeDisposable += this.viewmodel.getAdditionalBusinesses(location, skip: this.businessCollectionView.numberOfSections())
+                        |> takeUntilViewWillDisappear(this)
+                        |> logLifeCycle(LogContext.Nearby, "viewmodel.getAdditionalBusinesses")
+                        |> start()
                 }
+                
             })
         
         // observing collection data source
