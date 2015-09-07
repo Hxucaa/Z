@@ -80,7 +80,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                         this.mapView.setRegion(region, animated: false)
                         this.searchOrigin = location
                         
-                        this.compositeDisposable += this.viewmodel.getAdditionalBusinesses(location, skip: this.businessCollectionView.numberOfSections())
+                        this.compositeDisposable += this.viewmodel.getAdditionalBusinesses(location)
                             |> takeUntilViewWillDisappear(this)
                             |> logLifeCycle(LogContext.Nearby, "viewmodel.getAdditionalBusinesses")
                             |> start()
@@ -414,7 +414,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                     if let currentIndexPath = self.businessCollectionView.indexPathsForVisibleItems().first as? NSIndexPath
                         where currentIndexPath.section == self.businessCollectionView.numberOfSections() - 1 {
                             
-                        self.compositeDisposable += self.viewmodel.getAdditionalBusinesses(self.searchOrigin, skip: self.businessCollectionView.numberOfSections())
+                        self.compositeDisposable += self.viewmodel.getAdditionalBusinesses(self.searchOrigin)
                             |> start()
                     }
                 }

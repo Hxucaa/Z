@@ -52,11 +52,11 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
     }
     
     // fetch additional businesses from the search origin while skipping the number of businesses already on the map-- query used for pagination
-    public func getAdditionalBusinesses(searchOrigin: CLLocation, skip: Int) -> SignalProducer<Void, NSError> {
+    public func getAdditionalBusinesses(searchOrigin: CLLocation) -> SignalProducer<Void, NSError> {
         let query = Business.query()
         let centreGeoPoint = AVGeoPoint(latitude: searchOrigin.coordinate.latitude, longitude: searchOrigin.coordinate.longitude)
         query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint)
-        query.skip = skip
+        query.skip = collectionDataSource.array.count
         return getBusinessesWithQuery(query, isPagination: true)
             |> map { [weak self] _ in
                 return
