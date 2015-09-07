@@ -67,24 +67,27 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        // set the initial view region based on current location
-        compositeDisposable += viewmodel.currentLocation
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Nearby, "viewmodel.currentLocation")
-            |> start(next: { [weak self] location in
-                let span = MapViewSpan
-                let region = MKCoordinateRegion(center: location.coordinate, span: span)
-                if let this = self {
-                    this.mapView.setRegion(region, animated: false)
-                    this.searchOrigin = location
+        if viewmodel.collectionDataSource.isEmpty {
+            
+            // set the initial view region based on current location
+            compositeDisposable += viewmodel.currentLocation
+                |> takeUntilViewWillDisappear(self)
+                |> logLifeCycle(LogContext.Nearby, "viewmodel.currentLocation")
+                |> start(next: { [weak self] location in
+                    let span = MapViewSpan
+                    let region = MKCoordinateRegion(center: location.coordinate, span: span)
+                    if let this = self {
+                        this.mapView.setRegion(region, animated: false)
+                        this.searchOrigin = location
+                        
+                        this.compositeDisposable += this.viewmodel.getAdditionalBusinesses(location, skip: this.businessCollectionView.numberOfSections())
+                            |> takeUntilViewWillDisappear(this)
+                            |> logLifeCycle(LogContext.Nearby, "viewmodel.getAdditionalBusinesses")
+                            |> start()
+                    }
                     
-                    this.compositeDisposable += this.viewmodel.getAdditionalBusinesses(location, skip: this.businessCollectionView.numberOfSections())
-                        |> takeUntilViewWillDisappear(this)
-                        |> logLifeCycle(LogContext.Nearby, "viewmodel.getAdditionalBusinesses")
-                        |> start()
-                }
-                
-            })
+                })
+        }
         
         // observing collection data source
         compositeDisposable += viewmodel.collectionDataSource.producer
