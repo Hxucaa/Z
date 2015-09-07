@@ -67,6 +67,9 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        compositeDisposable += viewmodel.getInitialBusinesses()
+            |> start()
+        
         // set the initial view region based on current location
         compositeDisposable += viewmodel.currentLocation
             |> takeUntilViewWillDisappear(self)
@@ -102,6 +105,9 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                         case let .ReplaceAll(boxedValues):
                             if boxedValues.value.count > 0 {
                                 
+                                this.businessCollectionView.reloadData()
+                                this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
+                                
                                 // get the first result
                                 let firstAnnotation = boxedValues.value[0].annotation.value
                                 
@@ -112,10 +118,8 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                                 // scroll the collection view to match
                                 let indexPath = NSIndexPath(forRow: 0, inSection: 0)
                                 this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
-                                
-                                this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
                             }
-                            this.businessCollectionView.reloadData()
+                            
                         default:
                             this.businessCollectionView.reloadData()
                             assertionFailure("Unexpected case during changes to Nearby business collection array")

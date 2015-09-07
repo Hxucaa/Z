@@ -78,13 +78,19 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
         navigationDelegate.pushSocialBusiness(businessArr.value[section])
     }
 
+    
+    public func getInitialBusinesses()  -> SignalProducer<Void, NSError>{
+        return getBusinessesWithQuery(Business.query(), isPagination: false)
+            |> map { [weak self] _ in
+                return
+        }
+    }
+    
     // MARK: Initializers
     public init(businessService: IBusinessService, geoLocationService: IGeoLocationService, imageService: IImageService) {
         self.businessService = businessService
         self.geoLocationService = geoLocationService
         self.imageService = imageService
-        getBusinessesWithQuery(Business.query(), isPagination: false)
-            |> start()
     }
     
     // MARK - Others
@@ -111,7 +117,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
 
     private func getBusinessesWithQuery(query: AVQuery, isPagination: Bool) -> SignalProducer<[NearbyTableCellViewModel], NSError> {
         // TODO: implement default location.
-        query.limit = 4 //Constants.PAGINATION_LIMIT
+        query.limit = Constants.PAGINATION_LIMIT
         return businessService.findBy(query)
             |> on(next: { businesses in
                 if isPagination {
