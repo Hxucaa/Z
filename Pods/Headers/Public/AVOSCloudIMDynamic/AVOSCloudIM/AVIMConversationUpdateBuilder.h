@@ -1,1 +1,1 @@
-../../../../AVOSCloudIMDynamic/iOS/release-v3.1.3.4/AVOSCloudIM/Dynamic/AVOSCloudIM.framework/Headers/AVIMConversationUpdateBuilder.h
+../../../../AVOSCloudIMDynamic/iOS/release-v3.1.3.6/AVOSCloudIM/Dynamic/AVOSCloudIM.framework/Headers/AVIMConversationUpdateBuilder.h
