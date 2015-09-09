@@ -33,9 +33,9 @@
                     </variation>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="city" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ITd-ca-dqd">
-                    <rect key="frame" x="8" y="28" width="139" height="21"/>
+                    <rect key="frame" x="8" y="28" width="130" height="21"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="139" id="40v-IK-Cid"/>
+                        <constraint firstAttribute="width" constant="130" id="40v-IK-Cid"/>
                         <constraint firstAttribute="height" constant="21" id="qGx-UO-HAO"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -58,7 +58,6 @@
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1BG-H4-Wew">
                     <rect key="frame" x="8" y="85" width="47" height="21"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="1Ih-AY-Zqt"/>
                         <constraint firstAttribute="width" constant="47" id="1uk-wa-4f7"/>
@@ -79,7 +78,6 @@
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="q3J-ZD-yDt" firstAttribute="top" secondItem="GC3-oA-Yor" secondAttribute="top" constant="8" id="2nR-7S-lTL"/>
                 <constraint firstItem="dLa-HN-E64" firstAttribute="leading" secondItem="8sK-Ye-VAt" secondAttribute="trailing" constant="-2" id="3dw-OW-Mg8"/>

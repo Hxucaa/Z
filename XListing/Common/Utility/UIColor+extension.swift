@@ -24,4 +24,8 @@ extension UIColor {
     internal class func x_Transparent() -> UIColor {
         return UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
     }
+    
+    internal class func x_FeaturedCardBG() -> UIColor {
+        return UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+    }
 }

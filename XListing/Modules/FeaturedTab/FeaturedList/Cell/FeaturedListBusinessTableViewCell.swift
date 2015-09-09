@@ -14,16 +14,14 @@ import XAssets
 import Dollar
 
 private let avatarHeight = UIScreen.mainScreen().bounds.height * 0.07
-private let avatarWidth = UIScreen.mainScreen().bounds.height * 0.07
+private let avatarWidth = avatarHeight
 private let avatarGap = UIScreen.mainScreen().bounds.width * 0.015
-private let WTGButtonScale = CGFloat(0.5)
 private let avatarLeadingMargin = CGFloat(5)
 private let avatarTailingMargin = CGFloat(5)
 private let businessImageWidthToParentRatio = 0.57
 private let businessImageHeightToWidthRatio = 0.68
 private let avatarListWidthtoParentRatio = 1.0
 private let avatarListHeightToParentRatio = 1.0
-private let BackgroundColor = UIColor(hex: "EEEEEE")
 
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
@@ -38,6 +36,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     @IBOutlet private weak var priceLabel: UIView!
     @IBOutlet private weak var etaLabel: UILabel!
     
+    @IBOutlet private weak var WTGButtonView: UIView!
+    @IBOutlet private weak var numberOfPeopleGoingView: UIView!
     @IBOutlet private weak var peopleWantogoLabel: UILabel!
     @IBOutlet private weak var avatarList: UIView!
     @IBOutlet private weak var joinButton: UIButton!
@@ -59,6 +59,19 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         infoView.addSubview(infoViewContent)
         participationView.addSubview(participationViewContent)
+        
+        //Set card's Background color
+        infoView.backgroundColor = .x_FeaturedCardBG()
+        businessImage.backgroundColor = .x_FeaturedCardBG()
+        numberOfPeopleGoingView.backgroundColor = .x_FeaturedCardBG()
+        WTGButtonView.backgroundColor = .x_FeaturedCardBG()
+        infoViewContent.backgroundColor = .x_FeaturedCardBG()
+        participationView.backgroundColor = .x_FeaturedCardBG()
+        participationViewContent.backgroundColor = .x_FeaturedCardBG()
+        cityLabel.backgroundColor = .x_FeaturedCardBG()
+        nameLabel.backgroundColor = .x_FeaturedCardBG()
+        peopleWantogoLabel.backgroundColor = .x_FeaturedCardBG()
+        avatarList.backgroundColor = .x_FeaturedCardBG()
         
         /**
         *   Setup joinButton
@@ -106,7 +119,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             
             let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: avatarWidth, height: avatarHeight))
             // TODO: set the correct background color
-            imageView.backgroundColor = BackgroundColor
+            imageView.backgroundColor = .x_FeaturedCardBG()
             imageView.opaque = true
             imageView.contentMode = UIViewContentMode.ScaleAspectFill
             imageView.clipsToBounds = true
@@ -121,6 +134,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                     view.height == avatarHeight
                 }
             }
+            
             if let previousImageView = previousImageView {
                 constrain(previousImageView, imageView) { previous, current in
                     previous.trailing == current.leading - avatarGap
@@ -254,7 +268,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                                 participants[i].avatar.producer
                                     |> takeUntilPrepareForReuse(this)
                                     |> ignoreNil
-                                    |> map { $0.withRoundedCorner(avatarView.bounds.size, cornerRadius: avatarView.bounds.height, backgroundColor: BackgroundColor) }
+                                    |> map { $0.withRoundedCorner(avatarView.bounds.size, cornerRadius: avatarView.bounds.height, backgroundColor: .x_FeaturedCardBG()) }
                                     |> start(next: { image in
                                         avatarView.image = image
                                     })
@@ -269,12 +283,13 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                         
                         let etcImageView = this.avatarImageViews[filledAvatarImageViews.count]
                         // assign etc icon to image view
-                        etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: self?.frame.size, backgroundColor: nil, opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+                        etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: self?.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
                             |> map { Optional<UIImage>($0) }
                             |> takeUntilPrepareForReuse(this)
                         
                         // unhide the image view
                         etcImageView.hidden = false
+
                         
                         // add the image view to the list of already processed
                         filledAvatarImageViews.append(etcImageView)

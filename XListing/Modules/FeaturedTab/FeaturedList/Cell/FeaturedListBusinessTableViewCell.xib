@@ -17,7 +17,6 @@
                 <subviews>
                     <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6lj-Ep-95x" userLabel="InfoView">
                         <rect key="frame" x="144" y="8" width="198" height="146"/>
-                        <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="253" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="iyM-Pv-UcA">
                         <rect key="frame" x="8" y="8" width="136" height="146"/>
@@ -32,7 +31,6 @@
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LYg-mn-BdT" userLabel="ViewofParticipants">
                         <rect key="frame" x="8" y="174" width="258" height="25"/>
-                        <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="LYg-mn-BdT" secondAttribute="height" multiplier="167:29" id="3aC-nn-tg8"/>
                             <constraint firstAttribute="height" constant="58" id="npt-Wo-F7o"/>
@@ -44,6 +42,24 @@
                             </mask>
                         </variation>
                     </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEP-mM-tP1" userLabel="# of people">
+                        <rect key="frame" x="8" y="154" width="258" height="20"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ll0-OA-u89">
+                                <rect key="frame" x="8" y="2" width="153" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.4823529411764706" green="0.4823529411764706" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Ll0-OA-u89" firstAttribute="top" secondItem="SEP-mM-tP1" secondAttribute="top" constant="2" id="B4L-Ei-v3D"/>
+                            <constraint firstAttribute="bottom" secondItem="Ll0-OA-u89" secondAttribute="bottom" constant="3" id="Nas-3h-fIN"/>
+                            <constraint firstItem="Ll0-OA-u89" firstAttribute="leading" secondItem="SEP-mM-tP1" secondAttribute="leadingMargin" id="OOm-DK-FhQ"/>
+                            <constraint firstAttribute="height" constant="20" id="QVe-Sl-ZHu"/>
+                            <constraint firstAttribute="trailing" secondItem="Ll0-OA-u89" secondAttribute="trailing" constant="97" id="kt5-zS-mGL"/>
+                        </constraints>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bqS-en-tuD" userLabel="WTG Button">
                         <rect key="frame" x="266" y="154" width="76" height="45"/>
                         <subviews>
@@ -54,7 +70,6 @@
                                 </state>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                         <accessibility key="accessibilityConfiguration">
                             <accessibilityTraits key="traits" none="YES" button="YES"/>
                         </accessibility>
@@ -91,25 +106,6 @@
                                 <exclude reference="hpL-Do-BMF"/>
                             </mask>
                         </variation>
-                    </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEP-mM-tP1" userLabel="# of people">
-                        <rect key="frame" x="8" y="154" width="258" height="20"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ll0-OA-u89">
-                                <rect key="frame" x="8" y="2" width="153" height="15"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" red="0.4823529411764706" green="0.4823529411764706" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstItem="Ll0-OA-u89" firstAttribute="top" secondItem="SEP-mM-tP1" secondAttribute="top" constant="2" id="B4L-Ei-v3D"/>
-                            <constraint firstAttribute="bottom" secondItem="Ll0-OA-u89" secondAttribute="bottom" constant="3" id="Nas-3h-fIN"/>
-                            <constraint firstItem="Ll0-OA-u89" firstAttribute="leading" secondItem="SEP-mM-tP1" secondAttribute="leadingMargin" id="OOm-DK-FhQ"/>
-                            <constraint firstAttribute="height" constant="20" id="QVe-Sl-ZHu"/>
-                            <constraint firstAttribute="trailing" secondItem="Ll0-OA-u89" secondAttribute="trailing" constant="97" id="kt5-zS-mGL"/>
-                        </constraints>
                     </view>
                 </subviews>
                 <constraints>
@@ -190,9 +186,11 @@
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.83529411764705885" green="0.83529411764705885" blue="0.83529411764705885" alpha="1" colorSpace="calibratedRGB"/>
             <connections>
+                <outlet property="WTGButtonView" destination="bqS-en-tuD" id="MAi-n3-0lV"/>
                 <outlet property="businessImage" destination="iyM-Pv-UcA" id="dTL-KS-ncy"/>
                 <outlet property="infoView" destination="6lj-Ep-95x" id="2nz-Se-mvA"/>
                 <outlet property="joinButton" destination="Svz-tv-mdR" id="3xO-L5-KPG"/>
+                <outlet property="numberOfPeopleGoingView" destination="SEP-mM-tP1" id="gTQ-Yw-iNA"/>
                 <outlet property="participationView" destination="LYg-mn-BdT" id="nqZ-ec-XTc"/>
                 <outlet property="peopleWantogoLabel" destination="Ll0-OA-u89" id="Yks-IC-mgX"/>
             </connections>
