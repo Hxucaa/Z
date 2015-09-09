@@ -268,7 +268,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                                 participants[i].avatar.producer
                                     |> takeUntilPrepareForReuse(this)
                                     |> ignoreNil
-                                    |> map { $0.withRoundedCorner(avatarView.bounds.size, cornerRadius: avatarView.bounds.height, backgroundColor: .x_FeaturedCardBG()) }
+                                    |> map { $0.maskWithRoundedRect(avatarView.bounds.size, cornerRadius: avatarView.bounds.height, backgroundColor: .x_FeaturedCardBG()) }
                                     |> start(next: { image in
                                         avatarView.image = image
                                     })

@@ -11,6 +11,7 @@ import UIKit
 import ReactiveCocoa
 import ReactiveArray
 import Dollar
+import Cartography
 
 private let UserCellIdentifier = "SocialBusiness_UserCell"
 private let BusinessCellIdentifier = "SocialBusiness_BusinessCell"
@@ -23,7 +24,13 @@ private let WTGBarHeight = CGFloat(70)
 public final class SocialBusinessViewController : XUIViewController {
     
     // MARK: - UI Controls
-    @IBOutlet private weak var tableView: UITableView!
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: CGRectMake(0, 0, 600, 600), style: UITableViewStyle.Plain)
+        tableView.showsHorizontalScrollIndicator = false
+        tableView.opaque = true
+        
+        return tableView
+    }()
     @IBOutlet private weak var infoButton: UIButton!
     @IBOutlet private weak var startEventButton: UIButton!
     
@@ -34,6 +41,15 @@ public final class SocialBusinessViewController : XUIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.addSubview(tableView)
+        
+        constrain(tableView) { view in
+            view.top == view.superview!.top
+            view.trailing == view.superview!.trailing
+            view.bottom == view.superview!.bottom
+            view.leading == view.superview!.leading
+        }
         
         tableView.registerClass(SocialBusiness_BusinessCell.self, forCellReuseIdentifier: BusinessCellIdentifier)
         tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)

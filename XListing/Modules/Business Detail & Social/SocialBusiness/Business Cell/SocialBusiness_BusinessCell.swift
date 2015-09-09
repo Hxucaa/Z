@@ -14,6 +14,24 @@ import TTTAttributedLabel
 public final class SocialBusiness_BusinessCell : UITableViewCell {
     
     // MARK: - UI Controls
+    private lazy var backgroundImageView: UIImageView = {
+        let imageView = UIImageView(frame: self.frame)
+        
+        let blur = UIBlurEffect(style: UIBlurEffectStyle.Dark)
+        let effectView = UIVisualEffectView(effect: blur)
+        effectView.frame = imageView.frame
+        
+        imageView.addSubview(effectView)
+        
+        constrain(effectView) { view in
+            view.top == view.superview!.top
+            view.trailing == view.superview!.trailing
+            view.bottom == view.superview!.bottom
+            view.leading == view.superview!.leading
+        }
+        
+        return imageView
+    }()
     
     /// Wrap everything in the main stack and have them distributed vertically.
     private lazy var mainContainer: TZStackView = {
@@ -28,9 +46,14 @@ public final class SocialBusiness_BusinessCell : UITableViewCell {
     }()
     
     private lazy var coverImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: ImageAssets.profilepicture)?.withRoundedCorner(CGSizeMake(100, 100), cornerRadius: 40, opaque: false))
+        let imageView = UIImageView(image: UIImage(named: ImageAssets.profilepicture)?.maskWithRoundedRect(CGSizeMake(100, 100), cornerRadius: 40, borderWidth: 4, opaque: false))
         imageView.opaque = false
         imageView.backgroundColor = UIColor.clearColor()
+        
+        constrain(imageView) { view in
+            view.width == 100
+            view.height == 100
+        }
         
         return imageView
     }()
@@ -112,18 +135,21 @@ public final class SocialBusiness_BusinessCell : UITableViewCell {
         
         selectionStyle = UITableViewCellSelectionStyle.None
         
+        backgroundImageView.image = UIImage(named: ImageAssets.lowPoly)
         businessNameLabel.text = "老四川"
         cuisineLabel.text = "川菜"
         locationLabel.text = "Richmond"
         distanceLabel.text = "30分钟"
         
-        backgroundColor = UIColor.blackColor()
         
+        addSubview(backgroundImageView)
         addSubview(mainContainer)
         
-        constrain(coverImageView) { view in
-            view.width == 100
-            view.height == 100
+        constrain(backgroundImageView) { view in
+            view.top == view.superview!.top
+            view.trailing == view.superview!.trailing
+            view.bottom == view.superview!.bottom
+            view.leading == view.superview!.leading
         }
         
         constrain(dividerView, locationLabel) { divider, location in
