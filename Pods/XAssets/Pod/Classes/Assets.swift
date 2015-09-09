@@ -10,16 +10,16 @@ import Foundation
 import UIKit
 
 public enum Asset {
-    case VenusLabel(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, generation: String?)
-    case MarsLabel(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, generation: String?)
+    case VenusLabel(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, textInput: String?)
+    case MarsLabel(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, textInput: String?)
     case ShareButton(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
     case FemaleIcon(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
     case MaleIcon(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
     case CakeIcon(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
     case FlameIcon(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
-    case CarIcon(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
+    case CarIcon(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, textInput: String?)
     case EtcIcon(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
-    case PriceIcon(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
+    case PriceIcon(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, textInput: String?)
     case HomeButton(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
     case NearbyButton(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
     case ChatButton(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
@@ -31,10 +31,10 @@ public enum Asset {
     internal func image() -> UIImage {
         
         switch(self){
-        case let .VenusLabel(size, backgroundColor, opaque, imageContextScale, generation):
-            return AssetsKit.x_imageOfVenusLabel(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, generation: generation)
-        case let .MarsLabel(size, backgroundColor, opaque, imageContextScale, generation):
-            return AssetsKit.x_imageOfMarsLabel(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, generation: generation)
+        case let .VenusLabel(size, backgroundColor, opaque, imageContextScale, textInput):
+            return AssetsKit.x_imageOfVenusLabel(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, textInput: textInput)
+        case let .MarsLabel(size, backgroundColor, opaque, imageContextScale, textInput):
+            return AssetsKit.x_imageOfMarsLabel(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, textInput: textInput)
         case let .ShareButton(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
             return AssetsKit.x_imageOfShareButton(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, pressed: pressed, shadow: shadow)
         case let .FilterButton(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
@@ -49,8 +49,8 @@ public enum Asset {
             return AssetsKit.x_imageOfNearbyButton(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, pressed: pressed, shadow: shadow)
         case let .HomeButton(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
             return AssetsKit.x_imageOfHomeButton(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, pressed: pressed, shadow: shadow)
-        case let .PriceIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
-            return AssetsKit.x_imageOfPriceIcon(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, pressed: pressed, shadow: shadow)
+        case let .PriceIcon(size, backgroundColor, opaque, imageContextScale, textInput):
+            return AssetsKit.x_imageOfPriceIcon(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, textInput: textInput)
         case let .CakeIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
             return AssetsKit.x_imageOfCakeIcon(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, pressed: pressed, shadow: shadow)
         case let .FemaleIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
@@ -59,8 +59,8 @@ public enum Asset {
             return AssetsKit.x_imageOfMaleIcon(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, pressed: pressed, shadow: shadow)
         case let .FlameIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
             return AssetsKit.x_imageOfFlameIcon(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, pressed: pressed, shadow: shadow)
-        case let .CarIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
-            return AssetsKit.x_imageOfCarIcon(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, pressed: pressed, shadow: shadow)
+        case let .CarIcon(size, backgroundColor, opaque, imageContextScale, textInput):
+            return AssetsKit.x_imageOfCarIcon(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, textInput: textInput)
         case let .EtcIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
             return AssetsKit.x_imageOfEtcIcon(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, pressed: pressed, shadow: shadow)
         }
@@ -70,10 +70,10 @@ public enum Asset {
     internal func cacheKey() -> String {
         
         switch(self){
-        case let .VenusLabel(size, backgroundColor, opaque, imageContextScale, generation):
-            return "VenusLabel|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(generation)"
-        case let .MarsLabel(size, backgroundColor, opaque, imageContextScale, generation):
-            return "MarsLabel|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(generation)"
+        case let .VenusLabel(size, backgroundColor, opaque, imageContextScale, textInput):
+            return "VenusLabel|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(textInput)"
+        case let .MarsLabel(size, backgroundColor, opaque, imageContextScale, textInput):
+            return "MarsLabel|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(textInput)"
         case let .ShareButton(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
             return "ShareButton|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
         case let .FilterButton(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
@@ -88,8 +88,8 @@ public enum Asset {
             return "NearbyButton|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
         case let .HomeButton(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
             return "HomeButton|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
-        case let .PriceIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
-            return "PriceIcon|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
+        case let .PriceIcon(size, backgroundColor, opaque, imageContextScale, textInput):
+            return "PriceIcon|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(textInput)"
         case let .CakeIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
             return "CakeIcon|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
         case let .FemaleIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
@@ -98,8 +98,8 @@ public enum Asset {
             return "MaleIcon|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
         case let .FlameIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
             return "FlameIcon|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
-        case let .CarIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
-            return "CarIcon|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
+        case let .CarIcon(size, backgroundColor, opaque, imageContextScale, textInput):
+            return "CarIcon|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(textInput)"
         case let .EtcIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
             return "EtcIcon|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
 
@@ -127,7 +127,7 @@ public enum Asset {
         case .HomeButton:
             return CGSizeMake(32, 27)
         case .PriceIcon:
-            return CGSizeMake(11, 11)
+            return CGSizeMake(47, 11)
         case .CakeIcon:
             return CGSizeMake(45, 36)
         case .FemaleIcon:
@@ -137,7 +137,7 @@ public enum Asset {
         case .FlameIcon:
             return CGSizeMake(32, 34)
         case .CarIcon:
-            return CGSizeMake(14, 13)
+            return CGSizeMake(71, 13)
         case .EtcIcon:
             return CGSizeMake(32,11)
         default:

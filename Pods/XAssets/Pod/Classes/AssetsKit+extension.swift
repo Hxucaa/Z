@@ -11,7 +11,7 @@ import Foundation
 extension AssetsKit {
     
     
-    private class func drawingLabel(#draw: Void -> Void, sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, generation: String? = nil) -> UIImage {
+    private class func drawingLabel(#draw: Void -> Void, sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, textInput: String? = nil) -> UIImage {
         
         // enter the size of the original drawing
         
@@ -32,7 +32,7 @@ extension AssetsKit {
     }
     
     
-    internal class func x_imageOfVenusLabel(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, generation: String? = "") -> UIImage {
+    internal class func x_imageOfVenusLabel(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, textInput: String? = "") -> UIImage {
         
         return self.drawingLabel(
             draw: {
@@ -40,7 +40,7 @@ extension AssetsKit {
                 let scaledX: CGFloat = (sizeToFit ?? drawingSize).width / drawingSize.width
                 let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
                 // change this function to the appropriate drawing function
-                AssetsKit.drawVenusLabel(scaleX: scaledX, scaleY: scaledY, generation: generation!)
+                AssetsKit.drawVenusLabel(scaleX: scaledX, scaleY: scaledY, generation: textInput!)
             },
             
             sizeToFit: sizeToFit,
@@ -48,11 +48,11 @@ extension AssetsKit {
             backgroundColor: backgroundColor,
             opaque: opaque,
             imageContextScale: imageContextScale,
-            generation: generation
+            textInput: textInput
         )
     }
     
-    internal class func x_imageOfMarsLabel(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, generation: String? = "") -> UIImage {
+    internal class func x_imageOfMarsLabel(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, textInput: String? = "") -> UIImage {
         
         return self.drawingLabel(
             draw: {
@@ -60,7 +60,7 @@ extension AssetsKit {
                 let scaledX: CGFloat = (sizeToFit ?? drawingSize).width / drawingSize.width
                 let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
                 // change this function to the appropriate drawing function
-                AssetsKit.drawMarsLabel(scaleX: scaledX, scaleY: scaledY, generation: generation!)
+                AssetsKit.drawMarsLabel(scaleX: scaledX, scaleY: scaledY, generation: textInput!)
             },
             
             sizeToFit: sizeToFit,
@@ -68,12 +68,49 @@ extension AssetsKit {
             backgroundColor: backgroundColor,
             opaque: opaque,
             imageContextScale: imageContextScale,
-            generation: generation
+            textInput: textInput
         )
     }
-
     
+    internal class func x_imageOfPriceIcon(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, textInput: String? = "") -> UIImage {
+        
+        return self.drawingLabel(
+            draw: {
+                // calculate scaleX and scaleY based on size
+                let scaledX: CGFloat = (sizeToFit ?? drawingSize).width / drawingSize.width
+                let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
+                // change this function to the appropriate drawing function
+                AssetsKit.drawPriceIcon(scaleX: scaledX, scaleY: scaledY, pricePerPerson: textInput!)
+            },
+            
+            sizeToFit: sizeToFit,
+            drawingSize: drawingSize,
+            backgroundColor: backgroundColor,
+            opaque: opaque,
+            imageContextScale: imageContextScale,
+            textInput: textInput
+        )
+    }
     
+    internal class func x_imageOfCarIcon(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, textInput: String? = "") -> UIImage {
+        
+        return self.drawingLabel(
+            draw: {
+                // calculate scaleX and scaleY based on size
+                let scaledX: CGFloat = (sizeToFit ?? drawingSize).width / drawingSize.width
+                let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
+                // change this function to the appropriate drawing function
+                AssetsKit.drawCarIcon(scaleX: scaledX, scaleY: scaledY, etaTime: textInput!)
+            },
+            
+            sizeToFit: sizeToFit,
+            drawingSize: drawingSize,
+            backgroundColor: backgroundColor,
+            opaque: opaque,
+            imageContextScale: imageContextScale,
+            textInput: textInput
+        )
+    }
     
     private class func drawing(#draw: Void -> Void, sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
         
@@ -242,26 +279,6 @@ extension AssetsKit {
         )
     }
     
-    internal class func x_imageOfPriceIcon(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
-        
-        return self.drawing(
-            draw: {
-                // calculate scaleX and scaleY based on size
-                let scaledX: CGFloat = (sizeToFit ?? drawingSize).width / drawingSize.width
-                let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
-                // change this function to the appropriate drawing function
-                AssetsKit.drawPriceIcon(scaleX: scaledX, scaleY: scaledY)
-            },
-            
-            sizeToFit: sizeToFit,
-            drawingSize: drawingSize,
-            backgroundColor: backgroundColor,
-            opaque: opaque,
-            imageContextScale: imageContextScale,
-            pressed: pressed,
-            shadow: shadow
-        )
-    }
     
     internal class func x_imageOfCakeIcon(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
         
@@ -335,27 +352,6 @@ extension AssetsKit {
                 let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
                 // change this function to the appropriate drawing function
                 AssetsKit.drawFlameIcon(scaleX: scaledX, scaleY: scaledY, ifTrending: true)
-            },
-            
-            sizeToFit: sizeToFit,
-            drawingSize: drawingSize,
-            backgroundColor: backgroundColor,
-            opaque: opaque,
-            imageContextScale: imageContextScale,
-            pressed: pressed,
-            shadow: shadow
-        )
-    }
-    
-    internal class func x_imageOfCarIcon(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
-        
-        return self.drawing(
-            draw: {
-                // calculate scaleX and scaleY based on size
-                let scaledX: CGFloat = (sizeToFit ?? drawingSize).width / drawingSize.width
-                let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
-                // change this function to the appropriate drawing function
-                AssetsKit.drawCarIcon(scaleX: scaledX, scaleY: scaledY)
             },
             
             sizeToFit: sizeToFit,
