@@ -12,6 +12,6 @@ import XAssets
 @IBDesignable
 public final class CakeIcon : UIView {
     public override func drawRect(rect: CGRect) {
-        AssetsKit.drawCakeIcon(scale: 1.0)
+        AssetsKit.drawCakeIcon(scaleX: 1, scaleY: 1)
     }
 }

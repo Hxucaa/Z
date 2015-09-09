@@ -69,20 +69,20 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         joinButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         
-        $.once({ [weak self] () -> () in
-            if let this = self {
-                AssetFactory.getImage(Asset.WTGButtonTapped(scale: WTGButtonScale))
-                    |> takeUntilPrepareForReuse(this)
-                    |> start(next: { image in
-                        self?.joinButton.setBackgroundImage(image, forState: .Disabled)
-                    })
-                AssetFactory.getImage(Asset.WTGButtonUntapped(scale: WTGButtonScale))
-                    |> takeUntilPrepareForReuse(this)
-                    |> start(next: { image in
-                        self?.joinButton.setBackgroundImage(image, forState: .Normal)
-                    })
-            }
-        })()
+//        $.once({ [weak self] () -> () in
+//            if let this = self {
+//                AssetFactory.getImage(Asset.WTGButtonTapped(scale: WTGButtonScale))
+//                    |> takeUntilPrepareForReuse(this)
+//                    |> start(next: { image in
+//                        self?.joinButton.setBackgroundImage(image, forState: .Disabled)
+//                    })
+//                AssetFactory.getImage(Asset.WTGButtonUntapped(scale: WTGButtonScale))
+//                    |> takeUntilPrepareForReuse(this)
+//                    |> start(next: { image in
+//                        self?.joinButton.setBackgroundImage(image, forState: .Normal)
+//                    })
+//            }
+//        })()
         
         joinButton.hidden = true
         
@@ -269,7 +269,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                         
                         let etcImageView = this.avatarImageViews[filledAvatarImageViews.count]
                         // assign etc icon to image view
-                        etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(scale: 1.0))
+                        etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: self?.frame.size, backgroundColor: nil, opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
                             |> map { Optional<UIImage>($0) }
                             |> takeUntilPrepareForReuse(this)
                         
