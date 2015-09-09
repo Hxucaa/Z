@@ -11,7 +11,7 @@ import TZStackView
 import Cartography
 import TTTAttributedLabel
 
-public final class SocialBusiness_BusinessCell : UITableViewCell {
+public final class SocialBusiness_HeaderView : UIView {
     
     // MARK: - UI Controls
     private lazy var backgroundImageView: UIImageView = {
@@ -129,29 +129,26 @@ public final class SocialBusiness_BusinessCell : UITableViewCell {
     }()
     
     // MARK: - Initializers
-    
-    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        selectionStyle = UITableViewCellSelectionStyle.None
-        
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+
         backgroundImageView.image = UIImage(named: ImageAssets.lowPoly)
         businessNameLabel.text = "老四川"
         cuisineLabel.text = "川菜"
         locationLabel.text = "Richmond"
         distanceLabel.text = "30分钟"
-        
-        
+
+
         addSubview(backgroundImageView)
         addSubview(mainContainer)
-        
+
         constrain(backgroundImageView) { view in
             view.top == view.superview!.top
             view.trailing == view.superview!.trailing
             view.bottom == view.superview!.bottom
             view.leading == view.superview!.leading
         }
-        
+
         constrain(dividerView, locationLabel) { divider, location in
             divider.width == 1
             divider.height == location.height

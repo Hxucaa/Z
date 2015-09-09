@@ -33,6 +33,7 @@ public final class SocialBusinessViewController : XUIViewController {
     }()
     @IBOutlet private weak var infoButton: UIButton!
     @IBOutlet private weak var startEventButton: UIButton!
+    private let headerView = SocialBusiness_HeaderView(frame: CGRectMake(0, 0, 600, CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)))
     
     // MARK: - Properties
     private var viewmodel: ISocialBusinessViewModel!
@@ -51,14 +52,20 @@ public final class SocialBusinessViewController : XUIViewController {
             view.leading == view.superview!.leading
         }
         
-        tableView.registerClass(SocialBusiness_BusinessCell.self, forCellReuseIdentifier: BusinessCellIdentifier)
+        tableView.tableHeaderView = headerView
+        
         tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
+        tableView.rowHeight = CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
         tableView.delegate = self
         tableView.dataSource = self
     }
     
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+    }
+    
+    public override func prefersStatusBarHidden() -> Bool {
+        return true
     }
 
     // MARK: - Bindings
@@ -73,67 +80,38 @@ public final class SocialBusinessViewController : XUIViewController {
 
 extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSource{
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int{
-        return 2
+        return 1
     }
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        switch(section) {
-        case 0: return 1
-        case 1: return 10
-        default: return 0
-        }
+        return 10
     }
     
     public func tableView(tableView: UITableView,
         cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-            switch(indexPath.section){
-            case 0: var cell = tableView.dequeueReusableCellWithIdentifier(BusinessCellIdentifier) as! SocialBusiness_BusinessCell
-                cell.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio))
-                return cell
-            default: var cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as!
-                SocialBusiness_UserCell
-                cell.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), CGFloat(ScreenWidth) * CGFloat(UserHeightRatio))
-                return cell
-            }
-    }
-    
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch(indexPath.section) {
-            // TODO: cache this number. Tableview will call this function for each cell. Its a bad idea to calculate the number EVERY SINGLE TIME!
-        case 0: return CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)
-        default: return CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
-        }
+        let cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as!
+        SocialBusiness_UserCell
+        return cell
     }
     
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if (section == 1) {
-            let view = UIView(frame: CGRectMake(0, 0, CGFloat(ScreenWidth), WTGBarHeight))
-            let bar = NSBundle.mainBundle().loadNibNamed("SocialBusiness_UtilityView", owner: self, options:nil)[0] as? UIView
-            bar?.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), WTGBarHeight)
-            if let bar = bar{
-                view.addSubview(bar)
-            }
-            return view
+        let view = UIView(frame: CGRectMake(0, 0, CGFloat(ScreenWidth), WTGBarHeight))
+        let bar = NSBundle.mainBundle().loadNibNamed("SocialBusiness_UtilityView", owner: self, options:nil)[0] as? UIView
+        bar?.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), WTGBarHeight)
+        if let bar = bar {
+            view.addSubview(bar)
         }
-        return nil
+        return view
     }
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
-        switch(section){
-        case 0: return 0
-        case 1: return WTGBarHeight
-        default: return 0
-        }
+        return WTGBarHeight
     }
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if(indexPath.section == 1){
-            let storyboard = UIStoryboard(name: "UserProfile", bundle: nil)
-            if let controller = storyboard.instantiateViewControllerWithIdentifier(userControllerIdentifier) as? UserProfileViewController{
-                self.presentViewController(controller, animated: true, completion: {})
-            }
+        let storyboard = UIStoryboard(name: "UserProfile", bundle: nil)
+        if let controller = storyboard.instantiateViewControllerWithIdentifier(userControllerIdentifier) as? UserProfileViewController {
+            self.presentViewController(controller, animated: true, completion: nil)
         }
     }
-    
-    
 }
