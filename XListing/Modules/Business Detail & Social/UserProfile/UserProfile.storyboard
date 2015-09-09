@@ -14,65 +14,73 @@
                         <viewControllerLayoutGuide type="bottom" id="psg-wv-Wxe"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="UEO-Uv-dbG">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="profilepicture" translatesAutoresizingMaskIntoConstraints="NO" id="RY9-NW-Vrr">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="211"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profilepicture" translatesAutoresizingMaskIntoConstraints="NO" id="RY9-NW-Vrr">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="324"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="RY9-NW-Vrr" secondAttribute="height" multiplier="120:47" id="uZo-ys-P3N"/>
+                                    <constraint firstAttribute="width" secondItem="RY9-NW-Vrr" secondAttribute="height" multiplier="375:294" id="uZo-ys-P3N"/>
                                 </constraints>
                             </imageView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xQC-rR-vF7">
-                                <rect key="frame" x="0.0" y="331" width="600" height="251"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="XbC-rB-CiP">
-                                    <size key="itemSize" width="50" height="50"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="35f-BY-aiD" userLabel="infoview">
+                                <rect key="frame" x="0.0" y="324" width="414" height="139"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="35f-BY-aiD" secondAttribute="height" multiplier="375:126" id="WkA-uh-XUW"/>
+                                    <constraint firstAttribute="height" constant="100" id="onx-0i-93N"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="onx-0i-93N"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xQC-rR-vF7">
+                                <rect key="frame" x="0.0" y="463" width="414" height="273"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="11" minimumInteritemSpacing="7" id="XbC-rB-CiP">
+                                    <size key="itemSize" width="73" height="53"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="30" minY="14" maxX="30" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="3Af-qj-d2t">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="73" height="53"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="35f-BY-aiD">
-                                <rect key="frame" x="-6" y="222" width="600" height="99"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="onx-0i-93N"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="35f-BY-aiD" secondAttribute="trailing" id="4Aa-G6-efp"/>
                             <constraint firstItem="35f-BY-aiD" firstAttribute="top" secondItem="RY9-NW-Vrr" secondAttribute="bottom" id="AYR-yX-AyZ"/>
-                            <constraint firstItem="35f-BY-aiD" firstAttribute="leading" secondItem="UEO-Uv-dbG" secondAttribute="leading" id="BTB-8N-wVt"/>
                             <constraint firstItem="RY9-NW-Vrr" firstAttribute="leading" secondItem="UEO-Uv-dbG" secondAttribute="leading" id="GUj-hL-ZJb"/>
                             <constraint firstAttribute="trailing" secondItem="xQC-rR-vF7" secondAttribute="trailing" id="HjQ-Jj-Og1"/>
                             <constraint firstItem="RY9-NW-Vrr" firstAttribute="top" secondItem="UEO-Uv-dbG" secondAttribute="top" id="IIr-Mr-ZTA"/>
-                            <constraint firstItem="xQC-rR-vF7" firstAttribute="top" secondItem="35f-BY-aiD" secondAttribute="bottom" id="OKk-QU-mQF"/>
                             <constraint firstAttribute="trailing" secondItem="RY9-NW-Vrr" secondAttribute="trailing" id="TiE-LK-8qM"/>
+                            <constraint firstItem="psg-wv-Wxe" firstAttribute="top" secondItem="xQC-rR-vF7" secondAttribute="bottom" id="UN6-dn-j8X"/>
                             <constraint firstItem="xQC-rR-vF7" firstAttribute="leading" secondItem="UEO-Uv-dbG" secondAttribute="leading" id="YBh-Zl-Uoc"/>
                             <constraint firstItem="xQC-rR-vF7" firstAttribute="top" secondItem="35f-BY-aiD" secondAttribute="bottom" id="YGK-uv-se3"/>
-                            <constraint firstItem="psg-wv-Wxe" firstAttribute="top" secondItem="xQC-rR-vF7" secondAttribute="bottom" constant="20" id="l4T-1Q-K5V"/>
-                            <constraint firstAttribute="trailing" secondItem="35f-BY-aiD" secondAttribute="trailing" id="ta0-Qo-bAh"/>
+                            <constraint firstItem="35f-BY-aiD" firstAttribute="leading" secondItem="UEO-Uv-dbG" secondAttribute="leading" id="i1x-Sm-diU"/>
+                            <constraint firstItem="psg-wv-Wxe" firstAttribute="top" secondItem="xQC-rR-vF7" secondAttribute="bottom" id="l4T-1Q-K5V"/>
+                            <constraint firstItem="RY9-NW-Vrr" firstAttribute="bottom" secondItem="35f-BY-aiD" secondAttribute="top" id="oC6-jt-Ufo"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="YGK-uv-se3"/>
+                                <exclude reference="AYR-yX-AyZ"/>
+                                <exclude reference="l4T-1Q-K5V"/>
                             </mask>
                         </variation>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="collectionView" destination="xQC-rR-vF7" id="dpa-p8-reC"/>
                         <outlet property="coverImage" destination="RY9-NW-Vrr" id="P3o-HV-6U2"/>

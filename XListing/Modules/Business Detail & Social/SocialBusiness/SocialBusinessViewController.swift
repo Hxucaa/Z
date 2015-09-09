@@ -15,8 +15,8 @@ import Dollar
 private let UserCellIdentifier = "SocialBusiness_UserCell"
 private let BusinessCellIdentifier = "SocialBusiness_BusinessCell"
 private let userControllerIdentifier = "UserProfileViewController"
-private let BusinessHeightRatio = 0.6
-private let UserHeightRatio = 0.25
+private let BusinessHeightRatio = 0.61
+private let UserHeightRatio = 0.224
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
 private let WTGBarHeight = CGFloat(70)
 

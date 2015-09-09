@@ -20,17 +20,11 @@ public final class UserProfileViewController : XUIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     
     @IBOutlet weak var nameLabel: UILabel!
-    
     @IBOutlet weak var typeLabel: UILabel!
-    
     @IBOutlet weak var ageGroupView: UIView!
-    
     @IBOutlet weak var constellationLabel: UILabel!
-    
     @IBOutlet weak var cityLabel: UILabel!
-    
     @IBOutlet weak var joinButton: UIButton!
-    
     @IBOutlet weak var messageLabel: UILabel!
     
     
@@ -75,16 +69,16 @@ extension UserProfileViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 6
     }
     
     public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSize(width: 100, height: 100)
-    }
+//    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+//        return CGSize(width: 100, height: 100)
+//    }
 
 
 }
