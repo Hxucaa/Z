@@ -37,6 +37,7 @@ public final class SocialBusinessWireframe : ISocialBusinessWireframe {
         let viewController = SocialBusinessViewController()
         
         let socialBusinessViewModel = SocialBusinessViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, imageService: imageService, businessModel: businessModel)
+        socialBusinessViewModel.navigator = self
         viewController.bindToViewModel(socialBusinessViewModel)
         
         return viewController
@@ -53,6 +54,15 @@ extension SocialBusinessWireframe : SocialBusinessNavigator {
         
         let userProfileViewModel = UserProfileViewModel()
         viewController.bindToViewModel(userProfileViewModel)
+        
+        sharedNavigationController?.pushViewController(viewController, animated: animated)
+    }
+    
+    public func pushBusinessDetail(business: Business, animated: Bool) {
+        let viewController = BusinessDetailViewController()
+        
+        let businessDetailViewModel = BusinessDetailViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, imageService: imageService, business: business)
+        viewController.bindToViewModel(businessDetailViewModel)
         
         sharedNavigationController?.pushViewController(viewController, animated: animated)
     }

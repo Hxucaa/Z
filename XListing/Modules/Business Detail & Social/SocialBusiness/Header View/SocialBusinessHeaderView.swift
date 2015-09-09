@@ -1,5 +1,5 @@
 //
-//  SocialBusiness_BusinessCell.swift
+//  SocialBusinessHeaderView.swift
 //  XListing
 //
 //  Created by Anson on 2015-09-02.
@@ -10,8 +10,9 @@ import UIKit
 import TZStackView
 import Cartography
 import TTTAttributedLabel
+import ReactiveCocoa
 
-public final class SocialBusiness_HeaderView : UIView {
+public final class SocialBusinessHeaderView : UIView {
     
     // MARK: - UI Controls
     private lazy var backgroundImageView: UIImageView = {
@@ -128,6 +129,12 @@ public final class SocialBusiness_HeaderView : UIView {
         
     }()
     
+    // MARK: - Proxies
+    
+    // MARK: - Properties
+    private var viewmodel: ISocialBusinessHeaderViewModel!
+    private let compositeDisposable = CompositeDisposable()
+    
     // MARK: - Initializers
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -137,7 +144,6 @@ public final class SocialBusiness_HeaderView : UIView {
         cuisineLabel.text = "川菜"
         locationLabel.text = "Richmond"
         distanceLabel.text = "30分钟"
-
 
         addSubview(backgroundImageView)
         addSubview(mainContainer)
@@ -166,4 +172,7 @@ public final class SocialBusiness_HeaderView : UIView {
     
     // MARK: - Setups
 
+    public func bindToViewModel(viewmodel: ISocialBusinessHeaderViewModel) {
+        self.viewmodel = viewmodel
+    }
 }

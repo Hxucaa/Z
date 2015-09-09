@@ -14,7 +14,6 @@ import Dollar
 import Cartography
 
 private let UserCellIdentifier = "SocialBusiness_UserCell"
-private let BusinessCellIdentifier = "SocialBusiness_BusinessCell"
 private let userControllerIdentifier = "UserProfileViewController"
 private let BusinessHeightRatio = 0.61
 private let UserHeightRatio = 0.224
@@ -25,7 +24,7 @@ public final class SocialBusinessViewController : XUIViewController {
     
     // MARK: - UI Controls
     private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: CGRectMake(0, 0, 600, 600), style: UITableViewStyle.Plain)
+        let tableView = UITableView(frame: CGRectMake(0, 0, ScreenWidth, 600), style: UITableViewStyle.Plain)
         tableView.showsHorizontalScrollIndicator = false
         tableView.opaque = true
         
@@ -33,10 +32,16 @@ public final class SocialBusinessViewController : XUIViewController {
     }()
     @IBOutlet private weak var infoButton: UIButton!
     @IBOutlet private weak var startEventButton: UIButton!
-    private let headerView = SocialBusiness_HeaderView(frame: CGRectMake(0, 0, 600, CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)))
+    private lazy var headerView: SocialBusinessHeaderView =  { [weak self] in
+        let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)))
+        
+        
+        return view
+    }()
     
     // MARK: - Properties
     private var viewmodel: ISocialBusinessViewModel!
+    private let compositeDisposable = CompositeDisposable()
 
     // MARK: - Setups
     
@@ -56,8 +61,49 @@ public final class SocialBusinessViewController : XUIViewController {
         
         tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
         tableView.rowHeight = CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
-        tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+        let tapGesture = UITapGestureRecognizer()
+        headerView.addGestureRecognizer(tapGesture)
+        compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.SocialBusiness, "SocialBusinessHeaderView tapGesture")
+            |> start(next: { [weak self] _ in
+                self?.viewmodel.pushBusinessDetail(true)
+            })
+        
+        // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
+        // when the specified row is now selected
+        compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> map { ($0 as! RACTuple).second as! NSIndexPath }
+            |> logLifeCycle(LogContext.SocialBusiness, "tableView:didSelectRowAtIndexPath:")
+            |> start(
+                next: { [weak self] indexPath in
+                    let something = indexPath.row
+                    self?.viewmodel.pushUserProfile(indexPath.row, animated: true)
+                }
+            )
+        
+        /**
+        Assigning UITableView delegate has to happen after signals are established.
+        
+        - tableView.delegate is assigned to self somewhere in UITableViewController designated initializer
+        
+        - UITableView caches presence of optional delegate methods to avoid -respondsToSelector: calls
+        
+        - You use -rac_signalForSelector:fromProtocol: and RAC creates method implementation for you in runtime. But UITableView knows nothing about this implementation, it still thinks that there's no such method
+        
+        The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
+        */
+        tableView.delegate = nil
+        tableView.delegate = self
     }
     
     public override func viewDidAppear(animated: Bool) {
@@ -78,10 +124,7 @@ public final class SocialBusinessViewController : XUIViewController {
     // MARK: - Others
 }
 
-extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSource{
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int{
-        return 1
-    }
+extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         return 10
@@ -95,9 +138,9 @@ extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView(frame: CGRectMake(0, 0, CGFloat(ScreenWidth), WTGBarHeight))
+        let view = UIView(frame: CGRectMake(0, 0, ScreenWidth, WTGBarHeight))
         let bar = NSBundle.mainBundle().loadNibNamed("SocialBusiness_UtilityView", owner: self, options:nil)[0] as? UIView
-        bar?.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), WTGBarHeight)
+        bar?.frame = CGRectMake(0, 0, ScreenWidth, WTGBarHeight)
         if let bar = bar {
             view.addSubview(bar)
         }
@@ -106,12 +149,5 @@ extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSour
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
         return WTGBarHeight
-    }
-    
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let storyboard = UIStoryboard(name: "UserProfile", bundle: nil)
-        if let controller = storyboard.instantiateViewControllerWithIdentifier(userControllerIdentifier) as? UserProfileViewController {
-            self.presentViewController(controller, animated: true, completion: nil)
-        }
     }
 }
