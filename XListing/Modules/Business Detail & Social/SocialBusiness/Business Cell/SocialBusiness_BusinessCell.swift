@@ -14,11 +14,8 @@ import TTTAttributedLabel
 public final class SocialBusiness_BusinessCell : UITableViewCell {
     
     // MARK: - UI Controls
-//    @IBOutlet private weak var coverImageView: UIImageView!
-//    @IBOutlet private weak var businessNameLabel: UILabel!
-//    @IBOutlet private weak var dishtypeLabel: UILabel!
-//    @IBOutlet private weak var locationLabel: UILabel!
     
+    /// Wrap everything in the main stack and have them distributed vertically.
     private lazy var mainContainer: TZStackView = {
         
         let container = TZStackView(arrangedSubviews: [self.coverImageView, self.businessNameLabel, self.cuisineLabel, self.locationAndDistanceContainer])
@@ -63,6 +60,7 @@ public final class SocialBusiness_BusinessCell : UITableViewCell {
         
     }()
     
+    /// Wrap location, divider, and distance in a stack
     private lazy var locationAndDistanceContainer: TZStackView = {
         let container = TZStackView(arrangedSubviews: [self.locationLabel, self.dividerView, self.distanceLabel])
         container.distribution = TZStackViewDistribution.EqualSpacing
@@ -144,11 +142,5 @@ public final class SocialBusiness_BusinessCell : UITableViewCell {
     }
     
     // MARK: - Setups
-
-    public override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
 
 }

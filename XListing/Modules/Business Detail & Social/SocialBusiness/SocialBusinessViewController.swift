@@ -111,7 +111,6 @@ extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        DDLogDebug("cell selected")
         if(indexPath.section == 1){
             let storyboard = UIStoryboard(name: "UserProfile", bundle: nil)
             if let controller = storyboard.instantiateViewControllerWithIdentifier(userControllerIdentifier) as? UserProfileViewController{
