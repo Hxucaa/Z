@@ -200,7 +200,6 @@
 		B4FCC7411AEB0080009B4DF6 /* IRootTabBarWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCC7401AEB0080009B4DF6 /* IRootTabBarWireframe.swift */; };
 		BE82DAFC5DC472E8A0BAF4F7 /* Pods_XListing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B6DDDBCE0E85761273916 /* Pods_XListing.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D02A61711B655019007B48E9 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02A61701B655019007B48E9 /* ProfileHeaderViewModel.swift */; };
-		D04BAE651B97FD2100074E34 /* SocialBusiness_BusinessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D04BAE621B97FD2100074E34 /* SocialBusiness_BusinessCell.xib */; };
 		D04BAE671B97FD2100074E34 /* SocialBusiness_UtilityView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D04BAE641B97FD2100074E34 /* SocialBusiness_UtilityView.xib */; };
 		D04BAE6E1B97FF5000074E34 /* SocialBusiness_BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04BAE6C1B97FF5000074E34 /* SocialBusiness_BusinessCell.swift */; };
 		D04BAE6F1B97FF5000074E34 /* SocialBusiness_UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04BAE6D1B97FF5000074E34 /* SocialBusiness_UserCell.swift */; };
@@ -433,7 +432,6 @@
 		B4FCC7391AEAD5F5009B4DF6 /* INearbyWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = INearbyWireframe.swift; sourceTree = "<group>"; };
 		B4FCC7401AEB0080009B4DF6 /* IRootTabBarWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRootTabBarWireframe.swift; sourceTree = "<group>"; };
 		D02A61701B655019007B48E9 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
-		D04BAE621B97FD2100074E34 /* SocialBusiness_BusinessCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialBusiness_BusinessCell.xib; sourceTree = "<group>"; };
 		D04BAE641B97FD2100074E34 /* SocialBusiness_UtilityView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SocialBusiness_UtilityView.xib; path = "Utility Cell/SocialBusiness_UtilityView.xib"; sourceTree = "<group>"; };
 		D04BAE6C1B97FF5000074E34 /* SocialBusiness_BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialBusiness_BusinessCell.swift; sourceTree = "<group>"; };
 		D04BAE6D1B97FF5000074E34 /* SocialBusiness_UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialBusiness_UserCell.swift; sourceTree = "<group>"; };
@@ -1045,7 +1043,6 @@
 			isa = PBXGroup;
 			children = (
 				D04BAE6C1B97FF5000074E34 /* SocialBusiness_BusinessCell.swift */,
-				D04BAE621B97FD2100074E34 /* SocialBusiness_BusinessCell.xib */,
 				B4D733921B9A2D8A00B599B9 /* SocialBusiness_BusinessViewModel.swift */,
 				B4D733961B9A334000B599B9 /* ISocialBusiness_BusinessViewModel.swift */,
 			);
@@ -1385,7 +1382,6 @@
 				B3FFDD7D1B716FA3003710D8 /* BirthdayPickerView.xib in Resources */,
 				B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordView.xib in Resources */,
 				B4AA1A6D1B7EA7AD00119E91 /* ProfileTabView.xib in Resources */,
-				D04BAE651B97FD2100074E34 /* SocialBusiness_BusinessCell.xib in Resources */,
 				B4F332881B969FE00048D1B4 /* FeaturedList.storyboard in Resources */,
 				B31B50781B7E308100782341 /* (null) in Resources */,
 				D04BAE671B97FD2100074E34 /* SocialBusiness_UtilityView.xib in Resources */,

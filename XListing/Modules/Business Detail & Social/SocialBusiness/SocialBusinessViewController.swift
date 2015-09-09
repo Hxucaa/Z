@@ -35,9 +35,8 @@ public final class SocialBusinessViewController : XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        let businessNib = UINib(nibName: "SocialBusiness_BusinessCell", bundle: nil)
+        tableView.registerClass(SocialBusiness_BusinessCell.self, forCellReuseIdentifier: BusinessCellIdentifier)
         tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
-        tableView.registerNib(businessNib, forCellReuseIdentifier: BusinessCellIdentifier)
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -84,6 +83,7 @@ extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSour
     
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch(indexPath.section) {
+            // TODO: cache this number. Tableview will call this function for each cell. Its a bad idea to calculate the number EVERY SINGLE TIME!
         case 0: return CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)
         default: return CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
         }

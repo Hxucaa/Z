@@ -12,7 +12,7 @@ import TZStackView
 import Cartography
 import TTTAttributedLabel
 
-public final class SocialBusiness_UserCell: UITableViewCell {
+public final class SocialBusiness_UserCell : UITableViewCell {
     
     // MARK: - UI Controls
     
@@ -128,8 +128,12 @@ public final class SocialBusiness_UserCell: UITableViewCell {
         return label
     }()
     
+    // MARK: - Initializers
+    
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        selectionStyle = UITableViewCellSelectionStyle.None
         
         nicknameLabel.text = "海绵宝宝"
         ageGroupLabel.text = "90后"

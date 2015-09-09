@@ -25,7 +25,7 @@ extension UIImage {
         // size to draw
         let rect = CGRect(origin: CGPointZero, size: sizeToFit)
         
-        UIGraphicsBeginImageContextWithOptions(sizeToFit, opaque!, scale!)
+        UIGraphicsBeginImageContextWithOptions(sizeToFit, opaque ?? true, scale ?? UIScreen.mainScreen().scale)
         
         // fill the background color first if available
         if let backgroundColor = backgroundColor {
