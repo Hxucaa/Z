@@ -72,46 +72,6 @@ extension AssetsKit {
         )
     }
     
-    internal class func x_imageOfPriceIcon(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, textInput: String? = "") -> UIImage {
-        
-        return self.drawingLabel(
-            draw: {
-                // calculate scaleX and scaleY based on size
-                let scaledX: CGFloat = (sizeToFit ?? drawingSize).width / drawingSize.width
-                let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
-                // change this function to the appropriate drawing function
-                AssetsKit.drawPriceIcon(scaleX: scaledX, scaleY: scaledY, pricePerPerson: textInput!)
-            },
-            
-            sizeToFit: sizeToFit,
-            drawingSize: drawingSize,
-            backgroundColor: backgroundColor,
-            opaque: opaque,
-            imageContextScale: imageContextScale,
-            textInput: textInput
-        )
-    }
-    
-    internal class func x_imageOfCarIcon(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, textInput: String? = "") -> UIImage {
-        
-        return self.drawingLabel(
-            draw: {
-                // calculate scaleX and scaleY based on size
-                let scaledX: CGFloat = (sizeToFit ?? drawingSize).width / drawingSize.width
-                let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
-                // change this function to the appropriate drawing function
-                AssetsKit.drawCarIcon(scaleX: scaledX, scaleY: scaledY, etaTime: textInput!)
-            },
-            
-            sizeToFit: sizeToFit,
-            drawingSize: drawingSize,
-            backgroundColor: backgroundColor,
-            opaque: opaque,
-            imageContextScale: imageContextScale,
-            textInput: textInput
-        )
-    }
-    
     private class func drawing(#draw: Void -> Void, sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
         
         // enter the size of the original drawing
@@ -130,6 +90,49 @@ extension AssetsKit {
         UIGraphicsEndImageContext()
         
         return imageOfEtcIcon
+    }
+    
+    
+    internal class func x_imageOfPriceIcon(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
+        
+        return self.drawing(
+            draw: {
+                // calculate scaleX and scaleY based on size
+                let scaledX: CGFloat = (sizeToFit ?? drawingSize).width / drawingSize.width
+                let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
+                // change this function to the appropriate drawing function
+                AssetsKit.drawPriceIcon(scaleX: scaledX, scaleY: scaledY)
+            },
+            
+            sizeToFit: sizeToFit,
+            drawingSize: drawingSize,
+            backgroundColor: backgroundColor,
+            opaque: opaque,
+            imageContextScale: imageContextScale,
+            pressed: pressed,
+            shadow: shadow
+        )
+    }
+    
+    internal class func x_imageOfCarIcon(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
+        
+        return self.drawing(
+            draw: {
+                // calculate scaleX and scaleY based on size
+                let scaledX: CGFloat = (sizeToFit ?? drawingSize).width / drawingSize.width
+                let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
+                // change this function to the appropriate drawing function
+                AssetsKit.drawCarIcon(scaleX: scaledX, scaleY: scaledY)
+            },
+            
+            sizeToFit: sizeToFit,
+            drawingSize: drawingSize,
+            backgroundColor: backgroundColor,
+            opaque: opaque,
+            imageContextScale: imageContextScale,
+            pressed: pressed,
+            shadow: shadow
+        )
     }
     
     internal class func x_imageOfShareButton(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
