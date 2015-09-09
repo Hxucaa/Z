@@ -101,7 +101,8 @@ public func logLifeCycle<T, E>(context: LogContext, signalName: String, file: St
         case .Nearby: NearbyLogVerbose(message, file: file, function: function, line: line)
         case .Featured: FeaturedLogVerbose(message, file: file, function: function, line: line)
         case .Profile: ProfileLogVerbose(message, file: file, function: function, line: line)
-        case .WantToGo: WTGLogVerbose(message, file: file, function: function, line: line)
+        case .SocialBusiness: SBLogVerbose(message, file: file, function: function, line: line)
+        case .UserProfile: UPLogVerbose(message, file: file, function: function, line: line)
         case .Other: DDLogVerbose(message, file: file, function: function, line: line)
         }
     }

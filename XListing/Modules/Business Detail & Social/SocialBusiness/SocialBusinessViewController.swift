@@ -20,7 +20,7 @@ private let UserHeightRatio = 0.224
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
 private let WTGBarHeight = CGFloat(70)
 
-public final class SocialBusinessViewController : UIViewController {
+public final class SocialBusinessViewController : XUIViewController {
     
     // MARK: - UI Controls
     @IBOutlet private weak var tableView: UITableView!
@@ -34,9 +34,9 @@ public final class SocialBusinessViewController : UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        let userNib = UINib(nibName: "SocialBusiness_UserCell", bundle: nil)
+        
         let businessNib = UINib(nibName: "SocialBusiness_BusinessCell", bundle: nil)
-        tableView.registerNib(userNib, forCellReuseIdentifier: UserCellIdentifier)
+        tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
         tableView.registerNib(businessNib, forCellReuseIdentifier: BusinessCellIdentifier)
         tableView.delegate = self
         tableView.dataSource = self
