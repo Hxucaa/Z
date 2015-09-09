@@ -131,7 +131,7 @@ public final class SignUpViewModel {
                     |> promoteErrors(NSError)
                     |> flatMap(.Latest) { (nickname, birthday, profileImage, gender) -> SignalProducer<Bool, NSError> in
                         let imageData = UIImagePNGRepresentation(profileImage)
-                        let file = AVFile.fileWithName("profile.png", data: imageData) as! AVFile
+                        let file = AVFile(name: "profile.png", data: imageData)
                         user.nickname = nickname
                         user.birthday = birthday
                         user.profileImg = file
