@@ -48,4 +48,8 @@ extension UIColor {
     internal class func xlsTypeOrangeColor() -> UIColor {
         return UIColor(red: 245.0 / 255.0, green: 166.0 / 255.0, blue: 35.0 / 255.0, alpha: 1.0)
     }
+
+    internal class func x_FeaturedCardBG() -> UIColor {
+        return UIColor(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1.0)
+    }
 }

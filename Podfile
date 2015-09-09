@@ -3,7 +3,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'XListing' do
-  pod 'XAssets', :git => 'git@bitbucket.org:zenchat/xassets.git'
+  pod 'XAssets', :git => 'git@bitbucket.org:zenchat/xassets.git', :tag => '0.2.6'
   pod 'FLEX', '~> 2.0', :configurations => ['DEBUG']
   pod 'Spring', :git => 'https://github.com/Hxucaa/Spring', :branch => 'compatibility'
   pod 'SVProgressHUD', :git => 'https://github.com/Hxucaa/SVProgressHUD.git'
