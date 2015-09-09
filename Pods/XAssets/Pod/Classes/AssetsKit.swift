@@ -532,12 +532,9 @@ public class AssetsKit : NSObject {
         }
     }
 
-    public class func drawCarIcon(#scaleX: CGFloat, scaleY: CGFloat, etaTime: String) {
+    public class func drawCarIcon(#scaleX: CGFloat, scaleY: CGFloat) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
-
-        //// Color Declarations
-        let businessSectionTextColor = UIColor(red: 0.510, green: 0.510, blue: 0.510, alpha: 1.000)
 
         //// Group
         CGContextSaveGState(context)
@@ -609,20 +606,6 @@ public class AssetsKit : NSObject {
         CGContextRestoreGState(context)
 
 
-        //// Text Drawing
-        let textRect = CGRectMake(16, 1, 55, 11)
-        let textStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
-        textStyle.alignment = NSTextAlignment.Left
-
-        let textFontAttributes = [NSFontAttributeName: UIFont.boldSystemFontOfSize(11), NSForegroundColorAttributeName: businessSectionTextColor, NSParagraphStyleAttributeName: textStyle]
-
-        let textTextHeight: CGFloat = NSString(string: etaTime).boundingRectWithSize(CGSizeMake(textRect.width, CGFloat.infinity), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.height
-        CGContextSaveGState(context)
-        CGContextClipToRect(context, textRect);
-        NSString(string: etaTime).drawInRect(CGRectMake(textRect.minX, textRect.minY + (textRect.height - textTextHeight) / 2, textRect.width, textTextHeight), withAttributes: textFontAttributes)
-        CGContextRestoreGState(context)
-
-
 
         CGContextRestoreGState(context)
     }
@@ -660,12 +643,9 @@ public class AssetsKit : NSObject {
         CGContextRestoreGState(context)
     }
 
-    public class func drawPriceIcon(#scaleX: CGFloat, scaleY: CGFloat, pricePerPerson: String) {
+    public class func drawPriceIcon(#scaleX: CGFloat, scaleY: CGFloat) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
-
-        //// Color Declarations
-        let businessSectionTextColor = UIColor(red: 0.510, green: 0.510, blue: 0.510, alpha: 1.000)
 
         //// Group 2
         CGContextSaveGState(context)
@@ -771,20 +751,6 @@ public class AssetsKit : NSObject {
 
 
         CGContextEndTransparencyLayer(context)
-        CGContextRestoreGState(context)
-
-
-        //// Text Drawing
-        let textRect = CGRectMake(13.94, -0.15, 33, 11)
-        let textStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
-        textStyle.alignment = NSTextAlignment.Left
-
-        let textFontAttributes = [NSFontAttributeName: UIFont.boldSystemFontOfSize(11), NSForegroundColorAttributeName: businessSectionTextColor, NSParagraphStyleAttributeName: textStyle]
-
-        let textTextHeight: CGFloat = NSString(string: pricePerPerson).boundingRectWithSize(CGSizeMake(textRect.width, CGFloat.infinity), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.height
-        CGContextSaveGState(context)
-        CGContextClipToRect(context, textRect);
-        NSString(string: pricePerPerson).drawInRect(CGRectMake(textRect.minX, textRect.minY + (textRect.height - textTextHeight) / 2, textRect.width, textTextHeight), withAttributes: textFontAttributes)
         CGContextRestoreGState(context)
 
 
@@ -1676,9 +1642,9 @@ public class AssetsKit : NSObject {
         return imageOfFlameIcon
     }
 
-    public class func imageOfCarIcon(#scaleX: CGFloat, scaleY: CGFloat, etaTime: String) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(CGSizeMake(71, 13), false, 0)
-            AssetsKit.drawCarIcon(scaleX: scaleX, scaleY: scaleY, etaTime: etaTime)
+    public class func imageOfCarIcon(#scaleX: CGFloat, scaleY: CGFloat) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(14, 13), false, 0)
+            AssetsKit.drawCarIcon(scaleX: scaleX, scaleY: scaleY)
 
         let imageOfCarIcon = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
@@ -1696,9 +1662,9 @@ public class AssetsKit : NSObject {
         return imageOfEtcIcon
     }
 
-    public class func imageOfPriceIcon(#scaleX: CGFloat, scaleY: CGFloat, pricePerPerson: String) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(CGSizeMake(47, 11), false, 0)
-            AssetsKit.drawPriceIcon(scaleX: scaleX, scaleY: scaleY, pricePerPerson: pricePerPerson)
+    public class func imageOfPriceIcon(#scaleX: CGFloat, scaleY: CGFloat) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(11, 11), false, 0)
+            AssetsKit.drawPriceIcon(scaleX: scaleX, scaleY: scaleY)
 
         let imageOfPriceIcon = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
