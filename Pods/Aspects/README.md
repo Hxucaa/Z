@@ -1,4 +1,4 @@
-Aspects v1.4.2 [![Build Status](https://travis-ci.org/steipete/Aspects.svg?branch=master)](https://travis-ci.org/steipete/Aspects) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+Aspects v1.4.1 [![Build Status](https://travis-ci.org/steipete/Aspects.svg?branch=master)](https://travis-ci.org/steipete/Aspects)
 ==============
 
 Delightful, simple library for aspect oriented programming by [@steipete](http://twitter.com/steipete).
@@ -44,10 +44,10 @@ Aspects calls and matches block arguments. Blocks without arguments are supporte
 
 When to use Aspects
 -------------------
-Aspect-oriented programming (AOP) is used to encapsulate "cross-cutting" concerns. These are the kind of requirements that *cut-accross* many modules in your system, and so cannot be encapsulated using normal Object Oriented programming. Some examples of these kinds of requirements: 
+Aspect-oritented programming (AOP) is used to encapsulate "cross-cutting" concerns. These are the kind of requirements that *cut-accross* many modules in your system, and so cannot be encapsulated using normal Object Oriented programming. Some examples of these kinds of requirements: 
 
 * *Whenever* a user invokes a method on the service client, security should be checked. 
-* *Whenever* a user interacts with the store, a genius suggestion should be presented, based on their interaction. 
+* *Whenever* a useer interacts with the store, a genius suggestion should be presented, based on their interaction. 
 * *All* calls should be logged. 
 
 If we implemented the above requirements using regular OO there'd be some drawbacks: 
@@ -58,7 +58,7 @@ Good OO says a class should have a single responsibility, however adding on extr
 * Our StoreClient is now harder to understand and maintain.
 * These cross-cutting requirements are duplicated and spreading throughout our app. 
 
-AOP lets us modularize these cross-cutting requirements, and then cleanly identify all of the places they should be applied. As shown in the examples above cross-cutting requirements can be either technical or business focused in nature.  
+AOP lets us modularize these cross-cutting requirements, and then cleanly identify all of the places they should be applied. As shown in the examples above cross-cutting requirements can be eithe technical or business focused in nature.  
 
 ## Here are some concrete examples: 
 
@@ -175,7 +175,7 @@ Supported iOS & SDK Versions
 -----------------------------
 
 * Aspects requires ARC.
-* Aspects is tested with iOS 7+ and OS X 10.7 or higher.
+* Aspects is tested with iOS 6+ and OS X 10.7 or higher.
 
 License
 -------
@@ -184,11 +184,6 @@ MIT licensed, Copyright (c) 2014 Peter Steinberger, steipete@gmail.com, [@steipe
 
 Release Notes
 -----------------
-
-Version 1.4.2
-
-- Allow to hook different subclasses.
-- Smaller tweaks.
 
 Version 1.4.1
 

@@ -8,12 +8,14 @@
 
 import Foundation
 import ReactiveCocoa
+import ReactiveArray
 import MapKit
 
-public protocol INearbyViewModel {
-    var businessViewModelArr: MutableProperty<[NearbyTableCellViewModel]> { get }
+public protocol INearbyViewModel : class {
+    var collectionDataSource: ReactiveArray<NearbyTableCellViewModel> { get }
     var currentLocation: SignalProducer<CLLocation, NSError> { get }
     init(businessService: IBusinessService, geoLocationService: IGeoLocationService, imageService: IImageService)
+    func getBusinessesWithMap(searchOrigin: CLLocation, radius: Double) -> SignalProducer<Void, NSError>
+    func getAdditionalBusinesses(searchOrigin: CLLocation)  -> SignalProducer<Void, NSError>
     func pushSocialBusinessModule(section: Int)
-    func getBusinessesWithMap(centreLat: CLLocationDegrees, centreLong: CLLocationDegrees, radius: Double) -> SignalProducer<Void, NSError>
 }

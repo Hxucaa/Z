@@ -51,17 +51,24 @@ public final class ProfileViewController : XUIViewController {
         
         navigationItem.title = "个人"
         
-        viewmodel.profileHeaderViewModel.producer
-            |> ignoreNil
-            |> start(next: { [weak self] viewmodel in
-                self?.headerViewContent.bindViewModel(viewmodel)
-            })
-        
         tableView.rowHeight = 90
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        viewmodel.getUserInfo()
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> start()
+        
+        viewmodel.profileHeaderViewModel.producer
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> ignoreNil
+            |> start(next: { [weak self] viewmodel in
+                self?.headerViewContent.bindViewModel(viewmodel)
+            })
         
         // add statusBarBackgroundView to navigationController
         navigationController?.setNavigationBarHidden(true, animated: false)

@@ -14,6 +14,7 @@ import ReactiveArray
 
 public protocol SocialBusinessNavigator : class {
     func pushUserProfile(user: User, animated: Bool)
+    func pushBusinessDetail(business: Business, animated: Bool)
 }
 
 
@@ -112,7 +113,12 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
                 },
                 error: { DetailLogError($0.description) }
         )
-        
+    }
+    
+    public func pushBusinessDetail(animated: Bool) {
+        let business = Business()
+        business.nameSChinese = "hahah"
+        navigator.pushBusinessDetail(business, animated: animated)
     }
     
     // MARK: - Others

@@ -15,17 +15,19 @@ extension UIImage {
     
     :param: sizeToFit       Size of the image to draw on.
     :param: cornerRadius    Raidus of corner.
+    :param: borderWidth     Default to 0.
+    :param: borderColor     Default to white.
     :param: backgroundColor Background color. If you set `opaque` to true, you should provide a background color otherwise it will be black.
     :param: opaque          By default, set to true for performance reason.
     :param: scale           By default, set to `UIScreen.mainScreen().scale`.
     
     :returns: The drawn UIImage.
     */
-    public func withRoundedCorner(sizeToFit: CGSize, cornerRadius: CGFloat, backgroundColor: UIColor? = nil, opaque: Bool? = true, scale: CGFloat? = UIScreen.mainScreen().scale) -> UIImage {
+    public func maskWithRoundedRect(sizeToFit: CGSize, cornerRadius: CGFloat, borderWidth: CGFloat = 0, borderColor: UIColor = UIColor.whiteColor(), backgroundColor: UIColor? = nil, opaque: Bool = true, scale: CGFloat = UIScreen.mainScreen().scale) -> UIImage {
         // size to draw
         let rect = CGRect(origin: CGPointZero, size: sizeToFit)
         
-        UIGraphicsBeginImageContextWithOptions(sizeToFit, opaque!, scale!)
+        UIGraphicsBeginImageContextWithOptions(sizeToFit, opaque ?? true, scale ?? UIScreen.mainScreen().scale)
         
         // fill the background color first if available
         if let backgroundColor = backgroundColor {
@@ -40,9 +42,14 @@ extension UIImage {
         CGContextClip(UIGraphicsGetCurrentContext())
         
         drawInRect(rect)
+        
+        // draw border
+        CGContextSetStrokeColorWithColor(UIGraphicsGetCurrentContext(), borderColor.CGColor)
+        CGContextSetLineWidth(UIGraphicsGetCurrentContext(), borderWidth)
+        path.lineWidth = borderWidth * 2
+        path.stroke()
+        
         let output = UIGraphicsGetImageFromCurrentImageContext()
-//        let cgImageRef = CGBitmapContextCreateImage(UIGraphicsGetCurrentContext())
-//        let output = UIImage(CGImage: cgImageRef)!
         
         UIGraphicsEndImageContext()
         
