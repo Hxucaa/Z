@@ -27,6 +27,8 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     // MARK: - Outputs
     
     // MARK: - Properties
+    private let userArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
+    
     // MARK: Services
     private let userService: IUserService
     private let participationService: IParticipationService
@@ -50,7 +52,8 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     // MARK: - API
     
     public func fetchMoreData() -> SignalProducer<Void, NSError> {
-        fatalError("Not yet implemented")
+        return fetchParticipatingUsers()
+            |> map { _ in }
     }
     
     public func refreshData() -> SignalProducer<Void, NSError> {
@@ -63,6 +66,52 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     
     public func pushUserProfile(index: Int, animated: Bool) {
         fatalError("Not yet implemented")
+        
+    }
+    
+    private func fetchParticipatingUsers(refresh: Bool = false) -> SignalProducer<[SocialBusiness_UserViewModel], NSError> {
+        let query = Participation.query()
+        query.limit = Constants.PAGINATION_LIMIT
+
+        return SignalProducer<[Participation], NSError>.empty
+            |> then(participationService.findBy(query))
+            |> on(next: { participation in
+                
+                if refresh {
+                    // ignore old data, put in new array
+                    self.userArr.put(participation)
+                }
+                else {
+                    // save the new data in addition to the old ones
+                    self.userArr.put(self.userArr.value + participation)
+                }
+            })
+            |> map { blah -> [SocialBusiness_UserViewModel] in
+                
+                var result = [SocialBusiness_UserViewModel]()
+                for p in blah {
+                    result.append(SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: p.user))
+                }
+                return result
+                
+                // map the participation models to viewmodels
+                //return participations.map {
+                    //SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0)
+                //}
+            }
+            |> on(
+                next: { viewmodels in
+                    if refresh && viewmodels.count > 0 {
+                        // ignore old data
+                        self.collectionDataSource.replaceAll(viewmodels)
+                    }
+                    else if !refresh && viewmodels.count > 0 {
+                        // save the new data with old ones
+                        self.collectionDataSource.extend(viewmodels)
+                    }
+                },
+                error: { DetailLogError($0.description) }
+        )
         
     }
     

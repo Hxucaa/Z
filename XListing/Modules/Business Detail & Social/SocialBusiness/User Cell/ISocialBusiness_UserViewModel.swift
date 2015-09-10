@@ -18,7 +18,8 @@ public protocol ISocialBusiness_UserViewModel : class {
     var horoscope: PropertyOf<String> { get }
     var status: PropertyOf<String> { get }
     var participationType: PropertyOf<String> { get }
+    var gender: PropertyOf<String> { get }
     
     // MARK: - Initializers
-    init(userService: IUserService, imageService: IImageService, user: User?)
+    init(participationService: IParticipationService, imageService: IImageService, user: User?)
 }
