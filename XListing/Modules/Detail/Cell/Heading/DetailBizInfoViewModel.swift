@@ -100,7 +100,6 @@ public struct DetailBizInfoViewModel {
                 
                 query.whereKey(Property.User.rawValue, equalTo: user)
                 query.whereKey(Property.Business.rawValue, equalTo: business)
-//                query.includeKey(Property.ParticipationType.rawValue)
                 
                 return self.participationService.get(query)
             }
