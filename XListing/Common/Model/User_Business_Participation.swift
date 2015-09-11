@@ -38,5 +38,9 @@ public final class User_Business_Participation: AVObject, AVSubclassing {
     
     @NSManaged public var business: Business
     
-    @NSManaged public var participationType: ParticipationType
+    // participationType decoding:
+    // 0 = interested
+    // 1 = pay
+    // 2 = go with someone else
+    @NSManaged public var participationType: Int
 }
