@@ -87,6 +87,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         query.skip = collectionDataSource.count
         query.includeKey(User_Business_Participation.Property.User.rawValue)
         query.includeKey(User_Business_Participation.Property.Business.rawValue)
+        query.whereKey(User_Business_Participation.Property.Business.rawValue, equalTo: business)
 
         return SignalProducer<[Participation], NSError>.empty
             |> then(participationService.findBy(query))
@@ -105,11 +106,8 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
                 
                 var result = [SocialBusiness_UserViewModel]()
                 for p in participations {
-                    //replace this with better query later
-                    let b = p.business
-                    if b.objectId == self.business.objectId{
                     result.append(SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: p.user, nickname: p.user.nickname, ageGroup: p.user.ageGroup, horoscope: p.user.horoscope, gender: p.user.gender, profileImage: p.user.profileImg))
-                    }
+                    
                 }
                 return result
 
