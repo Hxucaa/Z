@@ -35,12 +35,14 @@ public final class FeaturedListViewController: XUIViewController {
     // MARK: - Properties
     private var viewmodel: IFeaturedListViewModel!
     private let compositeDisposable = CompositeDisposable()
-    private let cellHeightToScreenWidthRatio = 0.618
+    private let cellHeightToScreenWidthRatio = 0.57
 
     
     // MARK: - Setups
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tableView.contentInset = UIEdgeInsetsMake(top: 0, left: 8, bottom: CGFloat, right: CGFloat)
         
         navigationController?.setNavigationBarHidden(false, animated: false)
         

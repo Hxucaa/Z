@@ -18,24 +18,24 @@ private let avatarWidth = avatarHeight
 private let avatarGap = UIScreen.mainScreen().bounds.width * 0.015
 private let avatarLeadingMargin = CGFloat(5)
 private let avatarTailingMargin = CGFloat(5)
-private let businessImageWidthToParentRatio = 0.57
+private let businessImageWidthToParentRatio = 0.569
 private let businessImageHeightToWidthRatio = 0.68
 private let avatarListWidthtoParentRatio = 1.0
 private let avatarListHeightToParentRatio = 1.0
+private let priceIconWidth = UIScreen.mainScreen().bounds.width * 0.02
 
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     // MARK: - UI Controls
     @IBOutlet private weak var businessImage: UIImageView!
     @IBOutlet private weak var infoView: UIView!
+    @IBOutlet private weak var infoViewSizingHelper: UIView!
     @IBOutlet private weak var participationView: UIView!
-    @IBOutlet private weak var ETAIcon: UIView!
-    
+    @IBOutlet private weak var pricePerPerson: UIImageView!
+    @IBOutlet private weak var ETA: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var cityLabel: UILabel!
-    @IBOutlet private weak var priceLabel: UIView!
     @IBOutlet private weak var etaLabel: UILabel!
-    
     @IBOutlet private weak var WTGButtonView: UIView!
     @IBOutlet private weak var numberOfPeopleGoingView: UIView!
     @IBOutlet private weak var peopleWantogoLabel: UILabel!
@@ -44,7 +44,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     private lazy var infoViewContent: UIView = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
     private lazy var participationViewContent: UIView = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
     private var avatarImageViews = [UIImageView]()
-    
+
     // MARK: Properties
     private var viewmodel: FeaturedBusinessViewModel!
     
@@ -62,57 +62,52 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         //Set card's Background color
         infoView.backgroundColor = .x_FeaturedCardBG()
+        infoViewSizingHelper.backgroundColor = .x_FeaturedCardBG()
         businessImage.backgroundColor = .x_FeaturedCardBG()
         numberOfPeopleGoingView.backgroundColor = .x_FeaturedCardBG()
         WTGButtonView.backgroundColor = .x_FeaturedCardBG()
+        joinButton.backgroundColor = .x_FeaturedCardBG()
         infoViewContent.backgroundColor = .x_FeaturedCardBG()
         participationView.backgroundColor = .x_FeaturedCardBG()
         participationViewContent.backgroundColor = .x_FeaturedCardBG()
         cityLabel.backgroundColor = .x_FeaturedCardBG()
+        etaLabel.backgroundColor = .x_FeaturedCardBG()
         nameLabel.backgroundColor = .x_FeaturedCardBG()
         peopleWantogoLabel.backgroundColor = .x_FeaturedCardBG()
         avatarList.backgroundColor = .x_FeaturedCardBG()
         
-        /**
-        *   Setup joinButton
-        */
+        
+        //Setting auto-adjust font size
+        etaLabel.adjustsFontSizeToFitWidth = true
+        
+        // Adding price icon
+        pricePerPerson.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: CGSizeMake(pricePerPerson.frame.width, pricePerPerson.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+            |> map { Optional<UIImage>($0) }
+            |> takeUntilPrepareForReuse(self)
+        
+        // Adding ETA icon
+        ETA.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: CGSizeMake(ETA.frame.width, ETA.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+            |> map { Optional<UIImage>($0) }
+        
+        //Setup joinButton
         let join = Action<UIButton, Bool, NSError>{ button in
             return self.viewmodel.participate(ParticipationChoice.我想去)
         }
         
         joinButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         
-//        $.once({ [weak self] () -> () in
-//            if let this = self {
-//                AssetFactory.getImage(Asset.WTGButtonTapped(scale: WTGButtonScale))
-//                    |> takeUntilPrepareForReuse(this)
-//                    |> start(next: { image in
-//                        self?.joinButton.setBackgroundImage(image, forState: .Disabled)
-//                    })
-//                AssetFactory.getImage(Asset.WTGButtonUntapped(scale: WTGButtonScale))
-//                    |> takeUntilPrepareForReuse(this)
-//                    |> start(next: { image in
-//                        self?.joinButton.setBackgroundImage(image, forState: .Normal)
-//                    })
-//            }
-//        })()
+        joinButton.layer.cornerRadius = 5
+        joinButton.layer.borderWidth = 1
+        joinButton.layer.borderColor = UIColor.x_PrimaryColor().CGColor
         
-        joinButton.hidden = true
-        
-        /**
-        *  When the cell is prepared for reuse, set the state.
-        *
-        */
+        //When the cell is prepared for reuse, set the state.
         rac_prepareForReuseSignal.toSignalProducer()
             |> takeUntilPrepareForReuse(self)
             |> start(next: { [weak self] _ in
                 self?.isReusedCell.put(true)
             })
         
-        /**
-        *   Setup avatar image views.
-        */
-
+        //Setup avatar image views.
         let count = Int(floor((avatarList.frame.width - avatarLeadingMargin - avatarTailingMargin - avatarWidth) / (avatarWidth + avatarGap))) + 1
         var previousImageView: UIImageView? = nil
         for i in 1...count {
@@ -151,6 +146,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         }
     }
     
+    
     public override func updateConstraints() {
         
         // only run the setup constraints the first time the cell is constructed for perfomance reason
@@ -163,20 +159,20 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                     businessImage.height == businessImage.width * businessImageHeightToWidthRatio
                 }
                 
+                
                 //Make subview same size as the parent view
                 constrain(this.infoViewContent) { infoViewContent in
-                    infoViewContent.left == infoViewContent.superview!.left
-                    infoViewContent.top == infoViewContent.superview!.top
                     infoViewContent.width == infoViewContent.superview!.width
                     infoViewContent.height == infoViewContent.superview!.height
+                    infoViewContent.center == infoViewContent.superview!.center
                 }
+                
                 
                 //Make subview same size as the parent view
                 constrain(this.participationViewContent) { participationViewContent in
-                    participationViewContent.left == participationViewContent.superview!.left
-                    participationViewContent.top == participationViewContent.superview!.top
                     participationViewContent.width == participationViewContent.superview!.width
                     participationViewContent.height == participationViewContent.superview!.height
+                    participationViewContent.center == participationViewContent.superview!.center
                 }
                 
                 //Set avatar list size
@@ -186,9 +182,21 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 }
                 
                 //Set WTG button size
-                constrain(this.joinButton, this.avatarList) { joinButton, avatarList in
-                    joinButton.height == avatarList.height * 1.618
-                    joinButton.width == joinButton.height * 0.935
+                constrain(this.joinButton, this.etaLabel) { joinButton, etaLabel in
+                    joinButton.width == joinButton.superview!.width * 0.8
+                    joinButton.height == joinButton.width * 0.43
+                    joinButton.right == etaLabel.right
+                }
+                
+//                constrain(this.pricePerPerson) { pricePerPerson in
+//                    pricePerPerson.width == pricePerPerson.superview!.width * 0.08
+//                    pricePerPerson.height == pricePerPerson.width
+//                }
+                
+                constrain(this.ETA, this.etaLabel) {ETA, etaLabel in
+//                    ETA.width == ETA.superview!.width * 0.09
+//                    ETA.height == ETA.width * 0.92857
+                    etaLabel.width == ETA.width * 3
                 }
             }
         })()
@@ -203,7 +211,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             view.image = nil
         }
     }
-    
+
     // MARK: Bindings
     public func bindViewModel(viewmodel: FeaturedBusinessViewModel) {
         self.viewmodel = viewmodel
@@ -281,18 +289,19 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                             }
                         }
                         
-                        let etcImageView = this.avatarImageViews[filledAvatarImageViews.count]
-                        // assign etc icon to image view
-                        etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: self?.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-                            |> map { Optional<UIImage>($0) }
-                            |> takeUntilPrepareForReuse(this)
-                        
-                        // unhide the image view
-                        etcImageView.hidden = false
-
-                        
-                        // add the image view to the list of already processed
-                        filledAvatarImageViews.append(etcImageView)
+//                        let etcImageView = this.avatarImageViews[filledAvatarImageViews.count]
+//                        etcImageView.contentMode = .Center
+//                        // assign etc icon to image view
+//                        etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: CGSizeMake(etcImageView.frame.height * 0.3, etcImageView.frame.height * 0.1), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+//                            |> map { Optional<UIImage>($0) }
+//                            |> takeUntilPrepareForReuse(this)
+//                        
+//                        // unhide the image view
+//                        etcImageView.hidden = false
+//
+//                        
+//                        // add the image view to the list of already processed
+//                        filledAvatarImageViews.append(etcImageView)
                     }
                     
                     for i in (filledAvatarImageViews.count)..<(this.avatarImageViews.count) {
