@@ -18,30 +18,33 @@ private let avatarWidth = avatarHeight
 private let avatarGap = UIScreen.mainScreen().bounds.width * 0.015
 private let avatarLeadingMargin = CGFloat(5)
 private let avatarTailingMargin = CGFloat(5)
-private let businessImageWidthToParentRatio = 0.569
-private let businessImageHeightToWidthRatio = 0.68
-private let avatarListWidthtoParentRatio = 1.0
+private let businessImageContainerWidthToParentRatio = 0.584
+private let businessImageContainerHeightToWidthRatio = 0.63
+private let avatarListWidthtoParentRatio = 0.764
 private let avatarListHeightToParentRatio = 1.0
 private let priceIconWidth = UIScreen.mainScreen().bounds.width * 0.02
 
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
-    // MARK: - UI Controls
+    // MARK: - UI Controls - Business Section
+    @IBOutlet private weak var businessImageContainer: UIView!
     @IBOutlet private weak var businessImage: UIImageView!
     @IBOutlet private weak var infoView: UIView!
     @IBOutlet private weak var infoViewSizingHelper: UIView!
-    @IBOutlet private weak var participationView: UIView!
     @IBOutlet private weak var pricePerPerson: UIImageView!
     @IBOutlet private weak var ETA: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var cityLabel: UILabel!
     @IBOutlet private weak var etaLabel: UILabel!
+    private lazy var infoViewContent: UIView = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
+    
+    // MARK: - UI Controls - Social Section
+    @IBOutlet private weak var participationView: UIView!
     @IBOutlet private weak var WTGButtonView: UIView!
     @IBOutlet private weak var numberOfPeopleGoingView: UIView!
     @IBOutlet private weak var peopleWantogoLabel: UILabel!
     @IBOutlet private weak var avatarList: UIView!
     @IBOutlet private weak var joinButton: UIButton!
-    private lazy var infoViewContent: UIView = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
     private lazy var participationViewContent: UIView = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
     private var avatarImageViews = [UIImageView]()
 
@@ -61,6 +64,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         participationView.addSubview(participationViewContent)
         
         //Set card's Background color
+        businessImageContainer.backgroundColor = .x_FeaturedCardBG()
         infoView.backgroundColor = .x_FeaturedCardBG()
         infoViewSizingHelper.backgroundColor = .x_FeaturedCardBG()
         businessImage.backgroundColor = .x_FeaturedCardBG()
@@ -79,11 +83,12 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         //Setting auto-adjust font size
         etaLabel.adjustsFontSizeToFitWidth = true
+        peopleWantogoLabel.adjustsFontSizeToFitWidth = true
+        joinButton.titleLabel?.adjustsFontSizeToFitWidth = true
         
         // Adding price icon
         pricePerPerson.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: CGSizeMake(pricePerPerson.frame.width, pricePerPerson.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
             |> map { Optional<UIImage>($0) }
-            |> takeUntilPrepareForReuse(self)
         
         // Adding ETA icon
         ETA.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: CGSizeMake(ETA.frame.width, ETA.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
@@ -95,7 +100,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         }
         
         joinButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-        
         joinButton.layer.cornerRadius = 5
         joinButton.layer.borderWidth = 1
         joinButton.layer.borderColor = UIColor.x_PrimaryColor().CGColor
@@ -112,7 +116,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         var previousImageView: UIImageView? = nil
         for i in 1...count {
             
-            let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: avatarWidth, height: avatarHeight))
+            let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: 0, height: 0))
             // TODO: set the correct background color
             imageView.backgroundColor = .x_FeaturedCardBG()
             imageView.opaque = true
@@ -125,8 +129,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 constrain(imageView) { view in
                     view.leading == view.superview!.leading + avatarLeadingMargin
                     view.centerY == view.superview!.centerY
-                    view.width == avatarWidth
-                    view.height == avatarHeight
+                    view.width == avatarWidth * 0.68
+                    view.height == view.width * 1.065
                 }
             }
             
@@ -134,8 +138,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 constrain(previousImageView, imageView) { previous, current in
                     previous.trailing == current.leading - avatarGap
                     current.centerY == current.superview!.centerY
-                    current.width == avatarWidth
-                    current.height == avatarHeight
+                    current.width == avatarWidth * 0.68
+                    current.height == current.width * 1.065
                 }
             }
             
@@ -146,19 +150,25 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         }
     }
     
-    
+
     public override func updateConstraints() {
         
         // only run the setup constraints the first time the cell is constructed for perfomance reason
         $.once({ [weak self] Void -> Void in
             if let this = self {
                 //Set anchor size for all related views
-                constrain(this.businessImage) { businessImage in
+                constrain(this.businessImageContainer) {businessImageContainer in
                     //sizes
-                    businessImage.width == businessImage.superview!.width * businessImageWidthToParentRatio
-                    businessImage.height == businessImage.width * businessImageHeightToWidthRatio
+                    businessImageContainer.width == businessImageContainer.superview!.width * businessImageContainerWidthToParentRatio
+                    businessImageContainer.height == businessImageContainer.width * businessImageContainerHeightToWidthRatio
                 }
                 
+                //Set business image size
+                constrain(this.businessImage) {businessImage in
+                    businessImage.width == businessImage.superview!.width * 0.9315
+                    businessImage.height == businessImage.superview!.height * 0.89855
+                    businessImage.center == businessImage.superview!.center
+                }
                 
                 //Make subview same size as the parent view
                 constrain(this.infoViewContent) { infoViewContent in
@@ -175,6 +185,12 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                     participationViewContent.center == participationViewContent.superview!.center
                 }
                 
+                //Set peopleWantogoLabel size
+                
+                constrain(this.peopleWantogoLabel) { peopleWantogoLabel in
+                    peopleWantogoLabel.width == peopleWantogoLabel.superview!.width * 0.39
+                }
+                
                 //Set avatar list size
                 constrain(this.avatarList) { avatarList in
                     avatarList.width == avatarList.superview!.width * avatarListWidthtoParentRatio
@@ -188,15 +204,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                     joinButton.right == etaLabel.right
                 }
                 
-//                constrain(this.pricePerPerson) { pricePerPerson in
-//                    pricePerPerson.width == pricePerPerson.superview!.width * 0.08
-//                    pricePerPerson.height == pricePerPerson.width
-//                }
-                
                 constrain(this.ETA, this.etaLabel) {ETA, etaLabel in
-//                    ETA.width == ETA.superview!.width * 0.09
-//                    ETA.height == ETA.width * 0.92857
-                    etaLabel.width == ETA.width * 3
+                    etaLabel.width == ETA.width * 2.5
                 }
             }
         })()

@@ -59,7 +59,7 @@ public final class FeaturedBusinessViewModel {
         self.price = MutableProperty<Int?>(business?.price)
         
         
-        participationString.put("\(participationCount)+ 人想去")
+        participationString.put("来 \(participationCount) | 请 123 | AA 123" )
         
         if let url = cover?.url, nsurl = NSURL(string: url) {
             self.imageService.getImage(nsurl)

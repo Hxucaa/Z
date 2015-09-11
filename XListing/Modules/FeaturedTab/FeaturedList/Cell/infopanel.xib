@@ -26,7 +26,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q3J-ZD-yDt">
-                    <rect key="frame" x="8" y="8" width="45" height="22"/>
+                    <rect key="frame" x="8" y="14" width="45" height="22"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="109" id="UQK-GM-yA0"/>
                     </constraints>
@@ -40,7 +40,7 @@
                     </variation>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="city" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ITd-ca-dqd">
-                    <rect key="frame" x="8" y="28" width="130" height="21"/>
+                    <rect key="frame" x="8" y="34" width="20" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="130" id="40v-IK-Cid"/>
                         <constraint firstAttribute="height" constant="21" id="qGx-UO-HAO"/>
@@ -55,7 +55,7 @@
                     </variation>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="eta" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dLa-HN-E64">
-                    <rect key="frame" x="102" y="94" width="17" height="14"/>
+                    <rect key="frame" x="82" y="102" width="17" height="14"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="250" constant="17" id="Ffo-WJ-dgW"/>
                     </constraints>
@@ -64,7 +64,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Lo-1p-GQO">
-                    <rect key="frame" x="83" y="94" width="16" height="15"/>
+                    <rect key="frame" x="63" y="102" width="16" height="15"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="8Lo-1p-GQO" secondAttribute="height" multiplier="13:14" id="Ibk-GK-Qfj"/>
                         <constraint firstAttribute="height" priority="250" constant="26" id="Ly7-WF-gWU"/>
@@ -78,10 +78,10 @@
                     </variation>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="szp-qo-PTI">
-                    <rect key="frame" x="12" y="94" width="14" height="14"/>
+                    <rect key="frame" x="14" y="103" width="14" height="13"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="250" constant="11" id="KcQ-GL-C89"/>
-                        <constraint firstAttribute="width" secondItem="szp-qo-PTI" secondAttribute="height" multiplier="1:1" id="TWM-aM-TlA"/>
+                        <constraint firstAttribute="width" secondItem="szp-qo-PTI" secondAttribute="height" multiplier="1:1" constant="1" id="TWM-aM-TlA"/>
                         <constraint firstAttribute="width" secondItem="szp-qo-PTI" secondAttribute="height" multiplier="13:14" id="qTU-bt-hda"/>
                     </constraints>
                     <variation key="default">
@@ -93,54 +93,28 @@
                 </imageView>
             </subviews>
             <constraints>
-                <constraint firstItem="szp-qo-PTI" firstAttribute="leading" secondItem="GC3-oA-Yor" secondAttribute="leading" constant="19" id="2dZ-z7-bRv"/>
-                <constraint firstItem="q3J-ZD-yDt" firstAttribute="top" secondItem="GC3-oA-Yor" secondAttribute="top" constant="8" id="2nR-7S-lTL"/>
                 <constraint firstItem="Ecm-Bg-cEP" firstAttribute="top" secondItem="GC3-oA-Yor" secondAttribute="top" id="3GO-W4-LQD"/>
                 <constraint firstAttribute="bottom" secondItem="Ecm-Bg-cEP" secondAttribute="bottom" id="4r8-SY-zJc"/>
                 <constraint firstItem="q3J-ZD-yDt" firstAttribute="leading" secondItem="GC3-oA-Yor" secondAttribute="leading" constant="8" id="4zQ-wj-kho"/>
-                <constraint firstItem="8Lo-1p-GQO" firstAttribute="leading" secondItem="szp-qo-PTI" secondAttribute="trailing" priority="750" constant="61" id="6Qc-Jl-MUK"/>
-                <constraint firstItem="szp-qo-PTI" firstAttribute="top" secondItem="ITd-ca-dqd" secondAttribute="bottom" constant="32" id="7yR-eK-etR"/>
-                <constraint firstItem="8Lo-1p-GQO" firstAttribute="height" secondItem="dLa-HN-E64" secondAttribute="height" constant="6" id="9mB-MQ-QR8"/>
                 <constraint firstItem="Ecm-Bg-cEP" firstAttribute="width" secondItem="8Lo-1p-GQO" secondAttribute="width" multiplier="10" id="F8N-cC-dVz"/>
                 <constraint firstItem="szp-qo-PTI" firstAttribute="bottom" secondItem="8Lo-1p-GQO" secondAttribute="bottom" constant="-1" id="Fv1-JQ-OR1"/>
-                <constraint firstAttribute="trailing" secondItem="dLa-HN-E64" secondAttribute="trailing" constant="31" id="G9M-vi-qXO"/>
-                <constraint firstAttribute="trailing" secondItem="8Lo-1p-GQO" secondAttribute="trailing" multiplier="1.6" id="Jq1-5b-ctH"/>
+                <constraint firstItem="q3J-ZD-yDt" firstAttribute="top" secondItem="GC3-oA-Yor" secondAttribute="top" constant="14" id="IZq-wD-5zL"/>
+                <constraint firstAttribute="trailing" secondItem="8Lo-1p-GQO" secondAttribute="trailing" multiplier="2" priority="250" id="Jq1-5b-ctH"/>
                 <constraint firstItem="8Lo-1p-GQO" firstAttribute="centerY" secondItem="dLa-HN-E64" secondAttribute="centerY" id="Jso-wO-z9h"/>
                 <constraint firstItem="ITd-ca-dqd" firstAttribute="top" secondItem="q3J-ZD-yDt" secondAttribute="bottom" constant="-1.5" id="ND5-uI-gNn"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dLa-HN-E64" secondAttribute="trailing" constant="4" id="NDI-Gp-5vi"/>
-                <constraint firstAttribute="bottom" secondItem="szp-qo-PTI" secondAttribute="bottom" constant="36" id="PhZ-Ao-Ukh"/>
-                <constraint firstItem="szp-qo-PTI" firstAttribute="centerX" secondItem="q3J-ZD-yDt" secondAttribute="centerX" id="Pqa-N3-gdo"/>
+                <constraint firstAttribute="bottom" secondItem="szp-qo-PTI" secondAttribute="bottom" multiplier="1.24" id="PhZ-Ao-Ukh"/>
                 <constraint firstItem="Ecm-Bg-cEP" firstAttribute="width" secondItem="szp-qo-PTI" secondAttribute="width" multiplier="11" id="W2I-Rq-SzQ"/>
-                <constraint firstItem="8Lo-1p-GQO" firstAttribute="centerY" secondItem="dLa-HN-E64" secondAttribute="centerY" id="apD-H0-yr5"/>
-                <constraint firstItem="szp-qo-PTI" firstAttribute="top" secondItem="8Lo-1p-GQO" secondAttribute="top" priority="250" constant="15" id="b0M-Om-lE0"/>
-                <constraint firstAttribute="trailing" secondItem="ITd-ca-dqd" secondAttribute="trailing" constant="20" id="bNJ-7j-gwE"/>
-                <constraint firstItem="szp-qo-PTI" firstAttribute="leading" secondItem="ITd-ca-dqd" secondAttribute="leading" multiplier="1.5" id="ffH-Af-aph"/>
+                <constraint firstItem="szp-qo-PTI" firstAttribute="leading" secondItem="ITd-ca-dqd" secondAttribute="leading" multiplier="1.8" id="ffH-Af-aph"/>
                 <constraint firstItem="Ecm-Bg-cEP" firstAttribute="leading" secondItem="GC3-oA-Yor" secondAttribute="leading" id="hs8-pL-oZS"/>
                 <constraint firstItem="q3J-ZD-yDt" firstAttribute="leading" secondItem="ITd-ca-dqd" secondAttribute="leading" id="j7I-jk-hEE"/>
-                <constraint firstAttribute="trailing" secondItem="8Lo-1p-GQO" secondAttribute="trailing" priority="250" constant="51" id="mcG-3e-lEG"/>
                 <constraint firstItem="dLa-HN-E64" firstAttribute="leading" secondItem="8Lo-1p-GQO" secondAttribute="trailing" constant="3" id="sxW-Wu-nrc"/>
                 <constraint firstAttribute="trailing" secondItem="Ecm-Bg-cEP" secondAttribute="trailing" id="tGs-fk-rHa"/>
-                <constraint firstItem="szp-qo-PTI" firstAttribute="bottom" secondItem="8Lo-1p-GQO" secondAttribute="bottom" id="tNG-Fs-pyk"/>
-                <constraint firstItem="szp-qo-PTI" firstAttribute="top" secondItem="8Lo-1p-GQO" secondAttribute="top" id="wwc-8s-ajg"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="2dZ-z7-bRv"/>
-                    <exclude reference="7yR-eK-etR"/>
-                    <exclude reference="Pqa-N3-gdo"/>
-                    <exclude reference="b0M-Om-lE0"/>
-                    <exclude reference="tNG-Fs-pyk"/>
-                    <exclude reference="wwc-8s-ajg"/>
-                    <exclude reference="9mB-MQ-QR8"/>
-                    <exclude reference="apD-H0-yr5"/>
-                    <exclude reference="mcG-3e-lEG"/>
-                    <exclude reference="G9M-vi-qXO"/>
-                </mask>
-            </variation>
             <point key="canvasLocation" x="729" y="457"/>
         </view>
     </objects>

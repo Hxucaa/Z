@@ -42,8 +42,6 @@ public final class FeaturedListViewController: XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.contentInset = UIEdgeInsetsMake(top: 0, left: 8, bottom: CGFloat, right: CGFloat)
-        
         navigationController?.setNavigationBarHidden(false, animated: false)
         
         // makes the gap between table view and navigation bar go away
