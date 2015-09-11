@@ -1,5 +1,5 @@
 //
-//  SocialBusiness_BusinessViewModel.swift
+//  SocialBusinessHeaderViewModel.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-09-04.
@@ -11,7 +11,7 @@ import ReactiveCocoa
 import ReactiveArray
 import Dollar
 
-// TODO: conform to ISocialBusiness_BusinessViewModel
-public final class SocialBusiness_BusinessViewModel {
+// TODO: conform to ISocialBusinessHeaderViewModel
+public final class SocialBusinessHeaderViewModel {
     
 }

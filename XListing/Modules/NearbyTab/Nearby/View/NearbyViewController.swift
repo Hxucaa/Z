@@ -142,7 +142,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         navigationController?.hidesBarsOnSwipe = false
     }
     
-       public override func viewDidAppear(animated: Bool) {
+    public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
     }
     

@@ -1,5 +1,5 @@
 //
-//  ISocialBusiness_BusinessViewModel.swift
+//  ISocialBusinessHeaderViewModel.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-09-04.
@@ -9,7 +9,7 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol ISocialBusiness_BusinessViewModel : class {
+public protocol ISocialBusinessHeaderViewModel : class {
     
     // MARK: - Outputs
     var coverImage: PropertyOf<UIImage?> { get }

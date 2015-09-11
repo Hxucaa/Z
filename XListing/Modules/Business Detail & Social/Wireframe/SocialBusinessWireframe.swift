@@ -9,8 +9,6 @@
 import Foundation
 import UIKit
 
-private let SocialBusinessViewControllerIdentifier = "SocialBusinessViewController"
-private let SocialBusinessStoryboardName = "SocialBusiness"
 private let UserProfileViewControllerIdentifier = "UserProfileViewController"
 private let UserProfileStoryboardName = "UserProfile"
 
@@ -36,10 +34,10 @@ public final class SocialBusinessWireframe : ISocialBusinessWireframe {
     :returns: Properly configured DetailViewController.
     */
     private func injectViewModelToViewController(businessModel: Business) -> SocialBusinessViewController {
-        // retrieve view controller from storyboard
-        let viewController = UIStoryboard(name: SocialBusinessStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(SocialBusinessViewControllerIdentifier) as! SocialBusinessViewController
-
+        let viewController = SocialBusinessViewController()
+        
         let socialBusinessViewModel = SocialBusinessViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, imageService: imageService, businessModel: businessModel)
+        socialBusinessViewModel.navigator = self
         viewController.bindToViewModel(socialBusinessViewModel)
         
         return viewController
@@ -56,6 +54,15 @@ extension SocialBusinessWireframe : SocialBusinessNavigator {
         
         let userProfileViewModel = UserProfileViewModel()
         viewController.bindToViewModel(userProfileViewModel)
+        
+        sharedNavigationController?.pushViewController(viewController, animated: animated)
+    }
+    
+    public func pushBusinessDetail(business: Business, animated: Bool) {
+        let viewController = BusinessDetailViewController()
+        
+        let businessDetailViewModel = BusinessDetailViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, imageService: imageService, business: business)
+        viewController.bindToViewModel(businessDetailViewModel)
         
         sharedNavigationController?.pushViewController(viewController, animated: animated)
     }
