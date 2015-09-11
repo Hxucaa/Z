@@ -42,6 +42,7 @@ public final class SocialBusinessViewController : XUIViewController {
     // MARK: - Properties
     private var viewmodel: ISocialBusinessViewModel!
     private let compositeDisposable = CompositeDisposable()
+    private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, SocialBusinessViewModel>!
 
     // MARK: - Setups
     
@@ -61,12 +62,16 @@ public final class SocialBusinessViewController : XUIViewController {
         
         tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
         tableView.rowHeight = CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
+        
+        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: viewmodel as! SocialBusinessViewModel)
         tableView.dataSource = self
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        viewmodel.fetchMoreData()
+            |> start()
         
         let tapGesture = UITapGestureRecognizer()
         headerView.addGestureRecognizer(tapGesture)
@@ -90,6 +95,11 @@ public final class SocialBusinessViewController : XUIViewController {
                     self?.viewmodel.pushUserProfile(indexPath.row, animated: true)
                 }
             )
+        
+        compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Featured, "viewmodel.collectionDataSource.producer")
+            |> start()
         
         /**
         Assigning UITableView delegate has to happen after signals are established.
@@ -127,13 +137,14 @@ public final class SocialBusinessViewController : XUIViewController {
 extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return 10
+        return viewmodel.collectionDataSource.count
     }
     
     public func tableView(tableView: UITableView,
         cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as!
         SocialBusiness_UserCell
+            cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return cell
     }
     

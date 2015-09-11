@@ -12,6 +12,8 @@ import AVOSCloud
 import Dollar
 import ReactiveArray
 
+private let 启动无限scrolling参数 = 0.4
+
 public protocol SocialBusinessNavigator : class {
     func pushUserProfile(user: User, animated: Bool)
     func pushBusinessDetail(business: Business, animated: Bool)
@@ -53,26 +55,37 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     // MARK: - API
     
     public func fetchMoreData() -> SignalProducer<Void, NSError> {
-        return fetchParticipatingUsers()
+        return fetchParticipatingUsers(refresh: false)
             |> map { _ in }
     }
     
     public func refreshData() -> SignalProducer<Void, NSError> {
-        fatalError("Not yet implemented")
+        return fetchParticipatingUsers(refresh: true)
+            |> map { _ in }
     }
     
     public func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
-        fatalError("Not yet implemented")
+        // if there are still plenty of data for display, don't fetch more businesses
+        if Double(targetContentIndex) < Double(collectionDataSource.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数) {
+            return SignalProducer<Void, NSError>.empty
+        }
+            // else fetch more data
+        else {
+            return fetchParticipatingUsers(refresh: false)
+                |> map { _ in }
+        }
     }
     
     public func pushUserProfile(index: Int, animated: Bool) {
-        fatalError("Not yet implemented")
+        navigator.pushUserProfile(collectionDataSource.array[index].user.value, animated: true)
         
     }
     
     private func fetchParticipatingUsers(refresh: Bool = false) -> SignalProducer<[SocialBusiness_UserViewModel], NSError> {
         let query = Participation.query()
         query.limit = Constants.PAGINATION_LIMIT
+        query.skip = collectionDataSource.count
+        query.includeKey(User_Business_Participation.Property.User.rawValue)
 
         return SignalProducer<[Participation], NSError>.empty
             |> then(participationService.findBy(query))
@@ -87,18 +100,14 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
                     self.userArr.put(self.userArr.value + participation)
                 }
             })
-            |> map { blah -> [SocialBusiness_UserViewModel] in
+            |> map { participations -> [SocialBusiness_UserViewModel] in
                 
                 var result = [SocialBusiness_UserViewModel]()
-                for p in blah {
-                    result.append(SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: p.user))
+                for p in participations {
+                    result.append(SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: p.user, nickname: p.user.nickname, ageGroup: p.user.ageGroup, horoscope: p.user.horoscope, gender: p.user.gender, profileImage: p.user.profileImg))
                 }
                 return result
-                
-                // map the participation models to viewmodels
-                //return participations.map {
-                    //SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0)
-                //}
+
             }
             |> on(
                 next: { viewmodels in

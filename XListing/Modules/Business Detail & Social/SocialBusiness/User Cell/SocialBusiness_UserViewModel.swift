@@ -10,53 +10,91 @@ import Foundation
 import ReactiveCocoa
 import ReactiveArray
 import Dollar
+import AVOSCloud
 
 // TODO: make this class conform to `ISocialBusiness_UserViewModel`
 public final class SocialBusiness_UserViewModel {
     
     // MARK: - Outputs
     public var profileImage: PropertyOf<UIImage?> {
-        return PropertyOf(profileImage)
+        return PropertyOf(_profileImage)
     }
-    var nickname: PropertyOf<String> {
-        return PropertyOf(nickname)
+    public var nickname: PropertyOf<String> {
+        return PropertyOf(_nickname)
     }
-    var ageGroup: PropertyOf<String> {
-        return PropertyOf(ageGroup)
+    public var ageGroup: PropertyOf<String> {
+        return PropertyOf(_ageGroup)
     }
-    var horoscope: PropertyOf<String> {
-        return PropertyOf(horoscope)
+//    public var horoscope: PropertyOf<String> {
+//        return PropertyOf(_horoscope)
+//    }
+//    public var status: PropertyOf<String> {
+//        return PropertyOf(_status)
+//    }
+//    public var participationType: PropertyOf<String> {
+//        return PropertyOf(_participationType)
+//    }
+    public var gender: PropertyOf<String> {
+        return PropertyOf(_gender)
     }
-    var status: PropertyOf<String> {
-        return PropertyOf(status)
+    
+    public var user: PropertyOf<User> {
+        return PropertyOf(_user)
     }
-    var participationType: PropertyOf<String> {
-        return PropertyOf(participationType)
-    }
-    var gender: PropertyOf<String> {
-        return PropertyOf(gender)
-    }
+    
+    private let _nickname: MutableProperty<String> = MutableProperty("")
+    private let _ageGroup: MutableProperty<String> = MutableProperty("")
+    private let _horoscope: MutableProperty<String> = MutableProperty("")
+//    private let _status: MutableProperty<String> = MutableProperty("")
+//    private let _participationType: MutableProperty<String> = MutableProperty("")
+    private let _gender: MutableProperty<String> = MutableProperty("")
+    private let _profileImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.profilepicture))
+    private let _user: MutableProperty<User> = MutableProperty(User())
     
     // MARK: - Properties
     private let imageService: IImageService
     private let participationService: IParticipationService
-    private let user: User?
+
     
     // MARK: - Initializers
-    public init(participationService: IParticipationService, imageService: IImageService, user: User?) {
+    public init(participationService: IParticipationService, imageService: IImageService, user: User?, nickname: String?, ageGroup: String?, horoscope: String?, gender: String?, profileImage: AVFile?) {
         self.participationService = participationService
         self.imageService = imageService
-        self.user = user
         
-        // set the image with imageService
-//        if let url = cover?.url, nsurl = NSURL(string: url) {
-//            self.imageService.getImage(nsurl)
-//                |> start(next: {
-//                    self.coverImage.put($0)
-//                })
+        if let user = user {
+            _user.put(user)
+        }
+        
+        if let nickname = nickname {
+            _nickname.put(nickname)
+        }
+        
+        if let ageGroup = ageGroup {
+            _ageGroup.put(ageGroup)
+        }
+        
+        if let horoscope = horoscope {
+            _horoscope.put(horoscope)
+        }
+        
+//        if let status = status {
+//            _status.put(status)
+//        }
+//        
+//        if let participationType = participationType {
+//            _participationType.put(participationType)
 //        }
         
+        if let gender = gender {
+            _gender.put(gender)
+        }
+        
 
-
+        if let url = profileImage?.url, nsurl = NSURL(string: url) {
+            self.imageService.getImage(nsurl)
+                |> start(next: {
+                    self._profileImage.put($0)
+                })
+        }
     }
 }
