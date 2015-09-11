@@ -65,7 +65,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     }
     
     public func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
-        // if there are still plenty of data for display, don't fetch more businesses
+        // if there are still plenty of data for display, don't fetch more users
         if Double(targetContentIndex) < Double(collectionDataSource.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数) {
             return SignalProducer<Void, NSError>.empty
         }
@@ -86,6 +86,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         query.limit = Constants.PAGINATION_LIMIT
         query.skip = collectionDataSource.count
         query.includeKey(User_Business_Participation.Property.User.rawValue)
+        query.includeKey(User_Business_Participation.Property.Business.rawValue)
 
         return SignalProducer<[Participation], NSError>.empty
             |> then(participationService.findBy(query))
@@ -104,7 +105,11 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
                 
                 var result = [SocialBusiness_UserViewModel]()
                 for p in participations {
+                    //replace this with better query later
+                    let b = p.business
+                    if b.objectId == self.business.objectId{
                     result.append(SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: p.user, nickname: p.user.nickname, ageGroup: p.user.ageGroup, horoscope: p.user.horoscope, gender: p.user.gender, profileImage: p.user.profileImg))
+                    }
                 }
                 return result
 
