@@ -57,7 +57,7 @@
                         <rect key="frame" x="8" y="140" width="258" height="21"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ll0-OA-u89">
-                                <rect key="frame" x="8" y="3" width="43" height="16"/>
+                                <rect key="frame" x="13" y="3" width="43" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.4823529411764706" green="0.4823529411764706" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -68,7 +68,7 @@
                             <constraint firstAttribute="trailing" secondItem="Ll0-OA-u89" secondAttribute="trailing" priority="250" constant="207" id="7qp-VD-PWs"/>
                             <constraint firstItem="Ll0-OA-u89" firstAttribute="top" secondItem="SEP-mM-tP1" secondAttribute="top" constant="3" id="B4L-Ei-v3D"/>
                             <constraint firstAttribute="bottom" secondItem="Ll0-OA-u89" secondAttribute="bottom" constant="2" id="Nas-3h-fIN"/>
-                            <constraint firstItem="Ll0-OA-u89" firstAttribute="leading" secondItem="SEP-mM-tP1" secondAttribute="leadingMargin" id="OOm-DK-FhQ"/>
+                            <constraint firstItem="Ll0-OA-u89" firstAttribute="leading" secondItem="SEP-mM-tP1" secondAttribute="leadingMargin" multiplier="1.618" id="OOm-DK-FhQ"/>
                             <constraint firstAttribute="height" constant="21" id="QVe-Sl-ZHu"/>
                             <constraint firstAttribute="trailing" secondItem="Ll0-OA-u89" secondAttribute="trailing" constant="97" id="kt5-zS-mGL"/>
                         </constraints>

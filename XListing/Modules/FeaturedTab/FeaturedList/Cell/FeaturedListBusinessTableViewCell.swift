@@ -13,17 +13,23 @@ import Cartography
 import XAssets
 import Dollar
 
-private let avatarHeight = UIScreen.mainScreen().bounds.height * 0.07
-private let avatarWidth = avatarHeight
-private let avatarGap = UIScreen.mainScreen().bounds.width * 0.015
-private let avatarLeadingMargin = CGFloat(5)
-private let avatarTailingMargin = CGFloat(5)
+    
+    //Layout Ratios
+private let avatarWidth = UIScreen.mainScreen().bounds.height * 0.048
+private let avatarGap = avatarWidth * 0.25
+private let avatarListToParentRatio = 0.764
 private let businessImageContainerWidthToParentRatio = 0.584
 private let businessImageContainerHeightToWidthRatio = 0.63
-private let avatarListWidthtoParentRatio = 0.764
-private let avatarListHeightToParentRatio = 1.0
-private let priceIconWidth = UIScreen.mainScreen().bounds.width * 0.02
+private let businessImageWidthToParentRatio = 0.9315
+private let businessImageHeightToParentRatio = 0.89855
+private let peopleWantogoLabelToParentRatio = 0.39
+private let joinButtonWidthToParentRatio = 0.8
+private let joinButtonHeightToWidthRatio = 0.43
+private let etaLabelWidthToEtaIconRatio = 2.5
 
+    //Sizing and margins
+    private let avatarHeight = avatarWidth
+    
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     // MARK: - UI Controls - Business Section
@@ -80,7 +86,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         peopleWantogoLabel.backgroundColor = .x_FeaturedCardBG()
         avatarList.backgroundColor = .x_FeaturedCardBG()
         
-        
         //Setting auto-adjust font size
         etaLabel.adjustsFontSizeToFitWidth = true
         peopleWantogoLabel.adjustsFontSizeToFitWidth = true
@@ -112,25 +117,25 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             })
         
         //Setup avatar image views.
-        let count = Int(floor((avatarList.frame.width - avatarLeadingMargin - avatarTailingMargin - avatarWidth) / (avatarWidth + avatarGap))) + 1
+        let count = Int(floor((avatarList.frame.width - avatarWidth) / (avatarWidth + avatarGap))) + 1
         var previousImageView: UIImageView? = nil
         for i in 1...count {
             
-            let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: 0, height: 0))
+            let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: avatarWidth, height: avatarHeight))
             // TODO: set the correct background color
             imageView.backgroundColor = .x_FeaturedCardBG()
             imageView.opaque = true
-            imageView.contentMode = UIViewContentMode.ScaleAspectFill
+            imageView.contentMode = UIViewContentMode.ScaleAspectFit
             imageView.clipsToBounds = true
             
             avatarList.addSubview(imageView)
             
             if i == 1 {
                 constrain(imageView) { view in
-                    view.leading == view.superview!.leading + avatarLeadingMargin
+                    view.leading == view.superview!.leading
                     view.centerY == view.superview!.centerY
-                    view.width == avatarWidth * 0.68
-                    view.height == view.width * 1.065
+                    view.width == avatarWidth
+                    view.height == view.width
                 }
             }
             
@@ -138,8 +143,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 constrain(previousImageView, imageView) { previous, current in
                     previous.trailing == current.leading - avatarGap
                     current.centerY == current.superview!.centerY
-                    current.width == avatarWidth * 0.68
-                    current.height == current.width * 1.065
+                    current.width == avatarWidth
+                    current.height == current.width
                 }
             }
             
@@ -165,8 +170,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 
                 //Set business image size
                 constrain(this.businessImage) {businessImage in
-                    businessImage.width == businessImage.superview!.width * 0.9315
-                    businessImage.height == businessImage.superview!.height * 0.89855
+                    businessImage.width == businessImage.superview!.width * businessImageWidthToParentRatio
+                    businessImage.height == businessImage.superview!.height * businessImageHeightToParentRatio
                     businessImage.center == businessImage.superview!.center
                 }
                 
@@ -179,33 +184,28 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 
                 
                 //Make subview same size as the parent view
-                constrain(this.participationViewContent) { participationViewContent in
-                    participationViewContent.width == participationViewContent.superview!.width
+                constrain(this.participationViewContent, this.businessImage) { participationViewContent, businessImage in
+                    participationViewContent.width == participationViewContent.superview!.width * avatarListToParentRatio
                     participationViewContent.height == participationViewContent.superview!.height
-                    participationViewContent.center == participationViewContent.superview!.center
+                    participationViewContent.leading == businessImage.leading
+                    participationViewContent.centerY == participationViewContent.superview!.centerY
                 }
                 
                 //Set peopleWantogoLabel size
                 
                 constrain(this.peopleWantogoLabel) { peopleWantogoLabel in
-                    peopleWantogoLabel.width == peopleWantogoLabel.superview!.width * 0.39
-                }
-                
-                //Set avatar list size
-                constrain(this.avatarList) { avatarList in
-                    avatarList.width == avatarList.superview!.width * avatarListWidthtoParentRatio
-                    avatarList.height == avatarList.superview!.height * avatarListHeightToParentRatio
+                    peopleWantogoLabel.width == peopleWantogoLabel.superview!.width * peopleWantogoLabelToParentRatio
                 }
                 
                 //Set WTG button size
                 constrain(this.joinButton, this.etaLabel) { joinButton, etaLabel in
-                    joinButton.width == joinButton.superview!.width * 0.8
-                    joinButton.height == joinButton.width * 0.43
+                    joinButton.width == joinButton.superview!.width * joinButtonWidthToParentRatio
+                    joinButton.height == joinButton.width * joinButtonHeightToWidthRatio
                     joinButton.right == etaLabel.right
                 }
                 
                 constrain(this.ETA, this.etaLabel) {ETA, etaLabel in
-                    etaLabel.width == ETA.width * 2.5
+                    etaLabel.width == ETA.width * etaLabelWidthToEtaIconRatio
                 }
             }
         })()
@@ -298,19 +298,19 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                             }
                         }
                         
-//                        let etcImageView = this.avatarImageViews[filledAvatarImageViews.count]
-//                        etcImageView.contentMode = .Center
-//                        // assign etc icon to image view
-//                        etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: CGSizeMake(etcImageView.frame.height * 0.3, etcImageView.frame.height * 0.1), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-//                            |> map { Optional<UIImage>($0) }
-//                            |> takeUntilPrepareForReuse(this)
-//                        
-//                        // unhide the image view
-//                        etcImageView.hidden = false
-//
-//                        
-//                        // add the image view to the list of already processed
-//                        filledAvatarImageViews.append(etcImageView)
+                        let etcImageView = this.avatarImageViews[filledAvatarImageViews.count]
+                        etcImageView.contentMode = .Center
+                        // assign etc icon to image view
+                        etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: CGSizeMake(etcImageView.frame.width, etcImageView.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+                            |> map { Optional<UIImage>($0) }
+                            |> takeUntilPrepareForReuse(this)
+                        
+                        // unhide the image view
+                        etcImageView.hidden = false
+
+                        
+                        // add the image view to the list of already processed
+                        filledAvatarImageViews.append(etcImageView)
                     }
                     
                     for i in (filledAvatarImageViews.count)..<(this.avatarImageViews.count) {
