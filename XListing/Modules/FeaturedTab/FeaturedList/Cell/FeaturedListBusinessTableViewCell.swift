@@ -20,7 +20,6 @@ private let avatarGap = avatarWidth * 0.25
 private let avatarListToParentRatio = 0.764
 private let businessImageContainerWidthToParentRatio = 0.584
 private let businessImageContainerHeightToWidthRatio = 0.63
-private let infoViewWidthToParentRatio = 0.426
 private let businessImageWidthToParentRatio = 0.9315
 private let businessImageHeightToParentRatio = 0.89855
 private let peopleWantogoLabelToParentRatio = 0.39
@@ -98,10 +97,12 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         // Adding price icon
         pricePerPerson.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: CGSizeMake(pricePerPerson.frame.width, pricePerPerson.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
             |> map { Optional<UIImage>($0) }
+            |> takeUntilPrepareForReuse(self)
         
         // Adding ETA icon
         ETA.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: CGSizeMake(ETA.frame.width, ETA.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
             |> map { Optional<UIImage>($0) }
+            |> takeUntilPrepareForReuse(self)
         
         //Setup joinButton
         let join = Action<UIButton, Bool, NSError>{ button in
@@ -171,12 +172,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                     businessImageContainer.width == businessImageContainer.superview!.width * businessImageContainerWidthToParentRatio
                     businessImageContainer.height == businessImageContainer.width * businessImageContainerHeightToWidthRatio
                 }
-                
-                //Set infoview size
-                constrain(this.infoView) { infoView in
-                    infoView.trailing == infoView.superview!.trailing - 8
-                }
-                
+
                 //Set business image size
                 constrain(this.businessImage) {businessImage in
                     businessImage.width == businessImage.superview!.width * businessImageWidthToParentRatio
@@ -313,7 +309,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                         let etcImageView = this.avatarImageViews[filledAvatarImageViews.count]
                         
                         // assign etc icon to image view
-                        etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: CGSizeMake(round(avatarWidth * 0.45), round(avatarHeight * 0.15)), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+                        etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: CGSizeMake(round(avatarWidth * 0.6), round(avatarHeight * 0.2)), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
                             |> map { Optional<UIImage>($0) }
                             |> takeUntilPrepareForReuse(this)
                         

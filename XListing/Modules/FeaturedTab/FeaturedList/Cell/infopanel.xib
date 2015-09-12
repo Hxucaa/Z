@@ -39,32 +39,18 @@
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q3J-ZD-yDt">
                     <rect key="frame" x="8" y="14" width="45" height="22"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="109" id="UQK-GM-yA0"/>
-                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <color key="textColor" red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="UQK-GM-yA0"/>
-                        </mask>
-                    </variation>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="city" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ITd-ca-dqd">
                     <rect key="frame" x="8" y="34" width="20" height="21"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="130" id="40v-IK-Cid"/>
                         <constraint firstAttribute="height" constant="21" id="qGx-UO-HAO"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="40v-IK-Cid"/>
-                        </mask>
-                    </variation>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="eta" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dLa-HN-E64">
                     <rect key="frame" x="82" y="102" width="17" height="14"/>
@@ -78,30 +64,14 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Lo-1p-GQO">
                     <rect key="frame" x="63" y="102" width="16" height="15"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="8Lo-1p-GQO" secondAttribute="height" multiplier="13:14" id="Ibk-GK-Qfj"/>
-                        <constraint firstAttribute="height" priority="250" constant="26" id="Ly7-WF-gWU"/>
                         <constraint firstAttribute="width" secondItem="8Lo-1p-GQO" secondAttribute="height" multiplier="14:13" id="oRw-bH-ZCO"/>
                     </constraints>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="Ibk-GK-Qfj"/>
-                            <exclude reference="Ly7-WF-gWU"/>
-                        </mask>
-                    </variation>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="szp-qo-PTI">
                     <rect key="frame" x="14" y="103" width="14" height="13"/>
                     <constraints>
-                        <constraint firstAttribute="height" priority="250" constant="11" id="KcQ-GL-C89"/>
                         <constraint firstAttribute="width" secondItem="szp-qo-PTI" secondAttribute="height" multiplier="1:1" constant="1" id="TWM-aM-TlA"/>
-                        <constraint firstAttribute="width" secondItem="szp-qo-PTI" secondAttribute="height" multiplier="13:14" id="qTU-bt-hda"/>
                     </constraints>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="KcQ-GL-C89"/>
-                            <exclude reference="qTU-bt-hda"/>
-                        </mask>
-                    </variation>
                 </imageView>
             </subviews>
             <constraints>
