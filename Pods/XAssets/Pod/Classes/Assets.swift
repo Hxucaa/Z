@@ -106,7 +106,7 @@ public enum Asset {
         case let .EtcIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
             return "EtcIcon|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
         case let .JoinButton(size, backgroundColor, opaque, imageContextScale, ifAA, ifGo, ifPay, ifNotTapped):
-            return "EtcIcon|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(ifAA)|\(ifGo)|\(ifPay)|\(ifNotTapped)"
+            return "JoinButton|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(ifAA)|\(ifGo)|\(ifPay)|\(ifNotTapped)"
         }
     }
     
