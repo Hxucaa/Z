@@ -20,15 +20,17 @@ private let avatarGap = avatarWidth * 0.25
 private let avatarListToParentRatio = 0.764
 private let businessImageContainerWidthToParentRatio = 0.584
 private let businessImageContainerHeightToWidthRatio = 0.63
+private let infoViewWidthToParentRatio = 0.426
 private let businessImageWidthToParentRatio = 0.9315
 private let businessImageHeightToParentRatio = 0.89855
 private let peopleWantogoLabelToParentRatio = 0.39
 private let joinButtonWidthToParentRatio = 0.8
 private let joinButtonHeightToWidthRatio = 0.43
 private let etaLabelWidthToEtaIconRatio = 2.5
+private let priceLabelToEtaLabelRatio = 0.5
 
     //Sizing and margins
-    private let avatarHeight = avatarWidth
+private let avatarHeight = avatarWidth
     
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
@@ -38,6 +40,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     @IBOutlet private weak var infoView: UIView!
     @IBOutlet private weak var infoViewSizingHelper: UIView!
     @IBOutlet private weak var pricePerPerson: UIImageView!
+    @IBOutlet private weak var priceLabel: UILabel!
     @IBOutlet private weak var ETA: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var cityLabel: UILabel!
@@ -88,6 +91,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         //Setting auto-adjust font size
         etaLabel.adjustsFontSizeToFitWidth = true
+        priceLabel.adjustsFontSizeToFitWidth = true
         peopleWantogoLabel.adjustsFontSizeToFitWidth = true
         joinButton.titleLabel?.adjustsFontSizeToFitWidth = true
         
@@ -121,11 +125,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         var previousImageView: UIImageView? = nil
         for i in 1...count {
             
-            let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: avatarWidth, height: avatarHeight))
+            let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: floor(avatarWidth), height: floor(avatarHeight)))
             // TODO: set the correct background color
             imageView.backgroundColor = .x_FeaturedCardBG()
             imageView.opaque = true
-            imageView.contentMode = UIViewContentMode.ScaleAspectFit
+            imageView.contentMode = .Center
             imageView.clipsToBounds = true
             
             avatarList.addSubview(imageView)
@@ -155,17 +159,22 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         }
     }
     
-
+    
     public override func updateConstraints() {
-        
+
         // only run the setup constraints the first time the cell is constructed for perfomance reason
         $.once({ [weak self] Void -> Void in
             if let this = self {
                 //Set anchor size for all related views
-                constrain(this.businessImageContainer) {businessImageContainer in
+                constrain(this.businessImageContainer) { businessImageContainer in
                     //sizes
                     businessImageContainer.width == businessImageContainer.superview!.width * businessImageContainerWidthToParentRatio
                     businessImageContainer.height == businessImageContainer.width * businessImageContainerHeightToWidthRatio
+                }
+                
+                //Set infoview size
+                constrain(this.infoView) { infoView in
+                    infoView.trailing == infoView.superview!.trailing - 8
                 }
                 
                 //Set business image size
@@ -192,7 +201,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 }
                 
                 //Set peopleWantogoLabel size
-                
                 constrain(this.peopleWantogoLabel) { peopleWantogoLabel in
                     peopleWantogoLabel.width == peopleWantogoLabel.superview!.width * peopleWantogoLabelToParentRatio
                 }
@@ -204,14 +212,17 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                     joinButton.right == etaLabel.right
                 }
                 
-                constrain(this.ETA, this.etaLabel) {ETA, etaLabel in
+                //Set eta and price labels
+                constrain(this.ETA, this.etaLabel, this.priceLabel) {ETA, etaLabel, priceLabel in
                     etaLabel.width == ETA.width * etaLabelWidthToEtaIconRatio
+                    priceLabel.width == etaLabel.width * priceLabelToEtaLabelRatio
                 }
             }
         })()
         
         super.updateConstraints()
     }
+        
     
     public override func prepareForReuse() {
         super.prepareForReuse()
@@ -281,6 +292,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                             if i < participants.count {
                                 let avatarView = this.avatarImageViews[i]
                                 
+                                
                                 // place the image into image view
                                 participants[i].avatar.producer
                                     |> takeUntilPrepareForReuse(this)
@@ -299,9 +311,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                         }
                         
                         let etcImageView = this.avatarImageViews[filledAvatarImageViews.count]
-                        etcImageView.contentMode = .Center
+                        
                         // assign etc icon to image view
-                        etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: CGSizeMake(etcImageView.frame.width, etcImageView.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+                        etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: CGSizeMake(round(avatarWidth * 0.45), round(avatarHeight * 0.15)), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
                             |> map { Optional<UIImage>($0) }
                             |> takeUntilPrepareForReuse(this)
                         

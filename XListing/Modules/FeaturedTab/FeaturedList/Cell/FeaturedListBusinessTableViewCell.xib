@@ -70,13 +70,7 @@
                             <constraint firstAttribute="bottom" secondItem="Ll0-OA-u89" secondAttribute="bottom" constant="2" id="Nas-3h-fIN"/>
                             <constraint firstItem="Ll0-OA-u89" firstAttribute="leading" secondItem="SEP-mM-tP1" secondAttribute="leadingMargin" multiplier="1.618" id="OOm-DK-FhQ"/>
                             <constraint firstAttribute="height" constant="21" id="QVe-Sl-ZHu"/>
-                            <constraint firstAttribute="trailing" secondItem="Ll0-OA-u89" secondAttribute="trailing" constant="97" id="kt5-zS-mGL"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="kt5-zS-mGL"/>
-                            </mask>
-                        </variation>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bqS-en-tuD" userLabel="WTG Button">
                         <rect key="frame" x="266" y="140" width="76" height="59"/>
@@ -158,7 +152,7 @@
                     <constraint firstItem="uDb-oW-Ddf" firstAttribute="leading" secondItem="T96-ob-woW" secondAttribute="leading" constant="-9" id="3Xo-fw-Xcf"/>
                     <constraint firstItem="LYg-mn-BdT" firstAttribute="leading" secondItem="wLJ-Zu-Foj" secondAttribute="leadingMargin" id="4Jg-Em-7dy"/>
                     <constraint firstItem="6lj-Ep-95x" firstAttribute="leading" secondItem="uDb-oW-Ddf" secondAttribute="trailing" id="5Pj-k4-bzM"/>
-                    <constraint firstItem="6lj-Ep-95x" firstAttribute="trailing" secondItem="wLJ-Zu-Foj" secondAttribute="trailingMargin" id="9Mu-Dp-vep"/>
+                    <constraint firstItem="6lj-Ep-95x" firstAttribute="trailing" secondItem="wLJ-Zu-Foj" secondAttribute="trailingMargin" priority="250" id="9Mu-Dp-vep"/>
                     <constraint firstAttribute="bottomMargin" secondItem="LYg-mn-BdT" secondAttribute="bottom" constant="-8" id="JiF-Bd-X9n"/>
                     <constraint firstAttribute="trailingMargin" secondItem="LYg-mn-BdT" secondAttribute="trailing" multiplier="1.285" id="PEa-SZ-kz7"/>
                     <constraint firstItem="uDb-oW-Ddf" firstAttribute="bottom" secondItem="6lj-Ep-95x" secondAttribute="bottom" id="SeX-Jo-NBx"/>
