@@ -8,13 +8,12 @@
 
 import Foundation
 import UIKit
-import ReactiveCocoa
 import Cartography
 
 public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTransitioning {
     
-    private var startRect: CGRect
-    private var destination: CGPoint
+    private let startRect: CGRect
+    private let destination: CGPoint
     
     public init(startRect: CGRect, destination: CGPoint) {
         self.startRect = startRect
@@ -39,7 +38,7 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
         containerView.opaque = true
         containerView.backgroundColor = UIColor.whiteColor()
         
-        // transparent at first
+        // destination view controller is transparent at first
         toView.alpha = 0
         
         let animatingView = UIImageView(image: UIImage(named: ImageAssets.logo))
@@ -62,27 +61,43 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
         containerView.addSubview(fromView)
         containerView.addSubview(animatingView)
         
-        UIView.animateWithDuration(
-            1.0,
-            delay: 0.2,
-            options: UIViewAnimationOptions.CurveEaseIn,
-            animations: { () -> Void in
-                fromView.alpha = 0
-                animatingView.frame.origin = self.destination
-            
-            }) { (finished) -> Void in
-                
-                animatingView.removeFromSuperview()
+        Chain(
+            { done in
+                UIView.animateWithDuration(
+                    0.2,
+                    delay: 0.2,
+                    options: UIViewAnimationOptions.TransitionNone,
+                    animations: {
+                        fromView.alpha = 0
+                    }) { finished in
+                        done()
+                    }
+            },
+            { done in
+                UIView.animateWithDuration(
+                    1.0,
+                    delay: 0.0,
+                    options: UIViewAnimationOptions.CurveEaseIn,
+                    animations: { () -> Void in
+                        animatingView.frame.origin = self.destination
+
+                    }) { (finished) -> Void in
+                        animatingView.removeFromSuperview()
+                        done()
+                    }
+            },
+            { done in
                 UIView.animateWithDuration(
                     0.5,
                     animations: {
                         toView.alpha = 1
-                    
+
                     }) { finished in
                         transitionContext.completeTransition(true)
                         fromView.alpha = 1
-                }
-        }
-        
+                        done()
+                    }
+            }
+        ).run()
     }
 }

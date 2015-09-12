@@ -43,6 +43,7 @@
 		45CBBB3CCC6E72DCE005EE35 /* IProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */; };
 		45CBBDCF399C77A93D0B1C1E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB2272E6DA7ED3BDD24AE /* ProfileViewModel.swift */; };
 		7E2EB1E11B8131650012BAB3 /* StatusBarBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2EB1E01B8131650012BAB3 /* StatusBarBackgroundView.swift */; };
+		7E33F4081BA408A7002C63FE /* Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E33F4071BA408A7002C63FE /* Chain.swift */; };
 		7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */; };
 		7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */; };
 		7EACBA111AFBDC15009D8CA6 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */; };
@@ -274,6 +275,7 @@
 		45CBB6EB1EBF881F9EB25C64 /* IProfileWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IProfileWireframe.swift; sourceTree = "<group>"; };
 		45CBB717784EC301CD7D042E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7E2EB1E01B8131650012BAB3 /* StatusBarBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarBackgroundView.swift; sourceTree = "<group>"; };
+		7E33F4071BA408A7002C63FE /* Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chain.swift; sourceTree = "<group>"; };
 		7E3A1C021B1EF84500E84ABE /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = "Pods/../build/Debug-iphoneos/Pods-XListing/CocoaLumberjack.framework"; sourceTree = "<group>"; };
 		7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CocoaLumberjack+extension.swift"; sourceTree = "<group>"; };
 		7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewController.swift; sourceTree = "<group>"; };
@@ -810,6 +812,7 @@
 				B4FC6B221B678541001F13E9 /* NSObject+Swift.h */,
 				B4F4AFDD1B6EC70700ABA176 /* Misc.swift */,
 				261D91021B6873D5004B1CF6 /* Icons.swift */,
+				7E33F4071BA408A7002C63FE /* Chain.swift */,
 			);
 			name = Utility;
 			path = Common/Utility;
@@ -1677,6 +1680,7 @@
 				B4E70B3E1AF1735C00A7418F /* IParticipationService.swift in Sources */,
 				D0ADD8A11B608B4200B27885 /* ProfileBusinessCell.swift in Sources */,
 				B4307F3E1B78C98D00E3D41B /* BoyButton.swift in Sources */,
+				7E33F4081BA408A7002C63FE /* Chain.swift in Sources */,
 				B44E35011AD5D0AE00657A31 /* IFeaturedListViewModel.swift in Sources */,
 				B4F4AF821B6B000000ABA176 /* DetailParticipationViewModel.swift in Sources */,
 				B4B665441ADF8D2F0084DBE7 /* IDetailViewModel.swift in Sources */,
