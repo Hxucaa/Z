@@ -26,7 +26,7 @@ private let peopleWantogoLabelToParentRatio = 0.39
 private let joinButtonWidthToParentRatio = 0.8
 private let joinButtonHeightToWidthRatio = 0.43
 private let etaLabelWidthToEtaIconRatio = 2.5
-private let priceLabelToEtaLabelRatio = 0.5
+private let priceLabelToEtaLabelRatio = 0.6
 
     //Sizing and margins
 private let avatarHeight = avatarWidth
@@ -94,15 +94,21 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         peopleWantogoLabel.adjustsFontSizeToFitWidth = true
         joinButton.titleLabel?.adjustsFontSizeToFitWidth = true
         
-        // Adding price icon
-        pricePerPerson.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: CGSizeMake(pricePerPerson.frame.width, pricePerPerson.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-            |> map { Optional<UIImage>($0) }
-            |> takeUntilPrepareForReuse(self)
         
-        // Adding ETA icon
-        ETA.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: CGSizeMake(ETA.frame.width, ETA.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-            |> map { Optional<UIImage>($0) }
-            |> takeUntilPrepareForReuse(self)
+        //Set up ETA and Price Icons
+        $.once({ [weak self] () -> () in
+            if let this = self {
+                // Adding price icon
+                this.pricePerPerson.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: CGSizeMake(this.pricePerPerson.frame.width, this.pricePerPerson.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+                    |> map { Optional<UIImage>($0) }
+                    |> takeUntilPrepareForReuse(this)
+        
+                // Adding ETA icon
+                this.ETA.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: CGSizeMake(this.ETA.frame.width, this.ETA.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+                    |> map { Optional<UIImage>($0) }
+                    |> takeUntilPrepareForReuse(this)
+            }
+        })()
         
         //Setup joinButton
         let join = Action<UIButton, Bool, NSError>{ button in
@@ -110,6 +116,25 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         }
         
         joinButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        
+//        $.once({ [weak self] () -> () in
+//            if let this = self {
+//                this.joinButton.rac_image <~ AssetFactory.getImage(Asset.joinButton(size: CGSizeMake(this.joinButton.frame.size), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, ifAA: false, ifGo: false, ifPay: false, ifUnTapped: true))
+//                    |> map { Optional<UIImage>($0) }
+//                    |> takeUntilPrepareForReuse(self)
+//                    |> takeUntilPrepareForReuse(this)
+//                    |> start(next: { image in
+//                        self?.joinButton.setBackgroundImage(image, forState: .Disabled)
+//                    })
+//                
+//                this.joinButton.rac_image <~ AssetFactory.getImage(Asset.joinButton(size: CGSizeMake(this.joinButton.frame.size), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, ifAA: false, ifGo: true, ifPay: false, ifUnTapped: false))
+//                    |> takeUntilPrepareForReuse(this)
+//                    |> start(next: { image in
+//                        self?.joinButton.setBackgroundImage(image, forState: .Normal)
+//                    })
+//            }
+//        })()
+        
         joinButton.layer.cornerRadius = 5
         joinButton.layer.borderWidth = 1
         joinButton.layer.borderColor = UIColor.x_PrimaryColor().CGColor
@@ -218,7 +243,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         super.updateConstraints()
     }
-        
+    
     
     public override func prepareForReuse() {
         super.prepareForReuse()
@@ -293,7 +318,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                                 participants[i].avatar.producer
                                     |> takeUntilPrepareForReuse(this)
                                     |> ignoreNil
-                                    |> map { $0.maskWithRoundedRect(avatarView.bounds.size, cornerRadius: avatarView.bounds.height, backgroundColor: .x_FeaturedCardBG()) }
+                                    |> map { $0.maskWithRoundedRect(avatarView.bounds.size, cornerRadius: floor(avatarView.bounds.height), backgroundColor: .x_FeaturedCardBG()) }
                                     |> start(next: { image in
                                         avatarView.image = image
                                     })
@@ -308,22 +333,27 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                         
                         let etcImageView = this.avatarImageViews[filledAvatarImageViews.count]
                         
+                        $.once({ [weak self] Void -> Void in
+                            if let this = self {
                         // assign etc icon to image view
-                        etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: CGSizeMake(round(avatarWidth * 0.6), round(avatarHeight * 0.2)), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-                            |> map { Optional<UIImage>($0) }
-                            |> takeUntilPrepareForReuse(this)
+                                etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: CGSizeMake(7,3), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+                                    |> map { Optional<UIImage>($0) }
+                                    |> takeUntilPrepareForReuse(this)
+                                etcImageView.contentMode = .Left
+                            }
+                        })()
                         
                         // unhide the image view
                         etcImageView.hidden = false
-
+                        
                         
                         // add the image view to the list of already processed
                         filledAvatarImageViews.append(etcImageView)
                     }
                     
-                    for i in (filledAvatarImageViews.count)..<(this.avatarImageViews.count) {
-                        this.avatarImageViews[i].hidden = true
-                    }
+//                    for i in (filledAvatarImageViews.count)..<(this.avatarImageViews.count) {
+//                        this.avatarImageViews[i].hidden = true
+//                    }
                 }
             })
     }

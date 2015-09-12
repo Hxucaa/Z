@@ -19,7 +19,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="253" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="iyM-Pv-UcA" userLabel="Cover">
                                 <rect key="frame" x="0.0" y="-7" width="136" height="146"/>
-                                <color key="backgroundColor" red="1" green="0.05221632140848298" blue="0.15441615116468899" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="250" constant="80" id="di2-b3-7TO"/>
                                     <constraint firstAttribute="width" priority="250" constant="80" id="wfp-Q6-zO6"/>
@@ -36,11 +36,11 @@
                     </view>
                     <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6lj-Ep-95x" userLabel="InfoView">
                         <rect key="frame" x="144" y="8" width="198" height="132"/>
-                        <color key="backgroundColor" red="0.0" green="0.6705882352941176" blue="0.61176470588235299" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LYg-mn-BdT" userLabel="ViewofParticipants">
                         <rect key="frame" x="8" y="161" width="258" height="38"/>
-                        <color key="backgroundColor" red="0.93333333330000001" green="0.64144736840000005" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEP-mM-tP1" userLabel="# of people">
                         <rect key="frame" x="8" y="140" width="258" height="21"/>
@@ -52,7 +52,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.34539473679999999" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Ll0-OA-u89" secondAttribute="trailing" priority="250" constant="207" id="7qp-VD-PWs"/>
                             <constraint firstItem="Ll0-OA-u89" firstAttribute="top" secondItem="SEP-mM-tP1" secondAttribute="top" constant="3" id="B4L-Ei-v3D"/>
@@ -67,11 +67,11 @@
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Svz-tv-mdR">
                                 <rect key="frame" x="4" y="22" width="30" height="30"/>
                                 <state key="normal" title="约起">
-                                    <color key="titleColor" red="0.0" green="0.6705882352941176" blue="0.61176470588235299" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.0" green="0.69803921568627447" blue="0.67450980392156867" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.34539473679999999" green="0.38486842110000002" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                         <accessibility key="accessibilityConfiguration">
                             <accessibilityTraits key="traits" none="YES" button="YES"/>
                         </accessibility>
@@ -93,7 +93,7 @@
                     <constraint firstItem="uDb-oW-Ddf" firstAttribute="leading" secondItem="T96-ob-woW" secondAttribute="leading" constant="-9" id="3Xo-fw-Xcf"/>
                     <constraint firstItem="LYg-mn-BdT" firstAttribute="leading" secondItem="wLJ-Zu-Foj" secondAttribute="leadingMargin" id="4Jg-Em-7dy"/>
                     <constraint firstItem="6lj-Ep-95x" firstAttribute="leading" secondItem="uDb-oW-Ddf" secondAttribute="trailing" id="5Pj-k4-bzM"/>
-                    <constraint firstItem="6lj-Ep-95x" firstAttribute="trailing" secondItem="bqS-en-tuD" secondAttribute="trailing" id="Ipa-It-JbS"/>
+                    <constraint firstItem="6lj-Ep-95x" firstAttribute="trailing" secondItem="wLJ-Zu-Foj" secondAttribute="trailingMargin" id="Hae-pE-fdK"/>
                     <constraint firstAttribute="bottomMargin" secondItem="LYg-mn-BdT" secondAttribute="bottom" constant="-8" id="JiF-Bd-X9n"/>
                     <constraint firstAttribute="trailingMargin" secondItem="LYg-mn-BdT" secondAttribute="trailing" multiplier="1.285" id="PEa-SZ-kz7"/>
                     <constraint firstItem="bqS-en-tuD" firstAttribute="trailing" secondItem="wLJ-Zu-Foj" secondAttribute="trailingMargin" id="SE1-C7-0Xr"/>
