@@ -25,10 +25,74 @@ extension AssetsKit {
         
         draw()
         
-        let imageOfEtcIcon = UIGraphicsGetImageFromCurrentImageContext()!
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
-        return imageOfEtcIcon
+        return image
+    }
+    
+    private class func drawing(#draw: Void -> Void, sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
+        
+        // enter the size of the original drawing
+        
+        let rect = CGRect(origin: CGPointZero, size: sizeToFit ?? drawingSize)
+        UIGraphicsBeginImageContextWithOptions(sizeToFit ?? drawingSize, opaque ?? true, imageContextScale ?? 0)
+        
+        if let backgroundColor = backgroundColor {
+            backgroundColor.set()
+            UIRectFill(rect)
+        }
+        
+        draw()
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return image
+    }
+    
+    private class func drawingJoinButton(#draw: Void -> Void, sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, ifAA: Bool? = false, ifGo: Bool? = false, ifPay: Bool? = false, ifNotTapped: Bool? = false) -> UIImage {
+       
+        // enter the size of the original drawing
+        
+        let rect = CGRect(origin: CGPointZero, size: sizeToFit ?? drawingSize)
+        UIGraphicsBeginImageContextWithOptions(sizeToFit ?? drawingSize, opaque ?? true, imageContextScale ?? 0)
+        
+        if let backgroundColor = backgroundColor {
+        backgroundColor.set()
+        UIRectFill(rect)
+        
+        }
+        
+        draw()
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return image
+    }
+    
+    internal class func x_imageOfJoinButton(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, ifAA: Bool? = false, ifGo: Bool? = false, ifPay: Bool? = false, ifNotTapped: Bool? = false) -> UIImage {
+        
+        return self.drawingJoinButton(
+            draw: {
+                // calculate scaleX and scaleY based on size
+                let scaledX: CGFloat = (sizeToFit ?? drawingSize).width / drawingSize.width
+                let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
+                // change this function to the appropriate drawing function
+                AssetsKit.drawJoinButton(scaleX: scaledX, scaleY: scaledY, ifAA: ifAA!, ifGo: ifGo!, ifPay: ifPay!, ifNotTapped: ifNotTapped!)
+            },
+            
+            sizeToFit: sizeToFit,
+            drawingSize: drawingSize,
+            backgroundColor: backgroundColor,
+            opaque: opaque,
+            imageContextScale: imageContextScale,
+            ifAA: ifAA,
+            ifGo: ifGo,
+            ifPay: ifPay,
+            ifNotTapped: ifNotTapped
+        )
     }
     
     
@@ -71,28 +135,7 @@ extension AssetsKit {
             textInput: textInput
         )
     }
-    
-    private class func drawing(#draw: Void -> Void, sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
-        
-        // enter the size of the original drawing
-        
-        let rect = CGRect(origin: CGPointZero, size: sizeToFit ?? drawingSize)
-        UIGraphicsBeginImageContextWithOptions(sizeToFit ?? drawingSize, opaque ?? true, imageContextScale ?? 0)
-        
-        if let backgroundColor = backgroundColor {
-            backgroundColor.set()
-            UIRectFill(rect)
-        }
-        
-        draw()
-        
-        let imageOfEtcIcon = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        return imageOfEtcIcon
-    }
-    
-    
+
     internal class func x_imageOfPriceIcon(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
         
         return self.drawing(
