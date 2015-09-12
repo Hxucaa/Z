@@ -188,7 +188,7 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
             if !app.statusBarHidden {
                 destination.y += app.statusBarFrame.size.height
             }
-            return UIImageSlideAnimator(startRect: start, destination: destination)
+            return UIImageSlideAnimator(startRect: start, destination: destination, image: UIImage(named: ImageAssets.lowPoly)!)
         }
         return nil
     }

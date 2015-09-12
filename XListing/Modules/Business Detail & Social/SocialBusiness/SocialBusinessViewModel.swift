@@ -74,5 +74,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         
     }
     
+    
+    
     // MARK: - Others
 }

@@ -754,7 +754,6 @@
 				B403B0801BA0DA110085E0A3 /* BusinessDetailViewController.swift */,
 				B403B0821BA0DA4C0085E0A3 /* BusinessDetailViewModel.swift */,
 				B403B0841BA0DA6B0085E0A3 /* IBusinessDetailViewModel.swift */,
-				B403B08D1BA2B5EF0085E0A3 /* UIImageSlideAnimator.swift */,
 			);
 			name = BusinessDetail;
 			path = "Business Detail & Social/BusinessDetail";
@@ -1121,6 +1120,7 @@
 				B4E7E5061B93F32C0034B093 /* SocialBusinessViewController.swift */,
 				B4E7E50A1B93F36E0034B093 /* ISocialBusinessViewModel.swift */,
 				B4E7E5081B93F3610034B093 /* SocialBusinessViewModel.swift */,
+				B403B08D1BA2B5EF0085E0A3 /* UIImageSlideAnimator.swift */,
 				B4D7338F1B9A28F900B599B9 /* Header View */,
 				B4D7338D1B9A286A00B599B9 /* User Cell */,
 			);

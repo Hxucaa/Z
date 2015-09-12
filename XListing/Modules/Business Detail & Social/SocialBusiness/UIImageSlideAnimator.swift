@@ -14,14 +14,16 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
     
     private let startRect: CGRect
     private let destination: CGPoint
+    private let image: UIImage
     
-    public init(startRect: CGRect, destination: CGPoint) {
+    public init(startRect: CGRect, destination: CGPoint, image: UIImage) {
         self.startRect = startRect
         self.destination = destination
+        self.image = image
     }
     
     public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return 2.0
+        return 2.2
     }
     
     public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -41,9 +43,10 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
         // destination view controller is transparent at first
         toView.alpha = 0
         
-        let animatingView = UIImageView(image: UIImage(named: ImageAssets.logo))
+        let animatingView = UIImageView(image: image)
         animatingView.frame = startRect
         
+        // add blur effect
         let blur = UIBlurEffect(style: UIBlurEffectStyle.Dark)
         let effectView = UIVisualEffectView(effect: blur)
         effectView.frame = animatingView.frame
@@ -61,6 +64,7 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
         containerView.addSubview(fromView)
         containerView.addSubview(animatingView)
         
+        // chain animation
         Chain(
             { done in
                 UIView.animateWithDuration(
@@ -75,14 +79,13 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
             },
             { done in
                 UIView.animateWithDuration(
-                    1.0,
+                    1.3,
                     delay: 0.0,
-                    options: UIViewAnimationOptions.CurveEaseIn,
-                    animations: { () -> Void in
+                    options: UIViewAnimationOptions.CurveEaseInOut,
+                    animations: {
                         animatingView.frame.origin = self.destination
 
-                    }) { (finished) -> Void in
-                        animatingView.removeFromSuperview()
+                    }) { finished in
                         done()
                     }
             },
@@ -94,6 +97,7 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
 
                     }) { finished in
                         transitionContext.completeTransition(true)
+                        animatingView.removeFromSuperview()
                         fromView.alpha = 1
                         done()
                     }
