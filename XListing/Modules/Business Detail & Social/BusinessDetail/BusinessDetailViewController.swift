@@ -13,6 +13,8 @@ import ReactiveArray
 import Dollar
 import Cartography
 
+private let UserCellIdentifier = "SocialBusiness_UserCell"
+
 public final class BusinessDetailViewController : XUIViewController {
     
     // MARK: - UI Controls
@@ -32,6 +34,9 @@ public final class BusinessDetailViewController : XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
+        tableView.dataSource = self
+        
         view.addSubview(tableView)
         
         constrain(tableView) { view in
@@ -41,8 +46,6 @@ public final class BusinessDetailViewController : XUIViewController {
             view.leading == view.superview!.leading
         }
         
-        view.opaque = true
-        view.backgroundColor = UIColor.whiteColor()
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -61,8 +64,14 @@ public final class BusinessDetailViewController : XUIViewController {
         
         The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
         */
-//        tableView.delegate = nil
-//        tableView.delegate = self
+        tableView.delegate = nil
+        tableView.delegate = self
+    }
+    
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        tableView.reloadData()
     }
     
     // MARK: - Bindings
@@ -73,7 +82,29 @@ public final class BusinessDetailViewController : XUIViewController {
     
     // MARK: - Others
 }
-
-//extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSource  {
-//
-//}
+extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSource {
+    /**
+    Tells the data source to return the number of rows in a given section of a table view. (required)
+    
+    :param: tableView The table-view object requesting this information.
+    :param: section   An index number identifying a section in tableView.
+    
+    :returns: The number of rows in section.
+    */
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    /**
+    Asks the data source for a cell to insert in a particular location of the table view. (required)
+    
+    :param: tableView A table-view object requesting the cell.
+    :param: indexPath An index path locating a row in tableView.
+    
+    :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
+    */
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as! SocialBusiness_UserCell
+        return cell
+    }
+}
