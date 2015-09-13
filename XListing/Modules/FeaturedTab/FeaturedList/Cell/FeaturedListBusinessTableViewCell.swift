@@ -119,22 +119,23 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         joinButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         
-//        $.once({ [weak self] () -> () in
-//            if let this = self {
-//                this.joinButton.rac_image <~ AssetFactory.getImage(Asset.joinButton(size: CGSizeMake(this.joinButton.frame.size), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, ifAA: false, ifGo: false, ifPay: false, ifUnTapped: true))
-//                    |> map { Optional<UIImage>($0) }
-//                    |> takeUntilPrepareForReuse(this)
-//                    |> start(next: { image in
-//                        self?.joinButton.setBackgroundImage(image, forState: .Disabled)
-//                    })
-//
-//                this.joinButton.rac_image <~ AssetFactory.getImage(Asset.joinButton(size: CGSizeMake(this.joinButton.frame.size), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, ifAA: false, ifGo: true, ifPay: false, ifUnTapped: false))
-//                    |> takeUntilPrepareForReuse(this)
-//                    |> start(next: { image in
-//                        self?.joinButton.setBackgroundImage(image, forState: .Normal)
-//                    })
-//            }
-//        })()
+        $.once({ [weak self] () -> () in
+            if let this = self {
+                AssetFactory.getImage(Asset.JoinButton(size: this.joinButton.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, ifAA: false, ifGo: false, ifPay: false, ifUnTapped: true))
+                    |> map { Optional<UIImage>($0) }
+                    |> takeUntilPrepareForReuse(this)
+                    |> start(next: { image in
+                        self?.joinButton.setBackgroundImage(image, forState: .Normal)
+                    })
+
+                AssetFactory.getImage(Asset.JoinButton(size: this.joinButton.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, ifAA: false, ifGo: true, ifPay: false, ifUnTapped: false))
+                    |> map { Optional<UIImage>($0) }
+                    |> takeUntilPrepareForReuse(this)
+                    |> start(next: { image in
+                        self?.joinButton.setBackgroundImage(image, forState: .Disabled)
+                    })
+            }
+        })()
 
         joinButton.titleLabel?.opaque = true
         joinButton.titleLabel?.backgroundColor = .x_FeaturedCardBG()
