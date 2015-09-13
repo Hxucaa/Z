@@ -127,7 +127,10 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         let business = Business()
         business.nameSChinese = "hahah"
         navigator.pushBusinessDetail(business, animated: animated)
+        
     }
+    
+    
     
     // MARK: - Others
 }
