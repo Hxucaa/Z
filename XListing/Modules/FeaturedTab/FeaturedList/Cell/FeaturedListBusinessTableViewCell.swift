@@ -94,16 +94,23 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         peopleWantogoLabel.adjustsFontSizeToFitWidth = true
         joinButton.titleLabel?.adjustsFontSizeToFitWidth = true
         
+        nameLabel.layer.masksToBounds = true
         
         
         pricePerPerson.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: CGSizeMake(pricePerPerson.frame.width, pricePerPerson.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+            |> take(1)
             |> map { Optional<UIImage>($0) }
+        
+        pricePerPerson.layer.rasterizationScale = UIScreen.mainScreen().scale
+        pricePerPerson.layer.shouldRasterize = true
         
         // Adding ETA icon
         ETA.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: CGSizeMake(ETA.frame.width, ETA.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+            |> take(1)
             |> map { Optional<UIImage>($0) }
-            |> takeUntilPrepareForReuse(self)
- 
+        
+        ETA.layer.rasterizationScale = UIScreen.mainScreen().scale
+        ETA.layer.shouldRasterize = true
         
         //Setup joinButton
         let join = Action<UIButton, Bool, NSError>{ button in
@@ -116,12 +123,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
 //            if let this = self {
 //                this.joinButton.rac_image <~ AssetFactory.getImage(Asset.joinButton(size: CGSizeMake(this.joinButton.frame.size), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, ifAA: false, ifGo: false, ifPay: false, ifUnTapped: true))
 //                    |> map { Optional<UIImage>($0) }
-//                    |> takeUntilPrepareForReuse(self)
 //                    |> takeUntilPrepareForReuse(this)
 //                    |> start(next: { image in
 //                        self?.joinButton.setBackgroundImage(image, forState: .Disabled)
 //                    })
-//                
+//
 //                this.joinButton.rac_image <~ AssetFactory.getImage(Asset.joinButton(size: CGSizeMake(this.joinButton.frame.size), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, ifAA: false, ifGo: true, ifPay: false, ifUnTapped: false))
 //                    |> takeUntilPrepareForReuse(this)
 //                    |> start(next: { image in
@@ -129,10 +135,15 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
 //                    })
 //            }
 //        })()
-        
+
+        joinButton.titleLabel?.opaque = true
+        joinButton.titleLabel?.backgroundColor = .x_FeaturedCardBG()
+        joinButton.titleLabel?.layer.masksToBounds = true
         joinButton.layer.cornerRadius = 5
         joinButton.layer.borderWidth = 1
         joinButton.layer.borderColor = UIColor.x_PrimaryColor().CGColor
+        joinButton.layer.rasterizationScale = UIScreen.mainScreen().scale
+        joinButton.layer.shouldRasterize = true
         
         //When the cell is prepared for reuse, set the state.
         rac_prepareForReuseSignal.toSignalProducer()
@@ -177,6 +188,10 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             avatarImageViews.append(imageView)
             
         }
+        
+        peopleWantogoLabel.opaque = true
+        peopleWantogoLabel.backgroundColor = .x_FeaturedCardBG()
+        peopleWantogoLabel.layer.masksToBounds = true
     }
     
     
