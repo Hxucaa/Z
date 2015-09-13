@@ -49,7 +49,7 @@ public final class SocialBusiness_UserViewModel {
 //    private let _participationType: MutableProperty<String>
     private let _gender: MutableProperty<String>
     private let _profileImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.profilepicture))
-    private let _user: MutableProperty<User> = MutableProperty(User())
+    private let _user: MutableProperty<User>
     
     // MARK: - Properties
     private let imageService: IImageService
@@ -62,7 +62,9 @@ public final class SocialBusiness_UserViewModel {
         self.imageService = imageService
         
         if let user = user {
-            _user.put(user)
+            _user = MutableProperty(user)
+        } else {
+            _user = MutableProperty(User())
         }
         
         if let nickname = nickname {
