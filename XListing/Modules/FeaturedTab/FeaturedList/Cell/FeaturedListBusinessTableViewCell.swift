@@ -284,8 +284,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             |> takeUntilPrepareForReuse(self)
             |> ignoreNil
             |> start(next: { [weak self] price in
-//                self?.priceLabel.setPriceLabel(price)
-//                self?.priceLabel.setNeedsDisplay()
+                self?.priceLabel.text = "\(price)"
+                self?.priceLabel.setNeedsDisplay()
             })
         
         etaLabel.rac_text <~ viewmodel.eta.producer
