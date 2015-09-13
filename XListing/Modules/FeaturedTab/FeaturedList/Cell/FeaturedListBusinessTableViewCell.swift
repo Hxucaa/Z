@@ -29,7 +29,7 @@ private let etaLabelWidthToEtaIconRatio = 2.5
 private let priceLabelToEtaLabelRatio = 0.6
 
     //Sizing and margins
-private let avatarHeight = avatarWidth
+private let avatarHeight = avatarWidth * 1.05
     
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
@@ -95,20 +95,15 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         joinButton.titleLabel?.adjustsFontSizeToFitWidth = true
         
         
-        //Set up ETA and Price Icons
-        $.once({ [weak self] () -> () in
-            if let this = self {
-                // Adding price icon
-                this.pricePerPerson.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: CGSizeMake(this.pricePerPerson.frame.width, this.pricePerPerson.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-                    |> map { Optional<UIImage>($0) }
-                    |> takeUntilPrepareForReuse(this)
         
-                // Adding ETA icon
-                this.ETA.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: CGSizeMake(this.ETA.frame.width, this.ETA.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-                    |> map { Optional<UIImage>($0) }
-                    |> takeUntilPrepareForReuse(this)
-            }
-        })()
+        pricePerPerson.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: CGSizeMake(pricePerPerson.frame.width, pricePerPerson.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+            |> map { Optional<UIImage>($0) }
+        
+        // Adding ETA icon
+        ETA.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: CGSizeMake(ETA.frame.width, ETA.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+            |> map { Optional<UIImage>($0) }
+            |> takeUntilPrepareForReuse(self)
+ 
         
         //Setup joinButton
         let join = Action<UIButton, Bool, NSError>{ button in
@@ -165,7 +160,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                     view.leading == view.superview!.leading
                     view.centerY == view.superview!.centerY
                     view.width == avatarWidth
-                    view.height == view.width
+                    view.height == view.width * 1.05
                 }
             }
             
@@ -174,12 +169,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                     previous.trailing == current.leading - avatarGap
                     current.centerY == current.superview!.centerY
                     current.width == avatarWidth
-                    current.height == current.width
+                    current.height == current.width * 1.05
                 }
             }
             
             previousImageView = imageView
-            
             avatarImageViews.append(imageView)
             
         }
@@ -336,7 +330,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                         $.once({ [weak self] Void -> Void in
                             if let this = self {
                         // assign etc icon to image view
-                                etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: CGSizeMake(7,3), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+                                etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: CGSizeMake(8,3), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
                                     |> map { Optional<UIImage>($0) }
                                     |> takeUntilPrepareForReuse(this)
                                 etcImageView.contentMode = .Left
@@ -351,9 +345,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                         filledAvatarImageViews.append(etcImageView)
                     }
                     
-//                    for i in (filledAvatarImageViews.count)..<(this.avatarImageViews.count) {
-//                        this.avatarImageViews[i].hidden = true
-//                    }
+                    for i in (filledAvatarImageViews.count)..<(this.avatarImageViews.count) {
+                        this.avatarImageViews[i].hidden = true
+                    }
                 }
             })
     }
