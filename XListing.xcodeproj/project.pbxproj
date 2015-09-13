@@ -1212,6 +1212,7 @@
 				7EF371091AB8C012009AA3B9 /* Resources */,
 				872140BEE6FAF6010C9C14C0 /* Embed Pods Frameworks */,
 				187EF1DAD031175ED64B73E2 /* Copy Pods Resources */,
+				7EF53AD61BA60AED00C792AC /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -1399,6 +1400,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		7EF53AD61BA60AED00C792AC /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Fabric;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/Fabric.framework/run\" 9e0baa6840babcd585b3199cf6095e63863d1b51 2dfe2060f7b2ee6315443402f057aa2f6cdcbb8d31a418e478d3f58f74c90d38";
 		};
 		872140BEE6FAF6010C9C14C0 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

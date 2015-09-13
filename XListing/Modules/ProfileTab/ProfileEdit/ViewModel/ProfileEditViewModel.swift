@@ -36,7 +36,7 @@ public struct ProfileEditViewModel {
             |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
                 
                 let imageData = UIImagePNGRepresentation(self.profileImage.value)
-                let file = AVFile.fileWithName("profile.png", data: imageData) as! AVFile
+                let file = AVFile(name: "profile.png", data: imageData)
                 
                 user.nickname = self.nickname.value
                 user.birthday = self.birthday.value

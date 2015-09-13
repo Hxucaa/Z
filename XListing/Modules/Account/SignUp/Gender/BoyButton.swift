@@ -16,7 +16,7 @@ public final class BoyButton : UIButton {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
-        setImage(AssetsKit.imageOfMaleIcon(scale: 1.0), forState: UIControlState.Normal)
+        setImage(AssetsKit.imageOfMaleIcon(scaleX: 1.0, scaleY: 1.0, ifPressed: false), forState: UIControlState.Normal)
         self.tintColor = UIColor.whiteColor()
         
         let tapped = Action<UIButton, Void, NoError> { button in

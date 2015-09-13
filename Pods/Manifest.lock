@@ -1,10 +1,10 @@
 PODS:
-  - ActionSheetPicker-3.0 (1.7.1)
+  - ActionSheetPicker-3.0 (1.7.2)
   - Aspects (1.4.1)
-  - AVOSCloudCrashReportingDynamic (3.1.3.4):
+  - AVOSCloudCrashReportingDynamic (3.1.3.6):
     - AVOSCloudDynamic
-  - AVOSCloudDynamic (3.1.3.4)
-  - AVOSCloudIMDynamic (3.1.3.4):
+  - AVOSCloudDynamic (3.1.3.6)
+  - AVOSCloudIMDynamic (3.1.3.6):
     - AVOSCloudDynamic
   - Box (1.2.2)
   - Cartography (0.5.0)
@@ -16,12 +16,15 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.0.0):
     - CocoaLumberjack/Default
+  - Crashlytics (3.3.1)
   - Dollar (3.0.3)
+  - Fabric (1.5.1):
+    - Fabric/Base (= 1.5.1)
+  - Fabric/Base (1.5.1)
   - FLEX (2.0.3)
-  - INSPullToRefresh (1.0.11)
+  - INSPullToRefresh (1.0.12)
   - Locksmith (1.2.2)
   - Nimble (1.0.0)
-  - OAStackView (0.1.0)
   - Quick (0.3.1)
   - ReactiveArray (0.1.5):
     - ReactiveCocoa (= 3.0-RC.1)
@@ -47,7 +50,9 @@ PODS:
   - SDWebImage/Core (3.7.3)
   - Spring (1.0.3)
   - SVProgressHUD (1.1.3)
-  - XAssets (0.2.4):
+  - TTTAttributedLabel (1.13.4)
+  - TZStackView (1.0.5)
+  - XAssets (0.3.0):
     - ReactiveCocoa (= 3.0-RC.1)
     - SDWebImage (~> 3.7.0)
 
@@ -59,18 +64,21 @@ DEPENDENCIES:
   - AVOSCloudIMDynamic (~> 3.1)
   - Cartography (~> 0.5.0)
   - CocoaLumberjack (= 2.0.0)
+  - Crashlytics
   - Dollar (~> 3.0)
+  - Fabric
   - FLEX (~> 2.0)
   - INSPullToRefresh (~> 1.0.11)
   - Locksmith (~> 1.2)
   - Nimble (~> 1.0)
-  - OAStackView (~> 0.1.0)
   - Quick (= 0.3.1)
   - ReactiveArray (from `git@bitbucket.org:hxucaa/reactivearray.git`)
   - ReactiveCocoa (= 3.0-RC.1)
   - SDWebImage (~> 3.7.0)
   - Spring (from `https://github.com/Hxucaa/Spring`, branch `compatibility`)
   - SVProgressHUD (from `https://github.com/Hxucaa/SVProgressHUD.git`)
+  - TTTAttributedLabel (~> 1.13.4)
+  - TZStackView (~> 1.0.5)
   - XAssets (from `git@bitbucket.org:zenchat/xassets.git`)
 
 EXTERNAL SOURCES:
@@ -95,24 +103,25 @@ CHECKOUT OPTIONS:
     :commit: 4cbf1de2f9becbdfe38257bf9129f2930a2668ab
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
-    :commit: 33ec990c6032cd361b37c1991a4a39c00ed3dc72
+    :commit: ed1cb07a454dd5017f7b3e7ea7bcb27f094bb5ac
     :git: git@bitbucket.org:zenchat/xassets.git
 
 SPEC CHECKSUMS:
-  ActionSheetPicker-3.0: 28a795c376f9d76850cb56eaf7dd5cf9a9088223
+  ActionSheetPicker-3.0: c5bdca19fd8b3d798f0c79892cbab6f11a8523ae
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
-  AVOSCloudCrashReportingDynamic: 861a704bc41c459bc392ecdfbe04101c2856b0bc
-  AVOSCloudDynamic: dafbc07f991f6d40ae20e6a3f37ac24d4908c0c3
-  AVOSCloudIMDynamic: ab0492d9fc9578933a9e85a575d18316942712c0
+  AVOSCloudCrashReportingDynamic: 94403f595c88dfdb0efae0c33709cd672655aae8
+  AVOSCloudDynamic: 0888752ccfea4ec8d2ab21433a4ef784ee456436
+  AVOSCloudIMDynamic: e6d5579e818dd95eefc2579216c5a456ed318aaa
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   Cartography: 774e5cc446f5a6bca5d4345c5aa6af9a1fe74dc6
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
+  Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2
   Dollar: ae37f1da42cdc16061fcc1e91a070281b207f5c8
+  Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
   FLEX: 4f04fe0b0594163c00879e2b3db888e5ae37c8d5
-  INSPullToRefresh: fe1792e49a869f90389aa7761ef2a794309fe5aa
+  INSPullToRefresh: 3c3840b1837870d6553f749dab6520e31f551a76
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88
   Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87
-  OAStackView: 76e64242351e2746374b9161a03021cbc19341ff
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   ReactiveArray: cffcbb778acb3b066e361a341cffe90578c12559
   ReactiveCocoa: c85fe01be4e047dc1d9fba3e1e0b7070846d3296
@@ -120,6 +129,8 @@ SPEC CHECKSUMS:
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
-  XAssets: 7109ecb68e04d7576fefd9efa896f8d3d6aac156
+  TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
+  TZStackView: 45002efee4fe4ab9cc3132776b94434c4c3843eb
+  XAssets: 75b0fbc8721c92eca964daf40efbe3849c28f6fb
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0.beta.4

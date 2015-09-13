@@ -26,6 +26,7 @@ determined. A workaround is implemented such that when a scroll event initiates,
 import UIKit
 import MapKit
 import ReactiveCocoa
+import ReactiveArray
 import Dollar
 
 private let NearbyTableViewCellXIB = "NearbyTableViewCell"
@@ -33,7 +34,7 @@ private let CellIdentifier = "BusinessCell"
 private let NumberOfRowsInCollectionView = 1
 private let MapViewSpan = MKCoordinateSpanMake(0.07, 0.07)
 
-public final class NearbyViewController: XUIViewController {
+public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
     
     // MARK: - UI
     // MARK: Controls
@@ -43,8 +44,7 @@ public final class NearbyViewController: XUIViewController {
     @IBOutlet private weak var redoSearchButton: UIButton!
     
     // MARK: Properties
-    private var rectangleSearchTriggered = false
-    private var isInitialLoad = true
+    private var searchOrigin : CLLocation!
     
     /// View Model
     private var viewmodel: INearbyViewModel!
@@ -61,21 +61,80 @@ public final class NearbyViewController: XUIViewController {
         
         setupCurrentLocationButton()
         setupRedoSearchButton()
-        
-        
-        // set the initial view region based on current location
-        compositeDisposable += viewmodel.currentLocation
-            |> logLifeCycle(LogContext.Nearby, "viewmodel.currentLocation")
-            |> start(next: { [weak self] location in
-                let span = MapViewSpan
-                let region = MKCoordinateRegion(center: location.coordinate, span: span)
-                self?.mapView.setRegion(region, animated: false)
-                self?.isInitialLoad = false
-            })
     }
+    
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if viewmodel.collectionDataSource.isEmpty {
+            
+            // set the initial view region based on current location
+            compositeDisposable += viewmodel.currentLocation
+                |> takeUntilViewWillDisappear(self)
+                |> logLifeCycle(LogContext.Nearby, "viewmodel.currentLocation")
+                |> start(next: { [weak self] location in
+                    let span = MapViewSpan
+                    let region = MKCoordinateRegion(center: location.coordinate, span: span)
+                    if let this = self {
+                        this.mapView.setRegion(region, animated: false)
+                        this.searchOrigin = location
+                        
+                        this.compositeDisposable += this.viewmodel.getAdditionalBusinesses(location)
+                            |> takeUntilViewWillDisappear(this)
+                            |> logLifeCycle(LogContext.Nearby, "viewmodel.getAdditionalBusinesses")
+                            |> start()
+                    }
+                    
+                })
+        }
+        
+        // observing collection data source
+        compositeDisposable += viewmodel.collectionDataSource.producer
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Nearby, "viewmodel.collectionDataSource.producer")
+            |> start(
+                next: { [weak self] operation in
+                    if let this = self {
+                        switch operation {
+                        case let .Initiate(boxedValues):
+                            this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
+                            this.businessCollectionView.reloadData()
+                            
+                        case let .Extend(boxedValues):
+                            this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
+                            let sections = this.businessCollectionView.numberOfSections()
+                            
+                            // manually insert sections to collection view.
+                            this.businessCollectionView.insertSections(NSIndexSet(indexesInRange: NSMakeRange(sections, boxedValues.value.count)))
+                            
+                        case let .ReplaceAll(boxedValues):
+                            if boxedValues.value.count > 0 {
+                                
+                                this.businessCollectionView.reloadData()
+                                this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
+                                
+                                // get the first result
+                                let firstAnnotation = boxedValues.value[0].annotation.value
+                                
+                                // select and centre the map on the first result
+                                this.mapView.selectAnnotation(firstAnnotation, animated: true)
+                                this.mapView.setCenterCoordinate(firstAnnotation.coordinate, animated: true)
+                                
+                                // scroll the collection view to match
+                                let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+                                this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+                            }
+                            
+                        default:
+                            this.businessCollectionView.reloadData()
+                            assertionFailure("Unexpected case during changes to Nearby business collection array")
+                        }
+                    }
+                }
+        )
+        
+        
         
         setupMapView()
         setupBusinessCollectionView()
@@ -83,7 +142,7 @@ public final class NearbyViewController: XUIViewController {
         navigationController?.hidesBarsOnSwipe = false
     }
     
-    public override func viewDidAppear(animated: Bool) {
+       public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
     }
     
@@ -127,7 +186,6 @@ public final class NearbyViewController: XUIViewController {
         let reQueryMapAction = Action<UIButton, Void, NSError> { [weak self] button in
             return SignalProducer{ sink, disposable in
                 if let this = self {
-                    this.rectangleSearchTriggered = true
                     
                     let latDelta = this.mapView.region.span.latitudeDelta
                     let longDelta = this.mapView.region.span.longitudeDelta
@@ -148,13 +206,15 @@ public final class NearbyViewController: XUIViewController {
                     // clear the map of the previous pins
                     this.mapView.removeAnnotations(this.mapView.annotations)
                     
+                    this.searchOrigin = centreLocation
+                    
                     // start the query
-                    disposable += this.viewmodel.getBusinessesWithMap(mapCentreLat, centreLong: mapCentreLong, radius: radiusOfMapInKm)
+                    disposable += this.viewmodel.getBusinessesWithMap(this.searchOrigin, radius: radiusOfMapInKm)
                         |> start(completed: {
+                            self?.redoSearchButton.hidden = true
                             sendCompleted(sink)
                         })
                 }
-                
             }
         }
         
@@ -169,36 +229,6 @@ public final class NearbyViewController: XUIViewController {
         // track user movement
         // not tracking user movement beacause it can be a battery hog
         //        mapView.setUserTrackingMode(.Follow, animated: false)
-        mapView.delegate = self
-
-        // add annotation to map view
-        compositeDisposable += viewmodel.businessViewModelArr.producer
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Nearby, "viewmodel.businessViewModelArr.producer")
-            |> start(next: { [weak self] businessArr in
-                self?.businessCollectionView.reloadData()
-                self?.mapView.addAnnotations(businessArr.map { $0.annotation.value })
-                
-                // if we are reloading after a map search, then select and centre the map on the middle result
-                if let this = self where this.rectangleSearchTriggered {
-                    self?.rectangleSearchTriggered = false
-                    if businessArr.count > 0 {
-                        
-                        // get the first result
-                        let firstAnnotation = businessArr[0].annotation.value
-                        
-                        // select and centre the map on the first result
-                        self?.mapView.selectAnnotation(firstAnnotation, animated: true)
-                        self?.mapView.setCenterCoordinate(firstAnnotation.coordinate, animated: true)
-                        
-                        // scroll the collection view to match
-                        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-                        self?.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
-                        
-                    }
-                }
-                })
-        
         
         // create a signal associated with `mapView:didAddAnnotationViews:` from delegate `MKMapViewDelegate`
         // when annotation is added to the mapview, this signal receives the next event
@@ -215,8 +245,6 @@ public final class NearbyViewController: XUIViewController {
                     // add tap gesture recognizer to annotation view
                     let tapGesture = UITapGestureRecognizer()
                     view.addGestureRecognizer(tapGesture)
-                    self?.addMapPinDropAnimation(view)
-                    
                     
                     // listen to the gesture signal
                     self?.compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
@@ -234,7 +262,7 @@ public final class NearbyViewController: XUIViewController {
                                 }
                                 
                                 // find the index of the business
-                                let index = $.findIndex(this.viewmodel.businessViewModelArr.value) { business in
+                                let index = $.findIndex(this.viewmodel.collectionDataSource.array) { business in
                                     if let anno = annotation as? MKPointAnnotation {
                                         return business.annotation.value == anno
                                     }
@@ -254,22 +282,71 @@ public final class NearbyViewController: XUIViewController {
                             }
                         })
                 })
-                })
-    }
-    
-    private func addMapPinDropAnimation(view: MKAnnotationView) {
-        let visibleRect = mapView.annotationVisibleRect
-        let endFrame:CGRect = view.frame
-        var startFrame:CGRect = endFrame
-        startFrame.origin.y = visibleRect.origin.y - startFrame.size.height
-        view.frame = startFrame
+            })
         
-        UIView.beginAnimations("drop", context: nil)
-        UIView.setAnimationDuration(0.6)
+        var mapChangedFromUserInteraction = false
         
-        view.frame = endFrame
+        /**
+        *   Workaround for the lack API of determine whether the movement of the view map is triggered by user touch event.
+        */
         
-        UIView.commitAnimations()
+        compositeDisposable += rac_signalForSelector(Selector("mapView:regionWillChangeAnimated:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
+            // Completes the signal when the view controller disappears
+            |> takeUntilViewWillDisappear(self)
+            |> map { ($0 as! RACTuple).second as! Bool }
+            |> logLifeCycle(LogContext.Nearby, "mapView:regionWillChangeAnimated:")
+            |> start(
+                next: { [weak self] regionDidChangeAnimated in
+                    
+                    /// Determine whether the region change is triggered by user interaction.
+                    /// Note that this implementation depends on the internal impelmentation MKMapView by Apple, which could break at later versions.
+                    mapChangedFromUserInteraction = { () -> Bool in
+                        
+                        //  Look through gesture recognizers to determine whether this region change is from user interaction
+                        if let view = self?.mapView.subviews.first as? UIView, gestureRecognizers = view.gestureRecognizers {
+                            for recognizer in gestureRecognizers {
+                                if( recognizer.state == UIGestureRecognizerState.Began || recognizer.state == UIGestureRecognizerState.Ended ) {
+                                    return true
+                                }
+                            }
+                        }
+                        return false
+                    }()
+                    if (mapChangedFromUserInteraction) {
+                        // show the redo search button when user moves the map
+                        self?.redoSearchButton.hidden = false
+                    }
+                }
+            )
+        
+        compositeDisposable += rac_signalForSelector(Selector("mapView:regionDidChangeAnimated:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
+            // Completes the signal when the view controller disappears
+            |> takeUntilViewWillDisappear(self)
+            |> map { ($0 as! RACTuple).second as! Bool }
+            |> logLifeCycle(LogContext.Nearby, "mapView:regionDidChangeAnimated:")
+            |> start(
+                next: { [weak self] regionDidChangeAnimated in
+                    if (mapChangedFromUserInteraction) {
+                        // show the redo search button when user moves the map
+                        self?.redoSearchButton.hidden = false
+                    }
+                }
+            )
+        
+        
+        /**
+        Assigning MKMapView delegate has to happen after signals are established.
+        
+        - mapView.delegate is assigned to self somewhere in MKMapView designated initializer
+        
+        - MKMapView caches presence of optional delegate methods to avoid -respondsToSelector: calls
+        
+        - You use -rac_signalForSelector:fromProtocol: and RAC creates method implementation for you in runtime. But MKMapView knows nothing about this implementation, it still thinks that there's no such method
+        
+        The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
+        */
+        mapView.delegate = nil
+        mapView.delegate = self
     }
     
     private func setupBusinessCollectionView() {
@@ -305,7 +382,7 @@ public final class NearbyViewController: XUIViewController {
                             // After an end scrolling is detected, we must cancel the `performSelector`, otherwise this function will get called multiple times.
                             NSObject.cancelPreviousPerformRequestsWithTarget(this)
                             
-                            let business = this.viewmodel.businessViewModelArr.value[indexPath.section]
+                            let business = this.viewmodel.collectionDataSource.array[indexPath.section]
                             
                             /// Center the map to the annotation.
                             let annotation = business.annotation.value
@@ -322,6 +399,27 @@ public final class NearbyViewController: XUIViewController {
                 }
         )
         
+        // create a signal associated with `scrollViewDidEndDragging:willDecelerate:` from delegate `UIScrollViewDelegate`
+        compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
+            // Completes the signal when the view controller disappears
+            |> takeUntilViewWillDisappear(self)
+            |> map { ($0 as! RACTuple).first as! UIScrollView }
+            |> logLifeCycle(LogContext.Nearby, "scrollViewDidEndDragging:willDecelerate:")
+            |> start(
+                next: { scrollView in
+                    
+                    //if we reach the last item of the collection view, start the query for pagination
+                    
+                    //return the index of the currently visible cell from the collection view
+                    if let currentIndexPath = self.businessCollectionView.indexPathsForVisibleItems().first as? NSIndexPath
+                        where currentIndexPath.section == self.businessCollectionView.numberOfSections() - 1 {
+                            
+                        self.compositeDisposable += self.viewmodel.getAdditionalBusinesses(self.searchOrigin)
+                            |> start()
+                    }
+                }
+        )
+        
         /**
         Assigning UITableView delegate has to happen after signals are established.
         
@@ -333,7 +431,9 @@ public final class NearbyViewController: XUIViewController {
         
         The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
         */
+        businessCollectionView.delegate = nil
         businessCollectionView.delegate = self
+        
     }
     
     deinit {
@@ -361,7 +461,7 @@ extension NearbyViewController : UICollectionViewDataSource {
     :returns: The number of sections in collectionView.
     */
     public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return viewmodel.businessViewModelArr.value.count
+        return viewmodel.collectionDataSource.array.count
     }
     
     /**
@@ -386,7 +486,7 @@ extension NearbyViewController : UICollectionViewDataSource {
     */
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = businessCollectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier, forIndexPath: indexPath) as! NearbyCollectionViewCell
-        let business = viewmodel.businessViewModelArr.value[indexPath.section]
+        let business = viewmodel.collectionDataSource.array[indexPath.section]
         cell.bindToViewModel(business)
         
         return cell
@@ -423,14 +523,5 @@ extension NearbyViewController : UICollectionViewDelegateFlowLayout {
     */
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return collectionView.bounds.size
-    }
-}
-
-extension NearbyViewController : MKMapViewDelegate {
-    public func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
-        // show the redo search button when user moves the map, except on initial load
-        if !isInitialLoad {
-            redoSearchButton.hidden = false
-        }
     }
 }
