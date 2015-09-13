@@ -20,6 +20,7 @@ public final class SocialBusinessWireframe : ISocialBusinessWireframe {
     private let imageService: IImageService
     
     public weak var sharedNavigationController: UINavigationController?
+    private weak var socialBusinessViewController: SocialBusinessViewController?
     
     public required init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService) {
         self.userService = userService
@@ -39,6 +40,8 @@ public final class SocialBusinessWireframe : ISocialBusinessWireframe {
         let socialBusinessViewModel = SocialBusinessViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, imageService: imageService, businessModel: businessModel)
         socialBusinessViewModel.navigator = self
         viewController.bindToViewModel(socialBusinessViewModel)
+        
+        socialBusinessViewController = viewController
         
         return viewController
     }
@@ -64,6 +67,9 @@ extension SocialBusinessWireframe : SocialBusinessNavigator {
         let businessDetailViewModel = BusinessDetailViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, imageService: imageService, business: business)
         viewController.bindToViewModel(businessDetailViewModel)
         
+        sharedNavigationController?.delegate = socialBusinessViewController
+        
         sharedNavigationController?.pushViewController(viewController, animated: animated)
+        sharedNavigationController?.delegate = nil
     }
 }

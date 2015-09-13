@@ -11,8 +11,11 @@ import UIKit
 import TZStackView
 import Cartography
 import TTTAttributedLabel
+import ReactiveCocoa
 
 public final class SocialBusiness_UserCell : UITableViewCell {
+    
+    private var viewmodel: SocialBusiness_UserViewModel!
     
     // MARK: - UI Controls
     
@@ -135,7 +138,7 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         
         selectionStyle = UITableViewCellSelectionStyle.None
         
-        nicknameLabel.text = "海绵宝宝"
+        //nicknameLabel.text = "海绵"
         ageGroupLabel.text = "90后"
         horoscopeLabel.text = "水瓶座"
         participationTypeLabel.text = "我请客"
@@ -171,6 +174,14 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         
         profileImageView.setContentCompressionResistancePriority(750 + 1, forAxis: .Horizontal)
         statusLabel.setContentCompressionResistancePriority(750 - 1, forAxis: .Horizontal)
+        
+    }
+    
+    public func bindViewModel(viewmodel: SocialBusiness_UserViewModel) {
+        self.viewmodel = viewmodel
+        nicknameLabel.rac_text <~ viewmodel.nickname.producer
+        
+        profileImageView.rac_image <~ viewmodel.profileImage.producer
         
     }
 

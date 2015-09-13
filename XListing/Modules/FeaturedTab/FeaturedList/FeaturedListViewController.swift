@@ -58,7 +58,6 @@ public final class FeaturedListViewController: XUIViewController {
         
         let nib = UINib(nibName: "FeaturedListBusinessTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: CellIdentifier)
-        
 
     }
     

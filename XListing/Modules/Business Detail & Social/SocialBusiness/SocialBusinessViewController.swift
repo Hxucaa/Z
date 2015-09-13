@@ -38,10 +38,17 @@ public final class SocialBusinessViewController : XUIViewController {
         
         return view
     }()
+    private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
+        let view = SocialBusiness_UtilityHeaderView()
+        
+        
+        return view
+    }()
     
     // MARK: - Properties
     private var viewmodel: ISocialBusinessViewModel!
     private let compositeDisposable = CompositeDisposable()
+    private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, SocialBusinessViewModel>!
 
     // MARK: - Setups
     
@@ -61,12 +68,31 @@ public final class SocialBusinessViewController : XUIViewController {
         
         tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
         tableView.rowHeight = CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
+        
+        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: viewmodel as! SocialBusinessViewModel)
         tableView.dataSource = self
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        compositeDisposable += viewmodel.fetchMoreData()
+            |> take(1)
+            |> start()
+        
+        compositeDisposable += utilityHeaderView.detailInfoProxy
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.detailInfoProxy")
+            |> start(next: { [weak self] in
+                self?.viewmodel.pushBusinessDetail(true)
+            })
+        
+        compositeDisposable += utilityHeaderView.startEventProxy
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.startEventProxy")
+            |> start(next: { [weak self] in
+                
+            })
         
         let tapGesture = UITapGestureRecognizer()
         headerView.addGestureRecognizer(tapGesture)
@@ -86,10 +112,14 @@ public final class SocialBusinessViewController : XUIViewController {
             |> logLifeCycle(LogContext.SocialBusiness, "tableView:didSelectRowAtIndexPath:")
             |> start(
                 next: { [weak self] indexPath in
-                    let something = indexPath.row
                     self?.viewmodel.pushUserProfile(indexPath.row, animated: true)
                 }
             )
+        
+        compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.SocialBusiness, "viewmodel.collectionDataSource.producer")
+            |> start()
         
         /**
         Assigning UITableView delegate has to happen after signals are established.
@@ -124,30 +154,52 @@ public final class SocialBusinessViewController : XUIViewController {
     // MARK: - Others
 }
 
-extension SocialBusinessViewController: UITableViewDelegate, UITableViewDataSource {
+extension SocialBusinessViewController : UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return 10
+        return viewmodel.collectionDataSource.count
     }
     
-    public func tableView(tableView: UITableView,
-        cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as!
-        SocialBusiness_UserCell
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+        let cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as! SocialBusiness_UserCell
+        cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return cell
     }
     
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView(frame: CGRectMake(0, 0, ScreenWidth, WTGBarHeight))
-        let bar = NSBundle.mainBundle().loadNibNamed("SocialBusiness_UtilityView", owner: self, options:nil)[0] as? UIView
-        bar?.frame = CGRectMake(0, 0, ScreenWidth, WTGBarHeight)
-        if let bar = bar {
-            view.addSubview(bar)
-        }
-        return view
+        return utilityHeaderView
     }
     
-    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
-        return WTGBarHeight
+    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+}
+
+extension SocialBusinessViewController : UINavigationControllerDelegate {
+    public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        if fromVC is SocialBusinessViewController && toVC is BusinessDetailViewController && operation == .Push {
+            
+            // convert to navigation controller's coordinate system so that the height of status bar and navigation bar is taken into account of
+            let start: CGRect
+            var destination = CGPointMake(0, 0)
+            if let nav = self.navigationController {
+                start = nav.view.convertRect(headerView.frame, fromView: headerView)
+                if !nav.navigationBarHidden {
+                    destination.y += nav.navigationBar.frame.height
+                }
+                
+            }
+            else {
+                start = view.convertRect(headerView.frame, fromView: headerView)
+            }
+            
+            let app = UIApplication.sharedApplication()
+            if !app.statusBarHidden {
+                destination.y += app.statusBarFrame.size.height
+            }
+            return UIImageSlideAnimator(startRect: start, destination: destination, image: UIImage(named: ImageAssets.lowPoly)!)
+        }
+        return nil
     }
 }
