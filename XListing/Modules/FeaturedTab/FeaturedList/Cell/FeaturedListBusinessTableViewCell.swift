@@ -94,7 +94,10 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         peopleWantogoLabel.adjustsFontSizeToFitWidth = true
         joinButton.titleLabel?.adjustsFontSizeToFitWidth = true
         
+        businessImage.layer.masksToBounds = true
         nameLabel.layer.masksToBounds = true
+        etaLabel.layer.masksToBounds = true
+        
         
         
         pricePerPerson.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: CGSizeMake(pricePerPerson.frame.width, pricePerPerson.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
