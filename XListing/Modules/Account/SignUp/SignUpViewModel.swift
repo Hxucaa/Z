@@ -135,7 +135,11 @@ public final class SignUpViewModel {
                         user.nickname = nickname
                         user.birthday = birthday
                         user.profileImg = file
-                        user.gender = gender.rawValue
+                        if gender.rawValue == Gender.Male.rawValue {
+                            user.gender = true
+                        } else {
+                            user.gender = false
+                        }
                         
                         return self.userService.save(user)
                 }
