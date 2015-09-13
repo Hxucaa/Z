@@ -15,4 +15,8 @@ public protocol ISocialBusinessViewModel : class, IInfinityScrollDataSource, IPu
     init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, businessModel: Business)
     func pushUserProfile(index: Int, animated: Bool)
     func pushBusinessDetail(animated: Bool)
+    func fetchMoreData() -> SignalProducer<Void, NSError>
+    func refreshData() -> SignalProducer<Void, NSError>
+    func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError>
+    
 }

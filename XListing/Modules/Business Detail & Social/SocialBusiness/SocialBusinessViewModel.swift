@@ -12,6 +12,8 @@ import AVOSCloud
 import Dollar
 import ReactiveArray
 
+private let 启动无限scrolling参数 = 0.4
+
 public protocol SocialBusinessNavigator : class {
     func pushUserProfile(user: User, animated: Bool)
     func pushBusinessDetail(business: Business, animated: Bool)
@@ -28,6 +30,8 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     // MARK: - Outputs
     
     // MARK: - Properties
+    private let userArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
+    
     // MARK: Services
     private let userService: IUserService
     private let participationService: IParticipationService
@@ -51,20 +55,72 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     // MARK: - API
     
     public func fetchMoreData() -> SignalProducer<Void, NSError> {
-        fatalError("Not yet implemented")
+        return fetchParticipatingUsers(refresh: false)
+            |> map { _ in }
     }
     
     public func refreshData() -> SignalProducer<Void, NSError> {
-        fatalError("Not yet implemented")
+        return fetchParticipatingUsers(refresh: true)
+            |> map { _ in }
     }
     
     public func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
-        fatalError("Not yet implemented")
+        // if there are still plenty of data for display, don't fetch more users
+        if Double(targetContentIndex) < Double(collectionDataSource.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数) {
+            return SignalProducer<Void, NSError>.empty
+        }
+            // else fetch more data
+        else {
+            return fetchParticipatingUsers(refresh: false)
+                |> map { _ in }
+        }
     }
     
     public func pushUserProfile(index: Int, animated: Bool) {
-        fatalError("Not yet implemented")
+        navigator.pushUserProfile(collectionDataSource.array[index].user.value, animated: true)
         
+    }
+    
+    private func fetchParticipatingUsers(refresh: Bool = false) -> SignalProducer<[SocialBusiness_UserViewModel], NSError> {
+        let query = Participation.query()
+        query.limit = Constants.PAGINATION_LIMIT
+        query.skip = collectionDataSource.count
+        query.includeKey(User_Business_Participation.Property.User.rawValue)
+        query.whereKey(User_Business_Participation.Property.Business.rawValue, equalTo: business)
+
+        return SignalProducer<[Participation], NSError>.empty
+            |> then(participationService.findBy(query))
+            |> on(next: { participation in
+                
+                if refresh {
+                    // ignore old data, put in new array
+                    self.userArr.put(participation)
+                }
+                else {
+                    // save the new data in addition to the old ones
+                    self.userArr.put(self.userArr.value + participation)
+                }
+            })
+            |> map { participations -> [SocialBusiness_UserViewModel] in
+                
+                return participations.map {
+                    SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, nickname: $0.user.nickname, ageGroup: $0.user.ageGroup, horoscope: $0.user.horoscope, gender: $0.user.gender, profileImage: $0.user.profileImg)
+                }
+
+            }
+            |> on(
+                next: { viewmodels in
+                    if refresh && viewmodels.count > 0 {
+                        // ignore old data
+                        self.collectionDataSource.replaceAll(viewmodels)
+                    }
+                    else if !refresh && viewmodels.count > 0 {
+                        // save the new data with old ones
+                        self.collectionDataSource.extend(viewmodels)
+                    }
+                },
+                error: { DetailLogError($0.description) }
+        )
     }
     
     public func pushBusinessDetail(animated: Bool) {
