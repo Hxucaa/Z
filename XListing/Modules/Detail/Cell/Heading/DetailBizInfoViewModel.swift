@@ -47,10 +47,8 @@ public struct DetailBizInfoViewModel {
                 let p = Participation()
                 p.user = user
                 p.business = self.business
-                // TODO: implement participation type.
-//                let type = ParticipationType()
-//                type.
-//                p.participationType =
+                // participationType of 0 denotes interested, temporary measure
+                p.participationType = 0
                 return self.participationService.create(p)
             }
             |> on(next: { success in
@@ -97,7 +95,6 @@ public struct DetailBizInfoViewModel {
                 
                 query.whereKey(Property.User.rawValue, equalTo: user)
                 query.whereKey(Property.Business.rawValue, equalTo: business)
-                query.includeKey(Property.ParticipationType.rawValue)
                 
                 return self.participationService.get(query)
             }

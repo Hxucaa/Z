@@ -26,6 +26,7 @@ public enum Asset {
     case ProfileButton(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
     case SearchButton(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
     case FilterButton(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
+    case JoinButton(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, ifAA: Bool?, ifGo: Bool?, ifPay: Bool?, ifUnTapped: Bool?)
     
     /// Retrieve the drawing in `UIImage` for the `Asset`.
     internal func image() -> UIImage {
@@ -63,6 +64,8 @@ public enum Asset {
             return AssetsKit.x_imageOfCarIcon(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, pressed: pressed, shadow: shadow)
         case let .EtcIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
             return AssetsKit.x_imageOfEtcIcon(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, pressed: pressed, shadow: shadow)
+        case let .JoinButton(size, backgroundColor, opaque, imageContextScale, ifAA, ifGo, ifPay, ifNotTapped):
+            return AssetsKit.x_imageOfJoinButton(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, ifAA: ifAA, ifGo: ifGo, ifPay: ifPay, ifNotTapped: ifNotTapped)
         }
     }
     
@@ -102,7 +105,8 @@ public enum Asset {
             return "CarIcon|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
         case let .EtcIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
             return "EtcIcon|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
-
+        case let .JoinButton(size, backgroundColor, opaque, imageContextScale, ifAA, ifGo, ifPay, ifNotTapped):
+            return "JoinButton|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(ifAA)|\(ifGo)|\(ifPay)|\(ifNotTapped)"
         }
     }
     
@@ -140,6 +144,8 @@ public enum Asset {
             return CGSizeMake(14, 13)
         case .EtcIcon:
             return CGSizeMake(32,11)
+        case .JoinButton:
+            return CGSizeMake(69, 32)
         default:
             return CGSizeMake(0, 0)
         }
