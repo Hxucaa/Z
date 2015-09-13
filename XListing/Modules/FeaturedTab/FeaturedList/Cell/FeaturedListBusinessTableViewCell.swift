@@ -88,11 +88,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         avatarList.backgroundColor = .x_FeaturedCardBG()
         
         //Setting auto-adjust font size
-        etaLabel.adjustsFontSizeToFitWidth = true
-        priceLabel.adjustsFontSizeToFitWidth = true
-        peopleWantogoLabel.adjustsFontSizeToFitWidth = true
-        joinButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        
+//        etaLabel.adjustsFontSizeToFitWidth = true
+//        priceLabel.adjustsFontSizeToFitWidth = true
+//        peopleWantogoLabel.adjustsFontSizeToFitWidth = true
+//        joinButton.titleLabel?.adjustsFontSizeToFitWidth = true
+//        
         
         
         pricePerPerson.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: CGSizeMake(pricePerPerson.frame.width, pricePerPerson.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
@@ -110,6 +110,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         }
         
         joinButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        joinButton.hidden = true
         
         $.once({ [weak self] () -> () in
             if let this = self {
@@ -127,6 +128,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                     })
             }
         })()
+        
+        
+        
         
         //When the cell is prepared for reuse, set the state.
         rac_prepareForReuseSignal.toSignalProducer()
