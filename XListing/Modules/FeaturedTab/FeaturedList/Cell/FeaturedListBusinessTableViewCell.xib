@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -20,14 +19,14 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="253" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="iyM-Pv-UcA" userLabel="Cover">
                                 <rect key="frame" x="0.0" y="-7" width="136" height="146"/>
-                                <color key="backgroundColor" red="1" green="0.05221632140848298" blue="0.15441615116468899" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="250" constant="80" id="di2-b3-7TO"/>
                                     <constraint firstAttribute="width" priority="250" constant="80" id="wfp-Q6-zO6"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" priority="250" constant="132" id="Blz-5m-vcO"/>
                             <constraint firstAttribute="width" priority="250" constant="136" id="XP9-mB-krs"/>
@@ -37,113 +36,54 @@
                     </view>
                     <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6lj-Ep-95x" userLabel="InfoView">
                         <rect key="frame" x="144" y="8" width="198" height="132"/>
-                        <color key="backgroundColor" red="0.0" green="0.6705882352941176" blue="0.61176470588235299" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LYg-mn-BdT" userLabel="ViewofParticipants">
                         <rect key="frame" x="8" y="161" width="258" height="38"/>
-                        <color key="backgroundColor" red="0.93333333330000001" green="0.64144736840000005" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="width" secondItem="LYg-mn-BdT" secondAttribute="height" multiplier="167:29" id="3aC-nn-tg8"/>
-                            <constraint firstAttribute="height" constant="58" id="npt-Wo-F7o"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="3aC-nn-tg8"/>
-                                <exclude reference="npt-Wo-F7o"/>
-                            </mask>
-                        </variation>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEP-mM-tP1" userLabel="# of people">
                         <rect key="frame" x="8" y="140" width="258" height="21"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ll0-OA-u89">
-                                <rect key="frame" x="8" y="3" width="43" height="16"/>
+                            <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ll0-OA-u89">
+                                <rect key="frame" x="13" y="3" width="43" height="16"/>
+                                <color key="backgroundColor" red="0.96078431372549011" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
+                                </accessibility>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.4823529411764706" green="0.4823529411764706" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.34539473679999999" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.96078431372549011" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Ll0-OA-u89" secondAttribute="trailing" priority="250" constant="207" id="7qp-VD-PWs"/>
                             <constraint firstItem="Ll0-OA-u89" firstAttribute="top" secondItem="SEP-mM-tP1" secondAttribute="top" constant="3" id="B4L-Ei-v3D"/>
                             <constraint firstAttribute="bottom" secondItem="Ll0-OA-u89" secondAttribute="bottom" constant="2" id="Nas-3h-fIN"/>
-                            <constraint firstItem="Ll0-OA-u89" firstAttribute="leading" secondItem="SEP-mM-tP1" secondAttribute="leadingMargin" id="OOm-DK-FhQ"/>
+                            <constraint firstItem="Ll0-OA-u89" firstAttribute="leading" secondItem="SEP-mM-tP1" secondAttribute="leadingMargin" multiplier="1.618" id="OOm-DK-FhQ"/>
                             <constraint firstAttribute="height" constant="21" id="QVe-Sl-ZHu"/>
-                            <constraint firstAttribute="trailing" secondItem="Ll0-OA-u89" secondAttribute="trailing" constant="97" id="kt5-zS-mGL"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="kt5-zS-mGL"/>
-                            </mask>
-                        </variation>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bqS-en-tuD" userLabel="WTG Button">
                         <rect key="frame" x="266" y="140" width="76" height="59"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Svz-tv-mdR">
+                            <button contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Svz-tv-mdR">
                                 <rect key="frame" x="4" y="22" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="53" id="mJG-00-DVw"/>
-                                </constraints>
-                                <state key="normal" title="约起">
-                                    <color key="titleColor" red="0.0" green="0.6705882352941176" blue="0.61176470588235299" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.0" green="0.69803921568627447" blue="0.67450980392156867" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="mJG-00-DVw"/>
-                                    </mask>
-                                </variation>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.34539473679999999" green="0.38486842110000002" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                         <accessibility key="accessibilityConfiguration">
                             <accessibilityTraits key="traits" none="YES" button="YES"/>
                         </accessibility>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="Svz-tv-mdR" secondAttribute="bottom" id="05G-TE-Wln"/>
-                            <constraint firstAttribute="width" secondItem="Svz-tv-mdR" secondAttribute="width" multiplier="1.5" id="0vG-pY-K7a"/>
-                            <constraint firstItem="Svz-tv-mdR" firstAttribute="trailing" secondItem="bqS-en-tuD" secondAttribute="trailingMargin" id="1WO-9v-EBk"/>
-                            <constraint firstAttribute="bottom" secondItem="Svz-tv-mdR" secondAttribute="bottom" constant="7" id="3rF-yR-zq6"/>
                             <constraint firstAttribute="centerY" secondItem="Svz-tv-mdR" secondAttribute="centerY" multiplier="0.82" priority="250" id="4r8-rD-1FD"/>
-                            <constraint firstAttribute="trailing" secondItem="Svz-tv-mdR" secondAttribute="trailing" constant="19" id="7PX-z7-ohJ"/>
                             <constraint firstItem="Svz-tv-mdR" firstAttribute="leading" secondItem="bqS-en-tuD" secondAttribute="leading" constant="4" id="7aO-iO-rbu"/>
-                            <constraint firstItem="Svz-tv-mdR" firstAttribute="top" secondItem="bqS-en-tuD" secondAttribute="top" constant="8" id="9bN-E2-Tvy"/>
-                            <constraint firstItem="Svz-tv-mdR" firstAttribute="top" secondItem="bqS-en-tuD" secondAttribute="top" id="BLi-xf-tQK"/>
-                            <constraint firstItem="Svz-tv-mdR" firstAttribute="leading" secondItem="bqS-en-tuD" secondAttribute="leading" constant="20" id="Gdo-EI-AJF"/>
-                            <constraint firstItem="Svz-tv-mdR" firstAttribute="top" secondItem="bqS-en-tuD" secondAttribute="top" constant="15" id="H28-Tb-ZWz"/>
-                            <constraint firstItem="Svz-tv-mdR" firstAttribute="leading" secondItem="bqS-en-tuD" secondAttribute="leading" constant="53" id="MSc-bg-dWx"/>
-                            <constraint firstAttribute="centerX" secondItem="Svz-tv-mdR" secondAttribute="centerX" multiplier="2" id="Nru-18-lsV"/>
-                            <constraint firstAttribute="centerX" secondItem="Svz-tv-mdR" secondAttribute="centerX" id="Sxn-at-CHH"/>
-                            <constraint firstItem="Svz-tv-mdR" firstAttribute="leading" secondItem="bqS-en-tuD" secondAttribute="leading" constant="19" id="Un3-ER-NY9"/>
-                            <constraint firstItem="Svz-tv-mdR" firstAttribute="bottom" secondItem="bqS-en-tuD" secondAttribute="bottomMargin" id="Vvu-sa-SfB"/>
-                            <constraint firstItem="Svz-tv-mdR" firstAttribute="leading" secondItem="bqS-en-tuD" secondAttribute="leading" id="aFt-kw-WTF"/>
-                            <constraint firstAttribute="height" secondItem="Svz-tv-mdR" secondAttribute="height" multiplier="3" id="abg-t6-6zr"/>
-                            <constraint firstAttribute="centerX" secondItem="Svz-tv-mdR" secondAttribute="centerX" id="eE6-fn-1VX"/>
-                            <constraint firstAttribute="centerY" secondItem="Svz-tv-mdR" secondAttribute="centerY" constant="-4" id="hpL-Do-BMF"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="05G-TE-Wln"/>
-                                <exclude reference="0vG-pY-K7a"/>
-                                <exclude reference="1WO-9v-EBk"/>
-                                <exclude reference="3rF-yR-zq6"/>
-                                <exclude reference="7PX-z7-ohJ"/>
-                                <exclude reference="9bN-E2-Tvy"/>
-                                <exclude reference="BLi-xf-tQK"/>
-                                <exclude reference="Gdo-EI-AJF"/>
-                                <exclude reference="H28-Tb-ZWz"/>
-                                <exclude reference="MSc-bg-dWx"/>
-                                <exclude reference="Nru-18-lsV"/>
-                                <exclude reference="Sxn-at-CHH"/>
-                                <exclude reference="Un3-ER-NY9"/>
-                                <exclude reference="Vvu-sa-SfB"/>
-                                <exclude reference="aFt-kw-WTF"/>
-                                <exclude reference="abg-t6-6zr"/>
-                                <exclude reference="eE6-fn-1VX"/>
-                                <exclude reference="hpL-Do-BMF"/>
-                            </mask>
-                        </variation>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T96-ob-woW" userLabel="Divider">
                         <rect key="frame" x="17" y="140" width="325" height="1"/>
@@ -158,9 +98,10 @@
                     <constraint firstItem="uDb-oW-Ddf" firstAttribute="leading" secondItem="T96-ob-woW" secondAttribute="leading" constant="-9" id="3Xo-fw-Xcf"/>
                     <constraint firstItem="LYg-mn-BdT" firstAttribute="leading" secondItem="wLJ-Zu-Foj" secondAttribute="leadingMargin" id="4Jg-Em-7dy"/>
                     <constraint firstItem="6lj-Ep-95x" firstAttribute="leading" secondItem="uDb-oW-Ddf" secondAttribute="trailing" id="5Pj-k4-bzM"/>
-                    <constraint firstItem="6lj-Ep-95x" firstAttribute="trailing" secondItem="wLJ-Zu-Foj" secondAttribute="trailingMargin" id="9Mu-Dp-vep"/>
+                    <constraint firstItem="6lj-Ep-95x" firstAttribute="trailing" secondItem="wLJ-Zu-Foj" secondAttribute="trailingMargin" id="Hae-pE-fdK"/>
                     <constraint firstAttribute="bottomMargin" secondItem="LYg-mn-BdT" secondAttribute="bottom" constant="-8" id="JiF-Bd-X9n"/>
                     <constraint firstAttribute="trailingMargin" secondItem="LYg-mn-BdT" secondAttribute="trailing" multiplier="1.285" id="PEa-SZ-kz7"/>
+                    <constraint firstItem="bqS-en-tuD" firstAttribute="trailing" secondItem="wLJ-Zu-Foj" secondAttribute="trailingMargin" id="SE1-C7-0Xr"/>
                     <constraint firstItem="uDb-oW-Ddf" firstAttribute="bottom" secondItem="6lj-Ep-95x" secondAttribute="bottom" id="SeX-Jo-NBx"/>
                     <constraint firstItem="uDb-oW-Ddf" firstAttribute="top" secondItem="6lj-Ep-95x" secondAttribute="top" id="Ug1-TR-wlX"/>
                     <constraint firstItem="SEP-mM-tP1" firstAttribute="trailing" secondItem="LYg-mn-BdT" secondAttribute="trailing" id="WQe-P1-HM5"/>
@@ -169,7 +110,6 @@
                     <constraint firstItem="T96-ob-woW" firstAttribute="top" secondItem="uDb-oW-Ddf" secondAttribute="bottom" id="ecI-e2-mNq"/>
                     <constraint firstItem="SEP-mM-tP1" firstAttribute="top" secondItem="bqS-en-tuD" secondAttribute="top" id="kwZ-hr-3ux"/>
                     <constraint firstItem="uDb-oW-Ddf" firstAttribute="leading" secondItem="wLJ-Zu-Foj" secondAttribute="leadingMargin" id="kz8-LE-kdK"/>
-                    <constraint firstItem="6lj-Ep-95x" firstAttribute="trailing" secondItem="bqS-en-tuD" secondAttribute="trailing" id="opI-N9-M9n"/>
                     <constraint firstItem="SEP-mM-tP1" firstAttribute="top" secondItem="T96-ob-woW" secondAttribute="bottom" constant="-1" id="sPd-0U-vRe"/>
                     <constraint firstItem="6lj-Ep-95x" firstAttribute="trailing" secondItem="T96-ob-woW" secondAttribute="trailing" id="tDK-2D-kzH"/>
                     <constraint firstItem="uDb-oW-Ddf" firstAttribute="top" secondItem="wLJ-Zu-Foj" secondAttribute="topMargin" id="tYG-ra-15O"/>
