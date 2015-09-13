@@ -19,6 +19,9 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
     private lazy var detailInfoButton: UIButton = {
         let button = UIButton()
         
+        button.titleLabel?.opaque = true
+        button.titleLabel?.backgroundColor = UIColor.whiteColor()
+        button.titleLabel?.layer.masksToBounds = true
         button.setTitle("详细信息", forState: .Normal)
         button.setTitleColor(UIColor.blackColor(), forState: .Normal)
         
@@ -39,6 +42,9 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
     private lazy var startEventButton: UIButton = {
         let button = UIButton()
         
+        button.titleLabel?.opaque = true
+        button.titleLabel?.backgroundColor = UIColor.whiteColor()
+        button.titleLabel?.layer.masksToBounds = true
         button.setTitle("约起", forState: .Normal)
         button.setTitleColor(UIColor.blackColor(), forState: .Normal)
         
