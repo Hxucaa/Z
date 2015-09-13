@@ -70,7 +70,8 @@ public final class SocialBusinessViewController : XUIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        viewmodel.fetchMoreData()
+        compositeDisposable += viewmodel.fetchMoreData()
+            |> take(1)
             |> start()
         
         let tapGesture = UITapGestureRecognizer()
@@ -98,7 +99,7 @@ public final class SocialBusinessViewController : XUIViewController {
         
         compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
             |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Featured, "viewmodel.collectionDataSource.producer")
+            |> logLifeCycle(LogContext.SocialBusiness, "viewmodel.collectionDataSource.producer")
             |> start()
         
         /**

@@ -25,9 +25,9 @@ public final class SocialBusiness_UserViewModel {
     public var ageGroup: PropertyOf<String> {
         return PropertyOf(_ageGroup)
     }
-//    public var horoscope: PropertyOf<String> {
-//        return PropertyOf(_horoscope)
-//    }
+    public var horoscope: PropertyOf<String> {
+        return PropertyOf(_horoscope)
+    }
 //    public var status: PropertyOf<String> {
 //        return PropertyOf(_status)
 //    }
@@ -42,12 +42,12 @@ public final class SocialBusiness_UserViewModel {
         return PropertyOf(_user)
     }
     
-    private let _nickname: MutableProperty<String> = MutableProperty("")
-    private let _ageGroup: MutableProperty<String> = MutableProperty("")
-    private let _horoscope: MutableProperty<String> = MutableProperty("")
-//    private let _status: MutableProperty<String> = MutableProperty("")
-//    private let _participationType: MutableProperty<String> = MutableProperty("")
-    private let _gender: MutableProperty<String> = MutableProperty("")
+    private let _nickname: MutableProperty<String>
+    private let _ageGroup: MutableProperty<String>
+    private let _horoscope: MutableProperty<String>
+//    private let _status: MutableProperty<String>
+//    private let _participationType: MutableProperty<String>
+    private let _gender: MutableProperty<String>
     private let _profileImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.profilepicture))
     private let _user: MutableProperty<User> = MutableProperty(User())
     
@@ -66,27 +66,39 @@ public final class SocialBusiness_UserViewModel {
         }
         
         if let nickname = nickname {
-            _nickname.put(nickname)
+            _nickname = MutableProperty(nickname)
+        } else {
+            _nickname = MutableProperty("")
         }
         
         if let ageGroup = ageGroup {
-            _ageGroup.put(ageGroup)
+            _ageGroup = MutableProperty(ageGroup)
+        } else {
+            _ageGroup = MutableProperty("")
         }
         
         if let horoscope = horoscope {
-            _horoscope.put(horoscope)
+            _horoscope = MutableProperty(horoscope)
+        } else {
+            _horoscope = MutableProperty("")
         }
         
 //        if let status = status {
-//            _status.put(status)
+//            _status = MutableProperty(status)
+//        } else {
+//            _status = MutableProperty("")
 //        }
 //        
 //        if let participationType = participationType {
-//            _participationType.put(participationType)
+//            _participationType = MutableProperty(participationType)
+//        } else {
+//            _participationType = MutableProperty("")
 //        }
         
         if let gender = gender {
-            _gender.put(gender)
+            _gender = MutableProperty(gender)
+        } else {
+            _gender = MutableProperty("")
         }
         
 

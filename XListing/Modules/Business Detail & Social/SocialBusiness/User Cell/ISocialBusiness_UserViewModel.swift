@@ -8,6 +8,7 @@
 
 import Foundation
 import ReactiveCocoa
+import AVOSCloud
 
 public protocol ISocialBusiness_UserViewModel : class {
     
@@ -19,7 +20,8 @@ public protocol ISocialBusiness_UserViewModel : class {
     var status: PropertyOf<String> { get }
     var participationType: PropertyOf<String> { get }
     var gender: PropertyOf<String> { get }
+    var user: PropertyOf<User> { get }
     
     // MARK: - Initializers
-    init(participationService: IParticipationService, imageService: IImageService, user: User?)
+    init(participationService: IParticipationService, imageService: IImageService, user: User?, nickname: String?, ageGroup: String?, horoscope: String?, gender: String?, profileImage: AVFile?)
 }
