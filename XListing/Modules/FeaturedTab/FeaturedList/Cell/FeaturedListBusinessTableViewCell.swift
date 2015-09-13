@@ -143,12 +143,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         joinButton.titleLabel?.opaque = true
         joinButton.titleLabel?.backgroundColor = .x_FeaturedCardBG()
         joinButton.titleLabel?.layer.masksToBounds = true
-        joinButton.layer.cornerRadius = 5
-        joinButton.layer.borderWidth = 1
-        joinButton.layer.borderColor = UIColor.x_PrimaryColor().CGColor
         joinButton.layer.rasterizationScale = UIScreen.mainScreen().scale
         joinButton.layer.shouldRasterize = true
-        
+        joinButton.hidden = true
         //When the cell is prepared for reuse, set the state.
         rac_prepareForReuseSignal.toSignalProducer()
             |> takeUntilPrepareForReuse(self)
@@ -290,8 +287,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             |> takeUntilPrepareForReuse(self)
             |> ignoreNil
             |> start(next: { [weak self] price in
-//                self?.priceLabel.setPriceLabel(price)
-//                self?.priceLabel.setNeedsDisplay()
+                self?.priceLabel.text = "\(price)"
+                self?.priceLabel.setNeedsDisplay()
             })
         
         etaLabel.rac_text <~ viewmodel.eta.producer
