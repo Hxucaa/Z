@@ -50,7 +50,7 @@ public final class User: AVUser, AVSubclassing {
     @NSManaged public var profileImg: AVFile?
     @NSManaged public var profile: Profile
     @NSManaged public var latestLocation: AVGeoPoint?
-    @NSManaged public var gender: String?
+    @NSManaged public var gender: Bool
     @NSManaged public var horoscope: String?
     @NSManaged public var ageGroup: String?
 }
