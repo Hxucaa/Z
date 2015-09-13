@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Fabric
+import Crashlytics
+
 
 @UIApplicationMain
 public final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -36,6 +39,9 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         // start dependency injector
         appDependencies = AppDependencies(window: window!)
+        
+        // Analytics
+        Fabric.with([Crashlytics.self()])
         
         return true
     }

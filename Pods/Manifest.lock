@@ -16,7 +16,11 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.0.0):
     - CocoaLumberjack/Default
+  - Crashlytics (3.3.1)
   - Dollar (3.0.3)
+  - Fabric (1.5.1):
+    - Fabric/Base (= 1.5.1)
+  - Fabric/Base (1.5.1)
   - FLEX (2.0.3)
   - INSPullToRefresh (1.0.12)
   - Locksmith (1.2.2)
@@ -60,7 +64,9 @@ DEPENDENCIES:
   - AVOSCloudIMDynamic (~> 3.1)
   - Cartography (~> 0.5.0)
   - CocoaLumberjack (= 2.0.0)
+  - Crashlytics
   - Dollar (~> 3.0)
+  - Fabric
   - FLEX (~> 2.0)
   - INSPullToRefresh (~> 1.0.11)
   - Locksmith (~> 1.2)
@@ -109,7 +115,9 @@ SPEC CHECKSUMS:
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   Cartography: 774e5cc446f5a6bca5d4345c5aa6af9a1fe74dc6
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
+  Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2
   Dollar: ae37f1da42cdc16061fcc1e91a070281b207f5c8
+  Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
   FLEX: 4f04fe0b0594163c00879e2b3db888e5ae37c8d5
   INSPullToRefresh: 3c3840b1837870d6553f749dab6520e31f551a76
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88
@@ -125,4 +133,4 @@ SPEC CHECKSUMS:
   TZStackView: 45002efee4fe4ab9cc3132776b94434c4c3843eb
   XAssets: 75b0fbc8721c92eca964daf40efbe3849c28f6fb
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0.beta.4
