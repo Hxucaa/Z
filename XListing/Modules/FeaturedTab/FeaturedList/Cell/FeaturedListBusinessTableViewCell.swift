@@ -22,7 +22,7 @@ private let businessImageContainerWidthToParentRatio = 0.584
 private let businessImageContainerHeightToWidthRatio = 0.63
 private let businessImageWidthToParentRatio = 0.9315
 private let businessImageHeightToParentRatio = 0.89855
-private let peopleWantogoLabelToParentRatio = 0.39
+private let numberOfPeopleGoingLabelToParentRatio = 0.39
 private let joinButtonWidthToParentRatio = 0.8
 private let joinButtonHeightToWidthRatio = 0.43
 private let etaLabelWidthToEtaIconRatio = 2.5
@@ -231,7 +231,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 
                 //Set peopleWantogoLabel size
                 constrain(this.peopleWantogoLabel) { peopleWantogoLabel in
-                    peopleWantogoLabel.width == peopleWantogoLabel.superview!.width * peopleWantogoLabelToParentRatio
+                    peopleWantogoLabel.width == peopleWantogoLabel.superview!.width * numberOfPeopleGoingLabelToParentRatio
                 }
                 
                 //Set WTG button size
