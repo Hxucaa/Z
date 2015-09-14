@@ -15,9 +15,9 @@ import Dollar
 
     
     //Layout Ratios
-private let avatarWidth = UIScreen.mainScreen().bounds.height * 0.048
-private let avatarGap = avatarWidth * 0.25
-private let avatarListToParentRatio = 0.764
+private let userThumbnailWidth = UIScreen.mainScreen().bounds.height * 0.048
+private let userThumbnailGap = userThumbnailWidth * 0.25
+private let userShowToParentRatio = 0.764
 private let businessImageContainerWidthToParentRatio = 0.584
 private let businessImageContainerHeightToWidthRatio = 0.63
 private let businessImageWidthToParentRatio = 0.9315
@@ -29,7 +29,7 @@ private let etaLabelWidthToEtaIconRatio = 2.5
 private let priceLabelToEtaLabelRatio = 0.6
 
     //Sizing and margins
-private let avatarHeight = avatarWidth * 1.05
+private let userThumbnailHeight = userThumbnailWidth * 1.05
     
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
@@ -140,7 +140,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             }
         })()
 
-        joinButton.titleLabel?.opaque = true
         joinButton.titleLabel?.backgroundColor = .x_FeaturedCardBG()
         joinButton.titleLabel?.layer.masksToBounds = true
         joinButton.layer.rasterizationScale = UIScreen.mainScreen().scale
@@ -154,11 +153,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             })
         
         //Setup avatar image views.
-        let count = Int(floor((avatarList.frame.width - avatarWidth) / (avatarWidth + avatarGap))) + 1
+        let count = Int(floor((avatarList.frame.width - userThumbnailWidth) / (userThumbnailWidth + userThumbnailGap))) + 1
         var previousImageView: UIImageView? = nil
         for i in 1...count {
             
-            let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: floor(avatarWidth), height: floor(avatarHeight)))
+            let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: floor(userThumbnailWidth), height: floor(userThumbnailHeight)))
             // TODO: set the correct background color
             imageView.backgroundColor = .x_FeaturedCardBG()
             imageView.opaque = true
@@ -171,16 +170,16 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 constrain(imageView) { view in
                     view.leading == view.superview!.leading
                     view.centerY == view.superview!.centerY
-                    view.width == avatarWidth
+                    view.width == userThumbnailWidth
                     view.height == view.width * 1.05
                 }
             }
             
             if let previousImageView = previousImageView {
                 constrain(previousImageView, imageView) { previous, current in
-                    previous.trailing == current.leading - avatarGap
+                    previous.trailing == current.leading - userThumbnailGap
                     current.centerY == current.superview!.centerY
-                    current.width == avatarWidth
+                    current.width == userThumbnailWidth
                     current.height == current.width * 1.05
                 }
             }
@@ -190,7 +189,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             
         }
         
-        peopleWantogoLabel.opaque = true
         peopleWantogoLabel.backgroundColor = .x_FeaturedCardBG()
         peopleWantogoLabel.layer.masksToBounds = true
     }
@@ -225,7 +223,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 
                 //Make subview same size as the parent view
                 constrain(this.participationViewContent, this.businessImage) { participationViewContent, businessImage in
-                    participationViewContent.width == participationViewContent.superview!.width * avatarListToParentRatio
+                    participationViewContent.width == participationViewContent.superview!.width * userShowToParentRatio
                     participationViewContent.height == participationViewContent.superview!.height
                     participationViewContent.leading == businessImage.leading
                     participationViewContent.centerY == participationViewContent.superview!.centerY
