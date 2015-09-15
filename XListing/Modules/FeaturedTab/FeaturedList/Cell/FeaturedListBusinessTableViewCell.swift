@@ -30,6 +30,7 @@ private let priceLabelToEtaLabelRatio = 0.6
 
     //Sizing and margins
 private let userThumbnailHeight = userThumbnailWidth * 1.05
+private let bizInfoUIViewLeadingMargin = 8.0
     
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
@@ -37,7 +38,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     @IBOutlet private weak var businessImageContainerUIView: UIView!
     @IBOutlet private weak var businessImageUIImageView: UIImageView!
     @IBOutlet private weak var bizInfoUIView: UIView!
-    @IBOutlet private weak var bizInfoSizingHelperUIView: UIView!
     @IBOutlet private weak var priceIconUIImageView: UIImageView!
     @IBOutlet private weak var priceLabelUILabel: UILabel!
     @IBOutlet private weak var etaIconUIImageVIew: UIImageView!
@@ -74,7 +74,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         //Set card's Background color
         businessImageContainerUIView.backgroundColor = .x_FeaturedCardBG()
         bizInfoUIView.backgroundColor = .x_FeaturedCardBG()
-        bizInfoSizingHelperUIView.backgroundColor = .x_FeaturedCardBG()
         businessImageUIImageView.backgroundColor = .x_FeaturedCardBG()
         numberOfPeopleGoingUIView.backgroundColor = .x_FeaturedCardBG()
         joinButtonContainerUIView.backgroundColor = .x_FeaturedCardBG()
@@ -208,8 +207,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         //Make subview same size as the parent view
         constrain(infoPanelXibUIView) { infoPanelXibUIView in
-            infoPanelXibUIView.width == infoPanelXibUIView.superview!.width
-            infoPanelXibUIView.height == infoPanelXibUIView.superview!.height
+            infoPanelXibUIView.size == infoPanelXibUIView.superview!.size
             infoPanelXibUIView.center == infoPanelXibUIView.superview!.center
         }
         
@@ -235,10 +233,45 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             joinButtonUIButton.right == etaLabelUILabel.right
         }
         
+        
+        //Set up business name label
+        constrain(businessNameLabelUILabel, cityNameLabelUILabel) { business, city in
+            business.leading == business.superview!.leading + bizInfoUIViewLeadingMargin
+            business.top == business.superview!.top + 14
+            business.leading == city.leading
+            business.bottom == city.top + 1.5
+            city.height == 21
+        }
+        
+        //Set price icon and label
+        constrain(priceIconUIImageView, priceLabelUILabel) { icon, label in
+            icon.width == icon.superview!.width / 13
+            icon.height == icon.width
+            icon.bottom == icon.superview!.bottom / 1.24
+            icon.leading == icon.superview!.leading + bizInfoUIViewLeadingMargin
+            label.leading == icon.trailing + 3
+            label.centerY == icon.centerY
+        }
+        
+        //Set eta icon size
+        constrain(etaIconUIImageVIew) { icon in
+            icon.width == icon.superview!.width / 11
+            icon.height == icon.width * 13 / 14
+            icon.bottom == icon.superview!.bottom / 1.23
+        }
+        
         //Set eta and price labels
-        constrain(etaIconUIImageVIew, etaLabelUILabel, priceLabelUILabel) {etaIconUIImageVIew, etaLabelUILabel, priceLabelUILabel in
-            etaLabelUILabel.width == etaIconUIImageVIew.width * etaLabelUILabelWidthToEtaIconRatio
-            priceLabelUILabel.width == etaLabelUILabel.width * priceLabelToEtaLabelRatio
+        constrain(etaIconUIImageVIew, etaLabelUILabel, priceLabelUILabel) {etaIcon, etaLabel, priceLabel in
+            etaLabel.width == etaIcon.width * etaLabelUILabelWidthToEtaIconRatio
+            priceLabel.width == etaLabel.width * priceLabelToEtaLabelRatio
+            etaIcon.trailing == etaLabel.leading - 3
+            etaIcon.centerY == etaLabel.centerY
+        }
+        
+        //Set up userThumbnailShowUIView
+        constrain(userThumbnailShowUIView) { view in
+            view.size == view.superview!.size
+            view.center == view.superview!.center
         }
         
     }

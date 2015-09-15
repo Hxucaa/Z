@@ -14,7 +14,7 @@
             <rect key="frame" x="0.0" y="0.0" width="243" height="34"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iKv-fv-JDU">
+                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iKv-fv-JDU">
                     <rect key="frame" x="0.0" y="0.0" width="243" height="34"/>
                 </view>
             </subviews>
@@ -29,6 +29,14 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="0Ck-a6-vB8"/>
+                    <exclude reference="7X1-db-FER"/>
+                    <exclude reference="gqO-WM-gUF"/>
+                    <exclude reference="yTb-3u-S2C"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="246.5" y="485"/>
         </view>
     </objects>
