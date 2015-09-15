@@ -36,7 +36,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     // MARK: - UI Controls - Business Section
     @IBOutlet private weak var businessImageContainerUIView: UIView!
     @IBOutlet private weak var businessImageUIImageView: UIImageView!
-    @IBOutlet private weak var infoView: UIView!
+    @IBOutlet private weak var infoViewUIView: UIView!
     @IBOutlet private weak var infoViewSizingHelperUIView: UIView!
     @IBOutlet private weak var pricePerPerson: UIImageView!
     @IBOutlet private weak var priceLabel: UILabel!
@@ -68,12 +68,12 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
         
-        infoView.addSubview(infoViewContent)
+        infoViewUIView.addSubview(infoViewContent)
         participationView.addSubview(participationViewContent)
         
         //Set card's Background color
         businessImageContainerUIView.backgroundColor = .x_FeaturedCardBG()
-        infoView.backgroundColor = .x_FeaturedCardBG()
+        infoViewUIView.backgroundColor = .x_FeaturedCardBG()
         infoViewSizingHelperUIView.backgroundColor = .x_FeaturedCardBG()
         businessImageUIImageView.backgroundColor = .x_FeaturedCardBG()
         numberOfPeopleGoingView.backgroundColor = .x_FeaturedCardBG()

@@ -121,7 +121,7 @@
                 <outlet property="WTGButtonView" destination="bqS-en-tuD" id="MAi-n3-0lV"/>
                 <outlet property="businessImageContainerUIView" destination="uDb-oW-Ddf" id="phm-wt-eBc"/>
                 <outlet property="businessImageUIImageView" destination="iyM-Pv-UcA" id="PJ0-09-VUV"/>
-                <outlet property="infoView" destination="6lj-Ep-95x" id="2nz-Se-mvA"/>
+                <outlet property="infoViewUIView" destination="6lj-Ep-95x" id="cVC-i7-xzc"/>
                 <outlet property="joinButton" destination="Svz-tv-mdR" id="3xO-L5-KPG"/>
                 <outlet property="numberOfPeopleGoingView" destination="SEP-mM-tP1" id="gTQ-Yw-iNA"/>
                 <outlet property="participationView" destination="LYg-mn-BdT" id="nqZ-ec-XTc"/>
