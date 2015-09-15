@@ -18,8 +18,8 @@ import Dollar
 private let userThumbnailWidth = UIScreen.mainScreen().bounds.height * 0.048
 private let userThumbnailGap = userThumbnailWidth * 0.25
 private let userShowToParentRatio = 0.764
-private let businessImageContainerWidthToParentRatio = 0.584
-private let businessImageContainerHeightToWidthRatio = 0.63
+private let businessImageContainerUIViewWidthToParentRatio = 0.584
+private let businessImageContainerUIViewHeightToWidthRatio = 0.63
 private let businessImageWidthToParentRatio = 0.9315
 private let businessImageHeightToParentRatio = 0.89855
 private let numberOfPeopleGoingLabelToParentRatio = 0.39
@@ -34,8 +34,8 @@ private let userThumbnailHeight = userThumbnailWidth * 1.05
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     // MARK: - UI Controls - Business Section
-    @IBOutlet private weak var businessImageContainer: UIView!
-    @IBOutlet private weak var businessImage: UIImageView!
+    @IBOutlet private weak var businessImageContainerUIView: UIView!
+    @IBOutlet private weak var businessImageUIImageView: UIImageView!
     @IBOutlet private weak var infoView: UIView!
     @IBOutlet private weak var infoViewSizingHelper: UIView!
     @IBOutlet private weak var pricePerPerson: UIImageView!
@@ -72,10 +72,10 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         participationView.addSubview(participationViewContent)
         
         //Set card's Background color
-        businessImageContainer.backgroundColor = .x_FeaturedCardBG()
+        businessImageContainerUIView.backgroundColor = .x_FeaturedCardBG()
         infoView.backgroundColor = .x_FeaturedCardBG()
         infoViewSizingHelper.backgroundColor = .x_FeaturedCardBG()
-        businessImage.backgroundColor = .x_FeaturedCardBG()
+        businessImageUIImageView.backgroundColor = .x_FeaturedCardBG()
         numberOfPeopleGoingView.backgroundColor = .x_FeaturedCardBG()
         WTGButtonView.backgroundColor = .x_FeaturedCardBG()
         joinButton.backgroundColor = .x_FeaturedCardBG()
@@ -94,7 +94,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         peopleWantogoLabel.adjustsFontSizeToFitWidth = true
         joinButton.titleLabel?.adjustsFontSizeToFitWidth = true
         
-        businessImage.layer.masksToBounds = true
+        businessImageUIImageView.layer.masksToBounds = true
         nameLabel.layer.masksToBounds = true
         etaLabel.layer.masksToBounds = true
         
@@ -200,17 +200,17 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         $.once({ [weak self] Void -> Void in
             if let this = self {
                 //Set anchor size for all related views
-                constrain(this.businessImageContainer) { businessImageContainer in
+                constrain(this.businessImageContainerUIView) { businessImageContainerUIView in
                     //sizes
-                    businessImageContainer.width == businessImageContainer.superview!.width * businessImageContainerWidthToParentRatio
-                    businessImageContainer.height == businessImageContainer.width * businessImageContainerHeightToWidthRatio
+                    businessImageContainerUIView.width == businessImageContainerUIView.superview!.width * businessImageContainerUIViewWidthToParentRatio
+                    businessImageContainerUIView.height == businessImageContainerUIView.width * businessImageContainerUIViewHeightToWidthRatio
                 }
 
                 //Set business image size
-                constrain(this.businessImage) {businessImage in
-                    businessImage.width == businessImage.superview!.width * businessImageWidthToParentRatio
-                    businessImage.height == businessImage.superview!.height * businessImageHeightToParentRatio
-                    businessImage.center == businessImage.superview!.center
+                constrain(this.businessImageUIImageView) {businessImageUIImageView in
+                    businessImageUIImageView.width == businessImageUIImageView.superview!.width * businessImageWidthToParentRatio
+                    businessImageUIImageView.height == businessImageUIImageView.superview!.height * businessImageHeightToParentRatio
+                    businessImageUIImageView.center == businessImageUIImageView.superview!.center
                 }
                 
                 //Make subview same size as the parent view
@@ -222,10 +222,10 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 
                 
                 //Make subview same size as the parent view
-                constrain(this.participationViewContent, this.businessImage) { participationViewContent, businessImage in
+                constrain(this.participationViewContent, this.businessImageUIImageView) { participationViewContent, businessImageUIImageView in
                     participationViewContent.width == participationViewContent.superview!.width * userShowToParentRatio
                     participationViewContent.height == participationViewContent.superview!.height
-                    participationViewContent.leading == businessImage.leading
+                    participationViewContent.leading == businessImageUIImageView.leading
                     participationViewContent.centerY == participationViewContent.superview!.centerY
                 }
                 
@@ -300,10 +300,10 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             |> ignoreNil
             |> start (next: { [weak self] image in
                 if let viewmodel = self?.viewmodel, isReusedCell = self?.isReusedCell where viewmodel.isCoverImageConsumed.value || isReusedCell.value {
-                    self?.businessImage.rac_image.put(image)
+                    self?.businessImageUIImageView.rac_image.put(image)
                 }
                 else {
-                    self?.businessImage.setImageWithAnimation(image)
+                    self?.businessImageUIImageView.setImageWithAnimation(image)
                     viewmodel.isCoverImageConsumed.put(true)
                 }
             })

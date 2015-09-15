@@ -119,8 +119,8 @@
             <color key="backgroundColor" red="0.83529411764705885" green="0.83529411764705885" blue="0.83529411764705885" alpha="1" colorSpace="calibratedRGB"/>
             <connections>
                 <outlet property="WTGButtonView" destination="bqS-en-tuD" id="MAi-n3-0lV"/>
-                <outlet property="businessImage" destination="iyM-Pv-UcA" id="dTL-KS-ncy"/>
-                <outlet property="businessImageContainer" destination="uDb-oW-Ddf" id="R2P-GC-fZM"/>
+                <outlet property="businessImageContainerUIView" destination="uDb-oW-Ddf" id="phm-wt-eBc"/>
+                <outlet property="businessImageUIImageView" destination="iyM-Pv-UcA" id="PJ0-09-VUV"/>
                 <outlet property="infoView" destination="6lj-Ep-95x" id="2nz-Se-mvA"/>
                 <outlet property="joinButton" destination="Svz-tv-mdR" id="3xO-L5-KPG"/>
                 <outlet property="numberOfPeopleGoingView" destination="SEP-mM-tP1" id="gTQ-Yw-iNA"/>
