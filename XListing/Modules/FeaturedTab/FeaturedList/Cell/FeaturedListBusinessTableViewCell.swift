@@ -25,8 +25,8 @@ private let businessImageHeightToParentRatio = 0.89855
 private let numberOfPeopleGoingLabelToParentRatio = 0.39
 private let joinButtonWidthToParentRatio = 0.8
 private let joinButtonHeightToWidthRatio = 0.43
-private let etaLabelWidthToEtaIconRatio = 2.5
-private let priceLabelToEtaLabelRatio = 0.6
+private let etaLabelUILabelWidthToEtaIconRatio = 2.5
+private let priceLabelToetaLabelRatio = 0.6
 
     //Sizing and margins
 private let userThumbnailHeight = userThumbnailWidth * 1.05
@@ -38,12 +38,12 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     @IBOutlet private weak var businessImageUIImageView: UIImageView!
     @IBOutlet private weak var infoViewUIView: UIView!
     @IBOutlet private weak var infoViewSizingHelperUIView: UIView!
-    @IBOutlet private weak var pricePerPerson: UIImageView!
-    @IBOutlet private weak var priceLabel: UILabel!
-    @IBOutlet private weak var ETA: UIImageView!
+    @IBOutlet private weak var priceIconUIImageView: UIImageView!
+    @IBOutlet private weak var priceLabelUILabel: UILabel!
+    @IBOutlet private weak var etaIconUIImageVIew: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var cityLabel: UILabel!
-    @IBOutlet private weak var etaLabel: UILabel!
+    @IBOutlet private weak var etaLabelUILabel: UILabel!
     private lazy var infoViewContent: UIView = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
     
     // MARK: - UI Controls - Social Section
@@ -83,37 +83,37 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         participationView.backgroundColor = .x_FeaturedCardBG()
         participationViewContent.backgroundColor = .x_FeaturedCardBG()
         cityLabel.backgroundColor = .x_FeaturedCardBG()
-        etaLabel.backgroundColor = .x_FeaturedCardBG()
+        etaLabelUILabel.backgroundColor = .x_FeaturedCardBG()
         nameLabel.backgroundColor = .x_FeaturedCardBG()
         peopleWantogoLabel.backgroundColor = .x_FeaturedCardBG()
         avatarList.backgroundColor = .x_FeaturedCardBG()
         
         //Setting auto-adjust font size
-        etaLabel.adjustsFontSizeToFitWidth = true
-        priceLabel.adjustsFontSizeToFitWidth = true
+        etaLabelUILabel.adjustsFontSizeToFitWidth = true
+        priceLabelUILabel.adjustsFontSizeToFitWidth = true
         peopleWantogoLabel.adjustsFontSizeToFitWidth = true
         joinButton.titleLabel?.adjustsFontSizeToFitWidth = true
         
         businessImageUIImageView.layer.masksToBounds = true
         nameLabel.layer.masksToBounds = true
-        etaLabel.layer.masksToBounds = true
+        etaLabelUILabel.layer.masksToBounds = true
         
         
         
-        pricePerPerson.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: CGSizeMake(pricePerPerson.frame.width, pricePerPerson.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+        priceIconUIImageView.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: CGSizeMake(priceIconUIImageView.frame.width, priceIconUIImageView.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
             |> take(1)
             |> map { Optional<UIImage>($0) }
         
-        pricePerPerson.layer.rasterizationScale = UIScreen.mainScreen().scale
-        pricePerPerson.layer.shouldRasterize = true
+        priceIconUIImageView.layer.rasterizationScale = UIScreen.mainScreen().scale
+        priceIconUIImageView.layer.shouldRasterize = true
         
         // Adding ETA icon
-        ETA.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: CGSizeMake(ETA.frame.width, ETA.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+        etaIconUIImageVIew.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: etaIconUIImageVIew.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
             |> take(1)
             |> map { Optional<UIImage>($0) }
         
-        ETA.layer.rasterizationScale = UIScreen.mainScreen().scale
-        ETA.layer.shouldRasterize = true
+        etaIconUIImageVIew.layer.rasterizationScale = UIScreen.mainScreen().scale
+        etaIconUIImageVIew.layer.shouldRasterize = true
         
         //Setup joinButton
         let join = Action<UIButton, Bool, NSError>{ button in
@@ -235,16 +235,16 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 }
                 
                 //Set WTG button size
-                constrain(this.joinButton, this.etaLabel) { joinButton, etaLabel in
+                constrain(this.joinButton, this.etaLabelUILabel) { joinButton, etaLabelUILabel in
                     joinButton.width == joinButton.superview!.width * joinButtonWidthToParentRatio
                     joinButton.height == joinButton.width * joinButtonHeightToWidthRatio
-                    joinButton.right == etaLabel.right
+                    joinButton.right == etaLabelUILabel.right
                 }
                 
                 //Set eta and price labels
-                constrain(this.ETA, this.etaLabel, this.priceLabel) {ETA, etaLabel, priceLabel in
-                    etaLabel.width == ETA.width * etaLabelWidthToEtaIconRatio
-                    priceLabel.width == etaLabel.width * priceLabelToEtaLabelRatio
+                constrain(this.etaIconUIImageVIew, this.etaLabelUILabel, this.priceLabelUILabel) {etaIconUIImageVIew, etaLabelUILabel, priceLabelUILabel in
+                    etaLabelUILabel.width == etaIconUIImageVIew.width * etaLabelUILabelWidthToEtaIconRatio
+                    priceLabelUILabel.width == etaLabelUILabel.width * priceLabelToetaLabelRatio
                 }
             }
         })()
@@ -285,11 +285,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             |> takeUntilPrepareForReuse(self)
             |> ignoreNil
             |> start(next: { [weak self] price in
-                self?.priceLabel.text = "\(price)"
-                self?.priceLabel.setNeedsDisplay()
+                self?.priceLabelUILabel.text = "\(price)"
+                self?.priceLabelUILabel.setNeedsDisplay()
             })
         
-        etaLabel.rac_text <~ viewmodel.eta.producer
+        etaLabelUILabel.rac_text <~ viewmodel.eta.producer
             |> takeUntilPrepareForReuse(self)
         
         peopleWantogoLabel.rac_text <~ viewmodel.participationString.producer
