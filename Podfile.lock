@@ -52,7 +52,7 @@ PODS:
   - SVProgressHUD (1.1.3)
   - TTTAttributedLabel (1.13.4)
   - TZStackView (1.0.5)
-  - XAssets (0.3.0):
+  - XAssets (0.3.1):
     - ReactiveCocoa (= 3.0-RC.1)
     - SDWebImage (~> 3.7.0)
 
@@ -64,9 +64,9 @@ DEPENDENCIES:
   - AVOSCloudIMDynamic (~> 3.1)
   - Cartography (~> 0.5.0)
   - CocoaLumberjack (= 2.0.0)
-  - Crashlytics
+  - Crashlytics (~> 3.3.1)
   - Dollar (~> 3.0)
-  - Fabric
+  - Fabric (~> 1.5.1)
   - FLEX (~> 2.0)
   - INSPullToRefresh (~> 1.0.11)
   - Locksmith (~> 1.2)
@@ -103,7 +103,7 @@ CHECKOUT OPTIONS:
     :commit: 4cbf1de2f9becbdfe38257bf9129f2930a2668ab
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
-    :commit: ed1cb07a454dd5017f7b3e7ea7bcb27f094bb5ac
+    :commit: 1862d906cba8ca30cd500beb8bbd31da6d91abfd
     :git: git@bitbucket.org:zenchat/xassets.git
 
 SPEC CHECKSUMS:
@@ -131,6 +131,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
   TZStackView: 45002efee4fe4ab9cc3132776b94434c4c3843eb
-  XAssets: 75b0fbc8721c92eca964daf40efbe3849c28f6fb
+  XAssets: 884c0d5521be6bea0a86e63e6a5c23683487c3b2
 
-COCOAPODS: 0.39.0.beta.4
+COCOAPODS: 0.38.2
