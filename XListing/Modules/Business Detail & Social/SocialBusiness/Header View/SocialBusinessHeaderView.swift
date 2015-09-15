@@ -132,7 +132,7 @@ public final class SocialBusinessHeaderView : UIView {
     // MARK: - Proxies
     
     // MARK: - Properties
-    private var viewmodel: ISocialBusinessHeaderViewModel!
+    private var viewmodel: SocialBusinessHeaderViewModel!
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Initializers
@@ -172,7 +172,12 @@ public final class SocialBusinessHeaderView : UIView {
     
     // MARK: - Setups
 
-    public func bindToViewModel(viewmodel: ISocialBusinessHeaderViewModel) {
+    public func bindToViewModel(viewmodel: SocialBusinessHeaderViewModel) {
         self.viewmodel = viewmodel
+        
+//        businessNameLabel.rac_text <~ viewmodel.businessName.producer
+//        coverImageView.rac_image <~ viewmodel.coverImage.producer
+//        locationLabel.rac_text <~ viewmodel.city.producer
+//        distanceLabel.rac_text <~ viewmodel.eta.producer
     }
 }
