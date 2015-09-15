@@ -12,7 +12,6 @@ import ReactiveCocoa
 import Cartography
 import XAssets
 import Dollar
-import TTTAttributedLabel
 
     
     //Layout Ratios
