@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeaturedListBusinessTableViewCell" customModule="XListing" customModuleProvider="target">
@@ -14,30 +14,22 @@
             <rect key="frame" x="0.0" y="0.0" width="243" height="34"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iKv-fv-JDU">
+                <view contentMode="scaleToFill" id="iKv-fv-JDU">
                     <rect key="frame" x="0.0" y="0.0" width="243" height="34"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstItem="iKv-fv-JDU" firstAttribute="leading" secondItem="jpk-v3-aod" secondAttribute="leading" id="0Ck-a6-vB8"/>
-                <constraint firstItem="iKv-fv-JDU" firstAttribute="top" secondItem="jpk-v3-aod" secondAttribute="top" id="7X1-db-FER"/>
-                <constraint firstAttribute="bottom" secondItem="iKv-fv-JDU" secondAttribute="bottom" id="gqO-WM-gUF"/>
-                <constraint firstAttribute="trailing" secondItem="iKv-fv-JDU" secondAttribute="trailing" id="yTb-3u-S2C"/>
-            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="0Ck-a6-vB8"/>
-                    <exclude reference="7X1-db-FER"/>
-                    <exclude reference="gqO-WM-gUF"/>
-                    <exclude reference="yTb-3u-S2C"/>
-                </mask>
-            </variation>
             <point key="canvasLocation" x="246.5" y="485"/>
         </view>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

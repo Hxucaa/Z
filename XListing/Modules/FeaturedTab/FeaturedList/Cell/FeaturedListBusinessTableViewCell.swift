@@ -15,8 +15,8 @@ import Dollar
 
     
     //Layout Ratios
-private let userThumbnailWidth = UIScreen.mainScreen().bounds.height * 0.048
-private let userThumbnailGap = userThumbnailWidth * 0.25
+private let userThumbnailWidth = round(UIScreen.mainScreen().bounds.height * 0.048)
+private let userThumbnailGap = round(userThumbnailWidth * 0.25)
 private let userShowToParentRatio = 0.764
 private let businessImageContainerWidthToParentRatio = 0.584
 private let businessImageContainerHeightToWidthRatio = 0.63
@@ -29,7 +29,7 @@ private let etaLabelUILabelWidthToEtaIconRatio = 2.5
 private let priceLabelToEtaLabelRatio = 0.6
 
     //Sizing and margins
-private let userThumbnailHeight = userThumbnailWidth * 1.05
+private let userThumbnailHeight = round(userThumbnailWidth * 1.05)
 private let bizInfoUIViewLeadingMargin = 8.0
 private let featuredCardLeftAndRightMargin = 8.0
 private let featuredCardTopAndBottomMargin = 6.0
@@ -40,6 +40,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     @IBOutlet private weak var businessImageContainerUIView: UIView!
     @IBOutlet private weak var businessImageUIImageView: UIImageView!
     @IBOutlet private weak var bizInfoUIView: UIView!
+    @IBOutlet private weak var businessSocialDividerUIView: UIView!
     @IBOutlet private weak var priceIconUIImageView: UIImageView!
     @IBOutlet private weak var priceLabelUILabel: UILabel!
     @IBOutlet private weak var etaIconUIImageVIew: UIImageView!
@@ -116,36 +117,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         etaIconUIImageVIew.layer.rasterizationScale = UIScreen.mainScreen().scale
         etaIconUIImageVIew.layer.shouldRasterize = true
         
-        //Setup joinButton
-        let join = Action<UIButton, Bool, NSError>{ button in
-            return self.viewmodel.participate(ParticipationChoice.我想去)
-        }
         
-        joinButtonUIButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-        
-        $.once({ [weak self] () -> () in
-            if let this = self {
-                AssetFactory.getImage(Asset.JoinButton(size: this.joinButtonUIButton.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, ifAA: false, ifGo: false, ifPay: false, ifUnTapped: true))
-                    |> map { Optional<UIImage>($0) }
-                    |> takeUntilPrepareForReuse(this)
-                    |> start(next: { image in
-                        self?.joinButtonUIButton.setBackgroundImage(image, forState: .Normal)
-                    })
-
-                AssetFactory.getImage(Asset.JoinButton(size: this.joinButtonUIButton.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, ifAA: false, ifGo: true, ifPay: false, ifUnTapped: false))
-                    |> map { Optional<UIImage>($0) }
-                    |> takeUntilPrepareForReuse(this)
-                    |> start(next: { image in
-                        self?.joinButtonUIButton.setBackgroundImage(image, forState: .Disabled)
-                    })
-            }
-        })()
-
-        joinButtonUIButton.titleLabel?.backgroundColor = .x_FeaturedCardBG()
-        joinButtonUIButton.titleLabel?.layer.masksToBounds = true
-        joinButtonUIButton.layer.rasterizationScale = UIScreen.mainScreen().scale
-        joinButtonUIButton.layer.shouldRasterize = true
-        joinButtonUIButton.hidden = true
         //When the cell is prepared for reuse, set the state.
         rac_prepareForReuseSignal.toSignalProducer()
             |> takeUntilPrepareForReuse(self)
@@ -154,14 +126,13 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             })
         
         //Setup avatar image views.
-        let count = Int(floor((userThumbnailShowUIView.frame.width - userThumbnailWidth) / (userThumbnailWidth + userThumbnailGap))) + 1
+        let count = Int((userThumbnailShowUIView.frame.width - userThumbnailWidth) / (userThumbnailWidth + userThumbnailGap)) + 1
         var previousImageView: UIImageView? = nil
         for i in 1...count {
             
-            let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: floor(userThumbnailWidth), height: floor(userThumbnailHeight)))
+            let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: round(userThumbnailWidth), height: round(userThumbnailHeight)))
             // TODO: set the correct background color
             imageView.backgroundColor = .x_FeaturedCardBG()
-            imageView.opaque = true
             imageView.contentMode = .Center
             imageView.clipsToBounds = true
             
@@ -192,7 +163,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         numberOfPeopleGoingLabelUILabel.backgroundColor = .x_FeaturedCardBG()
         numberOfPeopleGoingLabelUILabel.layer.masksToBounds = true
-        numberOfPeopleGoingLabelUILabel.
         
         //Set business image container as anchor for all related views
         constrain(businessImageContainerUIView) { container in
@@ -207,10 +177,20 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             container.trailing == info.leading
             container.bottom == info.bottom
             container.top == info.top
+            info.trailing == info.superview!.trailing - featuredCardLeftAndRightMargin
+        }
+        
+        //Set up biz and social divider
+        constrain(businessImageContainerUIView, businessSocialDividerUIView, numberOfPeopleGoingUIView) {container, divider, view in
+            container.leading == divider.leading - 9
+            container.bottom == divider.top
+            divider.height == 1
+            divider.trailing == divider.superview!.trailing - featuredCardLeftAndRightMargin
+            divider.bottom == view.top + 1
         }
         
         //Set business image size and position
-        constrain(businessImageUIImageView) {image in
+        constrain(businessImageUIImageView) { image in
             image.width == image.superview!.width * businessImageWidthToParentRatio
             image.height == image.superview!.height * businessImageHeightToParentRatio
             image.center == image.superview!.center
@@ -218,40 +198,30 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         
         //Make subview same size as the parent view
-        constrain(infoPanelXibUIView) { infoPanelXibUIView in
-            infoPanelXibUIView.size == infoPanelXibUIView.superview!.size
-            infoPanelXibUIView.center == infoPanelXibUIView.superview!.center
+        constrain(infoPanelXibUIView) { view in
+            view.size == view.superview!.size
+            view.center == view.superview!.center
         }
         
         
         //Make subview same size as the parent view
-        constrain(participationViewXibUIView, businessImageUIImageView) { participationViewXibUIView, businessImageUIImageView in
-            participationViewXibUIView.width == participationViewXibUIView.superview!.width * userShowToParentRatio
-            participationViewXibUIView.height == participationViewXibUIView.superview!.height
-            participationViewXibUIView.leading == businessImageUIImageView.leading
-            participationViewXibUIView.centerY == participationViewXibUIView.superview!.centerY
+        constrain(participationViewXibUIView, businessImageUIImageView) { view, image in
+            view.width == view.superview!.width * userShowToParentRatio
+            view.height == view.superview!.height
+            view.leading == image.leading
+            view.centerY == view.superview!.centerY
         }
         
         //Set numberOfPeopleGoingLabelUILabel size
         constrain(numberOfPeopleGoingLabelUILabel) { label in
-//            numberOfPeopleGoingLabelUILabel.width == numberOfPeopleGoingLabelUILabel.superview!.width * numberOfPeopleGoingLabelToParentRatio
-            
+            label.width == label.superview!.width * numberOfPeopleGoingLabelToParentRatio
         }
-        
-        
-        //Set WTG button size
-        constrain(joinButtonUIButton, etaLabelUILabel) { joinButtonUIButton, etaLabelUILabel in
-            joinButtonUIButton.width == joinButtonUIButton.superview!.width * joinButtonWidthToParentRatio
-            joinButtonUIButton.height == joinButtonUIButton.width * joinButtonHeightToWidthRatio
-            joinButtonUIButton.right == etaLabelUILabel.right
-        }
-        
         
         //Set up business name label
         constrain(businessNameLabelUILabel, cityNameLabelUILabel) { business, city in
             business.leading == business.superview!.leading + bizInfoUIViewLeadingMargin
             business.top == business.superview!.top + 14
-            business.leading == city.leading
+            business.leading == city.leading - 1
             business.bottom == city.top + 1.5
             city.height == 21
         }
@@ -274,11 +244,33 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         }
         
         //Set eta and price labels
-        constrain(etaIconUIImageVIew, etaLabelUILabel, priceLabelUILabel) {etaIcon, etaLabel, priceLabel in
+        constrain(etaIconUIImageVIew, etaLabelUILabel, priceLabelUILabel) { etaIcon, etaLabel, priceLabel in
             etaLabel.width == etaIcon.width * etaLabelUILabelWidthToEtaIconRatio
             priceLabel.width == etaLabel.width * priceLabelToEtaLabelRatio
             etaIcon.trailing == etaLabel.leading - 3
             etaIcon.centerY == etaLabel.centerY
+        }
+        
+        //Set up userThumbnailContainerView
+        constrain(userThumbnailShowContainerUIView, numberOfPeopleGoingUIView, joinButtonContainerUIView) { container, view, button in
+            container.trailing == container.superview!.trailing / 1.285 - featuredCardLeftAndRightMargin
+            container.leading == container.superview!.leading + featuredCardLeftAndRightMargin
+            container.bottom == container.superview!.bottom - 2
+            view.leading == view.superview!.leading + featuredCardLeftAndRightMargin
+            view.height == 21
+            view.top == button.top
+            container.trailing == view.trailing
+            container.trailing == button.leading
+            container.bottom == button.bottom
+            container.top == view.bottom
+            button.trailing == button.superview!.trailing - featuredCardLeftAndRightMargin
+        }
+        
+        //set up numberofpeoplegoinglabel
+        constrain(numberOfPeopleGoingLabelUILabel) { label in
+            label.leading == label.superview!.leading + 12
+            label.bottom == label.superview!.bottom - 2
+            label.top == label.superview!.top + 3
         }
         
         //Set up userThumbnailShowUIView
@@ -286,6 +278,46 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             view.size == view.superview!.size
             view.center == view.superview!.center
         }
+        
+        //setup join button
+        constrain(joinButtonUIButton, etaLabelUILabel) { button, label in
+            button.centerY == button.superview!.centerY / 0.82
+            button.trailing == button.superview!.trailing * 0.8
+            button.width == button.superview!.width * 0.7
+            button.height == button.width * 32 / 69
+            button.trailing == label.trailing
+        }
+        
+        //Setup joinButton
+        let join = Action<UIButton, Bool, NSError>{ button in
+            return self.viewmodel.participate(ParticipationChoice.我想去)
+        }
+        
+        joinButtonUIButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        
+        $.once({ [weak self] () -> () in
+            if let this = self {
+                AssetFactory.getImage(Asset.JoinButton(size: this.joinButtonUIButton.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, ifAA: false, ifGo: false, ifPay: false, ifUnTapped: true))
+                    |> map { Optional<UIImage>($0) }
+                    |> takeUntilPrepareForReuse(this)
+                    |> start(next: { image in
+                        self?.joinButtonUIButton.setBackgroundImage(image, forState: .Normal)
+                    })
+                
+                AssetFactory.getImage(Asset.JoinButton(size: this.joinButtonUIButton.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, ifAA: false, ifGo: true, ifPay: false, ifUnTapped: false))
+                    |> map { Optional<UIImage>($0) }
+                    |> takeUntilPrepareForReuse(this)
+                    |> start(next: { image in
+                        self?.joinButtonUIButton.setBackgroundImage(image, forState: .Disabled)
+                    })
+            }
+            })()
+        
+        joinButtonUIButton.titleLabel?.backgroundColor = .x_FeaturedCardBG()
+        joinButtonUIButton.titleLabel?.layer.masksToBounds = true
+        joinButtonUIButton.layer.rasterizationScale = UIScreen.mainScreen().scale
+        joinButtonUIButton.layer.shouldRasterize = true
+        joinButtonUIButton.hidden = true
         
     }
     
@@ -321,7 +353,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             |> takeUntilPrepareForReuse(self)
             |> ignoreNil
             |> start(next: { [weak self] price in
-                self?.priceLabelUILabel.text = "\(price)"
+                self?.priceLabelUILabel.text = "$ \(price)"
                 self?.priceLabelUILabel.setNeedsDisplay()
             })
         
@@ -362,7 +394,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                                 participants[i].avatar.producer
                                     |> takeUntilPrepareForReuse(this)
                                     |> ignoreNil
-                                    |> map { $0.maskWithRoundedRect(avatarView.bounds.size, cornerRadius: floor(avatarView.bounds.height), backgroundColor: .x_FeaturedCardBG()) }
+                                    |> map { $0.maskWithRoundedRect(CGSizeMake(round(avatarView.bounds.width), round(avatarView.bounds.height)), cornerRadius: round(avatarView.bounds.height), backgroundColor: .x_FeaturedCardBG()) }
                                     |> start(next: { image in
                                         avatarView.image = image
                                     })
