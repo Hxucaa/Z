@@ -22,7 +22,7 @@
             <rect key="frame" x="0.0" y="0.0" width="158" height="144"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ecm-Bg-cEP" userLabel="Sizing Helper">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ecm-Bg-cEP" userLabel="bizInfoSizingHelperUIView">
                     <rect key="frame" x="0.0" y="0.0" width="158" height="144"/>
                     <subviews>
                         <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$99" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0MM-hb-Gpb">

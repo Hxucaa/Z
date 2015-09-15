@@ -191,67 +191,57 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         numberOfPeopleGoingLabelUILabel.backgroundColor = .x_FeaturedCardBG()
         numberOfPeopleGoingLabelUILabel.layer.masksToBounds = true
-    }
-    
-    
-    public override func updateConstraints() {
-
-        // only run the setup constraints the first time the cell is constructed for perfomance reason
-        $.once({ [weak self] Void -> Void in
-            if let this = self {
-                //Set anchor size for all related views
-                constrain(this.businessImageContainerUIView) { businessImageContainerUIView in
-                    //sizes
-                    businessImageContainerUIView.width == businessImageContainerUIView.superview!.width * businessImageContainerWidthToParentRatio
-                    businessImageContainerUIView.height == businessImageContainerUIView.width * businessImageContainerHeightToWidthRatio
-                }
-
-                //Set business image size
-                constrain(this.businessImageUIImageView) {businessImageUIImageView in
-                    businessImageUIImageView.width == businessImageUIImageView.superview!.width * businessImageWidthToParentRatio
-                    businessImageUIImageView.height == businessImageUIImageView.superview!.height * businessImageHeightToParentRatio
-                    businessImageUIImageView.center == businessImageUIImageView.superview!.center
-                }
-                
-                //Make subview same size as the parent view
-                constrain(this.infoPanelXibUIView) { infoPanelXibUIView in
-                    infoPanelXibUIView.width == infoPanelXibUIView.superview!.width
-                    infoPanelXibUIView.height == infoPanelXibUIView.superview!.height
-                    infoPanelXibUIView.center == infoPanelXibUIView.superview!.center
-                }
-                
-                
-                //Make subview same size as the parent view
-                constrain(this.participationViewXibUIView, this.businessImageUIImageView) { participationViewXibUIView, businessImageUIImageView in
-                    participationViewXibUIView.width == participationViewXibUIView.superview!.width * userShowToParentRatio
-                    participationViewXibUIView.height == participationViewXibUIView.superview!.height
-                    participationViewXibUIView.leading == businessImageUIImageView.leading
-                    participationViewXibUIView.centerY == participationViewXibUIView.superview!.centerY
-                }
-                
-                //Set numberOfPeopleGoingLabelUILabel size
-                constrain(this.numberOfPeopleGoingLabelUILabel) { numberOfPeopleGoingLabelUILabel in
-                    numberOfPeopleGoingLabelUILabel.width == numberOfPeopleGoingLabelUILabel.superview!.width * numberOfPeopleGoingLabelToParentRatio
-                }
-                
-                //Set WTG button size
-                constrain(this.joinButtonUIButton, this.etaLabelUILabel) { joinButtonUIButton, etaLabelUILabel in
-                    joinButtonUIButton.width == joinButtonUIButton.superview!.width * joinButtonWidthToParentRatio
-                    joinButtonUIButton.height == joinButtonUIButton.width * joinButtonHeightToWidthRatio
-                    joinButtonUIButton.right == etaLabelUILabel.right
-                }
-                
-                //Set eta and price labels
-                constrain(this.etaIconUIImageVIew, this.etaLabelUILabel, this.priceLabelUILabel) {etaIconUIImageVIew, etaLabelUILabel, priceLabelUILabel in
-                    etaLabelUILabel.width == etaIconUIImageVIew.width * etaLabelUILabelWidthToEtaIconRatio
-                    priceLabelUILabel.width == etaLabelUILabel.width * priceLabelToEtaLabelRatio
-                }
-            }
-        })()
         
-        super.updateConstraints()
+        //Set anchor size for all related views
+        constrain(businessImageContainerUIView) { businessImageContainerUIView in
+            //sizes
+            businessImageContainerUIView.width == businessImageContainerUIView.superview!.width * businessImageContainerWidthToParentRatio
+            businessImageContainerUIView.height == businessImageContainerUIView.width * businessImageContainerHeightToWidthRatio
+        }
+        
+        //Set business image size
+        constrain(businessImageUIImageView) {businessImageUIImageView in
+            businessImageUIImageView.width == businessImageUIImageView.superview!.width * businessImageWidthToParentRatio
+            businessImageUIImageView.height == businessImageUIImageView.superview!.height * businessImageHeightToParentRatio
+            businessImageUIImageView.center == businessImageUIImageView.superview!.center
+        }
+        
+        //Make subview same size as the parent view
+        constrain(infoPanelXibUIView) { infoPanelXibUIView in
+            infoPanelXibUIView.width == infoPanelXibUIView.superview!.width
+            infoPanelXibUIView.height == infoPanelXibUIView.superview!.height
+            infoPanelXibUIView.center == infoPanelXibUIView.superview!.center
+        }
+        
+        
+        //Make subview same size as the parent view
+        constrain(participationViewXibUIView, businessImageUIImageView) { participationViewXibUIView, businessImageUIImageView in
+            participationViewXibUIView.width == participationViewXibUIView.superview!.width * userShowToParentRatio
+            participationViewXibUIView.height == participationViewXibUIView.superview!.height
+            participationViewXibUIView.leading == businessImageUIImageView.leading
+            participationViewXibUIView.centerY == participationViewXibUIView.superview!.centerY
+        }
+        
+        //Set numberOfPeopleGoingLabelUILabel size
+        constrain(numberOfPeopleGoingLabelUILabel) { numberOfPeopleGoingLabelUILabel in
+            numberOfPeopleGoingLabelUILabel.width == numberOfPeopleGoingLabelUILabel.superview!.width * numberOfPeopleGoingLabelToParentRatio
+        }
+        
+        
+        //Set WTG button size
+        constrain(joinButtonUIButton, etaLabelUILabel) { joinButtonUIButton, etaLabelUILabel in
+            joinButtonUIButton.width == joinButtonUIButton.superview!.width * joinButtonWidthToParentRatio
+            joinButtonUIButton.height == joinButtonUIButton.width * joinButtonHeightToWidthRatio
+            joinButtonUIButton.right == etaLabelUILabel.right
+        }
+        
+        //Set eta and price labels
+        constrain(etaIconUIImageVIew, etaLabelUILabel, priceLabelUILabel) {etaIconUIImageVIew, etaLabelUILabel, priceLabelUILabel in
+            etaLabelUILabel.width == etaIconUIImageVIew.width * etaLabelUILabelWidthToEtaIconRatio
+            priceLabelUILabel.width == etaLabelUILabel.width * priceLabelToEtaLabelRatio
+        }
+        
     }
-    
     
     public override func prepareForReuse() {
         super.prepareForReuse()
