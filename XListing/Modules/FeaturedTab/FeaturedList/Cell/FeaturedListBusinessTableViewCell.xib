@@ -118,14 +118,14 @@
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.83529411764705885" green="0.83529411764705885" blue="0.83529411764705885" alpha="1" colorSpace="calibratedRGB"/>
             <connections>
-                <outlet property="WTGButtonView" destination="bqS-en-tuD" id="MAi-n3-0lV"/>
                 <outlet property="bizInfoUIView" destination="6lj-Ep-95x" id="eRT-Pc-mr9"/>
                 <outlet property="businessImageContainerUIView" destination="uDb-oW-Ddf" id="phm-wt-eBc"/>
                 <outlet property="businessImageUIImageView" destination="iyM-Pv-UcA" id="PJ0-09-VUV"/>
                 <outlet property="joinButton" destination="Svz-tv-mdR" id="3xO-L5-KPG"/>
-                <outlet property="numberOfPeopleGoingView" destination="SEP-mM-tP1" id="gTQ-Yw-iNA"/>
+                <outlet property="joinButtonContainerUIView" destination="bqS-en-tuD" id="qta-3T-WqD"/>
+                <outlet property="numberOfPeopleGoingLabelUILabel" destination="Ll0-OA-u89" id="PDO-dV-Hut"/>
+                <outlet property="numberOfPeopleGoingUIView" destination="SEP-mM-tP1" id="oEf-49-q9U"/>
                 <outlet property="participationUIView" destination="LYg-mn-BdT" id="BgM-qg-4d9"/>
-                <outlet property="peopleWantogoLabel" destination="Ll0-OA-u89" id="Yks-IC-mgX"/>
             </connections>
             <point key="canvasLocation" x="285" y="415"/>
         </tableViewCell>

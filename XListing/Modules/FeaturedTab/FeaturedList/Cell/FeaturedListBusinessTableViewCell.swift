@@ -48,9 +48,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     // MARK: - UI Controls - Social Section
     @IBOutlet private weak var participationUIView: UIView!
-    @IBOutlet private weak var WTGButtonView: UIView!
-    @IBOutlet private weak var numberOfPeopleGoingView: UIView!
-    @IBOutlet private weak var peopleWantogoLabel: UILabel!
+    @IBOutlet private weak var joinButtonContainerUIView: UIView!
+    @IBOutlet private weak var numberOfPeopleGoingUIView: UIView!
+    @IBOutlet private weak var numberOfPeopleGoingLabelUILabel: UILabel!
     @IBOutlet private weak var avatarList: UIView!
     @IBOutlet private weak var joinButton: UIButton!
     private lazy var participationViewXibUIView: UIView = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
@@ -76,8 +76,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         bizInfoUIView.backgroundColor = .x_FeaturedCardBG()
         bizInfoSizingHelperUIView.backgroundColor = .x_FeaturedCardBG()
         businessImageUIImageView.backgroundColor = .x_FeaturedCardBG()
-        numberOfPeopleGoingView.backgroundColor = .x_FeaturedCardBG()
-        WTGButtonView.backgroundColor = .x_FeaturedCardBG()
+        numberOfPeopleGoingUIView.backgroundColor = .x_FeaturedCardBG()
+        joinButtonContainerUIView.backgroundColor = .x_FeaturedCardBG()
         joinButton.backgroundColor = .x_FeaturedCardBG()
         infoPanelXibUIView.backgroundColor = .x_FeaturedCardBG()
         participationUIView.backgroundColor = .x_FeaturedCardBG()
@@ -85,13 +85,13 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         cityNameLabelUILabel.backgroundColor = .x_FeaturedCardBG()
         etaLabelUILabel.backgroundColor = .x_FeaturedCardBG()
         businessNameLabelUILabel.backgroundColor = .x_FeaturedCardBG()
-        peopleWantogoLabel.backgroundColor = .x_FeaturedCardBG()
+        numberOfPeopleGoingLabelUILabel.backgroundColor = .x_FeaturedCardBG()
         avatarList.backgroundColor = .x_FeaturedCardBG()
         
         //Setting auto-adjust font size
         etaLabelUILabel.adjustsFontSizeToFitWidth = true
         priceLabelUILabel.adjustsFontSizeToFitWidth = true
-        peopleWantogoLabel.adjustsFontSizeToFitWidth = true
+        numberOfPeopleGoingLabelUILabel.adjustsFontSizeToFitWidth = true
         joinButton.titleLabel?.adjustsFontSizeToFitWidth = true
         
         businessImageUIImageView.layer.masksToBounds = true
@@ -189,8 +189,8 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             
         }
         
-        peopleWantogoLabel.backgroundColor = .x_FeaturedCardBG()
-        peopleWantogoLabel.layer.masksToBounds = true
+        numberOfPeopleGoingLabelUILabel.backgroundColor = .x_FeaturedCardBG()
+        numberOfPeopleGoingLabelUILabel.layer.masksToBounds = true
     }
     
     
@@ -229,9 +229,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                     participationViewXibUIView.centerY == participationViewXibUIView.superview!.centerY
                 }
                 
-                //Set peopleWantogoLabel size
-                constrain(this.peopleWantogoLabel) { peopleWantogoLabel in
-                    peopleWantogoLabel.width == peopleWantogoLabel.superview!.width * numberOfPeopleGoingLabelToParentRatio
+                //Set numberOfPeopleGoingLabelUILabel size
+                constrain(this.numberOfPeopleGoingLabelUILabel) { numberOfPeopleGoingLabelUILabel in
+                    numberOfPeopleGoingLabelUILabel.width == numberOfPeopleGoingLabelUILabel.superview!.width * numberOfPeopleGoingLabelToParentRatio
                 }
                 
                 //Set WTG button size
@@ -292,7 +292,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         etaLabelUILabel.rac_text <~ viewmodel.eta.producer
             |> takeUntilPrepareForReuse(self)
         
-        peopleWantogoLabel.rac_text <~ viewmodel.participationString.producer
+        numberOfPeopleGoingLabelUILabel.rac_text <~ viewmodel.participationString.producer
             |> takeUntilPrepareForReuse(self)
         
         self.viewmodel.coverImage.producer
