@@ -37,7 +37,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     @IBOutlet private weak var businessImageContainerUIView: UIView!
     @IBOutlet private weak var businessImageUIImageView: UIImageView!
     @IBOutlet private weak var infoView: UIView!
-    @IBOutlet private weak var infoViewSizingHelper: UIView!
+    @IBOutlet private weak var infoViewSizingHelperUIView: UIView!
     @IBOutlet private weak var pricePerPerson: UIImageView!
     @IBOutlet private weak var priceLabel: UILabel!
     @IBOutlet private weak var ETA: UIImageView!
@@ -74,7 +74,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         //Set card's Background color
         businessImageContainerUIView.backgroundColor = .x_FeaturedCardBG()
         infoView.backgroundColor = .x_FeaturedCardBG()
-        infoViewSizingHelper.backgroundColor = .x_FeaturedCardBG()
+        infoViewSizingHelperUIView.backgroundColor = .x_FeaturedCardBG()
         businessImageUIImageView.backgroundColor = .x_FeaturedCardBG()
         numberOfPeopleGoingView.backgroundColor = .x_FeaturedCardBG()
         WTGButtonView.backgroundColor = .x_FeaturedCardBG()

@@ -11,7 +11,7 @@
                 <outlet property="ETA" destination="8Lo-1p-GQO" id="19N-Cw-DyY"/>
                 <outlet property="cityLabel" destination="ITd-ca-dqd" id="VpB-gR-raI"/>
                 <outlet property="etaLabel" destination="dLa-HN-E64" id="wfE-QW-ibT"/>
-                <outlet property="infoViewSizingHelper" destination="Ecm-Bg-cEP" id="Vy6-Yl-0QH"/>
+                <outlet property="infoViewSizingHelperUIView" destination="Ecm-Bg-cEP" id="cXo-Qx-ee7"/>
                 <outlet property="nameLabel" destination="q3J-ZD-yDt" id="EUh-XG-aiC"/>
                 <outlet property="priceLabel" destination="0MM-hb-Gpb" id="LkX-jv-ESs"/>
                 <outlet property="pricePerPerson" destination="szp-qo-PTI" id="qGE-JM-eSe"/>
@@ -22,7 +22,7 @@
             <rect key="frame" x="0.0" y="0.0" width="158" height="144"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ecm-Bg-cEP">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ecm-Bg-cEP" userLabel="Sizing Helper">
                     <rect key="frame" x="0.0" y="0.0" width="158" height="144"/>
                     <subviews>
                         <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$99" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0MM-hb-Gpb">
