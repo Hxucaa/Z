@@ -36,24 +36,24 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     // MARK: - UI Controls - Business Section
     @IBOutlet private weak var businessImageContainerUIView: UIView!
     @IBOutlet private weak var businessImageUIImageView: UIImageView!
-    @IBOutlet private weak var infoViewUIView: UIView!
-    @IBOutlet private weak var infoViewSizingHelperUIView: UIView!
+    @IBOutlet private weak var bizInfoUIView: UIView!
+    @IBOutlet private weak var bizInfoSizingHelperUIView: UIView!
     @IBOutlet private weak var priceIconUIImageView: UIImageView!
     @IBOutlet private weak var priceLabelUILabel: UILabel!
     @IBOutlet private weak var etaIconUIImageVIew: UIImageView!
-    @IBOutlet private weak var nameLabel: UILabel!
-    @IBOutlet private weak var cityLabel: UILabel!
+    @IBOutlet private weak var businessNameLabelUILabel: UILabel!
+    @IBOutlet private weak var cityNameLabelUILabel: UILabel!
     @IBOutlet private weak var etaLabelUILabel: UILabel!
-    private lazy var infoViewContent: UIView = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
+    private lazy var infoPanelXibUIView: UIView = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
     
     // MARK: - UI Controls - Social Section
-    @IBOutlet private weak var participationView: UIView!
+    @IBOutlet private weak var participationUIView: UIView!
     @IBOutlet private weak var WTGButtonView: UIView!
     @IBOutlet private weak var numberOfPeopleGoingView: UIView!
     @IBOutlet private weak var peopleWantogoLabel: UILabel!
     @IBOutlet private weak var avatarList: UIView!
     @IBOutlet private weak var joinButton: UIButton!
-    private lazy var participationViewContent: UIView = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
+    private lazy var participationViewXibUIView: UIView = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
     private var avatarImageViews = [UIImageView]()
 
     // MARK: Properties
@@ -68,23 +68,23 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
         
-        infoViewUIView.addSubview(infoViewContent)
-        participationView.addSubview(participationViewContent)
+        bizInfoUIView.addSubview(infoPanelXibUIView)
+        participationUIView.addSubview(participationViewXibUIView)
         
         //Set card's Background color
         businessImageContainerUIView.backgroundColor = .x_FeaturedCardBG()
-        infoViewUIView.backgroundColor = .x_FeaturedCardBG()
-        infoViewSizingHelperUIView.backgroundColor = .x_FeaturedCardBG()
+        bizInfoUIView.backgroundColor = .x_FeaturedCardBG()
+        bizInfoSizingHelperUIView.backgroundColor = .x_FeaturedCardBG()
         businessImageUIImageView.backgroundColor = .x_FeaturedCardBG()
         numberOfPeopleGoingView.backgroundColor = .x_FeaturedCardBG()
         WTGButtonView.backgroundColor = .x_FeaturedCardBG()
         joinButton.backgroundColor = .x_FeaturedCardBG()
-        infoViewContent.backgroundColor = .x_FeaturedCardBG()
-        participationView.backgroundColor = .x_FeaturedCardBG()
-        participationViewContent.backgroundColor = .x_FeaturedCardBG()
-        cityLabel.backgroundColor = .x_FeaturedCardBG()
+        infoPanelXibUIView.backgroundColor = .x_FeaturedCardBG()
+        participationUIView.backgroundColor = .x_FeaturedCardBG()
+        participationViewXibUIView.backgroundColor = .x_FeaturedCardBG()
+        cityNameLabelUILabel.backgroundColor = .x_FeaturedCardBG()
         etaLabelUILabel.backgroundColor = .x_FeaturedCardBG()
-        nameLabel.backgroundColor = .x_FeaturedCardBG()
+        businessNameLabelUILabel.backgroundColor = .x_FeaturedCardBG()
         peopleWantogoLabel.backgroundColor = .x_FeaturedCardBG()
         avatarList.backgroundColor = .x_FeaturedCardBG()
         
@@ -95,7 +95,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         joinButton.titleLabel?.adjustsFontSizeToFitWidth = true
         
         businessImageUIImageView.layer.masksToBounds = true
-        nameLabel.layer.masksToBounds = true
+        businessNameLabelUILabel.layer.masksToBounds = true
         etaLabelUILabel.layer.masksToBounds = true
         
         
@@ -214,19 +214,19 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                 }
                 
                 //Make subview same size as the parent view
-                constrain(this.infoViewContent) { infoViewContent in
-                    infoViewContent.width == infoViewContent.superview!.width
-                    infoViewContent.height == infoViewContent.superview!.height
-                    infoViewContent.center == infoViewContent.superview!.center
+                constrain(this.infoPanelXibUIView) { infoPanelXibUIView in
+                    infoPanelXibUIView.width == infoPanelXibUIView.superview!.width
+                    infoPanelXibUIView.height == infoPanelXibUIView.superview!.height
+                    infoPanelXibUIView.center == infoPanelXibUIView.superview!.center
                 }
                 
                 
                 //Make subview same size as the parent view
-                constrain(this.participationViewContent, this.businessImageUIImageView) { participationViewContent, businessImageUIImageView in
-                    participationViewContent.width == participationViewContent.superview!.width * userShowToParentRatio
-                    participationViewContent.height == participationViewContent.superview!.height
-                    participationViewContent.leading == businessImageUIImageView.leading
-                    participationViewContent.centerY == participationViewContent.superview!.centerY
+                constrain(this.participationViewXibUIView, this.businessImageUIImageView) { participationViewXibUIView, businessImageUIImageView in
+                    participationViewXibUIView.width == participationViewXibUIView.superview!.width * userShowToParentRatio
+                    participationViewXibUIView.height == participationViewXibUIView.superview!.height
+                    participationViewXibUIView.leading == businessImageUIImageView.leading
+                    participationViewXibUIView.centerY == participationViewXibUIView.superview!.centerY
                 }
                 
                 //Set peopleWantogoLabel size
@@ -275,10 +275,10 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
                     self?.joinButton.hidden  = false
                 })
         
-        nameLabel.rac_text <~ viewmodel.businessName.producer
+        businessNameLabelUILabel.rac_text <~ viewmodel.businessName.producer
            |> takeUntilPrepareForReuse(self)
         
-        cityLabel.rac_text <~ viewmodel.city.producer
+        cityNameLabelUILabel.rac_text <~ viewmodel.city.producer
             |> takeUntilPrepareForReuse(self)
         
         viewmodel.price.producer

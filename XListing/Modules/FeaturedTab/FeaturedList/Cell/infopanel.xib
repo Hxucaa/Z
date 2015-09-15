@@ -8,11 +8,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeaturedListBusinessTableViewCell" customModule="XListing" customModuleProvider="target">
             <connections>
-                <outlet property="cityLabel" destination="ITd-ca-dqd" id="VpB-gR-raI"/>
+                <outlet property="bizInfoSizingHelperUIView" destination="Ecm-Bg-cEP" id="uzw-1C-5cY"/>
+                <outlet property="businessNameLabelUILabel" destination="q3J-ZD-yDt" id="ozH-e3-3Mm"/>
+                <outlet property="cityNameLabelUILabel" destination="ITd-ca-dqd" id="2DX-my-TXn"/>
                 <outlet property="etaIconUIImageVIew" destination="8Lo-1p-GQO" id="HgY-Qv-cN3"/>
                 <outlet property="etaLabelUILabel" destination="dLa-HN-E64" id="nC1-8R-4qx"/>
-                <outlet property="infoViewSizingHelperUIView" destination="Ecm-Bg-cEP" id="cXo-Qx-ee7"/>
-                <outlet property="nameLabel" destination="q3J-ZD-yDt" id="EUh-XG-aiC"/>
                 <outlet property="priceIconUIImageView" destination="szp-qo-PTI" id="jhQ-mt-Yea"/>
                 <outlet property="priceLabelUILabel" destination="0MM-hb-Gpb" id="GJr-ai-rP6"/>
             </connections>
