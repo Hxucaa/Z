@@ -12,6 +12,7 @@ import ReactiveCocoa
 import Cartography
 import XAssets
 import Dollar
+import TTTAttributedLabel
 
     
     //Layout Ratios
@@ -192,6 +193,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         numberOfPeopleGoingLabelUILabel.backgroundColor = .x_FeaturedCardBG()
         numberOfPeopleGoingLabelUILabel.layer.masksToBounds = true
+        numberOfPeopleGoingLabelUILabel.
         
         //Set business image container as anchor for all related views
         constrain(businessImageContainerUIView) { container in
@@ -215,6 +217,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             image.center == image.superview!.center
         }
         
+        
         //Make subview same size as the parent view
         constrain(infoPanelXibUIView) { infoPanelXibUIView in
             infoPanelXibUIView.size == infoPanelXibUIView.superview!.size
@@ -231,8 +234,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         }
         
         //Set numberOfPeopleGoingLabelUILabel size
-        constrain(numberOfPeopleGoingLabelUILabel) { numberOfPeopleGoingLabelUILabel in
-            numberOfPeopleGoingLabelUILabel.width == numberOfPeopleGoingLabelUILabel.superview!.width * numberOfPeopleGoingLabelToParentRatio
+        constrain(numberOfPeopleGoingLabelUILabel) { label in
+//            numberOfPeopleGoingLabelUILabel.width == numberOfPeopleGoingLabelUILabel.superview!.width * numberOfPeopleGoingLabelToParentRatio
+            
         }
         
         
