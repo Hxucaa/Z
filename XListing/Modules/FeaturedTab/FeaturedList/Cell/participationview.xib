@@ -6,7 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeaturedListBusinessTableViewCell" customModule="XListing" customModuleProvider="target">
             <connections>
-                <outlet property="avatarList" destination="iKv-fv-JDU" id="sfC-ql-QaB"/>
+                <outlet property="userThumbnailShowUIView" destination="iKv-fv-JDU" id="2YX-dQ-L4j"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

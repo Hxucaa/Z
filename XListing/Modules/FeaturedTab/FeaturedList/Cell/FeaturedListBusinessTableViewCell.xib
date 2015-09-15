@@ -42,10 +42,10 @@
                         <rect key="frame" x="8" y="161" width="258" height="38"/>
                         <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEP-mM-tP1" userLabel="# of people">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEP-mM-tP1" userLabel="Number of People Going">
                         <rect key="frame" x="8" y="140" width="258" height="21"/>
                         <subviews>
-                            <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ll0-OA-u89">
+                            <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ll0-OA-u89" userLabel="Number of People Going Label">
                                 <rect key="frame" x="13" y="3" width="43" height="16"/>
                                 <color key="backgroundColor" red="0.96078431372549011" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration">
@@ -65,10 +65,10 @@
                             <constraint firstAttribute="height" constant="21" id="QVe-Sl-ZHu"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bqS-en-tuD" userLabel="WTG Button">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bqS-en-tuD" userLabel="Join Button Container">
                         <rect key="frame" x="266" y="140" width="76" height="59"/>
                         <subviews>
-                            <button contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Svz-tv-mdR">
+                            <button contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Svz-tv-mdR" userLabel="Join Button">
                                 <rect key="frame" x="4" y="22" width="30" height="30"/>
                                 <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal">
@@ -121,11 +121,11 @@
                 <outlet property="bizInfoUIView" destination="6lj-Ep-95x" id="eRT-Pc-mr9"/>
                 <outlet property="businessImageContainerUIView" destination="uDb-oW-Ddf" id="phm-wt-eBc"/>
                 <outlet property="businessImageUIImageView" destination="iyM-Pv-UcA" id="PJ0-09-VUV"/>
-                <outlet property="joinButton" destination="Svz-tv-mdR" id="3xO-L5-KPG"/>
                 <outlet property="joinButtonContainerUIView" destination="bqS-en-tuD" id="qta-3T-WqD"/>
+                <outlet property="joinButtonUIButton" destination="Svz-tv-mdR" id="mpx-qZ-8Id"/>
                 <outlet property="numberOfPeopleGoingLabelUILabel" destination="Ll0-OA-u89" id="PDO-dV-Hut"/>
                 <outlet property="numberOfPeopleGoingUIView" destination="SEP-mM-tP1" id="oEf-49-q9U"/>
-                <outlet property="participationUIView" destination="LYg-mn-BdT" id="BgM-qg-4d9"/>
+                <outlet property="userThumbnailShowContainerUIView" destination="LYg-mn-BdT" id="za6-be-OLI"/>
             </connections>
             <point key="canvasLocation" x="285" y="415"/>
         </tableViewCell>
