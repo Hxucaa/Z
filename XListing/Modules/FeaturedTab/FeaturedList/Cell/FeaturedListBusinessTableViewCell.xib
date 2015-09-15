@@ -14,10 +14,10 @@
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TXe-I0-Lvf" id="wLJ-Zu-Foj">
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uDb-oW-Ddf" userLabel="Cover Container">
+                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uDb-oW-Ddf" userLabel="Cover Container">
                         <rect key="frame" x="8" y="8" width="136" height="132"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="253" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="iyM-Pv-UcA" userLabel="Cover">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="253" ambiguous="YES" misplaced="YES" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="iyM-Pv-UcA" userLabel="Cover">
                                 <rect key="frame" x="0.0" y="-7" width="136" height="146"/>
                                 <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -33,19 +33,27 @@
                             <constraint firstAttribute="centerX" secondItem="iyM-Pv-UcA" secondAttribute="centerX" id="XVN-mZ-NHN"/>
                             <constraint firstAttribute="centerY" secondItem="iyM-Pv-UcA" secondAttribute="centerY" id="gYK-W8-33C"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Blz-5m-vcO"/>
+                                <exclude reference="XP9-mB-krs"/>
+                                <exclude reference="XVN-mZ-NHN"/>
+                                <exclude reference="gYK-W8-33C"/>
+                            </mask>
+                        </variation>
                     </view>
-                    <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6lj-Ep-95x" userLabel="InfoView">
+                    <view autoresizesSubviews="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6lj-Ep-95x" userLabel="InfoView">
                         <rect key="frame" x="144" y="8" width="198" height="132"/>
                         <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LYg-mn-BdT" userLabel="ViewofParticipants">
+                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LYg-mn-BdT" userLabel="ViewofParticipants">
                         <rect key="frame" x="8" y="161" width="258" height="38"/>
                         <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEP-mM-tP1" userLabel="Number of People Going">
+                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SEP-mM-tP1" userLabel="Number of People Going">
                         <rect key="frame" x="8" y="140" width="258" height="21"/>
                         <subviews>
-                            <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ll0-OA-u89" userLabel="Number of People Going Label">
+                            <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="0人想去" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ll0-OA-u89" userLabel="Number of People Going Label">
                                 <rect key="frame" x="13" y="3" width="43" height="16"/>
                                 <color key="backgroundColor" red="0.96078431372549011" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration">
@@ -65,10 +73,10 @@
                             <constraint firstAttribute="height" constant="21" id="QVe-Sl-ZHu"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bqS-en-tuD" userLabel="Join Button Container">
+                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bqS-en-tuD" userLabel="Join Button Container">
                         <rect key="frame" x="266" y="140" width="76" height="59"/>
                         <subviews>
-                            <button contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Svz-tv-mdR" userLabel="Join Button">
+                            <button contentMode="scaleAspectFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Svz-tv-mdR" userLabel="Join Button">
                                 <rect key="frame" x="4" y="22" width="30" height="30"/>
                                 <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal">
@@ -85,7 +93,7 @@
                             <constraint firstItem="Svz-tv-mdR" firstAttribute="leading" secondItem="bqS-en-tuD" secondAttribute="leading" constant="4" id="7aO-iO-rbu"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T96-ob-woW" userLabel="Divider">
+                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T96-ob-woW" userLabel="Divider">
                         <rect key="frame" x="17" y="140" width="325" height="1"/>
                         <color key="backgroundColor" red="0.83529411760000005" green="0.83529411760000005" blue="0.83529411760000005" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -115,6 +123,15 @@
                     <constraint firstItem="uDb-oW-Ddf" firstAttribute="top" secondItem="wLJ-Zu-Foj" secondAttribute="topMargin" id="tYG-ra-15O"/>
                     <constraint firstItem="uDb-oW-Ddf" firstAttribute="leading" secondItem="SEP-mM-tP1" secondAttribute="leading" id="z9Q-R5-h1M"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="SeX-Jo-NBx"/>
+                        <exclude reference="Ug1-TR-wlX"/>
+                        <exclude reference="kz8-LE-kdK"/>
+                        <exclude reference="tYG-ra-15O"/>
+                        <exclude reference="5Pj-k4-bzM"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.83529411764705885" green="0.83529411764705885" blue="0.83529411764705885" alpha="1" colorSpace="calibratedRGB"/>
             <connections>

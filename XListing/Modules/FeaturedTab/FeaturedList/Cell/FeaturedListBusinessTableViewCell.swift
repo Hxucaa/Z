@@ -31,6 +31,8 @@ private let priceLabelToEtaLabelRatio = 0.6
     //Sizing and margins
 private let userThumbnailHeight = userThumbnailWidth * 1.05
 private let bizInfoUIViewLeadingMargin = 8.0
+private let featuredCardLeftAndRightMargin = 8.0
+private let featuredCardTopAndBottomMargin = 6.0
     
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
@@ -191,18 +193,26 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         numberOfPeopleGoingLabelUILabel.backgroundColor = .x_FeaturedCardBG()
         numberOfPeopleGoingLabelUILabel.layer.masksToBounds = true
         
-        //Set anchor size for all related views
-        constrain(businessImageContainerUIView) { businessImageContainerUIView in
-            //sizes
-            businessImageContainerUIView.width == businessImageContainerUIView.superview!.width * businessImageContainerWidthToParentRatio
-            businessImageContainerUIView.height == businessImageContainerUIView.width * businessImageContainerHeightToWidthRatio
+        //Set business image container as anchor for all related views
+        constrain(businessImageContainerUIView) { container in
+            container.width == container.superview!.width * businessImageContainerWidthToParentRatio
+            container.height == container.width * businessImageContainerHeightToWidthRatio
+            container.leading == container.superview!.leading + featuredCardLeftAndRightMargin
+            container.top == container.superview!.top + featuredCardTopAndBottomMargin
         }
         
-        //Set business image size
-        constrain(businessImageUIImageView) {businessImageUIImageView in
-            businessImageUIImageView.width == businessImageUIImageView.superview!.width * businessImageWidthToParentRatio
-            businessImageUIImageView.height == businessImageUIImageView.superview!.height * businessImageHeightToParentRatio
-            businessImageUIImageView.center == businessImageUIImageView.superview!.center
+        //bizInfoView size and position
+        constrain(businessImageContainerUIView, bizInfoUIView) { container, info in
+            container.trailing == info.leading
+            container.bottom == info.bottom
+            container.top == info.top
+        }
+        
+        //Set business image size and position
+        constrain(businessImageUIImageView) {image in
+            image.width == image.superview!.width * businessImageWidthToParentRatio
+            image.height == image.superview!.height * businessImageHeightToParentRatio
+            image.center == image.superview!.center
         }
         
         //Make subview same size as the parent view
