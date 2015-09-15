@@ -88,6 +88,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         query.includeKey(User_Business_Participation.Property.User.rawValue)
         query.whereKey(User_Business_Participation.Property.Business.rawValue, equalTo: business)
 
+        
         return SignalProducer<[Participation], NSError>.empty
             |> then(participationService.findBy(query))
             |> on(next: { participation in
@@ -102,6 +103,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
                 }
             })
             |> map { participations -> [SocialBusiness_UserViewModel] in
+//                let t = participations[0].user.nickname
                 
                 return participations.map {
                     SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, nickname: $0.user.nickname, ageGroup: $0.user.ageGroup, horoscope: $0.user.horoscope, gender: $0.user.gender, profileImage: $0.user.profileImg)
@@ -120,7 +122,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
                     }
                 },
                 error: { DetailLogError($0.description) }
-        )
+            )
     }
     
     public func pushBusinessDetail(animated: Bool) {
