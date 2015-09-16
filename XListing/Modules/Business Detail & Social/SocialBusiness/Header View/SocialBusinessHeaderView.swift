@@ -139,11 +139,11 @@ public final class SocialBusinessHeaderView : UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
 
-        backgroundImageView.image = UIImage(named: ImageAssets.lowPoly)
-        businessNameLabel.text = "老四川"
+//        backgroundImageView.image = UIImage(named: ImageAssets.lowPoly)
+//        businessNameLabel.text = "老四川"
         cuisineLabel.text = "川菜"
-        locationLabel.text = "Richmond"
-        distanceLabel.text = "30分钟"
+//        locationLabel.text = "Richmond"
+//        distanceLabel.text = "30分钟"
 
         addSubview(backgroundImageView)
         addSubview(mainContainer)
@@ -175,9 +175,10 @@ public final class SocialBusinessHeaderView : UIView {
     public func bindToViewModel(viewmodel: SocialBusinessHeaderViewModel) {
         self.viewmodel = viewmodel
         
-//        businessNameLabel.rac_text <~ viewmodel.businessName.producer
-//        coverImageView.rac_image <~ viewmodel.coverImage.producer
-//        locationLabel.rac_text <~ viewmodel.city.producer
-//        distanceLabel.rac_text <~ viewmodel.eta.producer
+        businessNameLabel.rac_text <~ viewmodel.businessName.producer
+        locationLabel.rac_text <~ viewmodel.city.producer
+        distanceLabel.rac_text <~ viewmodel.eta.producer
+        coverImageView.image = self.viewmodel.coverImage.value!.maskWithRoundedRect(CGSizeMake(100, 100), cornerRadius: 40, borderWidth: 4, opaque: false)
+        backgroundImageView.image = self.viewmodel.coverImage.value
     }
 }
