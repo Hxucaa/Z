@@ -30,14 +30,13 @@ public final class SocialBusinessViewController : XUIViewController {
         
         return tableView
     }()
-    @IBOutlet private weak var infoButton: UIButton!
-    @IBOutlet private weak var startEventButton: UIButton!
-    private lazy var headerView: SocialBusinessHeaderView =  { [weak self] in
+    
+    private lazy var headerView: SocialBusinessHeaderView =  {
         let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)))
-        view.bindToViewModel(self!.viewmodel.headerViewModel)
         
         return view
     }()
+    
     private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
         let view = SocialBusiness_UtilityHeaderView()
         
@@ -46,7 +45,11 @@ public final class SocialBusinessViewController : XUIViewController {
     }()
     
     // MARK: - Properties
-    private var viewmodel: ISocialBusinessViewModel!
+    private var viewmodel: ISocialBusinessViewModel! {
+        didSet {
+            headerView.bindToViewModel(viewmodel.headerViewModel)
+        }
+    }
     private let compositeDisposable = CompositeDisposable()
     private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, SocialBusinessViewModel>!
 

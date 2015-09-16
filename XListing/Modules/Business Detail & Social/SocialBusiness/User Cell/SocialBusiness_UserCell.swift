@@ -24,7 +24,7 @@ public final class SocialBusiness_UserCell : UITableViewCell {
     */
     
     private lazy var profileImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: ImageAssets.profilepicture))
+        let imageView = UIImageView(frame: CGRectMake(0, 0, self.frame.height, self.frame.height))
         imageView.opaque = true
         imageView.backgroundColor = UIColor.whiteColor()
         
@@ -87,7 +87,7 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         label.opaque = true
         label.backgroundColor = UIColor(red: 223.0/255, green: 68.0/255.0, blue: 154.0/255, alpha: 1.0)
         label.textAlignment = NSTextAlignment.Center
-        label.font = UIFont.systemFontOfSize(12)
+        label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline)
         label.textInsets = UIEdgeInsets(top: 1, left: 7, bottom: 1, right: 7)
         // TODO: Fix the performance issue caused by cornerRadius
         label.layer.masksToBounds = true
@@ -104,7 +104,7 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         let label = UILabel(frame: CGRectMake(0, 0, 50, 22))
         label.opaque = true
         label.backgroundColor = UIColor.whiteColor()
-        label.font = UIFont.systemFontOfSize(12)
+        label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         label.layer.masksToBounds = true
         
         return label
@@ -138,7 +138,6 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         
         selectionStyle = UITableViewCellSelectionStyle.None
         
-        //nicknameLabel.text = "海绵"
         ageGroupLabel.text = "90后"
         horoscopeLabel.text = "水瓶座"
         participationTypeLabel.text = "我请客"
@@ -180,8 +179,12 @@ public final class SocialBusiness_UserCell : UITableViewCell {
     public func bindViewModel(viewmodel: SocialBusiness_UserViewModel) {
         self.viewmodel = viewmodel
         nicknameLabel.rac_text <~ viewmodel.nickname.producer
+            |> takeUntilPrepareForReuse(self)
         
         profileImageView.rac_image <~ viewmodel.profileImage.producer
+            |> takeUntilPrepareForReuse(self)
+            |> ignoreNil
+            |> map { $0.maskWithRoundedRect(self.profileImageView.frame.size, cornerRadius: self.profileImageView.frame.size.height, backgroundColor: .x_FeaturedCardBG()) }
         
     }
 
