@@ -41,6 +41,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor.blackColor()
         label.font = UIFont.systemFontOfSize(19)
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
@@ -59,6 +60,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor.blackColor()
         label.font = UIFont.systemFontOfSize(12)
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
@@ -86,6 +88,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor(hex: "828282")
         label.font = UIFont.systemFontOfSize(12)
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
@@ -113,6 +116,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor(hex: "828282")
         label.font = UIFont.systemFontOfSize(12)
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
@@ -166,20 +170,20 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
             view.width == 12
         }
         
-        constrain([businessNameAndFeaturedIconContainer, locationLabel, priceIconImageView, self.priceLabel, etaIconImageView, etaLabel]) { views in
+        constrain([businessNameAndFeaturedIconContainer, locationLabel, priceIconImageView, priceLabel, etaIconImageView, etaLabel]) { views in
             
             // align the business name, location, price icon to leading
             align(leading: views[0], views[1], views[2])
             
             views[0].width <= views[0].superview!.width * 0.85
-            views[0].leading == views[0].superview!.leadingMargin + 5
-            views[0].top == views[0].superview!.topMargin + 5
+            views[0].leading == views[0].superview!.leadingMargin
+            views[0].top == views[0].superview!.top + 5
             
             views[1].top == views[0].bottom + 5
             
             align(centerY: views[2], views[3], views[4], views[5])
             
-            views[2].bottom == views[2].superview!.bottomMargin - 10
+            views[2].bottom == views[2].superview!.bottom - 5
             views[2].trailing == views[3].leading - 3
             
             views[4].trailing == views[5].leading - 3

@@ -52,7 +52,7 @@ public final class FeaturedListBusinessCell_ParticipationViewModel : IFeaturedLi
         query.whereKey(Property.Business.rawValue, equalTo: business)
         // TODO: Only retrieve users that have uploaded photoes and have
         query.includeKey(Property.User.rawValue)
-        query.limit = 8
+        query.limit = 5
         
         return participationService.findBy(query)
             |> on(next: { participations in
