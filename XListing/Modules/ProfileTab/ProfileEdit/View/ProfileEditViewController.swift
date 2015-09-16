@@ -353,12 +353,17 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
         let genderCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow:Primary.Gender.rawValue, inSection: Section.Primary.rawValue)) as! GenderTableViewCell
 
         // create the gender action sheet
-        var actionGenderPicker = ActionSheetStringPicker(title: "性别", rows: [Gender.Male.rawValue, Gender.Female.rawValue], initialSelection: 0, doneBlock: {
+        var actionGenderPicker = ActionSheetStringPicker(title: "性别", rows: [Gender.Male.description, Gender.Female.description], initialSelection: 0, doneBlock: {
             picker, index, value in
             
             var genderData = value as! String
             genderCell.setTextfieldText(genderData)
-            self.viewmodel.gender.put(Gender(rawValue: genderData))
+            if index == 0 {
+                self.viewmodel.gender.put(Gender.Male)
+            }
+            else {
+                self.viewmodel.gender.put(Gender.Female)
+            }
         
             return
             }, cancelBlock: { ActionStringCancelBlock in return }, origin: self.view.superview)
@@ -418,7 +423,7 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
             case .Gender:
                 let genderCell = tableView.dequeueReusableCellWithIdentifier("GenderCell") as! GenderTableViewCell
                 genderCell.delegate = self
-                genderCell.setTextfieldText(viewmodel.gender.value?.rawValue)
+                genderCell.setTextfieldText(viewmodel.gender.value!.description)
                 genderCell.setUpEditProfileButton()
                 return genderCell
             case .Birthday:

@@ -106,7 +106,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
             |> map { participations -> [SocialBusiness_UserViewModel] in
                 
                 return participations.map {
-                    SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, nickname: $0.user.nickname, ageGroup: $0.user.ageGroup, horoscope: $0.user.horoscope, gender: $0.user.gender, profileImage: $0.user.profileImg)
+                    SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, nickname: $0.user.nickname, ageGroup: $0.user.ageGroup, horoscope: $0.user.horoscope, gender: $0.user.gender_, profileImage: $0.user.profileImg)
                 }
 
             }
