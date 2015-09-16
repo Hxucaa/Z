@@ -12,6 +12,8 @@ import Cartography
 import TTTAttributedLabel
 import ReactiveCocoa
 
+private let CoverImageSize = CGSizeMake(100, 100)
+
 public final class SocialBusinessHeaderView : UIView {
     
     // MARK: - UI Controls
@@ -47,7 +49,7 @@ public final class SocialBusinessHeaderView : UIView {
     }()
     
     private lazy var coverImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: ImageAssets.profilepicture)?.maskWithRoundedRect(CGSizeMake(100, 100), cornerRadius: 40, borderWidth: 4, opaque: false))
+        let imageView = UIImageView(image: UIImage(named: ImageAssets.profilepicture)?.maskWithRoundedRect(CoverImageSize, cornerRadius: 40, borderWidth: 4, opaque: false))
         imageView.opaque = false
         imageView.backgroundColor = UIColor.clearColor()
         
@@ -132,18 +134,14 @@ public final class SocialBusinessHeaderView : UIView {
     // MARK: - Proxies
     
     // MARK: - Properties
-    private var viewmodel: ISocialBusinessHeaderViewModel!
+    private var viewmodel: SocialBusinessHeaderViewModel!
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Initializers
     public override init(frame: CGRect) {
         super.init(frame: frame)
 
-        backgroundImageView.image = UIImage(named: ImageAssets.lowPoly)
-        businessNameLabel.text = "老四川"
         cuisineLabel.text = "川菜"
-        locationLabel.text = "Richmond"
-        distanceLabel.text = "30分钟"
 
         addSubview(backgroundImageView)
         addSubview(mainContainer)
@@ -172,7 +170,21 @@ public final class SocialBusinessHeaderView : UIView {
     
     // MARK: - Setups
 
-    public func bindToViewModel(viewmodel: ISocialBusinessHeaderViewModel) {
+    public func bindToViewModel(viewmodel: SocialBusinessHeaderViewModel) {
         self.viewmodel = viewmodel
+        
+        businessNameLabel.rac_text <~ viewmodel.businessName.producer
+        
+        locationLabel.rac_text <~ viewmodel.city.producer
+        
+        distanceLabel.rac_text <~ viewmodel.eta.producer
+        
+        coverImageView.rac_image <~ self.viewmodel.coverImage.producer
+            |> ignoreNil
+            |> map { $0.maskWithRoundedRect(CoverImageSize, cornerRadius: max(CoverImageSize.width, CoverImageSize.height) / 2, borderWidth: 4, opaque: false)
+            }
+        
+        self.backgroundImageView.rac_image <~ self.viewmodel.coverImage.producer
+        
     }
 }

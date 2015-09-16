@@ -19,7 +19,7 @@ public struct ProfileEditViewModel {
     public let nickname: MutableProperty<String?>
     public let birthday: MutableProperty<NSDate>
     public let profileImage: MutableProperty<UIImage?>
-    public let gender: MutableProperty<String?>
+    public let gender: MutableProperty<Gender?>
     
     // MARK: - Outputs
     public let allInputsValid = MutableProperty<Bool>(false)
@@ -41,7 +41,9 @@ public struct ProfileEditViewModel {
                 user.nickname = self.nickname.value
                 user.birthday = self.birthday.value
                 user.profileImg = file
-                user.gender = self.gender.value
+                if let gender = self.gender.value {
+                    user.gender_ = gender
+                }
                 return self.userService.save(user)
         }
     }
@@ -84,7 +86,7 @@ public struct ProfileEditViewModel {
         
         self.nickname = MutableProperty(user.nickname)
         
-        self.gender = MutableProperty(user.gender)
+        self.gender = MutableProperty(user.gender_)
         
         if let birthday = user.birthday {
             self.birthday = MutableProperty(birthday)

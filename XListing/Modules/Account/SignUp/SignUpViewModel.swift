@@ -135,7 +135,9 @@ public final class SignUpViewModel {
                         user.nickname = nickname
                         user.birthday = birthday
                         user.profileImg = file
-                        user.gender = gender.rawValue
+                        if let gender = self.gender.value {
+                            user.gender_ = gender
+                        }
                         
                         return self.userService.save(user)
                 }

@@ -34,7 +34,7 @@ public final class SocialBusinessViewController : XUIViewController {
     @IBOutlet private weak var startEventButton: UIButton!
     private lazy var headerView: SocialBusinessHeaderView =  { [weak self] in
         let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)))
-        
+        view.bindToViewModel(self!.viewmodel.headerViewModel)
         
         return view
     }()

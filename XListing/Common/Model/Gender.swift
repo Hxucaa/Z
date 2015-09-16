@@ -8,7 +8,25 @@
 
 import Foundation
 
-public enum Gender : String {
-    case Male = "男"
-    case Female = "女"
+public enum Gender : Printable {
+    case Male
+    case Female
+    
+    public var description: String {
+        switch self {
+        case .Male:
+            return "男"
+        case .Female:
+            return "女"
+        }
+    }
+    
+    public var value: Bool {
+        switch self {
+        case .Male:
+            return true
+        case .Female:
+            return false
+        }
+    }
 }

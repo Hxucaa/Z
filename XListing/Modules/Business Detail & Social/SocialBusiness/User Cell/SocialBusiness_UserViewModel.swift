@@ -57,7 +57,7 @@ public final class SocialBusiness_UserViewModel {
 
     
     // MARK: - Initializers
-    public init(participationService: IParticipationService, imageService: IImageService, user: User?, nickname: String?, ageGroup: String?, horoscope: String?, gender: String?, profileImage: AVFile?) {
+    public init(participationService: IParticipationService, imageService: IImageService, user: User?, nickname: String?, ageGroup: String?, horoscope: String?, gender: Gender, profileImage: AVFile?) {
         self.participationService = participationService
         self.imageService = imageService
         
@@ -97,11 +97,7 @@ public final class SocialBusiness_UserViewModel {
 //            _participationType = MutableProperty("")
 //        }
         
-        if let gender = gender {
-            _gender = MutableProperty(gender)
-        } else {
-            _gender = MutableProperty("")
-        }
+        _gender = MutableProperty(gender.description)
         
 
         if let url = profileImage?.url, nsurl = NSURL(string: url) {

@@ -26,6 +26,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     
     // MARK: - Inputs
     public let collectionDataSource = ReactiveArray<SocialBusiness_UserViewModel>()
+    public let headerViewModel: SocialBusinessHeaderViewModel
     
     // MARK: - Outputs
     
@@ -50,6 +51,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         self.imageService = imageService
         self.business = businessModel
         
+        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, imageURL: businessModel.imageUrl, businessName: businessModel.nameSChinese, city: businessModel.city, geopoint: businessModel.geopoint)
     }
     
     // MARK: - API
@@ -104,7 +106,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
             |> map { participations -> [SocialBusiness_UserViewModel] in
                 
                 return participations.map {
-                    SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, nickname: $0.user.nickname, ageGroup: $0.user.ageGroup, horoscope: $0.user.horoscope, gender: $0.user.gender, profileImage: $0.user.profileImg)
+                    SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, nickname: $0.user.nickname, ageGroup: $0.user.ageGroup, horoscope: $0.user.horoscope, gender: $0.user.gender_, profileImage: $0.user.profileImg)
                 }
 
             }

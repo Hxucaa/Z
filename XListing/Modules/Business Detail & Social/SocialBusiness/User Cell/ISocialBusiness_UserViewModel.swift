@@ -23,5 +23,5 @@ public protocol ISocialBusiness_UserViewModel : class {
     var user: PropertyOf<User> { get }
     
     // MARK: - Initializers
-    init(participationService: IParticipationService, imageService: IImageService, user: User?, nickname: String?, ageGroup: String?, horoscope: String?, gender: String?, profileImage: AVFile?)
+    init(participationService: IParticipationService, imageService: IImageService, user: User?, nickname: String?, ageGroup: String?, horoscope: String?, gender: Gender, profileImage: AVFile?)
 }
