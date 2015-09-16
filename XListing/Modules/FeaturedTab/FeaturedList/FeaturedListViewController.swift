@@ -13,6 +13,7 @@ import Dollar
 import Cartography
 
 private let CellIdentifier = "Cell"
+private let CellHeightToScreenWidthRatio = 0.57
 
 /**
 How is Infinite Scrolling implemented?
@@ -26,37 +27,55 @@ We also detect when user scrolls pass a certain point, fetch more data from remo
 
 public final class FeaturedListViewController: XUIViewController {
 
-    // MARK: - UI
-    // MARK: Controls
-    @IBOutlet private weak var tableView: UITableView!
-    private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, FeaturedListViewModel>!
-//    private let statusBarBackgroundView = StatusBarBackgroundView()
-    
-    // MARK: - Properties
-    private var viewmodel: IFeaturedListViewModel!
-    private let compositeDisposable = CompositeDisposable()
-    private let cellHeightToScreenWidthRatio = 0.57
-
-    
-    // MARK: - Setups
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        navigationController?.setNavigationBarHidden(false, animated: false)
+    // MARK: - UI Controls
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
         
         // makes the gap between table view and navigation bar go away
         tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         // makes the gap at the bottom of the table view go away
         tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         
-        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: viewmodel as! FeaturedListViewModel)
-
+        
         tableView.dataSource = self
         
         // set cell height based on devices
-        tableView.rowHeight = UIScreen.mainScreen().bounds.width * CGFloat(cellHeightToScreenWidthRatio)
+        tableView.rowHeight = UIScreen.mainScreen().bounds.width * CGFloat(CellHeightToScreenWidthRatio)
         
         tableView.registerClass(FeaturedListBusinessTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
+        
+        return tableView
+        
+    }()
+    
+    private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, FeaturedListViewModel>!
+//    private let statusBarBackgroundView = StatusBarBackgroundView()
+    
+    // MARK: - Properties
+    private var viewmodel: IFeaturedListViewModel!
+    private let compositeDisposable = CompositeDisposable()
+    
+    // MARK: - Setups
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        title = "推荐"
+        navigationController?.navigationBar.tintColor = UIColor.blackColor()
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        view.opaque = true
+        view.backgroundColor = UIColor.whiteColor()
+        
+        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: viewmodel as! FeaturedListViewModel)
+        
+        view.addSubview(tableView)
+        
+        constrain(tableView) { view in
+            view.leading == view.superview!.leading
+            view.top == view.superview!.top
+            view.trailing == view.superview!.trailing
+            view.bottom == view.superview!.bottom
+        }
     }
     
     public override func didReceiveMemoryWarning() {

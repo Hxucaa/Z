@@ -196,7 +196,6 @@
 		B4F332801B9699330048D1B4 /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F3327F1B9699330048D1B4 /* RootTabBarController.swift */; };
 		B4F332821B9699D10048D1B4 /* XBaseUINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F332811B9699D10048D1B4 /* XBaseUINavigationController.swift */; };
 		B4F332841B969E680048D1B4 /* ParticipationChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F332831B969E680048D1B4 /* ParticipationChoice.swift */; };
-		B4F332881B969FE00048D1B4 /* FeaturedList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F332871B969FE00048D1B4 /* FeaturedList.storyboard */; };
 		B4F3328A1B96A03F0048D1B4 /* FeaturedTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F332891B96A03F0048D1B4 /* FeaturedTab.storyboard */; };
 		B4F3328C1B96A9960048D1B4 /* ProfileTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F3328B1B96A9960048D1B4 /* ProfileTab.storyboard */; };
 		B4F3328E1B96A9BB0048D1B4 /* RootTabBar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F3328D1B96A9BB0048D1B4 /* RootTabBar.storyboard */; };
@@ -439,7 +438,6 @@
 		B4F3327F1B9699330048D1B4 /* RootTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
 		B4F332811B9699D10048D1B4 /* XBaseUINavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XBaseUINavigationController.swift; sourceTree = "<group>"; };
 		B4F332831B969E680048D1B4 /* ParticipationChoice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationChoice.swift; sourceTree = "<group>"; };
-		B4F332871B969FE00048D1B4 /* FeaturedList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FeaturedList.storyboard; sourceTree = "<group>"; };
 		B4F332891B96A03F0048D1B4 /* FeaturedTab.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FeaturedTab.storyboard; sourceTree = "<group>"; };
 		B4F3328B1B96A9960048D1B4 /* ProfileTab.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProfileTab.storyboard; sourceTree = "<group>"; };
 		B4F3328D1B96A9BB0048D1B4 /* RootTabBar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = RootTabBar.storyboard; sourceTree = "<group>"; };
@@ -1028,7 +1026,6 @@
 			isa = PBXGroup;
 			children = (
 				B47C0EA81AC0A7EF00F9FB31 /* Wireframe */,
-				B4F332871B969FE00048D1B4 /* FeaturedList.storyboard */,
 				7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */,
 				B4A3C16C1AD44B7E00B9D699 /* FeaturedListViewModel.swift */,
 				B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */,
@@ -1457,7 +1454,6 @@
 				B3FFDD7D1B716FA3003710D8 /* BirthdayPickerView.xib in Resources */,
 				B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordView.xib in Resources */,
 				B4AA1A6D1B7EA7AD00119E91 /* ProfileTabView.xib in Resources */,
-				B4F332881B969FE00048D1B4 /* FeaturedList.storyboard in Resources */,
 				B31B50781B7E308100782341 /* (null) in Resources */,
 				B31B50771B7E308100782341 /* ContainerView.xib in Resources */,
 				B4F3328E1B96A9BB0048D1B4 /* RootTabBar.storyboard in Resources */,
