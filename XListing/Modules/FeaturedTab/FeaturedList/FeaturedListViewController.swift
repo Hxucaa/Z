@@ -56,9 +56,7 @@ public final class FeaturedListViewController: XUIViewController {
         // set cell height based on devices
         tableView.rowHeight = UIScreen.mainScreen().bounds.width * CGFloat(cellHeightToScreenWidthRatio)
         
-        let nib = UINib(nibName: "FeaturedListBusinessTableViewCell", bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: CellIdentifier)
-
+        tableView.registerClass(FeaturedListBusinessTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
     }
     
     public override func didReceiveMemoryWarning() {
