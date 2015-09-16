@@ -358,7 +358,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
             
             var genderData = value as! String
             genderCell.setTextfieldText(genderData)
-            self.viewmodel.gender.put(genderData)
+            self.viewmodel.gender.put(Gender(rawValue: genderData))
         
             return
             }, cancelBlock: { ActionStringCancelBlock in return }, origin: self.view.superview)
@@ -418,7 +418,7 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
             case .Gender:
                 let genderCell = tableView.dequeueReusableCellWithIdentifier("GenderCell") as! GenderTableViewCell
                 genderCell.delegate = self
-                genderCell.setTextfieldText(viewmodel.gender.value)
+                genderCell.setTextfieldText(viewmodel.gender.value?.rawValue)
                 genderCell.setUpEditProfileButton()
                 return genderCell
             case .Birthday:
