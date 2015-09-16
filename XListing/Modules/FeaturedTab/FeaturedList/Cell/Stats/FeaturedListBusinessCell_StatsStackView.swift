@@ -23,7 +23,7 @@ public final class FeaturedListBusinessCell_StatsStackView : TZStackView {
         label.opaque = true
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor(hex: "828282")
-        label.font = UIFont.systemFontOfSize(10)
+        label.font = UIFont.systemFontOfSize(11)
         label.userInteractionEnabled = false
         
         return label

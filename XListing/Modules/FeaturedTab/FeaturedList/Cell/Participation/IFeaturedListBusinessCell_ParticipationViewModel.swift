@@ -14,5 +14,4 @@ public protocol IFeaturedListBusinessCell_ParticipationViewModel : class {
     var isButtonEnabled: PropertyOf<Bool> { get }
     func getParticipantPreview() -> SignalProducer<Void, NSError>
     func getUserParticipation() -> SignalProducer<Void, NSError>
-    func participate(choice: ParticipationChoice) -> SignalProducer<Bool, NSError>
 }

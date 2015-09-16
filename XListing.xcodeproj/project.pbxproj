@@ -195,7 +195,6 @@
 		B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */; };
 		B4F332801B9699330048D1B4 /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F3327F1B9699330048D1B4 /* RootTabBarController.swift */; };
 		B4F332821B9699D10048D1B4 /* XBaseUINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F332811B9699D10048D1B4 /* XBaseUINavigationController.swift */; };
-		B4F332841B969E680048D1B4 /* ParticipationChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F332831B969E680048D1B4 /* ParticipationChoice.swift */; };
 		B4F3328A1B96A03F0048D1B4 /* FeaturedTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F332891B96A03F0048D1B4 /* FeaturedTab.storyboard */; };
 		B4F3328C1B96A9960048D1B4 /* ProfileTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F3328B1B96A9960048D1B4 /* ProfileTab.storyboard */; };
 		B4F3328E1B96A9BB0048D1B4 /* RootTabBar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F3328D1B96A9BB0048D1B4 /* RootTabBar.storyboard */; };
@@ -437,7 +436,6 @@
 		B4F32E1E1ACF91E400946FD8 /* IBusinessService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBusinessService.swift; sourceTree = "<group>"; };
 		B4F3327F1B9699330048D1B4 /* RootTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
 		B4F332811B9699D10048D1B4 /* XBaseUINavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XBaseUINavigationController.swift; sourceTree = "<group>"; };
-		B4F332831B969E680048D1B4 /* ParticipationChoice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationChoice.swift; sourceTree = "<group>"; };
 		B4F332891B96A03F0048D1B4 /* FeaturedTab.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FeaturedTab.storyboard; sourceTree = "<group>"; };
 		B4F3328B1B96A9960048D1B4 /* ProfileTab.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProfileTab.storyboard; sourceTree = "<group>"; };
 		B4F3328D1B96A9BB0048D1B4 /* RootTabBar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = RootTabBar.storyboard; sourceTree = "<group>"; };
@@ -810,7 +808,6 @@
 		B43032451AE427D50068E8DF /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				B4F332831B969E680048D1B4 /* ParticipationChoice.swift */,
 				B43032461AE4281D0068E8DF /* TypeAliases.swift */,
 				B47E15BE1B17AD790028E07E /* UIKit&ReactiveCocoa+extension.swift */,
 				B40A0D8A1B22455700036986 /* Constants.swift */,
@@ -1625,7 +1622,6 @@
 				B48C991F1ADA62E70045BCA9 /* INearbyViewModel.swift in Sources */,
 				B4ECBE201B73ED0900234217 /* NicknameViewModel.swift in Sources */,
 				B47E15BD1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift in Sources */,
-				B4F332841B969E680048D1B4 /* ParticipationChoice.swift in Sources */,
 				B4B665421ADF8D070084DBE7 /* DetailViewModel.swift in Sources */,
 				B41334E71B57631400B5F22D /* IAccountWireframe.swift in Sources */,
 				7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */,

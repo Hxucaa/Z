@@ -75,14 +75,18 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
     private lazy var joinButton: UIButton = {
         let button = UIButton()
         
-        let join = Action<UIButton, Bool, NSError>{ button in
-            return self.viewmodel.participate(ParticipationChoice.我想去)
-        }
-        
-        button.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-        button.titleLabel?.backgroundColor = .x_FeaturedCardBG()
+//        let join = Action<UIButton, Bool, NSError>{ button in
+//            return self.viewmodel.participate(ParticipationType.)
+//        }
+//        
+//        button.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+//        button.titleLabel?.backgroundColor = .x_FeaturedCardBG()
         button.titleLabel?.layer.masksToBounds = true
         button.setTitle("约起", forState: .Normal)
+        button.layer.borderColor = UIColor.x_PrimaryColor().CGColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 9
+        button.layer.masksToBounds = true
         button.layer.rasterizationScale = UIScreen.mainScreen().scale
         button.layer.shouldRasterize = true
         

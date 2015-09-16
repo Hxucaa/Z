@@ -94,28 +94,28 @@ public final class FeaturedListBusinessCell_ParticipationViewModel : IFeaturedLi
             |> map { _ in return }
     }
     
-    /**
-    Participate Button Action
-    
-    :param: choice ParticipationChoice
-    
-    */
-    public func participate(choice: ParticipationChoice) -> SignalProducer<Bool, NSError> {
-        return self.userService.currentLoggedInUser()
-            |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
-                let p = Participation()
-                p.user = user
-                p.business = self.business
-                
-                return self.participationService.create(p)
-            }
-            |> on(next: { [weak self] success in
-                // if operation is successful, change the participation button.
-                if success {
-                    self?._isButtonEnabled.put(false)
-                }
-            })
-    }
+//    /**
+//    Participate Button Action
+//    
+//    :param: choice ParticipationChoice
+//    
+//    */
+//    public func participate(choice: ParticipationType) -> SignalProducer<Bool, NSError> {
+//        return self.userService.currentLoggedInUser()
+//            |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
+//                let p = Participation()
+//                p.user = user
+//                p.business = self.business
+//                
+//                return self.participationService.create(p)
+//            }
+//            |> on(next: { [weak self] success in
+//                // if operation is successful, change the participation button.
+//                if success {
+//                    self?._isButtonEnabled.put(false)
+//                }
+//            })
+//    }
     
     // MARK: - Others
 }
