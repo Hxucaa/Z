@@ -11,11 +11,11 @@ target 'XListing' do
   pod 'Dollar', '~> 3.0'
   pod 'SDWebImage', '~> 3.7.0'
   pod 'Locksmith', '~> 1.2'
-  pod 'ReactiveCocoa', '= 3.0-RC.1'
+  pod 'ReactiveCocoa', '~> 3.0.0'
   pod 'ActionSheetPicker-3.0', '~> 1.7.0'
   pod 'Cartography', '~> 0.5.0'
   pod 'INSPullToRefresh', '~> 1.0.11'
-  pod 'ReactiveArray', :git => 'git@bitbucket.org:hxucaa/reactivearray.git'
+  pod 'ReactiveArray', :git => 'https://github.com/Hxucaa/ReactiveArray.git'
   pod 'Aspects', '~> 1.4.0'
   pod 'TZStackView', '~> 1.0.5'
   pod 'TTTAttributedLabel', '~> 1.13.4'
@@ -28,7 +28,7 @@ end
 
 target 'XListingTests' do
   pod 'AVOSCloudDynamic', '~> 3.1'
-  pod 'ReactiveCocoa', '= 3.0-RC.1'
+  pod 'ReactiveCocoa', '~> 3.0.0'
   pod 'Quick', '= 0.3.1'
   pod 'Nimble', '~> 1.0'
 end
