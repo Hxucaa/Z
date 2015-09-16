@@ -29,11 +29,11 @@ public final class DetailBizInfoTableViewCell: UITableViewCell {
         layoutMargins = UIEdgeInsetsZero
         separatorInset = UIEdgeInsetsZero
         
-        let participate = Action<UIButton, Bool, NSError>{ button in
-            return self.viewmodel.participate(ParticipationChoice.我想去)
-        }
-        
-        participateButton.addTarget(participate.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+//        let participate = Action<UIButton, Bool, NSError>{ button in
+//            return self.viewmodel.participate(ParticipationChoice.我想去)
+//        }
+//        
+//        participateButton.addTarget(participate.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     public override func prepareForReuse() {

@@ -21,26 +21,22 @@ PODS:
   - Fabric (1.5.1):
     - Fabric/Base (= 1.5.1)
   - Fabric/Base (1.5.1)
-  - FLEX (2.0.3)
+  - FLEX (2.0.6)
   - INSPullToRefresh (1.0.12)
   - Locksmith (1.2.2)
   - Nimble (1.0.0)
   - Quick (0.3.1)
-  - ReactiveArray (0.1.5):
-    - ReactiveCocoa (= 3.0-RC.1)
-  - ReactiveCocoa (3.0-RC.1):
-    - Box (~> 1.2.0)
-    - ReactiveCocoa/UI (= 3.0-RC.1)
+  - ReactiveArray (0.1.7):
+    - ReactiveCocoa (~> 3.0.0)
+  - ReactiveCocoa (3.0.0):
+    - ReactiveCocoa/UI (= 3.0.0)
     - Result (~> 0.4.1)
-  - ReactiveCocoa/Core (3.0-RC.1):
-    - Box (~> 1.2.0)
+  - ReactiveCocoa/Core (3.0.0):
     - ReactiveCocoa/no-arc
     - Result (~> 0.4.1)
-  - ReactiveCocoa/no-arc (3.0-RC.1):
-    - Box (~> 1.2.0)
+  - ReactiveCocoa/no-arc (3.0.0):
     - Result (~> 0.4.1)
-  - ReactiveCocoa/UI (3.0-RC.1):
-    - Box (~> 1.2.0)
+  - ReactiveCocoa/UI (3.0.0):
     - ReactiveCocoa/Core
     - Result (~> 0.4.1)
   - Result (0.4.4):
@@ -52,8 +48,8 @@ PODS:
   - SVProgressHUD (1.1.3)
   - TTTAttributedLabel (1.13.4)
   - TZStackView (1.0.5)
-  - XAssets (0.3.2):
-    - ReactiveCocoa (= 3.0-RC.1)
+  - XAssets (0.3.4):
+    - ReactiveCocoa (~> 3.0.0)
     - SDWebImage (~> 3.7.0)
 
 DEPENDENCIES:
@@ -72,8 +68,8 @@ DEPENDENCIES:
   - Locksmith (~> 1.2)
   - Nimble (~> 1.0)
   - Quick (= 0.3.1)
-  - ReactiveArray (from `git@bitbucket.org:hxucaa/reactivearray.git`)
-  - ReactiveCocoa (= 3.0-RC.1)
+  - ReactiveArray (from `https://github.com/Hxucaa/ReactiveArray.git`)
+  - ReactiveCocoa (~> 3.0.0)
   - SDWebImage (~> 3.7.0)
   - Spring (from `https://github.com/Hxucaa/Spring`, branch `compatibility`)
   - SVProgressHUD (from `https://github.com/Hxucaa/SVProgressHUD.git`)
@@ -83,7 +79,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   ReactiveArray:
-    :git: git@bitbucket.org:hxucaa/reactivearray.git
+    :git: https://github.com/Hxucaa/ReactiveArray.git
   Spring:
     :branch: compatibility
     :git: https://github.com/Hxucaa/Spring
@@ -94,8 +90,8 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   ReactiveArray:
-    :commit: 113a0a0365dc0a932292b15cc0365ecec49cd31c
-    :git: git@bitbucket.org:hxucaa/reactivearray.git
+    :commit: 8b9c447f0bb03dc2d7ec3fd079c9e6e1fb08cc02
+    :git: https://github.com/Hxucaa/ReactiveArray.git
   Spring:
     :commit: 6d983b48535d8ef69f8afa404030e518abe78ca3
     :git: https://github.com/Hxucaa/Spring
@@ -103,7 +99,7 @@ CHECKOUT OPTIONS:
     :commit: 4cbf1de2f9becbdfe38257bf9129f2930a2668ab
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
-    :commit: 3d86d88c1fbb3665d3a6a5a9b7d5a6e256aaee27
+    :commit: afcea74684998fafeac2f958305f1484aada7d1e
     :git: git@bitbucket.org:zenchat/xassets.git
 
 SPEC CHECKSUMS:
@@ -118,19 +114,19 @@ SPEC CHECKSUMS:
   Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2
   Dollar: ae37f1da42cdc16061fcc1e91a070281b207f5c8
   Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
-  FLEX: 4f04fe0b0594163c00879e2b3db888e5ae37c8d5
+  FLEX: 3c390976e788d3d447b614ea1714ffc8fc914cf3
   INSPullToRefresh: 3c3840b1837870d6553f749dab6520e31f551a76
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88
   Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
-  ReactiveArray: cffcbb778acb3b066e361a341cffe90578c12559
-  ReactiveCocoa: c85fe01be4e047dc1d9fba3e1e0b7070846d3296
+  ReactiveArray: 42940221dcf83277d4b15b58fa9987b089314097
+  ReactiveCocoa: 5c4710e2f00f69f39a7f135d1f3ab48f8dace034
   Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
   TZStackView: 45002efee4fe4ab9cc3132776b94434c4c3843eb
-  XAssets: 71babb77ba1a8e93ed5dd786aaf6baccc875842b
+  XAssets: dc58a7ce0fe336a3c703c0e3e82985343cac6570
 
 COCOAPODS: 0.38.2

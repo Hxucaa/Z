@@ -10,9 +10,6 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 
-private let FeaturedListViewControllerIdentifier = "FeaturedListViewController"
-private let StoryboardName = "FeaturedList"
-
 public protocol FeaturedListNavigationControllerDelegate : class {
     func pushSocialBusiness<T : Business>(business: T)
 }
@@ -47,8 +44,7 @@ public final class FeaturedListWireframe : IFeaturedListWireframe {
         :returns: Properly configured FeaturedListViewController.
     */
     private func initViewController() -> FeaturedListViewController {
-        // retrieve view controller from storyboard
-        let viewController = UIStoryboard(name: StoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(FeaturedListViewControllerIdentifier) as! FeaturedListViewController
+        let viewController = FeaturedListViewController()
         let viewmodel = FeaturedListViewModel(businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService, imageService: imageService, participationService: participationService)
 
         viewmodel.navigator = self

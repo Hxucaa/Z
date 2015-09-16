@@ -1,4 +1,4 @@
-    //
+//
 //  FeaturedListBusinessTableViewCell.swift
 //  XListing
 //
@@ -9,361 +9,198 @@
 import Foundation
 import UIKit
 import ReactiveCocoa
+import TZStackView
 import Cartography
+import TTTAttributedLabel
 import XAssets
 import Dollar
 
-    
-    //Layout Ratios
-private let avatarWidth = UIScreen.mainScreen().bounds.height * 0.048
-private let avatarGap = avatarWidth * 0.25
-private let avatarListToParentRatio = 0.764
-private let businessImageContainerWidthToParentRatio = 0.584
-private let businessImageContainerHeightToWidthRatio = 0.63
-private let businessImageWidthToParentRatio = 0.9315
-private let businessImageHeightToParentRatio = 0.89855
-private let peopleWantogoLabelToParentRatio = 0.39
-private let joinButtonWidthToParentRatio = 0.8
-private let joinButtonHeightToWidthRatio = 0.43
-private let etaLabelWidthToEtaIconRatio = 2.5
-private let priceLabelToEtaLabelRatio = 0.6
-
-    //Sizing and margins
-private let avatarHeight = avatarWidth * 1.05
-    
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
-    // MARK: - UI Controls - Business Section
-    @IBOutlet private weak var businessImageContainer: UIView!
-    @IBOutlet private weak var businessImage: UIImageView!
-    @IBOutlet private weak var infoView: UIView!
-    @IBOutlet private weak var infoViewSizingHelper: UIView!
-    @IBOutlet private weak var pricePerPerson: UIImageView!
-    @IBOutlet private weak var priceLabel: UILabel!
-    @IBOutlet private weak var ETA: UIImageView!
-    @IBOutlet private weak var nameLabel: UILabel!
-    @IBOutlet private weak var cityLabel: UILabel!
-    @IBOutlet private weak var etaLabel: UILabel!
-    private lazy var infoViewContent: UIView = UINib(nibName: "infopanel", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
+    // MARK: - UI Controls
     
-    // MARK: - UI Controls - Social Section
-    @IBOutlet private weak var participationView: UIView!
-    @IBOutlet private weak var WTGButtonView: UIView!
-    @IBOutlet private weak var numberOfPeopleGoingView: UIView!
-    @IBOutlet private weak var peopleWantogoLabel: UILabel!
-    @IBOutlet private weak var avatarList: UIView!
-    @IBOutlet private weak var joinButton: UIButton!
-    private lazy var participationViewContent: UIView = UINib(nibName: "participationview", bundle: NSBundle.mainBundle()).instantiateWithOwner(self, options: nil).first as! UIView
-    private var avatarImageViews = [UIImageView]()
+    private lazy var backgroundContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.whiteColor()
+        view.clipsToBounds = true
+        view.addSubview(self.mainStackView)
+        
+        constrain(self.mainStackView) { view in
+            view.leading == view.superview!.leadingMargin
+            view.top == view.superview!.topMargin
+            view.trailing == view.superview!.trailingMargin
+            view.bottom == view.superview!.bottom - 5
+        }
+        
+        return view
+    }()
 
-    // MARK: Properties
-    private var viewmodel: FeaturedBusinessViewModel!
+    /**
+    *   MARK: Main Stack View
+    */
+    private lazy var mainStackView: TZStackView = {
+        let container = TZStackView(arrangedSubviews: [self.topSectionContainer, self.dividerView, self.statsStackView, self.participationView])
+        container.distribution = TZStackViewDistribution.FillProportionally
+        container.axis = .Vertical
+        container.spacing = 5
+        container.alignment = TZStackViewAlignment.Leading
+        
+        constrain(self.topSectionContainer) { view in
+            view.width == view.superview!.width
+        }
+        
+        constrain(self.dividerView) { divider in
+            divider.width == divider.superview!.width
+        }
+        
+        constrain(self.statsStackView) { view in
+            view.height == view.superview!.height * 0.10
+        }
+        
+        constrain(self.participationView) { view in
+            view.height == view.superview!.height * 0.20
+            view.width == view.superview!.width
+        }
+        
+        return container
+    }()
     
-    /// whether this instance of cell has been reused
-    private let isReusedCell = MutableProperty<Bool>(false)
+    /**
+    *   MARK: Top Section
+    */
+    
+    private lazy var topSectionContainer: UIView = {
+        let view = UIView()
+        
+        view.opaque = true
+        view.backgroundColor = UIColor.whiteColor()
+        view.clipsToBounds = true
+        
+        view.addSubview(self.businessImageView)
+        view.addSubview(self.infoPanelView)
+        
+        constrain(self.businessImageView, self.infoPanelView) { image, info in
+            image.leading == image.superview!.leading
+            image.top == image.superview!.top
+            image.width == image.superview!.width * 0.60
+            image.bottom == image.superview!.bottom
+            
+            (info.leading == image.trailing).identifier = "infoPanelView leading"
+            (info.top == info.superview!.top).identifier = "infoPanelView top"
+            (info.trailing == info.superview!.trailing).identifier = "infoPanelView trailing"
+            (info.bottom == info.superview!.bottom).identifier = "infoPanelView bottom"
+            
+        }
+        
+        self.businessImageView.setContentCompressionResistancePriority(751, forAxis: .Horizontal)
+        self.infoPanelView.setContentCompressionResistancePriority(749, forAxis: .Horizontal)
+        
+        return view
+    }()
+    
+    private lazy var businessImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.masksToBounds = true
+        
+        
+        return imageView
+    }()
+    
+    private lazy var infoPanelView: FeaturedListBusinessCell_InfoPanelView = {
+        let view = FeaturedListBusinessCell_InfoPanelView()
+        
+        return view
+    }()
+    
+    /**
+    *   Divider
+    */
+    
+    private lazy var dividerView: UIView = {
+        let view = UIView()
+        
+        view.userInteractionEnabled = false
+        view.opaque = true
+        view.backgroundColor = UIColor(hex: "D5D5D5")
+        
+        constrain(view) { view in
+            view.height == 1
+        }
+        
+        return view
+    }()
+    
+    /**
+    *   MARK: Stats Section
+    */
+    private lazy var statsStackView: FeaturedListBusinessCell_StatsStackView = {
+        let view = FeaturedListBusinessCell_StatsStackView()
+        
+        return view
+    }()
+        
+    /**
+    *   MARK: Participation section
+    */
+    private lazy var participationView: FeaturedListBusinessCell_ParticipationView = {
+        let view = FeaturedListBusinessCell_ParticipationView()
+        
+        return view
+    }()
+    
+    // MARK: - Properties
+    private var viewmodel: IFeaturedBusinessViewModel! {
+        didSet {
+            infoPanelView.bindToViewModel(viewmodel.infoPanelViewModel)
+            participationView.bindToViewModel(viewmodel.pariticipationViewModel)
+            statsStackView.bindToViewModel(viewmodel.statsViewModel)
+        }
+    }
+
+    // MARK: - Initializers
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        opaque = true
+        backgroundColor = .grayColor()
+        
+        addSubview(backgroundContainer)
+        
+        constrain(backgroundContainer) { view in
+            view.leading == view.superview!.leading + 5
+            view.top == view.superview!.topMargin
+            view.trailing == view.superview!.trailing - 5
+            view.bottom == view.superview!.bottom
+        }
+        
+    }
+
+    public required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     // MARK: Setups
-    public override func awakeFromNib() {
-        selectionStyle = UITableViewCellSelectionStyle.None
-        layoutMargins = UIEdgeInsetsZero
-        preservesSuperviewLayoutMargins = false
-        
-        infoView.addSubview(infoViewContent)
-        participationView.addSubview(participationViewContent)
-        
-        //Set card's Background color
-        businessImageContainer.backgroundColor = .x_FeaturedCardBG()
-        infoView.backgroundColor = .x_FeaturedCardBG()
-        infoViewSizingHelper.backgroundColor = .x_FeaturedCardBG()
-        businessImage.backgroundColor = .x_FeaturedCardBG()
-        numberOfPeopleGoingView.backgroundColor = .x_FeaturedCardBG()
-        WTGButtonView.backgroundColor = .x_FeaturedCardBG()
-        joinButton.backgroundColor = .x_FeaturedCardBG()
-        infoViewContent.backgroundColor = .x_FeaturedCardBG()
-        participationView.backgroundColor = .x_FeaturedCardBG()
-        participationViewContent.backgroundColor = .x_FeaturedCardBG()
-        cityLabel.backgroundColor = .x_FeaturedCardBG()
-        etaLabel.backgroundColor = .x_FeaturedCardBG()
-        nameLabel.backgroundColor = .x_FeaturedCardBG()
-        peopleWantogoLabel.backgroundColor = .x_FeaturedCardBG()
-        avatarList.backgroundColor = .x_FeaturedCardBG()
-        
-        //Setting auto-adjust font size
-        etaLabel.adjustsFontSizeToFitWidth = true
-        priceLabel.adjustsFontSizeToFitWidth = true
-        peopleWantogoLabel.adjustsFontSizeToFitWidth = true
-        joinButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        
-        nameLabel.layer.masksToBounds = true
-        
-        
-        pricePerPerson.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: CGSizeMake(pricePerPerson.frame.width, pricePerPerson.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-            |> take(1)
-            |> map { Optional<UIImage>($0) }
-        
-        pricePerPerson.layer.rasterizationScale = UIScreen.mainScreen().scale
-        pricePerPerson.layer.shouldRasterize = true
-        
-        // Adding ETA icon
-        ETA.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: CGSizeMake(ETA.frame.width, ETA.frame.height), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-            |> take(1)
-            |> map { Optional<UIImage>($0) }
-        
-        ETA.layer.rasterizationScale = UIScreen.mainScreen().scale
-        ETA.layer.shouldRasterize = true
-        
-        //Setup joinButton
-        let join = Action<UIButton, Bool, NSError>{ button in
-            return self.viewmodel.participate(ParticipationChoice.我想去)
-        }
-        
-        joinButton.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-        
-//        $.once({ [weak self] () -> () in
-//            if let this = self {
-//                this.joinButton.rac_image <~ AssetFactory.getImage(Asset.joinButton(size: CGSizeMake(this.joinButton.frame.size), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, ifAA: false, ifGo: false, ifPay: false, ifUnTapped: true))
-//                    |> map { Optional<UIImage>($0) }
-//                    |> takeUntilPrepareForReuse(this)
-//                    |> start(next: { image in
-//                        self?.joinButton.setBackgroundImage(image, forState: .Disabled)
-//                    })
-//
-//                this.joinButton.rac_image <~ AssetFactory.getImage(Asset.joinButton(size: CGSizeMake(this.joinButton.frame.size), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, ifAA: false, ifGo: true, ifPay: false, ifUnTapped: false))
-//                    |> takeUntilPrepareForReuse(this)
-//                    |> start(next: { image in
-//                        self?.joinButton.setBackgroundImage(image, forState: .Normal)
-//                    })
-//            }
-//        })()
-
-        joinButton.titleLabel?.opaque = true
-        joinButton.titleLabel?.backgroundColor = .x_FeaturedCardBG()
-        joinButton.titleLabel?.layer.masksToBounds = true
-        joinButton.layer.cornerRadius = 5
-        joinButton.layer.borderWidth = 1
-        joinButton.layer.borderColor = UIColor.x_PrimaryColor().CGColor
-        joinButton.layer.rasterizationScale = UIScreen.mainScreen().scale
-        joinButton.layer.shouldRasterize = true
-        
-        //When the cell is prepared for reuse, set the state.
-        rac_prepareForReuseSignal.toSignalProducer()
-            |> takeUntilPrepareForReuse(self)
-            |> start(next: { [weak self] _ in
-                self?.isReusedCell.put(true)
-            })
-        
-        //Setup avatar image views.
-        let count = Int(floor((avatarList.frame.width - avatarWidth) / (avatarWidth + avatarGap))) + 1
-        var previousImageView: UIImageView? = nil
-        for i in 1...count {
-            
-            let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: floor(avatarWidth), height: floor(avatarHeight)))
-            // TODO: set the correct background color
-            imageView.backgroundColor = .x_FeaturedCardBG()
-            imageView.opaque = true
-            imageView.contentMode = .Center
-            imageView.clipsToBounds = true
-            
-            avatarList.addSubview(imageView)
-            
-            if i == 1 {
-                constrain(imageView) { view in
-                    view.leading == view.superview!.leading
-                    view.centerY == view.superview!.centerY
-                    view.width == avatarWidth
-                    view.height == view.width * 1.05
-                }
-            }
-            
-            if let previousImageView = previousImageView {
-                constrain(previousImageView, imageView) { previous, current in
-                    previous.trailing == current.leading - avatarGap
-                    current.centerY == current.superview!.centerY
-                    current.width == avatarWidth
-                    current.height == current.width * 1.05
-                }
-            }
-            
-            previousImageView = imageView
-            avatarImageViews.append(imageView)
-            
-        }
-        
-        peopleWantogoLabel.opaque = true
-        peopleWantogoLabel.backgroundColor = .x_FeaturedCardBG()
-        peopleWantogoLabel.layer.masksToBounds = true
-    }
-    
-    
-    public override func updateConstraints() {
-
-        // only run the setup constraints the first time the cell is constructed for perfomance reason
-        $.once({ [weak self] Void -> Void in
-            if let this = self {
-                //Set anchor size for all related views
-                constrain(this.businessImageContainer) { businessImageContainer in
-                    //sizes
-                    businessImageContainer.width == businessImageContainer.superview!.width * businessImageContainerWidthToParentRatio
-                    businessImageContainer.height == businessImageContainer.width * businessImageContainerHeightToWidthRatio
-                }
-
-                //Set business image size
-                constrain(this.businessImage) {businessImage in
-                    businessImage.width == businessImage.superview!.width * businessImageWidthToParentRatio
-                    businessImage.height == businessImage.superview!.height * businessImageHeightToParentRatio
-                    businessImage.center == businessImage.superview!.center
-                }
-                
-                //Make subview same size as the parent view
-                constrain(this.infoViewContent) { infoViewContent in
-                    infoViewContent.width == infoViewContent.superview!.width
-                    infoViewContent.height == infoViewContent.superview!.height
-                    infoViewContent.center == infoViewContent.superview!.center
-                }
-                
-                
-                //Make subview same size as the parent view
-                constrain(this.participationViewContent, this.businessImage) { participationViewContent, businessImage in
-                    participationViewContent.width == participationViewContent.superview!.width * avatarListToParentRatio
-                    participationViewContent.height == participationViewContent.superview!.height
-                    participationViewContent.leading == businessImage.leading
-                    participationViewContent.centerY == participationViewContent.superview!.centerY
-                }
-                
-                //Set peopleWantogoLabel size
-                constrain(this.peopleWantogoLabel) { peopleWantogoLabel in
-                    peopleWantogoLabel.width == peopleWantogoLabel.superview!.width * peopleWantogoLabelToParentRatio
-                }
-                
-                //Set WTG button size
-                constrain(this.joinButton, this.etaLabel) { joinButton, etaLabel in
-                    joinButton.width == joinButton.superview!.width * joinButtonWidthToParentRatio
-                    joinButton.height == joinButton.width * joinButtonHeightToWidthRatio
-                    joinButton.right == etaLabel.right
-                }
-                
-                //Set eta and price labels
-                constrain(this.ETA, this.etaLabel, this.priceLabel) {ETA, etaLabel, priceLabel in
-                    etaLabel.width == ETA.width * etaLabelWidthToEtaIconRatio
-                    priceLabel.width == etaLabel.width * priceLabelToEtaLabelRatio
-                }
-            }
-        })()
-        
-        super.updateConstraints()
-    }
-    
     
     public override func prepareForReuse() {
         super.prepareForReuse()
         
-        $.each(avatarImageViews) { _, view in
-            view.image = nil
-        }
+        participationView.initiateReuse()
     }
-
+    
     // MARK: Bindings
-    public func bindViewModel(viewmodel: FeaturedBusinessViewModel) {
+    public func bindViewModel(viewmodel: IFeaturedBusinessViewModel) {
         self.viewmodel = viewmodel
-        
-//        joinButton.rac_enabled <~ viewmodel.buttonEnabled.producer
-//            |> takeUntilPrepareForReuse(self)
-  
-        viewmodel.buttonEnabled.producer
-            |> ignoreNil
-            |> start(next: {[weak self] input in
-                    self?.joinButton.enabled = input
-                    self?.joinButton.hidden  = false
-                })
-        
-        nameLabel.rac_text <~ viewmodel.businessName.producer
-           |> takeUntilPrepareForReuse(self)
-        
-        cityLabel.rac_text <~ viewmodel.city.producer
-            |> takeUntilPrepareForReuse(self)
-        
-        viewmodel.price.producer
-            |> takeUntilPrepareForReuse(self)
-            |> ignoreNil
-            |> start(next: { [weak self] price in
-//                self?.priceLabel.setPriceLabel(price)
-//                self?.priceLabel.setNeedsDisplay()
-            })
-        
-        etaLabel.rac_text <~ viewmodel.eta.producer
-            |> takeUntilPrepareForReuse(self)
-        
-        peopleWantogoLabel.rac_text <~ viewmodel.participationString.producer
-            |> takeUntilPrepareForReuse(self)
-        
+
+        self.viewmodel.getCoverImage()
+            |> start()
+
         self.viewmodel.coverImage.producer
             |> takeUntilPrepareForReuse(self)
             |> ignoreNil
             |> start (next: { [weak self] image in
-                if let viewmodel = self?.viewmodel, isReusedCell = self?.isReusedCell where viewmodel.isCoverImageConsumed.value || isReusedCell.value {
-                    self?.businessImage.rac_image.put(image)
-                }
-                else {
-                    self?.businessImage.setImageWithAnimation(image)
-                    viewmodel.isCoverImageConsumed.put(true)
-                }
+                self?.businessImageView.image = image
+                
             })
-        
-        self.viewmodel.participantViewModelArr.producer
-            |> takeUntilPrepareForReuse(self)
-            |> start (next: { [weak self] participants in
-                if let this = self {
-                    
-                    var filledAvatarImageViews = [UIImageView]()
-                    // only add images to image views if the participants count is greater than 0
-                    if participants.count > 0 {
-                        // iterate through avatarImageViews - 1 (leaving space for etc icon)
-                        for i in 0..<(this.avatarImageViews.count - 1) {
-                            if i < participants.count {
-                                let avatarView = this.avatarImageViews[i]
-                                
-                                
-                                // place the image into image view
-                                participants[i].avatar.producer
-                                    |> takeUntilPrepareForReuse(this)
-                                    |> ignoreNil
-                                    |> map { $0.maskWithRoundedRect(avatarView.bounds.size, cornerRadius: floor(avatarView.bounds.height), backgroundColor: .x_FeaturedCardBG()) }
-                                    |> start(next: { image in
-                                        avatarView.image = image
-                                    })
-                                
-                                // unhide the image view
-                                avatarView.hidden = false
-                                
-                                // add the image view to the list of already processed
-                                filledAvatarImageViews.append(avatarView)
-                            }
-                        }
-                        
-                        let etcImageView = this.avatarImageViews[filledAvatarImageViews.count]
-                        
-                        $.once({ [weak self] Void -> Void in
-                            if let this = self {
-                        // assign etc icon to image view
-                                etcImageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: CGSizeMake(8,3), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-                                    |> map { Optional<UIImage>($0) }
-                                    |> takeUntilPrepareForReuse(this)
-                                etcImageView.contentMode = .Left
-                            }
-                        })()
-                        
-                        // unhide the image view
-                        etcImageView.hidden = false
-                        
-                        
-                        // add the image view to the list of already processed
-                        filledAvatarImageViews.append(etcImageView)
-                    }
-                    
-                    for i in (filledAvatarImageViews.count)..<(this.avatarImageViews.count) {
-                        this.avatarImageViews[i].hidden = true
-                    }
-                }
-            })
+
     }
 }

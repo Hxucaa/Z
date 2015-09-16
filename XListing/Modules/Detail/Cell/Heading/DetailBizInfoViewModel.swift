@@ -35,11 +35,9 @@ public struct DetailBizInfoViewModel {
     /**
     Participate the business with one of the given choices.
     
-    :param: choice The ParticipationChoice.
-    
     :returns: A SignalProcuer indicating if the operation is successful.
     */
-    public func participate(choice: ParticipationChoice) -> SignalProducer<Bool, NSError> {
+    public func participate() -> SignalProducer<Bool, NSError> {
         
         
         return self.userService.currentLoggedInUser()
@@ -48,7 +46,7 @@ public struct DetailBizInfoViewModel {
                 p.user = user
                 p.business = self.business
                 // participationType of 0 denotes interested, temporary measure
-                p.participationType = 0
+                p.type = ParticipationType.Treat
                 return self.participationService.create(p)
             }
             |> on(next: { success in

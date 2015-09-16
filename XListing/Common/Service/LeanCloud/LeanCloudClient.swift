@@ -35,7 +35,6 @@ public final class LeanCloudClient {
         User.enableAutomaticUser()
         
         User.registerSubclass()
-        ParticipationType.registerSubclass()
         User_Business_Participation.registerSubclass()
         Profile.registerSubclass()
         Business.registerSubclass()

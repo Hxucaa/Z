@@ -39,8 +39,16 @@ public final class User_Business_Participation: AVObject, AVSubclassing {
     @NSManaged public var business: Business
     
     // participationType decoding:
-    // 0 = interested
-    // 1 = pay
-    // 2 = go with someone else
-    @NSManaged public var participationType: Int
+    // case AA = 2
+    // case Treat = 1
+    // case ToGo = 0
+    @NSManaged private var participationType: Int
+    public var type: ParticipationType {
+        get {
+            return ParticipationType(rawValue: participationType)!
+        }
+        set {
+            participationType = newValue.rawValue
+        }
+    }
 }

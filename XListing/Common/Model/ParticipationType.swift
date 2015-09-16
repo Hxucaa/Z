@@ -9,28 +9,19 @@
 import Foundation
 import AVOSCloud
 
-public final class ParticipationType: AVObject, AVSubclassing {
+public enum ParticipationType : Int, Printable {
+    case AA = 2
+    case Treat = 1
+    case ToGo = 0
     
-    public enum Property : String {
-        case Name = "name"
-    }
-    
-    public override init() {
-        super.init()
-    }
-    
-    // Class Name
-    public class func parseClassName() -> String! {
-        return "ParticipationType"
-    }
-    
-    // MARK: Constructors
-    public override class func registerSubclass() {
-        var onceToken : dispatch_once_t = 0;
-        dispatch_once(&onceToken) {
-            super.registerSubclass()
+    public var description: String {
+        switch self {
+        case .AA:
+            return "AA"
+        case .Treat:
+            return "请客"
+        case .ToGo:
+            return "想去"
         }
     }
-    
-    @NSManaged public var name: String
 }
