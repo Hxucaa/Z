@@ -8,6 +8,7 @@
 
 import Foundation
 import ReactiveCocoa
+import AVOSCloud
 
 public protocol ISocialBusinessHeaderViewModel : class {
     
@@ -18,5 +19,5 @@ public protocol ISocialBusinessHeaderViewModel : class {
     var eta: PropertyOf<String> { get }
     
     // MARK: - Initializers
-    init(geoLocationService: IGeoLocationService, imageService: IImageService, business: Business?)
+    init(geoLocationService: IGeoLocationService, imageService: IImageService, imageURL: NSURL?, businessName: String?, city: String?, geopoint: AVGeoPoint?)
 }

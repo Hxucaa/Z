@@ -12,8 +12,7 @@ import ReactiveArray
 import Dollar
 import AVOSCloud
 
-// TODO: conform to ISocialBusinessHeaderViewModel
-public final class SocialBusinessHeaderViewModel {
+public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewModel {
     // MARK: - Outputs
     public var coverImage: PropertyOf<UIImage?> {
         return PropertyOf(_coverImage)
@@ -21,7 +20,7 @@ public final class SocialBusinessHeaderViewModel {
     public var businessName: PropertyOf<String> {
         return PropertyOf(_businessName)
     }
-    public var city: PropertyOf<String> {
+    public var location: PropertyOf<String> {
         return PropertyOf(_city)
     }
     public var eta: PropertyOf<String> {
@@ -38,7 +37,7 @@ public final class SocialBusinessHeaderViewModel {
     private let _eta: MutableProperty<String> = MutableProperty("")
     
     // MARK: - Initializers
-    public init(geoLocationService: IGeoLocationService, imageService: IImageService, imageURL: String?, businessName: String?, city: String?, geopoint: AVGeoPoint?) {
+    public init(geoLocationService: IGeoLocationService, imageService: IImageService, imageURL: NSURL?, businessName: String?, city: String?, geopoint: AVGeoPoint?) {
         
         self.geoLocationService = geoLocationService
         self.imageService = imageService
@@ -55,9 +54,8 @@ public final class SocialBusinessHeaderViewModel {
             _city = MutableProperty("")
         }
         
-        if let url = imageURL, nsurl = NSURL(string: url)
-        {
-            self.imageService.getImage(nsurl)
+        if let url = imageURL {
+            self.imageService.getImage(url)
                 |> start(next: {
                     self._coverImage.put($0)
                 })

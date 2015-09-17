@@ -40,7 +40,7 @@ public final class SocialBusinessHeaderView : UIView {
     private lazy var mainContainer: TZStackView = {
         
         let container = TZStackView(arrangedSubviews: [self.coverImageView, self.businessNameLabel, self.cuisineLabel, self.locationAndDistanceContainer])
-        container.distribution = TZStackViewDistribution.EqualSpacing
+        container.distribution = TZStackViewDistribution.FillProportionally
         container.axis = .Vertical
         container.spacing = 8
         container.alignment = .Center
@@ -49,14 +49,15 @@ public final class SocialBusinessHeaderView : UIView {
     }()
     
     private lazy var coverImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: ImageAssets.profilepicture)?.maskWithRoundedRect(CoverImageSize, cornerRadius: 40, borderWidth: 4, opaque: false))
-        imageView.opaque = false
-        imageView.backgroundColor = UIColor.clearColor()
+        let imageView = UIImageView(frame: CGRect(origin: CGPointMake(0, 0), size: CoverImageSize))
+        imageView.contentMode = UIViewContentMode.ScaleAspectFill
         
         constrain(imageView) { view in
-            view.width == 100
-            view.height == 100
+            view.width == CoverImageSize.width
+            view.height == CoverImageSize.height
         }
+        
+        imageView.setContentCompressionResistancePriority(800, forAxis: .Vertical)
         
         return imageView
     }()
@@ -155,12 +156,13 @@ public final class SocialBusinessHeaderView : UIView {
 
         constrain(dividerView, locationLabel) { divider, location in
             divider.width == 1
-            divider.height == location.height
+            divider.height == location.height * 0.80
         }
         
         constrain(mainContainer) { view in
             view.centerX == view.superview!.centerX
-            view.centerY == view.superview!.centerY
+            view.top <= view.superview!.topMargin
+            view.bottom >= view.superview!.bottomMargin
         }
     }
     
@@ -175,13 +177,14 @@ public final class SocialBusinessHeaderView : UIView {
         
         businessNameLabel.rac_text <~ viewmodel.businessName.producer
         
-        locationLabel.rac_text <~ viewmodel.city.producer
+        locationLabel.rac_text <~ viewmodel.location.producer
         
         distanceLabel.rac_text <~ viewmodel.eta.producer
         
         coverImageView.rac_image <~ self.viewmodel.coverImage.producer
             |> ignoreNil
-            |> map { $0.maskWithRoundedRect(CoverImageSize, cornerRadius: max(CoverImageSize.width, CoverImageSize.height) / 2, borderWidth: 4, opaque: false)
+            |> map {
+                $0.maskWithRoundedRect(CoverImageSize, cornerRadius: max(CoverImageSize.width, CoverImageSize.height) / 2, borderWidth: 4, opaque: false)
             }
         
         self.backgroundImageView.rac_image <~ self.viewmodel.coverImage.producer

@@ -51,7 +51,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         self.imageService = imageService
         self.business = businessModel
         
-        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, imageURL: businessModel.imageUrl, businessName: businessModel.nameSChinese, city: businessModel.city, geopoint: businessModel.geopoint)
+        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, imageURL: businessModel.coverImageUrl, businessName: businessModel.nameSChinese, city: businessModel.city, geopoint: businessModel.geopoint)
     }
     
     // MARK: - API

@@ -120,7 +120,7 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         label.textInsets = UIEdgeInsets(top: 3, left: 5, bottom: 3, right: 5)
         label.lineBreakMode = NSLineBreakMode.ByWordWrapping
         label.opaque = true
-        label.backgroundColor = UIColor(hex: "F6F6F6")
+        label.backgroundColor = UIColor(red: 235.0/255.0, green: 235.0/255.0, blue: 235.0/255.0, alpha: 1.0)
         label.textColor = UIColor(hex: "B4B4B4")
         label.font = UIFont.systemFontOfSize(12)
         label.numberOfLines = 3
