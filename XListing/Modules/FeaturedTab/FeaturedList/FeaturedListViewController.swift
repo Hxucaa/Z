@@ -13,7 +13,7 @@ import Dollar
 import Cartography
 
 private let CellIdentifier = "Cell"
-private let CellHeightToScreenWidthRatio = 0.57
+private let CellHeightToScreenWidthRatio = 0.64
 
 /**
 How is Infinite Scrolling implemented?
@@ -64,7 +64,7 @@ public final class FeaturedListViewController: XUIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
         
         view.opaque = true
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.grayColor()
         
         singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: viewmodel as! FeaturedListViewModel)
         

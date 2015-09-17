@@ -21,7 +21,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     private lazy var backgroundContainer: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.x_FeaturedCardBG()
         view.clipsToBounds = true
         view.addSubview(self.mainStackView)
         
@@ -40,9 +40,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     */
     private lazy var mainStackView: TZStackView = {
         let container = TZStackView(arrangedSubviews: [self.topSectionContainer, self.dividerView, self.statsStackView, self.participationView])
-        container.distribution = TZStackViewDistribution.FillProportionally
+        container.distribution = TZStackViewDistribution.EqualSpacing
         container.axis = .Vertical
-        container.spacing = 5
+        container.spacing = 4
         container.alignment = TZStackViewAlignment.Leading
         
         constrain(self.topSectionContainer) { view in
@@ -53,14 +53,12 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             divider.width == divider.superview!.width
         }
         
-        constrain(self.statsStackView) { view in
-            view.height == view.superview!.height * 0.10
-        }
-        
         constrain(self.participationView) { view in
             view.height == view.superview!.height * 0.20
             view.width == view.superview!.width
         }
+        
+        self.statsStackView.setContentCompressionResistancePriority(749, forAxis: .Vertical)
         
         return container
     }()
@@ -73,7 +71,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         let view = UIView()
         
         view.opaque = true
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.x_FeaturedCardBG()
         view.clipsToBounds = true
         
         view.addSubview(self.businessImageView)
@@ -100,6 +98,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     private lazy var businessImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.backgroundColor = UIColor.x_FeaturedCardBG()
         imageView.layer.masksToBounds = true
         
         
@@ -161,6 +160,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        selectionStyle = UITableViewCellSelectionStyle.None
         opaque = true
         backgroundColor = .grayColor()
         
@@ -182,9 +182,10 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     // MARK: Setups
     
     public override func prepareForReuse() {
+        participationView.initiateReuse()
+        
         super.prepareForReuse()
         
-        participationView.initiateReuse()
     }
     
     // MARK: Bindings

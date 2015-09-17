@@ -41,6 +41,8 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor.blackColor()
         label.font = UIFont.systemFontOfSize(19)
+        label.adjustsFontSizeToFitWidth = true
+        label.layer.masksToBounds = true
         
         return label
     }()
@@ -59,11 +61,16 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor.blackColor()
         label.font = UIFont.systemFontOfSize(12)
+        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
     
-    private lazy var priceIconImageView: UIImageView = {
+    /**
+    *   MARK: Price and ETA
+    */
+    
+    private func makeIconImageView() -> UIImageView {
         let imageView = UIImageView(frame: CGRectMake(0, 0, 12, 12))
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
         imageView.opaque = true
@@ -71,6 +78,23 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         imageView.layer.rasterizationScale = UIScreen.mainScreen().scale
         imageView.layer.shouldRasterize = true
         
+        return imageView
+    }
+    
+    private func makeCaptionLabel() -> TTTAttributedLabel {
+        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 40, 20))
+        label.opaque = true
+        label.backgroundColor = .x_FeaturedCardBG()
+        label.textColor = UIColor(hex: "828282")
+        label.font = UIFont.systemFontOfSize(12)
+        label.adjustsFontSizeToFitWidth = true
+        label.layer.masksToBounds = true
+        
+        return label
+    }
+    
+    private lazy var priceIconImageView: UIImageView = {
+        let imageView = self.makeIconImageView()
         
         imageView.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: imageView.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
             |> take(1)
@@ -81,22 +105,13 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     }()
     
     private lazy var priceLabel: TTTAttributedLabel = {
-        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 40, 20))
-        label.opaque = true
-        label.backgroundColor = .x_FeaturedCardBG()
-        label.textColor = UIColor(hex: "828282")
-        label.font = UIFont.systemFontOfSize(12)
+        let label = self.makeCaptionLabel()
         
         return label
     }()
     
     private lazy var etaIconImageView: UIImageView = {
-        let imageView = UIImageView(frame: CGRectMake(0, 0, 12, 12))
-        imageView.contentMode = UIViewContentMode.ScaleAspectFit
-        imageView.opaque = true
-        imageView.backgroundColor = .x_FeaturedCardBG()
-        imageView.layer.rasterizationScale = UIScreen.mainScreen().scale
-        imageView.layer.shouldRasterize = true
+        let imageView = self.makeIconImageView()
         
         // Adding ETA icon
         imageView.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: imageView.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
@@ -108,11 +123,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     }()
     
     private lazy var etaLabel: TTTAttributedLabel = {
-        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 40, 20))
-        label.opaque = true
-        label.backgroundColor = .x_FeaturedCardBG()
-        label.textColor = UIColor(hex: "828282")
-        label.font = UIFont.systemFontOfSize(12)
+        let label = self.makeCaptionLabel()
         
         return label
     }()
@@ -166,20 +177,20 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
             view.width == 12
         }
         
-        constrain([businessNameAndFeaturedIconContainer, locationLabel, priceIconImageView, self.priceLabel, etaIconImageView, etaLabel]) { views in
+        constrain([businessNameAndFeaturedIconContainer, locationLabel, priceIconImageView, priceLabel, etaIconImageView, etaLabel]) { views in
             
             // align the business name, location, price icon to leading
             align(leading: views[0], views[1], views[2])
             
             views[0].width <= views[0].superview!.width * 0.85
-            views[0].leading == views[0].superview!.leadingMargin + 5
-            views[0].top == views[0].superview!.topMargin + 5
+            views[0].leading == views[0].superview!.leadingMargin
+            views[0].top == views[0].superview!.top + 5
             
             views[1].top == views[0].bottom + 5
             
             align(centerY: views[2], views[3], views[4], views[5])
             
-            views[2].bottom == views[2].superview!.bottomMargin - 10
+            views[2].bottom == views[2].superview!.bottom - 5
             views[2].trailing == views[3].leading - 3
             
             views[4].trailing == views[5].leading - 3

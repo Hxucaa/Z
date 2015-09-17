@@ -959,12 +959,11 @@
 			isa = PBXGroup;
 			children = (
 				B45581FB1B3689AB00C4D965 /* FeaturedListBusinessTableViewCell.swift */,
-				D08B58971B93FBE300F3945F /* ParticipantViewModel.swift */,
 				B4D36B9D1BA947C200F8513E /* IFeaturedBusinessViewModel.swift */,
 				B45581F71B33E89D00C4D965 /* FeaturedBusinessViewModel.swift */,
+				B4D36B9A1BA9448000F8513E /* InfoPanel */,
 				B4D36B9C1BA944A500F8513E /* Stats */,
 				B4D36B9B1BA9449500F8513E /* Participation */,
-				B4D36B9A1BA9448000F8513E /* InfoPanel */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1080,6 +1079,7 @@
 			isa = PBXGroup;
 			children = (
 				B4D36B8E1BA91F5F00F8513E /* FeaturedListBusinessCell_ParticipationView.swift */,
+				D08B58971B93FBE300F3945F /* ParticipantViewModel.swift */,
 				B4D36B901BA9219B00F8513E /* FeaturedListBusinessCell_ParticipationViewModel.swift */,
 				B4D36B921BA921B600F8513E /* IFeaturedListBusinessCell_ParticipationViewModel.swift */,
 			);
