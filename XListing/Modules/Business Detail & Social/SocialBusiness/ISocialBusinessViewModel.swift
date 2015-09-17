@@ -12,6 +12,8 @@ import ReactiveArray
 
 public protocol ISocialBusinessViewModel : class, IInfinityScrollDataSource, IPullToRefreshDataSource, IPredictiveScrollDataSource {
     var collectionDataSource: ReactiveArray<SocialBusiness_UserViewModel> { get }
+    var businessCoverImage: UIImage? { get }
+    var businessName: PropertyOf<String> { get }
     var headerViewModel: SocialBusinessHeaderViewModel { get }
     init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, businessModel: Business)
     func pushUserProfile(index: Int, animated: Bool)

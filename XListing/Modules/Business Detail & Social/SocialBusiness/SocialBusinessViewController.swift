@@ -56,6 +56,10 @@ public final class SocialBusinessViewController : XUIViewController {
     // MARK: - Properties
     private var viewmodel: ISocialBusinessViewModel! {
         didSet {
+            viewmodel.businessName.producer
+                |> start(next: { [weak self] name in
+                    self?.title = name
+                })
             headerView.bindToViewModel(viewmodel.headerViewModel)
         }
     }
@@ -204,7 +208,13 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
             if !app.statusBarHidden {
                 destination.y += app.statusBarFrame.size.height
             }
-            return UIImageSlideAnimator(startRect: start, destination: destination, image: UIImage(named: ImageAssets.lowPoly)!)
+            
+            if let image = viewmodel.businessCoverImage {
+                return UIImageSlideAnimator(startRect: start, destination: destination, image: image)
+            }
+            else {
+                return nil
+            }
         }
         return nil
     }

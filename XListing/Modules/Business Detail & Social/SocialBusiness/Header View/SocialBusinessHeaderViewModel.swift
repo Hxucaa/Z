@@ -23,7 +23,7 @@ public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewMode
     public var location: PropertyOf<String> {
         return PropertyOf(_city)
     }
-    public var eta: PropertyOf<String> {
+    public var eta: PropertyOf<String?> {
         return PropertyOf(_eta)
     }
     
@@ -34,7 +34,7 @@ public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewMode
     private let _coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
     private let _businessName: MutableProperty<String>
     private let _city: MutableProperty<String>
-    private let _eta: MutableProperty<String> = MutableProperty("")
+    private let _eta: MutableProperty<String?> = MutableProperty(nil)
     
     // MARK: - Initializers
     public init(geoLocationService: IGeoLocationService, imageService: IImageService, imageURL: NSURL?, businessName: String?, city: String?, geopoint: AVGeoPoint?) {

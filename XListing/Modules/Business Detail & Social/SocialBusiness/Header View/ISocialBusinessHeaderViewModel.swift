@@ -16,7 +16,7 @@ public protocol ISocialBusinessHeaderViewModel : class {
     var coverImage: PropertyOf<UIImage?> { get }
     var businessName: PropertyOf<String> { get }
     var location: PropertyOf<String> { get }
-    var eta: PropertyOf<String> { get }
+    var eta: PropertyOf<String?> { get }
     
     // MARK: - Initializers
     init(geoLocationService: IGeoLocationService, imageService: IImageService, imageURL: NSURL?, businessName: String?, city: String?, geopoint: AVGeoPoint?)

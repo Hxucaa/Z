@@ -25,12 +25,23 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     public typealias Payload = SocialBusiness_UserViewModel
     
     // MARK: - Inputs
-    public let collectionDataSource = ReactiveArray<SocialBusiness_UserViewModel>()
-    public let headerViewModel: SocialBusinessHeaderViewModel
     
     // MARK: - Outputs
+    public let collectionDataSource = ReactiveArray<SocialBusiness_UserViewModel>()
+    public var businessCoverImage: UIImage? {
+        return headerViewModel.coverImage.value
+    }
+    
+    private let _businessName: MutableProperty<String>
+    public var businessName: PropertyOf<String> {
+        return PropertyOf(_businessName)
+    }
     
     // MARK: - Properties
+    
+    // MARK: - View Models
+    public let headerViewModel: SocialBusinessHeaderViewModel
+    
     private let userArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
     
     // MARK: Services
@@ -50,6 +61,12 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         self.business = businessModel
+        
+        if let businessName = businessModel.nameSChinese {
+            _businessName = MutableProperty(businessName)
+        } else {
+            _businessName = MutableProperty("")
+        }
         
         headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, imageURL: businessModel.coverImageUrl, businessName: businessModel.nameSChinese, city: businessModel.city, geopoint: businessModel.geopoint)
     }
