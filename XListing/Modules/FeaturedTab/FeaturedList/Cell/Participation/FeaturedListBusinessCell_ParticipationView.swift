@@ -80,9 +80,11 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
 //        }
 //        
 //        button.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-//        button.titleLabel?.backgroundColor = .x_FeaturedCardBG()
+        button.titleLabel?.opaque = true
+        button.titleLabel?.backgroundColor = .x_FeaturedCardBG()
         button.titleLabel?.layer.masksToBounds = true
         button.setTitle("约起", forState: .Normal)
+        button.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         button.layer.borderColor = UIColor.x_PrimaryColor().CGColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 9

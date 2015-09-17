@@ -42,6 +42,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         label.textColor = UIColor.blackColor()
         label.font = UIFont.systemFontOfSize(19)
         label.adjustsFontSizeToFitWidth = true
+        label.layer.masksToBounds = true
         
         return label
     }()
@@ -65,7 +66,11 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         return label
     }()
     
-    private lazy var priceIconImageView: UIImageView = {
+    /**
+    *   MARK: Price and ETA
+    */
+    
+    private func makeIconImageView() -> UIImageView {
         let imageView = UIImageView(frame: CGRectMake(0, 0, 12, 12))
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
         imageView.opaque = true
@@ -73,6 +78,23 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         imageView.layer.rasterizationScale = UIScreen.mainScreen().scale
         imageView.layer.shouldRasterize = true
         
+        return imageView
+    }
+    
+    private func makeCaptionLabel() -> TTTAttributedLabel {
+        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 40, 20))
+        label.opaque = true
+        label.backgroundColor = .x_FeaturedCardBG()
+        label.textColor = UIColor(hex: "828282")
+        label.font = UIFont.systemFontOfSize(12)
+        label.adjustsFontSizeToFitWidth = true
+        label.layer.masksToBounds = true
+        
+        return label
+    }
+    
+    private lazy var priceIconImageView: UIImageView = {
+        let imageView = self.makeIconImageView()
         
         imageView.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: imageView.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
             |> take(1)
@@ -83,23 +105,13 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     }()
     
     private lazy var priceLabel: TTTAttributedLabel = {
-        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 40, 20))
-        label.opaque = true
-        label.backgroundColor = .x_FeaturedCardBG()
-        label.textColor = UIColor(hex: "828282")
-        label.font = UIFont.systemFontOfSize(12)
-        label.adjustsFontSizeToFitWidth = true
+        let label = self.makeCaptionLabel()
         
         return label
     }()
     
     private lazy var etaIconImageView: UIImageView = {
-        let imageView = UIImageView(frame: CGRectMake(0, 0, 12, 12))
-        imageView.contentMode = UIViewContentMode.ScaleAspectFit
-        imageView.opaque = true
-        imageView.backgroundColor = .x_FeaturedCardBG()
-        imageView.layer.rasterizationScale = UIScreen.mainScreen().scale
-        imageView.layer.shouldRasterize = true
+        let imageView = self.makeIconImageView()
         
         // Adding ETA icon
         imageView.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: imageView.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
@@ -111,12 +123,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     }()
     
     private lazy var etaLabel: TTTAttributedLabel = {
-        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 40, 20))
-        label.opaque = true
-        label.backgroundColor = .x_FeaturedCardBG()
-        label.textColor = UIColor(hex: "828282")
-        label.font = UIFont.systemFontOfSize(12)
-        label.adjustsFontSizeToFitWidth = true
+        let label = self.makeCaptionLabel()
         
         return label
     }()

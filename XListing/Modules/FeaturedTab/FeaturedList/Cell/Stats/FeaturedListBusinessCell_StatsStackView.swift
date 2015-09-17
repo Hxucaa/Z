@@ -25,6 +25,7 @@ public final class FeaturedListBusinessCell_StatsStackView : TZStackView {
         label.textColor = UIColor(hex: "828282")
         label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption2)
         label.userInteractionEnabled = false
+        label.layer.masksToBounds = true
         
         return label
     }
