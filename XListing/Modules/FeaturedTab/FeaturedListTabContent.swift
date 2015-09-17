@@ -20,8 +20,7 @@ public final class FeaturedTabContent : ITabContent {
     private let socialBusinessWireframe: ISocialBusinessWireframe
     
     public init(featuredListWireframe: IFeaturedListWireframe, socialBusinessWireframe: ISocialBusinessWireframe) {
-        featuredTabNavigationController = UIStoryboard(name: "FeaturedTab", bundle: nil).instantiateViewControllerWithIdentifier("FeaturedTabNavigationController") as! FeaturedTabNavigationController
-        featuredTabNavigationController.viewControllers = [featuredListWireframe.rootViewController]
+        featuredTabNavigationController = FeaturedTabNavigationController(rootViewController: featuredListWireframe.rootViewController)
         
         self.featuredListWireframe = featuredListWireframe
         self.socialBusinessWireframe = socialBusinessWireframe

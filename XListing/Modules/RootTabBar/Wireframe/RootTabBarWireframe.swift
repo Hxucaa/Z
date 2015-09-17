@@ -11,7 +11,7 @@ import UIKit
 
 public final class RootTabBarWireframe : IRootTabBarWireframe {
 
-    private let rootTabBarController = UIStoryboard(name: "RootTabBar", bundle: nil).instantiateViewControllerWithIdentifier("RootTabBarController") as! RootTabBarController
+    private let rootTabBarController = RootTabBarController()
     public var rootViewController: UIViewController {
         return rootTabBarController
     }

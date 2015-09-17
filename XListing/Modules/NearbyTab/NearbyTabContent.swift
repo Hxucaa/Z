@@ -20,8 +20,7 @@ public final class NearbyTabContent : ITabContent, NearbyNavigationControllerDel
     private let socialBusinessWireframe: ISocialBusinessWireframe
     
     public init(nearbyWireframe: INearbyWireframe, socialBusinessWireframe: ISocialBusinessWireframe) {
-        nearbyTabNavigationController = UIStoryboard(name: "NearbyTab", bundle: nil).instantiateViewControllerWithIdentifier("NearbyTabNavigationController") as! NearbyTabNavigationController
-        nearbyTabNavigationController.viewControllers = [nearbyWireframe.rootViewController]
+        nearbyTabNavigationController = NearbyTabNavigationController(rootViewController: nearbyWireframe.rootViewController)
         
         self.nearbyWireframe = nearbyWireframe
         self.socialBusinessWireframe = socialBusinessWireframe
