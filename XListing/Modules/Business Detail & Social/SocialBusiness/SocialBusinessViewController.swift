@@ -25,8 +25,17 @@ public final class SocialBusinessViewController : XUIViewController {
     // MARK: - UI Controls
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRectMake(0, 0, ScreenWidth, 600), style: UITableViewStyle.Plain)
+        
+        tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
+        
         tableView.showsHorizontalScrollIndicator = false
         tableView.opaque = true
+        tableView.tableHeaderView = self.headerView
+        tableView.separatorInset = UIEdgeInsetsMake(0, 8, 0, 8)
+        tableView.backgroundColor = .x_FeaturedCardBG()
+        tableView.rowHeight = CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
+        
+        tableView.dataSource = self
         
         return tableView
     }()
@@ -67,13 +76,7 @@ public final class SocialBusinessViewController : XUIViewController {
             view.leading == view.superview!.leading
         }
         
-        tableView.tableHeaderView = headerView
-        
-        tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
-        tableView.rowHeight = CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
-        
         singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: viewmodel as! SocialBusinessViewModel)
-        tableView.dataSource = self
     }
     
     public override func viewWillAppear(animated: Bool) {

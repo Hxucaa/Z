@@ -51,7 +51,7 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         
         let label = UILabel(frame: CGRectMake(0, 0, 68, 25))
         label.opaque = true
-        label.backgroundColor = UIColor.whiteColor()
+        label.backgroundColor = .x_FeaturedCardBG()
         label.layer.masksToBounds = true
         
         return label
@@ -61,7 +61,7 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         
         let label = UILabel(frame: CGRectMake(0, 0, 50, 22))
         label.opaque = true
-        label.backgroundColor = UIColor.whiteColor()
+        label.backgroundColor = .x_FeaturedCardBG()
         label.layer.masksToBounds = true
         label.textColor = UIColor.orangeColor()
         label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
@@ -103,7 +103,7 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         
         let label = UILabel(frame: CGRectMake(0, 0, 50, 22))
         label.opaque = true
-        label.backgroundColor = UIColor.whiteColor()
+        label.backgroundColor = .x_FeaturedCardBG()
         label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         label.layer.masksToBounds = true
         
@@ -136,6 +136,7 @@ public final class SocialBusiness_UserCell : UITableViewCell {
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        backgroundColor = .x_FeaturedCardBG()
         selectionStyle = UITableViewCellSelectionStyle.None
         
         ageGroupLabel.text = "90后"
