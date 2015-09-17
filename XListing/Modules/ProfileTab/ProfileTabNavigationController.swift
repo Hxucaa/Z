@@ -27,8 +27,7 @@ public final class ProfileTabNavigationController : XBaseUINavigationController 
     }
     
     private func setup() {
-        
-        let tab = UITabBarItem(title: "个人", image: AssetsKit.imageOfProfileButton(scaleX: 1, scaleY: 1, ifPressed: false), selectedImage: AssetsKit.imageOfProfileButton(scaleX: 1, scaleY: 1, ifPressed: true))
+        let tab = UITabBarItem(title: "个人", image: AssetsTabBar.imageOfProfileIcon(false), selectedImage: AssetsTabBar.imageOfProfileIcon(true))
         
         tabBarItem = tab
     }

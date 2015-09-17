@@ -28,7 +28,7 @@ public final class FeaturedTabNavigationController : XBaseUINavigationController
     
     private func setup() {
         
-        let tab = UITabBarItem(title: "推荐", image: AssetsKit.imageOfHomeButton(scaleX: 1, scaleY: 1, ifPressed: false), selectedImage: AssetsKit.imageOfHomeButton(scaleX: 1, scaleY: 1, ifPressed: true))
+        let tab = UITabBarItem(title: "推荐", image: AssetsTabBar.imageOfHomeIcon(false), selectedImage: AssetsTabBar.imageOfHomeIcon(true))
         
         tabBarItem = tab
     }

@@ -27,8 +27,7 @@ public final class NearbyTabNavigationController : XBaseUINavigationController {
     }
     
     private func setup() {
-        
-        let tab = UITabBarItem(title: "附近", image: AssetsKit.imageOfNearbyButton(scaleX: 1, scaleY: 1, ifPressed: false), selectedImage: AssetsKit.imageOfNearbyButton(scaleX: 1, scaleY: 1, ifPressed: true))
+        let tab = UITabBarItem(title: "附近", image: AssetsTabBar.imageOfNearbyIcon(false), selectedImage: AssetsTabBar.imageOfNearbyIcon(true))
         
         tabBarItem = tab
     }
