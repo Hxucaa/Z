@@ -25,19 +25,27 @@ public final class SocialBusinessViewController : XUIViewController {
     // MARK: - UI Controls
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRectMake(0, 0, ScreenWidth, 600), style: UITableViewStyle.Plain)
+        
+        tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
+        
         tableView.showsHorizontalScrollIndicator = false
         tableView.opaque = true
+        tableView.tableHeaderView = self.headerView
+        tableView.separatorInset = UIEdgeInsetsMake(0, 8, 0, 8)
+        tableView.backgroundColor = .x_FeaturedCardBG()
+        tableView.rowHeight = CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
+        
+        tableView.dataSource = self
         
         return tableView
     }()
-    @IBOutlet private weak var infoButton: UIButton!
-    @IBOutlet private weak var startEventButton: UIButton!
-    private lazy var headerView: SocialBusinessHeaderView =  { [weak self] in
+    
+    private lazy var headerView: SocialBusinessHeaderView =  {
         let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)))
-        view.bindToViewModel(self!.viewmodel.headerViewModel)
         
         return view
     }()
+    
     private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
         let view = SocialBusiness_UtilityHeaderView()
         
@@ -46,7 +54,15 @@ public final class SocialBusinessViewController : XUIViewController {
     }()
     
     // MARK: - Properties
-    private var viewmodel: ISocialBusinessViewModel!
+    private var viewmodel: ISocialBusinessViewModel! {
+        didSet {
+            viewmodel.businessName.producer
+                |> start(next: { [weak self] name in
+                    self?.title = name
+                })
+            headerView.bindToViewModel(viewmodel.headerViewModel)
+        }
+    }
     private let compositeDisposable = CompositeDisposable()
     private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, SocialBusinessViewModel>!
 
@@ -64,13 +80,7 @@ public final class SocialBusinessViewController : XUIViewController {
             view.leading == view.superview!.leading
         }
         
-        tableView.tableHeaderView = headerView
-        
-        tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
-        tableView.rowHeight = CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
-        
         singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: viewmodel as! SocialBusinessViewModel)
-        tableView.dataSource = self
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -198,7 +208,13 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
             if !app.statusBarHidden {
                 destination.y += app.statusBarFrame.size.height
             }
-            return UIImageSlideAnimator(startRect: start, destination: destination, image: UIImage(named: ImageAssets.lowPoly)!)
+            
+            if let image = viewmodel.businessCoverImage {
+                return UIImageSlideAnimator(startRect: start, destination: destination, image: image)
+            }
+            else {
+                return nil
+            }
         }
         return nil
     }

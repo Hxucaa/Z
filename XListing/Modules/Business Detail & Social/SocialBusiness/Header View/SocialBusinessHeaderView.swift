@@ -12,7 +12,7 @@ import Cartography
 import TTTAttributedLabel
 import ReactiveCocoa
 
-private let CoverImageSize = CGSizeMake(100, 100)
+private let CoverImageSize = CGSizeMake(110, 110)
 
 public final class SocialBusinessHeaderView : UIView {
     
@@ -39,7 +39,7 @@ public final class SocialBusinessHeaderView : UIView {
     /// Wrap everything in the main stack and have them distributed vertically.
     private lazy var mainContainer: TZStackView = {
         
-        let container = TZStackView(arrangedSubviews: [self.coverImageView, self.businessNameLabel, self.cuisineLabel, self.locationAndDistanceContainer])
+        let container = TZStackView(arrangedSubviews: [self.coverImageView, self.businessNameLabel, self.locationAndDistanceContainer])
         container.distribution = TZStackViewDistribution.EqualSpacing
         container.axis = .Vertical
         container.spacing = 8
@@ -49,14 +49,15 @@ public final class SocialBusinessHeaderView : UIView {
     }()
     
     private lazy var coverImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: ImageAssets.profilepicture)?.maskWithRoundedRect(CoverImageSize, cornerRadius: 40, borderWidth: 4, opaque: false))
-        imageView.opaque = false
-        imageView.backgroundColor = UIColor.clearColor()
+        let imageView = UIImageView(frame: CGRect(origin: CGPointMake(0, 0), size: CoverImageSize))
+        imageView.contentMode = UIViewContentMode.ScaleAspectFill
         
-        constrain(imageView) { view in
-            view.width == 100
-            view.height == 100
-        }
+//        constrain(imageView) { view in
+//            view.width == CoverImageSize.width
+//            view.height == CoverImageSize.height
+//        }
+        
+        imageView.setContentCompressionResistancePriority(700, forAxis: .Vertical)
         
         return imageView
     }()
@@ -67,7 +68,7 @@ public final class SocialBusinessHeaderView : UIView {
         label.opaque = false
         label.backgroundColor = UIColor.clearColor()
         label.textAlignment = NSTextAlignment.Center
-        label.font = UIFont.systemFontOfSize(25)
+        label.font = UIFont.systemFontOfSize(24)
         label.textColor = UIColor.whiteColor()
         
         return label
@@ -144,7 +145,7 @@ public final class SocialBusinessHeaderView : UIView {
         cuisineLabel.text = "川菜"
 
         addSubview(backgroundImageView)
-        addSubview(mainContainer)
+        backgroundImageView.addSubview(mainContainer)
 
         constrain(backgroundImageView) { view in
             view.top == view.superview!.top
@@ -155,12 +156,15 @@ public final class SocialBusinessHeaderView : UIView {
 
         constrain(dividerView, locationLabel) { divider, location in
             divider.width == 1
-            divider.height == location.height
+            divider.height == location.height * 0.80
         }
         
         constrain(mainContainer) { view in
             view.centerX == view.superview!.centerX
-            view.centerY == view.superview!.centerY
+            
+            let gap = round(self.backgroundImageView.frame.height * 0.07)
+            view.top == view.superview!.topMargin + gap
+            view.bottom == view.superview!.bottomMargin
         }
     }
     
@@ -175,16 +179,18 @@ public final class SocialBusinessHeaderView : UIView {
         
         businessNameLabel.rac_text <~ viewmodel.businessName.producer
         
-        locationLabel.rac_text <~ viewmodel.city.producer
+        locationLabel.rac_text <~ viewmodel.location.producer
         
         distanceLabel.rac_text <~ viewmodel.eta.producer
+            |> ignoreNil
         
         coverImageView.rac_image <~ self.viewmodel.coverImage.producer
             |> ignoreNil
-            |> map { $0.maskWithRoundedRect(CoverImageSize, cornerRadius: max(CoverImageSize.width, CoverImageSize.height) / 2, borderWidth: 4, opaque: false)
+            |> map {
+                $0.maskWithRoundedRect(CoverImageSize, cornerRadius: max(CoverImageSize.width, CoverImageSize.height) / 2, borderWidth: 4, opaque: false)
             }
         
-        self.backgroundImageView.rac_image <~ self.viewmodel.coverImage.producer
+        backgroundImageView.rac_image <~ self.viewmodel.coverImage.producer
         
     }
 }

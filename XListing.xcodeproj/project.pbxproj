@@ -1155,12 +1155,12 @@
 		B4E7E5021B93F27C0034B093 /* SocialBusiness */ = {
 			isa = PBXGroup;
 			children = (
-				B424875E1BA3C5CC00FBC634 /* Utility Header */,
 				B4E7E5061B93F32C0034B093 /* SocialBusinessViewController.swift */,
 				B4E7E50A1B93F36E0034B093 /* ISocialBusinessViewModel.swift */,
 				B4E7E5081B93F3610034B093 /* SocialBusinessViewModel.swift */,
 				B403B08D1BA2B5EF0085E0A3 /* UIImageSlideAnimator.swift */,
 				B4D7338F1B9A28F900B599B9 /* Header View */,
+				B424875E1BA3C5CC00FBC634 /* Utility Header */,
 				B4D7338D1B9A286A00B599B9 /* User Cell */,
 			);
 			name = SocialBusiness;

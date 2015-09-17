@@ -102,6 +102,12 @@ public final class Business: AVObject, AVSubclassing {
     @NSManaged public var rating: Double
     
     @NSManaged public var cover: AVFile?
+    public var coverImageUrl: NSURL? {
+        if let url = cover?.url {
+            return NSURL(string: url)
+        }
+        return nil
+    }
     
     @NSManaged public var price: Int
     
