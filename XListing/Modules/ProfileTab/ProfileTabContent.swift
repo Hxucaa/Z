@@ -21,8 +21,7 @@ public final class ProfileTabContent : ITabContent {
     private let profileEditWireframe: IProfileEditWireframe
     
     public init(profileWireframe: IProfileWireframe, socialBusinessWireframe: ISocialBusinessWireframe, profileEditWireframe: IProfileEditWireframe) {
-        profileTabNavigationController = UIStoryboard(name: "ProfileTab", bundle: nil).instantiateViewControllerWithIdentifier("ProfileTabNavigationController") as! ProfileTabNavigationController
-        profileTabNavigationController.viewControllers = [profileWireframe.rootViewController]
+        profileTabNavigationController = ProfileTabNavigationController(rootViewController: profileWireframe.rootViewController)
         
         self.profileWireframe = profileWireframe
         self.socialBusinessWireframe = socialBusinessWireframe
