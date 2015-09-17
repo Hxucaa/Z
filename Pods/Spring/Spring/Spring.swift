@@ -27,7 +27,7 @@ import UIKit
     var autohide: Bool  { get set }
     var animation: String  { get set }
     var force: CGFloat  { get set }
-    var spring_delay: CGFloat { get set }
+    var delay: CGFloat { get set }
     var duration: CGFloat { get set }
     var damping: CGFloat { get set }
     var velocity: CGFloat { get set }
@@ -83,7 +83,7 @@ public class Spring : NSObject {
     private var autohide: Bool { set { self.view.autohide = newValue } get { return self.view.autohide }}
     private var animation: String { set { self.view.animation = newValue } get { return self.view.animation }}
     private var force: CGFloat { set { self.view.force = newValue } get { return self.view.force }}
-    private var delay: CGFloat { set { self.view.spring_delay = newValue } get { return self.view.spring_delay }}
+    private var delay: CGFloat { set { self.view.delay = newValue } get { return self.view.delay }}
     private var duration: CGFloat { set { self.view.duration = newValue } get { return self.view.duration }}
     private var damping: CGFloat { set { self.view.damping = newValue } get { return self.view.damping }}
     private var velocity: CGFloat { set { self.view.velocity = newValue } get { return self.view.velocity }}

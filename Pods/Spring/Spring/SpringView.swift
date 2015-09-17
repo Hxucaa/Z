@@ -27,7 +27,7 @@ public class SpringView: UIView, Springable {
     @IBInspectable public var autohide: Bool = false
     @IBInspectable public var animation: String = ""
     @IBInspectable public var force: CGFloat = 1
-    @IBInspectable public var spring_delay: CGFloat = 0
+    @IBInspectable public var delay: CGFloat = 0
     @IBInspectable public var duration: CGFloat = 0.7
     @IBInspectable public var damping: CGFloat = 0.7
     @IBInspectable public var velocity: CGFloat = 0.7

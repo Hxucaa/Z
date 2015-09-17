@@ -66,7 +66,7 @@ public final class PhotoView : SpringView {
                         |> filter { $0 }
                         // delay the signal due to the animation of retracting keyboard
                         // this cannot be executed on main thread, otherwise UI will be blocked
-                        |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                        |> ReactiveCocoa.delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
                         // return the signal to main/ui thread in order to run UI related code
                         |> observeOn(UIScheduler())
                         |> flatMap(.Concat) { _ in

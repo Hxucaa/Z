@@ -71,7 +71,7 @@ DEPENDENCIES:
   - ReactiveArray (from `https://github.com/Hxucaa/ReactiveArray.git`)
   - ReactiveCocoa (~> 3.0.0)
   - SDWebImage (~> 3.7.0)
-  - Spring (from `https://github.com/Hxucaa/Spring`, branch `compatibility`)
+  - Spring (~> 1.0.3)
   - SVProgressHUD (from `https://github.com/Hxucaa/SVProgressHUD.git`)
   - TTTAttributedLabel (~> 1.13.4)
   - TZStackView (~> 1.0.5)
@@ -80,9 +80,6 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   ReactiveArray:
     :git: https://github.com/Hxucaa/ReactiveArray.git
-  Spring:
-    :branch: compatibility
-    :git: https://github.com/Hxucaa/Spring
   SVProgressHUD:
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
@@ -92,9 +89,6 @@ CHECKOUT OPTIONS:
   ReactiveArray:
     :commit: 8b9c447f0bb03dc2d7ec3fd079c9e6e1fb08cc02
     :git: https://github.com/Hxucaa/ReactiveArray.git
-  Spring:
-    :commit: 6d983b48535d8ef69f8afa404030e518abe78ca3
-    :git: https://github.com/Hxucaa/Spring
   SVProgressHUD:
     :commit: 4cbf1de2f9becbdfe38257bf9129f2930a2668ab
     :git: https://github.com/Hxucaa/SVProgressHUD.git
