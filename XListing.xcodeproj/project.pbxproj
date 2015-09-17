@@ -83,6 +83,10 @@
 		B41334ED1B5F44B300B5F22D /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334EC1B5F44B300B5F22D /* Keyboard.swift */; };
 		B41334EF1B60E46C00B5F22D /* Nearby.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B41334EE1B60E46C00B5F22D /* Nearby.storyboard */; };
 		B41334F11B60F8B900B5F22D /* ReactiveCocoa+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334F01B60F8B900B5F22D /* ReactiveCocoa+extension.swift */; };
+		B42410061BAB4E71000E44D0 /* Geolocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42410051BAB4E71000E44D0 /* Geolocation.swift */; };
+		B42410081BAB5032000E44D0 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42410071BAB5032000E44D0 /* Image.swift */; };
+		B424100A1BAB5193000E44D0 /* Horoscope.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42410091BAB5193000E44D0 /* Horoscope.swift */; };
+		B424100C1BAB5469000E44D0 /* AgeGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B424100B1BAB5469000E44D0 /* AgeGroup.swift */; };
 		B42487601BA3C63B00FBC634 /* SocialBusiness_UtilityHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B424875F1BA3C63B00FBC634 /* SocialBusiness_UtilityHeaderView.swift */; };
 		B42487641BA9065200FBC634 /* FeaturedListBusinessCell_InfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42487631BA9065200FBC634 /* FeaturedListBusinessCell_InfoPanelView.swift */; };
 		B42487661BA9081300FBC634 /* FeaturedListBusinessCell_InfoPanelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42487651BA9081300FBC634 /* FeaturedListBusinessCell_InfoPanelViewModel.swift */; };
@@ -320,6 +324,10 @@
 		B41334EC1B5F44B300B5F22D /* Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		B41334EE1B60E46C00B5F22D /* Nearby.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Nearby.storyboard; sourceTree = "<group>"; };
 		B41334F01B60F8B900B5F22D /* ReactiveCocoa+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ReactiveCocoa+extension.swift"; sourceTree = "<group>"; };
+		B42410051BAB4E71000E44D0 /* Geolocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Geolocation.swift; sourceTree = "<group>"; };
+		B42410071BAB5032000E44D0 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		B42410091BAB5193000E44D0 /* Horoscope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horoscope.swift; sourceTree = "<group>"; };
+		B424100B1BAB5469000E44D0 /* AgeGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgeGroup.swift; sourceTree = "<group>"; };
 		B424875F1BA3C63B00FBC634 /* SocialBusiness_UtilityHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialBusiness_UtilityHeaderView.swift; sourceTree = "<group>"; };
 		B42487631BA9065200FBC634 /* FeaturedListBusinessCell_InfoPanelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListBusinessCell_InfoPanelView.swift; sourceTree = "<group>"; };
 		B42487651BA9081300FBC634 /* FeaturedListBusinessCell_InfoPanelViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListBusinessCell_InfoPanelViewModel.swift; sourceTree = "<group>"; };
@@ -621,6 +629,10 @@
 				3DB8AC2F1B06D0DF00E51F0E /* Profile.swift */,
 				B4F195BC1B2CE2B200B8C519 /* User_Business_Participation.swift */,
 				B4F195BE1B2CE2C300B8C519 /* ParticipationType.swift */,
+				B42410051BAB4E71000E44D0 /* Geolocation.swift */,
+				B42410071BAB5032000E44D0 /* Image.swift */,
+				B42410091BAB5193000E44D0 /* Horoscope.swift */,
+				B424100B1BAB5469000E44D0 /* AgeGroup.swift */,
 			);
 			name = Model;
 			path = Common/Model;
@@ -1612,6 +1624,7 @@
 				B4ECBE221B74106E00234217 /* GenderPickerView.swift in Sources */,
 				B4E7E5111B93F5800034B093 /* ISocialBusinessWireframe.swift in Sources */,
 				B4D733A21B9A428000B599B9 /* IUserProfileViewModel.swift in Sources */,
+				B42410081BAB5032000E44D0 /* Image.swift in Sources */,
 				B45582001B37670500C4D965 /* NSError+extension.swift in Sources */,
 				2A714B121B085C63007A8FBB /* LandingPageViewController.swift in Sources */,
 				B4F195AF1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift in Sources */,
@@ -1709,6 +1722,7 @@
 				2A9A9BA41B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift in Sources */,
 				26645AD31B58B58200ADDCD1 /* ProfileEditViewModel.swift in Sources */,
 				B4F32E1F1ACF91E400946FD8 /* IBusinessService.swift in Sources */,
+				B424100A1BAB5193000E44D0 /* Horoscope.swift in Sources */,
 				B4F332821B9699D10048D1B4 /* XBaseUINavigationController.swift in Sources */,
 				B4E7E50B1B93F36E0034B093 /* ISocialBusinessViewModel.swift in Sources */,
 				7EF3714E1AB8C1E8009AA3B9 /* LeanCloudClient.swift in Sources */,
@@ -1735,6 +1749,7 @@
 				B462BC7A1B2F94DE00070BE5 /* UserDefaultsService.swift in Sources */,
 				B4FCC7281AE9C71F009B4DF6 /* ILandingPageViewModel.swift in Sources */,
 				B4E7E51E1B9515040034B093 /* NearbyTabContent.swift in Sources */,
+				B42410061BAB4E71000E44D0 /* Geolocation.swift in Sources */,
 				B4307F441B796B4300E3D41B /* RoundedButton.swift in Sources */,
 				B4D733A01B9A427500B599B9 /* UserProfileViewModel.swift in Sources */,
 				B40EF67A1B804ABF0067AE9B /* PullToRefresh.swift in Sources */,
@@ -1745,6 +1760,7 @@
 				2A9A9BA61B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift in Sources */,
 				B4FC0CFD1B923738001D7A4F /* SingleSectionInfiniteTableViewManager.swift in Sources */,
 				7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */,
+				B424100C1BAB5469000E44D0 /* AgeGroup.swift in Sources */,
 				B4E7E5241B9517770034B093 /* FeaturedTabNavigationController.swift in Sources */,
 				B47E15BF1B17AD790028E07E /* UIKit&ReactiveCocoa+extension.swift in Sources */,
 				B42487661BA9081300FBC634 /* FeaturedListBusinessCell_InfoPanelViewModel.swift in Sources */,

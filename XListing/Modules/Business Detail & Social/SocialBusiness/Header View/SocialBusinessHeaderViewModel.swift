@@ -37,7 +37,7 @@ public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewMode
     private let _eta: MutableProperty<String?> = MutableProperty(nil)
     
     // MARK: - Initializers
-    public init(geoLocationService: IGeoLocationService, imageService: IImageService, imageURL: NSURL?, businessName: String?, city: String?, geopoint: AVGeoPoint?) {
+    public init(geoLocationService: IGeoLocationService, imageService: IImageService, imageURL: NSURL?, businessName: String?, city: String?, geopoint: Geolocation?) {
         
         self.geoLocationService = geoLocationService
         self.imageService = imageService

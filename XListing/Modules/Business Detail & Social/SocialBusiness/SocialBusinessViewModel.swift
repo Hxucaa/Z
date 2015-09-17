@@ -68,7 +68,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
             _businessName = MutableProperty("")
         }
         
-        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, imageURL: businessModel.coverImageUrl, businessName: businessModel.nameSChinese, city: businessModel.city, geopoint: businessModel.geopoint)
+        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, imageURL: businessModel.coverImageUrl, businessName: businessModel.nameSChinese, city: businessModel.city, geopoint: businessModel.geolocation)
     }
     
     // MARK: - API

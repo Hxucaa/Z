@@ -16,7 +16,7 @@ public final class User: AVUser, AVSubclassing {
         case NickName = "nickname"
         case ProfileImg = "profileImg"
         case Profile = "profile"
-        case LatestLocation = "latestLocation"
+        case LatestGeolocation = "latestLocation"
         case Gender = "gender"
         case Horoscope = "horoscope"
         case AgeGroup = "ageGroup"
@@ -49,7 +49,20 @@ public final class User: AVUser, AVSubclassing {
     @NSManaged public var nickname: String?
     @NSManaged public var profileImg: AVFile?
     @NSManaged public var profile: Profile
-    @NSManaged public var latestLocation: AVGeoPoint?
+    @NSManaged private var latestLocation: AVGeoPoint?
+    public var latestGeolocation: Geolocation? {
+        get {
+            if let latestLocation = latestLocation {
+                return Geolocation(latitude: latestLocation.latitude, longitude: latestLocation.longitude)
+            }
+            return nil
+        }
+        set {
+            if let newValue = newValue {
+                latestLocation = AVGeoPoint(latitude: newValue.latitude, longitude: newValue.longitude)
+            }
+        }
+    }
     @NSManaged private var gender: Bool
     public var gender_: Gender {
         get {
@@ -59,6 +72,9 @@ public final class User: AVUser, AVSubclassing {
             gender = newValue.value
         }
     }
-    @NSManaged public var horoscope: String?
+    @NSManaged private var horoscope: Int
+    public var horoscope_: Horoscope? {
+        return Horoscope(rawValue: horoscope)!
+    }
     @NSManaged public var ageGroup: String?
 }

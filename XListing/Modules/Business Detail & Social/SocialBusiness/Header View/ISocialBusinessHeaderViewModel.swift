@@ -19,5 +19,5 @@ public protocol ISocialBusinessHeaderViewModel : class {
     var eta: PropertyOf<String?> { get }
     
     // MARK: - Initializers
-    init(geoLocationService: IGeoLocationService, imageService: IImageService, imageURL: NSURL?, businessName: String?, city: String?, geopoint: AVGeoPoint?)
+    init(geoLocationService: IGeoLocationService, imageService: IImageService, imageURL: NSURL?, businessName: String?, city: String?, geopoint: Geolocation?)
 }

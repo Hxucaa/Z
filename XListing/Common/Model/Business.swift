@@ -29,8 +29,9 @@ public final class Business: AVObject, AVSubclassing {
         case Featured = "featured"
         case TimeStart = "timeStart"
         case TimeEnd = "timeEnd"
-        case WantToGoCounter = "wantToGoCounter"
-        case Categories = "categories"
+        case aaCount = "aaCount"
+        case treatCount = "treatCount"
+        case toGoCount = "toGoCount"
         case Unit = "unit"
         case Address = "address"
         case District = "district"
@@ -38,9 +39,7 @@ public final class Business: AVObject, AVSubclassing {
         case State = "state"
         case Country = "country"
         case PostalCode = "postalCode"
-        case CrossStreets = "crossStreets"
-        case Neighborhoods = "neighborhoods"
-        case Geopoint = "geopoint"
+        case Geolocation = "geopoint"
         case Price = "price"
     }
     
@@ -128,14 +127,12 @@ public final class Business: AVObject, AVSubclassing {
     */
     
     
-    @NSManaged public var wantToGoCounter: Int
+    @NSManaged public var aaCount: Int
     
-    /*!
-    Provides a list of category name, alias pairs that this business is associated with. For example,
-    [["Local Flavor", "localflavor"], ["Active Life", "active"], ["Mass Media", "massmedia"]]
-    The alias is provided so you can search with the category_filter.
-    */
-    @NSManaged public var categories: [String]?
+    @NSManaged public var treatCount: Int
+    
+    @NSManaged public var toGoCount: Int
+    
     
     /**
     Location
@@ -172,10 +169,6 @@ public final class Business: AVObject, AVSubclassing {
         }
     }
     
-    public var cllocation: CLLocation {
-        return CLLocation(latitude: geopoint!.latitude, longitude: geopoint!.longitude)
-    }
-    
     @NSManaged public var unit: String?
     
     // Address for this business. Only includes address fields.
@@ -193,11 +186,18 @@ public final class Business: AVObject, AVSubclassing {
     // Postal code for this business
     @NSManaged public var postalCode: String?
     
-    // Cross streets for this business
-    @NSManaged public var crossStreets: String?
-    
-    // List that provides neighborhood(s) information for business
-    @NSManaged public var neighborhoods: [String]?
-    
-    @NSManaged public var geopoint: AVGeoPoint?
+    @NSManaged private var geopoint: AVGeoPoint?
+    public var geolocation: Geolocation? {
+        get {
+            if let geopoint = geopoint {
+                return Geolocation(latitude: geopoint.latitude, longitude: geopoint.longitude)
+            }
+            return nil
+        }
+        set {
+            if let newValue = newValue {
+                geopoint = AVGeoPoint(latitude: newValue.latitude, longitude: newValue.longitude)
+            }
+        }
+    }
 }
