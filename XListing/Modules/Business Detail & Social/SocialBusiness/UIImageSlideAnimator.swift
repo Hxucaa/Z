@@ -23,7 +23,7 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
     }
     
     public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return 2.2
+        return 2.7
     }
     
     public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -79,6 +79,16 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
             },
             { done in
                 UIView.animateWithDuration(
+                    0.7,
+                    animations: { () -> Void in
+                        effectView.alpha = 0
+                    },
+                    completion: { finished in
+                        done()
+                    })
+            },
+            { done in
+                UIView.animateWithDuration(
                     1.3,
                     delay: 0.0,
                     options: UIViewAnimationOptions.CurveEaseInOut,
@@ -91,7 +101,7 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
             },
             { done in
                 UIView.animateWithDuration(
-                    0.5,
+                    0.3,
                     animations: {
                         toView.alpha = 1
 
