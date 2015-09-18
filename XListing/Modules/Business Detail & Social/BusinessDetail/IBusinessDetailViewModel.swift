@@ -11,7 +11,7 @@ import ReactiveCocoa
 
 public protocol IBusinessDetailViewModel : class {
     var businessName: PropertyOf<String> { get }
-//    var detailImageViewModel: DetailImageViewModel { get }
+    var detailImageViewModel: DetailImageViewModel { get }
 //    var detailAddressAndMapViewModel: DetailAddressAndMapViewModel { get }
 //    var detailPhoneWebViewModel: DetailPhoneWebViewModel { get }
 //    var detailBizInfoViewModel: DetailBizInfoViewModel { get }

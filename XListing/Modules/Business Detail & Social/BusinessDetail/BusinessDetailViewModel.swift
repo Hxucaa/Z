@@ -30,7 +30,7 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
     private let business: Business
     
     // MARK: ViewModels
-//    public let detailImageViewModel: DetailImageViewModel
+    public let detailImageViewModel: DetailImageViewModel
 //    public let detailAddressAndMapViewModel: DetailAddressAndMapViewModel
 //    public let detailPhoneWebViewModel: DetailPhoneWebViewModel
 //    public let detailBizInfoViewModel: DetailBizInfoViewModel
@@ -47,7 +47,7 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
         self.imageService = imageService
         self.business = business
         
-//        detailImageViewModel = DetailImageViewModel(imageService: imageService, coverImageURL: business.cover?.url)
+        detailImageViewModel = DetailImageViewModel(imageService: imageService, coverImageURL: business.cover?.url)
 //        detailAddressAndMapViewModel = DetailAddressAndMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, address: business.address, city: business.city, state: business.state, businessLocation: business.cllocation)
 //        detailPhoneWebViewModel = DetailPhoneWebViewModel(businessName: business.nameSChinese, phone: business.phone, website: business.url)
 //        detailBizInfoViewModel = DetailBizInfoViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, business: business)
