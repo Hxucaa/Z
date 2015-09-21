@@ -30,6 +30,7 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
     private let business: Business
     
     // MARK: ViewModels
+    public let headerViewModel: SocialBusinessHeaderViewModel
     public let detailImageViewModel: DetailImageViewModel
 //    public let detailAddressAndMapViewModel: DetailAddressAndMapViewModel
 //    public let detailPhoneWebViewModel: DetailPhoneWebViewModel
@@ -46,6 +47,8 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         self.business = business
+        
+        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, imageURL: business.coverImageUrl, businessName: business.nameSChinese, city: business.city, geopoint: business.geopoint)
         
         detailImageViewModel = DetailImageViewModel(imageService: imageService, coverImageURL: business.cover?.url)
 //        detailAddressAndMapViewModel = DetailAddressAndMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, address: business.address, city: business.city, state: business.state, businessLocation: business.cllocation)

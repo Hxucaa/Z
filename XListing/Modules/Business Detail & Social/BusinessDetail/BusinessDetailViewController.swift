@@ -14,17 +14,26 @@ import Dollar
 import Cartography
 
 private let UserCellIdentifier = "SocialBusiness_UserCell"
+private let BusinessHeightRatio = 0.61
+private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
+private let HeaderHeight = CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)
 
 public final class BusinessDetailViewController : XUIViewController {
     
     // MARK: - UI Controls
     private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: CGRectMake(0, 0, 600, 600), style: UITableViewStyle.Grouped)
+        let tableView = UITableView(frame: CGRectMake(0, HeaderHeight, ScreenWidth, 600), style: UITableViewStyle.Grouped)
         tableView.showsHorizontalScrollIndicator = false
         tableView.opaque = true
         
         return tableView
     }()
+    
+    private lazy var headerView: SocialBusinessHeaderView =  {
+        let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, HeaderHeight))
+        view.bindToViewModel(self.viewmodel.headerViewModel)
+        return view
+        }()
     
     // MARK: - Properties
     private var viewmodel: IBusinessDetailViewModel!
@@ -37,14 +46,8 @@ public final class BusinessDetailViewController : XUIViewController {
         tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
         tableView.dataSource = self
         
+        view.addSubview(headerView)
         view.addSubview(tableView)
-        
-        constrain(tableView) { view in
-            view.top == view.superview!.top
-            view.trailing == view.superview!.trailing
-            view.bottom == view.superview!.bottom
-            view.leading == view.superview!.leading
-        }
         
     }
     
@@ -118,32 +121,5 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
         let cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as! SocialBusiness_UserCell
         return cell
     }
-    
-    /**
-    Asks the data source for a view to be placed in the header of the table view
-    
-    :param: tableView A table-view object requesting the cell.
-    :param: section The section that the header will be inserted in
-    
-    :returns: The view that will be displayed in the header for the specified section
-    */
-    public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var deviceWidth = UIScreen.mainScreen().bounds.size.width
-        var imageView = UIImageView(frame: CGRectMake(0, 0, deviceWidth, deviceWidth*0.61))
-        imageView.rac_image <~ viewmodel.detailImageViewModel.coverImage
-        return imageView
-    }
-    
-    /**
-    Asks the data source to return the height for the header of a given section
-    
-    :param: tableView A table-view object requesting the cell.
-    :param: section The section the height is being specified for
-    
-    :returns: The height of the header for the specified section
-    */
-    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        var deviceWidth = UIScreen.mainScreen().bounds.size.width
-        return deviceWidth*0.61
-    }
+
 }
