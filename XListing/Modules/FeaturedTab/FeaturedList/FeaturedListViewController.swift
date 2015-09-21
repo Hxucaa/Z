@@ -13,7 +13,7 @@ import Dollar
 import Cartography
 
 private let CellIdentifier = "Cell"
-private let CellHeightToScreenWidthRatio = 0.64
+private let CellHeightToScreenWidthRatio = 0.57
 
 /**
 How is Infinite Scrolling implemented?
@@ -36,7 +36,7 @@ public final class FeaturedListViewController: XUIViewController {
         // makes the gap at the bottom of the table view go away
         tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         
-        
+        tableView.separatorStyle = .None
         tableView.dataSource = self
         
         // set cell height based on devices

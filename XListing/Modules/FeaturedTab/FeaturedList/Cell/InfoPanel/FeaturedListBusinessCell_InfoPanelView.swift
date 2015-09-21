@@ -183,7 +183,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
             align(leading: views[0], views[1], views[2])
             
             views[0].width <= views[0].superview!.width * 0.85
-            views[0].leading == views[0].superview!.leadingMargin
+            views[0].leading == views[0].superview!.leadingMargin + 2
             views[0].top == views[0].superview!.top + 5
             
             views[1].top == views[0].bottom + 5
