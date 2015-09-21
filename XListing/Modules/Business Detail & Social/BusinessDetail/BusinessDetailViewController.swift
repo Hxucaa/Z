@@ -16,13 +16,15 @@ import Cartography
 private let UserCellIdentifier = "SocialBusiness_UserCell"
 private let BusinessHeightRatio = 0.61
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
-private let HeaderHeight = CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)
+private let ImageHeaderHeight = CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)
+private let UtilHeaderHeight = CGFloat(44)
+private let TableViewStart = CGFloat(ImageHeaderHeight)+10
 
 public final class BusinessDetailViewController : XUIViewController {
     
     // MARK: - UI Controls
     private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: CGRectMake(0, HeaderHeight, ScreenWidth, 600), style: UITableViewStyle.Grouped)
+        let tableView = UITableView(frame: CGRectMake(0, TableViewStart, ScreenWidth, 600), style: UITableViewStyle.Grouped)
         tableView.showsHorizontalScrollIndicator = false
         tableView.opaque = true
         
@@ -30,13 +32,19 @@ public final class BusinessDetailViewController : XUIViewController {
     }()
     
     private lazy var headerView: SocialBusinessHeaderView =  {
-        let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, HeaderHeight))
+        let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, ImageHeaderHeight))
         view.bindToViewModel(self.viewmodel.headerViewModel)
+        return view
+        }()
+    
+    private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
+        let view = SocialBusiness_UtilityHeaderView(frame: CGRectMake(0, ImageHeaderHeight, ScreenWidth, UtilHeaderHeight))
         return view
         }()
     
     // MARK: - Properties
     private var viewmodel: IBusinessDetailViewModel!
+    private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Setups
     
@@ -47,14 +55,29 @@ public final class BusinessDetailViewController : XUIViewController {
         tableView.dataSource = self
         
         view.addSubview(headerView)
+        
         view.addSubview(tableView)
+        view.addSubview(utilityHeaderView)
         
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        compositeDisposable += utilityHeaderView.detailInfoProxy
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.detailInfoProxy")
+            |> start(next: { [weak self] in
+                println("go back to social business")
+                })
         
+        compositeDisposable += utilityHeaderView.startEventProxy
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.startEventProxy")
+            |> start(next: { [weak self] in
+                println("want to go")
+                })
+
         
         /**
         Assigning UITableView delegate has to happen after signals are established.
