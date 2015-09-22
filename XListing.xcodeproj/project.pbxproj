@@ -44,6 +44,7 @@
 		45CBBDCF399C77A93D0B1C1E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB2272E6DA7ED3BDD24AE /* ProfileViewModel.swift */; };
 		7E2EB1E11B8131650012BAB3 /* StatusBarBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2EB1E01B8131650012BAB3 /* StatusBarBackgroundView.swift */; };
 		7E33F4081BA408A7002C63FE /* Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E33F4071BA408A7002C63FE /* Chain.swift */; };
+		7E39F4BA1BB0ABEA00D6603E /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E39F4B91BB0ABEA00D6603E /* DividerView.swift */; };
 		7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */; };
 		7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */; };
 		7EACBA111AFBDC15009D8CA6 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EACBA131AFBDC15009D8CA6 /* Profile.storyboard */; };
@@ -277,6 +278,7 @@
 		45CBB717784EC301CD7D042E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7E2EB1E01B8131650012BAB3 /* StatusBarBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarBackgroundView.swift; sourceTree = "<group>"; };
 		7E33F4071BA408A7002C63FE /* Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chain.swift; sourceTree = "<group>"; };
+		7E39F4B91BB0ABEA00D6603E /* DividerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
 		7E3A1C021B1EF84500E84ABE /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = "Pods/../build/Debug-iphoneos/Pods-XListing/CocoaLumberjack.framework"; sourceTree = "<group>"; };
 		7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CocoaLumberjack+extension.swift"; sourceTree = "<group>"; };
 		7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListViewController.swift; sourceTree = "<group>"; };
@@ -545,6 +547,7 @@
 		2A1B3A1C1B256BCF003E70E0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7E39F4B91BB0ABEA00D6603E /* DividerView.swift */,
 				B4F1958A1B2938FC00B8C519 /* HUD.swift */,
 				B4F195941B2A276C00B8C519 /* XUIViewController.swift */,
 				D08B589B1B94001500F3945F /* UIImage+extension.swift */,
@@ -1603,6 +1606,7 @@
 				B4E70B3C1AF1709400A7418F /* ParticipationService.swift in Sources */,
 				26645ADB1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift in Sources */,
 				B403B0831BA0DA4C0085E0A3 /* BusinessDetailViewModel.swift in Sources */,
+				7E39F4BA1BB0ABEA00D6603E /* DividerView.swift in Sources */,
 				B48C991F1ADA62E70045BCA9 /* INearbyViewModel.swift in Sources */,
 				B4ECBE201B73ED0900234217 /* NicknameViewModel.swift in Sources */,
 				B47E15BD1B179C2C0028E07E /* ProfileUserInfoCellViewModel.swift in Sources */,

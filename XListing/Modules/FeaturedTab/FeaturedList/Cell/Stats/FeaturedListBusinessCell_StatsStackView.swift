@@ -32,7 +32,7 @@ public final class FeaturedListBusinessCell_StatsStackView : TZStackView {
     
     private func makeDivider() -> UIView {
         
-        let view = UIView()
+        let view = UIView(frame: CGRectMake(0, 0, 1, 20))
         
         view.userInteractionEnabled = false
         view.opaque = true
@@ -76,6 +76,12 @@ public final class FeaturedListBusinessCell_StatsStackView : TZStackView {
     
     public func setup() {
         
+        distribution = TZStackViewDistribution.EqualSpacing
+        axis = .Horizontal
+        spacing = 8
+        alignment = TZStackViewAlignment.Center
+        userInteractionEnabled = false
+        
         addArrangedSubview(treatCountLabel)
         addArrangedSubview(textDividerView1)
         addArrangedSubview(aaCountLabel)
@@ -87,11 +93,6 @@ public final class FeaturedListBusinessCell_StatsStackView : TZStackView {
             view2.height == label.height * 0.8
         }
         
-        distribution = TZStackViewDistribution.EqualSpacing
-        axis = .Horizontal
-        spacing = 8
-        alignment = TZStackViewAlignment.Center
-        userInteractionEnabled = false
     }
     
     // MARK: - Bindings

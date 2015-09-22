@@ -36,7 +36,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     }()
     
     private lazy var businessNameLabel: TTTAttributedLabel = {
-        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 40, 20))
+        let label = TTTAttributedLabel(frame: CGRectMake(10, 10, 80, 20))
         label.opaque = true
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor.blackColor()
@@ -48,7 +48,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     }()
     
     private lazy var featuredIconImageView: UIImageView = {
-        let imageView = UIImageView()
+        let imageView = UIImageView(frame: CGRectMake(40, 10, 20, 20))
         imageView.opaque = true
         imageView.backgroundColor = .x_FeaturedCardBG()
         
@@ -56,7 +56,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     }()
     
     private lazy var locationLabel: TTTAttributedLabel = {
-        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 40, 20))
+        let label = TTTAttributedLabel(frame: CGRectMake(10, 35, 60, 20))
         label.opaque = true
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor.blackColor()
@@ -70,8 +70,8 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     *   MARK: Price and ETA
     */
     
-    private func makeIconImageView() -> UIImageView {
-        let imageView = UIImageView(frame: CGRectMake(0, 0, 12, 12))
+    private func makeIconImageView(frame: CGRect) -> UIImageView {
+        let imageView = UIImageView(frame: frame)
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
         imageView.opaque = true
         imageView.backgroundColor = .x_FeaturedCardBG()
@@ -81,8 +81,8 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         return imageView
     }
     
-    private func makeCaptionLabel() -> TTTAttributedLabel {
-        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 40, 20))
+    private func makeCaptionLabel(frame: CGRect) -> TTTAttributedLabel {
+        let label = TTTAttributedLabel(frame: frame)
         label.opaque = true
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor(hex: "828282")
@@ -94,7 +94,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     }
     
     private lazy var priceIconImageView: UIImageView = {
-        let imageView = self.makeIconImageView()
+        let imageView = self.makeIconImageView(CGRectMake(10, 110, 12, 12))
         
         imageView.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: imageView.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
             |> take(1)
@@ -105,13 +105,13 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     }()
     
     private lazy var priceLabel: TTTAttributedLabel = {
-        let label = self.makeCaptionLabel()
+        let label = self.makeCaptionLabel(CGRectMake(30, 110, 40, 20))
         
         return label
     }()
     
     private lazy var etaIconImageView: UIImageView = {
-        let imageView = self.makeIconImageView()
+        let imageView = self.makeIconImageView(CGRectMake(60, 110, 12, 12))
         
         // Adding ETA icon
         imageView.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: imageView.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
@@ -123,7 +123,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     }()
     
     private lazy var etaLabel: TTTAttributedLabel = {
-        let label = self.makeCaptionLabel()
+        let label = self.makeCaptionLabel(CGRectMake(80, 110, 40, 20))
         
         return label
     }()
@@ -132,15 +132,11 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     private var viewmodel: IFeaturedListBusinessCell_InfoPanelViewModel!
     
     // MARK: - Initializers
-    public init() {
-        super.init(frame: CGRectMake(0, 0, 0, 0))
-        
-        setup()
-    }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        setNeedsUpdateConstraints()
     }
     
     public required init(coder aDecoder: NSCoder) {
@@ -196,6 +192,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
             views[4].trailing == views[5].leading - 3
             views[5].trailing == views[5].superview!.trailingMargin - 5
         }
+
     }
 
     // MARK: - Bindings
