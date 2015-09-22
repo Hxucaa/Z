@@ -14,6 +14,7 @@ import Cartography
 
 private let CellIdentifier = "Cell"
 private let CellHeightToScreenWidthRatio = 0.57
+private let CellRowHeight = round(UIScreen.mainScreen().bounds.width * CGFloat(CellHeightToScreenWidthRatio))
 
 /**
 How is Infinite Scrolling implemented?
@@ -40,9 +41,7 @@ public final class FeaturedListViewController: XUIViewController {
         tableView.dataSource = self
         
         // set cell height based on devices
-        tableView.rowHeight = UIScreen.mainScreen().bounds.width * CGFloat(CellHeightToScreenWidthRatio)
-        
-        tableView.registerClass(FeaturedListBusinessTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
+        tableView.rowHeight = round(UIScreen.mainScreen().bounds.width * CGFloat(CellHeightToScreenWidthRatio))
         
         return tableView
         
@@ -102,6 +101,7 @@ public final class FeaturedListViewController: XUIViewController {
             |> start()
         
         willAppearTableView()
+        
     }
     
     public override func viewWillDisappear(animated: Bool) {
@@ -181,7 +181,8 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as! FeaturedListBusinessTableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as? FeaturedListBusinessTableViewCell ?? FeaturedListBusinessTableViewCell(estimatedFrame: CGRectMake(0, 0, tableView.frame.width, CellRowHeight), style: UITableViewCellStyle.Default, reuseIdentifier: CellIdentifier)
+        
         cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return cell
     }

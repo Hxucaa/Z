@@ -15,7 +15,11 @@ import TTTAttributedLabel
 import XAssets
 import Dollar
 
-private let Preview = (Width: round(UIScreen.mainScreen().bounds.height * 0.05), Height: round(UIScreen.mainScreen().bounds.height * 0.05 * 1.05))
+private let Preview = (
+    Width: round(UIScreen.mainScreen().bounds.height * 0.05),
+    Height: round(UIScreen.mainScreen().bounds.height * 0.05 * 1.05),
+    Spacing: CGFloat(4)
+)
 
 public final class FeaturedListBusinessCell_ParticipationView : UIView {
     
@@ -28,8 +32,9 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         
         view.distribution = TZStackViewDistribution.FillEqually
         view.axis = .Horizontal
-        view.spacing = 4
+        view.spacing = Preview.Spacing
         view.alignment = TZStackViewAlignment.Center
+        view.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, round(self.frame.width * 0.70),  self.frame.height)
         
         constrain(arrangedSubviews) { views in
             $.each(views) { index, view in
@@ -42,15 +47,14 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
     
     private lazy var previewImageViews: [UIImageView] = [self.preview1ImageView, self.preview2ImageView, self.preview3ImageView, self.preview4ImageView, self.preview5ImageView]
     
-    private lazy var preview1ImageView: UIImageView = self.generatePreviewImageView()
-    private lazy var preview2ImageView: UIImageView = self.generatePreviewImageView()
-    private lazy var preview3ImageView: UIImageView = self.generatePreviewImageView()
-    private lazy var preview4ImageView: UIImageView = self.generatePreviewImageView()
-    private lazy var preview5ImageView: UIImageView = self.generatePreviewImageView()
-//    private lazy var etcIconImageView: UIImageView = self.generatePreviewImageView()
+    private lazy var preview1ImageView: UIImageView = self.generatePreviewImageView(CGPointMake(Preview.Spacing, 0))
+    private lazy var preview2ImageView: UIImageView = self.generatePreviewImageView(CGPointMake(Preview.Spacing + Preview.Width, 0))
+    private lazy var preview3ImageView: UIImageView = self.generatePreviewImageView(CGPointMake(Preview.Spacing + Preview.Width * 2, 0))
+    private lazy var preview4ImageView: UIImageView = self.generatePreviewImageView(CGPointMake(Preview.Spacing + Preview.Width * 3, 0))
+    private lazy var preview5ImageView: UIImageView = self.generatePreviewImageView(CGPointMake(Preview.Spacing + Preview.Width * 4, 0))
     
-    private func generatePreviewImageView() -> UIImageView {
-        let imageView = UIImageView(frame: CGRectMake(0, 0, Preview.Width, Preview.Height))
+    private func generatePreviewImageView(origin: CGPoint) -> UIImageView {
+        let imageView = UIImageView(frame: CGRectMake(origin.x, origin.y, Preview.Width, Preview.Height))
         imageView.contentMode = UIViewContentMode.ScaleAspectFill
         imageView.backgroundColor = .x_FeaturedCardBG()
         imageView.clipsToBounds = true
@@ -59,7 +63,8 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
     }
     
     private lazy var joinButtonContainer: UIView = {
-        let view = UIView()
+        let viewWidth = round(self.frame.width * 0.30) - 8
+        let view = UIView(frame: CGRectMake(round(self.frame.width * 0.70), 8, viewWidth, self.frame.height - 8 - 8))
         
         view.addSubview(self.joinButton)
         
@@ -73,7 +78,8 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
     }()
     
     private lazy var joinButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(frame: CGRectMake(15, 15, 50, 30))
+        button.titleLabel?.frame = CGRectMake(5, 3, 15, 15)
         
 //        let join = Action<UIButton, Bool, NSError>{ button in
 //            return self.viewmodel.participate(ParticipationType.)
@@ -101,11 +107,6 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Initializers
-    public init() {
-        super.init(frame: CGRectMake(0, 0, 0, 0))
-        
-        setup()
-    }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -137,10 +138,6 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
             (button.bottom == button.superview!.bottomMargin).identifier = "joinButtonContainer bottom"
         }
         
-//        constrain(self) { view in
-//            view.height == Preview.Height
-//            view.width == Preview.Width
-//        }
     }
     
     // MARK: - Bindings
@@ -176,23 +173,12 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
                             // place the image into image view
                             participants[index].avatar.producer
                                 |> ignoreNil
-                                |> map { $0.maskWithRoundedRect(view.frame.size, cornerRadius: view.frame.size.height, backgroundColor: .x_FeaturedCardBG()) }
+                                |> map { $0.maskWithRoundedRect(view.frame.size, cornerRadius: view.frame.size.width, backgroundColor: .x_FeaturedCardBG()) }
                                 |> start(next: { image in
                                     view.image = image
                                 })
                         }
                     }
-                    
-//                    let setEtcIcon = { (imageView: UIImageView) -> Void in
-//                        imageView.rac_image <~ AssetFactory.getImage(Asset.EtcIcon(size: CGSizeMake(imageView.frame.width, 2), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-//                            |> map { Optional<UIImage>($0) }
-//                    }
-//                    if participants.count < this.previewImageViews.count {
-//                        setEtcIcon(this.previewImageViews[participants.count])
-//                    }
-//                    else if participants.count == this.previewImageViews.count {
-//                        setEtcIcon(this.etcIconImageView)
-//                    }
                 }
             })
     }
@@ -201,10 +187,8 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
     
     public func initiateReuse() {
         
-        
         $.each(previewImageViews) { index, view in
             view.image = nil
         }
-//        etcIconImageView.image = nil
     }
 }
