@@ -18,6 +18,7 @@ public final class RootTabBarController : UITabBarController, UITabBarController
         super.viewDidLoad()
         
         tabBar.tintColor = UIColor.x_PrimaryColor()
+        tabBar.translucent = false
         delegate = self
     }
     
