@@ -75,8 +75,6 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
         imageView.opaque = true
         imageView.backgroundColor = .x_FeaturedCardBG()
-        imageView.layer.rasterizationScale = UIScreen.mainScreen().scale
-        imageView.layer.shouldRasterize = true
         
         return imageView
     }
