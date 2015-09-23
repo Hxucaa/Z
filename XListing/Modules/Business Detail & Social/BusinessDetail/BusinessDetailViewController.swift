@@ -18,13 +18,18 @@ private let BusinessHeightRatio = 0.61
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
 private let ImageHeaderHeight = CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)
 private let UtilHeaderHeight = CGFloat(44)
-private let TableViewStart = CGFloat(ImageHeaderHeight)+10
+private let TableViewStart = CGFloat(ImageHeaderHeight)+CGFloat(UtilHeaderHeight)
 
 public final class BusinessDetailViewController : XUIViewController {
     
     // MARK: - UI Controls
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRectMake(0, TableViewStart, ScreenWidth, 600), style: UITableViewStyle.Grouped)
+        
+        // a hack which makes the gap between table view and utility header go away
+        tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
+        // a hack which makes the gap at the bottom of the table view go away
+        tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         tableView.showsHorizontalScrollIndicator = false
         tableView.opaque = true
         
