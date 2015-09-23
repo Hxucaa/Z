@@ -122,7 +122,6 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
                 }
             })
             |> map { participations -> [SocialBusiness_UserViewModel] in
-//                let t = participations[0].user.nickname
                 
                 return participations.map {
                     SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, nickname: $0.user.nickname, ageGroup: $0.user.ageGroup, horoscope: $0.user.horoscope, gender: $0.user.gender_, profileImage: $0.user.profileImg)
@@ -145,10 +144,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     }
     
     public func pushBusinessDetail(animated: Bool) {
-        let business = Business()
-        business.nameSChinese = "hahah"
         navigator.pushBusinessDetail(business, animated: animated)
-        
     }
     
     
