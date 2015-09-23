@@ -173,7 +173,13 @@ public final class SocialBusinessHeaderView : UIView {
     }
     
     // MARK: - Setups
-
+    public override func intrinsicContentSize() -> CGSize {
+        let screenWidth = UIScreen.mainScreen().bounds.size.width
+        return CGSizeMake(screenWidth, screenWidth * 0.61)
+    }
+    
+    // MARK: - Bindings
+    
     public func bindToViewModel(viewmodel: SocialBusinessHeaderViewModel) {
         self.viewmodel = viewmodel
         

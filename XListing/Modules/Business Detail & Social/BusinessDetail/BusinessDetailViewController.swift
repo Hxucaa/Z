@@ -23,6 +23,17 @@ private let TableViewStart = CGFloat(ImageHeaderHeight)+CGFloat(UtilHeaderHeight
 public final class BusinessDetailViewController : XUIViewController {
     
     // MARK: - UI Controls
+    private lazy var headerView: SocialBusinessHeaderView =  {
+        let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, ImageHeaderHeight))
+        view.bindToViewModel(self.viewmodel.headerViewModel)
+        return view
+    }()
+    
+    private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
+        let view = SocialBusiness_UtilityHeaderView(frame: CGRectMake(0, ImageHeaderHeight, ScreenWidth, UtilHeaderHeight))
+        return view
+    }()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRectMake(0, TableViewStart, ScreenWidth, 600), style: UITableViewStyle.Grouped)
         
@@ -36,16 +47,6 @@ public final class BusinessDetailViewController : XUIViewController {
         return tableView
     }()
     
-    private lazy var headerView: SocialBusinessHeaderView =  {
-        let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, ImageHeaderHeight))
-        view.bindToViewModel(self.viewmodel.headerViewModel)
-        return view
-        }()
-    
-    private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
-        let view = SocialBusiness_UtilityHeaderView(frame: CGRectMake(0, ImageHeaderHeight, ScreenWidth, UtilHeaderHeight))
-        return view
-        }()
     
     // MARK: - Properties
     private var viewmodel: IBusinessDetailViewModel!
@@ -60,10 +61,27 @@ public final class BusinessDetailViewController : XUIViewController {
         tableView.dataSource = self
         
         view.addSubview(headerView)
-        
-        view.addSubview(tableView)
         view.addSubview(utilityHeaderView)
+        view.addSubview(tableView)
         
+        constrain(headerView) { header in
+            header.leading == header.superview!.leading
+            header.trailing == header.superview!.trailing
+            header.top == header.superview!.top
+        }
+        
+        constrain(headerView, utilityHeaderView) { header, utility in
+            
+            utility.leading == utility.superview!.leading
+            utility.top == header.bottom
+            utility.trailing == utility.superview!.trailing
+        }
+        
+        constrain(utilityHeaderView, tableView) { utility, table in
+            table.leading == table.superview!.leading
+            table.top == utility.bottom
+            table.trailing == table.superview!.trailing
+        }
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -74,14 +92,14 @@ public final class BusinessDetailViewController : XUIViewController {
             |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.detailInfoProxy")
             |> start(next: { [weak self] in
                 println("go back to social business")
-                })
+            })
         
         compositeDisposable += utilityHeaderView.startEventProxy
             |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.startEventProxy")
             |> start(next: { [weak self] in
                 println("want to go")
-                })
+            })
 
         
         /**
