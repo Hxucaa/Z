@@ -13,7 +13,7 @@ import Dollar
 import Cartography
 
 private let CellIdentifier = "Cell"
-private let CellHeightToScreenWidthRatio = 0.64
+private let CellHeightToScreenWidthRatio = 0.57
 
 /**
 How is Infinite Scrolling implemented?
