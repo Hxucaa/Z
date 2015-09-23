@@ -1,6 +1,9 @@
 PODS:
   - ActionSheetPicker-3.0 (1.7.2)
   - Aspects (1.4.1)
+  - AsyncDisplayKit (1.2.3):
+    - AsyncDisplayKit/ASDealloc2MainObject (= 1.2.3)
+  - AsyncDisplayKit/ASDealloc2MainObject (1.2.3)
   - AVOSCloudCrashReportingDynamic (3.1.3.6):
     - AVOSCloudDynamic
   - AVOSCloudDynamic (3.1.3.6)
@@ -22,6 +25,7 @@ PODS:
     - Fabric/Base (= 1.5.1)
   - Fabric/Base (1.5.1)
   - FLEX (2.0.6)
+  - GPUImage (0.1.7)
   - INSPullToRefresh (1.0.12)
   - Locksmith (1.2.2)
   - Nimble (1.0.0)
@@ -55,6 +59,7 @@ PODS:
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 1.7.0)
   - Aspects (~> 1.4.0)
+  - AsyncDisplayKit
   - AVOSCloudCrashReportingDynamic (~> 3.1)
   - AVOSCloudDynamic (~> 3.1)
   - AVOSCloudIMDynamic (~> 3.1)
@@ -64,6 +69,7 @@ DEPENDENCIES:
   - Dollar (~> 3.0)
   - Fabric (~> 1.5.1)
   - FLEX (~> 2.0)
+  - GPUImage
   - INSPullToRefresh (~> 1.0.11)
   - Locksmith (~> 1.2)
   - Nimble (~> 1.0)
@@ -99,6 +105,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: c5bdca19fd8b3d798f0c79892cbab6f11a8523ae
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
+  AsyncDisplayKit: 5c8f38225f7478e39c48196cec0dd0d2ac3455ed
   AVOSCloudCrashReportingDynamic: 94403f595c88dfdb0efae0c33709cd672655aae8
   AVOSCloudDynamic: 0888752ccfea4ec8d2ab21433a4ef784ee456436
   AVOSCloudIMDynamic: e6d5579e818dd95eefc2579216c5a456ed318aaa
@@ -109,6 +116,7 @@ SPEC CHECKSUMS:
   Dollar: ae37f1da42cdc16061fcc1e91a070281b207f5c8
   Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
   FLEX: 3c390976e788d3d447b614ea1714ffc8fc914cf3
+  GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
   INSPullToRefresh: 3c3840b1837870d6553f749dab6520e31f551a76
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88
   Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87

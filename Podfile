@@ -19,6 +19,8 @@ target 'XListing' do
   pod 'Aspects', '~> 1.4.0'
   pod 'TZStackView', '~> 1.0.5'
   pod 'TTTAttributedLabel', '~> 1.13.4'
+  pod 'AsyncDisplayKit', '~> 1.2.3'
+  pod 'GPUImage', '~> 0.1.7'
   pod 'Fabric', '~> 1.5.1'
   pod 'Crashlytics', '~> 3.3.1'
   pod 'AVOSCloudDynamic', '~> 3.1'
