@@ -31,7 +31,7 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
     
     // MARK: ViewModels
     public let headerViewModel: SocialBusinessHeaderViewModel
-    public let detailImageViewModel: DetailImageViewModel
+//    public let detailImageViewModel: DetailImageViewModel
 //    public let detailAddressAndMapViewModel: DetailAddressAndMapViewModel
 //    public let detailPhoneWebViewModel: DetailPhoneWebViewModel
 //    public let detailBizInfoViewModel: DetailBizInfoViewModel
