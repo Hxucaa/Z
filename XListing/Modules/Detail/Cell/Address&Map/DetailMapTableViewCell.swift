@@ -9,11 +9,22 @@
 import UIKit
 import ReactiveCocoa
 import MapKit
+import Cartography
+
+private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
+private let MapHeight = CGFloat(200)
 
 public final class DetailMapTableViewCell: UITableViewCell {
-
+    
     // MARK: - UI Controls
-    @IBOutlet private weak var mapView: MKMapView!
+    private lazy var mapView: MKMapView = {
+        let mapView = MKMapView()
+        mapView.scrollEnabled = false
+        mapView.zoomEnabled = false
+        mapView.rotateEnabled = false
+        
+        return mapView
+    }()
     
     // MARK: - Proxies
     private let (_navigationMapProxy, _navigationMapSink) = SimpleProxy.proxy()
@@ -26,21 +37,7 @@ public final class DetailMapTableViewCell: UITableViewCell {
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Setups
-    public override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        layoutMargins = UIEdgeInsetsZero
-        separatorInset = UIEdgeInsetsZero
-                
-        setupMapView()
-    }
 
-    public override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
     private func setupMapView() {
         
         mapView.delegate = self
@@ -69,6 +66,30 @@ public final class DetailMapTableViewCell: UITableViewCell {
         super.prepareForReuse()
         
         compositeDisposable.dispose()
+    }
+    
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        layoutMargins = UIEdgeInsetsZero
+        separatorInset = UIEdgeInsetsZero
+        
+        selectionStyle = UITableViewCellSelectionStyle.None
+        
+        setupMapView()
+        addSubview(mapView)
+        
+        constrain(mapView) { view in
+            view.leading == view.superview!.leadingMargin
+            view.top == view.superview!.topMargin
+            view.bottom == view.superview!.bottomMargin
+            view.trailing == view.superview!.trailing
+            view.height == MapHeight
+        }
+    }
+
+    public required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: Bindings

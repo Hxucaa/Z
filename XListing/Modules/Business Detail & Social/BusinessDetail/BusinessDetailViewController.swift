@@ -14,13 +14,17 @@ import Dollar
 import Cartography
 
 private let UserCellIdentifier = "SocialBusiness_UserCell"
+private let HeaderCellIdentifier = "HeaderCell"
+private let MapCellIdentifier = "MapCell"
 private let BusinessHeightRatio = 0.61
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
 private let ImageHeaderHeight = CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)
 private let UtilHeaderHeight = CGFloat(44)
 private let TableViewStart = CGFloat(ImageHeaderHeight)+CGFloat(UtilHeaderHeight)
+private let DetailNavigationMapViewControllerName = "DetailNavigationMapViewController"
 
 public final class BusinessDetailViewController : XUIViewController {
+    
     
     // MARK: - UI Controls
     private lazy var headerView: SocialBusinessHeaderView =  {
@@ -47,6 +51,7 @@ public final class BusinessDetailViewController : XUIViewController {
         return tableView
     }()
     
+    private var navigationMapViewController: DetailNavigationMapViewController!
     
     // MARK: - Properties
     private var viewmodel: IBusinessDetailViewModel!
@@ -58,7 +63,16 @@ public final class BusinessDetailViewController : XUIViewController {
         super.viewDidLoad()
         
         tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: HeaderCellIdentifier)
+        tableView.registerClass(DetailMapTableViewCell.self, forCellReuseIdentifier: MapCellIdentifier)
         tableView.dataSource = self
+        
+        tableView.estimatedRowHeight = 25.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        //remove the space between the left edge and seperator line
+        tableView.layoutMargins = UIEdgeInsetsZero
+        tableView.separatorInset = UIEdgeInsetsZero
         
         view.addSubview(headerView)
         view.addSubview(utilityHeaderView)
@@ -68,6 +82,7 @@ public final class BusinessDetailViewController : XUIViewController {
             header.leading == header.superview!.leading
             header.trailing == header.superview!.trailing
             header.top == header.superview!.top
+            header.height == ImageHeaderHeight
         }
         
         constrain(headerView, utilityHeaderView) { header, utility in
@@ -75,13 +90,22 @@ public final class BusinessDetailViewController : XUIViewController {
             utility.leading == utility.superview!.leading
             utility.top == header.bottom
             utility.trailing == utility.superview!.trailing
+            utility.height == UtilHeaderHeight
         }
         
         constrain(utilityHeaderView, tableView) { utility, table in
             table.leading == table.superview!.leading
             table.top == utility.bottom
             table.trailing == table.superview!.trailing
+            table.height == table.superview!.height
         }
+        
+        navigationMapViewController = UIStoryboard(name: "Detail", bundle: nil).instantiateViewControllerWithIdentifier(DetailNavigationMapViewControllerName) as! DetailNavigationMapViewController
+        
+        compositeDisposable += navigationMapViewController.goBackProxy
+            |> start(next: { handler in
+                self.dismissViewControllerAnimated(true, completion: handler)
+            })
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -130,6 +154,14 @@ public final class BusinessDetailViewController : XUIViewController {
     }
     
     // MARK: - Others
+    
+    private func presentNavigationMapViewController() {
+
+        presentViewController(self.navigationMapViewController, animated: true) {
+            self.navigationMapViewController.bindToViewModel(self.viewmodel.detailNavigationMapViewModel)
+        }
+        
+    }
 }
 extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSource {
     /**
@@ -141,7 +173,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     :returns: The number of rows in section.
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 2
     }
     
     /**
@@ -164,6 +196,25 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! UITableViewCell
+            cell.textLabel?.text = "特设介绍"
+            cell.layoutMargins = UIEdgeInsetsZero
+            return cell
+        }
+        
+        if indexPath.row == 1 {
+            let mapCell = tableView.dequeueReusableCellWithIdentifier(MapCellIdentifier)
+                as! DetailMapTableViewCell
+            mapCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
+            compositeDisposable += mapCell.navigationMapProxy
+                |> takeUntilPrepareForReuse(mapCell)
+                |> start(next: { [weak self] in
+                    self?.presentNavigationMapViewController()
+                    })
+            return mapCell
+        }
         
         let cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as! SocialBusiness_UserCell
         return cell
