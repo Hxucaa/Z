@@ -28,7 +28,6 @@ public final class BusinessDetailViewController : XUIViewController {
     // MARK: - UI Controls
     private lazy var headerView: SocialBusinessHeaderView =  {
         let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, ImageHeaderHeight))
-        println(ImageHeaderHeight)
         view.bindToViewModel(self.viewmodel.headerViewModel)
         return view
     }()
