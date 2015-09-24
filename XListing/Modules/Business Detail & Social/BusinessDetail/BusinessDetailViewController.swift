@@ -14,6 +14,8 @@ import Dollar
 import Cartography
 
 private let UserCellIdentifier = "SocialBusiness_UserCell"
+private let DescriptionCellIdentifier = "DescriptionTableviewCell"
+private let HeaderCellIdentifier = "HeaderCell"
 
 public final class BusinessDetailViewController : XUIViewController {
     
@@ -29,13 +31,30 @@ public final class BusinessDetailViewController : XUIViewController {
     // MARK: - Properties
     private var viewmodel: IBusinessDetailViewModel!
     
+    private enum Section : Int {
+        case Description
+    }
+    
+    private enum Description : Int {
+        case Header, Content
+    }
+    
     // MARK: - Setups
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
+        tableView.registerClass(DescriptionTableViewCell.self, forCellReuseIdentifier: DescriptionCellIdentifier)
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: HeaderCellIdentifier)
+        
         tableView.dataSource = self
+        tableView.estimatedRowHeight = 25.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        //remove the space between the left edge and seperator line
+        tableView.layoutMargins = UIEdgeInsetsZero
+        tableView.separatorInset = UIEdgeInsetsZero
         
         view.addSubview(tableView)
         
@@ -66,6 +85,7 @@ public final class BusinessDetailViewController : XUIViewController {
         */
         tableView.delegate = nil
         tableView.delegate = self
+        
     }
     
     public override func viewDidAppear(animated: Bool) {
@@ -92,7 +112,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     :returns: The number of rows in section.
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 2
     }
     
     /**
@@ -104,7 +124,26 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as! SocialBusiness_UserCell
-        return cell
+        
+        let row = indexPath.row
+        let section = indexPath.section
+        
+        switch Section(rawValue: section)! {
+            
+        case .Description:
+            switch Description(rawValue: row)! {
+            case .Header:
+                let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! UITableViewCell
+                cell.textLabel?.text = "特设介绍"
+                cell.layoutMargins = UIEdgeInsetsZero
+                return cell
+            
+            case .Content:
+                let cell = tableView.dequeueReusableCellWithIdentifier(DescriptionCellIdentifier) as! DescriptionTableViewCell
+                
+                return cell
+            }
+        }
+
     }
 }

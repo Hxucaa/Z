@@ -13,7 +13,7 @@ import ReactiveArray
 import Dollar
 import Cartography
 
-private let UserCellIdentifier = "SocialBusiness_UserCell"
+private let UserCellIdentifier = "SocialBusiness_UserCells"
 private let userControllerIdentifier = "UserProfileViewController"
 private let BusinessHeightRatio = 0.61
 private let UserHeightRatio = 0.224
