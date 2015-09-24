@@ -17,19 +17,44 @@ private let UserCellIdentifier = "SocialBusiness_UserCell"
 private let DescriptionCellIdentifier = "DescriptionTableviewCell"
 private let HeaderCellIdentifier = "HeaderCell"
 
+private let BusinessHeightRatio = 0.61
+private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
+private let ImageHeaderHeight = CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)
+private let UtilHeaderHeight = CGFloat(44)
+private let TableViewStart = CGFloat(ImageHeaderHeight)+CGFloat(UtilHeaderHeight)
+
 public final class BusinessDetailViewController : XUIViewController {
     
     // MARK: - UI Controls
+    private lazy var headerView: SocialBusinessHeaderView =  {
+        let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, ImageHeaderHeight))
+        println(ImageHeaderHeight)
+        view.bindToViewModel(self.viewmodel.headerViewModel)
+        return view
+    }()
+    
+    private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
+        let view = SocialBusiness_UtilityHeaderView(frame: CGRectMake(0, ImageHeaderHeight, ScreenWidth, UtilHeaderHeight))
+        return view
+    }()
+    
     private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: CGRectMake(0, 0, 600, 600), style: UITableViewStyle.Grouped)
+        let tableView = UITableView(frame: CGRectMake(0, TableViewStart, ScreenWidth, 600), style: UITableViewStyle.Grouped)
+        
+        // a hack which makes the gap between table view and utility header go away
+        tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
+        // a hack which makes the gap at the bottom of the table view go away
+        tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         tableView.showsHorizontalScrollIndicator = false
         tableView.opaque = true
         
         return tableView
     }()
     
+    
     // MARK: - Properties
     private var viewmodel: IBusinessDetailViewModel!
+    private let compositeDisposable = CompositeDisposable()
     
     private enum Section : Int {
         case Description
@@ -56,21 +81,50 @@ public final class BusinessDetailViewController : XUIViewController {
         tableView.layoutMargins = UIEdgeInsetsZero
         tableView.separatorInset = UIEdgeInsetsZero
         
+        view.addSubview(headerView)
+        view.addSubview(utilityHeaderView)
         view.addSubview(tableView)
         
-        constrain(tableView) { view in
-            view.top == view.superview!.top
-            view.trailing == view.superview!.trailing
-            view.bottom == view.superview!.bottom
-            view.leading == view.superview!.leading
+        constrain(headerView) { header in
+            header.leading == header.superview!.leading
+            header.trailing == header.superview!.trailing
+            header.top == header.superview!.top
+            header.height == ImageHeaderHeight
         }
-        
+
+        constrain(headerView, utilityHeaderView) { header, utility in
+            
+            utility.leading == utility.superview!.leading
+            utility.top == header.bottom
+            utility.trailing == utility.superview!.trailing
+            utility.height == UtilHeaderHeight
+        }
+
+        constrain(utilityHeaderView, tableView) { utility, table in
+            table.leading == table.superview!.leading
+            table.top == utility.bottom
+            table.trailing == table.superview!.trailing
+            table.height == table.superview!.height
+        }
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        compositeDisposable += utilityHeaderView.detailInfoProxy
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.detailInfoProxy")
+            |> start(next: { [weak self] in
+                println("go back to social business")
+            })
         
+        compositeDisposable += utilityHeaderView.startEventProxy
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.startEventProxy")
+            |> start(next: { [weak self] in
+                println("want to go")
+            })
+
         
         /**
         Assigning UITableView delegate has to happen after signals are established.
@@ -116,6 +170,17 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     }
     
     /**
+    Asks the data source to return the number of sections in a table view.
+    
+    :param: tableView A table-view object requesting the cell.
+    
+    :returns: The number of sections in table view.
+    */
+    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    /**
     Asks the data source for a cell to insert in a particular location of the table view. (required)
     
     :param: tableView A table-view object requesting the cell.
@@ -124,7 +189,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+
         let row = indexPath.row
         let section = indexPath.section
         
@@ -144,6 +209,6 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 return cell
             }
         }
-
     }
+
 }
