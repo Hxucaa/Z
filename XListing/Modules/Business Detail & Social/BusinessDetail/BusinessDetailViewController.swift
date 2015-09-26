@@ -100,7 +100,7 @@ public final class BusinessDetailViewController : XUIViewController {
             table.height == table.superview!.height
         }
         
-        navigationMapViewController = UIStoryboard(name: "Detail", bundle: nil).instantiateViewControllerWithIdentifier(DetailNavigationMapViewControllerName) as! DetailNavigationMapViewController
+        navigationMapViewController = DetailNavigationMapViewController()
         
         compositeDisposable += navigationMapViewController.goBackProxy
             |> start(next: { handler in

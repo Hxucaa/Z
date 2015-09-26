@@ -83,7 +83,7 @@ public final class DetailMapTableViewCell: UITableViewCell {
             view.leading == view.superview!.leadingMargin
             view.top == view.superview!.topMargin
             view.bottom == view.superview!.bottomMargin
-            view.trailing == view.superview!.trailing
+            view.trailing == view.superview!.trailingMargin
             view.height == MapHeight
         }
     }

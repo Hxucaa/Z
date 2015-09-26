@@ -9,11 +9,15 @@
 import UIKit
 import MapKit
 import ReactiveCocoa
+import Cartography
 
 public final class DetailNavigationMapViewController: XUIViewController {
 
     // MARK: - UI Controls
-    @IBOutlet private weak var mapView: MKMapView!
+    private lazy var mapView: MKMapView = {
+        let mapView = MKMapView()
+        return mapView
+        }()
 
     // MARK: - Proxies
     private let (_goBackProxy, _goBackSink) = SignalProducer<CompletionHandler?, NoError>.buffer(1)
@@ -31,6 +35,13 @@ public final class DetailNavigationMapViewController: XUIViewController {
         super.viewDidLoad()
         
         mapView.delegate = self
+        view.addSubview(mapView)
+        constrain(mapView) { view in
+            view.leading == view.superview!.leading
+            view.top == view.superview!.topMargin
+            view.bottom == view.superview!.bottomMargin
+            view.trailing == view.superview!.trailing
+        }
         setupNavBar()
         setupBackButton()
         setupNavigateButton()
