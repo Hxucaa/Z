@@ -16,6 +16,8 @@ import Cartography
 private let UserCellIdentifier = "SocialBusiness_UserCell"
 private let HeaderCellIdentifier = "HeaderCell"
 private let MapCellIdentifier = "MapCell"
+private let AddressCellIdentifier = "AddressCell"
+private let PhoneWebCellIdentifier = "PhoneWebCell"
 private let BusinessHeightRatio = 0.61
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
 private let ImageHeaderHeight = CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)
@@ -39,7 +41,7 @@ public final class BusinessDetailViewController : XUIViewController {
     }()
     
     private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: CGRectMake(0, TableViewStart, ScreenWidth, 600), style: UITableViewStyle.Grouped)
+        let tableView = UITableView(frame: CGRectMake(0, TableViewStart, ScreenWidth, 1000), style: UITableViewStyle.Grouped)
         
         // a hack which makes the gap between table view and utility header go away
         tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
@@ -65,6 +67,8 @@ public final class BusinessDetailViewController : XUIViewController {
         tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: HeaderCellIdentifier)
         tableView.registerClass(DetailMapTableViewCell.self, forCellReuseIdentifier: MapCellIdentifier)
+        tableView.registerClass(DetailAddressTableViewCell.self, forCellReuseIdentifier: AddressCellIdentifier)
+        tableView.registerClass(DetailPhoneWebTableViewCell.self, forCellReuseIdentifier: PhoneWebCellIdentifier)
         tableView.dataSource = self
         
         tableView.estimatedRowHeight = 25.0
@@ -97,7 +101,8 @@ public final class BusinessDetailViewController : XUIViewController {
             table.leading == table.superview!.leading
             table.top == utility.bottom
             table.trailing == table.superview!.trailing
-            table.height == table.superview!.height
+            table.bottom == table.superview!.bottom
+            table.height == 1000//table.superview!.height
         }
         
         navigationMapViewController = DetailNavigationMapViewController()
@@ -173,7 +178,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     :returns: The number of rows in section.
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 10
     }
     
     /**
@@ -214,6 +219,28 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                     self?.presentNavigationMapViewController()
                     })
             return mapCell
+        }
+        
+        if indexPath.row == 2 {
+            let addressCell = tableView.dequeueReusableCellWithIdentifier(AddressCellIdentifier) as! DetailAddressTableViewCell
+            addressCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
+            compositeDisposable += addressCell.navigationMapProxy
+                |> takeUntilPrepareForReuse(addressCell)
+                |> start(next: { [weak self] in
+                    self?.presentNavigationMapViewController()
+                    })
+            return addressCell
+        }
+        
+        if indexPath.row == 3 {
+            let phoneWebCell = tableView.dequeueReusableCellWithIdentifier(PhoneWebCellIdentifier) as! DetailPhoneWebTableViewCell
+            phoneWebCell.bindToViewModel(viewmodel.detailPhoneWebViewModel)
+            compositeDisposable += phoneWebCell.presentWebViewProxy
+                |> takeUntilPrepareForReuse(phoneWebCell)
+                |> start(next: { [weak self] vc in
+                    self?.presentViewController(vc, animated: true, completion: nil)
+                    })
+            return phoneWebCell
         }
         
         let cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as! SocialBusiness_UserCell

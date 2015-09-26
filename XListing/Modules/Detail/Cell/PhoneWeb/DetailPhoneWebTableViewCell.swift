@@ -8,12 +8,28 @@
 
 import UIKit
 import ReactiveCocoa
+import Cartography
 
 public final class DetailPhoneWebTableViewCell: UITableViewCell {
 
     // MARK: - UI Controls
-    @IBOutlet private weak var phoneButton: UIButton!
-    @IBOutlet private weak var websiteButton: UIButton!
+    private lazy var phoneButton: UIButton = {
+        let button = UIButton()
+        button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+        button.titleLabel?.font = UIFont(name: "FontAwesome", size: 15)
+        button.titleLabel?.textAlignment = NSTextAlignment.Left
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        return button
+    }()
+    
+    private lazy var websiteButton: UIButton = {
+        let button = UIButton()
+        button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+        button.titleLabel?.font = UIFont(name: "FontAwesome", size: 15)
+        button.titleLabel?.textAlignment = NSTextAlignment.Left
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        return button
+    }()
     
     // MARK: - Proxies
     private let (_presentWebViewProxy, _presentWebViewSink) = SignalProducer<UIViewController, NoError>.proxy()
@@ -27,8 +43,9 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
     
     // MARK: - Setups
     
-    public override func awakeFromNib() {
-        super.awakeFromNib()
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundView = UIImageView(image: UIImage(named: ImageAssets.divider))
         
         layoutMargins = UIEdgeInsetsZero
         separatorInset = UIEdgeInsetsZero
@@ -36,13 +53,45 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         // Initialization code
         
         setupWebsiteButton()
+        addSubview(websiteButton)
         setupPhoneButton()
+        addSubview(phoneButton)
+        
+        constrain(phoneButton, websiteButton) { phone, website in
+            phone.leading == phone.superview!.leadingMargin
+            website.trailing == website.superview!.trailingMargin
+            phone.trailing == website.leading
+            
+            phone.height == 44
+            website.height == 44
+            
+            phone.width == phone.superview!.width/2
+            website.width == website.superview!.width/2
+            
+            phone.top == phone.superview!.top
+            phone.bottom == phone.superview!.bottom
+            website.top == website.superview!.top
+            website.bottom == website.superview!.bottom
+
+        }
+        
+        constrain(phoneButton.titleLabel!) { label in
+            label.leading == label.superview!.leadingMargin
+            label.trailing == label.superview!.trailingMargin
+            label.top == label.superview!.topMargin
+            label.bottom == label.superview!.bottomMargin
+        }
+        
+        constrain(websiteButton.titleLabel!) { label in
+            label.leading == label.superview!.leadingMargin
+            label.trailing == label.superview!.trailingMargin
+            label.top == label.superview!.topMargin
+            label.bottom == label.superview!.bottomMargin
+        }
     }
 
-    public override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    required public init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     private func setupWebsiteButton() {

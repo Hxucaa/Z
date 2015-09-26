@@ -14,7 +14,7 @@ public protocol IBusinessDetailViewModel : class {
     var headerViewModel: SocialBusinessHeaderViewModel { get }
 //    var detailImageViewModel: DetailImageViewModel { get }
     var detailAddressAndMapViewModel: DetailAddressAndMapViewModel { get }
-//    var detailPhoneWebViewModel: DetailPhoneWebViewModel { get }
+    var detailPhoneWebViewModel: DetailPhoneWebViewModel { get }
 //    var detailBizInfoViewModel: DetailBizInfoViewModel { get }
     var detailNavigationMapViewModel: DetailNavigationMapViewModel { get }
 //    var detailParticipationViewModel: DetailParticipationViewModel { get }

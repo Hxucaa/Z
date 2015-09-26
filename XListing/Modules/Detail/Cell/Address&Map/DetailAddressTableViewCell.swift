@@ -8,13 +8,21 @@
 
 import UIKit
 import ReactiveCocoa
+import Cartography
 
 private let DetailNavigationMapViewControllerXib = "DetailNavigationMapViewController"
 
 public final class DetailAddressTableViewCell: UITableViewCell {
 
     // MARK: - UI Controls
-    @IBOutlet private weak var addressButton: UIButton!
+    private lazy var addressButton: UIButton = {
+        let button = UIButton()
+        button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+        button.titleLabel?.font = UIFont(name: "FontAwesome", size: 15)
+        button.titleLabel?.textAlignment = NSTextAlignment.Left
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        return button
+    }()
     
     // MARK: - Proxies
     private let (_navigationMapProxy, _navigationMapSink) = SimpleProxy.proxy()
@@ -28,14 +36,34 @@ public final class DetailAddressTableViewCell: UITableViewCell {
     
     // MARK: - Setups
     
-    public override func awakeFromNib() {
-        super.awakeFromNib()
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         // Initialization code
         
         layoutMargins = UIEdgeInsetsZero
         separatorInset = UIEdgeInsetsZero
         
         setupAddressButton()
+        addSubview(addressButton)
+        constrain(addressButton) { view in
+            view.leading == view.superview!.leadingMargin
+            view.top == view.superview!.top
+            view.bottom == view.superview!.bottom
+            view.trailing == view.superview!.trailingMargin
+            view.height == 44
+        }
+        
+        constrain(addressButton.titleLabel!) { label in
+            label.leading == label.superview!.leadingMargin
+            label.trailing == label.superview!.trailingMargin
+            label.top == label.superview!.topMargin
+            label.bottom == label.superview!.bottomMargin
+        }
+        
+    }
+
+    public required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setupAddressButton() {
