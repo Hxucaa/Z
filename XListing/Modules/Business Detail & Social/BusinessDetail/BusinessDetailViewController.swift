@@ -246,7 +246,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
             switch Map(rawValue: row)! {
             case .Header:
                 let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! UITableViewCell
-                cell.textLabel?.text = "特设介绍"
+                cell.textLabel?.text = "地址和信息"
                 cell.layoutMargins = UIEdgeInsetsZero
                 return cell
             case .Map:
