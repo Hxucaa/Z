@@ -40,6 +40,18 @@ public final class BusinessDetailViewController : XUIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRectMake(0, TableViewStart, ScreenWidth, 600), style: UITableViewStyle.Grouped)
         
+        tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
+        tableView.registerClass(DescriptionTableViewCell.self, forCellReuseIdentifier: DescriptionCellIdentifier)
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: HeaderCellIdentifier)
+        
+        tableView.dataSource = self
+        tableView.estimatedRowHeight = 25.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        //remove the space between the left edge and seperator line
+        tableView.layoutMargins = UIEdgeInsetsZero
+        tableView.separatorInset = UIEdgeInsetsZero
+        
         // a hack which makes the gap between table view and utility header go away
         tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         // a hack which makes the gap at the bottom of the table view go away
@@ -67,19 +79,7 @@ public final class BusinessDetailViewController : XUIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
-        tableView.registerClass(DescriptionTableViewCell.self, forCellReuseIdentifier: DescriptionCellIdentifier)
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: HeaderCellIdentifier)
-        
-        tableView.dataSource = self
-        tableView.estimatedRowHeight = 25.0
-        tableView.rowHeight = UITableViewAutomaticDimension
-        
-        //remove the space between the left edge and seperator line
-        tableView.layoutMargins = UIEdgeInsetsZero
-        tableView.separatorInset = UIEdgeInsetsZero
-        
+
         view.addSubview(headerView)
         view.addSubview(utilityHeaderView)
         view.addSubview(tableView)

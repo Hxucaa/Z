@@ -13,9 +13,8 @@ import ReactiveCocoa
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
 
 public final class DescriptionTableViewCell: UITableViewCell {
-
-    private var viewmodel: DescriptionCellViewModel!
     
+    // MARK: - UI Controls
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
@@ -26,6 +25,12 @@ public final class DescriptionTableViewCell: UITableViewCell {
         
         return label
     }()
+    
+    // MARK: - Properties
+    
+    private var viewmodel: DescriptionCellViewModel!
+    
+    // MARK: - Initializers
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -44,13 +49,17 @@ public final class DescriptionTableViewCell: UITableViewCell {
         }
     }
     
+    
+    public required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Bindings
+    
     public func bindViewModel(viewmodel: DescriptionCellViewModel) {
         self.viewmodel = viewmodel
         //descriptionLabel.rac_text <~ viewmodel.description.producer
         //    |> takeUntilPrepareForReuse(self)
     }
-    
-    public required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+
 }
