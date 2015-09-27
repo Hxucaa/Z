@@ -22,6 +22,8 @@
 		2675C4BE1BB3AD1400F2683B /* DescriptionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2675C4BD1BB3AD1400F2683B /* DescriptionCellViewModel.swift */; };
 		269163691B5C6C1E005D48FA /* (null) in Sources */ = {isa = PBXBuildFile; };
 		26979C061B71CB54003F85ED /* ProfileEdit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26979C051B71CB54003F85ED /* ProfileEdit.storyboard */; };
+		26C55F291BB86D7700828D58 /* BusinessHourCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C55F281BB86D7700828D58 /* BusinessHourCell.swift */; };
+		26C55F2B1BB86D9A00828D58 /* BusinessHourCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C55F2A1BB86D9A00828D58 /* BusinessHourCellViewModel.swift */; };
 		2A41A30E1AF3133F0086D24B /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */; };
 		2A714B121B085C63007A8FBB /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A714B101B085C63007A8FBB /* LandingPageViewController.swift */; };
 		2A9A9B9C1B1C31510010EDA9 /* DetailBizInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9A9B9B1B1C31510010EDA9 /* DetailBizInfoTableViewCell.swift */; };
@@ -255,6 +257,8 @@
 		2675C4BD1BB3AD1400F2683B /* DescriptionCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DescriptionCellViewModel.swift; path = Cells/DescriptionCellViewModel.swift; sourceTree = "<group>"; };
 		26979C051B71CB54003F85ED /* ProfileEdit.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProfileEdit.storyboard; sourceTree = "<group>"; };
 		26AB479389256B6B20922161 /* Pods-XListingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests.release.xcconfig"; sourceTree = "<group>"; };
+		26C55F281BB86D7700828D58 /* BusinessHourCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusinessHourCell.swift; path = Cells/BusinessHourCell.swift; sourceTree = "<group>"; };
+		26C55F2A1BB86D9A00828D58 /* BusinessHourCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusinessHourCellViewModel.swift; path = Cells/BusinessHourCellViewModel.swift; sourceTree = "<group>"; };
 		2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		2A714B101B085C63007A8FBB /* LandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LandingPageViewController.swift; path = XListing/Modules/Account/LandingPage/LandingPageViewController.swift; sourceTree = SOURCE_ROOT; };
 		2A9A9B9B1B1C31510010EDA9 /* DetailBizInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBizInfoTableViewCell.swift; sourceTree = "<group>"; };
@@ -523,6 +527,8 @@
 		2675C4BA1BB3AC9500F2683B /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				26C55F281BB86D7700828D58 /* BusinessHourCell.swift */,
+				26C55F2A1BB86D9A00828D58 /* BusinessHourCellViewModel.swift */,
 				2675C4BB1BB3ACC400F2683B /* DescriptionTableViewCell.swift */,
 				2675C4BD1BB3AD1400F2683B /* DescriptionCellViewModel.swift */,
 			);
@@ -1689,6 +1695,7 @@
 				B4D733911B9A2D5000B599B9 /* SocialBusiness_UserViewModel.swift in Sources */,
 				2661B9201B4B72C9005D9C41 /* Gender.swift in Sources */,
 				B4E7E51C1B9514AB0034B093 /* TabContent.swift in Sources */,
+				26C55F291BB86D7700828D58 /* BusinessHourCell.swift in Sources */,
 				B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */,
 				B4D5707C1B02AC1600D2C06C /* NearbyHorizontalScrollCellViewModel.swift in Sources */,
 				7EF371111AB8C012009AA3B9 /* AppDelegate.swift in Sources */,
@@ -1767,6 +1774,7 @@
 				7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */,
 				B4E7E5241B9517770034B093 /* FeaturedTabNavigationController.swift in Sources */,
 				B47E15BF1B17AD790028E07E /* UIKit&ReactiveCocoa+extension.swift in Sources */,
+				26C55F2B1BB86D9A00828D58 /* BusinessHourCellViewModel.swift in Sources */,
 				B42487661BA9081300FBC634 /* FeaturedListBusinessCell_InfoPanelViewModel.swift in Sources */,
 				D04BAE6E1B97FF5000074E34 /* SocialBusinessHeaderView.swift in Sources */,
 				B4E1384E1AE1CA9D0082DCA3 /* IUserService.swift in Sources */,

@@ -16,6 +16,7 @@ import Cartography
 private let UserCellIdentifier = "SocialBusiness_UserCell"
 private let DescriptionCellIdentifier = "DescriptionTableviewCell"
 private let HeaderCellIdentifier = "HeaderCell"
+private let BusinessHourCellIdentifier = "BusinessHourCellIdentifier"
 
 private let BusinessHeightRatio = 0.61
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
@@ -43,6 +44,7 @@ public final class BusinessDetailViewController : XUIViewController {
         tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
         tableView.registerClass(DescriptionTableViewCell.self, forCellReuseIdentifier: DescriptionCellIdentifier)
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: HeaderCellIdentifier)
+        tableView.registerClass(BusinessHourCell.self, forCellReuseIdentifier: BusinessHourCellIdentifier)
         
         tableView.dataSource = self
         tableView.estimatedRowHeight = 25.0
@@ -66,13 +68,18 @@ public final class BusinessDetailViewController : XUIViewController {
     // MARK: - Properties
     private var viewmodel: IBusinessDetailViewModel!
     private let compositeDisposable = CompositeDisposable()
+    private let expandHours = MutableProperty<Bool>(false)
     
     private enum Section : Int {
-        case Description
+        case Description, BusinessHours
     }
     
     private enum Description : Int {
         case Header, Content
+    }
+    
+    private enum BusinessHours: Int {
+        case Header, BusinessHours
     }
     
     // MARK: - Setups
@@ -103,8 +110,29 @@ public final class BusinessDetailViewController : XUIViewController {
             table.leading == table.superview!.leading
             table.top == utility.bottom
             table.trailing == table.superview!.trailing
-            table.height == table.superview!.height
+            table.bottom == table.superview!.bottom
         }
+        
+        compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
+            |> logLifeCycle(LogContext.Detail, "tableView:didSelectRowAtIndexPath:")
+            |> map { ($0 as! RACTuple).second as! NSIndexPath }
+            |> start(next: { indexPath in
+                let section = indexPath.section
+                let row = indexPath.row
+                
+                switch Section(rawValue: section)! {
+                case .BusinessHours:
+                    switch BusinessHours(rawValue: row)! {
+                        // expand the business hours cell
+                    case .BusinessHours:
+                        self.expandHours.put(!self.expandHours.value)
+                        
+                        self.tableView.reloadData()
+                    default: break
+                    }
+                default: break
+                }
+            })
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -176,7 +204,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     :returns: The number of sections in table view.
     */
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     /**
@@ -206,6 +234,27 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 let cell = tableView.dequeueReusableCellWithIdentifier(DescriptionCellIdentifier) as! DescriptionTableViewCell
                 
                 return cell
+            }
+            
+        case .BusinessHours:
+            switch BusinessHours(rawValue: row)! {
+            case .Header:
+                let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! UITableViewCell
+                cell.textLabel?.text = "营业时间"
+                cell.layoutMargins = UIEdgeInsetsZero
+                return cell
+                
+            
+            
+        case .BusinessHours:
+            let cell = tableView.dequeueReusableCellWithIdentifier(BusinessHourCellIdentifier) as! BusinessHourCell
+            cell.bindViewModel(viewmodel.businessHourViewModel)
+            compositeDisposable += cell.expandBusinessHoursProxy
+                |> takeUntilPrepareForReuse(cell)
+                |> start(next: { [weak self] vc in
+                    self?.tableView.reloadData()
+                    })
+            return cell
             }
         }
     }
