@@ -10,8 +10,6 @@ import UIKit
 import ReactiveCocoa
 import Cartography
 
-private let DetailNavigationMapViewControllerXib = "DetailNavigationMapViewController"
-
 public final class DetailAddressTableViewCell: UITableViewCell {
 
     // MARK: - UI Controls
@@ -21,6 +19,21 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         button.titleLabel?.font = UIFont(name: "FontAwesome", size: 15)
         button.titleLabel?.textAlignment = NSTextAlignment.Left
         button.titleLabel?.adjustsFontSizeToFitWidth = true
+        
+        // Action
+        let pushNavMap = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { sink, disposable in
+                if let this = self {
+                    
+                    sendNext(this._navigationMapSink, ())
+                    
+                    sendCompleted(sink)
+                }
+            }
+        }
+        
+        button.addTarget(pushNavMap.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        
         return button
     }()
     
@@ -43,7 +56,6 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         layoutMargins = UIEdgeInsetsZero
         separatorInset = UIEdgeInsetsZero
         
-        setupAddressButton()
         addSubview(addressButton)
         constrain(addressButton) { view in
             view.leading == view.superview!.leadingMargin
@@ -65,35 +77,8 @@ public final class DetailAddressTableViewCell: UITableViewCell {
     public required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func setupAddressButton() {
-        
-        // Action
-        let pushNavMap = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                if let this = self {
-                    
-                    sendNext(this._navigationMapSink, ())
-                    
-                    sendCompleted(sink)
-                }
-            }
-        }
-        
-        addressButton.addTarget(pushNavMap.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-    }
 
-    public override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
-    deinit {
-        compositeDisposable.dispose()
-    }
-
-    // MARK: Bindings
+    // MARK: - Bindings
     
     public func bindToViewModel(viewmodel: DetailAddressAndMapViewModel) {
         self.viewmodel = viewmodel

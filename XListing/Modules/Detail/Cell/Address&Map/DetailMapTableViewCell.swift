@@ -11,7 +11,6 @@ import ReactiveCocoa
 import MapKit
 import Cartography
 
-private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
 private let MapHeight = CGFloat(200)
 
 public final class DetailMapTableViewCell: UITableViewCell {
@@ -22,23 +21,6 @@ public final class DetailMapTableViewCell: UITableViewCell {
         mapView.scrollEnabled = false
         mapView.zoomEnabled = false
         mapView.rotateEnabled = false
-        
-        return mapView
-    }()
-    
-    // MARK: - Proxies
-    private let (_navigationMapProxy, _navigationMapSink) = SimpleProxy.proxy()
-    public var navigationMapProxy: SimpleProxy {
-        return _navigationMapProxy
-    }
-    
-    // MARK: - Properties
-    private var viewmodel: DetailAddressAndMapViewModel!
-    private let compositeDisposable = CompositeDisposable()
-    
-    // MARK: - Setups
-
-    private func setupMapView() {
         
         mapView.delegate = self
         
@@ -56,15 +38,23 @@ public final class DetailMapTableViewCell: UITableViewCell {
         
         let tapGesture = UITapGestureRecognizer(target: pushNavMap.unsafeCocoaAction, action: CocoaAction.selector)
         mapView.addGestureRecognizer(tapGesture)
+        
+        return mapView
+    }()
+    
+    // MARK: - Proxies
+    private let (_navigationMapProxy, _navigationMapSink) = SimpleProxy.proxy()
+    public var navigationMapProxy: SimpleProxy {
+        return _navigationMapProxy
     }
+    
+    // MARK: - Properties
+    private var viewmodel: DetailAddressAndMapViewModel!
+    private let compositeDisposable = CompositeDisposable()
+    
+    // MARK: - Setups
     
     deinit {
-        compositeDisposable.dispose()
-    }
-    
-    public override func prepareForReuse() {
-        super.prepareForReuse()
-        
         compositeDisposable.dispose()
     }
     
@@ -76,7 +66,6 @@ public final class DetailMapTableViewCell: UITableViewCell {
         
         selectionStyle = UITableViewCellSelectionStyle.None
         
-        setupMapView()
         addSubview(mapView)
         
         constrain(mapView) { view in
@@ -92,7 +81,7 @@ public final class DetailMapTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: Bindings
+    // MARK: - Bindings
     public func bindToViewModel(viewmodel: DetailAddressAndMapViewModel) {
         self.viewmodel = viewmodel
         

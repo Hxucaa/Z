@@ -19,6 +19,13 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         button.titleLabel?.font = UIFont(name: "FontAwesome", size: 15)
         button.titleLabel?.textAlignment = NSTextAlignment.Left
         button.titleLabel?.adjustsFontSizeToFitWidth = true
+        
+        let callPhone = Action<UIButton, Void, NoError> { button in
+            return self.viewmodel.callPhone
+        }
+        
+        button.addTarget(callPhone.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        
         return button
     }()
     
@@ -28,10 +35,25 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         button.titleLabel?.font = UIFont(name: "FontAwesome", size: 15)
         button.titleLabel?.textAlignment = NSTextAlignment.Left
         button.titleLabel?.adjustsFontSizeToFitWidth = true
+        
+        let goToWebsite = Action<UIButton, Void, NoError> { button in
+            return self.viewmodel.webSiteURL.producer
+                |> ignoreNil
+                |> map { url -> Void in
+                    let webVC = DetailWebViewViewController(url: url, businessName: self.viewmodel.businessName.value)
+                    let navController = UINavigationController()
+                    navController.pushViewController(webVC, animated: true)
+                    
+                    proxyNext(self._presentWebViewSink, navController)
+                }
+        }
+        
+        button.addTarget(goToWebsite.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        
         return button
     }()
     
-    // MARK: - Proxies
+    // MARK: -  Proxies
     private let (_presentWebViewProxy, _presentWebViewSink) = SignalProducer<UIViewController, NoError>.proxy()
     public var presentWebViewProxy: SignalProducer<UIViewController, NoError> {
         return _presentWebViewProxy
@@ -52,9 +74,7 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         
         // Initialization code
         
-        setupWebsiteButton()
         addSubview(websiteButton)
-        setupPhoneButton()
         addSubview(phoneButton)
         
         constrain(phoneButton, websiteButton) { phone, website in
@@ -93,44 +113,8 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    private func setupWebsiteButton() {
-        
-        let goToWebsite = Action<UIButton, Void, NoError> { button in
-            return self.viewmodel.webSiteURL.producer
-                |> ignoreNil
-                |> map { url -> Void in
-                    let webVC = DetailWebViewViewController(url: url, businessName: self.viewmodel.businessName.value)
-                    let navController = UINavigationController()
-                    navController.pushViewController(webVC, animated: true)
-                    
-                    sendNext(self._presentWebViewSink, navController)
-                }
-        }
-        
-        websiteButton.addTarget(goToWebsite.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-    }
     
-    private func setupPhoneButton() {
-        
-        let callPhone = Action<UIButton, Void, NoError> { button in
-            return self.viewmodel.callPhone
-        }
-        
-        phoneButton.addTarget(callPhone.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-    }
-    
-    deinit {
-        compositeDisposable.dispose()
-    }
-    
-    public override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        compositeDisposable.dispose()
-    }
-    
-    // MARK: Bindings
+    // MARK: - Bindings
     
     public func bindToViewModel(viewmodel: DetailPhoneWebViewModel) {
         self.viewmodel = viewmodel

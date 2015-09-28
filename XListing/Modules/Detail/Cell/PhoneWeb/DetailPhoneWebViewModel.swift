@@ -17,16 +17,31 @@ private let 没有网站 = "没有网站"
 
 public struct DetailPhoneWebViewModel {
     
-    // MARK: - Public
+    // MARK: - Inputs
     
-    // MARK: Outputs
-    public let businessName: ConstantProperty<String>
-    public let phoneDisplay: ConstantProperty<String>
-    public let phoneURL: ConstantProperty<NSURL?>
-    public let webSiteDisplay: ConstantProperty<String>
-    public let webSiteURL: ConstantProperty<NSURL?>
+    // MARK: - Outputs
+    private let _businessName: ConstantProperty<String>
+    public var businessName: PropertyOf<String> {
+        return PropertyOf(_businessName)
+    }
+    private let _phoneDisplay: ConstantProperty<String>
+    public var phoneDisplay: PropertyOf<String> {
+        return PropertyOf(_phoneDisplay)
+    }
+    private let _phoneURL: ConstantProperty<NSURL?>
+    public var phoneURL: PropertyOf<NSURL?> {
+        return PropertyOf(_phoneURL)
+    }
+    private let _webSiteDisplay: ConstantProperty<String>
+    public var webSiteDisplay: PropertyOf<String> {
+        return PropertyOf(_webSiteDisplay)
+    }
+    private let _webSiteURL: ConstantProperty<NSURL?>
+    public var webSiteURL: PropertyOf<NSURL?> {
+        return PropertyOf(_webSiteURL)
+    }
     
-    // MARK: Actions    
+    // MARK: - API
     public var callPhone: SignalProducer<Void, NoError> {
         return self.phoneURL.producer
             |> filter { $0 != nil }
@@ -35,24 +50,24 @@ public struct DetailPhoneWebViewModel {
             }
     }
     
-    // MARK: Initializers
+    // MARK: - Initializers
     public init(businessName: String?, phone: String?, website: String?) {
-        self.businessName = ConstantProperty(businessName!)
+        self._businessName = ConstantProperty(businessName!)
         if let phone = phone {
-            phoneDisplay = ConstantProperty("   \(PhoneIcon)   \(phone)")
-            phoneURL = ConstantProperty(NSURL(string: "telprompt://\(phone)"))
+            _phoneDisplay = ConstantProperty("   \(PhoneIcon)   \(phone)")
+            _phoneURL = ConstantProperty(NSURL(string: "telprompt://\(phone)"))
         }
         else {
-            phoneDisplay = ConstantProperty("   \(PhoneIcon)   \(没有电话)")
-            phoneURL = ConstantProperty(nil)
+            _phoneDisplay = ConstantProperty("   \(PhoneIcon)   \(没有电话)")
+            _phoneURL = ConstantProperty(nil)
         }
         if let website = website {
-            webSiteDisplay = ConstantProperty("   \(WebSiteIcon)   \(访问网站)")
-            webSiteURL = ConstantProperty(NSURL(string: website))
+            _webSiteDisplay = ConstantProperty("   \(WebSiteIcon)   \(访问网站)")
+            _webSiteURL = ConstantProperty(NSURL(string: website))
         }
         else {
-            webSiteDisplay = ConstantProperty("   \(WebSiteIcon)   \(没有网站)")
-            webSiteURL = ConstantProperty(nil)
+            _webSiteDisplay = ConstantProperty("   \(WebSiteIcon)   \(没有网站)")
+            _webSiteURL = ConstantProperty(nil)
         }
     }
 }
