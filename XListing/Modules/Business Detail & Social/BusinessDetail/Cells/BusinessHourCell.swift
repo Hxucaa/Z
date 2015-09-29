@@ -9,18 +9,20 @@
 import Foundation
 import UIKit
 import Cartography
+import TTTAttributedLabel
 import ReactiveCocoa
 
 public final class BusinessHourCell: UITableViewCell {
 
     // MARK: - UI Controls
     
-    private lazy var businessHoursLabel: UILabel = {
-        let label = UILabel()
+    private lazy var businessHoursLabel: TTTAttributedLabel = {
+        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 0, 0))
         label.opaque = true
         label.font = UIFont.systemFontOfSize(14)
         label.numberOfLines = 0
         label.sizeToFit()
+        label.lineSpacing = 15
         
         return label
         }()

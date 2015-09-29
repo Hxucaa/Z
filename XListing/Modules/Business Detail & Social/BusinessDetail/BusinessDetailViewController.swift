@@ -14,39 +14,47 @@ import Dollar
 import Cartography
 
 private let UserCellIdentifier = "SocialBusiness_UserCell"
-private let DescriptionCellIdentifier = "DescriptionTableviewCell"
 private let HeaderCellIdentifier = "HeaderCell"
 private let BusinessHourCellIdentifier = "BusinessHourCellIdentifier"
+private let MapCellIdentifier = "MapCell"
+private let AddressCellIdentifier = "AddressCell"
+private let PhoneWebCellIdentifier = "PhoneWebCell"
+private let DescriptionCellIdentifier = "DescriptionTableviewCell"
 
 private let BusinessHeightRatio = 0.61
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
 private let ImageHeaderHeight = CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)
 private let UtilHeaderHeight = CGFloat(44)
 private let TableViewStart = CGFloat(ImageHeaderHeight)+CGFloat(UtilHeaderHeight)
+private let DetailNavigationMapViewControllerName = "DetailNavigationMapViewController"
 
 public final class BusinessDetailViewController : XUIViewController {
+    
     
     // MARK: - UI Controls
     private lazy var headerView: SocialBusinessHeaderView =  {
         let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, ImageHeaderHeight))
         view.bindToViewModel(self.viewmodel.headerViewModel)
         return view
-    }()
+        }()
     
     private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
         let view = SocialBusiness_UtilityHeaderView(frame: CGRectMake(0, ImageHeaderHeight, ScreenWidth, UtilHeaderHeight))
         return view
-    }()
+        }()
     
     private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: CGRectMake(0, TableViewStart, ScreenWidth, 600), style: UITableViewStyle.Grouped)
+        let tableView = UITableView(frame: CGRectMake(0, TableViewStart, ScreenWidth, 1000), style: UITableViewStyle.Grouped)
         
         tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
         tableView.registerClass(DescriptionTableViewCell.self, forCellReuseIdentifier: DescriptionCellIdentifier)
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: HeaderCellIdentifier)
         tableView.registerClass(BusinessHourCell.self, forCellReuseIdentifier: BusinessHourCellIdentifier)
-        
+        tableView.registerClass(DetailMapTableViewCell.self, forCellReuseIdentifier: MapCellIdentifier)
+        tableView.registerClass(DetailAddressTableViewCell.self, forCellReuseIdentifier: AddressCellIdentifier)
+        tableView.registerClass(DetailPhoneWebTableViewCell.self, forCellReuseIdentifier: PhoneWebCellIdentifier)
         tableView.dataSource = self
+
         tableView.estimatedRowHeight = 25.0
         tableView.rowHeight = UITableViewAutomaticDimension
         
@@ -62,8 +70,9 @@ public final class BusinessDetailViewController : XUIViewController {
         tableView.opaque = true
         
         return tableView
-    }()
+        }()
     
+    private var navigationMapViewController: DetailNavigationMapViewController!
     
     // MARK: - Properties
     private var viewmodel: IBusinessDetailViewModel!
@@ -71,7 +80,7 @@ public final class BusinessDetailViewController : XUIViewController {
     private let expandHours = MutableProperty<Bool>(false)
     
     private enum Section : Int {
-        case Description, BusinessHours
+        case Description, BusinessHours, Map
     }
     
     private enum Description : Int {
@@ -82,11 +91,15 @@ public final class BusinessDetailViewController : XUIViewController {
         case Header, BusinessHours
     }
     
+    private enum Map : Int {
+        case Header, Map, Address, PhoneWeb
+    }
+    
     // MARK: - Setups
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.addSubview(headerView)
         view.addSubview(utilityHeaderView)
         view.addSubview(tableView)
@@ -97,7 +110,7 @@ public final class BusinessDetailViewController : XUIViewController {
             header.top == header.superview!.top
             header.height == ImageHeaderHeight
         }
-
+        
         constrain(headerView, utilityHeaderView) { header, utility in
             
             utility.leading == utility.superview!.leading
@@ -105,7 +118,7 @@ public final class BusinessDetailViewController : XUIViewController {
             utility.trailing == utility.superview!.trailing
             utility.height == UtilHeaderHeight
         }
-
+        
         constrain(utilityHeaderView, tableView) { utility, table in
             table.leading == table.superview!.leading
             table.top == utility.bottom
@@ -133,6 +146,13 @@ public final class BusinessDetailViewController : XUIViewController {
                 default: break
                 }
             })
+
+        navigationMapViewController = DetailNavigationMapViewController()
+        
+        compositeDisposable += navigationMapViewController.goBackProxy
+            |> start(next: { handler in
+                self.dismissViewControllerAnimated(true, completion: handler)
+            })
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -143,15 +163,15 @@ public final class BusinessDetailViewController : XUIViewController {
             |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.detailInfoProxy")
             |> start(next: { [weak self] in
                 println("go back to social business")
-            })
+                })
         
         compositeDisposable += utilityHeaderView.startEventProxy
             |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.startEventProxy")
             |> start(next: { [weak self] in
                 println("want to go")
-            })
-
+                })
+        
         
         /**
         Assigning UITableView delegate has to happen after signals are established.
@@ -182,6 +202,14 @@ public final class BusinessDetailViewController : XUIViewController {
     }
     
     // MARK: - Others
+    
+    private func presentNavigationMapViewController() {
+        
+        presentViewController(self.navigationMapViewController, animated: true) {
+            self.navigationMapViewController.bindToViewModel(self.viewmodel.detailNavigationMapViewModel)
+        }
+        
+    }
 }
 extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSource {
     /**
@@ -193,7 +221,14 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     :returns: The number of rows in section.
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        switch Section(rawValue: section)! {
+        case .Description:
+            return 2
+        case .BusinessHours:
+            return 2
+        case .Map:
+            return 4
+        }
     }
     
     /**
@@ -204,7 +239,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     :returns: The number of sections in table view.
     */
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     /**
@@ -216,7 +251,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-
+        
         let row = indexPath.row
         let section = indexPath.section
         
@@ -228,13 +263,15 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! UITableViewCell
                 cell.textLabel?.text = "特设介绍"
                 cell.layoutMargins = UIEdgeInsetsZero
+                cell.userInteractionEnabled = false
                 return cell
-            
+                
             case .Content:
                 let cell = tableView.dequeueReusableCellWithIdentifier(DescriptionCellIdentifier) as! DescriptionTableViewCell
                 
                 return cell
             }
+            
             
         case .BusinessHours:
             switch BusinessHours(rawValue: row)! {
@@ -246,17 +283,63 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 
             
             
-        case .BusinessHours:
-            let cell = tableView.dequeueReusableCellWithIdentifier(BusinessHourCellIdentifier) as! BusinessHourCell
-            cell.bindViewModel(viewmodel.businessHourViewModel)
-            compositeDisposable += cell.expandBusinessHoursProxy
-                |> takeUntilPrepareForReuse(cell)
-                |> start(next: { [weak self] vc in
-                    self?.tableView.reloadData()
+            case .BusinessHours:
+                let cell = tableView.dequeueReusableCellWithIdentifier(BusinessHourCellIdentifier) as! BusinessHourCell
+                cell.bindViewModel(viewmodel.businessHourViewModel)
+                compositeDisposable += cell.expandBusinessHoursProxy
+                    |> takeUntilPrepareForReuse(cell)
+                    |> start(next: { [weak self] vc in
+                        self?.tableView.reloadData()
                     })
-            return cell
+                return cell
+            }
+            
+        case .Map:
+            switch Map(rawValue: row)! {
+            case .Header:
+                let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! UITableViewCell
+                cell.textLabel?.text = "地址和信息"
+                cell.layoutMargins = UIEdgeInsetsZero
+                cell.userInteractionEnabled = false
+                return cell
+            case .Map:
+                let mapCell = tableView.dequeueReusableCellWithIdentifier(MapCellIdentifier)
+                    as! DetailMapTableViewCell
+                mapCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
+                compositeDisposable += mapCell.navigationMapProxy
+                    |> takeUntilPrepareForReuse(mapCell)
+                    |> start(next: { [weak self] in
+                        self?.presentNavigationMapViewController()
+                        })
+                return mapCell
+            case .Address:
+                let addressCell = tableView.dequeueReusableCellWithIdentifier(AddressCellIdentifier) as! DetailAddressTableViewCell
+                addressCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
+                compositeDisposable += addressCell.navigationMapProxy
+                    |> takeUntilPrepareForReuse(addressCell)
+                    |> start(next: { [weak self] in
+                        self?.presentNavigationMapViewController()
+                        })
+                return addressCell
+            case .PhoneWeb:
+                let phoneWebCell = tableView.dequeueReusableCellWithIdentifier(PhoneWebCellIdentifier) as! DetailPhoneWebTableViewCell
+                phoneWebCell.bindToViewModel(viewmodel.detailPhoneWebViewModel)
+                compositeDisposable += phoneWebCell.presentWebViewProxy
+                    |> takeUntilPrepareForReuse(phoneWebCell)
+                    |> start(next: { [weak self] vc in
+                        self?.presentViewController(vc, animated: true, completion: nil)
+                        })
+                return phoneWebCell
+            
             }
         }
     }
-
+    
+    public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 2
+    }
+    
+    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 2
+    }
 }
