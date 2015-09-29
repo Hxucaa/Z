@@ -233,6 +233,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! UITableViewCell
                 cell.textLabel?.text = "特设介绍"
                 cell.layoutMargins = UIEdgeInsetsZero
+                cell.userInteractionEnabled = false
                 return cell
                 
             case .Content:
@@ -248,6 +249,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! UITableViewCell
                 cell.textLabel?.text = "地址和信息"
                 cell.layoutMargins = UIEdgeInsetsZero
+                cell.userInteractionEnabled = false
                 return cell
             case .Map:
                 let mapCell = tableView.dequeueReusableCellWithIdentifier(MapCellIdentifier)
