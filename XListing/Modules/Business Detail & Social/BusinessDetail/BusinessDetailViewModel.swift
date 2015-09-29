@@ -32,10 +32,10 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
     // MARK: ViewModels
     public let headerViewModel: SocialBusinessHeaderViewModel
 //    public let detailImageViewModel: DetailImageViewModel
-//    public let detailAddressAndMapViewModel: DetailAddressAndMapViewModel
-//    public let detailPhoneWebViewModel: DetailPhoneWebViewModel
+    public let detailAddressAndMapViewModel: DetailAddressAndMapViewModel
+    public let detailPhoneWebViewModel: DetailPhoneWebViewModel
 //    public let detailBizInfoViewModel: DetailBizInfoViewModel
-//    public let detailNavigationMapViewModel: DetailNavigationMapViewModel
+    public let detailNavigationMapViewModel: DetailNavigationMapViewModel
 //    public let detailParticipationViewModel: DetailParticipationViewModel
     
     // MARK: Actions
@@ -51,10 +51,10 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
         headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, imageURL: business.coverImageUrl, businessName: business.nameSChinese, city: business.city, geopoint: business.geopoint)
         
 //        detailImageViewModel = DetailImageViewModel(imageService: imageService, coverImageURL: business.cover?.url)
-//        detailAddressAndMapViewModel = DetailAddressAndMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, address: business.address, city: business.city, state: business.state, businessLocation: business.cllocation)
-//        detailPhoneWebViewModel = DetailPhoneWebViewModel(businessName: business.nameSChinese, phone: business.phone, website: business.url)
+        detailAddressAndMapViewModel = DetailAddressAndMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, address: business.address, city: business.city, state: business.state, businessLocation: business.cllocation)
+        detailPhoneWebViewModel = DetailPhoneWebViewModel(businessName: business.nameSChinese, phone: business.phone, website: business.url)
 //        detailBizInfoViewModel = DetailBizInfoViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, business: business)
-//        detailNavigationMapViewModel = DetailNavigationMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, businessLocation: business.cllocation)
+        detailNavigationMapViewModel = DetailNavigationMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, businessLocation: business.cllocation)
 //        detailParticipationViewModel = DetailParticipationViewModel(participationCount: business.wantToGoCounter)
         
         

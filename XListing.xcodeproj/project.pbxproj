@@ -251,8 +251,8 @@
 		26645ADA1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneEmailTableViewCell.swift; sourceTree = "<group>"; };
 		26645ADC1B5C677E00ADDCD1 /* NicknameTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicknameTableViewCell.swift; sourceTree = "<group>"; };
 		26645ADD1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsupTableViewCell.swift; sourceTree = "<group>"; };
-		2675C4BB1BB3ACC400F2683B /* DescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DescriptionTableViewCell.swift; path = Cells/DescriptionTableViewCell.swift; sourceTree = "<group>"; };
-		2675C4BD1BB3AD1400F2683B /* DescriptionCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DescriptionCellViewModel.swift; path = Cells/DescriptionCellViewModel.swift; sourceTree = "<group>"; };
+		2675C4BB1BB3ACC400F2683B /* DescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionTableViewCell.swift; sourceTree = "<group>"; };
+		2675C4BD1BB3AD1400F2683B /* DescriptionCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCellViewModel.swift; sourceTree = "<group>"; };
 		26979C051B71CB54003F85ED /* ProfileEdit.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProfileEdit.storyboard; sourceTree = "<group>"; };
 		26AB479389256B6B20922161 /* Pods-XListingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests.release.xcconfig"; sourceTree = "<group>"; };
 		2A41A30D1AF3133F0086D24B /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
@@ -262,7 +262,7 @@
 		2A9A9BA11B1C40610010EDA9 /* DetailMapTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMapTableViewCell.swift; sourceTree = "<group>"; };
 		2A9A9BA31B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAddressTableViewCell.swift; sourceTree = "<group>"; };
 		2A9A9BA51B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhoneWebTableViewCell.swift; sourceTree = "<group>"; };
-		2ADF3E631B1ECBA200C2971E /* DetailNavigationMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailNavigationMapViewController.swift; path = Detail/DetailNavigationMapViewController.swift; sourceTree = "<group>"; };
+		2ADF3E631B1ECBA200C2971E /* DetailNavigationMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailNavigationMapViewController.swift; sourceTree = "<group>"; };
 		3274F99E18CB33E02A5ADE6D /* Pods-XListing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListing.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XListing/Pods-XListing.debug.xcconfig"; sourceTree = "<group>"; };
 		3B67513D959F982A4CF98B56 /* Pods-XListing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListing.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListing/Pods-XListing.release.xcconfig"; sourceTree = "<group>"; };
 		3D211E851B2C1AAF00161E09 /* IBackgroundLocationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBackgroundLocationWorker.swift; sourceTree = "<group>"; };
@@ -430,7 +430,7 @@
 		B4F195941B2A276C00B8C519 /* XUIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XUIViewController.swift; sourceTree = "<group>"; };
 		B4F195A81B2B9EC400B8C519 /* DetailImageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailImageViewModel.swift; sourceTree = "<group>"; };
 		B4F195AA1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAddressAndMapViewModel.swift; sourceTree = "<group>"; };
-		B4F195AE1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailNavigationMapViewModel.swift; path = Detail/DetailNavigationMapViewModel.swift; sourceTree = "<group>"; };
+		B4F195AE1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailNavigationMapViewModel.swift; sourceTree = "<group>"; };
 		B4F195B71B2C154900B8C519 /* DetailPhoneWebViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhoneWebViewModel.swift; sourceTree = "<group>"; };
 		B4F195BA1B2C331400B8C519 /* DetailBizInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBizInfoViewModel.swift; sourceTree = "<group>"; };
 		B4F195BC1B2CE2B200B8C519 /* User_Business_Participation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User_Business_Participation.swift; sourceTree = "<group>"; };
@@ -508,6 +508,16 @@
 			path = Wireframe;
 			sourceTree = "<group>";
 		};
+		2621E5781BBA4AA900E0F0A4 /* Description */ = {
+			isa = PBXGroup;
+			children = (
+				2675C4BB1BB3ACC400F2683B /* DescriptionTableViewCell.swift */,
+				2675C4BD1BB3AD1400F2683B /* DescriptionCellViewModel.swift */,
+			);
+			name = Description;
+			path = Cells/Description;
+			sourceTree = "<group>";
+		};
 		2666202D1B68A0CB007346F4 /* Cell Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -523,8 +533,9 @@
 		2675C4BA1BB3AC9500F2683B /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				2675C4BB1BB3ACC400F2683B /* DescriptionTableViewCell.swift */,
-				2675C4BD1BB3AD1400F2683B /* DescriptionCellViewModel.swift */,
+				2621E5781BBA4AA900E0F0A4 /* Description */,
+				B4F195B61B2C04E400B8C519 /* PhoneWeb */,
+				B4F195B21B2BDF9400B8C519 /* Address&Map */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -995,8 +1006,6 @@
 				B4B6653F1ADF88DB0084DBE7 /* DetailViewController.swift */,
 				B4B665431ADF8D2F0084DBE7 /* IDetailViewModel.swift */,
 				B4B665411ADF8D070084DBE7 /* DetailViewModel.swift */,
-				2ADF3E631B1ECBA200C2971E /* DetailNavigationMapViewController.swift */,
-				B4F195AE1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift */,
 				B4F195B31B2BDFB400B8C519 /* Cell */,
 			);
 			name = Detail;
@@ -1243,12 +1252,14 @@
 		B4F195B21B2BDF9400B8C519 /* Address&Map */ = {
 			isa = PBXGroup;
 			children = (
+				2ADF3E631B1ECBA200C2971E /* DetailNavigationMapViewController.swift */,
+				B4F195AE1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift */,
 				2A9A9BA11B1C40610010EDA9 /* DetailMapTableViewCell.swift */,
 				2A9A9BA31B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift */,
 				B4F195AA1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift */,
 			);
 			name = "Address&Map";
-			path = "Detail/Cell/Address&Map";
+			path = "Cells/Address&Map";
 			sourceTree = "<group>";
 		};
 		B4F195B31B2BDFB400B8C519 /* Cell */ = {
@@ -1257,8 +1268,6 @@
 				B4F195B51B2C040F00B8C519 /* Image */,
 				B4F195B91B2C2FC200B8C519 /* Heading */,
 				B4F4AF7E1B6AFE4000ABA176 /* Participation */,
-				B4F195B61B2C04E400B8C519 /* PhoneWeb */,
-				B4F195B21B2BDF9400B8C519 /* Address&Map */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -1281,7 +1290,7 @@
 				B4F195B71B2C154900B8C519 /* DetailPhoneWebViewModel.swift */,
 			);
 			name = PhoneWeb;
-			path = Detail/Cell/PhoneWeb;
+			path = Cells/PhoneWeb;
 			sourceTree = "<group>";
 		};
 		B4F195B91B2C2FC200B8C519 /* Heading */ = {
