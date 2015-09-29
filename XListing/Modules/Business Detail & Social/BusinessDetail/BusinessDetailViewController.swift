@@ -125,27 +125,6 @@ public final class BusinessDetailViewController : XUIViewController {
             table.trailing == table.superview!.trailing
             table.bottom == table.superview!.bottom
         }
-        
-        compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
-            |> logLifeCycle(LogContext.Detail, "tableView:didSelectRowAtIndexPath:")
-            |> map { ($0 as! RACTuple).second as! NSIndexPath }
-            |> start(next: { indexPath in
-                let section = indexPath.section
-                let row = indexPath.row
-                
-                switch Section(rawValue: section)! {
-                case .BusinessHours:
-                    switch BusinessHours(rawValue: row)! {
-                        // expand the business hours cell
-                    case .BusinessHours:
-                        self.expandHours.put(!self.expandHours.value)
-                        
-                        self.tableView.reloadData()
-                    default: break
-                    }
-                default: break
-                }
-            })
 
         navigationMapViewController = DetailNavigationMapViewController()
         
@@ -279,6 +258,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! UITableViewCell
                 cell.textLabel?.text = "营业时间"
                 cell.layoutMargins = UIEdgeInsetsZero
+                cell.userInteractionEnabled = false
                 return cell
                 
             
