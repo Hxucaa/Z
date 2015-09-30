@@ -71,6 +71,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-XListing/Spring.framework'
   install_framework 'Pods-XListing/TTTAttributedLabel.framework'
   install_framework 'Pods-XListing/TZStackView.framework'
+  install_framework 'Pods-XListing/Watchdog.framework'
   install_framework 'Pods-XListing/XAssets.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then

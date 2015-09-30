@@ -96,6 +96,7 @@
 		B4307F421B78D96F00E3D41B /* CakeIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F411B78D96F00E3D41B /* CakeIcon.swift */; };
 		B4307F441B796B4300E3D41B /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F431B796B4300E3D41B /* RoundedButton.swift */; };
 		B4307F4B1B7BE47A00E3D41B /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F4A1B7BE47A00E3D41B /* LogInViewController.swift */; };
+		B43FDA731BBC607900678404 /* MainThreadWatchdog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43FDA721BBC607900678404 /* MainThreadWatchdog.swift */; };
 		B446A61A1B1FA88000106CAF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B446A6191B1FA88000106CAF /* Logger.swift */; };
 		B446A61C1B1FBE9000106CAF /* ASLFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B446A61B1B1FBE9000106CAF /* ASLFormatter.swift */; };
 		B44E35011AD5D0AE00657A31 /* IFeaturedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */; };
@@ -336,6 +337,7 @@
 		B4307F411B78D96F00E3D41B /* CakeIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CakeIcon.swift; sourceTree = "<group>"; };
 		B4307F431B796B4300E3D41B /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		B4307F4A1B7BE47A00E3D41B /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		B43FDA721BBC607900678404 /* MainThreadWatchdog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainThreadWatchdog.swift; sourceTree = "<group>"; };
 		B446A6191B1FA88000106CAF /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		B446A61B1B1FBE9000106CAF /* ASLFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASLFormatter.swift; sourceTree = "<group>"; };
 		B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListViewModel.swift; sourceTree = "<group>"; };
@@ -578,6 +580,7 @@
 				B41334EC1B5F44B300B5F22D /* Keyboard.swift */,
 				7E2EB1E01B8131650012BAB3 /* StatusBarBackgroundView.swift */,
 				B4F332811B9699D10048D1B4 /* XBaseUINavigationController.swift */,
+				B43FDA721BBC607900678404 /* MainThreadWatchdog.swift */,
 			);
 			name = View;
 			path = Common/View;
@@ -1732,6 +1735,7 @@
 				B4E1384C1AE1BD0D0082DCA3 /* UserService.swift in Sources */,
 				261D91031B6873D5004B1CF6 /* Icons.swift in Sources */,
 				3D70CCE71B562AE3004588EC /* ImageService.swift in Sources */,
+				B43FDA731BBC607900678404 /* MainThreadWatchdog.swift in Sources */,
 				B4E1384A1AE1B94C0082DCA3 /* User.swift in Sources */,
 				D0D006031B62B23900755B7F /* ProfileBusinessViewModel.swift in Sources */,
 				B4D733931B9A2D8A00B599B9 /* SocialBusinessHeaderViewModel.swift in Sources */,

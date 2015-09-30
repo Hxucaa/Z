@@ -5,6 +5,7 @@ use_frameworks!
 target 'XListing' do
   pod 'XAssets', :git => 'git@bitbucket.org:zenchat/xassets.git'
   pod 'FLEX', '~> 2.0', :configurations => ['DEBUG']
+  pod 'Watchdog', '~> 1.0.0', :configurations => ['DEBUG']
   pod 'Spring', '~> 1.0.3'
   pod 'SVProgressHUD', :git => 'https://github.com/Hxucaa/SVProgressHUD.git'
   pod 'CocoaLumberjack', '= 2.0.0'
