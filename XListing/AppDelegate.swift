@@ -43,6 +43,8 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
         // Analytics
         Fabric.with([Crashlytics.self()])
         
+        mainThreadWatchdog.startMonitoring()
+        
         return true
     }
     
