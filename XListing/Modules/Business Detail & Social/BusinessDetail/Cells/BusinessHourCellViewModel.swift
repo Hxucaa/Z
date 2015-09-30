@@ -13,23 +13,22 @@ public final class BusinessHourCellViewModel {
     
     // MARK: - Outputs
     
-    public var businessHours: PropertyOf<String> {
-        return PropertyOf(_businessHours)
+    public var shortBusinessHours: PropertyOf<String> {
+        return PropertyOf(_shortBusinessHours)
     }
+    private let _shortBusinessHours: MutableProperty<String>
     
-    private let _businessHours: MutableProperty<String>
-    
-    
-    public var shouldExpandBusinessHours: MutableProperty<Bool>
+    public var longBusinessHours: PropertyOf<String> {
+        return PropertyOf(_longBusinessHours)
+    }
+    private let _longBusinessHours: MutableProperty<String>
+
 
     public init() {
-        shouldExpandBusinessHours = MutableProperty(false)
+            _shortBusinessHours = MutableProperty("今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
         
-        //if let businessHours = businessHours {
-            _businessHours = MutableProperty("test business hours")
-        //} else {
-         //   _description = MutableProperty("")
-        //}
+            _longBusinessHours = MutableProperty("星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
+        
         
     }
 }

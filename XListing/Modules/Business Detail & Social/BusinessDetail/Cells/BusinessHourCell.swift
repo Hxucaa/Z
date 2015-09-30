@@ -11,21 +11,55 @@ import UIKit
 import Cartography
 import TTTAttributedLabel
 import ReactiveCocoa
+import TZStackView
 
 public final class BusinessHourCell: UITableViewCell {
 
     // MARK: - UI Controls
     
-    private lazy var businessHoursLabel: TTTAttributedLabel = {
-        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 0, 0))
-        label.opaque = true
-        label.font = UIFont.systemFontOfSize(14)
-        label.numberOfLines = 0
-        label.sizeToFit()
-        label.lineSpacing = 15
-        
-        return label
+    private lazy var currentLabel: UILabel = {
+        return self.setupLabel()
         }()
+    
+    private lazy var monLabel: UILabel = {
+        return self.setupLabel()
+        }()
+    
+    private lazy var tuesLabel: UILabel = {
+        return self.setupLabel()
+        }()
+    
+    private lazy var wedsLabel: UILabel = {
+        return self.setupLabel()
+        }()
+    
+    private lazy var thursLabel: UILabel = {
+        return self.setupLabel()
+        }()
+    
+    private lazy var friLabel: UILabel = {
+        return self.setupLabel()
+        }()
+    
+    private lazy var satLabel: UILabel = {
+        return self.setupLabel()
+        }()
+    
+    private lazy var sunLabel: UILabel = {
+        return self.setupLabel()
+        }()
+    /**
+    *   MARK: Main Stack View
+    */
+    private lazy var mainStackView: TZStackView = {
+        let container = TZStackView(arrangedSubviews: [self.currentLabel, self.monLabel, self.tuesLabel, self.wedsLabel, self.thursLabel, self.friLabel, self.satLabel, self.sunLabel])
+        container.distribution = TZStackViewDistribution.EqualSpacing
+        container.axis = .Vertical
+        container.spacing = 15
+        container.alignment = TZStackViewAlignment.Leading
+        return container
+        }()
+    
     
     // MARK: - Proxies
     private let (_expandBusinessHoursProxy, _expandBusinessHoursSink) = SimpleProxy.proxy()
@@ -46,18 +80,14 @@ public final class BusinessHourCell: UITableViewCell {
         
         selectionStyle = UITableViewCellSelectionStyle.None
         layoutMargins = UIEdgeInsetsMake(10, 15, 10, 10)
-        businessHoursLabel.text = "今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM"
-    
+        
+        //set the day labels to hidden initally
+        changeLabelState(false)
         
         let expandHoursAction = Action<UITapGestureRecognizer, Void, NoError> { [weak self] gesture in
             return SignalProducer { sink, disposable in
             if let this = self {
-                if (!this.shouldExpand) {
-                    this.businessHoursLabel.text = "星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM"
-                } else {
-                    this.businessHoursLabel.text = "今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM"
-                }
-                
+                this.changeLabelState(this.shouldExpand)
                 this.shouldExpand = !this.shouldExpand
                 sendNext(this._expandBusinessHoursSink, ())
                 sendCompleted(sink)
@@ -65,16 +95,15 @@ public final class BusinessHourCell: UITableViewCell {
             }
         }
         let tapGesture = UITapGestureRecognizer(target: expandHoursAction.unsafeCocoaAction, action: CocoaAction.selector)
-        
-        
-        addSubview(businessHoursLabel)
+
+        addSubview(mainStackView)
         addGestureRecognizer(tapGesture)
         
-        constrain(businessHoursLabel) { view in
+        constrain(mainStackView) { view in
             view.leading == view.superview!.leadingMargin
             view.top == view.superview!.topMargin
-            view.bottom == view.superview!.bottomMargin
             view.trailing == view.superview!.trailingMargin
+            view.bottom == view.superview!.bottomMargin
         }
     }
     
@@ -82,11 +111,40 @@ public final class BusinessHourCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func setupLabel() -> UILabel {
+        let label = UILabel(frame: CGRectMake(0, 0, 0, 0))
+        label.opaque = true
+        label.font = UIFont.systemFontOfSize(14)
+        label.numberOfLines = 0
+        label.sizeToFit()
+        return label
+    }
+    
+    private func changeLabelState(oldState: Bool) {
+        self.currentLabel.hidden = oldState
+        self.monLabel.hidden = !oldState
+        self.tuesLabel.hidden = !oldState
+        self.wedsLabel.hidden = !oldState
+        self.thursLabel.hidden = !oldState
+        self.friLabel.hidden = !oldState
+        self.satLabel.hidden = !oldState
+        self.sunLabel.hidden = !oldState
+    }
+    
     // MARK: - Bindings
     
     public func bindViewModel(viewmodel: BusinessHourCellViewModel) {
         self.viewmodel = viewmodel
-        //businessHoursLabel.rac_text <~ viewmodel.businessHours.producer
-        //    |> takeUntilPrepareForReuse(self)
+
+        currentLabel.text = "Current"
+        monLabel.text = "Mon"
+        tuesLabel.text = "Tues"
+        wedsLabel.text = "Weds"
+        thursLabel.text = "Thurs"
+        friLabel.text = "Fri"
+        satLabel.text = "Sat"
+        sunLabel.text = "Sun"
     }
+    
+    
 }
