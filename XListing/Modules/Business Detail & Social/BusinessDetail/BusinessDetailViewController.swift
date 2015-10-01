@@ -65,7 +65,7 @@ public final class BusinessDetailViewController : XUIViewController {
         // a hack which makes the gap between table view and utility header go away
         tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         // a hack which makes the gap at the bottom of the table view go away
-        tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, -20, 0);
         tableView.showsHorizontalScrollIndicator = false
         tableView.opaque = true
         
