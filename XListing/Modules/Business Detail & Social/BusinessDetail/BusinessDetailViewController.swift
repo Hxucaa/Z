@@ -269,7 +269,8 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 compositeDisposable += cell.expandBusinessHoursProxy
                     |> takeUntilPrepareForReuse(cell)
                     |> start(next: { [weak self] vc in
-                        self?.tableView.reloadData()
+                        self?.tableView.beginUpdates()
+                        self?.tableView.endUpdates()
                     })
                 return cell
             }
@@ -281,6 +282,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 cell.textLabel?.text = "地址和信息"
                 cell.layoutMargins = UIEdgeInsetsZero
                 cell.userInteractionEnabled = false
+                cell.sizeToFit()
                 return cell
             case .Map:
                 let mapCell = tableView.dequeueReusableCellWithIdentifier(MapCellIdentifier)

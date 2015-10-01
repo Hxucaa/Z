@@ -16,11 +16,6 @@ import TZStackView
 public final class BusinessHourCell: UITableViewCell {
 
     // MARK: - UI Controls
-    
-    private lazy var currentLabel: UILabel = {
-        return self.setupLabel()
-        }()
-    
     private lazy var monLabel: UILabel = {
         return self.setupLabel()
         }()
@@ -52,7 +47,7 @@ public final class BusinessHourCell: UITableViewCell {
     *   MARK: Main Stack View
     */
     private lazy var mainStackView: TZStackView = {
-        let container = TZStackView(arrangedSubviews: [self.currentLabel, self.monLabel, self.tuesLabel, self.wedsLabel, self.thursLabel, self.friLabel, self.satLabel, self.sunLabel])
+        let container = TZStackView(arrangedSubviews: [self.monLabel, self.tuesLabel, self.wedsLabel, self.thursLabel, self.friLabel, self.satLabel, self.sunLabel])
         container.distribution = TZStackViewDistribution.EqualSpacing
         container.axis = .Vertical
         container.spacing = 15
@@ -71,7 +66,7 @@ public final class BusinessHourCell: UITableViewCell {
     // MARK: - Properties
     
     private var viewmodel: BusinessHourCellViewModel!
-    private var shouldExpand: Bool = false
+    private var shouldExpand: Bool = true
     
     // MARK: - Initializers
     
@@ -103,7 +98,7 @@ public final class BusinessHourCell: UITableViewCell {
             view.leading == view.superview!.leadingMargin
             view.top == view.superview!.topMargin
             view.trailing == view.superview!.trailingMargin
-            view.bottom == view.superview!.bottomMargin
+            view.bottom == view.superview!.bottomMargin ~ 999
         }
     }
     
@@ -121,29 +116,26 @@ public final class BusinessHourCell: UITableViewCell {
     }
     
     private func changeLabelState(oldState: Bool) {
-        self.currentLabel.hidden = oldState
-        self.monLabel.hidden = !oldState
-        self.tuesLabel.hidden = !oldState
-        self.wedsLabel.hidden = !oldState
-        self.thursLabel.hidden = !oldState
-        self.friLabel.hidden = !oldState
-        self.satLabel.hidden = !oldState
-        self.sunLabel.hidden = !oldState
+        monLabel.hidden = !oldState
+        tuesLabel.hidden = !oldState
+        wedsLabel.hidden = oldState
+        thursLabel.hidden = !oldState
+        friLabel.hidden = !oldState
+        satLabel.hidden = !oldState
+        sunLabel.hidden = !oldState
     }
     
     // MARK: - Bindings
     
     public func bindViewModel(viewmodel: BusinessHourCellViewModel) {
         self.viewmodel = viewmodel
-
-        currentLabel.text = "Current"
-        monLabel.text = "Mon"
-        tuesLabel.text = "Tues"
-        wedsLabel.text = "Weds"
-        thursLabel.text = "Thurs"
-        friLabel.text = "Fri"
-        satLabel.text = "Sat"
-        sunLabel.text = "Sun"
+        monLabel.rac_text <~ viewmodel.monHours
+        tuesLabel.rac_text <~ viewmodel.tuesHours
+        wedsLabel.rac_text <~ viewmodel.wedsHours
+        thursLabel.rac_text <~ viewmodel.thursHours
+        friLabel.rac_text <~ viewmodel.friHours
+        satLabel.rac_text <~ viewmodel.satHours
+        sunLabel.rac_text <~ viewmodel.sunHours
     }
     
     

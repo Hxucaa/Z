@@ -13,22 +13,49 @@ public final class BusinessHourCellViewModel {
     
     // MARK: - Outputs
     
-    public var shortBusinessHours: PropertyOf<String> {
-        return PropertyOf(_shortBusinessHours)
+    public var monHours: PropertyOf<String> {
+        return PropertyOf(_monHours)
     }
-    private let _shortBusinessHours: MutableProperty<String>
+    private let _monHours: MutableProperty<String>
     
-    public var longBusinessHours: PropertyOf<String> {
-        return PropertyOf(_longBusinessHours)
+    public var tuesHours: PropertyOf<String> {
+        return PropertyOf(_tuesHours)
     }
-    private let _longBusinessHours: MutableProperty<String>
-
+    private let _tuesHours: MutableProperty<String>
+    
+    public var wedsHours: PropertyOf<String> {
+        return PropertyOf(_wedsHours)
+    }
+    private let _wedsHours: MutableProperty<String>
+    
+    public var thursHours: PropertyOf<String> {
+        return PropertyOf(_thursHours)
+    }
+    private let _thursHours: MutableProperty<String>
+    
+    public var friHours: PropertyOf<String> {
+        return PropertyOf(_friHours)
+    }
+    private let _friHours: MutableProperty<String>
+    
+    public var satHours: PropertyOf<String> {
+        return PropertyOf(_satHours)
+    }
+    private let _satHours: MutableProperty<String>
+    
+    public var sunHours: PropertyOf<String> {
+        return PropertyOf(_sunHours)
+    }
+    private let _sunHours: MutableProperty<String>
 
     public init() {
-            _shortBusinessHours = MutableProperty("今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
-        
-            _longBusinessHours = MutableProperty("星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM\n星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
-        
+        _monHours = MutableProperty("今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
+        _tuesHours = MutableProperty("今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
+        _wedsHours = MutableProperty("今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
+        _thursHours = MutableProperty("今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
+        _friHours = MutableProperty("今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
+        _satHours = MutableProperty("今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
+        _sunHours = MutableProperty("今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
         
     }
 }
