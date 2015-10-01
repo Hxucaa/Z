@@ -127,7 +127,7 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
                                     replaceAllHandler(values: boxedValues.value)
                                 }
                                 else {
-                                    this.tableView.reloadSections(NSIndexSet(index: targetedSection), withRowAnimation: UITableViewRowAnimation.None)
+                                    this.tableView.reloadData()
                                 }
                             case let .RemoveAll(keepCapacity):
                                 if let removeAllHandler = removeAllHandler {
