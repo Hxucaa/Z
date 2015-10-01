@@ -66,7 +66,6 @@ public final class BusinessHourCell: UITableViewCell {
     // MARK: - Properties
     
     private var viewmodel: BusinessHourCellViewModel!
-    private var shouldExpand: Bool = true
     
     // MARK: - Initializers
     
@@ -76,14 +75,10 @@ public final class BusinessHourCell: UITableViewCell {
         selectionStyle = UITableViewCellSelectionStyle.None
         layoutMargins = UIEdgeInsetsMake(10, 15, 10, 10)
         
-        //set the day labels to hidden initally
-        changeLabelState(false)
-        
         let expandHoursAction = Action<UITapGestureRecognizer, Void, NoError> { [weak self] gesture in
             return SignalProducer { sink, disposable in
             if let this = self {
-                this.changeLabelState(this.shouldExpand)
-                this.shouldExpand = !this.shouldExpand
+                this.viewmodel.switchLabelState()
                 sendNext(this._expandBusinessHoursSink, ())
                 sendCompleted(sink)
                 }
@@ -110,19 +105,9 @@ public final class BusinessHourCell: UITableViewCell {
         let label = UILabel(frame: CGRectMake(0, 0, 0, 0))
         label.opaque = true
         label.font = UIFont.systemFontOfSize(14)
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.sizeToFit()
         return label
-    }
-    
-    private func changeLabelState(oldState: Bool) {
-        monLabel.hidden = !oldState
-        tuesLabel.hidden = !oldState
-        wedsLabel.hidden = oldState
-        thursLabel.hidden = !oldState
-        friLabel.hidden = !oldState
-        satLabel.hidden = !oldState
-        sunLabel.hidden = !oldState
     }
     
     // MARK: - Bindings
@@ -136,6 +121,14 @@ public final class BusinessHourCell: UITableViewCell {
         friLabel.rac_text <~ viewmodel.friHours
         satLabel.rac_text <~ viewmodel.satHours
         sunLabel.rac_text <~ viewmodel.sunHours
+        
+        monLabel.rac_hidden <~ viewmodel.monHidden
+        tuesLabel.rac_hidden <~ viewmodel.tuesHidden
+        wedsLabel.rac_hidden <~ viewmodel.wedsHidden
+        thursLabel.rac_hidden <~ viewmodel.thursHidden
+        friLabel.rac_hidden <~ viewmodel.friHidden
+        satLabel.rac_hidden <~ viewmodel.satHidden
+        sunLabel.rac_hidden <~ viewmodel.sunHidden
     }
     
     
