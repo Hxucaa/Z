@@ -48,7 +48,7 @@ public final class BusinessDetailViewController : XUIViewController {
         
         tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
         tableView.registerClass(DescriptionTableViewCell.self, forCellReuseIdentifier: DescriptionCellIdentifier)
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: HeaderCellIdentifier)
+        tableView.registerClass(HeaderTableViewCell.self, forCellReuseIdentifier: HeaderCellIdentifier)
         tableView.registerClass(BusinessHourCell.self, forCellReuseIdentifier: BusinessHourCellIdentifier)
         tableView.registerClass(DetailMapTableViewCell.self, forCellReuseIdentifier: MapCellIdentifier)
         tableView.registerClass(DetailAddressTableViewCell.self, forCellReuseIdentifier: AddressCellIdentifier)
@@ -239,8 +239,8 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
         case .Description:
             switch Description(rawValue: row)! {
             case .Header:
-                let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! UITableViewCell
-                cell.textLabel?.text = "特设介绍"
+                let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! HeaderTableViewCell
+                cell.setLabelText("特设介绍")
                 cell.layoutMargins = UIEdgeInsetsZero
                 cell.userInteractionEnabled = false
                 return cell
@@ -255,8 +255,8 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
         case .BusinessHours:
             switch BusinessHours(rawValue: row)! {
             case .Header:
-                let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! UITableViewCell
-                cell.textLabel?.text = "营业时间"
+                let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! HeaderTableViewCell
+                cell.setLabelText("营业时间")
                 cell.layoutMargins = UIEdgeInsetsZero
                 cell.userInteractionEnabled = false
                 return cell
@@ -278,8 +278,8 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
         case .Map:
             switch Map(rawValue: row)! {
             case .Header:
-                let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! UITableViewCell
-                cell.textLabel?.text = "地址和信息"
+                let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! HeaderTableViewCell
+                cell.setLabelText("地址和信息")
                 cell.layoutMargins = UIEdgeInsetsZero
                 cell.userInteractionEnabled = false
                 cell.sizeToFit()
