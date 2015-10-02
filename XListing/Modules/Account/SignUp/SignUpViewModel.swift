@@ -131,10 +131,9 @@ public final class SignUpViewModel {
                     |> promoteErrors(NSError)
                     |> flatMap(.Latest) { (nickname, birthday, profileImage, gender) -> SignalProducer<Bool, NSError> in
                         let imageData = UIImagePNGRepresentation(profileImage)
-                        let file = AVFile(name: "profile.png", data: imageData)
                         user.nickname = nickname
                         user.birthday = birthday
-                        user.profileImg = file
+                        user.profileImg_ = ImageFile(name: "profile.png", data: imageData)
                         if let gender = self.gender.value {
                             user.gender_ = gender
                         }

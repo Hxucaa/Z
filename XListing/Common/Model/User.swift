@@ -46,9 +46,28 @@ public final class User: AVUser, AVSubclassing {
     }
     
     @NSManaged public var birthday: NSDate?
+    
     @NSManaged public var nickname: String?
-    @NSManaged public var profileImg: AVFile?
+    
+    @NSManaged private var profileImg: AVFile?
+    public var profileImg_: ImageFile? {
+        get {
+            if let url = profileImg?.url {
+                return ImageFile(url: url)
+            }
+            else {
+                return nil
+            }
+        }
+        set {
+            if let newValue = newValue {
+                profileImg = AVFile(name: newValue.name, data: newValue.data)
+            }
+        }
+    }
+    
     @NSManaged public var profile: Profile
+    
     @NSManaged private var latestLocation: AVGeoPoint?
     public var latestGeolocation: Geolocation? {
         get {
@@ -63,18 +82,34 @@ public final class User: AVUser, AVSubclassing {
             }
         }
     }
+    
     @NSManaged private var gender: Bool
     public var gender_: Gender {
         get {
             return gender ? Gender.Male : Gender.Female
         }
         set {
-            gender = newValue.value
+            gender = newValue.dbRepresentation
         }
     }
+    
     @NSManaged private var horoscope: Int
     public var horoscope_: Horoscope? {
-        return Horoscope(rawValue: horoscope)!
+        get {
+            return Horoscope(rawValue: horoscope)
+        }
+        set {
+            horoscope = (newValue?.rawValue)!
+        }
     }
-    @NSManaged public var ageGroup: String?
+    
+    @NSManaged private var ageGroup: Int
+    public var ageGroup_: AgeGroup? {
+        get {
+            return AgeGroup(rawValue: ageGroup)
+        }
+        set {
+            ageGroup = (newValue?.rawValue)!
+        }
+    }
 }

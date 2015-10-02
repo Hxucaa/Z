@@ -57,7 +57,7 @@ public final class SocialBusiness_UserViewModel {
 
     
     // MARK: - Initializers
-    public init(participationService: IParticipationService, imageService: IImageService, user: User?, nickname: String?, ageGroup: String?, horoscope: String?, gender: Gender, profileImage: AVFile?) {
+    public init(participationService: IParticipationService, imageService: IImageService, user: User?, nickname: String?, ageGroup: AgeGroup?, horoscope: Horoscope?, gender: Gender, profileImage: ImageFile?) {
         self.participationService = participationService
         self.imageService = imageService
         
@@ -73,17 +73,9 @@ public final class SocialBusiness_UserViewModel {
             _nickname = MutableProperty("")
         }
         
-        if let ageGroup = ageGroup {
-            _ageGroup = MutableProperty(ageGroup)
-        } else {
-            _ageGroup = MutableProperty("")
-        }
+        _ageGroup = MutableProperty(convertAgeGroup(ageGroup))
         
-        if let horoscope = horoscope {
-            _horoscope = MutableProperty(horoscope)
-        } else {
-            _horoscope = MutableProperty("")
-        }
+        _horoscope = MutableProperty(convertHoroscope(horoscope))
         
 //        if let status = status {
 //            _status = MutableProperty(status)

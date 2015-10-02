@@ -43,13 +43,20 @@ public final class Profile: AVObject, AVSubclassing {
 //        }
 //    }
     
-    @NSManaged public var profileImg: AVFile?
-//    public var profileImg: AVFile? {
-//        get {
-//            return self.objectForKey("profileImg") as? AVFile
-//        }
-//        set {
-//            self.setObject(newValue, forKey: "profileImg")
-//        }
-//    }
+    @NSManaged private var profileImg: AVFile?
+    public var profileImg_: ImageFile? {
+        get {
+            if let url = profileImg?.url {
+                return ImageFile(url: url)
+            }
+            else {
+                return nil
+            }
+        }
+        set {
+            if let newValue = newValue {
+                profileImg = AVFile(name: newValue.name, data: newValue.data)
+            }
+        }
+    }
 }

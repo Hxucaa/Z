@@ -100,12 +100,21 @@ public final class Business: AVObject, AVSubclassing {
     // Rating for this business (value ranges from 1, 1.5, ... 4.5, 5)
     @NSManaged public var rating: Double
     
-    @NSManaged public var cover: AVFile?
-    public var coverImageUrl: NSURL? {
-        if let url = cover?.url {
-            return NSURL(string: url)
+    @NSManaged private var cover: AVFile?
+    public var cover_: ImageFile? {
+        get {
+            if let url = cover?.url {
+                return ImageFile(url: url)
+            }
+            else {
+                return nil
+            }
         }
-        return nil
+        set {
+            if let newValue = newValue {
+                cover = AVFile(name: newValue.name, data: newValue.data)
+            }
+        }
     }
     
     @NSManaged public var price: Int

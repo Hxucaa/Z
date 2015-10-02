@@ -37,7 +37,7 @@ public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewMode
     private let _eta: MutableProperty<String?> = MutableProperty(nil)
     
     // MARK: - Initializers
-    public init(geoLocationService: IGeoLocationService, imageService: IImageService, imageURL: NSURL?, businessName: String?, city: String?, geopoint: Geolocation?) {
+    public init(geoLocationService: IGeoLocationService, imageService: IImageService, cover: ImageFile?, businessName: String?, city: String?, geolocation: Geolocation?) {
         
         self.geoLocationService = geoLocationService
         self.imageService = imageService
@@ -54,15 +54,15 @@ public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewMode
             _city = MutableProperty("")
         }
         
-        if let url = imageURL {
-            self.imageService.getImage(url)
+        if let url = cover?.url, nsurl = NSURL(string: url) {
+            self.imageService.getImage(nsurl)
                 |> start(next: {
                     self._coverImage.put($0)
                 })
         }
         
-        if let geopoint = geopoint {
-            setupEta(CLLocation(latitude: geopoint.latitude, longitude: geopoint.longitude))
+        if let geolocation = geolocation {
+            setupEta(CLLocation(latitude: geolocation.latitude, longitude: geolocation.longitude))
                 |> start()
         }
         

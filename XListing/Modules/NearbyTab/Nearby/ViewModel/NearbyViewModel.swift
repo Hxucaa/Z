@@ -55,7 +55,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
     public func getAdditionalBusinesses(searchOrigin: CLLocation) -> SignalProducer<Void, NSError> {
         let query = Business.query()
         let centreGeoPoint = AVGeoPoint(latitude: searchOrigin.coordinate.latitude, longitude: searchOrigin.coordinate.longitude)
-        query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint)
+        query.whereKey(Business.Property.Geolocation.rawValue, nearGeoPoint: centreGeoPoint)
         query.skip = collectionDataSource.array.count
         return getBusinessesWithQuery(query, isPagination: true)
             |> map { [weak self] _ in
@@ -67,7 +67,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
     public func getBusinessesWithMap(searchOrigin: CLLocation, radius: Double) -> SignalProducer<Void, NSError> {
         let query = Business.query()!
         let centreGeoPoint = AVGeoPoint(latitude: searchOrigin.coordinate.latitude, longitude: searchOrigin.coordinate.longitude)
-        query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint, withinKilometers: radius)
+        query.whereKey(Business.Property.Geolocation.rawValue, nearGeoPoint: centreGeoPoint, withinKilometers: radius)
         
         return getBusinessesWithQuery(query, isPagination: false)
             |> flatMap(.Merge) { data in
@@ -101,7 +101,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
     // get the closest businesses from a certain geopoint
     private func getNearestBusinesses(centreGeoPoint: AVGeoPoint) -> SignalProducer<Void, NSError>{
         let query = Business.query()
-        query.whereKey(Business.Property.Geopoint.rawValue, nearGeoPoint: centreGeoPoint)
+        query.whereKey(Business.Property.Geolocation.rawValue, nearGeoPoint: centreGeoPoint)
         return getBusinessesWithQuery(query, isPagination: false)
             |> map { [weak self] _ in
                 return
@@ -121,7 +121,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
             })
             |> map { businesses -> [NearbyTableCellViewModel] in
                 businesses.map {
-                    NearbyTableCellViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter)
+                    NearbyTableCellViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover_, geolocation: $0.geolocation, aaCount: $0.aaCount, treatCount: $0.treatCount, toGoCount: $0.toGoCount)
                 }
             }
             |> on(

@@ -42,7 +42,7 @@ public final class AppDependencies {
         featuredListWireframe = FeaturedListWireframe(businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds, imageService: imageService, participationService: ps)
         nearbyWireframe = NearbyWireframe(businessService: bs, geoLocationService: gs, imageService: imageService)
         profileWireframe = ProfileWireframe(participationService: ps, businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds, imageService: imageService)
-        profileEditWireframe = ProfileEditWireframe(userService: us)
+        profileEditWireframe = ProfileEditWireframe(userService: us, imageService: imageService)
         socialBusinessWireframe = SocialBusinessWireframe(userService: us, participationService: ps, geoLocationService: gs, imageService: imageService)
         accountWireframe = AccountWireframe(userService: us, userDefaultsService: uds)
 

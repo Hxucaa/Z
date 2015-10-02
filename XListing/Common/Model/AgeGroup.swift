@@ -11,6 +11,9 @@ import Foundation
 public enum AgeGroup : Int, Printable {
 //    case 70后 = 1, 75后, 80后, 85后, 90后, 95后, 00后, 05后
     case 七零后 = 1
+    case 八零后
+    case 九零后
+    case 零零后
     
     public var description: String {
         return ""

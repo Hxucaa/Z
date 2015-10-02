@@ -94,6 +94,7 @@ public final class DetailMapTableViewCell: UITableViewCell {
         
         compositeDisposable += self.viewmodel.cellMapRegion.producer
             |> takeUntilPrepareForReuse(self)
+            |> ignoreNil
             |> start(next: { [weak self] region in
                 self?.mapView.setRegion(region, animated: false)
             })
