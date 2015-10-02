@@ -22,7 +22,6 @@ public final class AppDependencies {
 
     private let featuredListWireframe: IFeaturedListWireframe
     private let nearbyWireframe: INearbyWireframe
-    private let detailWireframe: IDetailWireframe
     private let accountWireframe: IAccountWireframe
     private let profileWireframe: IProfileWireframe
     private let profileEditWireframe: IProfileEditWireframe
@@ -39,9 +38,7 @@ public final class AppDependencies {
     public init(window: UIWindow) {
         // init HUD
         HUD.sharedInstance
-        
-        detailWireframe = DetailWireframe(userService: us, participationService: ps, geoLocationService: gs, imageService: imageService)
-        
+
         featuredListWireframe = FeaturedListWireframe(businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds, imageService: imageService, participationService: ps)
         nearbyWireframe = NearbyWireframe(businessService: bs, geoLocationService: gs, imageService: imageService)
         profileWireframe = ProfileWireframe(participationService: ps, businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds, imageService: imageService)

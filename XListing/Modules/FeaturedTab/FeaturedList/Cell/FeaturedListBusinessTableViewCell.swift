@@ -15,22 +15,17 @@ import TTTAttributedLabel
 import XAssets
 import Dollar
 
+private let BusinessImageViewWidthToTopSectionWidthRatio = 0.60
+private let ParticipationViewHeightToMainStackViewHeightRatio = 0.20
+
 public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     
     // MARK: - UI Controls
     
     private lazy var backgroundContainer: UIView = {
-        let view = UIView()
+        let view = UIView(frame: CGRectMake(8, 8, self.estimatedFrame.width - 8, self.estimatedFrame.height - 5))
         view.backgroundColor = UIColor.x_FeaturedCardBG()
         view.clipsToBounds = true
-        view.addSubview(self.mainStackView)
-        
-        constrain(self.mainStackView) { view in
-            view.leading == view.superview!.leadingMargin
-            view.top == view.superview!.topMargin
-            view.trailing == view.superview!.trailingMargin
-            view.bottom == view.superview!.bottom - 5
-        }
         
         return view
     }()
@@ -44,21 +39,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         container.axis = .Vertical
         container.spacing = 4
         container.alignment = TZStackViewAlignment.Leading
-        
-        constrain(self.topSectionContainer) { view in
-            view.width == view.superview!.width
-        }
-        
-        constrain(self.dividerView) { divider in
-            divider.width == divider.superview!.width
-        }
-        
-        constrain(self.participationView) { view in
-            view.height == view.superview!.height * 0.20
-            view.width == view.superview!.width
-        }
-        
-        self.statsStackView.setContentCompressionResistancePriority(749, forAxis: .Vertical)
+        container.frame = CGRectMake(0, 0, self.estimatedFrame.width - 8 , self.estimatedFrame.height - 5)
         
         return container
     }()
@@ -68,16 +49,125 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     */
     
     private lazy var topSectionContainer: UIView = {
-        let view = UIView()
+        let view = UIView(frame: CGRectMake(0, 0, self.estimatedFrame.width, self.topSectionHeight))
         
         view.opaque = true
         view.backgroundColor = UIColor.x_FeaturedCardBG()
         view.clipsToBounds = true
         
-        view.addSubview(self.businessImageView)
-        view.addSubview(self.infoPanelView)
+        return view
+    }()
+    
+    private lazy var businessImageView: UIImageView = {
+        let imageView = UIImageView(frame: CGRectMake(0, 0, round(self.estimatedFrame.width * CGFloat(BusinessImageViewWidthToTopSectionWidthRatio)), self.topSectionHeight))
+        imageView.backgroundColor = UIColor.x_FeaturedCardBG()
+        imageView.image = UIImage(named: ImageAssets.businessplaceholder)
         
-        constrain(self.businessImageView, self.infoPanelView) { image, info in
+        
+        return imageView
+    }()
+    
+    private lazy var infoPanelView: FeaturedListBusinessCell_InfoPanelView = {
+        let view = FeaturedListBusinessCell_InfoPanelView(frame: CGRectMake(round(self.estimatedFrame.width * CGFloat(BusinessImageViewWidthToTopSectionWidthRatio)), 0, round(self.estimatedFrame.width * 0.30), self.topSectionHeight))
+        
+        return view
+    }()
+    
+    /**
+    *   Divider
+    */
+    
+    private lazy var dividerView: DividerView = {
+        let view = DividerView(frame: CGRectMake(0, round(self.estimatedFrame.height * 0.65), self.estimatedFrame.width, 1))
+        
+        view.userInteractionEnabled = false
+        view.opaque = true
+        view.backgroundColor = UIColor(hex: "D5D5D5")
+        
+        return view
+    }()
+    
+    /**
+    *   MARK: Stats Section
+    */
+    private lazy var statsStackView: FeaturedListBusinessCell_StatsStackView = {
+        let view = FeaturedListBusinessCell_StatsStackView()
+        view.frame = CGRectMake(10, round(self.estimatedFrame.height * 0.70), 100, 10)
+        
+        return view
+    }()
+        
+    /**
+    *   MARK: Participation section
+    */
+    private lazy var participationView: FeaturedListBusinessCell_ParticipationView = {
+        let view = FeaturedListBusinessCell_ParticipationView(frame: CGRectMake(0, round(self.estimatedFrame.height * 0.75), self.estimatedFrame.width, round(self.estimatedFrame.height * CGFloat(ParticipationViewHeightToMainStackViewHeightRatio))))
+        
+        return view
+    }()
+    
+    // MARK: - Properties
+    private let estimatedFrame: CGRect
+    private let topSectionHeight: CGFloat
+    private var didSetupInitialConstraints = false
+    private var viewmodel: IFeaturedBusinessViewModel! {
+        didSet {
+            infoPanelView.bindToViewModel(viewmodel.infoPanelViewModel)
+            participationView.bindToViewModel(viewmodel.pariticipationViewModel)
+            statsStackView.bindToViewModel(viewmodel.statsViewModel)
+        }
+    }
+
+    // MARK: - Initializers
+    public init(estimatedFrame: CGRect, style: UITableViewCellStyle, reuseIdentifier: String?) {
+        self.estimatedFrame = estimatedFrame
+        topSectionHeight = round(self.estimatedFrame.height * 0.60)
+        
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        selectionStyle = UITableViewCellSelectionStyle.None
+        opaque = true
+        backgroundColor = .grayColor()
+        
+        /**
+        *   background container
+        */
+        contentView.addSubview(backgroundContainer)
+        constrain(backgroundContainer) { view in
+            view.leading == view.superview!.leading + 5
+            view.top == view.superview!.topMargin
+            view.trailing == view.superview!.trailing - 5
+            view.bottom == view.superview!.bottom
+        }
+        
+        /**
+        *   main StackView
+        */
+        backgroundContainer.addSubview(mainStackView)
+        constrain(mainStackView) { view in
+            view.leading == view.superview!.leadingMargin
+            view.top == view.superview!.topMargin
+            view.trailing == view.superview!.trailingMargin
+            view.bottom == view.superview!.bottom - 5
+        }
+        
+        /**
+        *   topSection Container
+        */
+        constrain(topSectionContainer) { view in
+            view.width == view.superview!.width
+        }
+        
+        /**
+        *   businessImageView & infoPanelView
+        */
+        topSectionContainer.addSubview(businessImageView)
+        topSectionContainer.addSubview(infoPanelView)
+        
+        businessImageView.setContentCompressionResistancePriority(751, forAxis: .Horizontal)
+        infoPanelView.setContentCompressionResistancePriority(749, forAxis: .Horizontal)
+        
+        constrain(businessImageView, infoPanelView) { image, info in
             image.leading == image.superview!.leading
             image.top == image.superview!.top
             image.width == image.superview!.width * 0.60
@@ -90,87 +180,22 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             
         }
         
-        self.businessImageView.setContentCompressionResistancePriority(751, forAxis: .Horizontal)
-        self.infoPanelView.setContentCompressionResistancePriority(749, forAxis: .Horizontal)
-        
-        return view
-    }()
-    
-    private lazy var businessImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.backgroundColor = UIColor.x_FeaturedCardBG()
-        imageView.layer.masksToBounds = true
-        
-        
-        return imageView
-    }()
-    
-    private lazy var infoPanelView: FeaturedListBusinessCell_InfoPanelView = {
-        let view = FeaturedListBusinessCell_InfoPanelView()
-        
-        return view
-    }()
-    
-    /**
-    *   Divider
-    */
-    
-    private lazy var dividerView: UIView = {
-        let view = UIView()
-        
-        view.userInteractionEnabled = false
-        view.opaque = true
-        view.backgroundColor = UIColor(hex: "D5D5D5")
-        
-        constrain(view) { view in
-            view.height == 1
+        /**
+        *   dividier
+        */
+        constrain(dividerView) { divider in
+            divider.width == divider.superview!.width
         }
-        
-        return view
-    }()
-    
-    /**
-    *   MARK: Stats Section
-    */
-    private lazy var statsStackView: FeaturedListBusinessCell_StatsStackView = {
-        let view = FeaturedListBusinessCell_StatsStackView()
-        
-        return view
-    }()
-        
-    /**
-    *   MARK: Participation section
-    */
-    private lazy var participationView: FeaturedListBusinessCell_ParticipationView = {
-        let view = FeaturedListBusinessCell_ParticipationView()
-        
-        return view
-    }()
-    
-    // MARK: - Properties
-    private var viewmodel: IFeaturedBusinessViewModel! {
-        didSet {
-            infoPanelView.bindToViewModel(viewmodel.infoPanelViewModel)
-            participationView.bindToViewModel(viewmodel.pariticipationViewModel)
-            statsStackView.bindToViewModel(viewmodel.statsViewModel)
-        }
-    }
+        dividerView.setContentCompressionResistancePriority(751, forAxis: .Vertical)
 
-    // MARK: - Initializers
-    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-
-        selectionStyle = UITableViewCellSelectionStyle.None
-        opaque = true
-        backgroundColor = .grayColor()
+        statsStackView.setContentCompressionResistancePriority(749, forAxis: .Vertical)
         
-        addSubview(backgroundContainer)
-        
-        constrain(backgroundContainer) { view in
-            view.leading == view.superview!.leading + 5
-            view.top == view.superview!.topMargin
-            view.trailing == view.superview!.trailing - 5
-            view.bottom == view.superview!.bottom
+        /**
+        *   particiation view
+        */
+        constrain(participationView) { view in
+            view.height == view.superview!.height * 0.25
+            view.width == view.superview!.width
         }
         
     }
@@ -180,7 +205,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     }
 
     // MARK: Setups
-    
+
     public override func prepareForReuse() {
         participationView.initiateReuse()
         
