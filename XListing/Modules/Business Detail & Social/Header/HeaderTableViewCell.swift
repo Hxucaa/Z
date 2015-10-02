@@ -29,7 +29,7 @@ public final class HeaderTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = UITableViewCellSelectionStyle.None
-        layoutMargins = UIEdgeInsetsMake(5, 15, 5, 5)
+        contentView.layoutMargins = UIEdgeInsetsMake(7, 15, 7, 5)
         
         contentView.addSubview(headerLabel)
         
