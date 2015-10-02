@@ -74,8 +74,8 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         
         // Initialization code
         
-        addSubview(websiteButton)
-        addSubview(phoneButton)
+        contentView.addSubview(websiteButton)
+        contentView.addSubview(phoneButton)
         
         constrain(phoneButton, websiteButton) { phone, website in
             phone.leading == phone.superview!.leadingMargin
