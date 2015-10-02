@@ -83,10 +83,9 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
             phone.trailing == website.leading
             
             phone.height == 44
-            website.height == 44
+            website.height == phone.height
             
             phone.width == phone.superview!.width/2
-            website.width == website.superview!.width/2
             
             phone.top == phone.superview!.top
             phone.bottom == phone.superview!.bottom
