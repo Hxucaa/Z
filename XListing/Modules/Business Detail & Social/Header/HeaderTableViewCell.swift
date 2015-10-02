@@ -11,6 +11,7 @@ import Cartography
 
 public final class HeaderTableViewCell: UITableViewCell {
     
+    // MARK: - UI Controls
     private lazy var headerLabel: UILabel = {
         let label = UILabel()
         label.opaque = true
@@ -19,17 +20,19 @@ public final class HeaderTableViewCell: UITableViewCell {
         label.sizeToFit()
         
         return label
-        }()
+    }()
+    
+    // MARK: - Properties
 
-    public func setLabelText(text: String) {
-        headerLabel.text = text
-    }
+    // MARK: - Initializers
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = UITableViewCellSelectionStyle.None
         contentView.layoutMargins = UIEdgeInsetsMake(7, 15, 7, 5)
+        layoutMargins = UIEdgeInsetsZero
+        userInteractionEnabled = false
         
         contentView.addSubview(headerLabel)
         
@@ -45,5 +48,11 @@ public final class HeaderTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-
+    // MARK: - Setups
+    
+    // MARK: - Others
+    
+    public func setLabelText(text: String) {
+        headerLabel.text = text
+    }
 }

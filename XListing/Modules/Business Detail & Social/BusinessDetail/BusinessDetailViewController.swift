@@ -36,12 +36,12 @@ public final class BusinessDetailViewController : XUIViewController {
         let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, ImageHeaderHeight))
         view.bindToViewModel(self.viewmodel.headerViewModel)
         return view
-        }()
+    }()
     
     private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
         let view = SocialBusiness_UtilityHeaderView(frame: CGRectMake(0, ImageHeaderHeight, ScreenWidth, UtilHeaderHeight))
         return view
-        }()
+    }()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRectMake(0, TableViewStart, ScreenWidth, 1000), style: UITableViewStyle.Grouped)
@@ -70,7 +70,7 @@ public final class BusinessDetailViewController : XUIViewController {
         tableView.opaque = true
         
         return tableView
-        }()
+    }()
     
     private var navigationMapViewController: DetailNavigationMapViewController!
     
@@ -142,14 +142,14 @@ public final class BusinessDetailViewController : XUIViewController {
             |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.detailInfoProxy")
             |> start(next: { [weak self] in
                 println("go back to social business")
-                })
+            })
         
         compositeDisposable += utilityHeaderView.startEventProxy
             |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.startEventProxy")
             |> start(next: { [weak self] in
                 println("want to go")
-                })
+            })
         
         
         /**
@@ -241,8 +241,6 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
             case .Header:
                 let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! HeaderTableViewCell
                 cell.setLabelText("特设介绍")
-                cell.layoutMargins = UIEdgeInsetsZero
-                cell.userInteractionEnabled = false
                 return cell
                 
             case .Content:
@@ -251,18 +249,13 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 return cell
             }
             
-            
         case .BusinessHours:
             switch BusinessHours(rawValue: row)! {
             case .Header:
                 let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! HeaderTableViewCell
                 cell.setLabelText("营业时间")
-                cell.layoutMargins = UIEdgeInsetsZero
-                cell.userInteractionEnabled = false
                 return cell
                 
-            
-            
             case .BusinessHours:
                 let cell = tableView.dequeueReusableCellWithIdentifier(BusinessHourCellIdentifier) as! BusinessHourCell
                 cell.bindViewModel(viewmodel.businessHourViewModel)
@@ -280,20 +273,17 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
             case .Header:
                 let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! HeaderTableViewCell
                 cell.setLabelText("地址和信息")
-                cell.layoutMargins = UIEdgeInsetsZero
-                cell.userInteractionEnabled = false
-                cell.sizeToFit()
                 return cell
             case .Map:
-                let mapCell = tableView.dequeueReusableCellWithIdentifier(MapCellIdentifier)
-                    as! DetailMapTableViewCell
+                let mapCell = tableView.dequeueReusableCellWithIdentifier(MapCellIdentifier) as! DetailMapTableViewCell
                 mapCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
                 compositeDisposable += mapCell.navigationMapProxy
                     |> takeUntilPrepareForReuse(mapCell)
                     |> start(next: { [weak self] in
                         self?.presentNavigationMapViewController()
-                        })
+                    })
                 return mapCell
+                
             case .Address:
                 let addressCell = tableView.dequeueReusableCellWithIdentifier(AddressCellIdentifier) as! DetailAddressTableViewCell
                 addressCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
@@ -301,8 +291,9 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                     |> takeUntilPrepareForReuse(addressCell)
                     |> start(next: { [weak self] in
                         self?.presentNavigationMapViewController()
-                        })
+                    })
                 return addressCell
+                
             case .PhoneWeb:
                 let phoneWebCell = tableView.dequeueReusableCellWithIdentifier(PhoneWebCellIdentifier) as! DetailPhoneWebTableViewCell
                 phoneWebCell.bindToViewModel(viewmodel.detailPhoneWebViewModel)
@@ -310,7 +301,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                     |> takeUntilPrepareForReuse(phoneWebCell)
                     |> start(next: { [weak self] vc in
                         self?.presentViewController(vc, animated: true, completion: nil)
-                        })
+                    })
                 return phoneWebCell
             
             }
