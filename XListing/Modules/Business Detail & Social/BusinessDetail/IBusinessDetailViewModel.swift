@@ -18,6 +18,7 @@ public protocol IBusinessDetailViewModel : class {
 //    var detailBizInfoViewModel: DetailBizInfoViewModel { get }
     var detailNavigationMapViewModel: DetailNavigationMapViewModel { get }
 //    var detailParticipationViewModel: DetailParticipationViewModel { get }
+    var businessHourViewModel: BusinessHourCellViewModel { get }
     init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, business: Business)
     
 }

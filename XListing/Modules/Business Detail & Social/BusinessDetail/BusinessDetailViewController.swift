@@ -15,10 +15,12 @@ import Cartography
 
 private let UserCellIdentifier = "SocialBusiness_UserCell"
 private let HeaderCellIdentifier = "HeaderCell"
+private let BusinessHourCellIdentifier = "BusinessHourCellIdentifier"
 private let MapCellIdentifier = "MapCell"
 private let AddressCellIdentifier = "AddressCell"
 private let PhoneWebCellIdentifier = "PhoneWebCell"
 private let DescriptionCellIdentifier = "DescriptionTableviewCell"
+
 private let BusinessHeightRatio = 0.61
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
 private let ImageHeaderHeight = CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)
@@ -47,12 +49,12 @@ public final class BusinessDetailViewController : XUIViewController {
         tableView.registerClass(SocialBusiness_UserCell.self, forCellReuseIdentifier: UserCellIdentifier)
         tableView.registerClass(DescriptionTableViewCell.self, forCellReuseIdentifier: DescriptionCellIdentifier)
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: HeaderCellIdentifier)
+        tableView.registerClass(BusinessHourCell.self, forCellReuseIdentifier: BusinessHourCellIdentifier)
         tableView.registerClass(DetailMapTableViewCell.self, forCellReuseIdentifier: MapCellIdentifier)
         tableView.registerClass(DetailAddressTableViewCell.self, forCellReuseIdentifier: AddressCellIdentifier)
         tableView.registerClass(DetailPhoneWebTableViewCell.self, forCellReuseIdentifier: PhoneWebCellIdentifier)
         tableView.dataSource = self
-        
-        tableView.dataSource = self
+
         tableView.estimatedRowHeight = 25.0
         tableView.rowHeight = UITableViewAutomaticDimension
         
@@ -63,7 +65,7 @@ public final class BusinessDetailViewController : XUIViewController {
         // a hack which makes the gap between table view and utility header go away
         tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         // a hack which makes the gap at the bottom of the table view go away
-        tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, -20, 0);
         tableView.showsHorizontalScrollIndicator = false
         tableView.opaque = true
         
@@ -75,13 +77,18 @@ public final class BusinessDetailViewController : XUIViewController {
     // MARK: - Properties
     private var viewmodel: IBusinessDetailViewModel!
     private let compositeDisposable = CompositeDisposable()
+    private let expandHours = MutableProperty<Bool>(false)
     
     private enum Section : Int {
-        case Description, Map
+        case Description, BusinessHours, Map
     }
     
     private enum Description : Int {
         case Header, Content
+    }
+    
+    private enum BusinessHours: Int {
+        case Header, BusinessHours
     }
     
     private enum Map : Int {
@@ -118,7 +125,7 @@ public final class BusinessDetailViewController : XUIViewController {
             table.trailing == table.superview!.trailing
             table.bottom == table.superview!.bottom
         }
-        
+
         navigationMapViewController = DetailNavigationMapViewController()
         
         compositeDisposable += navigationMapViewController.goBackProxy
@@ -196,6 +203,8 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
         switch Section(rawValue: section)! {
         case .Description:
             return 2
+        case .BusinessHours:
+            return 2
         case .Map:
             return 4
         }
@@ -209,7 +218,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     :returns: The number of sections in table view.
     */
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     /**
@@ -243,6 +252,29 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
             }
             
             
+        case .BusinessHours:
+            switch BusinessHours(rawValue: row)! {
+            case .Header:
+                let cell = tableView.dequeueReusableCellWithIdentifier(HeaderCellIdentifier) as! UITableViewCell
+                cell.textLabel?.text = "营业时间"
+                cell.layoutMargins = UIEdgeInsetsZero
+                cell.userInteractionEnabled = false
+                return cell
+                
+            
+            
+            case .BusinessHours:
+                let cell = tableView.dequeueReusableCellWithIdentifier(BusinessHourCellIdentifier) as! BusinessHourCell
+                cell.bindViewModel(viewmodel.businessHourViewModel)
+                compositeDisposable += cell.expandBusinessHoursProxy
+                    |> takeUntilPrepareForReuse(cell)
+                    |> start(next: { [weak self] vc in
+                        self?.tableView.beginUpdates()
+                        self?.tableView.endUpdates()
+                    })
+                return cell
+            }
+            
         case .Map:
             switch Map(rawValue: row)! {
             case .Header:
@@ -250,6 +282,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 cell.textLabel?.text = "地址和信息"
                 cell.layoutMargins = UIEdgeInsetsZero
                 cell.userInteractionEnabled = false
+                cell.sizeToFit()
                 return cell
             case .Map:
                 let mapCell = tableView.dequeueReusableCellWithIdentifier(MapCellIdentifier)
@@ -279,6 +312,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                         self?.presentViewController(vc, animated: true, completion: nil)
                         })
                 return phoneWebCell
+            
             }
         }
     }

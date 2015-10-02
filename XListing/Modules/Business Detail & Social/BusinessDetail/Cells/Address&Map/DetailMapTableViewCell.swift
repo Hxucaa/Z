@@ -63,10 +63,11 @@ public final class DetailMapTableViewCell: UITableViewCell {
         
         layoutMargins = UIEdgeInsetsZero
         separatorInset = UIEdgeInsetsZero
+        contentView.layoutMargins = UIEdgeInsetsZero
         
         selectionStyle = UITableViewCellSelectionStyle.None
         
-        addSubview(mapView)
+        contentView.addSubview(mapView)
         
         constrain(mapView) { view in
             view.leading == view.superview!.leadingMargin

@@ -37,6 +37,7 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
 //    public let detailBizInfoViewModel: DetailBizInfoViewModel
     public let detailNavigationMapViewModel: DetailNavigationMapViewModel
 //    public let detailParticipationViewModel: DetailParticipationViewModel
+    public let businessHourViewModel: BusinessHourCellViewModel
     
     // MARK: Actions
     
@@ -56,7 +57,7 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
 //        detailBizInfoViewModel = DetailBizInfoViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, business: business)
         detailNavigationMapViewModel = DetailNavigationMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, businessLocation: business.cllocation)
 //        detailParticipationViewModel = DetailParticipationViewModel(participationCount: business.wantToGoCounter)
-        
+        businessHourViewModel = BusinessHourCellViewModel()
         
         _businessName = ConstantProperty(business.nameSChinese!)
     }
