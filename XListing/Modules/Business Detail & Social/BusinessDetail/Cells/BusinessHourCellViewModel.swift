@@ -11,6 +11,8 @@ import ReactiveCocoa
 
 public final class BusinessHourCellViewModel {
     
+    // MARK: - Inputs
+    
     // MARK: - Outputs
     
     public var monHours: PropertyOf<String> {
@@ -19,36 +21,42 @@ public final class BusinessHourCellViewModel {
     public var monHidden: PropertyOf<Bool> {
         return PropertyOf(_monHidden)
     }
+    
     public var tuesHours: PropertyOf<String> {
         return PropertyOf(_tuesHours)
     }
     public var tuesHidden: PropertyOf<Bool> {
         return PropertyOf(_tuesHidden)
     }
+    
     public var wedsHours: PropertyOf<String> {
         return PropertyOf(_wedsHours)
     }
     public var wedsHidden: PropertyOf<Bool> {
         return PropertyOf(_wedsHidden)
     }
+    
     public var thursHours: PropertyOf<String> {
         return PropertyOf(_thursHours)
     }
     public var thursHidden: PropertyOf<Bool> {
         return PropertyOf(_thursHidden)
     }
+    
     public var friHours: PropertyOf<String> {
         return PropertyOf(_friHours)
     }
     public var friHidden: PropertyOf<Bool> {
         return PropertyOf(_friHidden)
     }
+    
     public var satHours: PropertyOf<String> {
         return PropertyOf(_satHours)
     }
     public var satHidden: PropertyOf<Bool> {
         return PropertyOf(_satHidden)
     }
+    
     public var sunHours: PropertyOf<String> {
         return PropertyOf(_sunHours)
     }
@@ -56,7 +64,7 @@ public final class BusinessHourCellViewModel {
         return PropertyOf(_sunHidden)
     }
     
-    // MARK: - Private
+    // MARK: - Properties
     
     private let _monHours: MutableProperty<String>
     private let _monHidden: MutableProperty<Bool>
@@ -112,7 +120,7 @@ public final class BusinessHourCellViewModel {
         
     }
     
-    // MARK: - Other functions
+    // MARK: - API
     
     //flip the hidden state
     public func switchLabelState() {

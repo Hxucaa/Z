@@ -18,31 +18,42 @@ public final class BusinessHourCell: UITableViewCell {
     // MARK: - UI Controls
     private lazy var monLabel: UILabel = {
         return self.setupLabel()
-        }()
+    }()
     
     private lazy var tuesLabel: UILabel = {
         return self.setupLabel()
-        }()
+    }()
     
     private lazy var wedsLabel: UILabel = {
         return self.setupLabel()
-        }()
+    }()
     
     private lazy var thursLabel: UILabel = {
         return self.setupLabel()
-        }()
+    }()
     
     private lazy var friLabel: UILabel = {
         return self.setupLabel()
-        }()
+    }()
     
     private lazy var satLabel: UILabel = {
         return self.setupLabel()
-        }()
+    }()
     
     private lazy var sunLabel: UILabel = {
         return self.setupLabel()
-        }()
+    }()
+    
+    
+    private func setupLabel() -> UILabel {
+        let label = UILabel(frame: CGRectMake(0, 0, 0, 0))
+        label.opaque = true
+        label.font = UIFont.systemFontOfSize(14)
+        label.numberOfLines = 1
+        label.sizeToFit()
+        return label
+    }
+    
     /**
     *   MARK: Main Stack View
     */
@@ -53,7 +64,7 @@ public final class BusinessHourCell: UITableViewCell {
         container.spacing = 15
         container.alignment = TZStackViewAlignment.Leading
         return container
-        }()
+    }()
     
     
     // MARK: - Proxies
@@ -77,10 +88,10 @@ public final class BusinessHourCell: UITableViewCell {
         
         let expandHoursAction = Action<UITapGestureRecognizer, Void, NoError> { [weak self] gesture in
             return SignalProducer { sink, disposable in
-            if let this = self {
-                this.viewmodel.switchLabelState()
-                sendNext(this._expandBusinessHoursSink, ())
-                sendCompleted(sink)
+                if let this = self {
+                    this.viewmodel.switchLabelState()
+                    sendNext(this._expandBusinessHoursSink, ())
+                    sendCompleted(sink)
                 }
             }
         }
@@ -100,15 +111,7 @@ public final class BusinessHourCell: UITableViewCell {
     public required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func setupLabel() -> UILabel {
-        let label = UILabel(frame: CGRectMake(0, 0, 0, 0))
-        label.opaque = true
-        label.font = UIFont.systemFontOfSize(14)
-        label.numberOfLines = 1
-        label.sizeToFit()
-        return label
-    }
+
     
     // MARK: - Bindings
     
