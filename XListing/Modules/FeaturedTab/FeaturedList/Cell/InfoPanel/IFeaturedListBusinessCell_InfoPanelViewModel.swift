@@ -8,7 +8,6 @@
 
 import Foundation
 import ReactiveCocoa
-import AVOSCloud
 
 public protocol IFeaturedListBusinessCell_InfoPanelViewModel : class {
     var businessName: PropertyOf<String> { get }
@@ -17,5 +16,5 @@ public protocol IFeaturedListBusinessCell_InfoPanelViewModel : class {
     var price: PropertyOf<Int?> { get }
     var district: PropertyOf<String> { get }
     
-    init(geoLocationService: IGeoLocationService, businessName: String?, city: String?, district: String?, price: Int?, geopoint: AVGeoPoint?)
+    init(geoLocationService: IGeoLocationService, businessName: String?, city: String?, district: String?, price: Int?, geolocation: Geolocation?)
 }

@@ -56,7 +56,7 @@ public final class ProfileViewModel : IProfileViewModel {
         return self.userService.currentLoggedInUser()
             |> on(next: { user in
                 self.user.put(user)
-                var viewmodel = ProfileHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, name: user.nickname, city: "", district: "", horoscope: user.horoscope, ageGroup: user.ageGroup, cover: user.profileImg, geopoint: user.latestLocation)
+                var viewmodel = ProfileHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, name: user.nickname, city: "", district: "", horoscope: user.horoscope_, ageGroup: user.ageGroup_, cover: user.profileImg_, geolocation: user.latestGeolocation)
                 self.profileHeaderViewModel.put(viewmodel)
                 self.getParticipations(user)
                     |> start()
@@ -100,7 +100,7 @@ public final class ProfileViewModel : IProfileViewModel {
                 // map participation to its view model
                 return participations.map {
                     let business = $0.business
-                    let viewmodel = ProfileBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: business.nameSChinese, city: business.city, district: business.district, cover: business.cover, geopoint: business.geopoint, participationCount: business.wantToGoCounter)
+                    let viewmodel = ProfileBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: business.nameSChinese, city: business.city, district: business.district, cover: business.cover_, geolocation: business.geolocation, aaCount: business.aaCount, treatCount: business.treatCount, toGoCount: business.toGoCount)
                     return viewmodel
                 }
             }

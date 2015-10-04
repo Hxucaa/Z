@@ -8,10 +8,9 @@
 
 import Foundation
 import ReactiveCocoa
-import AVOSCloud
 import MapKit
 
-public struct NearbyTableCellViewModel {
+public final class NearbyTableCellViewModel {
     
     // MARK: Properties
     public let businessName: ConstantProperty<String>
@@ -19,16 +18,17 @@ public struct NearbyTableCellViewModel {
     public let eta: MutableProperty<String> = MutableProperty("")
     public let district: ConstantProperty<String>
     public let coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
-    public let participation: MutableProperty<String> = MutableProperty("")
+    public let participation: MutableProperty<String>
     public let businessHours: ConstantProperty<String> = ConstantProperty("今天 10:00AM - 10:00PM")
     public let annotation: ConstantProperty<MKPointAnnotation>
     
     // MARK: Services
     private let geoLocationService: IGeoLocationService
     private let imageService: IImageService
+    private let businessLocation: Geolocation
     
     // MARK: Setup
-        public init(geoLocationService: IGeoLocationService, imageService: IImageService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int) {
+    public init(geoLocationService: IGeoLocationService, imageService: IImageService, businessName: String?, city: String?, district: String?, cover: ImageFile?, geolocation: Geolocation?, aaCount: Int, treatCount: Int, toGoCount: Int) {
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         
@@ -47,23 +47,24 @@ public struct NearbyTableCellViewModel {
         } else {
             self.district = ConstantProperty("")
         }
-
-        let businessLocation = CLLocation(latitude: geopoint!.latitude, longitude: geopoint!.longitude)
         
+        
+        participation = MutableProperty("\(aaCount + treatCount + toGoCount)+ 人想去")
+        
+        businessLocation = geolocation!
+            
         let annotation = MKPointAnnotation()
-        annotation.coordinate = businessLocation.coordinate
+        annotation.coordinate = businessLocation.cllocation.coordinate
         annotation.title = businessName
         self.annotation = ConstantProperty(annotation)
         
-
-        participation.put("\(participationCount)+ 人想去")
-
+        setupEta(businessLocation.cllocation)
+        
         imageService.getImage(NSURL(string: "http://lasttear.com/wp-content/uploads/2015/03/interior-design-ideas-furniture-architecture-mesmerizing-chinese-restaurant-interior-with-red-nuance-inspiring.jpg")!)
             |> start(next: {
                 self.coverImage.put($0)
             })
         
-        setupEta(businessLocation)
     }
     
     private func setupEta(destination: CLLocation) {

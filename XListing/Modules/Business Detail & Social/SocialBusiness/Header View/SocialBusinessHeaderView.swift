@@ -52,13 +52,6 @@ public final class SocialBusinessHeaderView : UIView {
         let imageView = UIImageView(frame: CGRect(origin: CGPointMake(0, 0), size: CoverImageSize))
         imageView.contentMode = UIViewContentMode.ScaleAspectFill
         
-//        constrain(imageView) { view in
-//            view.width == CoverImageSize.width
-//            view.height == CoverImageSize.height
-//        }
-        
-        imageView.setContentCompressionResistancePriority(700, forAxis: .Vertical)
-        
         return imageView
     }()
     
@@ -146,6 +139,8 @@ public final class SocialBusinessHeaderView : UIView {
 
         addSubview(backgroundImageView)
         backgroundImageView.addSubview(mainContainer)
+        
+        coverImageView.setContentCompressionResistancePriority(700, forAxis: .Vertical)
 
         constrain(backgroundImageView) { view in
             view.top == view.superview!.top

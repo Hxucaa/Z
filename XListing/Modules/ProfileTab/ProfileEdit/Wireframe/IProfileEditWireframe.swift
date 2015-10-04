@@ -9,6 +9,6 @@
 import Foundation
 
 public protocol IProfileEditWireframe : class {
-    init(userService: IUserService)
+    init(userService: IUserService, imageService: IImageService)
     func viewController(user: User) -> ProfileEditViewController
 }

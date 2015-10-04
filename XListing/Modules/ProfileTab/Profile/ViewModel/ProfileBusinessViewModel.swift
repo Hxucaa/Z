@@ -22,7 +22,7 @@ public struct ProfileBusinessViewModel {
     public let participation: MutableProperty<String> = MutableProperty("")
     public let eta: MutableProperty<String> = MutableProperty("")
     
-    public init(geoLocationService: IGeoLocationService, imageService: IImageService, businessName: String?, city: String?, district: String?, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int) {
+    public init(geoLocationService: IGeoLocationService, imageService: IImageService, businessName: String?, city: String?, district: String?, cover: ImageFile?, geolocation: Geolocation?, aaCount: Int, treatCount: Int, toGoCount: Int) {
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         
@@ -41,11 +41,11 @@ public struct ProfileBusinessViewModel {
         } else {
             self.district = ConstantProperty("")
         }
-        if let geopoint = geopoint {
-            setupEta(CLLocation(latitude: geopoint.latitude, longitude: geopoint.longitude))
+        if let geolocation = geolocation {
+            setupEta(geolocation.cllocation)
         }
         
-        participation.put("\(participationCount)+ 人想去")
+        participation.put("\(aaCount + treatCount + toGoCount)+ 人想去")
         
         
         if let url = cover?.url, nsurl = NSURL(string: url) {

@@ -28,7 +28,8 @@ public final class ProfileHeaderViewModel {
     private let geoLocationService: IGeoLocationService
     private let imageService: IImageService
     
-    public init(geoLocationService: IGeoLocationService, imageService: IImageService, name: String?, city: String?, district: String?, horoscope: String?, ageGroup: String?, cover: AVFile?, geopoint: AVGeoPoint?) {
+    public init(geoLocationService: IGeoLocationService, imageService: IImageService, name: String?, city: String?, district: String?, horoscope: Horoscope?, ageGroup: AgeGroup?, cover: ImageFile?, geolocation: Geolocation?) {
+        
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         
@@ -48,47 +49,18 @@ public final class ProfileHeaderViewModel {
             self.district = ConstantProperty("")
         }
         
-        
-        func convertHoroscope(horoscope: String?) -> String {
-            if let horoscope = horoscope {
-                switch(horoscope){
-                case "白羊座": return horoscope + "♈️"
-                case "金牛座": return horoscope + "♉️"
-                case "双子座": return horoscope + "♊️"
-                case "巨蟹座": return horoscope + "♋️"
-                case "狮子座": return horoscope + "♌️"
-                case "处女座": return horoscope + "♍️"
-                case "天秤座": return horoscope + "♎️"
-                case "天蝎座": return horoscope + "♏️"
-                case "射手座": return horoscope + "♐️"
-                case "摩羯座": return horoscope + "♑️"
-                case "水瓶座": return horoscope + "♒️"
-                case "双鱼座": return horoscope + "♓️"
-                default: return ""
-                }
-            }
-            else {
-                return ""
-            }
-        }
         self.horoscope = ConstantProperty(convertHoroscope(horoscope))
         
+        self.ageGroup = ConstantProperty(convertAgeGroup(ageGroup))
         
-        if let ageGroup = ageGroup {
-            var temp = ageGroup + "后"
-            self.ageGroup = ConstantProperty(temp)
-        } else {
-            self.ageGroup = ConstantProperty("")
-        }
-        
-        if let geopoint = geopoint {
-            setupEta(CLLocation(latitude: geopoint.latitude, longitude: geopoint.longitude))
+        if let geolocation = geolocation {
+            setupEta(geolocation.cllocation)
         }
 
         if let url = cover?.url, nsurl = NSURL(string: url) {
             imageService.getImage(nsurl)
-                |> start(next: {
-                    self.coverImage.put($0)
+                |> start(next: { [weak self] image in
+                    self?.coverImage.put(image)
                 })
         }
         

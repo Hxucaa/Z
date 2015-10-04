@@ -49,13 +49,13 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
         self.imageService = imageService
         self.business = business
         
-        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, imageURL: business.coverImageUrl, businessName: business.nameSChinese, city: business.city, geopoint: business.geopoint)
+        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, cover: business.cover_, businessName: business.nameSChinese, city: business.city, geolocation: business.geolocation)
         
 //        detailImageViewModel = DetailImageViewModel(imageService: imageService, coverImageURL: business.cover?.url)
-        detailAddressAndMapViewModel = DetailAddressAndMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, address: business.address, city: business.city, state: business.state, businessLocation: business.cllocation)
+        detailAddressAndMapViewModel = DetailAddressAndMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, address: business.address, city: business.city, state: business.state, geolocation: business.geolocation)
         detailPhoneWebViewModel = DetailPhoneWebViewModel(businessName: business.nameSChinese, phone: business.phone, website: business.url)
 //        detailBizInfoViewModel = DetailBizInfoViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, business: business)
-        detailNavigationMapViewModel = DetailNavigationMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, businessLocation: business.cllocation)
+        detailNavigationMapViewModel = DetailNavigationMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, geolocation: business.geolocation)
 //        detailParticipationViewModel = DetailParticipationViewModel(participationCount: business.wantToGoCounter)
         businessHourViewModel = BusinessHourCellViewModel()
         

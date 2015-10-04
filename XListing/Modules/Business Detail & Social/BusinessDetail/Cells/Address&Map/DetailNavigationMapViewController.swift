@@ -58,7 +58,7 @@ public final class DetailNavigationMapViewController: XUIViewController {
             return SignalProducer { sink, disposable in
                 if let this = self {
                     disposable += combineLatest(
-                        this.viewmodel.annotation.producer,
+                        this.viewmodel.annotation.producer |> ignoreNil,
                         this.viewmodel.region.producer |> ignoreNil
                         )
                         |> start(next: { annotation, region in

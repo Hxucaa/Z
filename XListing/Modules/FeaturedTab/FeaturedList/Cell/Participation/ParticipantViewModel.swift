@@ -25,7 +25,7 @@ public final class ParticipantViewModel {
         self.imageService = imageService
         self.user = user
         
-        if let image = user.profileImg, url = image.url, nsurl = NSURL(string: url) {
+        if let image = user.profileImg_, url = image.url, nsurl = NSURL(string: url) {
             self.imageService.getImage(nsurl)
                 |> start (next :{ [weak self] in
                     self?.avatar.put($0)
