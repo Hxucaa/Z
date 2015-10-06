@@ -131,11 +131,11 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
                 next: { viewmodels in
                     if refresh && viewmodels.count > 0 {
                         // ignore old data
-                        self.collectionDataSource.replaceAll(viewmodels)
+                        self.collectionDataSource.replaceAll($.shuffle(viewmodels))
                     }
                     else if !refresh && viewmodels.count > 0 {
                         // save the new data with old ones
-                        self.collectionDataSource.extend(viewmodels)
+                        self.collectionDataSource.extend($.shuffle(viewmodels))
                     }
                 },
                 error: { FeaturedLogError($0.description) }
