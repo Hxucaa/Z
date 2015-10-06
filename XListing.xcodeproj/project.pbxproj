@@ -22,6 +22,7 @@
 		2675C4BE1BB3AD1400F2683B /* DescriptionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2675C4BD1BB3AD1400F2683B /* DescriptionCellViewModel.swift */; };
 		269163691B5C6C1E005D48FA /* (null) in Sources */ = {isa = PBXBuildFile; };
 		26979C061B71CB54003F85ED /* ProfileEdit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26979C051B71CB54003F85ED /* ProfileEdit.storyboard */; };
+		26A76FE11BC058500034341A /* BusinessDetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A76FE01BC058500034341A /* BusinessDetailTableView.swift */; };
 		26C55F291BB86D7700828D58 /* BusinessHourCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C55F281BB86D7700828D58 /* BusinessHourCell.swift */; };
 		26C55F2B1BB86D9A00828D58 /* BusinessHourCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C55F2A1BB86D9A00828D58 /* BusinessHourCellViewModel.swift */; };
 		26DE3E891BBE41A7007D057B /* HeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE3E881BBE41A7007D057B /* HeaderTableViewCell.swift */; };
@@ -246,6 +247,7 @@
 		2675C4BB1BB3ACC400F2683B /* DescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		2675C4BD1BB3AD1400F2683B /* DescriptionCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCellViewModel.swift; sourceTree = "<group>"; };
 		26979C051B71CB54003F85ED /* ProfileEdit.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProfileEdit.storyboard; sourceTree = "<group>"; };
+		26A76FE01BC058500034341A /* BusinessDetailTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessDetailTableView.swift; sourceTree = "<group>"; };
 		26AB479389256B6B20922161 /* Pods-XListingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests.release.xcconfig"; sourceTree = "<group>"; };
 		26C55F281BB86D7700828D58 /* BusinessHourCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessHourCell.swift; sourceTree = "<group>"; };
 		26C55F2A1BB86D9A00828D58 /* BusinessHourCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessHourCellViewModel.swift; sourceTree = "<group>"; };
@@ -785,6 +787,7 @@
 		B403B07F1BA0D9AE0085E0A3 /* BusinessDetail */ = {
 			isa = PBXGroup;
 			children = (
+				26A76FE01BC058500034341A /* BusinessDetailTableView.swift */,
 				B403B0801BA0DA110085E0A3 /* BusinessDetailViewController.swift */,
 				B403B0821BA0DA4C0085E0A3 /* BusinessDetailViewModel.swift */,
 				B403B0841BA0DA6B0085E0A3 /* IBusinessDetailViewModel.swift */,
@@ -1615,6 +1618,7 @@
 				3DE38A7E1B11BB3000DFA128 /* IKeychainService.swift in Sources */,
 				B45581F81B33E89D00C4D965 /* FeaturedBusinessViewModel.swift in Sources */,
 				D0ADD8A51B608B4200B27885 /* ProfileTabView.swift in Sources */,
+				26A76FE11BC058500034341A /* BusinessDetailTableView.swift in Sources */,
 				3DE38A801B11BB3D00DFA128 /* KeychainService.swift in Sources */,
 				B41334F11B60F8B900B5F22D /* ReactiveCocoa+extension.swift in Sources */,
 				B44E35041AD63F6000657A31 /* BusinessService.swift in Sources */,

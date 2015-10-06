@@ -53,6 +53,11 @@ public final class SocialBusinessViewController : XUIViewController {
         return view
     }()
     
+    // MARK: - Getters
+    public var getAnimationMembers: (SocialBusinessHeaderView, SocialBusiness_UtilityHeaderView) {
+        return (headerView, utilityHeaderView)
+    }
+    
     // MARK: - Properties
     private var viewmodel: ISocialBusinessViewModel! {
         didSet {
@@ -167,12 +172,12 @@ public final class SocialBusinessViewController : XUIViewController {
 extension SocialBusinessViewController : UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return viewmodel.collectionDataSource.count
+        return 10//viewmodel.collectionDataSource.count
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as! SocialBusiness_UserCell
-        cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
+        //cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return cell
     }
     
@@ -210,7 +215,7 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
             }
             
             if let image = viewmodel.businessCoverImage {
-                return UIImageSlideAnimator(startRect: start, destination: destination, image: image)
+                return UIImageSlideAnimator(startRect: start, destination: destination, headerView: self.headerView)
             }
             else {
                 return nil

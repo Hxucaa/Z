@@ -10,16 +10,20 @@ import Foundation
 import UIKit
 import Cartography
 
+private let BusinessHeightRatio = 0.61
+private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
+private let ScreenHeight = UIScreen.mainScreen().bounds.size.height
+
 public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTransitioning {
     
     private let startRect: CGRect
     private let destination: CGPoint
-    private let image: UIImage
+    //private let headerView: SocialBusinessHeaderView
     
-    public init(startRect: CGRect, destination: CGPoint, image: UIImage) {
+    public init(startRect: CGRect, destination: CGPoint, headerView: SocialBusinessHeaderView) {
         self.startRect = startRect
         self.destination = destination
-        self.image = image
+        //self.headerView = headerView
     }
     
     public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
@@ -33,8 +37,8 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
         
         let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
+        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! as! SocialBusinessViewController
+        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! as! BusinessDetailViewController
         
         
         containerView.opaque = true
@@ -43,15 +47,21 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
         // destination view controller is transparent at first
         toView.alpha = 0
         
-        let animatingView = UIImageView(image: image)
-        animatingView.frame = startRect
+        let (headerView, utilityHeaderView) = fromViewController.getAnimationMembers
+        headerView.frame = startRect
+        utilityHeaderView.frame = CGRectMake(0, startRect.height+startRect.origin.y, CGFloat(ScreenWidth), 44)
+        
+        
+        //let tableView = toViewController.getAnimationMembers
+        let tableView = BusinessDetailTableView(frame: CGRectMake(0, CGFloat(ScreenHeight), CGFloat(ScreenWidth), 600), style: UITableViewStyle.Grouped)
+        tableView.frame = CGRectMake(0, CGFloat(ScreenHeight), CGFloat(ScreenWidth), 600)
         
         // add blur effect
         let blur = UIBlurEffect(style: UIBlurEffectStyle.Dark)
         let effectView = UIVisualEffectView(effect: blur)
-        effectView.frame = animatingView.frame
+        effectView.frame = headerView.frame
         
-        animatingView.addSubview(effectView)
+        headerView.addSubview(effectView)
         
         constrain(effectView) { view in
             view.top == view.superview!.top
@@ -62,7 +72,9 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
         
         containerView.addSubview(toView)
         containerView.addSubview(fromView)
-        containerView.addSubview(animatingView)
+        containerView.addSubview(headerView)
+        containerView.addSubview(utilityHeaderView)
+        containerView.addSubview(tableView)
         
         // chain animation
         Chain(
@@ -93,8 +105,9 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
                     delay: 0.0,
                     options: UIViewAnimationOptions.CurveEaseInOut,
                     animations: {
-                        animatingView.frame.origin = self.destination
-
+                        headerView.frame.origin = self.destination
+                        utilityHeaderView.frame.origin = CGPoint(x:0, y:headerView.frame.height+headerView.frame.origin.y)
+                        tableView.frame.origin = CGPoint(x:0, y:utilityHeaderView.frame.height+utilityHeaderView.frame.origin.y)
                     }) { finished in
                         done()
                     }
@@ -107,7 +120,9 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
 
                     }) { finished in
                         transitionContext.completeTransition(true)
-                        animatingView.removeFromSuperview()
+                        headerView.removeFromSuperview()
+                        utilityHeaderView.removeFromSuperview()
+                        tableView.removeFromSuperview()
                         fromView.alpha = 1
                         done()
                     }

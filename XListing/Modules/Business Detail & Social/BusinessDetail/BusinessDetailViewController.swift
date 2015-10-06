@@ -72,6 +72,10 @@ public final class BusinessDetailViewController : XUIViewController {
         return tableView
     }()
     
+    public var getAnimationMembers: UITableView {
+        return tableView
+    }
+    
     private var navigationMapViewController: DetailNavigationMapViewController!
     
     // MARK: - Properties
@@ -132,6 +136,8 @@ public final class BusinessDetailViewController : XUIViewController {
             |> start(next: { handler in
                 self.dismissViewControllerAnimated(true, completion: handler)
             })
+        
+        tableView.reloadData()
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -314,5 +320,36 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 2
+    }
+}
+
+extension BusinessDetailViewController : UINavigationControllerDelegate {
+    public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        if fromVC is SocialBusinessViewController && toVC is BusinessDetailViewController && operation == .Pop {
+            
+            // convert to navigation controller's coordinate system so that the height of status bar and navigation bar is taken into account of
+            let start: CGRect
+            var destination = CGPointMake(0, 0)
+            if let nav = self.navigationController {
+                start = nav.view.convertRect(headerView.frame, fromView: headerView)
+                if !nav.navigationBarHidden {
+                    destination.y += nav.navigationBar.frame.height
+                }
+            }
+            else {
+                start = view.convertRect(headerView.frame, fromView: headerView)
+            }
+            
+            let app = UIApplication.sharedApplication()
+            if !app.statusBarHidden {
+                destination.y += app.statusBarFrame.size.height
+            }
+            
+            
+            return UIImageSlideAnimator(startRect: start, destination: destination, headerView: self.headerView)
+            
+        }
+        return nil
     }
 }
