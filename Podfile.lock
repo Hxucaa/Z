@@ -53,7 +53,7 @@ PODS:
   - TTTAttributedLabel (1.13.4)
   - TZStackView (1.0.5)
   - Watchdog (1.0.2)
-  - XAssets (0.3.5):
+  - XAssets (0.3.6):
     - ReactiveCocoa (~> 3.0.0)
     - SDWebImage (~> 3.7.0)
 
@@ -101,7 +101,7 @@ CHECKOUT OPTIONS:
     :commit: 4cbf1de2f9becbdfe38257bf9129f2930a2668ab
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
-    :commit: 8492718905d8c5347a2b1f761ecc3932ca07801f
+    :commit: e0c66a277b2cf93c58ee60fc5b978e72655cdb96
     :git: git@bitbucket.org:zenchat/xassets.git
 
 SPEC CHECKSUMS:
@@ -132,6 +132,6 @@ SPEC CHECKSUMS:
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
   TZStackView: 45002efee4fe4ab9cc3132776b94434c4c3843eb
   Watchdog: df151f580ea32831011cef05eda6c42385cd8423
-  XAssets: 07f2bf0cc74827d74873d5073df2b9dc15254580
+  XAssets: a542f180858307c562de3fab48cbae3811659bd6
 
-COCOAPODS: 0.39.0.beta.4
+COCOAPODS: 0.38.2
