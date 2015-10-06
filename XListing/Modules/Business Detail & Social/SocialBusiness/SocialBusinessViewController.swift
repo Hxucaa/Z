@@ -215,7 +215,9 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
             }
             
             if let image = viewmodel.businessCoverImage {
-                return UIImageSlideAnimator(startRect: start, destination: destination, headerView: self.headerView)
+                let animateHeaderView = SocialBusinessHeaderView(frame: headerView.frame)
+                animateHeaderView.bindToViewModel(viewmodel.headerViewModel)
+                return UIImageSlideAnimator(startRect: start, destination: destination, headerView: animateHeaderView, utilityHeaderView: self.utilityHeaderView)
             }
             else {
                 return nil

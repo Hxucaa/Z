@@ -103,32 +103,10 @@ public final class BusinessDetailViewController : XUIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationController?.delegate = self
         view.addSubview(headerView)
         view.addSubview(utilityHeaderView)
         view.addSubview(tableView)
-        
-        constrain(headerView) { header in
-            header.leading == header.superview!.leading
-            header.trailing == header.superview!.trailing
-            header.top == header.superview!.top
-            header.height == ImageHeaderHeight
-        }
-        
-        constrain(headerView, utilityHeaderView) { header, utility in
-            
-            utility.leading == utility.superview!.leading
-            utility.top == header.bottom
-            utility.trailing == utility.superview!.trailing
-            utility.height == UtilHeaderHeight
-        }
-        
-        constrain(utilityHeaderView, tableView) { utility, table in
-            table.leading == table.superview!.leading
-            table.top == utility.bottom
-            table.trailing == table.superview!.trailing
-            table.bottom == table.superview!.bottom
-        }
 
         navigationMapViewController = DetailNavigationMapViewController()
         
@@ -176,6 +154,28 @@ public final class BusinessDetailViewController : XUIViewController {
     
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        constrain(headerView) { header in
+            header.leading == header.superview!.leading
+            header.trailing == header.superview!.trailing
+            header.top == header.superview!.top
+            header.height == ImageHeaderHeight
+        }
+        
+        constrain(headerView, utilityHeaderView) { header, utility in
+            
+            utility.leading == utility.superview!.leading
+            utility.top == header.bottom
+            utility.trailing == utility.superview!.trailing
+            utility.height == UtilHeaderHeight
+        }
+        
+        constrain(utilityHeaderView, tableView) { utility, table in
+            table.leading == table.superview!.leading
+            table.top == utility.bottom
+            table.trailing == table.superview!.trailing
+            table.bottom == table.superview!.bottom
+        }
         
         tableView.reloadData()
     }
@@ -326,7 +326,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
 extension BusinessDetailViewController : UINavigationControllerDelegate {
     public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
-        if fromVC is SocialBusinessViewController && toVC is BusinessDetailViewController && operation == .Pop {
+        if fromVC is BusinessDetailViewController && toVC is SocialBusinessViewController && operation == .Pop {
             
             // convert to navigation controller's coordinate system so that the height of status bar and navigation bar is taken into account of
             let start: CGRect
@@ -345,10 +345,7 @@ extension BusinessDetailViewController : UINavigationControllerDelegate {
             if !app.statusBarHidden {
                 destination.y += app.statusBarFrame.size.height
             }
-            
-            
-            return UIImageSlideAnimator(startRect: start, destination: destination, headerView: self.headerView)
-            
+            return ReverseSlideAnimator(tableView: tableView)
         }
         return nil
     }

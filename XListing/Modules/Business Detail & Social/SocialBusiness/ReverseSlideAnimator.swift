@@ -1,8 +1,8 @@
 //
-//  UIImageSlideAnimator.swift
+//  ReverseSideAnimator.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-09-11.
+//  Created by Bruce Li on 2015-10-06.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
@@ -14,22 +14,16 @@ private let BusinessHeightRatio = 0.61
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
 private let ScreenHeight = UIScreen.mainScreen().bounds.size.height
 
-public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTransitioning {
+public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTransitioning {
     
-    private let startRect: CGRect
-    private let destination: CGPoint
-    private let headerView: SocialBusinessHeaderView
-    private let utilityHeaderView: SocialBusiness_UtilityHeaderView
+    private let tableView: UITableView
     
-    public init(startRect: CGRect, destination: CGPoint, headerView: SocialBusinessHeaderView, utilityHeaderView: SocialBusiness_UtilityHeaderView) {
-        self.startRect = startRect
-        self.destination = destination
-        self.headerView = headerView
-        self.utilityHeaderView = utilityHeaderView
+    public init(tableView: UITableView) {
+        self.tableView = tableView
     }
     
     public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return 0.8
+        return 1.2
     }
     
     public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -39,8 +33,8 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
         
         let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! as! SocialBusinessViewController
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! as! BusinessDetailViewController
+        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! as! BusinessDetailViewController
+        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! as! SocialBusinessViewController
         
         
         containerView.opaque = true
@@ -49,18 +43,8 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
         // destination view controller is transparent at first
         toView.alpha = 0
         
-        //let (hView, utilityHeaderView) = fromViewController.getAnimationMembers
-        headerView.frame = startRect
-        utilityHeaderView.frame = CGRectMake(0, startRect.height+startRect.origin.y, CGFloat(ScreenWidth), 44)
-        
-        
-        let tableView = toViewController.getAnimationMembers
-        tableView.frame = CGRectMake(0, CGFloat(ScreenHeight), CGFloat(ScreenWidth), 600)
-        
         containerView.addSubview(toView)
         containerView.addSubview(fromView)
-        containerView.addSubview(headerView)
-        containerView.addSubview(utilityHeaderView)
         containerView.addSubview(tableView)
         
         // chain animation
@@ -71,39 +55,34 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
                     delay: 0.0,
                     options: UIViewAnimationOptions.TransitionNone,
                     animations: {
-                        fromView.alpha = 0
                     }) { finished in
                         done()
-                    }
+                }
             },
             { done in
                 UIView.animateWithDuration(
-                    0.4,
+                    0.8,
                     delay: 0.0,
                     options: UIViewAnimationOptions.CurveEaseInOut,
                     animations: {
-                        self.headerView.frame.origin = self.destination
-                        self.utilityHeaderView.frame.origin = CGPoint(x:0, y:self.headerView.frame.height+self.headerView.frame.origin.y)
-                        tableView.frame.origin = CGPoint(x:0, y:self.utilityHeaderView.frame.height+self.utilityHeaderView.frame.origin.y)
+                        self.tableView.frame.origin = CGPoint(x:0, y:CGFloat(ScreenHeight))
                     }) { finished in
                         done()
-                    }
+                }
             },
             { done in
                 UIView.animateWithDuration(
                     0.2,
                     animations: {
                         toView.alpha = 1
-
+                        
                     }) { finished in
                         transitionContext.completeTransition(true)
-                        self.headerView.removeFromSuperview()
-                        self.utilityHeaderView.removeFromSuperview()
-                        //tableView.removeFromSuperview()
+                        self.tableView.removeFromSuperview()
                         fromView.alpha = 1
                         done()
-                    }
+                }
             }
-        ).run()
+            ).run()
     }
 }
