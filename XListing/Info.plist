@@ -44,6 +44,7 @@
 	<array>
 		<string>fontawesome-webfont.ttf</string>
 		<string>NotoSansCJKsc-Bold.otf</string>
+		<string>NotoSans-Regular.tff</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

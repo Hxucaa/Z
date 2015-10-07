@@ -36,11 +36,11 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     }()
     
     private lazy var businessNameLabel: TTTAttributedLabel = {
-        let label = TTTAttributedLabel(frame: CGRectMake(10, 10, 80, 20))
+        let label = TTTAttributedLabel(frame: CGRectMake(12, 8, 80, 20))
         label.opaque = true
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor.blackColor()
-        label.font = UIFont.systemFontOfSize(19)
+        label.font = UIFont(name: "NotoSans-Bold", size: 19)
         label.adjustsFontSizeToFitWidth = true
         label.layer.masksToBounds = true
         
@@ -56,7 +56,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     }()
     
     private lazy var locationLabel: TTTAttributedLabel = {
-        let label = TTTAttributedLabel(frame: CGRectMake(10, 35, 60, 20))
+        let label = TTTAttributedLabel(frame: CGRectMake(12, 35, 60, 20))
         label.opaque = true
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor.blackColor()
@@ -177,18 +177,18 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
             align(leading: views[0], views[1], views[2])
             
             views[0].width <= views[0].superview!.width * 0.85
-            views[0].leading == views[0].superview!.leadingMargin + 2
-            views[0].top == views[0].superview!.top + 5
+            views[0].leading == views[0].superview!.leadingMargin + 4
+            views[0].top == views[0].superview!.top + 8
             
             views[1].top == views[0].bottom + 5
             
             align(centerY: views[2], views[3], views[4], views[5])
             
-            views[2].bottom == views[2].superview!.bottom - 5
+            views[2].bottom == views[2].superview!.bottom - 24
             views[2].trailing == views[3].leading - 3
-            
+            views[3].trailing == views[4].leading - 3
             views[4].trailing == views[5].leading - 3
-            views[5].trailing == views[5].superview!.trailingMargin - 5
+            views[5].trailing == views[5].superview!.trailingMargin - 22
         }
 
     }

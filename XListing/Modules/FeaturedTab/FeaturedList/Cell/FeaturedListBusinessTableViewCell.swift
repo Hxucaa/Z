@@ -23,7 +23,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     // MARK: - UI Controls
     
     private lazy var backgroundContainer: UIView = {
-        let view = UIView(frame: CGRectMake(8, 8, self.estimatedFrame.width - 8, self.estimatedFrame.height - 5))
+        let view = UIView(frame: CGRectMake(8, 8, self.estimatedFrame.width, self.estimatedFrame.height - 5))
         view.backgroundColor = UIColor.x_FeaturedCardBG()
         view.clipsToBounds = true
         
@@ -39,7 +39,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         container.axis = .Vertical
         container.spacing = 4
         container.alignment = TZStackViewAlignment.Leading
-        container.frame = CGRectMake(0, 0, self.estimatedFrame.width - 8 , self.estimatedFrame.height - 5)
+        container.frame = CGRectMake(0, 0, self.estimatedFrame.width, self.estimatedFrame.height - 5)
         
         return container
     }()
@@ -134,9 +134,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         */
         contentView.addSubview(backgroundContainer)
         constrain(backgroundContainer) { view in
-            view.leading == view.superview!.leading + 5
-            view.top == view.superview!.topMargin
-            view.trailing == view.superview!.trailing - 5
+            view.leading == view.superview!.leading + 10
+            view.top == view.superview!.top + 6
+            view.trailing == view.superview!.trailing - 10
             view.bottom == view.superview!.bottom
         }
         
@@ -147,7 +147,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         constrain(mainStackView) { view in
             view.leading == view.superview!.leadingMargin
             view.top == view.superview!.topMargin
-            view.trailing == view.superview!.trailingMargin
+            view.trailing == view.superview!.trailing
             view.bottom == view.superview!.bottom - 5
         }
         
@@ -170,7 +170,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         constrain(businessImageView, infoPanelView) { image, info in
             image.leading == image.superview!.leading
             image.top == image.superview!.top
-            image.width == image.superview!.width * 0.60
+            image.width == image.superview!.width * 0.59
             image.bottom == image.superview!.bottom
             
             (info.leading == image.trailing).identifier = "infoPanelView leading"
@@ -194,7 +194,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         *   particiation view
         */
         constrain(participationView) { view in
-            view.height == view.superview!.height * 0.25
+            view.height == view.superview!.height * 0.225
             view.width == view.superview!.width
         }
         
