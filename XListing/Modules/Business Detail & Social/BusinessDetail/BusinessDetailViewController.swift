@@ -125,7 +125,7 @@ public final class BusinessDetailViewController : XUIViewController {
             |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.detailInfoProxy")
             |> start(next: { [weak self] in
-                println("go back to social business")
+                self?.navigationController?.popViewControllerAnimated(true)
             })
         
         compositeDisposable += utilityHeaderView.startEventProxy

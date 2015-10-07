@@ -75,7 +75,7 @@ public final class SocialBusinessViewController : XUIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.addSubview(tableView)
         
         constrain(tableView) { view in
@@ -90,6 +90,9 @@ public final class SocialBusinessViewController : XUIViewController {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        navigationController?.hidesBarsOnSwipe = false
         
         compositeDisposable += viewmodel.fetchMoreData()
             |> take(1)
@@ -224,5 +227,17 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
             }
         }
         return nil
+    }
+}
+
+extension SocialBusinessViewController : UIScrollViewDelegate {
+    
+    // hides the nav bar if the header view is on screen, otherwise it will show the nav bar
+    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if (navigationController?.navigationBarHidden == true && !CGRectContainsRect(scrollView.bounds, headerView.bounds)) {
+            navigationController?.setNavigationBarHidden(false, animated: true)
+        } else {
+            navigationController?.setNavigationBarHidden(true, animated: true)
+        }
     }
 }
