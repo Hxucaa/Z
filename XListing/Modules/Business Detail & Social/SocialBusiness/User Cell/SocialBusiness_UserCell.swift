@@ -15,8 +15,6 @@ import ReactiveCocoa
 
 public final class SocialBusiness_UserCell : UITableViewCell {
     
-    private var viewmodel: SocialBusiness_UserViewModel!
-    
     // MARK: - UI Controls
     
     /**
@@ -81,20 +79,9 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         return container
     }()
     
-    private lazy var ageGroupLabel: TTTAttributedLabel = {
+    private lazy var ageGroupLabel: AgeGroupLabel = {
         
-        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 50, 22))
-        label.opaque = true
-        label.backgroundColor = UIColor(red: 223.0/255, green: 68.0/255.0, blue: 154.0/255, alpha: 1.0)
-        label.textAlignment = NSTextAlignment.Center
-        label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline)
-        label.textInsets = UIEdgeInsets(top: 1, left: 7, bottom: 1, right: 7)
-        // TODO: Fix the performance issue caused by cornerRadius
-        label.layer.masksToBounds = true
-        label.layer.cornerRadius = 10
-        
-        // TODO: May not be correct. Require further investigation.
-        label.layer.shouldRasterize = true
+        let label = AgeGroupLabel(frame: CGRectMake(0, 0, 50, 22))
         
         return label
     }()
@@ -131,6 +118,10 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         return label
     }()
     
+    // MARK: - Properties
+    
+    private var viewmodel: ISocialBusiness_UserViewModel!
+    
     // MARK: - Initializers
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -138,12 +129,6 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         
         backgroundColor = .x_FeaturedCardBG()
         selectionStyle = UITableViewCellSelectionStyle.None
-        
-        ageGroupLabel.text = "90后"
-        horoscopeLabel.text = "水瓶座"
-        participationTypeLabel.text = "我请客"
-        statusLabel.text = "无聊找人吃饭无聊找人吃饭无聊找人"
-        
         
         addSubview(profileImageView)
         addSubview(nicknameAndTypeContainer)
@@ -176,18 +161,6 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         statusLabel.setContentCompressionResistancePriority(750 - 1, forAxis: .Horizontal)
         
     }
-    
-    public func bindViewModel(viewmodel: SocialBusiness_UserViewModel) {
-        self.viewmodel = viewmodel
-        nicknameLabel.rac_text <~ viewmodel.nickname.producer
-            |> takeUntilPrepareForReuse(self)
-        
-        profileImageView.rac_image <~ viewmodel.profileImage.producer
-            |> takeUntilPrepareForReuse(self)
-            |> ignoreNil
-            |> map { $0.maskWithRoundedRect(self.profileImageView.frame.size, cornerRadius: self.profileImageView.frame.size.height, backgroundColor: .x_FeaturedCardBG()) }
-        
-    }
 
     public required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -195,4 +168,35 @@ public final class SocialBusiness_UserCell : UITableViewCell {
     
     // MARK: - Setups
 
+    // MARK: - Bindings
+    
+    
+    public func bindViewModel(viewmodel: ISocialBusiness_UserViewModel) {
+        self.viewmodel = viewmodel
+        
+        nicknameLabel.rac_text <~ viewmodel.nickname.producer
+            |> takeUntilPrepareForReuse(self)
+        
+        participationTypeLabel.rac_text <~ viewmodel.participationType.producer
+            |> takeUntilPrepareForReuse(self)
+        
+        ageGroupLabel.rac_text <~ viewmodel.ageGroup.producer
+            |> takeUntilPrepareForReuse(self)
+        
+        horoscopeLabel.rac_text <~ viewmodel.horoscope.producer
+            |> takeUntilPrepareForReuse(self)
+        
+        statusLabel.rac_text <~ viewmodel.status.producer
+            |> takeUntilPrepareForReuse(self)
+        
+        ageGroupLabel.rac_backgroundColor <~ viewmodel.ageGroupBackgroundColor.producer
+            |> takeUntilPrepareForReuse(self)
+            |> map { Optional.Some($0) }
+        
+        profileImageView.rac_image <~ viewmodel.profileImage.producer
+            |> takeUntilPrepareForReuse(self)
+            |> ignoreNil
+            |> map { $0.maskWithRoundedRect(self.profileImageView.frame.size, cornerRadius: self.profileImageView.frame.size.height, backgroundColor: .x_FeaturedCardBG()) }
+        
+    }
 }

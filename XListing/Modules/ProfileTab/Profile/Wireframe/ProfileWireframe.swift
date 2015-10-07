@@ -39,7 +39,7 @@ public final class ProfileWireframe : IProfileWireframe {
     }
     
     private func initViewController() -> ProfileViewController {
-        let viewController = UIStoryboard(name: StoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(ProfileViewControllerIdentifier) as! ProfileViewController
+        let viewController = ProfileViewController()
         
         let viewmodel = ProfileViewModel(participationService: participationService, businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService, imageService: imageService)
 

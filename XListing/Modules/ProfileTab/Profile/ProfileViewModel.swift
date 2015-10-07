@@ -21,10 +21,7 @@ public final class ProfileViewModel : IProfileViewModel {
 
     // MARK: - Outputs
     public let profileBusinessViewModelArr: MutableProperty<[ProfileBusinessViewModel]> = MutableProperty([ProfileBusinessViewModel]())
-    public let nickname: MutableProperty<String> = MutableProperty("")
 
-    public let user = MutableProperty<User?>(nil)
-    public let profileHeaderViewModel = MutableProperty<ProfileHeaderViewModel?>(nil)
     
     // MARK: - Properties
     // MARK: Services
@@ -34,14 +31,23 @@ public final class ProfileViewModel : IProfileViewModel {
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
     private let imageService: IImageService
+    
+    // MARK: ViewModels
+    
+    private let _profileHeaderViewModel = MutableProperty<ProfileHeaderViewModel?>(nil)
+    public var profileHeaderViewModel: PropertyOf<ProfileHeaderViewModel?> {
+        return PropertyOf(_profileHeaderViewModel)
+    }
 
     // MARK: Variables
     public weak var navigator: ProfileNavigator!
     private let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
     private let businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
+    private var user: User?
     
     
     public init(participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
+        
         self.participationService = participationService
         self.businessService = businessService
         self.userService = userService
@@ -55,9 +61,9 @@ public final class ProfileViewModel : IProfileViewModel {
     public func getUserInfo() -> SignalProducer<Void, NSError> {
         return self.userService.currentLoggedInUser()
             |> on(next: { user in
-                self.user.put(user)
-                var viewmodel = ProfileHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, name: user.nickname, city: "", district: "", horoscope: user.horoscope_, ageGroup: user.ageGroup_, cover: user.profileImg_, geolocation: user.latestGeolocation)
-                self.profileHeaderViewModel.put(viewmodel)
+                self.user = user
+                var viewmodel = ProfileHeaderViewModel(imageService: self.imageService, user: user, nickname: user.nickname, ageGroup: user.ageGroup_, horoscope: user.horoscope_, gender: user.gender_, profileImage: user.profileImg_, status: user.status)
+                self._profileHeaderViewModel.put(viewmodel)
                 self.getParticipations(user)
                     |> start()
             })
@@ -69,7 +75,9 @@ public final class ProfileViewModel : IProfileViewModel {
     }
 
     public func presentProfileEditModule(animated: Bool, completion: CompletionHandler? = nil) {
-        navigator.presentProfileEdit(user.value!, animated: animated, completion: completion)
+        if let user = user {
+            navigator.presentProfileEdit(user, animated: animated, completion: completion)
+        }
     }
 
     public func undoParticipation(index: Int) -> SignalProducer<Bool, NSError> {

@@ -98,9 +98,6 @@ public final class User: AVUser, AVSubclassing {
         get {
             return Horoscope(rawValue: horoscope)
         }
-        set {
-            horoscope = (newValue?.rawValue)!
-        }
     }
     
     @NSManaged private var ageGroup: Int
@@ -108,8 +105,7 @@ public final class User: AVUser, AVSubclassing {
         get {
             return AgeGroup(rawValue: ageGroup)
         }
-        set {
-            ageGroup = (newValue?.rawValue)!
-        }
     }
+    
+    @NSManaged public var status: String?
 }
