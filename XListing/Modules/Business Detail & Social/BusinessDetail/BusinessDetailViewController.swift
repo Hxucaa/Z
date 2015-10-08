@@ -104,6 +104,8 @@ public final class BusinessDetailViewController : XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.delegate = self
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        
         view.addSubview(headerView)
         view.addSubview(utilityHeaderView)
         view.addSubview(tableView)

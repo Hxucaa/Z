@@ -79,6 +79,7 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
                     }) { finished in
                         transitionContext.completeTransition(true)
                         self.tableView.removeFromSuperview()
+                        toViewController.navigationController?.setNavigationBarHidden(false, animated: true)
                         fromView.alpha = 1
                         done()
                 }
