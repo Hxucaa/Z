@@ -328,8 +328,7 @@ extension BusinessDetailViewController : UINavigationControllerDelegate {
     public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         if fromVC is BusinessDetailViewController && toVC is SocialBusinessViewController && operation == .Pop {
-        
-            return ReverseSlideAnimator(tableView: tableView)
+            return ReverseSlideAnimator(tableView: tableView, headerView: headerView, utilityHeaderView: utilityHeaderView)
         }
         return nil
     }

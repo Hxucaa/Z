@@ -17,9 +17,13 @@ private let ScreenHeight = UIScreen.mainScreen().bounds.size.height
 public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTransitioning {
     
     private let tableView: UITableView
+    private let headerView: SocialBusinessHeaderView
+    private let utilityHeaderView: SocialBusiness_UtilityHeaderView
     
-    public init(tableView: UITableView) {
+    public init(tableView: UITableView, headerView: SocialBusinessHeaderView, utilityHeaderView: SocialBusiness_UtilityHeaderView) {
         self.tableView = tableView
+        self.headerView = headerView
+        self.utilityHeaderView = utilityHeaderView
     }
     
     public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
@@ -36,6 +40,8 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
         let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! as! BusinessDetailViewController
         let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! as! SocialBusinessViewController
         
+        let headerView = SocialBusinessHeaderView(frame: self.headerView.frame)
+        let utilityHeaderView = SocialBusiness_UtilityHeaderView(frame: self.utilityHeaderView.frame)
         
         containerView.opaque = true
         containerView.backgroundColor = UIColor.whiteColor()
@@ -45,6 +51,8 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
         
         containerView.addSubview(toView)
         containerView.addSubview(fromView)
+        containerView.addSubview(headerView)
+        containerView.addSubview(utilityHeaderView)
         containerView.addSubview(tableView)
         
         // chain animation
@@ -55,6 +63,7 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
                     delay: 0.0,
                     options: UIViewAnimationOptions.TransitionNone,
                     animations: {
+                        fromView.alpha = 0
                     }) { finished in
                         done()
                 }
@@ -65,6 +74,8 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
                     delay: 0.0,
                     options: UIViewAnimationOptions.CurveEaseInOut,
                     animations: {
+                        headerView.frame.origin = CGPoint(x:0, y:-headerView.frame.height)
+                        utilityHeaderView.frame.origin = CGPoint(x:0, y:-utilityHeaderView.frame.height)
                         self.tableView.frame.origin = CGPoint(x:0, y:CGFloat(ScreenHeight))
                     }) { finished in
                         done()
@@ -78,6 +89,8 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
                         
                     }) { finished in
                         transitionContext.completeTransition(true)
+                        headerView.removeFromSuperview()
+                        utilityHeaderView.removeFromSuperview()
                         self.tableView.removeFromSuperview()
                         toViewController.navigationController?.setNavigationBarHidden(false, animated: true)
                         fromView.alpha = 1

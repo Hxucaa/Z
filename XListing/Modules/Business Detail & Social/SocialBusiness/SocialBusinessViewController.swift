@@ -65,7 +65,7 @@ public final class SocialBusinessViewController : XUIViewController {
     }
     private let compositeDisposable = CompositeDisposable()
     private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, SocialBusinessViewModel>!
-
+    
     // MARK: - Setups
     
     public override func viewDidLoad() {
