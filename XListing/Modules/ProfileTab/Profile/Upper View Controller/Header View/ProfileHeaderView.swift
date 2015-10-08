@@ -92,7 +92,7 @@ public final class ProfileHeaderView: UIView {
     }()
     
     // MARK: - Properties
-    private var viewModel: ProfileHeaderViewModel!
+    private var viewModel: IProfileHeaderViewModel!
     
     // MARK: - Proxies
     public var editProxy: SimpleProxy {
@@ -131,7 +131,7 @@ public final class ProfileHeaderView: UIView {
             let superview = $0.superview!
             $0.leading == superview.leading + 40
             $0.centerY == superview.centerY + 15
-            $0.width == superview.height * 0.45
+            $0.width == superview.height * 0.50
             $0.height == $0.width
         }
         
@@ -169,7 +169,7 @@ public final class ProfileHeaderView: UIView {
     // MARK: - Setups
     
     // MARK: - Bindings
-    public func bindToViewModel(viewmodel: ProfileHeaderViewModel) {
+    public func bindToViewModel(viewmodel: IProfileHeaderViewModel) {
         self.viewModel = viewmodel
         
         nicknameLabel.rac_text <~ viewmodel.nickname

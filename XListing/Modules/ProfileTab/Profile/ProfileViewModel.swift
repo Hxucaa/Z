@@ -33,11 +33,12 @@ public final class ProfileViewModel : IProfileViewModel {
     private let imageService: IImageService
     
     // MARK: ViewModels
-    
-    private let _profileHeaderViewModel = MutableProperty<ProfileHeaderViewModel?>(nil)
-    public var profileHeaderViewModel: PropertyOf<ProfileHeaderViewModel?> {
-        return PropertyOf(_profileHeaderViewModel)
-    }
+    public let profileUpperViewModel: IProfileUpperViewModel
+
+//    private let _profileHeaderViewModel = MutableProperty<IProfileHeaderViewModel?>(nil)
+//    public var profileHeaderViewModel: PropertyOf<IProfileHeaderViewModel?> {
+//        return PropertyOf(_profileHeaderViewModel)
+//    }
 
     // MARK: Variables
     public weak var navigator: ProfileNavigator!
@@ -54,21 +55,23 @@ public final class ProfileViewModel : IProfileViewModel {
         self.geoLocationService = geoLocationService
         self.userDefaultsService = userDefaultsService
         self.imageService = imageService
+        
+        profileUpperViewModel = ProfileUpperViewModel(userService: userService, imageService: imageService)
     }
 
     // MARK: - API
     
-    public func getUserInfo() -> SignalProducer<Void, NSError> {
-        return self.userService.currentLoggedInUser()
-            |> on(next: { user in
-                self.user = user
-                var viewmodel = ProfileHeaderViewModel(imageService: self.imageService, user: user, nickname: user.nickname, ageGroup: user.ageGroup_, horoscope: user.horoscope_, gender: user.gender_, profileImage: user.profileImg_, status: user.status)
-                self._profileHeaderViewModel.put(viewmodel)
-                self.getParticipations(user)
-                    |> start()
-            })
-            |> map { _ in }
-    }
+//    public func getUserInfo() -> SignalProducer<Void, NSError> {
+//        return self.userService.currentLoggedInUser()
+//            |> on(next: { user in
+//                self.user = user
+//                var viewmodel = ProfileHeaderViewModel(imageService: self.imageService, user: user, nickname: user.nickname, ageGroup: user.ageGroup_, horoscope: user.horoscope_, gender: user.gender_, profileImage: user.profileImg_, status: user.status)
+//                self._profileHeaderViewModel.put(viewmodel)
+//                self.getParticipations(user)
+//                    |> start()
+//            })
+//            |> map { _ in }
+//    }
 
     public func pushSocialBusinessModule(section: Int, animated: Bool) {
         navigator.pushSocialBusiness(businessArr.value[section], animated: animated)

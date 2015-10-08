@@ -14,13 +14,12 @@ public protocol IProfileViewModel : class {
     // MARK: - Properties
     
     // MARK: ViewModels
-    var profileHeaderViewModel: PropertyOf<ProfileHeaderViewModel?> { get }
+    var profileUpperViewModel: IProfileUpperViewModel { get }
     
     // MARK: - Initializers
     init(participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
     
     // MARK: - API
-    func getUserInfo() -> SignalProducer<Void, NSError>
     func pushSocialBusinessModule(section: Int, animated: Bool)
     func presentProfileEditModule(aniated: Bool, completion: CompletionHandler?)
     func undoParticipation(index: Int) -> SignalProducer<Bool, NSError>

@@ -11,42 +11,51 @@ import Dollar
 import Cartography
 
 private let BusinessCellIdentifier = "BusinessCell"
+private let HeaderViewHeightRatio = CGFloat(0.30)
 
 public final class ProfileViewController : XUIViewController {
 
     // MARK: - UI Controls
-    private lazy var headerView: ProfileHeaderView = {
-        let view = ProfileHeaderView()
+    
+    private lazy var upperViewController: ProfileUpperViewController = {
+        let vc = ProfileUpperViewController()
         
-        return view
+        let selfFrame = self.view.frame
+        let viewHeight = round(selfFrame.size.height * 0.30)
+        vc.view.frame = CGRect(origin: selfFrame.origin, size: CGSizeMake(selfFrame.size.width, viewHeight))
+        
+        return vc
     }()
     
-//    @IBOutlet private weak var tableView: UITableView!
-//    @IBOutlet private weak var headerView: UIView!
-//    @IBOutlet private weak var tabView: UIView!
-//    private var headerViewContent: ProfileHeaderView!
+    private lazy var bottomViewController: ProfileBottomViewController = {
+        let vc = ProfileBottomViewController()
+        
+        let selfFrame = self.view.frame
+        let viewHeight = round(selfFrame.size.height * 0.30)
+        vc.view.frame = CGRect(origin: CGPointMake(selfFrame.origin.x, viewHeight), size: CGSizeMake(selfFrame.size.width, selfFrame.size.height - viewHeight))
+        
+        return vc
+    }()
+    
+    private lazy var pageViewController: ProfilePageViewController = {
+        let vc = ProfilePageViewController(transitionStyle: UIPageViewControllerTransitionStyle.Scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, options: nil)
+        
+        
+        
+        return vc
+    }()
     
     // MARK: - Properties
-    private var viewmodel: IProfileViewModel!
-    private var firstSegSelected = true
-    private var selectedBusinessChoiceIndex = 0
+    private var viewmodel: IProfileViewModel! {
+        didSet {
+            upperViewController.bindToViewModel(viewmodel.profileUpperViewModel)
+        }
+    }
     private let compositeDisposable = CompositeDisposable()
 
     // MARK: - Setups
     public override func loadView() {
         super.loadView()
-        
-//        headerViewContent = NSBundle.mainBundle().loadNibNamed("ProfileHeaderView", owner: self, options: nil).first as! ProfileHeaderView
-//        headerView.addSubview(headerViewContent)
-//        constrain(headerViewContent) { view in
-//            view.leading == view.superview!.leading
-//            view.top == view.superview!.top
-//            view.trailing == view.superview!.trailing
-//            view.bottom == view.superview!.bottom
-//        }
-//        
-//        let tabViewContent = NSBundle.mainBundle().loadNibNamed("ProfileTabView", owner: self, options: nil).first as! ProfileTabView
-//        tabView.addSubview(tabViewContent)
 //        
 //        let nib = UINib(nibName: "ProfileBusinessCell", bundle: nil)
 //        tableView.registerNib(nib, forCellReuseIdentifier: BusinessCellIdentifier)
@@ -61,14 +70,6 @@ public final class ProfileViewController : XUIViewController {
         navigationController?.navigationBarHidden = true
         navigationItem.title = "个人"
         
-        view.addSubview(headerView)
-        
-        constrain(headerView) { view in
-            view.leading == view.superview!.leading
-            view.top == view.superview!.top
-            view.trailing == view.superview!.trailing
-            view.height == view.superview!.height * 0.35
-        }
         
 //        tableView.rowHeight = 90
     }
@@ -76,18 +77,28 @@ public final class ProfileViewController : XUIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        viewmodel.getUserInfo()
-            // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> start()
-
-        viewmodel.profileHeaderViewModel.producer
-            // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> ignoreNil
-            |> start(next: { [weak self] viewmodel in
-                self?.headerView.bindToViewModel(viewmodel)
-            })
+        addChildViewController(upperViewController)
+        addChildViewController(bottomViewController)
+        
+        view.addSubview(upperViewController.view)
+        view.addSubview(bottomViewController.view)
+        
+        upperViewController.didMoveToParentViewController(self)
+        bottomViewController.didMoveToParentViewController(self)
+        
+        constrain(upperViewController.view) {
+            $0.leading == $0.superview!.leading
+            $0.top == $0.superview!.top
+            $0.trailing == $0.superview!.trailing
+            $0.height == $0.superview!.height * 0.30
+        }
+        
+        constrain(upperViewController.view, bottomViewController.view) {
+            $1.leading == $1.superview!.leading
+            $1.top == $0.bottom
+            $1.trailing == $1.superview!.trailing
+            $1.bottom == $1.superview!.bottom
+        }
         
         navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.hidesBarsOnSwipe = false
