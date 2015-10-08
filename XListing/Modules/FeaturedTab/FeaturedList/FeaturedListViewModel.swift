@@ -8,7 +8,6 @@
 
 import Foundation
 import ReactiveCocoa
-import AVOSCloud
 import Dollar
 import ReactiveArray
 

@@ -26,8 +26,20 @@ public final class ProfileBottomViewController : UIViewController {
         return view
     }()
     
+    private lazy var pageViewController: ProfilePageViewController = {
+        let vc = ProfilePageViewController(transitionStyle: UIPageViewControllerTransitionStyle.Scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, options: nil)
+        
+        
+        
+        return vc
+    }()
+    
     // MARK: - Properties
-    private var viewmodel: IProfileBottomViewModel!
+    private var viewmodel: IProfileBottomViewModel! {
+        didSet {
+            
+        }
+    }
     
     // MARK: - Initializers
     
@@ -50,6 +62,19 @@ public final class ProfileBottomViewController : UIViewController {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        addChildViewController(pageViewController)
+        
+        view.addSubview(pageViewController.view)
+        
+        pageViewController.didMoveToParentViewController(self)
+        
+        constrain(pageControls, pageViewController.view) {
+            $1.leading == $1.superview!.leading
+            $1.top == $0.bottom
+            $1.trailing == $1.superview!.trailing
+            $1.bottom == $1.superview!.bottom
+        }
     }
     
     // MARK: - Bindings

@@ -9,12 +9,11 @@ public protocol IProfileViewModel : class {
     
     // MARK: - Outputs
     
-    var profileBusinessViewModelArr: MutableProperty<[ProfileBusinessViewModel]> { get }
-    
     // MARK: - Properties
     
     // MARK: ViewModels
     var profileUpperViewModel: IProfileUpperViewModel { get }
+    var profileBottomViewModel: IProfileBottomViewModel { get }
     
     // MARK: - Initializers
     init(participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
@@ -22,5 +21,4 @@ public protocol IProfileViewModel : class {
     // MARK: - API
     func pushSocialBusinessModule(section: Int, animated: Bool)
     func presentProfileEditModule(aniated: Bool, completion: CompletionHandler?)
-    func undoParticipation(index: Int) -> SignalProducer<Bool, NSError>
 }

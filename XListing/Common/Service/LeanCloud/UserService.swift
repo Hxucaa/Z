@@ -12,7 +12,7 @@ import AVOSCloud
 
 public final class UserService : IUserService {
     
-    private var currentUser: User? {
+    public var currentUser: User? {
         return AVUser.currentUser() as? User
     }
     

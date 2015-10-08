@@ -109,6 +109,15 @@
 		B427B3721BC5C4E4008A9F19 /* IProfileBottomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427B3711BC5C4E4008A9F19 /* IProfileBottomViewModel.swift */; };
 		B427B3741BC5C4EF008A9F19 /* ProfileBottomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427B3731BC5C4EF008A9F19 /* ProfileBottomViewModel.swift */; };
 		B427B3771BC63DAA008A9F19 /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427B3761BC63DAA008A9F19 /* ProfilePageViewController.swift */; };
+		B427B37B1BC64502008A9F19 /* ParticipationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427B37A1BC64502008A9F19 /* ParticipationListViewController.swift */; };
+		B427B37E1BC64516008A9F19 /* ParticipationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427B37D1BC64516008A9F19 /* ParticipationListViewModel.swift */; };
+		B427B3801BC6451F008A9F19 /* IParticipationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427B37F1BC6451F008A9F19 /* IParticipationListViewModel.swift */; };
+		B427B3821BC64539008A9F19 /* PhotoManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427B3811BC64539008A9F19 /* PhotoManagerViewController.swift */; };
+		B427B3841BC64546008A9F19 /* IPhotoManagerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427B3831BC64546008A9F19 /* IPhotoManagerViewModel.swift */; };
+		B427B3861BC64555008A9F19 /* PhotoManagerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427B3851BC64555008A9F19 /* PhotoManagerViewModel.swift */; };
+		B427B38B1BC6466E008A9F19 /* ParticipationListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427B38A1BC6466E008A9F19 /* ParticipationListCellView.swift */; };
+		B427B38D1BC6467F008A9F19 /* IParticipationListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427B38C1BC6467F008A9F19 /* IParticipationListCellViewModel.swift */; };
+		B427B38F1BC6468A008A9F19 /* ParticipationListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427B38E1BC6468A008A9F19 /* ParticipationListCellViewModel.swift */; };
 		B43032471AE4281D0068E8DF /* TypeAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43032461AE4281D0068E8DF /* TypeAliases.swift */; };
 		B4307F3E1B78C98D00E3D41B /* BoyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F3D1B78C98D00E3D41B /* BoyButton.swift */; };
 		B4307F401B78CADD00E3D41B /* GirlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F3F1B78CADD00E3D41B /* GirlButton.swift */; };
@@ -356,6 +365,15 @@
 		B427B3711BC5C4E4008A9F19 /* IProfileBottomViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IProfileBottomViewModel.swift; sourceTree = "<group>"; };
 		B427B3731BC5C4EF008A9F19 /* ProfileBottomViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileBottomViewModel.swift; sourceTree = "<group>"; };
 		B427B3761BC63DAA008A9F19 /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
+		B427B37A1BC64502008A9F19 /* ParticipationListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationListViewController.swift; sourceTree = "<group>"; };
+		B427B37D1BC64516008A9F19 /* ParticipationListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationListViewModel.swift; sourceTree = "<group>"; };
+		B427B37F1BC6451F008A9F19 /* IParticipationListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IParticipationListViewModel.swift; sourceTree = "<group>"; };
+		B427B3811BC64539008A9F19 /* PhotoManagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoManagerViewController.swift; sourceTree = "<group>"; };
+		B427B3831BC64546008A9F19 /* IPhotoManagerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPhotoManagerViewModel.swift; sourceTree = "<group>"; };
+		B427B3851BC64555008A9F19 /* PhotoManagerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoManagerViewModel.swift; sourceTree = "<group>"; };
+		B427B38A1BC6466E008A9F19 /* ParticipationListCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationListCellView.swift; sourceTree = "<group>"; };
+		B427B38C1BC6467F008A9F19 /* IParticipationListCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IParticipationListCellViewModel.swift; sourceTree = "<group>"; };
+		B427B38E1BC6468A008A9F19 /* ParticipationListCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipationListCellViewModel.swift; sourceTree = "<group>"; };
 		B43032461AE4281D0068E8DF /* TypeAliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeAliases.swift; sourceTree = "<group>"; };
 		B4307F3D1B78C98D00E3D41B /* BoyButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoyButton.swift; sourceTree = "<group>"; };
 		B4307F3F1B78CADD00E3D41B /* GirlButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GirlButton.swift; sourceTree = "<group>"; };
@@ -654,12 +672,12 @@
 		45CBB561E439B467C9084702 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				45CBBA0A194B06D6EECF1008 /* Wireframe */,
 				45CBB717784EC301CD7D042E /* ProfileViewController.swift */,
 				45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */,
 				45CBB2272E6DA7ED3BDD24AE /* ProfileViewModel.swift */,
 				B427B3671BC5B50F008A9F19 /* Upper View Controller */,
 				B427B36E1BC5C415008A9F19 /* Bottom View Controller */,
-				45CBBA0A194B06D6EECF1008 /* Wireframe */,
 				45CBB2A7EC837F83DD1CB032 /* View */,
 				45CBB0ED9FE439192D088D2F /* ViewModel */,
 			);
@@ -912,8 +930,41 @@
 			isa = PBXGroup;
 			children = (
 				B427B3761BC63DAA008A9F19 /* ProfilePageViewController.swift */,
+				B427B3781BC64445008A9F19 /* Participation List */,
+				B427B3791BC64458008A9F19 /* Photos Manager */,
 			);
 			path = "Page View Controller";
+			sourceTree = "<group>";
+		};
+		B427B3781BC64445008A9F19 /* Participation List */ = {
+			isa = PBXGroup;
+			children = (
+				B427B37A1BC64502008A9F19 /* ParticipationListViewController.swift */,
+				B427B37F1BC6451F008A9F19 /* IParticipationListViewModel.swift */,
+				B427B37D1BC64516008A9F19 /* ParticipationListViewModel.swift */,
+				B427B3891BC64573008A9F19 /* Cell */,
+			);
+			path = "Participation List";
+			sourceTree = "<group>";
+		};
+		B427B3791BC64458008A9F19 /* Photos Manager */ = {
+			isa = PBXGroup;
+			children = (
+				B427B3811BC64539008A9F19 /* PhotoManagerViewController.swift */,
+				B427B3831BC64546008A9F19 /* IPhotoManagerViewModel.swift */,
+				B427B3851BC64555008A9F19 /* PhotoManagerViewModel.swift */,
+			);
+			path = "Photos Manager";
+			sourceTree = "<group>";
+		};
+		B427B3891BC64573008A9F19 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B427B38A1BC6466E008A9F19 /* ParticipationListCellView.swift */,
+				B427B38C1BC6467F008A9F19 /* IParticipationListCellViewModel.swift */,
+				B427B38E1BC6468A008A9F19 /* ParticipationListCellViewModel.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		B43032451AE427D50068E8DF /* Utility */ = {
@@ -1276,9 +1327,9 @@
 		B4E7E5141B9502830034B093 /* FeaturedTab */ = {
 			isa = PBXGroup;
 			children = (
-				B4CC82611AC1650A00E85CEA /* FeaturedList */,
 				B4E7E5211B9516600034B093 /* FeaturedListTabContent.swift */,
 				B4E7E5231B9517770034B093 /* FeaturedTabNavigationController.swift */,
+				B4CC82611AC1650A00E85CEA /* FeaturedList */,
 			);
 			path = FeaturedTab;
 			sourceTree = "<group>";
@@ -1298,8 +1349,8 @@
 			children = (
 				B4E7E5251B9521EF0034B093 /* ProfileTabContent.swift */,
 				B4E7E5271B95221F0034B093 /* ProfileTabNavigationController.swift */,
-				261687BE1B71B7FC0094F315 /* ProfileEdit */,
 				45CBB561E439B467C9084702 /* Profile */,
+				261687BE1B71B7FC0094F315 /* ProfileEdit */,
 			);
 			path = ProfileTab;
 			sourceTree = "<group>";
@@ -1662,22 +1713,26 @@
 				B4E70B3C1AF1709400A7418F /* ParticipationService.swift in Sources */,
 				26645ADB1B5C666F00ADDCD1 /* PhoneEmailTableViewCell.swift in Sources */,
 				B403B0831BA0DA4C0085E0A3 /* BusinessDetailViewModel.swift in Sources */,
+				B427B3801BC6451F008A9F19 /* IParticipationListViewModel.swift in Sources */,
 				7E39F4BA1BB0ABEA00D6603E /* DividerView.swift in Sources */,
 				B48C991F1ADA62E70045BCA9 /* INearbyViewModel.swift in Sources */,
 				B4ECBE201B73ED0900234217 /* NicknameViewModel.swift in Sources */,
 				B41334E71B57631400B5F22D /* IAccountWireframe.swift in Sources */,
 				B427B35A1BC49085008A9F19 /* AgeGroupLabel.swift in Sources */,
+				B427B38D1BC6467F008A9F19 /* IParticipationListCellViewModel.swift in Sources */,
 				7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */,
 				B4ECBE221B74106E00234217 /* GenderPickerView.swift in Sources */,
 				B4E7E5111B93F5800034B093 /* ISocialBusinessWireframe.swift in Sources */,
 				B4D733A21B9A428000B599B9 /* IUserProfileViewModel.swift in Sources */,
 				B42410081BAB5032000E44D0 /* Image.swift in Sources */,
 				B45582001B37670500C4D965 /* NSError+extension.swift in Sources */,
+				B427B3841BC64546008A9F19 /* IPhotoManagerViewModel.swift in Sources */,
 				2A714B121B085C63007A8FBB /* LandingPageViewController.swift in Sources */,
 				B4F195AF1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift in Sources */,
 				B42487641BA9065200FBC634 /* FeaturedListBusinessCell_InfoPanelView.swift in Sources */,
 				B4D733971B9A334000B599B9 /* ISocialBusinessHeaderViewModel.swift in Sources */,
 				B4104F651B846D7600D7E4BD /* PullToRefreshConductor.swift in Sources */,
+				B427B37B1BC64502008A9F19 /* ParticipationListViewController.swift in Sources */,
 				B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */,
 				D0ADD8A41B608B4200B27885 /* ProfileHeaderView.swift in Sources */,
 				B4D36B991BA93C3700F8513E /* IFeaturedListBusinessCell_StatsViewModel.swift in Sources */,
@@ -1699,6 +1754,7 @@
 				B4F195BF1B2CE2C300B8C519 /* ParticipationType.swift in Sources */,
 				B427B3741BC5C4EF008A9F19 /* ProfileBottomViewModel.swift in Sources */,
 				B4104F691B85152F00D7E4BD /* PredictiveScrollConductor.swift in Sources */,
+				B427B38F1BC6468A008A9F19 /* ParticipationListCellViewModel.swift in Sources */,
 				D02A61711B655019007B48E9 /* ProfileHeaderViewModel.swift in Sources */,
 				B4E7E5281B95221F0034B093 /* ProfileTabNavigationController.swift in Sources */,
 				B4ECBE2A1B747FC300234217 /* BirthdayPickerViewModel.swift in Sources */,
@@ -1763,6 +1819,7 @@
 				26645ACB1B54C4F200ADDCD1 /* ProfileEditViewController.swift in Sources */,
 				2ADF3E651B1ECBA200C2971E /* DetailNavigationMapViewController.swift in Sources */,
 				B4E7E5091B93F3610034B093 /* SocialBusinessViewModel.swift in Sources */,
+				B427B37E1BC64516008A9F19 /* ParticipationListViewModel.swift in Sources */,
 				B4FC6B211B678515001F13E9 /* NSObject+Swift.m in Sources */,
 				B47E15C81B181E370028E07E /* IBackgroundOperationsWorkerFactory.swift in Sources */,
 				B4E1384C1AE1BD0D0082DCA3 /* UserService.swift in Sources */,
@@ -1783,6 +1840,7 @@
 				7EF3714E1AB8C1E8009AA3B9 /* LeanCloudClient.swift in Sources */,
 				B4D36B911BA9219B00F8513E /* FeaturedListBusinessCell_ParticipationViewModel.swift in Sources */,
 				261687C11B71B8990094F315 /* ProfileEditWireframe.swift in Sources */,
+				B427B3821BC64539008A9F19 /* PhotoManagerViewController.swift in Sources */,
 				B4AA1A711B7ED20F00119E91 /* ContainerView.swift in Sources */,
 				B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */,
 				B4E70B3E1AF1735C00A7418F /* IParticipationService.swift in Sources */,
@@ -1790,6 +1848,7 @@
 				B4307F3E1B78C98D00E3D41B /* BoyButton.swift in Sources */,
 				7E33F4081BA408A7002C63FE /* Chain.swift in Sources */,
 				B44E35011AD5D0AE00657A31 /* IFeaturedListViewModel.swift in Sources */,
+				B427B3861BC64555008A9F19 /* PhotoManagerViewModel.swift in Sources */,
 				B4D36B9E1BA947C200F8513E /* IFeaturedBusinessViewModel.swift in Sources */,
 				B4F195891B27A6FF00B8C519 /* SignUpViewModel.swift in Sources */,
 				B42487681BA9081E00FBC634 /* IFeaturedListBusinessCell_InfoPanelViewModel.swift in Sources */,
@@ -1827,6 +1886,7 @@
 				B499E7371B3A28EA00C966E5 /* NearbyCollectionViewCell.swift in Sources */,
 				B42487601BA3C63B00FBC634 /* SocialBusiness_UtilityHeaderView.swift in Sources */,
 				B4E7E5221B9516600034B093 /* FeaturedListTabContent.swift in Sources */,
+				B427B38B1BC6466E008A9F19 /* ParticipationListCellView.swift in Sources */,
 				B427B3721BC5C4E4008A9F19 /* IProfileBottomViewModel.swift in Sources */,
 				B45581FC1B3689AB00C4D965 /* FeaturedListBusinessTableViewCell.swift in Sources */,
 				B446A61A1B1FA88000106CAF /* Logger.swift in Sources */,

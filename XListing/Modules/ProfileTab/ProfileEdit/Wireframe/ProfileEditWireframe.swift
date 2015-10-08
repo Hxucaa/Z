@@ -22,16 +22,16 @@ public final class ProfileEditWireframe : IProfileEditWireframe {
         self.imageService = imageService
     }
     
-    private func injectViewModelToViewController(user: User) -> ProfileEditViewController {
+    private func injectViewModelToViewController() -> ProfileEditViewController {
         let viewController = UIStoryboard(name: ProfileEditStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(ProfileEditViewControllerIdentifier) as! ProfileEditViewController
-        let viewmodel = ProfileEditViewModel(userService: userService, imageService: imageService, userModel: user)
+        let viewmodel = ProfileEditViewModel(userService: userService, imageService: imageService)
         viewController.bindToViewModel(viewmodel)
         
         return viewController
     }
 
 
-    public func viewController(user: User) -> ProfileEditViewController {
-        return injectViewModelToViewController(user)
+    public func viewController() -> ProfileEditViewController {
+        return injectViewModelToViewController()
     }
 }

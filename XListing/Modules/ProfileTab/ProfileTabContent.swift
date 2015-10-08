@@ -38,7 +38,7 @@ extension ProfileTabContent : ProfileNavigationControllerDelegate {
         profileTabNavigationController.pushViewController(socialBusinessWireframe.viewController(business), animated: animated)
     }
 
-    public func presentProfileEdit<T: User>(user: T, animated: Bool, completion: CompletionHandler?) {
-        profileTabNavigationController.presentViewController(profileEditWireframe.viewController(user), animated: true, completion: completion)
+        public func presentProfileEdit(animated: Bool, completion: CompletionHandler?) {
+        profileTabNavigationController.presentViewController(profileEditWireframe.viewController(), animated: true, completion: completion)
     }
 }
