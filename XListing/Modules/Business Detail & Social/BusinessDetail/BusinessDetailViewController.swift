@@ -179,7 +179,6 @@ public final class BusinessDetailViewController : XUIViewController {
             table.bottom == table.superview!.bottom
         }
         
-        tableView.reloadData()
     }
     
     // MARK: - Bindings
@@ -329,24 +328,7 @@ extension BusinessDetailViewController : UINavigationControllerDelegate {
     public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         if fromVC is BusinessDetailViewController && toVC is SocialBusinessViewController && operation == .Pop {
-            
-            // convert to navigation controller's coordinate system so that the height of status bar and navigation bar is taken into account of
-            let start: CGRect
-            var destination = CGPointMake(0, 0)
-            if let nav = self.navigationController {
-                start = nav.view.convertRect(headerView.frame, fromView: headerView)
-                if !nav.navigationBarHidden {
-                    destination.y += nav.navigationBar.frame.height
-                }
-            }
-            else {
-                start = view.convertRect(headerView.frame, fromView: headerView)
-            }
-            
-            let app = UIApplication.sharedApplication()
-            if !app.statusBarHidden {
-                destination.y += app.statusBarFrame.size.height
-            }
+        
             return ReverseSlideAnimator(tableView: tableView)
         }
         return nil

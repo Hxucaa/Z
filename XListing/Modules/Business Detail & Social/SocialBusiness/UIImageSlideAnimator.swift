@@ -99,7 +99,6 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
                         transitionContext.completeTransition(true)
                         self.headerView.removeFromSuperview()
                         self.utilityHeaderView.removeFromSuperview()
-                        //tableView.removeFromSuperview()
                         fromView.alpha = 1
                         done()
                     }

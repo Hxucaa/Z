@@ -53,11 +53,6 @@ public final class SocialBusinessViewController : XUIViewController {
         return view
     }()
     
-    // MARK: - Getters
-    public var getAnimationMembers: (SocialBusinessHeaderView, SocialBusiness_UtilityHeaderView) {
-        return (headerView, utilityHeaderView)
-    }
-    
     // MARK: - Properties
     private var viewmodel: ISocialBusinessViewModel! {
         didSet {
