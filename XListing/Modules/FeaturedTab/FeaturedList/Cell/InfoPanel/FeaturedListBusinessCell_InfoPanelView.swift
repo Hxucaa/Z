@@ -40,8 +40,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         label.opaque = true
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor.blackColor()
-        label.font = UIFont(name: "NotoSans-Bold", size: 19)
-        label.adjustsFontSizeToFitWidth = true
+        label.font = UIFont.systemFontOfSize(19)
         label.layer.masksToBounds = true
         
         return label
@@ -61,7 +60,6 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor.blackColor()
         label.font = UIFont.systemFontOfSize(12)
-        label.adjustsFontSizeToFitWidth = true
         
         return label
     }()
