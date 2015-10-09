@@ -48,7 +48,6 @@ public final class FeaturedListViewController: XUIViewController {
     }()
     
     private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, FeaturedListViewModel>!
-//    private let statusBarBackgroundView = StatusBarBackgroundView()
     
     // MARK: - Properties
     private var viewmodel: IFeaturedListViewModel!
@@ -65,7 +64,7 @@ public final class FeaturedListViewController: XUIViewController {
         view.opaque = true
         view.backgroundColor = UIColor.grayColor()
         
-        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: viewmodel as! FeaturedListViewModel)
+        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! FeaturedListViewModel)
         
         view.addSubview(tableView)
         

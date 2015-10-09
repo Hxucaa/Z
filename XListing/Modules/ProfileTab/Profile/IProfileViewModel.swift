@@ -6,12 +6,19 @@
 import ReactiveCocoa
 
 public protocol IProfileViewModel : class {
-    var profileBusinessViewModelArr: MutableProperty<[ProfileBusinessViewModel]> { get }
-    var nickname: MutableProperty<String> { get }
-    var profileHeaderViewModel: MutableProperty<ProfileHeaderViewModel?> { get }
+    
+    // MARK: - Outputs
+    
+    // MARK: - Properties
+    
+    // MARK: ViewModels
+    var profileUpperViewModel: IProfileUpperViewModel { get }
+    var profileBottomViewModel: IProfileBottomViewModel { get }
+    
+    // MARK: - Initializers
     init(participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
-    func getUserInfo() -> SignalProducer<Void, NSError>
+    
+    // MARK: - API
     func pushSocialBusinessModule(section: Int, animated: Bool)
     func presentProfileEditModule(aniated: Bool, completion: CompletionHandler?)
-    func undoParticipation(index: Int) -> SignalProducer<Bool, NSError>
 }

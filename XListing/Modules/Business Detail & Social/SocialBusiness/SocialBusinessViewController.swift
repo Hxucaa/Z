@@ -80,7 +80,7 @@ public final class SocialBusinessViewController : XUIViewController {
             view.leading == view.superview!.leading
         }
         
-        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: viewmodel as! SocialBusinessViewModel)
+        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! SocialBusinessViewModel)
     }
     
     public override func viewWillAppear(animated: Bool) {

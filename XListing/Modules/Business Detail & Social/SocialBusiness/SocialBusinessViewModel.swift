@@ -96,7 +96,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     }
     
     public func pushUserProfile(index: Int, animated: Bool) {
-        navigator.pushUserProfile(collectionDataSource.array[index].user.value, animated: true)
+        navigator.pushUserProfile(collectionDataSource.array[index].user, animated: true)
         
     }
     
@@ -120,9 +120,9 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
                 }
             })
             |> map { participations -> [SocialBusiness_UserViewModel] in
-                
+
                 return participations.map {
-                    SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, nickname: $0.user.nickname, ageGroup: $0.user.ageGroup_, horoscope: $0.user.horoscope_, gender: $0.user.gender_, profileImage: $0.user.profileImg_)
+                    SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, nickname: $0.user.nickname, ageGroup: $0.user.ageGroup_, horoscope: $0.user.horoscope_, gender: $0.user.gender_, profileImage: $0.user.profileImg_, status: $0.user.status, participationType: $0.type)
                 }
 
             }

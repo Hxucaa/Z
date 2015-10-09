@@ -45,11 +45,10 @@ public final class ProfileEditViewModel {
     
     // MARK: Initializers
     
-    public init(userService: IUserService, imageService: IImageService, userModel: User) {
+    public init(userService: IUserService, imageService: IImageService) {
         self.userService = userService
         self.imageService = imageService
-        self.user = userModel
-        
+        self.user = userService.currentUser!
         
         self.nickname = MutableProperty(user.nickname)
         
