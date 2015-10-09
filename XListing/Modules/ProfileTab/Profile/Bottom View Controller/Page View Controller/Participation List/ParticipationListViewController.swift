@@ -20,16 +20,20 @@ public final class ParticipationListViewController : UIViewController {
     
     // MARK: - UI Controls
     private lazy var tableView: UITableView = {
-        let view = UITableView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height))
-        view.registerClass(ParticipationListCellView.self, forCellReuseIdentifier: BusinessCellIdentifier)
+        let frameSize = self.view.frame.size
+        let view = UITableView(frame: CGRectMake(0, 0, frameSize.width, frameSize.height))
+        view.registerNib(UINib(nibName: "ParticipationListViewCell", bundle: nil), forCellReuseIdentifier: BusinessCellIdentifier)
+        view.separatorStyle = .None
         view.rowHeight = 90
         view.dataSource = self
         
         return view
     }()
     
+    private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, ParticipationListViewModel>!
+    
     // MARK: - Properties
-    private var viewmodel: ParticipationListViewModel!
+    private var viewmodel: IParticipationListViewModel!
     
     // MARK: - Initializers
     
@@ -52,53 +56,57 @@ public final class ParticipationListViewController : UIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-//        // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
-//        // when the specified row is now selected
-//        compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
-//            // forwards events from producer until the view controller is going to disappear
-//            |> takeUntilViewWillDisappear(self)
-//            |> map { ($0 as! RACTuple).second as! NSIndexPath }
-//            |> logLifeCycle(LogContext.Profile, "tableView:didSelectRowAtIndexPath:")
-//            |> start(
-//                next: { [weak self] indexPath in
-//                    self?.viewmodel.pushSocialBusinessModule(indexPath.row, animated: true)
-//                }
-//            )
-//
-//        compositeDisposable += rac_signalForSelector(Selector("tableView:commitEditingStyle:forRowAtIndexPath:"), fromProtocol: UITableViewDataSource.self).toSignalProducer()
-//            // forwards events from producer until the view controller is going to disappear
-//            |> takeUntilViewWillDisappear(self)
-//            |> map { parameters -> (UITableViewCellEditingStyle, NSIndexPath) in
-//                let tuple = parameters as! RACTuple
-//                return (tuple.second as! UITableViewCellEditingStyle, tuple.third as! NSIndexPath)
-//            }
-//            |> logLifeCycle(LogContext.Profile, "tableView:commitEditingStyle:forRowAtIndexPath:")
-//            |> start(
-//                next: { [weak self] editingStyle, indexPath in
-//                    if let this = self {
-//                        if editingStyle == UITableViewCellEditingStyle.Delete {
-//                            this.viewmodel.undoParticipation(indexPath.row)
-//                                |> start()
-//                            this.viewmodel.profileBusinessViewModelArr.value.removeAtIndex(indexPath.row)
-//                            this.tableView.reloadData()
-//                        }
-//                    }
-//                }
-//            )
-//
+        
+        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! ParticipationListViewModel)
+        
+        
+//        viewmodel.fetchMoreData()
+//            |> start()
+        
+        singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Profile, "viewmodel.collectionDataSource.producer")
+            |> start()
+        
+        // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
+        // when the specified row is now selected
+        rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> map { ($0 as! RACTuple).second as! NSIndexPath }
+            |> logLifeCycle(LogContext.Profile, "tableView:didSelectRowAtIndexPath:")
+            |> start(
+                next: { [weak self] indexPath in
+                    self?.viewmodel.pushSocialBusinessModule(indexPath.row, animated: true)
+                }
+            )
+        
+        rac_signalForSelector(Selector("tableView:commitEditingStyle:forRowAtIndexPath:"), fromProtocol: UITableViewDataSource.self).toSignalProducer()
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> map { parameters -> (UITableViewCellEditingStyle, NSIndexPath) in
+                let tuple = parameters as! RACTuple
+                return (tuple.second as! UITableViewCellEditingStyle, tuple.third as! NSIndexPath)
+            }
+            |> logLifeCycle(LogContext.Profile, "tableView:commitEditingStyle:forRowAtIndexPath:")
+            |> start(
+                next: { [weak self] editingStyle, indexPath in
+                    if let this = self {
+                        if editingStyle == UITableViewCellEditingStyle.Delete {
+                            this.viewmodel.removeDataAtIndex(indexPath.row)
+                                |> start()
+                        }
+                    }
+                }
+            )
         
         tableView.delegate = nil
         tableView.delegate = self
-//
-//        viewmodel.profileBusinessViewModelArr.producer
-//            |> start(next: { [weak self] _ in
-//                self?.tableView.reloadData()
-//            })
 
     }
     
     // MARK: - Bindings
-    public func bindToViewModel(viewmodel: ParticipationListViewModel) {
+    public func bindToViewModel(viewmodel: IParticipationListViewModel) {
         self.viewmodel = viewmodel
     }
 }
@@ -123,7 +131,7 @@ extension ParticipationListViewController : UITableViewDataSource, UITableViewDe
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var businessCell = tableView.dequeueReusableCellWithIdentifier(BusinessCellIdentifier, forIndexPath: indexPath) as! ParticipationListCellView
+        var businessCell = tableView.dequeueReusableCellWithIdentifier(BusinessCellIdentifier, forIndexPath: indexPath) as! ParticipationListViewCell
         businessCell.bindToViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         
         return businessCell

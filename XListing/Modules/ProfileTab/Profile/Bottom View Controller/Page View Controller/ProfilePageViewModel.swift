@@ -1,14 +1,14 @@
 //
-//  ProfileBottomViewModel.swift
+//  ProfilePageViewModel.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-10-07.
+//  Created by Lance Zhu on 2015-10-08.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import Foundation
 
-public final class ProfileBottomViewModel : IProfileBottomViewModel {
+public final class ProfilePageViewModel : IProfilePageViewModel {
     
     // MARK: - Properties
     // MARK: Services
@@ -19,7 +19,8 @@ public final class ProfileBottomViewModel : IProfileBottomViewModel {
     private let imageService: IImageService
     
     // MARK: ViewModels
-    public let profilePageViewModel: IProfilePageViewModel
+    public let photoManagerViewModel: IPhotoManagerViewModel
+    public let participationListViewModel: IParticipationListViewModel
     
     // MARK: - Initializers
     
@@ -31,6 +32,8 @@ public final class ProfileBottomViewModel : IProfileBottomViewModel {
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         
-        profilePageViewModel = ProfilePageViewModel(participationService: participationService, businessService: businessService, userService: userService, geoLocationService: geoLocationService, imageService: imageService)
+        photoManagerViewModel = PhotoManagerViewModel(userService: userService, imageService: imageService)
+        
+        participationListViewModel = ParticipationListViewModel(participationService: participationService, businessService: businessService, userService: userService, geoLocationService: geoLocationService, imageService: imageService)
     }
 }

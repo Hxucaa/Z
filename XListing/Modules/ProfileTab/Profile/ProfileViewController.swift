@@ -16,25 +16,9 @@ public final class ProfileViewController : XUIViewController {
 
     // MARK: - UI Controls
     
-    private lazy var upperViewController: ProfileUpperViewController = {
-        let vc = ProfileUpperViewController()
-        
-        let selfFrame = self.view.frame
-        let viewHeight = round(selfFrame.size.height * 0.30)
-        vc.view.frame = CGRect(origin: selfFrame.origin, size: CGSizeMake(selfFrame.size.width, viewHeight))
-        
-        return vc
-    }()
+    private let upperViewController = ProfileUpperViewController()
+    private let bottomViewController = ProfileBottomViewController()
     
-    private lazy var bottomViewController: ProfileBottomViewController = {
-        let vc = ProfileBottomViewController()
-        
-        let selfFrame = self.view.frame
-        let viewHeight = round(selfFrame.size.height * 0.30)
-        vc.view.frame = CGRect(origin: CGPointMake(selfFrame.origin.x, viewHeight), size: CGSizeMake(selfFrame.size.width, selfFrame.size.height - viewHeight))
-        
-        return vc
-    }()
     
     // MARK: - Properties
     private var viewmodel: IProfileViewModel! {
@@ -43,22 +27,25 @@ public final class ProfileViewController : XUIViewController {
             bottomViewController.bindToViewModel(viewmodel.profileBottomViewModel)
         }
     }
-    private let compositeDisposable = CompositeDisposable()
 
     // MARK: - Setups
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        let selfFrame = self.view.frame
+        let viewHeight = round(selfFrame.size.height * 0.30)
+        
+        upperViewController.view.frame = CGRect(origin: selfFrame.origin, size: CGSizeMake(selfFrame.size.width, viewHeight))
+        
+        bottomViewController.view.frame = CGRect(origin: CGPointMake(selfFrame.origin.x, viewHeight), size: CGSizeMake(selfFrame.size.width, selfFrame.size.height - viewHeight))
+        
+        view.userInteractionEnabled = true
         view.opaque = true
         view.backgroundColor = UIColor.grayColor()
         
         navigationController?.navigationBarHidden = true
         navigationItem.title = "个人"
-    }
-    
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         
         addChildViewController(upperViewController)
         addChildViewController(bottomViewController)
@@ -82,20 +69,21 @@ public final class ProfileViewController : XUIViewController {
             $1.trailing == $1.superview!.trailing
             $1.bottom == $1.superview!.bottom
         }
+    }
+    
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
         navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.hidesBarsOnSwipe = false
-//        
-//        compositeDisposable += headerViewContent.editProxy
-//            // forwards events from producer until the view controller is going to disappear
-//            |> takeUntilViewWillDisappear(self)
-//            |> logLifeCycle(LogContext.Profile, "headerViewContent.editProxy")
-//            |> start(
-//                next: { [weak self] in
-//                    self?.viewmodel.presentProfileEditModule(true, completion: nil)
-//                }
-//            )
         
+        upperViewController.editProxy
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Profile, "headerView.editProxy")
+            |> start(next: { [weak self] in
+                self?.viewmodel.presentProfileEditModule(true, completion: nil)
+            })
     }
     
     public override func viewWillDisappear(animated: Bool) {
@@ -112,12 +100,8 @@ public final class ProfileViewController : XUIViewController {
     
     // MARK: - Bindings
     
-    public func bindToViewModel(profileViewModel: IProfileViewModel) {
-        viewmodel = profileViewModel
-        
-//        viewmodel.profileHeaderViewModel.producer
-//            |> ignoreNil
-//            |> start(next: headerView.bindToViewModel )
+    public func bindToViewModel(viewmodel: IProfileViewModel) {
+        self.viewmodel = viewmodel
     }
     
     // MARK: - Others

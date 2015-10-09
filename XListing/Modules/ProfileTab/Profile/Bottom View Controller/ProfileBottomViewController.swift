@@ -18,8 +18,8 @@ public final class ProfileBottomViewController : UIViewController {
     
     // MARK: - UI Controls
     
-    private lazy var pageControls: ButtonPageControl = {
-        let view = ButtonPageControl(frame: CGRect(origin: CGPointMake(0, 0), size: self.view.frame.size))
+    private lazy var pageControls: ProfileSegmentControlView = {
+        let view = ProfileSegmentControlView(frame: CGRect(origin: CGPointMake(0, 0), size: self.view.frame.size))
         view.backgroundColor = .whiteColor()
         view.opaque = true
         
@@ -37,7 +37,7 @@ public final class ProfileBottomViewController : UIViewController {
     // MARK: - Properties
     private var viewmodel: IProfileBottomViewModel! {
         didSet {
-            
+            pageViewController.bindToViewModel(viewmodel.profilePageViewModel)
         }
     }
     
@@ -52,22 +52,16 @@ public final class ProfileBottomViewController : UIViewController {
         
         view.addSubview(pageControls)
         
+        addChildViewController(pageViewController)
+        view.addSubview(pageViewController.view)
+        pageViewController.didMoveToParentViewController(self)
+        
         constrain(pageControls) {
             $0.leading == $0.superview!.leading
             $0.top == $0.superview!.top
             $0.trailing == $0.superview!.trailing
             $0.height == $0.superview!.height * 0.10
         }
-    }
-    
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        addChildViewController(pageViewController)
-        
-        view.addSubview(pageViewController.view)
-        
-        pageViewController.didMoveToParentViewController(self)
         
         constrain(pageControls, pageViewController.view) {
             $1.leading == $1.superview!.leading
@@ -75,6 +69,29 @@ public final class ProfileBottomViewController : UIViewController {
             $1.trailing == $1.superview!.trailing
             $1.bottom == $1.superview!.bottom
         }
+        
+    }
+    
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // default starting page
+        pageViewController.displayParticipationListPage()
+        
+        pageControls.participationListProxy
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Profile, "pageControls.participationListProxy")
+            |> start(next: { [weak self] in
+                self?.pageViewController.displayParticipationListPage()
+            })
+        
+        pageControls.photosManagerProxy
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Profile, "pageControls.photosManagerProxy")
+            |> start(next: { [weak self] in
+                self?.pageViewController.displayPhotosManagerPage()
+            })
+        
     }
     
     // MARK: - Bindings

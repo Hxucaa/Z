@@ -46,15 +46,36 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
     
     // MARK: - API
     
-    public func undoParticipation(index: Int) -> SignalProducer<Bool, NSError> {
-        return participationService.delete(participationArr.value[index])
-            |> on(
-                next: { _ in
-                    ProfileLogInfo("participation backend completed")
-                    self.participationArr.value.removeAtIndex(index)
-                }
-        )
+    public func fetchMoreData() -> SignalProducer<Void, NSError> {
+        return undefined()
     }
+    
+    public func refreshData() -> SignalProducer<Void, NSError> {
+        return undefined()
+    }
+    
+    public func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
+        return undefined()
+    }
+    
+    public func removeDataAtIndex(index: Int) -> SignalProducer<Void, NSError> {
+        return undefined()
+//        collectionDataSource.removeAtIndex(index)
+    }
+    
+    public func pushSocialBusinessModule(section: Int, animated: Bool) {
+        //        navigator.pushSocialBusiness(businessArr.value[section], animated: animated)
+    }
+    
+//    public func undoParticipation(index: Int) -> SignalProducer<Bool, NSError> {
+//        return participationService.delete(participationArr.value[index])
+//            |> on(
+//                next: { _ in
+//                    ProfileLogInfo("participation backend completed")
+//                    self.participationArr.value.removeAtIndex(index)
+//                }
+//        )
+//    }
     
     // MARK: - Others
     

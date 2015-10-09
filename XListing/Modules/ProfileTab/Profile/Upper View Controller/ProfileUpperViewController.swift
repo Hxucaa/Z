@@ -25,8 +25,15 @@ public final class ProfileUpperViewController : UIViewController {
         return view
     }()
     
+    // MARK: - Proxies
+    private let (_editProxy, _editSink) = SimpleProxy.proxy()
+    public var editProxy: SimpleProxy {
+        return _editProxy
+    }
+    
     // MARK: - Properties
     private var viewmodel: IProfileUpperViewModel!
+    
     
     // MARK: - Initializers
     
@@ -34,6 +41,7 @@ public final class ProfileUpperViewController : UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.userInteractionEnabled = true
         view.opaque = true
         view.backgroundColor = UIColor.grayColor()
         
@@ -61,6 +69,16 @@ public final class ProfileUpperViewController : UIViewController {
             |> ignoreNil
             |> start(next: { [weak self] viewmodel in
                 self?.headerView.bindToViewModel(viewmodel)
+            })
+        
+        headerView.editProxy
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Profile, "headerView.editProxy")
+            |> start(next: { [weak self] in
+                if let this = self {
+                    proxyNext(this._editSink, ())
+                }
             })
     }
     

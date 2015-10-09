@@ -24,15 +24,18 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
     public typealias RemoveAllHandler = (keepCapacity: Bool) -> Void
     
     private weak var tableView: T!
-    private weak var viewmodel: U!
+    private let _viewmodel: (Void -> U)
+    private var viewmodel: U {
+        return _viewmodel()
+    }
     private lazy var infinityScrollConductor: InfinityScrollConductor<T, U> = InfinityScrollConductor<T, U>(tableView: self.tableView, infinityScrollable: self.viewmodel)
     private lazy var pullToRefreshConductor: PullToRefreshConductor<T, U> = PullToRefreshConductor<T, U>(tableView: self.tableView, pullToRefreshable: self.viewmodel)
     
     private var isFirstLoad = true
     
-    public init(tableView: T, viewmodel: U) {
+    public init(tableView: T, @autoclosure(escaping) viewmodel: () -> U) {
         self.tableView = tableView
-        self.viewmodel = viewmodel
+        self._viewmodel = viewmodel
         
         infinityScrollConductor.setup()
         pullToRefreshConductor.setup()

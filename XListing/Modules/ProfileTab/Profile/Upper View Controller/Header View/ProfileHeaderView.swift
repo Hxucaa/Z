@@ -19,6 +19,7 @@ public final class ProfileHeaderView: UIView {
     // MARK: - UI Controls
     private lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: ImageAssets.profileHeaderBackground))
+        imageView.userInteractionEnabled = true
         imageView.backgroundColor = .whiteColor()
         imageView.opaque = true
         
@@ -27,13 +28,14 @@ public final class ProfileHeaderView: UIView {
     
     private lazy var editButton: UIButton = {
         let button = UIButton(frame: CGRectMake(345, 27, 26, 30))
+        button.userInteractionEnabled = true
         button.contentEdgeInsets = UIEdgeInsets(top: 3, left: 2, bottom: 3, right: 2)
         button.setImage(UIImage(named: ImageAssets.editIcon), forState: .Normal)
         
         let editAction = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
                 if let this = self {
-                    sendNext(this._editSink, ())
+                    proxyNext(this._editSink, ())
                 }
                 sendCompleted(sink)
             }

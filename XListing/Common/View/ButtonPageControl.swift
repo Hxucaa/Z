@@ -11,15 +11,14 @@ import UIKit
 import TZStackView
 import Cartography
 import TTTAttributedLabel
-import XAssets
 import ReactiveCocoa
 
 public class ButtonPageControl : UIView {
     
     // MARK: - UI Controls
-    private lazy var container: TZStackView = {
+    public lazy var buttonContainer: TZStackView = {
         
-        let container = TZStackView(arrangedSubviews: [self.button1, self.button2])
+        let container = TZStackView(arrangedSubviews: [])
         container.distribution = TZStackViewDistribution.FillEqually
         container.axis = .Horizontal
         container.spacing = 8
@@ -28,69 +27,9 @@ public class ButtonPageControl : UIView {
         return container
     }()
     
-    private lazy var button1: UIButton = {
-        let button = UIButton()
-        button.opaque = true
-        
-        AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(35, 35), backgroundColor: .whiteColor(), opaque: true, imageContextScale: nil, pressed: false, shadow: false))
-            |> start(
-                next: { [weak button] image in
-                    button?.setImage(image, forState: .Normal)
-                }
-            )
-        
-        let action = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                if let this = self {
-//                    sendNext(this._editSink, ())
-                }
-                sendCompleted(sink)
-            }
-        }
-        
-        button.addTarget(action.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-        
-        
-        return button
-    }()
-    
-    private lazy var button2: UIButton = {
-        let button = UIButton()
-        button.opaque = true
-        
-        AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(35, 35), backgroundColor: .whiteColor(), opaque: true, imageContextScale: nil, pressed: false, shadow: false))
-            |> start(
-                next: { [weak button] image in
-                    button?.setImage(image, forState: .Normal)
-                }
-        )
-        
-        let action = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                if let this = self {
-                    //                    sendNext(this._editSink, ())
-                }
-                sendCompleted(sink)
-            }
-        }
-        
-        button.addTarget(action.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-        
-        
-        return button
-    }()
-//    private var buttonArray = [UIButton]()
-    
     // MARK: - Proxies
     
     // MARK: - Properties
-//    private var buttonCount = 0 {
-//        didSet {
-//            
-//        }
-//    }
-//    
-//    public var buttonImage
     
     // MARK: - Initializers
     
@@ -101,15 +40,17 @@ public class ButtonPageControl : UIView {
     }
     
     public required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        
+        setup()
     }
     
     // MARK: - Setups
     
     private func setup() {
-        addSubview(container)
+        addSubview(buttonContainer)
         
-        constrain(container) { view in
+        constrain(buttonContainer) { view in
             view.leading == view.superview!.leading
             view.top == view.superview!.top
             view.trailing == view.superview!.trailing

@@ -1,16 +1,19 @@
 //
-//  BusinessCell.swift
+//  ParticipationListViewCell.swift
 //  XListing
 //
-//  Created by Anson on 2015-07-21.
+//  Created by Lance Zhu on 2015-10-07.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import Foundation
 import UIKit
 import ReactiveCocoa
+import AVOSCloud
+import Dollar
+import Cartography
 
-public final class ProfileBusinessCell: UITableViewCell {
+public final class ParticipationListViewCell : UITableViewCell {
     
     // MARK: - UI Controls
     @IBOutlet private weak var businessImageView: UIImageView!
@@ -19,10 +22,10 @@ public final class ProfileBusinessCell: UITableViewCell {
     @IBOutlet private weak var cityLabel: UILabel!
     @IBOutlet private weak var distanceLabel: UILabel!
     
-    
     // MARK: - Properties
-    private var viewModel: ProfileBusinessViewModel!
+    private var viewmodel: IParticipationListCellViewModel!
     
+    // MARK: - Initializers
     
     // MARK: - Setups
     public override func awakeFromNib() {
@@ -30,22 +33,19 @@ public final class ProfileBusinessCell: UITableViewCell {
         selectionStyle = UITableViewCellSelectionStyle.None
         layoutMargins = UIEdgeInsetsZero
         preservesSuperviewLayoutMargins = false
-    
+        
     }
     
     // MARK: - Bindings
-    public func bindViewModel(viewmodel: ProfileBusinessViewModel) {
-        self.viewModel = viewmodel
+    
+    public func bindToViewModel(viewmodel: IParticipationListCellViewModel) {
+        self.viewmodel = viewmodel
         
         businessNameLabel.rac_text <~ viewmodel.businessName
         cityLabel.rac_text <~ viewmodel.city
         popularityLabel.rac_text <~ viewmodel.participation
-        distanceLabel.rac_text <~ viewmodel.eta
-        self.viewModel.coverImage.producer
+        distanceLabel.rac_text <~ viewmodel.eta.producer
             |> ignoreNil
-            |> start (next: { [weak self] in
-                self?.businessImageView.setImageWithAnimation($0)
-            })
+        businessImageView.rac_image <~ viewmodel.coverImage
     }
-
 }
