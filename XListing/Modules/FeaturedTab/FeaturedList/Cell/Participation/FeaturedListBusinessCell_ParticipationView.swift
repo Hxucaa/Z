@@ -76,49 +76,23 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
             dotLabel.centerY == dotLabel.superview!.centerY
             wtgView.leading == wtgView.superview!.leadingMargin
             treatView.trailing == treatView.superview!.trailing
-            //treatView.trailing == treatView.superview!.trailing - 20 ~ 999
-            //view.trailing == view.superview!.trailingMargin
+
             wtgView.height == 20
             wtgView.width == 37
             treatView.height == 20
             treatView.width == 37
-            //wtgView.trailing == treatView.leading - 10
+            wtgView.trailing == treatView.leading - 10
             
-            dotLabel.leading == dotLabel.superview!.leadingMargin
-            dotLabel.trailing == dotLabel.superview!.trailing
+            dotLabel.leading == wtgView.trailingMargin
+            dotLabel.trailing == treatView.leadingMargin
         }
         
         return view
     }()
     
-    private lazy var joinButton: UIButton = {
-        let button = UIButton(frame: CGRectMake(15, 15, 50, 30))
-        button.titleLabel?.frame = CGRectMake(5, 3, 15, 15)
-        
-//        let join = Action<UIButton, Bool, NSError>{ button in
-//            return self.viewmodel.participate(ParticipationType.)
-//        }
-//        
-//        button.addTarget(join.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-        button.titleLabel?.opaque = true
-        button.titleLabel?.backgroundColor = .x_FeaturedCardBG()
-        button.titleLabel?.layer.masksToBounds = true
-        button.setTitle("约起", forState: .Normal)
-        button.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        button.layer.borderColor = UIColor.x_PrimaryColor().CGColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 9
-        button.layer.masksToBounds = true
-        button.layer.rasterizationScale = UIScreen.mainScreen().scale
-        button.layer.shouldRasterize = true
-        
-        
-        return button
-    }()
-    
     private lazy var dotLabel: UILabel = {
         let dot = UILabel(frame: CGRectMake(0, 0, 2, 2))
-        dot.text = "・"
+        dot.text = "・ "
         dot.textColor = UIColor.x_PrimaryColor()
         dot.textAlignment = .Center
         return dot
