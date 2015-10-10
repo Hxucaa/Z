@@ -66,22 +66,27 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         let viewWidth = round(self.frame.width * 0.30) - 8
         let view = UIView(frame: CGRectMake(round(self.frame.width * 0.70), 8, viewWidth, 10))
         
-        view.addSubview(self.wtgImageView)
-        view.addSubview(self.treatImageView)
+        view.addSubview(self.wtgView)
+        view.addSubview(self.treatView)
+        view.addSubview(self.dotLabel)
         
-        constrain(self.wtgImageView, self.treatImageView) { wtgView, treatView in
+        constrain(self.wtgView, self.treatView, self.dotLabel) { wtgView, treatView, dotLabel in
             wtgView.centerY == wtgView.superview!.centerY
             treatView.centerY == treatView.superview!.centerY
-            wtgView.leading == wtgView.superview!.leading
+            dotLabel.centerY == dotLabel.superview!.centerY
+            wtgView.leading == wtgView.superview!.leadingMargin
+            treatView.trailing == treatView.superview!.trailing
             //treatView.trailing == treatView.superview!.trailing - 20 ~ 999
             //view.trailing == view.superview!.trailingMargin
             wtgView.height == 20
-            wtgView.width == 20
+            wtgView.width == 37
             treatView.height == 20
-            treatView.width == 20
-            wtgView.trailingMargin == treatView.leading - 30
+            treatView.width == 37
+            //wtgView.trailing == treatView.leading - 10
+            
+            dotLabel.leading == dotLabel.superview!.leadingMargin
+            dotLabel.trailing == dotLabel.superview!.trailing
         }
-        
         
         return view
     }()
@@ -111,7 +116,16 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         return button
     }()
     
-    private lazy var wtgImageView: UIImageView = {
+    private lazy var dotLabel: UILabel = {
+        let dot = UILabel(frame: CGRectMake(0, 0, 2, 2))
+        dot.text = "・"
+        dot.textColor = UIColor.x_PrimaryColor()
+        dot.textAlignment = .Center
+        return dot
+    }()
+    
+    private lazy var wtgView: UIView = {
+        let wtgView = UIView(frame: CGRectMake(0, 0, 35, 20))
         let imageView = self.makeIconImageView(CGRectMake(0, 0, 20, 20))
         imageView.rac_image <~ AssetFactory.getImage(Asset.WTGIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
             |> take(1)
@@ -120,11 +134,15 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         label.text = "20"
         label.textColor = UIColor.x_PrimaryColor()
         label.adjustsFontSizeToFitWidth = true
-        imageView.addSubview(label)
-        return imageView
+        wtgView.addSubview(imageView)
+        wtgView.addSubview(label)
+        let tapGesture = UITapGestureRecognizer()
+        wtgView.addGestureRecognizer(tapGesture)
+        return wtgView
     }()
     
-    private lazy var treatImageView: UIImageView = {
+    private lazy var treatView: UIView = {
+        let treatView = UIView(frame: CGRectMake(0, 0, 35, 20))
         let imageView = self.makeIconImageView(CGRectMake(0, 0, 20, 20))
         imageView.rac_image <~ AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
             |> take(1)
@@ -133,8 +151,11 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         label.text = "20"
         label.textColor = UIColor.x_PrimaryColor()
         label.adjustsFontSizeToFitWidth = true
-        imageView.addSubview(label)
-        return imageView
+        treatView.addSubview(imageView)
+        treatView.addSubview(label)
+        let tapGesture = UITapGestureRecognizer()
+        treatView.addGestureRecognizer(tapGesture)
+        return treatView
         }()
     
     private func makeIconImageView(frame: CGRect) -> UIImageView {
@@ -173,7 +194,7 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         constrain(participantsPreviewView, joinButtonContainer) { container, button in
             container.leading == container.superview!.leadingMargin
             container.top == container.superview!.top
-            container.width == container.superview!.width * 0.70
+            container.width == container.superview!.width * 0.62
             container.bottom == container.superview!.bottom
             
             (button.leading == container.trailing).identifier = "joinButtonContainer leading"

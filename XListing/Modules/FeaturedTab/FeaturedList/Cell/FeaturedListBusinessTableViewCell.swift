@@ -147,7 +147,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         constrain(mainStackView) { view in
             view.leading == view.superview!.leadingMargin
             view.top == view.superview!.topMargin
-            view.trailing == view.superview!.trailing
+            view.trailing == view.superview!.trailingMargin
             view.bottom == view.superview!.bottom - 5
         }
         
@@ -194,7 +194,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         *   particiation view
         */
         constrain(participationView) { view in
-            view.height == view.superview!.height * 0.225
+            view.height == view.superview!.height * 0.20
             view.width == view.superview!.width
         }
         
