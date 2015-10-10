@@ -176,7 +176,7 @@ public final class BusinessDetailViewController : XUIViewController {
             table.leading == table.superview!.leading
             table.top == utility.bottom
             table.trailing == table.superview!.trailing
-            table.bottom == table.superview!.bottom
+            table.bottom == table.superview!.bottom - 44
         }
         
     }
@@ -328,7 +328,7 @@ extension BusinessDetailViewController : UINavigationControllerDelegate {
     public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         if fromVC is BusinessDetailViewController && toVC is SocialBusinessViewController && operation == .Pop {
-            return ReverseSlideAnimator(tableView: tableView, headerView: headerView, utilityHeaderView: utilityHeaderView)
+            return ReverseSlideAnimator(tableView: tableView, headerView: headerView, utilityHeaderView: utilityHeaderView, headerVM: viewmodel.headerViewModel)
         }
         return nil
     }

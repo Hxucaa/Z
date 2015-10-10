@@ -156,6 +156,11 @@ public final class SocialBusinessViewController : XUIViewController {
     public override func prefersStatusBarHidden() -> Bool {
         return true
     }
+    
+    public func getHeaderDestinationPoint() -> CGPoint {
+        let headerRect = view.convertRect(headerView.frame, fromView: headerView)
+        return headerRect.origin
+    }
 
     // MARK: - Bindings
     
@@ -184,7 +189,7 @@ extension SocialBusinessViewController : UITableViewDelegate, UITableViewDataSou
     }
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 44
     }
 }
 

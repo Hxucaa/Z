@@ -48,11 +48,13 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
         
         // destination view controller is transparent at first
         toView.alpha = 0
-        
-        //let (hView, utilityHeaderView) = fromViewController.getAnimationMembers
+
         headerView.frame = startRect
-        utilityHeaderView.frame = CGRectMake(0, startRect.height+startRect.origin.y, CGFloat(ScreenWidth), 44)
-        
+        if -startRect.origin.y > startRect.height {
+            utilityHeaderView.frame = CGRectMake(0, 64, CGFloat(ScreenWidth), 44)
+        } else {
+            utilityHeaderView.frame = CGRectMake(0, startRect.height+startRect.origin.y, CGFloat(ScreenWidth), 44)
+        }
         
         let tableView = toViewController.getAnimationMembers
         tableView.frame = CGRectMake(0, CGFloat(ScreenHeight), CGFloat(ScreenWidth), 600)
