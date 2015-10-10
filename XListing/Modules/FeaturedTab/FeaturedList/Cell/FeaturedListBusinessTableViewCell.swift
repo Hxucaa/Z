@@ -34,7 +34,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     *   MARK: Main Stack View
     */
     private lazy var mainStackView: TZStackView = {
-        let container = TZStackView(arrangedSubviews: [self.topSectionContainer, self.dividerView, self.statsStackView, self.participationView])
+        let container = TZStackView(arrangedSubviews: [self.topSectionContainer, self.dividerView, self.participationView])
         container.distribution = TZStackViewDistribution.EqualSpacing
         container.axis = .Vertical
         container.spacing = 4

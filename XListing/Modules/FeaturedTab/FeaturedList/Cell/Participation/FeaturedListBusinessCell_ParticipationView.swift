@@ -64,15 +64,24 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
     
     private lazy var joinButtonContainer: UIView = {
         let viewWidth = round(self.frame.width * 0.30) - 8
-        let view = UIView(frame: CGRectMake(round(self.frame.width * 0.70), 8, viewWidth, self.frame.height - 8 - 8))
+        let view = UIView(frame: CGRectMake(round(self.frame.width * 0.70), 8, viewWidth, 10))
         
-        view.addSubview(self.joinButton)
+        view.addSubview(self.wtgImageView)
+        view.addSubview(self.treatImageView)
         
-        constrain(self.joinButton) { view in
-            view.centerY == view.superview!.centerY
-            view.leading == view.superview!.leadingMargin + 5
-            view.trailing == view.superview!.trailingMargin - 5
+        constrain(self.wtgImageView, self.treatImageView) { wtgView, treatView in
+            wtgView.centerY == wtgView.superview!.centerY
+            treatView.centerY == treatView.superview!.centerY
+            wtgView.leading == wtgView.superview!.leading
+            //treatView.trailing == treatView.superview!.trailing - 20 ~ 999
+            //view.trailing == view.superview!.trailingMargin
+            wtgView.height == 20
+            wtgView.width == 20
+            treatView.height == 20
+            treatView.width == 20
+            wtgView.trailingMargin == treatView.leading - 30
         }
+        
         
         return view
     }()
@@ -101,6 +110,41 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         
         return button
     }()
+    
+    private lazy var wtgImageView: UIImageView = {
+        let imageView = self.makeIconImageView(CGRectMake(0, 0, 20, 20))
+        imageView.rac_image <~ AssetFactory.getImage(Asset.WTGIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+            |> take(1)
+            |> map { Optional<UIImage>($0) }
+        let label = UILabel(frame: CGRectMake(22, 5, 15, 15))
+        label.text = "20"
+        label.textColor = UIColor.x_PrimaryColor()
+        label.adjustsFontSizeToFitWidth = true
+        imageView.addSubview(label)
+        return imageView
+    }()
+    
+    private lazy var treatImageView: UIImageView = {
+        let imageView = self.makeIconImageView(CGRectMake(0, 0, 20, 20))
+        imageView.rac_image <~ AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+            |> take(1)
+            |> map { Optional<UIImage>($0) }
+        let label = UILabel(frame: CGRectMake(22, 5, 15, 15))
+        label.text = "20"
+        label.textColor = UIColor.x_PrimaryColor()
+        label.adjustsFontSizeToFitWidth = true
+        imageView.addSubview(label)
+        return imageView
+        }()
+    
+    private func makeIconImageView(frame: CGRect) -> UIImageView {
+        let imageView = UIImageView(frame: frame)
+        imageView.contentMode = UIViewContentMode.ScaleAspectFit
+        imageView.opaque = true
+        imageView.backgroundColor = .x_FeaturedCardBG()
+        
+        return imageView
+    }
     
     // MARK: - Properties
     private var viewmodel: IFeaturedListBusinessCell_ParticipationViewModel!
