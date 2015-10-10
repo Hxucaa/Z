@@ -64,7 +64,7 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
         Chain(
             { done in
                 UIView.animateWithDuration(
-                    0.2,
+                    0.1,
                     delay: 0.0,
                     options: UIViewAnimationOptions.TransitionNone,
                     animations: {
@@ -75,7 +75,7 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
             },
             { done in
                 UIView.animateWithDuration(
-                    0.8,
+                    0.2,
                     delay: 0.0,
                     options: UIViewAnimationOptions.CurveEaseInOut,
                     animations: {
@@ -93,7 +93,7 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
             },
             { done in
                 UIView.animateWithDuration(
-                    0.4,
+                    0.1,
                     animations: {
                         toView.alpha = 1
                         

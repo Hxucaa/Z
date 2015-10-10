@@ -39,7 +39,7 @@ public struct DetailAddressAndMapViewModel {
     public init(geoLocationService: IGeoLocationService, businessName: String?, address: String?, city: String?, state: String?, businessLocation: CLLocation) {
         self.geoLocationService = geoLocationService
         
-        self._fullAddress = ConstantProperty<String>("   \u{f124}   \(address!), \(city!), \(state!)")
+        self._fullAddress = ConstantProperty<String>("   \u{f124}   \(address!), \(city!)")
         
         self.businessLocation = ConstantProperty(businessLocation)
         
