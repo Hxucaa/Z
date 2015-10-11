@@ -15,6 +15,7 @@ import TTTAttributedLabel
 import XAssets
 import Dollar
 
+private let etaPriceIconSize = round(UIScreen.mainScreen().bounds.width * 0.032)
 
 public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     
@@ -160,13 +161,13 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         }
         
         constrain(etaIconImageView) { view in
-            view.height == 12
-            view.width == 12
+            view.height == etaPriceIconSize
+            view.width == etaPriceIconSize
         }
         
         constrain(priceIconImageView) { view in
-            view.height == 12
-            view.width == 12
+            view.height == etaPriceIconSize
+            view.width == etaPriceIconSize
         }
         
         constrain([businessNameAndFeaturedIconContainer, locationLabel, priceIconImageView, priceLabel, etaIconImageView, etaLabel]) { views in
