@@ -37,7 +37,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
     
     // MARK: Variables
     public weak var navigator: FeaturedListNavigator!
-    private let businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
+    private var businessArr = [Business]()
     private var numberOfBusinessesLoaded = 0
     
     // MARK: - Initializers
@@ -78,7 +78,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
     }
     
     public func pushSocialBusinessModule(section: Int) {
-        navigator.pushSocialBusiness(businessArr.value[section])
+        navigator.pushSocialBusiness(businessArr[section])
     }
     
     // MARK: - Others
@@ -102,6 +102,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
         }
         
         return businessService.findBy(query)
+            |> map { $.shuffle($0) }
             |> on(next: { businesses in
                 
                 if refresh {
@@ -109,14 +110,14 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
                     self.numberOfBusinessesLoaded = businesses.count
                     
                     // ignore old data, put in new array
-                    self.businessArr.put(businesses)
+                    self.businessArr = businesses
                 }
                 else {
                     // increment numberOfBusinessesLoaded
                     self.numberOfBusinessesLoaded += businesses.count
                     
                     // save the new data in addition to the old ones
-                    self.businessArr.put(self.businessArr.value + businesses)
+                    self.businessArr.extend(businesses)
                 }
             })
             |> map { businesses -> [FeaturedBusinessViewModel] in
@@ -130,11 +131,11 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
                 next: { viewmodels in
                     if refresh && viewmodels.count > 0 {
                         // ignore old data
-                        self.collectionDataSource.replaceAll($.shuffle(viewmodels))
+                        self.collectionDataSource.replaceAll(viewmodels)
                     }
                     else if !refresh && viewmodels.count > 0 {
                         // save the new data with old ones
-                        self.collectionDataSource.extend($.shuffle(viewmodels))
+                        self.collectionDataSource.extend(viewmodels)
                     }
                 },
                 error: { FeaturedLogError($0.description) }
