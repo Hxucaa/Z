@@ -23,6 +23,7 @@ private let Preview = (
 private let wtgIconSize = round(UIScreen.mainScreen().bounds.width * 0.0453)
 private let treatIconSize = round(UIScreen.mainScreen().bounds.width * 0.0533)
 private let labelSize = round(UIScreen.mainScreen().bounds.width * 0.04)
+private let participationSectionWidth = round(UIScreen.mainScreen().bounds.width * 0.226)
 
 public final class FeaturedListBusinessCell_ParticipationView : UIView {
     
@@ -89,13 +90,20 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
             |> take(1)
             |> map { Optional<UIImage>($0) }
         
-        let label = UILabel(frame: CGRectMake(20, 20-wtgIconSize, labelSize, labelSize))
+        let label = UILabel(frame: CGRectMake(wtgIconSize, 2, labelSize, labelSize))
         label.text = "20"
         label.textColor = UIColor.x_PrimaryColor()
         label.adjustsFontSizeToFitWidth = true
         
         wtgView.addSubview(imageView)
         wtgView.addSubview(label)
+        
+        constrain(imageView, label) { imageView, label in
+            label.leading == imageView.trailing + 1
+            label.bottom == imageView.bottom
+            label.width == labelSize
+            label.height == labelSize
+        }
         
         let tapGesture = UITapGestureRecognizer()
         wtgView.addGestureRecognizer(tapGesture)
@@ -111,13 +119,20 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
             |> take(1)
             |> map { Optional<UIImage>($0) }
         
-        let label = UILabel(frame: CGRectMake(20, 20-wtgIconSize, labelSize, labelSize))
+        let label = UILabel(frame: CGRectMake(treatIconSize, 3, labelSize, labelSize))
         label.text = "20"
         label.textColor = UIColor.x_PrimaryColor()
         label.adjustsFontSizeToFitWidth = true
         
         treatView.addSubview(imageView)
         treatView.addSubview(label)
+        
+        constrain(imageView, label) { imageView, label in
+            label.leading == imageView.trailing
+            label.bottom == imageView.bottom - (treatIconSize - wtgIconSize)/2
+            label.width == labelSize
+            label.height == labelSize
+        }
         
         let tapGesture = UITapGestureRecognizer()
         treatView.addGestureRecognizer(tapGesture)
@@ -168,6 +183,7 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
             container.bottom == container.superview!.bottom
             
             //(button.leading == container.trailing).identifier = "joinButtonContainer leading"
+            //button.width == participationSectionWidth
             (button.top == button.superview!.topMargin).identifier = "joinButtonContainer top"
             (button.trailing == button.superview!.trailingMargin).identifier = "joinButtonContainer trailing"
             (button.bottom == button.superview!.bottomMargin).identifier = "joinButtonContainer bottom"
@@ -183,9 +199,9 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
             dotLabel.center == dotLabel.superview!.center
             
             wtgView.height == wtgIconSize
-            wtgView.width == 34
+            wtgView.width == wtgIconSize+labelSize+1
             treatView.height == treatIconSize
-            treatView.width == 34
+            treatView.width == treatIconSize+labelSize
             
             wtgView.trailing == dotLabel.leading + 2
             dotLabel.trailing == treatView.leading
