@@ -147,7 +147,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         constrain(mainStackView) { view in
             view.leading == view.superview!.leadingMargin
             view.top == view.superview!.topMargin
-            view.trailing == view.superview!.trailingMargin
+            view.trailing == view.superview!.trailing
             view.bottom == view.superview!.bottom - 5
         }
         
@@ -170,7 +170,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         constrain(businessImageView, infoPanelView) { image, info in
             image.leading == image.superview!.leading
             image.top == image.superview!.top
-            image.width == image.superview!.width * 0.59
+            image.width == image.superview!.width * 0.58
             image.bottom == image.superview!.bottom
             
             (info.leading == image.trailing).identifier = "infoPanelView leading"
@@ -184,7 +184,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         *   dividier
         */
         constrain(dividerView) { divider in
-            divider.width == divider.superview!.width + 12
+            divider.width == divider.superview!.width
         }
         dividerView.setContentCompressionResistancePriority(751, forAxis: .Vertical)
 

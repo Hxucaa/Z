@@ -186,7 +186,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
             views[2].trailing == views[3].leading - 3
             views[3].trailing == views[4].leading - 3
             views[4].trailing == views[5].leading - 3
-            views[5].trailing == views[5].superview!.trailingMargin
+            views[5].trailing == views[5].superview!.trailingMargin - 8
         }
 
     }

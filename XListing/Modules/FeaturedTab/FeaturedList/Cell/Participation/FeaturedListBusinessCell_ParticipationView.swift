@@ -23,7 +23,6 @@ private let Preview = (
 private let wtgIconSize = round(UIScreen.mainScreen().bounds.width * 0.0453)
 private let treatIconSize = round(UIScreen.mainScreen().bounds.width * 0.0533)
 private let labelSize = round(UIScreen.mainScreen().bounds.width * 0.04)
-private let participationSectionWidth = round(UIScreen.mainScreen().bounds.width * 0.226)
 
 public final class FeaturedListBusinessCell_ParticipationView : UIView {
     
@@ -62,7 +61,6 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         imageView.contentMode = UIViewContentMode.ScaleAspectFill
         imageView.backgroundColor = .x_FeaturedCardBG()
         imageView.clipsToBounds = true
-        println(imageView.frame)
                 
         return imageView
     }
@@ -182,10 +180,8 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
             container.width == container.superview!.width * 0.62
             container.bottom == container.superview!.bottom
             
-            //(button.leading == container.trailing).identifier = "joinButtonContainer leading"
-            //button.width == participationSectionWidth
             (button.top == button.superview!.topMargin).identifier = "joinButtonContainer top"
-            (button.trailing == button.superview!.trailingMargin).identifier = "joinButtonContainer trailing"
+            (button.trailing == button.superview!.trailingMargin-8).identifier = "joinButtonContainer trailing"
             (button.bottom == button.superview!.bottomMargin).identifier = "joinButtonContainer bottom"
         }
         
@@ -206,7 +202,7 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
             wtgView.trailing == dotLabel.leading + 2
             dotLabel.trailing == treatView.leading
             
-            //wtgView.leading <= wtgView.superview!.leading ~ 250
+            wtgView.leading <= wtgView.superview!.leading ~ 250
             treatView.trailing == treatView.superview!.trailing
         }
     }
