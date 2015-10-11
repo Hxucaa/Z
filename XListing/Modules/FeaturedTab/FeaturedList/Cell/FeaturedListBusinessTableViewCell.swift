@@ -34,10 +34,10 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     *   MARK: Main Stack View
     */
     private lazy var mainStackView: TZStackView = {
-        let container = TZStackView(arrangedSubviews: [self.topSectionContainer, self.dividerView, self.statsStackView, self.participationView])
+        let container = TZStackView(arrangedSubviews: [self.topSectionContainer, self.dividerView, self.participationView])
         container.distribution = TZStackViewDistribution.EqualSpacing
         container.axis = .Vertical
-        container.spacing = 4
+        container.spacing = 9
         container.alignment = TZStackViewAlignment.Leading
         container.frame = CGRectMake(0, 0, self.estimatedFrame.width, self.estimatedFrame.height - 5)
         
@@ -147,7 +147,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         constrain(mainStackView) { view in
             view.leading == view.superview!.leadingMargin
             view.top == view.superview!.topMargin
-            view.trailing == view.superview!.trailing
+            view.trailing == view.superview!.trailingMargin
             view.bottom == view.superview!.bottom - 5
         }
         
@@ -194,7 +194,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         *   particiation view
         */
         constrain(participationView) { view in
-            view.height == view.superview!.height * 0.225
+            view.height == view.superview!.height * 0.20
             view.width == view.superview!.width
         }
         
