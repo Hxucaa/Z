@@ -38,8 +38,10 @@ public struct DetailAddressAndMapViewModel {
     // MARK: Initializers
     public init(geoLocationService: IGeoLocationService, businessName: String?, address: String?, city: String?, state: String?, geolocation: Geolocation?) {
         self.geoLocationService = geoLocationService
-        
-        self._fullAddress = ConstantProperty<String>("   \u{f124}   \(address!), \(city!), \(state!)")
+        let cstate = state ?? ""
+        let caddress = address ?? ""
+        let ccity = city ?? ""
+        self._fullAddress = ConstantProperty<String>("   \u{f124}   \(caddress), \(ccity), \(cstate)")
         
         businessLocation = geolocation
         

@@ -20,6 +20,7 @@
 		26645ADF1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ADD1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift */; };
 		2675C4BC1BB3ACC400F2683B /* DescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2675C4BB1BB3ACC400F2683B /* DescriptionTableViewCell.swift */; };
 		2675C4BE1BB3AD1400F2683B /* DescriptionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2675C4BD1BB3AD1400F2683B /* DescriptionCellViewModel.swift */; };
+		2690AF6C1BC46D2F000C3891 /* ReverseSlideAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2690AF6B1BC46D2F000C3891 /* ReverseSlideAnimator.swift */; };
 		269163691B5C6C1E005D48FA /* (null) in Sources */ = {isa = PBXBuildFile; };
 		26979C061B71CB54003F85ED /* ProfileEdit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26979C051B71CB54003F85ED /* ProfileEdit.storyboard */; };
 		26C55F291BB86D7700828D58 /* BusinessHourCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C55F281BB86D7700828D58 /* BusinessHourCell.swift */; };
@@ -270,6 +271,7 @@
 		26645ADD1B5C677E00ADDCD1 /* WhatsupTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsupTableViewCell.swift; sourceTree = "<group>"; };
 		2675C4BB1BB3ACC400F2683B /* DescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		2675C4BD1BB3AD1400F2683B /* DescriptionCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCellViewModel.swift; sourceTree = "<group>"; };
+		2690AF6B1BC46D2F000C3891 /* ReverseSlideAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReverseSlideAnimator.swift; sourceTree = "<group>"; };
 		26979C051B71CB54003F85ED /* ProfileEdit.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProfileEdit.storyboard; sourceTree = "<group>"; };
 		26AB479389256B6B20922161 /* Pods-XListingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XListingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-XListingTests/Pods-XListingTests.release.xcconfig"; sourceTree = "<group>"; };
 		26C55F281BB86D7700828D58 /* BusinessHourCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessHourCell.swift; sourceTree = "<group>"; };
@@ -1302,6 +1304,7 @@
 				B4E7E50A1B93F36E0034B093 /* ISocialBusinessViewModel.swift */,
 				B4E7E5081B93F3610034B093 /* SocialBusinessViewModel.swift */,
 				B403B08D1BA2B5EF0085E0A3 /* UIImageSlideAnimator.swift */,
+				2690AF6B1BC46D2F000C3891 /* ReverseSlideAnimator.swift */,
 				B4D7338F1B9A28F900B599B9 /* Header View */,
 				B424875E1BA3C5CC00FBC634 /* Utility Header */,
 				B4D7338D1B9A286A00B599B9 /* User Cell */,
@@ -1682,6 +1685,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2690AF6C1BC46D2F000C3891 /* ReverseSlideAnimator.swift in Sources */,
 				B403B0851BA0DA6B0085E0A3 /* IBusinessDetailViewModel.swift in Sources */,
 				B4104F6C1B85664D00D7E4BD /* ICollectionDataSource.swift in Sources */,
 				B4ECBE1E1B73E0ED00234217 /* NicknameView.swift in Sources */,

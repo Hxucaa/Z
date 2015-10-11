@@ -65,13 +65,14 @@ public final class SocialBusinessViewController : XUIViewController {
     }
     private let compositeDisposable = CompositeDisposable()
     private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, SocialBusinessViewModel>!
-
+    
     // MARK: - Setups
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.addSubview(tableView)
+        navigationController?.setNavigationBarHidden(false, animated: true)
         
         constrain(tableView) { view in
             view.top == view.superview!.top
@@ -85,6 +86,8 @@ public final class SocialBusinessViewController : XUIViewController {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        navigationController?.hidesBarsOnSwipe = false
         
         compositeDisposable += viewmodel.fetchMoreData()
             |> take(1)
@@ -153,6 +156,11 @@ public final class SocialBusinessViewController : XUIViewController {
     public override func prefersStatusBarHidden() -> Bool {
         return true
     }
+    
+    public func getHeaderDestinationPoint() -> CGPoint {
+        let headerRect = view.convertRect(headerView.frame, fromView: headerView)
+        return headerRect.origin
+    }
 
     // MARK: - Bindings
     
@@ -167,12 +175,12 @@ public final class SocialBusinessViewController : XUIViewController {
 extension SocialBusinessViewController : UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return viewmodel.collectionDataSource.count
+        return 10//viewmodel.collectionDataSource.count
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as! SocialBusiness_UserCell
-        cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
+        //cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return cell
     }
     
@@ -181,7 +189,7 @@ extension SocialBusinessViewController : UITableViewDelegate, UITableViewDataSou
     }
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 44
     }
 }
 
@@ -195,22 +203,14 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
             var destination = CGPointMake(0, 0)
             if let nav = self.navigationController {
                 start = nav.view.convertRect(headerView.frame, fromView: headerView)
-                if !nav.navigationBarHidden {
-                    destination.y += nav.navigationBar.frame.height
-                }
-                
             }
             else {
                 start = view.convertRect(headerView.frame, fromView: headerView)
             }
-            
-            let app = UIApplication.sharedApplication()
-            if !app.statusBarHidden {
-                destination.y += app.statusBarFrame.size.height
-            }
-            
             if let image = viewmodel.businessCoverImage {
-                return UIImageSlideAnimator(startRect: start, destination: destination, image: image)
+                let animateHeaderView = SocialBusinessHeaderView(frame: headerView.frame)
+                animateHeaderView.bindToViewModel(viewmodel.headerViewModel)
+                return UIImageSlideAnimator(startRect: start, destination: destination, headerView: animateHeaderView, utilityHeaderView: self.utilityHeaderView)
             }
             else {
                 return nil
