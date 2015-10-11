@@ -41,7 +41,7 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         
         constrain(arrangedSubviews) { views in
             $.each(views) { index, view in
-                view.height == view.width
+                view.height == view.width*1.05
             }
         }
         
