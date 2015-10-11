@@ -72,6 +72,10 @@ public final class BusinessDetailViewController : XUIViewController {
         return tableView
     }()
     
+    public var getAnimationMembers: UITableView {
+        return tableView
+    }
+    
     private var navigationMapViewController: DetailNavigationMapViewController!
     
     // MARK: - Properties
@@ -99,32 +103,12 @@ public final class BusinessDetailViewController : XUIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.delegate = self
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         view.addSubview(headerView)
         view.addSubview(utilityHeaderView)
         view.addSubview(tableView)
-        
-        constrain(headerView) { header in
-            header.leading == header.superview!.leading
-            header.trailing == header.superview!.trailing
-            header.top == header.superview!.top
-            header.height == ImageHeaderHeight
-        }
-        
-        constrain(headerView, utilityHeaderView) { header, utility in
-            
-            utility.leading == utility.superview!.leading
-            utility.top == header.bottom
-            utility.trailing == utility.superview!.trailing
-            utility.height == UtilHeaderHeight
-        }
-        
-        constrain(utilityHeaderView, tableView) { utility, table in
-            table.leading == table.superview!.leading
-            table.top == utility.bottom
-            table.trailing == table.superview!.trailing
-            table.bottom == table.superview!.bottom
-        }
 
         navigationMapViewController = DetailNavigationMapViewController()
         
@@ -132,6 +116,8 @@ public final class BusinessDetailViewController : XUIViewController {
             |> start(next: { handler in
                 self.dismissViewControllerAnimated(true, completion: handler)
             })
+        
+        tableView.reloadData()
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -141,7 +127,7 @@ public final class BusinessDetailViewController : XUIViewController {
             |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.detailInfoProxy")
             |> start(next: { [weak self] in
-                println("go back to social business")
+                self?.navigationController?.popViewControllerAnimated(true)
             })
         
         compositeDisposable += utilityHeaderView.startEventProxy
@@ -171,7 +157,28 @@ public final class BusinessDetailViewController : XUIViewController {
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        tableView.reloadData()
+        constrain(headerView) { header in
+            header.leading == header.superview!.leading
+            header.trailing == header.superview!.trailing
+            header.top == header.superview!.top
+            header.height == ImageHeaderHeight
+        }
+        
+        constrain(headerView, utilityHeaderView) { header, utility in
+            
+            utility.leading == utility.superview!.leading
+            utility.top == header.bottom
+            utility.trailing == utility.superview!.trailing
+            utility.height == UtilHeaderHeight
+        }
+        
+        constrain(utilityHeaderView, tableView) { utility, table in
+            table.leading == table.superview!.leading
+            table.top == utility.bottom
+            table.trailing == table.superview!.trailing
+            table.bottom == table.superview!.bottom - 44
+        }
+        
     }
     
     // MARK: - Bindings
@@ -314,5 +321,16 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 2
+    }
+}
+
+extension BusinessDetailViewController : UINavigationControllerDelegate {
+    public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        navigationController.setNavigationBarHidden(false, animated: false)
+        if fromVC is BusinessDetailViewController && toVC is SocialBusinessViewController && operation == .Pop {
+            return ReverseSlideAnimator(tableView: tableView, headerView: headerView, utilityHeaderView: utilityHeaderView, headerVM: viewmodel.headerViewModel)
+        }
+        return nil
     }
 }
