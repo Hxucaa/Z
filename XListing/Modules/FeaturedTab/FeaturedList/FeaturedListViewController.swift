@@ -13,7 +13,7 @@ import Dollar
 import Cartography
 
 private let CellIdentifier = "Cell"
-private let CellHeightToScreenWidthRatio = 0.57
+private let CellHeightToScreenWidthRatio = 0.565
 private let CellRowHeight = round(UIScreen.mainScreen().bounds.width * CGFloat(CellHeightToScreenWidthRatio))
 
 /**
@@ -93,6 +93,7 @@ public final class FeaturedListViewController: XUIViewController {
         
         // add statusBarBackgroundView to navigationController
 //        navigationController?.view.addSubview(statusBarBackgroundView)
+
         navigationController?.navigationBar.translucent = false
         
         compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)

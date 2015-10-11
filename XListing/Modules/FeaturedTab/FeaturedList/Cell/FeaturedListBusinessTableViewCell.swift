@@ -194,7 +194,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         *   particiation view
         */
         constrain(participationView) { view in
-            view.height == view.superview!.height * 0.20
+            view.height == view.superview!.height * 0.27
             view.width == view.superview!.width
         }
         
