@@ -60,6 +60,8 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
         containerView.addSubview(utilityHeaderView)
         containerView.addSubview(tableView)
         
+        toViewController.navigationController?.setNavigationBarHidden(false, animated: false)
+        
         // chain animation
         Chain(
             { done in
@@ -80,11 +82,11 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
                     options: UIViewAnimationOptions.CurveEaseInOut,
                     animations: {
                         toViewController.navigationController?.setNavigationBarHidden(false, animated: false)
-                        headerView.frame.origin = CGPoint(x:0, y:44+headerDestinationPoint.y)
+                        headerView.frame.origin = CGPoint(x:0, y:64+headerDestinationPoint.y)
                         if -headerDestinationPoint.y > headerView.frame.height {
                             utilityHeaderView.frame.origin = CGPoint(x:0, y:64)
                         } else {
-                            utilityHeaderView.frame.origin = CGPoint(x:0, y:headerDestinationPoint.y+headerView.frame.height+44)
+                            utilityHeaderView.frame.origin = CGPoint(x:0, y:headerDestinationPoint.y+headerView.frame.height+64)
                         }
                         self.tableView.frame.origin = CGPoint(x:0, y:CGFloat(ScreenHeight))
                     }) { finished in
