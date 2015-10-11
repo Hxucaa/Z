@@ -29,7 +29,7 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
     }
     
     public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return 0.8
+        return 0.4
     }
     
     public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -74,6 +74,7 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
                     options: UIViewAnimationOptions.TransitionNone,
                     animations: {
                         fromView.alpha = 0
+                        toViewController.navigationController?.setNavigationBarHidden(true, animated: false)
                     }) { finished in
                         done()
                     }
@@ -84,6 +85,7 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
                     delay: 0.0,
                     options: UIViewAnimationOptions.CurveEaseInOut,
                     animations: {
+                        
                         self.headerView.frame.origin = self.destination
                         self.utilityHeaderView.frame.origin = CGPoint(x:0, y:self.headerView.frame.height+self.headerView.frame.origin.y)
                         tableView.frame.origin = CGPoint(x:0, y:self.utilityHeaderView.frame.height+self.utilityHeaderView.frame.origin.y)

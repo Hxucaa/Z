@@ -29,7 +29,7 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
     }
     
     public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return 1.4
+        return 0.4
     }
     
     public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
