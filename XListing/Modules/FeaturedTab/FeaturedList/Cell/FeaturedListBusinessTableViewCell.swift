@@ -37,7 +37,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         let container = TZStackView(arrangedSubviews: [self.topSectionContainer, self.dividerView, self.participationView])
         container.distribution = TZStackViewDistribution.EqualSpacing
         container.axis = .Vertical
-        container.spacing = 4
+        container.spacing = 9
         container.alignment = TZStackViewAlignment.Leading
         container.frame = CGRectMake(0, 0, self.estimatedFrame.width, self.estimatedFrame.height - 5)
         

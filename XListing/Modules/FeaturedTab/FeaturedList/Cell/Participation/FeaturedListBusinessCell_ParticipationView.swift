@@ -66,33 +66,12 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         let viewWidth = round(self.frame.width * 0.30) - 8
         let view = UIView(frame: CGRectMake(round(self.frame.width * 0.70), 8, viewWidth, 10))
         
-        view.addSubview(self.wtgView)
-        view.addSubview(self.treatView)
-        view.addSubview(self.dotLabel)
-        
-        constrain(self.wtgView, self.treatView, self.dotLabel) { wtgView, treatView, dotLabel in
-            wtgView.centerY == wtgView.superview!.centerY
-            treatView.centerY == treatView.superview!.centerY
-            dotLabel.centerY == dotLabel.superview!.centerY
-            wtgView.leading == wtgView.superview!.leadingMargin
-            treatView.trailing == treatView.superview!.trailing
-
-            wtgView.height == 20
-            wtgView.width == 37
-            treatView.height == 20
-            treatView.width == 37
-            wtgView.trailing == treatView.leading - 10
-            
-            dotLabel.leading == wtgView.trailingMargin
-            dotLabel.trailing == treatView.leadingMargin
-        }
-        
         return view
     }()
     
     private lazy var dotLabel: UILabel = {
         let dot = UILabel(frame: CGRectMake(0, 0, 2, 2))
-        dot.text = "・ "
+        dot.text = "・"
         dot.textColor = UIColor.x_PrimaryColor()
         dot.textAlignment = .Center
         return dot
@@ -104,33 +83,42 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         imageView.rac_image <~ AssetFactory.getImage(Asset.WTGIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
             |> take(1)
             |> map { Optional<UIImage>($0) }
+        
         let label = UILabel(frame: CGRectMake(22, 5, 15, 15))
         label.text = "20"
         label.textColor = UIColor.x_PrimaryColor()
         label.adjustsFontSizeToFitWidth = true
+        
         wtgView.addSubview(imageView)
         wtgView.addSubview(label)
+        
         let tapGesture = UITapGestureRecognizer()
         wtgView.addGestureRecognizer(tapGesture)
+        
         return wtgView
     }()
     
     private lazy var treatView: UIView = {
         let treatView = UIView(frame: CGRectMake(0, 0, 35, 20))
         let imageView = self.makeIconImageView(CGRectMake(0, 0, 20, 20))
+        
         imageView.rac_image <~ AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
             |> take(1)
             |> map { Optional<UIImage>($0) }
+        
         let label = UILabel(frame: CGRectMake(22, 5, 15, 15))
         label.text = "20"
         label.textColor = UIColor.x_PrimaryColor()
         label.adjustsFontSizeToFitWidth = true
+        
         treatView.addSubview(imageView)
         treatView.addSubview(label)
+        
         let tapGesture = UITapGestureRecognizer()
         treatView.addGestureRecognizer(tapGesture)
+        
         return treatView
-        }()
+    }()
     
     private func makeIconImageView(frame: CGRect) -> UIImageView {
         let imageView = UIImageView(frame: frame)
@@ -149,11 +137,14 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        
         setup()
     }
     
     public required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        
+        setup()
     }
     
     // MARK: - Setups
@@ -177,6 +168,26 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
             (button.bottom == button.superview!.bottomMargin).identifier = "joinButtonContainer bottom"
         }
         
+        joinButtonContainer.addSubview(wtgView)
+        joinButtonContainer.addSubview(treatView)
+        joinButtonContainer.addSubview(dotLabel)
+        
+        constrain(wtgView, treatView, dotLabel) { wtgView, treatView, dotLabel in
+            align(centerY: wtgView, treatView, dotLabel)
+            
+            dotLabel.center == dotLabel.superview!.center
+            
+            wtgView.height == 18
+            wtgView.width == 34
+            treatView.height == 18
+            treatView.width == 34
+            
+            wtgView.trailing == dotLabel.leading + 2
+            dotLabel.trailing == treatView.leading
+            
+            wtgView.leading <= wtgView.superview!.leading ~ 250
+            treatView.trailing <= treatView.superview!.trailing ~ 250
+        }
     }
     
     // MARK: - Bindings
