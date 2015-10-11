@@ -59,6 +59,7 @@ public final class FeaturedListViewController: XUIViewController {
         
         title = "推荐"
         navigationController?.navigationBar.tintColor = UIColor.blackColor()
+        navigationController?.navigationBar.barTintColor = UIColor.x_PrimaryColor()
         navigationController?.setNavigationBarHidden(false, animated: false)
         
         view.opaque = true

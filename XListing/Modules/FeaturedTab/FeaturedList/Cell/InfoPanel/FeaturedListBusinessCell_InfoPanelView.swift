@@ -82,7 +82,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         label.opaque = true
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor(hex: "828282")
-        label.font = UIFont.systemFontOfSize(12)
+        label.font = UIFont.systemFontOfSize(10)
         label.adjustsFontSizeToFitWidth = true
         label.layer.masksToBounds = true
         
