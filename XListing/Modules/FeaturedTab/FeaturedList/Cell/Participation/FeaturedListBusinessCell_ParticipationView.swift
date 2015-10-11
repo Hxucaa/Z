@@ -41,7 +41,7 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         
         constrain(arrangedSubviews) { views in
             $.each(views) { index, view in
-                view.height == view.superview!.height
+                view.height == view.width
             }
         }
         
@@ -57,10 +57,11 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
     private lazy var preview5ImageView: UIImageView = self.generatePreviewImageView(CGPointMake(Preview.Spacing + Preview.Width * 4, 0))
     
     private func generatePreviewImageView(origin: CGPoint) -> UIImageView {
-        let imageView = UIImageView(frame: CGRectMake(origin.x, origin.y, Preview.Width, Preview.Height))
+        let imageView = UIImageView(frame: CGRectMake(origin.x, origin.y, Preview.Width, Preview.Width))
         imageView.contentMode = UIViewContentMode.ScaleAspectFill
         imageView.backgroundColor = .x_FeaturedCardBG()
         imageView.clipsToBounds = true
+        println(imageView.frame)
                 
         return imageView
     }
