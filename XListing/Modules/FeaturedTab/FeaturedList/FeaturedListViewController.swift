@@ -62,7 +62,7 @@ public final class FeaturedListViewController: XUIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
         
         view.opaque = true
-        view.backgroundColor = UIColor.grayColor()
+        view.backgroundColor = UIColor.x_FeaturedTableBG()
         
         singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! FeaturedListViewModel)
         

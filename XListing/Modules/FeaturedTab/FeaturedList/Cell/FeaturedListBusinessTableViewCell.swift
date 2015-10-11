@@ -127,7 +127,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
 
         selectionStyle = UITableViewCellSelectionStyle.None
         opaque = true
-        backgroundColor = .grayColor()
+        backgroundColor = UIColor.x_FeaturedTableBG()
         
         /**
         *   background container
@@ -147,7 +147,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         constrain(mainStackView) { view in
             view.leading == view.superview!.leadingMargin
             view.top == view.superview!.topMargin
-            view.trailing == view.superview!.trailing
+            view.trailing == view.superview!.trailingMargin
             view.bottom == view.superview!.bottom - 5
         }
         
@@ -184,7 +184,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         *   dividier
         */
         constrain(dividerView) { divider in
-            divider.width == divider.superview!.width
+            divider.width == divider.superview!.width + 12
         }
         dividerView.setContentCompressionResistancePriority(751, forAxis: .Vertical)
 

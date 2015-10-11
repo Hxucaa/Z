@@ -40,7 +40,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         label.opaque = true
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor.blackColor()
-        label.font = UIFont.systemFontOfSize(19)
+        label.font = UIFont.boldSystemFontOfSize(16)
         label.layer.masksToBounds = true
         
         return label
