@@ -41,7 +41,7 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         
         constrain(arrangedSubviews) { views in
             $.each(views) { index, view in
-                view.height == view.width*1.05
+                view.height == view.width * 1.05
             }
         }
         
@@ -127,7 +127,7 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         
         constrain(imageView, label) { imageView, label in
             label.leading == imageView.trailing
-            label.bottom == imageView.bottom - (treatIconSize - wtgIconSize)/2
+            label.bottom == imageView.bottom - (treatIconSize - wtgIconSize) / 2
             label.width == labelSize
             label.height == labelSize
         }
@@ -181,7 +181,7 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
             container.bottom == container.superview!.bottom
             
             (button.top == button.superview!.topMargin).identifier = "joinButtonContainer top"
-            (button.trailing == button.superview!.trailingMargin-8).identifier = "joinButtonContainer trailing"
+            (button.trailing == button.superview!.trailingMargin - 8).identifier = "joinButtonContainer trailing"
             (button.bottom == button.superview!.bottomMargin).identifier = "joinButtonContainer bottom"
         }
         
