@@ -20,7 +20,6 @@ public final class FeaturedBusinessViewModel : IFeaturedBusinessViewModel {
     // MARK: - ViewModels
     public let infoPanelViewModel: IFeaturedListBusinessCell_InfoPanelViewModel
     public let pariticipationViewModel: IFeaturedListBusinessCell_ParticipationViewModel
-    public let statsViewModel: IFeaturedListBusinessCell_StatsViewModel
     
     // MARK: - Properties
     private let userService: IUserService
@@ -41,7 +40,6 @@ public final class FeaturedBusinessViewModel : IFeaturedBusinessViewModel {
         
         infoPanelViewModel = FeaturedListBusinessCell_InfoPanelViewModel(geoLocationService: geoLocationService, businessName: business?.nameSChinese, city: business?.city, district: business?.district, price: business?.price, geolocation: geolocation)
         pariticipationViewModel = FeaturedListBusinessCell_ParticipationViewModel(userService: userService, imageService: imageService, participationService: participationService, business: business)
-        statsViewModel = FeaturedListBusinessCell_StatsViewModel(treatCount: treatCount, aaCount: aaCount, toGoCount: toGoCount)
     }
 
     

@@ -86,16 +86,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         return view
     }()
-    
-    /**
-    *   MARK: Stats Section
-    */
-    private lazy var statsStackView: FeaturedListBusinessCell_StatsStackView = {
-        let view = FeaturedListBusinessCell_StatsStackView()
-        view.frame = CGRectMake(10, round(self.estimatedFrame.height * 0.70), 100, 10)
-        
-        return view
-    }()
         
     /**
     *   MARK: Participation section
@@ -114,7 +104,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         didSet {
             infoPanelView.bindToViewModel(viewmodel.infoPanelViewModel)
             participationView.bindToViewModel(viewmodel.pariticipationViewModel)
-            statsStackView.bindToViewModel(viewmodel.statsViewModel)
         }
     }
 
@@ -187,8 +176,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             divider.width == divider.superview!.width
         }
         dividerView.setContentCompressionResistancePriority(751, forAxis: .Vertical)
-
-        statsStackView.setContentCompressionResistancePriority(749, forAxis: .Vertical)
         
         /**
         *   particiation view

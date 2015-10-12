@@ -90,9 +90,6 @@ public final class FeaturedListViewController: XUIViewController {
         
         navigationController?.navigationBarHidden = false
         navigationController?.hidesBarsOnSwipe = true
-        
-        // add statusBarBackgroundView to navigationController
-//        navigationController?.view.addSubview(statusBarBackgroundView)
 
         navigationController?.navigationBar.translucent = false
         
@@ -108,7 +105,6 @@ public final class FeaturedListViewController: XUIViewController {
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-//        statusBarBackgroundView.removeFromSuperview()
     }
     
     public override func viewDidAppear(animated: Bool) {
