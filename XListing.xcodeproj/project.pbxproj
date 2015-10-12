@@ -163,9 +163,6 @@
 		B4D36B8F1BA91F5F00F8513E /* FeaturedListBusinessCell_ParticipationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D36B8E1BA91F5F00F8513E /* FeaturedListBusinessCell_ParticipationView.swift */; };
 		B4D36B911BA9219B00F8513E /* FeaturedListBusinessCell_ParticipationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D36B901BA9219B00F8513E /* FeaturedListBusinessCell_ParticipationViewModel.swift */; };
 		B4D36B931BA921B600F8513E /* IFeaturedListBusinessCell_ParticipationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D36B921BA921B600F8513E /* IFeaturedListBusinessCell_ParticipationViewModel.swift */; };
-		B4D36B951BA939E600F8513E /* FeaturedListBusinessCell_StatsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D36B941BA939E600F8513E /* FeaturedListBusinessCell_StatsStackView.swift */; };
-		B4D36B971BA93C2E00F8513E /* FeaturedListBusinessCell_StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D36B961BA93C2E00F8513E /* FeaturedListBusinessCell_StatsViewModel.swift */; };
-		B4D36B991BA93C3700F8513E /* IFeaturedListBusinessCell_StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D36B981BA93C3700F8513E /* IFeaturedListBusinessCell_StatsViewModel.swift */; };
 		B4D36B9E1BA947C200F8513E /* IFeaturedBusinessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D36B9D1BA947C200F8513E /* IFeaturedBusinessViewModel.swift */; };
 		B4D5707C1B02AC1600D2C06C /* NearbyHorizontalScrollCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D5707B1B02AC1600D2C06C /* NearbyHorizontalScrollCellViewModel.swift */; };
 		B4D733911B9A2D5000B599B9 /* SocialBusiness_UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D733901B9A2D5000B599B9 /* SocialBusiness_UserViewModel.swift */; };
@@ -421,9 +418,6 @@
 		B4D36B8E1BA91F5F00F8513E /* FeaturedListBusinessCell_ParticipationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListBusinessCell_ParticipationView.swift; sourceTree = "<group>"; };
 		B4D36B901BA9219B00F8513E /* FeaturedListBusinessCell_ParticipationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListBusinessCell_ParticipationViewModel.swift; sourceTree = "<group>"; };
 		B4D36B921BA921B600F8513E /* IFeaturedListBusinessCell_ParticipationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListBusinessCell_ParticipationViewModel.swift; sourceTree = "<group>"; };
-		B4D36B941BA939E600F8513E /* FeaturedListBusinessCell_StatsStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListBusinessCell_StatsStackView.swift; sourceTree = "<group>"; };
-		B4D36B961BA93C2E00F8513E /* FeaturedListBusinessCell_StatsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedListBusinessCell_StatsViewModel.swift; sourceTree = "<group>"; };
-		B4D36B981BA93C3700F8513E /* IFeaturedListBusinessCell_StatsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListBusinessCell_StatsViewModel.swift; sourceTree = "<group>"; };
 		B4D36B9D1BA947C200F8513E /* IFeaturedBusinessViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedBusinessViewModel.swift; sourceTree = "<group>"; };
 		B4D5707B1B02AC1600D2C06C /* NearbyHorizontalScrollCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyHorizontalScrollCellViewModel.swift; sourceTree = "<group>"; };
 		B4D733901B9A2D5000B599B9 /* SocialBusiness_UserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialBusiness_UserViewModel.swift; sourceTree = "<group>"; };
@@ -1133,7 +1127,6 @@
 				B4D36B9D1BA947C200F8513E /* IFeaturedBusinessViewModel.swift */,
 				B45581F71B33E89D00C4D965 /* FeaturedBusinessViewModel.swift */,
 				B4D36B9A1BA9448000F8513E /* InfoPanel */,
-				B4D36B9C1BA944A500F8513E /* Stats */,
 				B4D36B9B1BA9449500F8513E /* Participation */,
 			);
 			path = Cell;
@@ -1229,16 +1222,6 @@
 				B4D36B921BA921B600F8513E /* IFeaturedListBusinessCell_ParticipationViewModel.swift */,
 			);
 			path = Participation;
-			sourceTree = "<group>";
-		};
-		B4D36B9C1BA944A500F8513E /* Stats */ = {
-			isa = PBXGroup;
-			children = (
-				B4D36B941BA939E600F8513E /* FeaturedListBusinessCell_StatsStackView.swift */,
-				B4D36B961BA93C2E00F8513E /* FeaturedListBusinessCell_StatsViewModel.swift */,
-				B4D36B981BA93C3700F8513E /* IFeaturedListBusinessCell_StatsViewModel.swift */,
-			);
-			path = Stats;
 			sourceTree = "<group>";
 		};
 		B4D7338D1B9A286A00B599B9 /* User Cell */ = {
@@ -1726,7 +1709,6 @@
 				B427B37B1BC64502008A9F19 /* ParticipationListViewController.swift in Sources */,
 				B4F1957B1B26DE3000B8C519 /* LogInViewModel.swift in Sources */,
 				D0ADD8A41B608B4200B27885 /* ProfileHeaderView.swift in Sources */,
-				B4D36B991BA93C3700F8513E /* IFeaturedListBusinessCell_StatsViewModel.swift in Sources */,
 				D08B58981B93FBE300F3945F /* ParticipantViewModel.swift in Sources */,
 				B4F4AFDE1B6EC70700ABA176 /* Misc.swift in Sources */,
 				3D211E861B2C1AB000161E09 /* IBackgroundLocationWorker.swift in Sources */,
@@ -1791,7 +1773,6 @@
 				26645AD71B5A400700ADDCD1 /* BirthdayTableViewCell.swift in Sources */,
 				B4DB9AC41AF954C8009FBFE1 /* IGeoLocationService.swift in Sources */,
 				B4E7E5131B9502330034B093 /* ITabRootWireframe.swift in Sources */,
-				B4D36B971BA93C2E00F8513E /* FeaturedListBusinessCell_StatsViewModel.swift in Sources */,
 				B4694E2B1B72A045000E2006 /* UsernameAndPasswordView.swift in Sources */,
 				26DE3E891BBE41A7007D057B /* HeaderTableViewCell.swift in Sources */,
 				3DB8AC301B06D0DF00E51F0E /* Profile.swift in Sources */,
@@ -1859,7 +1840,6 @@
 				B4C6EA231AFE845B00A166AD /* DetailWebViewViewController.swift in Sources */,
 				B403B08E1BA2B5EF0085E0A3 /* UIImageSlideAnimator.swift in Sources */,
 				D04BAE6F1B97FF5000074E34 /* SocialBusiness_UserCell.swift in Sources */,
-				B4D36B951BA939E600F8513E /* FeaturedListBusinessCell_StatsStackView.swift in Sources */,
 				2A9A9BA61B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift in Sources */,
 				B4FC0CFD1B923738001D7A4F /* SingleSectionInfiniteTableViewManager.swift in Sources */,
 				7EACBA0B1AFB2E4A009D8CA6 /* FeaturedListViewController.swift in Sources */,

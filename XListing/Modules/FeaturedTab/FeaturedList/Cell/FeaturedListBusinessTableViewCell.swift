@@ -86,16 +86,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         return view
     }()
-    
-    /**
-    *   MARK: Stats Section
-    */
-    private lazy var statsStackView: FeaturedListBusinessCell_StatsStackView = {
-        let view = FeaturedListBusinessCell_StatsStackView()
-        view.frame = CGRectMake(10, round(self.estimatedFrame.height * 0.70), 100, 10)
-        
-        return view
-    }()
         
     /**
     *   MARK: Participation section
@@ -114,7 +104,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         didSet {
             infoPanelView.bindToViewModel(viewmodel.infoPanelViewModel)
             participationView.bindToViewModel(viewmodel.pariticipationViewModel)
-            statsStackView.bindToViewModel(viewmodel.statsViewModel)
         }
     }
 
@@ -127,7 +116,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
 
         selectionStyle = UITableViewCellSelectionStyle.None
         opaque = true
-        backgroundColor = .grayColor()
+        backgroundColor = UIColor.x_FeaturedTableBG()
         
         /**
         *   background container
@@ -147,7 +136,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         constrain(mainStackView) { view in
             view.leading == view.superview!.leadingMargin
             view.top == view.superview!.topMargin
-            view.trailing == view.superview!.trailingMargin
+            view.trailing == view.superview!.trailing
             view.bottom == view.superview!.bottom - 5
         }
         
@@ -170,7 +159,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         constrain(businessImageView, infoPanelView) { image, info in
             image.leading == image.superview!.leading
             image.top == image.superview!.top
-            image.width == image.superview!.width * 0.59
+            image.width == image.superview!.width * 0.58
             image.bottom == image.superview!.bottom
             
             (info.leading == image.trailing).identifier = "infoPanelView leading"
@@ -187,14 +176,12 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
             divider.width == divider.superview!.width
         }
         dividerView.setContentCompressionResistancePriority(751, forAxis: .Vertical)
-
-        statsStackView.setContentCompressionResistancePriority(749, forAxis: .Vertical)
         
         /**
         *   particiation view
         */
         constrain(participationView) { view in
-            view.height == view.superview!.height * 0.20
+            view.height == view.superview!.height * 0.27
             view.width == view.superview!.width
         }
         

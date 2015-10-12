@@ -13,7 +13,7 @@ import Dollar
 import Cartography
 
 private let CellIdentifier = "Cell"
-private let CellHeightToScreenWidthRatio = 0.57
+private let CellHeightToScreenWidthRatio = 0.565
 private let CellRowHeight = round(UIScreen.mainScreen().bounds.width * CGFloat(CellHeightToScreenWidthRatio))
 
 /**
@@ -59,10 +59,11 @@ public final class FeaturedListViewController: XUIViewController {
         
         title = "推荐"
         navigationController?.navigationBar.tintColor = UIColor.blackColor()
+        navigationController?.navigationBar.barTintColor = UIColor.x_PrimaryColor()
         navigationController?.setNavigationBarHidden(false, animated: false)
         
         view.opaque = true
-        view.backgroundColor = UIColor.grayColor()
+        view.backgroundColor = UIColor.x_FeaturedTableBG()
         
         singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! FeaturedListViewModel)
         
@@ -89,9 +90,7 @@ public final class FeaturedListViewController: XUIViewController {
         
         navigationController?.navigationBarHidden = false
         navigationController?.hidesBarsOnSwipe = true
-        
-        // add statusBarBackgroundView to navigationController
-//        navigationController?.view.addSubview(statusBarBackgroundView)
+
         navigationController?.navigationBar.translucent = false
         
         compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
@@ -106,7 +105,6 @@ public final class FeaturedListViewController: XUIViewController {
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-//        statusBarBackgroundView.removeFromSuperview()
     }
     
     public override func viewDidAppear(animated: Bool) {

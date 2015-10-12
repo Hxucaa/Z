@@ -15,6 +15,7 @@ import TTTAttributedLabel
 import XAssets
 import Dollar
 
+private let etaPriceIconSize = round(UIScreen.mainScreen().bounds.width * 0.032)
 
 public final class FeaturedListBusinessCell_InfoPanelView : UIView {
     
@@ -40,7 +41,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         label.opaque = true
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor.blackColor()
-        label.font = UIFont.systemFontOfSize(19)
+        label.font = UIFont.boldSystemFontOfSize(15.5)
         label.layer.masksToBounds = true
         
         return label
@@ -82,7 +83,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         label.opaque = true
         label.backgroundColor = .x_FeaturedCardBG()
         label.textColor = UIColor(hex: "828282")
-        label.font = UIFont.systemFontOfSize(12)
+        label.font = UIFont.systemFontOfSize(10)
         label.adjustsFontSizeToFitWidth = true
         label.layer.masksToBounds = true
         
@@ -160,13 +161,13 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         }
         
         constrain(etaIconImageView) { view in
-            view.height == 12
-            view.width == 12
+            view.height == etaPriceIconSize
+            view.width == etaPriceIconSize
         }
         
         constrain(priceIconImageView) { view in
-            view.height == 12
-            view.width == 12
+            view.height == etaPriceIconSize
+            view.width == etaPriceIconSize
         }
         
         constrain([businessNameAndFeaturedIconContainer, locationLabel, priceIconImageView, priceLabel, etaIconImageView, etaLabel]) { views in
@@ -186,7 +187,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
             views[2].trailing == views[3].leading - 3
             views[3].trailing == views[4].leading - 3
             views[4].trailing == views[5].leading - 3
-            views[5].trailing == views[5].superview!.trailingMargin
+            views[5].trailing == views[5].superview!.trailingMargin - 8
         }
 
     }
