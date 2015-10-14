@@ -10,6 +10,7 @@
 		261687C11B71B8990094F315 /* ProfileEditWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261687C01B71B8990094F315 /* ProfileEditWireframe.swift */; };
 		261687C31B71B8AF0094F315 /* IProfileEditWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261687C21B71B8AF0094F315 /* IProfileEditWireframe.swift */; };
 		261D91031B6873D5004B1CF6 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261D91021B6873D5004B1CF6 /* Icons.swift */; };
+		264129121BCE093500BEE87A /* ProfilePhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264129111BCE093500BEE87A /* ProfilePhotoCollectionViewCell.swift */; };
 		2661B9201B4B72C9005D9C41 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2661B91F1B4B72C9005D9C41 /* Gender.swift */; };
 		26645ACB1B54C4F200ADDCD1 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */; };
 		26645ACF1B57956600ADDCD1 /* GenderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */; };
@@ -258,6 +259,7 @@
 		261687C01B71B8990094F315 /* ProfileEditWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditWireframe.swift; sourceTree = "<group>"; };
 		261687C21B71B8AF0094F315 /* IProfileEditWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IProfileEditWireframe.swift; sourceTree = "<group>"; };
 		261D91021B6873D5004B1CF6 /* Icons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
+		264129111BCE093500BEE87A /* ProfilePhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		2661B91F1B4B72C9005D9C41 /* Gender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 		26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
 		26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderTableViewCell.swift; sourceTree = "<group>"; };
@@ -954,6 +956,7 @@
 		B427B3941BC73B36008A9F19 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				264129111BCE093500BEE87A /* ProfilePhotoCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1791,6 +1794,7 @@
 				26645ACB1B54C4F200ADDCD1 /* ProfileEditViewController.swift in Sources */,
 				2ADF3E651B1ECBA200C2971E /* DetailNavigationMapViewController.swift in Sources */,
 				B4E7E5091B93F3610034B093 /* SocialBusinessViewModel.swift in Sources */,
+				264129121BCE093500BEE87A /* ProfilePhotoCollectionViewCell.swift in Sources */,
 				B427B37E1BC64516008A9F19 /* ParticipationListViewModel.swift in Sources */,
 				B4FC6B211B678515001F13E9 /* NSObject+Swift.m in Sources */,
 				B47E15C81B181E370028E07E /* IBackgroundOperationsWorkerFactory.swift in Sources */,
