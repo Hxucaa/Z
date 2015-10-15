@@ -16,7 +16,7 @@ public protocol NearbyNavigationControllerDelegate : class {
     func pushSocialBusiness<T : Business>(business: T)
 }
 
-public final class NearbyWireframe : INearbyWireframe {
+public final class NearbyWireframe : INearbyWireframe {  
     
     public var rootViewController: UIViewController {
         return initViewController()
