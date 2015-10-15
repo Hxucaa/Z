@@ -84,6 +84,11 @@ extension PhotoManagerViewController : UICollectionViewDelegate, UICollectionVie
         return cell
     }
     
+    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let fullScreenView = FullScreenImageViewController()
+        self.presentViewController(fullScreenView, animated: true, completion: nil);
+    }
+    
 }
 
 extension PhotoManagerViewController : UICollectionViewDelegateFlowLayout {

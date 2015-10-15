@@ -47,10 +47,13 @@ public final class FullScreenImageViewController: UIViewController {
         constrain(photo) { view in
             view.leading == view.superview!.leading
             view.trailing == view.superview!.trailing
+            
+            view.centerY == view.superview!.centerY
         }
         
         constrain(backButton) { view in
             view.leading == view.superview!.leadingMargin
+            view.top == view.superview!.topMargin + 5
             view.height == 64
             
         }
