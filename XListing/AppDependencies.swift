@@ -26,6 +26,7 @@ public final class AppDependencies {
     private let profileWireframe: IProfileWireframe
     private let profileEditWireframe: IProfileEditWireframe
     private let socialBusinessWireframe: ISocialBusinessWireframe
+    private let fullScreenImageWireframe: IFullScreenImageWireframe
 
     private let gs: IGeoLocationService = GeoLocationService()
     private let bs: IBusinessService = BusinessService()
@@ -38,13 +39,14 @@ public final class AppDependencies {
     public init(window: UIWindow) {
         // init HUD
         HUD.sharedInstance
-
+        
         featuredListWireframe = FeaturedListWireframe(businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds, imageService: imageService, participationService: ps)
         nearbyWireframe = NearbyWireframe(businessService: bs, geoLocationService: gs, imageService: imageService)
         profileWireframe = ProfileWireframe(participationService: ps, businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds, imageService: imageService)
         profileEditWireframe = ProfileEditWireframe(userService: us, imageService: imageService)
         socialBusinessWireframe = SocialBusinessWireframe(userService: us, participationService: ps, geoLocationService: gs, imageService: imageService)
         accountWireframe = AccountWireframe(userService: us, userDefaultsService: uds)
+        fullScreenImageWireframe = FullScreenImageWireframe(imageService: imageService)
 
         featuredTabItem = TabItem(tabContent: FeaturedTabContent(featuredListWireframe: featuredListWireframe, socialBusinessWireframe: socialBusinessWireframe))
         nearbyTabItem = TabItem(tabContent: NearbyTabContent(nearbyWireframe: nearbyWireframe, socialBusinessWireframe: socialBusinessWireframe))
