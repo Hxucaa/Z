@@ -704,8 +704,8 @@
 			children = (
 				45CBBA0A194B06D6EECF1008 /* Wireframe */,
 				45CBB717784EC301CD7D042E /* ProfileViewController.swift */,
-				45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */,
 				45CBB2272E6DA7ED3BDD24AE /* ProfileViewModel.swift */,
+				45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */,
 				B427B3671BC5B50F008A9F19 /* Upper View Controller */,
 				B427B36E1BC5C415008A9F19 /* Bottom View Controller */,
 			);
