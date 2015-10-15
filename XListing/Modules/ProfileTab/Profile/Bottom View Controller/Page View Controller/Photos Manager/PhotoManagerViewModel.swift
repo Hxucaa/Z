@@ -13,6 +13,7 @@ public final class PhotoManagerViewModel : IPhotoManagerViewModel {
     
     // MARK: - Properties
     // MARK: Services
+    
     private let userService: IUserService
     private let imageService: IImageService
     
