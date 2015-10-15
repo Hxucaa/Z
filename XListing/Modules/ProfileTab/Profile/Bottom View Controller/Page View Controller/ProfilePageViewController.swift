@@ -114,7 +114,7 @@ extension ProfilePageViewController : UIPageViewControllerDataSource, UIPageView
     public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
         
         // ensures the page view controller doesn't reset to the participation list after the photo picker is presented
-        if (pageViewController.viewControllers[0].className == "XListing.ParticipationListViewController") {
+        if (pageViewController.viewControllers[0].className == NSStringFromClass(ParticipationListViewController)) {
             shouldDisplayCollection = false
         } else {
             shouldDisplayCollection = true
