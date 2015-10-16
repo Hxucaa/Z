@@ -28,6 +28,7 @@ public enum Asset {
     case FilterButton(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
     case TreatIcon(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
     case WTGIcon(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
+    case AddNewPhotoButton(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, pressed: Bool?, shadow: Bool?)
     case JoinButton(size: CGSize?, backgroundColor: UIColor?, opaque: Bool?, imageContextScale: CGFloat?, ifAA: Bool?, ifGo: Bool?, ifPay: Bool?, ifUnTapped: Bool?)
     
     /// Retrieve the drawing in `UIImage` for the `Asset`.
@@ -72,6 +73,8 @@ public enum Asset {
             return AssetsKit.x_imageOfWTGIcon(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, pressed: pressed, shadow: shadow)
         case let .JoinButton(size, backgroundColor, opaque, imageContextScale, ifAA, ifGo, ifPay, ifNotTapped):
             return AssetsKit.x_imageOfJoinButton(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, ifAA: ifAA, ifGo: ifGo, ifPay: ifPay, ifNotTapped: ifNotTapped)
+        case let .AddNewPhotoButton(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
+            return AssetsKit.x_imageOfAddNewPhotoButton(size, drawingSize: drawingSize(), backgroundColor: backgroundColor, opaque: opaque, imageContextScale: imageContextScale, pressed: pressed, shadow: shadow)
         }
     }
     
@@ -115,6 +118,8 @@ public enum Asset {
             return "TreatIcon|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
         case let .WTGIcon(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
             return "WTGIcon|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
+        case let .AddNewPhotoButton(size, backgroundColor, opaque, imageContextScale, pressed, shadow):
+            return "AddNewPhotoButton|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(pressed)|\(shadow)"
         case let .JoinButton(size, backgroundColor, opaque, imageContextScale, ifAA, ifGo, ifPay, ifNotTapped):
             return "JoinButton|\(size)|\(backgroundColor)|\(opaque)|\(imageContextScale)|\(ifAA)|\(ifGo)|\(ifPay)|\(ifNotTapped)"
         }
@@ -160,6 +165,8 @@ public enum Asset {
             return CGSizeMake(19, 20)
         case .WTGIcon:
             return CGSizeMake(18, 17)
+        case .AddNewPhotoButton:
+            return CGSizeMake(129,129)
         default:
             return CGSizeMake(0, 0)
         }

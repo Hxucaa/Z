@@ -53,7 +53,7 @@ PODS:
   - TTTAttributedLabel (1.13.4)
   - TZStackView (1.0.5)
   - Watchdog (1.0.2)
-  - XAssets (0.3.7):
+  - XAssets (0.3.8):
     - ReactiveCocoa (~> 3.0.0)
     - SDWebImage (~> 3.7.0)
 
@@ -83,7 +83,7 @@ DEPENDENCIES:
   - TTTAttributedLabel (~> 1.13.4)
   - TZStackView (~> 1.0.5)
   - Watchdog (~> 1.0.0)
-  - XAssets (from `git@bitbucket.org:zenchat/xassets.git`)
+  - XAssets (from `ssh://git@zenchatapp.com:7999/zen/xassets.git`)
 
 EXTERNAL SOURCES:
   ReactiveArray:
@@ -91,7 +91,7 @@ EXTERNAL SOURCES:
   SVProgressHUD:
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
-    :git: git@bitbucket.org:zenchat/xassets.git
+    :git: ssh://git@zenchatapp.com:7999/zen/xassets.git
 
 CHECKOUT OPTIONS:
   ReactiveArray:
@@ -101,8 +101,8 @@ CHECKOUT OPTIONS:
     :commit: 4cbf1de2f9becbdfe38257bf9129f2930a2668ab
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
-    :commit: 5cd0259fc1ced4a69ce5985b1648e1b5f6067a33
-    :git: git@bitbucket.org:zenchat/xassets.git
+    :commit: 34172233f26cbcbe6e44d111d982c8c3a5081156
+    :git: ssh://git@zenchatapp.com:7999/zen/xassets.git
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: c5bdca19fd8b3d798f0c79892cbab6f11a8523ae
@@ -132,6 +132,6 @@ SPEC CHECKSUMS:
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
   TZStackView: 45002efee4fe4ab9cc3132776b94434c4c3843eb
   Watchdog: df151f580ea32831011cef05eda6c42385cd8423
-  XAssets: 1191ff6de2ccd3772d9641b14358cb97214dd02f
+  XAssets: 2c1d796ebc983926bd873e3630faac76180e1be9
 
-COCOAPODS: 0.39.0
+COCOAPODS: 0.38.2
