@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol IPhotoManagerViewModel : class {
-    
+
 }

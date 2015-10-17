@@ -42,6 +42,12 @@ public final class ProfilePageViewController : UIPageViewController {
         }
     }
     
+    // MARK: - Proxies
+    private let (_fullImageProxy, _fullImageSink) = SimpleProxy.proxy()
+    public var fullImageProxy: SimpleProxy {
+        return _fullImageProxy
+    }
+    
     // MARK: - Initializers
     
     // MARK: - Setups
@@ -60,6 +66,16 @@ public final class ProfilePageViewController : UIPageViewController {
         
         delegate = nil
         delegate = self
+        
+        photoManagerViewController.fullImageProxy
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Profile, "photoManagerViewController.fullImageProxy")
+            |> start(next: { [weak self] in
+                if let this = self {
+                    proxyNext(this._fullImageSink, ())
+                }
+                })
     }
     
     // MARK: - Bindings

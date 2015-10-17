@@ -36,4 +36,5 @@ public final class ProfilePageViewModel : IProfilePageViewModel {
         
         participationListViewModel = ParticipationListViewModel(participationService: participationService, businessService: businessService, userService: userService, geoLocationService: geoLocationService, imageService: imageService)
     }
+    
 }

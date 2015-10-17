@@ -35,6 +35,12 @@ public final class PhotoManagerViewController : UIViewController {
     // MARK: - Properties
     private var viewmodel: IPhotoManagerViewModel!
     
+    // MARK: - Proxies
+    private let (_fullImageProxy, _fullImageSink) = SimpleProxy.proxy()
+    public var fullImageProxy: SimpleProxy {
+        return _fullImageProxy
+    }
+    
     // MARK: - Initializers
     
     // MARK: - Setups
@@ -85,10 +91,8 @@ extension PhotoManagerViewController : UICollectionViewDelegate, UICollectionVie
     }
     
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let fullScreenView = FullScreenImageViewController()
-        self.presentViewController(fullScreenView, animated: true, completion: nil);
+        proxyNext(self._fullImageSink, ())
     }
-    
 }
 
 extension PhotoManagerViewController : UICollectionViewDelegateFlowLayout {
