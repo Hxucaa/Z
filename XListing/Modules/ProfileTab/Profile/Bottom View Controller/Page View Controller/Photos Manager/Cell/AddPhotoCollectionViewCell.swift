@@ -8,20 +8,26 @@
 
 import UIKit
 import Cartography
+import XAssets
+import ReactiveCocoa
 
 public final class AddPhotoCollectionViewCell: UICollectionViewCell {
     
     
-    private lazy var photo : UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "profile"))
+    private lazy var plusImageView : UIImageView = {
+        let plusImage = AssetFactory.getImage(Asset.AddNewPhotoButton(size: CGSizeMake(500, 500), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+        let imageView = UIImageView()
+        imageView.rac_image <~ plusImage
+            |> take(1)
+            |> map { Optional<UIImage>($0) }
         return imageView
         }()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(photo)
+        addSubview(plusImageView)
         
-        constrain(photo) { view in
+        constrain(plusImageView) { view in
             view.leading == view.superview!.leading
             view.trailing == view.superview!.trailing
             view.top == view.superview!.top
