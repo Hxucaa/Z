@@ -3,7 +3,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'XListing' do
-  pod 'XAssets', :git => 'ssh://git@zenchatapp.com:7999/zen/xassets.git'
+  pod 'XAssets', :git => 'https://zenchatapp.com/stash/scm/zen/xassets.git'
   pod 'FLEX', '~> 2.0', :configurations => ['DEBUG']
   pod 'Watchdog', '~> 1.0.0', :configurations => ['DEBUG']
   pod 'Spring', '~> 1.0.3'
