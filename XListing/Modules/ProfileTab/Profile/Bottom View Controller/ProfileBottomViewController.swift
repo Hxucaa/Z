@@ -16,12 +16,6 @@ import Cartography
 
 public final class ProfileBottomViewController : UIViewController {
     
-    // MARK: - Proxies
-    private let (_fullImageProxy, _fullImageSink) = SimpleProxy.proxy()
-    public var fullImageProxy: SimpleProxy {
-        return _fullImageProxy
-    }
-    
     // MARK: - UI Controls
     
     private lazy var pageControls: ProfileSegmentControlView = {
@@ -39,6 +33,13 @@ public final class ProfileBottomViewController : UIViewController {
         
         return vc
     }()
+    
+    // MARK: - Proxies
+    private let (_fullImageProxy, _fullImageSink) = SimpleProxy.proxy()
+    public var fullImageProxy: SimpleProxy {
+        return _fullImageProxy
+    }
+    
     
     // MARK: - Properties
     private var viewmodel: IProfileBottomViewModel! {
