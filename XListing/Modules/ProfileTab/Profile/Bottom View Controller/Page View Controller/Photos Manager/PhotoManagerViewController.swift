@@ -115,7 +115,7 @@ extension PhotoManagerViewController : UICollectionViewDelegate, UICollectionVie
     
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(PhotoCellIdentifier, forIndexPath: indexPath) as! ProfilePhotoCollectionViewCell
-        
+        cell.bindToViewModel(viewmodel.profilePhotoCellViewModel)
         if indexPath.row == MaxNumberOfPhotos-1 && indexPath.row < 9 {
             let addPhotoCell = collectionView.dequeueReusableCellWithReuseIdentifier(AddPhotoCellIdentifier, forIndexPath: indexPath) as! AddPhotoCollectionViewCell
             return addPhotoCell

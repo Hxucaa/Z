@@ -25,7 +25,7 @@ public final class AddPhotoCollectionViewCell: UICollectionViewCell {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(plusImageView)
+        contentView.addSubview(plusImageView)
         
         constrain(plusImageView) { view in
             view.leading == view.superview!.leading

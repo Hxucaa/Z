@@ -12,6 +12,8 @@ import Foundation
 public final class PhotoManagerViewModel : IPhotoManagerViewModel {
     
     // MARK: - Properties
+    public let profilePhotoCellViewModel: ProfilePhotoCellViewModel
+    
     // MARK: Services
     
     private let userService: IUserService
@@ -21,5 +23,7 @@ public final class PhotoManagerViewModel : IPhotoManagerViewModel {
         
         self.userService = userService
         self.imageService = imageService
+        
+        profilePhotoCellViewModel = ProfilePhotoCellViewModel(imageService: imageService, image: nil)
     }
 }

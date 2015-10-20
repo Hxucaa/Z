@@ -21,6 +21,7 @@ private let AddressCellIdentifier = "AddressCell"
 private let PhoneWebCellIdentifier = "PhoneWebCell"
 private let DescriptionCellIdentifier = "DescriptionTableviewCell"
 
+
 private let BusinessHeightRatio = 0.61
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
 private let ImageHeaderHeight = CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)
@@ -105,7 +106,7 @@ public final class BusinessDetailViewController : XUIViewController {
         super.viewDidLoad()
         self.navigationController?.delegate = self
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        
+
         view.addSubview(headerView)
         view.addSubview(utilityHeaderView)
         view.addSubview(tableView)
@@ -186,7 +187,7 @@ public final class BusinessDetailViewController : XUIViewController {
     public func bindToViewModel(viewmodel: IBusinessDetailViewModel) {
         self.viewmodel = viewmodel
     }
-    
+
     // MARK: - Others
     
     private func presentNavigationMapViewController() {
@@ -322,6 +323,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 2
     }
+
 }
 
 extension BusinessDetailViewController : UINavigationControllerDelegate {
