@@ -34,7 +34,6 @@ public final class SocialBusinessViewController : XUIViewController {
         tableView.separatorInset = UIEdgeInsetsMake(0, 8, 0, 8)
         tableView.backgroundColor = .whiteColor()
         tableView.rowHeight = CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
-        
         tableView.dataSource = self
         
         return tableView
@@ -70,7 +69,6 @@ public final class SocialBusinessViewController : XUIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-
         view.addSubview(tableView)
         navigationController?.setNavigationBarHidden(false, animated: true)
         
@@ -218,4 +216,5 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
         }
         return nil
     }
+    
 }

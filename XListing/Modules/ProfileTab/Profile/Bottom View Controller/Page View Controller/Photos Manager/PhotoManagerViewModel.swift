@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public final class PhotoManagerViewModel : IPhotoManagerViewModel {
     
     // MARK: - Properties
@@ -17,7 +16,6 @@ public final class PhotoManagerViewModel : IPhotoManagerViewModel {
     private let imageService: IImageService
     
     public init(userService: IUserService, imageService: IImageService) {
-        
         self.userService = userService
         self.imageService = imageService
     }
