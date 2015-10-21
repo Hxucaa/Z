@@ -34,7 +34,6 @@ public final class SocialBusinessViewController : XUIViewController {
         tableView.separatorInset = UIEdgeInsetsMake(0, 8, 0, 8)
         tableView.backgroundColor = .x_FeaturedCardBG()
         tableView.rowHeight = CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
-        
         tableView.dataSource = self
         
         return tableView
@@ -70,12 +69,11 @@ public final class SocialBusinessViewController : XUIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-
         view.addSubview(tableView)
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
         
         constrain(tableView) { view in
-            view.top == view.superview!.top
+            view.top == view.superview!.top - 20
             view.trailing == view.superview!.trailing
             view.bottom == view.superview!.bottom
             view.leading == view.superview!.leading
@@ -217,5 +215,13 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
             }
         }
         return nil
+    }
+    
+}
+
+extension SocialBusinessViewController : UIScrollViewDelegate {
+    public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+         navigationController?.setNavigationBarHidden(true, animated: true)
     }
 }
