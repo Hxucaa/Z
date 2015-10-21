@@ -32,7 +32,7 @@ public final class SocialBusinessViewController : XUIViewController {
         tableView.opaque = true
         tableView.tableHeaderView = self.headerView
         tableView.separatorInset = UIEdgeInsetsMake(0, 8, 0, 8)
-        tableView.backgroundColor = .x_FeaturedCardBG()
+        tableView.backgroundColor = .whiteColor()
         tableView.rowHeight = CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
         
         tableView.dataSource = self

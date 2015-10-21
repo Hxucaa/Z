@@ -173,7 +173,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         constrain([businessNameAndFeaturedIconContainer, locationLabel, priceIconImageView, priceLabel, etaIconImageView, etaLabel]) { views in
             
             // align the business name, location, price icon to leading
-            align(leading: views[0], views[1], views[2])
+            align(leading: views[0], views[1])
             
             views[0].width <= views[0].superview!.width * 0.85
             views[0].leading == views[0].superview!.leadingMargin + 4
@@ -184,6 +184,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
             align(centerY: views[2], views[3], views[4], views[5])
             
             views[2].bottom == views[2].superview!.bottom - 24
+            views[2].leading == views[2].superview!.leading + 20
             views[2].trailing == views[3].leading - 3
             views[3].trailing == views[4].leading - 3
             views[4].trailing == views[5].leading - 3
