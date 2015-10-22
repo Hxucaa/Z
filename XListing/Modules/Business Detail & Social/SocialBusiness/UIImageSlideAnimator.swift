@@ -51,7 +51,7 @@ public final class UIImageSlideAnimator : NSObject, UIViewControllerAnimatedTran
 
         headerView.frame = startRect
         if -startRect.origin.y > startRect.height {
-            utilityHeaderView.frame = CGRectMake(0, 64, CGFloat(ScreenWidth), 44)
+            utilityHeaderView.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), 44)
         } else {
             utilityHeaderView.frame = CGRectMake(0, startRect.height+startRect.origin.y, CGFloat(ScreenWidth), 44)
         }

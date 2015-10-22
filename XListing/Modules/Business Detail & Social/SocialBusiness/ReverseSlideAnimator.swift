@@ -60,7 +60,7 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
         containerView.addSubview(utilityHeaderView)
         containerView.addSubview(tableView)
         
-        toViewController.navigationController?.setNavigationBarHidden(false, animated: false)
+        toViewController.navigationController?.setNavigationBarHidden(true, animated: false)
         
         // chain animation
         Chain(
@@ -81,12 +81,12 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
                     delay: 0.0,
                     options: UIViewAnimationOptions.CurveEaseInOut,
                     animations: {
-                        toViewController.navigationController?.setNavigationBarHidden(false, animated: false)
-                        headerView.frame.origin = CGPoint(x:0, y:64+headerDestinationPoint.y)
+                        toViewController.navigationController?.navigationBarHidden = true
+                        headerView.frame.origin = CGPoint(x:0, y:headerDestinationPoint.y)
                         if -headerDestinationPoint.y > headerView.frame.height {
-                            utilityHeaderView.frame.origin = CGPoint(x:0, y:64)
+                            utilityHeaderView.frame.origin = CGPoint(x:0, y:0)
                         } else {
-                            utilityHeaderView.frame.origin = CGPoint(x:0, y:headerDestinationPoint.y+headerView.frame.height+64)
+                            utilityHeaderView.frame.origin = CGPoint(x:0, y:headerDestinationPoint.y+headerView.frame.height)
                         }
                         self.tableView.frame.origin = CGPoint(x:0, y:CGFloat(ScreenHeight))
                     }) { finished in
@@ -97,15 +97,16 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
                 UIView.animateWithDuration(
                     0.1,
                     animations: {
-                        toView.alpha = 1
+                        
                         
                     }) { finished in
                         transitionContext.completeTransition(true)
                         headerView.removeFromSuperview()
                         utilityHeaderView.removeFromSuperview()
                         self.tableView.removeFromSuperview()
-                        fromView.alpha = 1
+                        toView.alpha = 1
                         done()
+                        
                 }
             }
             ).run()
