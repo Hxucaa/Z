@@ -44,6 +44,12 @@ public final class ProfilePageViewController : UIPageViewController {
     
     private var shouldDisplayCollection = false
     
+    // MARK: - Proxies
+    private let (_fullImageProxy, _fullImageSink) = SimpleProxy.proxy()
+    public var fullImageProxy: SimpleProxy {
+        return _fullImageProxy
+    }
+    
     // MARK: - Initializers
     
     // MARK: - Setups
@@ -67,11 +73,16 @@ public final class ProfilePageViewController : UIPageViewController {
         } else {
             displayParticipationListPage(animated: true, completion: nil)
         }
-        
-    }
-    
-    public override func viewWillDisappear(animated: Bool) {
-        
+
+        photoManagerViewController.fullImageProxy
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Profile, "photoManagerViewController.fullImageProxy")
+            |> start(next: { [weak self] in
+                if let this = self {
+                    proxyNext(this._fullImageSink, ())
+                }
+                })
     }
     
     // MARK: - Bindings

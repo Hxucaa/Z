@@ -20,11 +20,11 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
         let button = UIButton()
         
         button.titleLabel?.opaque = true
-        button.titleLabel?.backgroundColor = .x_FeaturedCardBG()
+        button.titleLabel?.backgroundColor = .whiteColor()
         button.titleLabel?.layer.masksToBounds = true
         button.setTitle("详细信息", forState: .Normal)
         button.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button.backgroundColor = .x_FeaturedCardBG()
+        button.backgroundColor = .whiteColor()
         
         let press = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
@@ -44,11 +44,11 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
         let button = UIButton()
         
         button.titleLabel?.opaque = true
-        button.titleLabel?.backgroundColor = .x_FeaturedCardBG()
+        button.titleLabel?.backgroundColor = .whiteColor()
         button.titleLabel?.layer.masksToBounds = true
         button.setTitle("约起", forState: .Normal)
         button.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button.backgroundColor = .x_FeaturedCardBG()
+        button.backgroundColor = .whiteColor()
         
         let press = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
@@ -98,7 +98,7 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
     // MARK: - Setups
     
     private func setup() {
-        backgroundColor = .x_FeaturedCardBG()
+        backgroundColor = .whiteColor()
         opaque = true
         
         addSubview(detailInfoButton)

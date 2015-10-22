@@ -19,14 +19,15 @@ public final class ProfileTabContent : ITabContent {
     private let profileWireframe: IProfileWireframe
     private let socialBusinessWireframe: ISocialBusinessWireframe
     private let profileEditWireframe: IProfileEditWireframe
+    private let fullScreenImageWireframe: IFullScreenImageWireframe
     
-    public init(profileWireframe: IProfileWireframe, socialBusinessWireframe: ISocialBusinessWireframe, profileEditWireframe: IProfileEditWireframe) {
+    public init(profileWireframe: IProfileWireframe, socialBusinessWireframe: ISocialBusinessWireframe, profileEditWireframe: IProfileEditWireframe, fullScreenImageWireframe: IFullScreenImageWireframe) {
         profileTabNavigationController = ProfileTabNavigationController(rootViewController: profileWireframe.rootViewController)
         
         self.profileWireframe = profileWireframe
         self.socialBusinessWireframe = socialBusinessWireframe
         self.profileEditWireframe = profileEditWireframe
-
+        self.fullScreenImageWireframe = fullScreenImageWireframe
         self.profileWireframe.navigationControllerDelegate = self
     }
 
@@ -40,5 +41,9 @@ extension ProfileTabContent : ProfileNavigationControllerDelegate {
 
         public func presentProfileEdit(animated: Bool, completion: CompletionHandler?) {
         profileTabNavigationController.presentViewController(profileEditWireframe.viewController(), animated: true, completion: completion)
+    }
+    
+    public func presentFullScreenImage(animated: Bool, completion: CompletionHandler?) {
+        profileTabNavigationController.presentViewController(fullScreenImageWireframe.viewController(), animated: true, completion: completion)
     }
 }

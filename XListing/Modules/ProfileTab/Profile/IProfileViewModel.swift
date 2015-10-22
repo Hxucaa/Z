@@ -21,4 +21,5 @@ public protocol IProfileViewModel : class {
     // MARK: - API
     func pushSocialBusinessModule(section: Int, animated: Bool)
     func presentProfileEditModule(aniated: Bool, completion: CompletionHandler?)
+    func presentFullScreenImageModule(animated: Bool, completion: CompletionHandler?)
 }

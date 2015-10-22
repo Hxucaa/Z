@@ -12,6 +12,7 @@ private let StoryboardName = "Profile"
 public protocol ProfileNavigationControllerDelegate : class {
     func pushSocialBusiness<T: Business>(business: T, animated: Bool)
     func presentProfileEdit<T: User>(animated: Bool, completion: CompletionHandler?)
+    func presentFullScreenImage(animated: Bool, completion: CompletionHandler?)
 }
 
 public final class ProfileWireframe : IProfileWireframe {
@@ -57,5 +58,9 @@ extension ProfileWireframe : ProfileNavigator {
     }
     public func presentProfileEdit(animated: Bool, completion: CompletionHandler?) {
         navigationControllerDelegate.presentProfileEdit(animated, completion: completion)
+    }
+    
+    public func presentFullScreenImage(animated: Bool, completion: CompletionHandler?) {
+        navigationControllerDelegate.presentFullScreenImage(animated, completion: completion)
     }
 }

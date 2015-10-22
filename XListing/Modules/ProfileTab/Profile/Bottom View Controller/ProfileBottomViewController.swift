@@ -34,6 +34,13 @@ public final class ProfileBottomViewController : UIViewController {
         return vc
     }()
     
+    // MARK: - Proxies
+    private let (_fullImageProxy, _fullImageSink) = SimpleProxy.proxy()
+    public var fullImageProxy: SimpleProxy {
+        return _fullImageProxy
+    }
+    
+    
     // MARK: - Properties
     private var viewmodel: IProfileBottomViewModel! {
         didSet {
@@ -91,6 +98,16 @@ public final class ProfileBottomViewController : UIViewController {
             |> start(next: { [weak self] in
                 self?.pageViewController.displayPhotosManagerPage()
             })
+        
+        pageViewController.fullImageProxy
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Profile, "pageViewController.fullImageProxy")
+            |> start(next: { [weak self] in
+                if let this = self {
+                    proxyNext(this._fullImageSink, ())
+                }
+                })
         
     }
     

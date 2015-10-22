@@ -62,6 +62,7 @@ public enum LogContext : Int {
     case Profile = 340
     case SocialBusiness = 350
     case UserProfile = 360
+    case FullScreenImage = 370
     case Other = 0
 }
 
@@ -358,6 +359,32 @@ public func UPLogVerbose(@autoclosure(escaping) logText: () -> String, level: DD
 
 public func UPLogError(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
     SwiftLogMacro(async, level, flag: .Error, context: .UserProfile, file: file, function: function, line: line, string: logText)
+}
+
+/********************************
+*                               *
+*       FullScreenImage         *
+*                               *
+*********************************/
+
+public func FSILogDebug(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Debug, context: .FullScreenImage, file: file, function: function, line: line, string: logText)
+}
+
+public func FSILogInfo(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Info, context: .FullScreenImage, file: file, function: function, line: line, string: logText)
+}
+
+public func FSILogWarning(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Warning, context: .FullScreenImage, file: file, function: function, line: line, string: logText)
+}
+
+public func FSILogVerbose(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Verbose, context: .FullScreenImage, file: file, function: function, line: line, string: logText)
+}
+
+public func FSILogError(@autoclosure(escaping) logText: () -> String, level: DDLogLevel = defaultDebugLevel, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__, asynchronous async: Bool = false) {
+    SwiftLogMacro(async, level, flag: .Error, context: .FullScreenImage, file: file, function: function, line: line, string: logText)
 }
 
 /********************************

@@ -84,6 +84,13 @@ public final class ProfileViewController : XUIViewController {
             |> start(next: { [weak self] in
                 self?.viewmodel.presentProfileEditModule(true, completion: nil)
             })
+        
+        bottomViewController.fullImageProxy
+            |> takeUntilViewWillDisappear(self)
+            |> logLifeCycle(LogContext.Profile, "photoManager.fullImageProxy")
+            |> start(next: { [weak self] in
+                self?.viewmodel.presentFullScreenImageModule(true, completion: nil)
+                })
     }
     
     public override func viewWillDisappear(animated: Bool) {

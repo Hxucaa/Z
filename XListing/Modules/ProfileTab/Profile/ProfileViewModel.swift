@@ -13,6 +13,7 @@ import AVOSCloud
 public protocol ProfileNavigator : class {
     func pushSocialBusiness(business: Business, animated: Bool)
     func presentProfileEdit(animated: Bool, completion: CompletionHandler?)
+    func presentFullScreenImage(animated: Bool, completion: CompletionHandler?)
 }
 
 public final class ProfileViewModel : IProfileViewModel {
@@ -62,6 +63,10 @@ public final class ProfileViewModel : IProfileViewModel {
         if userService.isLoggedInAlready() {
             navigator.presentProfileEdit(animated, completion: completion)
         }
+    }
+    
+    public func presentFullScreenImageModule(animated: Bool, completion: CompletionHandler? = nil) {
+        navigator.presentFullScreenImage(animated, completion: completion)
     }
 
 

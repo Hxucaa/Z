@@ -38,6 +38,13 @@ public final class PhotoManagerViewController : UIViewController {
     // MARK: - Properties
     private var viewmodel: IPhotoManagerViewModel!
     private let imagePicker = UIImagePickerController()
+    private let compositeDisposable = CompositeDisposable()
+    
+    // MARK: - Proxies
+    private let (_fullImageProxy, _fullImageSink) = SimpleProxy.proxy()
+    public var fullImageProxy: SimpleProxy {
+        return _fullImageProxy
+    }
     
     // MARK: - Initializers
     
@@ -61,6 +68,24 @@ public final class PhotoManagerViewController : UIViewController {
             $0.bottom == $0.superview!.bottom
         }
         
+    }
+    
+    public override func viewWillAppear(animated: Bool) {
+        // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
+        // when the specified row is now selected
+        compositeDisposable += rac_signalForSelector(Selector("collectionView:didSelectItemAtIndexPath:"), fromProtocol: UICollectionViewDelegate.self).toSignalProducer()
+            // forwards events from producer until the view controller is going to disappear
+            |> takeUntilViewWillDisappear(self)
+            |> map { ($0 as! RACTuple).second as! NSIndexPath }
+            |> logLifeCycle(LogContext.FullScreenImage, "collectionView:didSelectItemAtIndexPath:")
+            |> start(
+                next: { [weak self] indexPath in
+                    proxyNext(self!._fullImageSink, ())
+                }
+        )
+        
+        collectionView.delegate = nil
+        collectionView.delegate = self
     }
     
     // MARK: - Bindings
