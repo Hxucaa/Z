@@ -1,5 +1,5 @@
 //
-//  ReverseSideAnimator.swift
+//  BDtoSBAnimator.swift
 //  XListing
 //
 //  Created by Bruce Li on 2015-10-06.

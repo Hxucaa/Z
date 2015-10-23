@@ -8,18 +8,22 @@
 
 import UIKit
 import Cartography
+import ReactiveCocoa
 
 public final class ProfilePhotoCollectionViewCell: UICollectionViewCell {
     
     
     private lazy var photo : UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "profilepicture"))
+        let imageView = UIImageView()
         return imageView
     }()
     
+    // MARK: - Properties
+    private var viewmodel: ProfilePhotoCellViewModel!
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(photo)
+        contentView.addSubview(photo)
         
         constrain(photo) { view in
             view.leading == view.superview!.leading
@@ -32,6 +36,14 @@ public final class ProfilePhotoCollectionViewCell: UICollectionViewCell {
 
     public required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    public func bindToViewModel(viewmodel: ProfilePhotoCellViewModel) {
+        self.viewmodel = viewmodel
+        
+        photo.rac_image <~ self.viewmodel.image.producer
+        
     }
     
 }

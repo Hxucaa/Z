@@ -1,5 +1,5 @@
 //
-//  UIImageSlideAnimator.swift
+//  SBtoBDAnimator.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-09-11.
