@@ -1,8 +1,8 @@
 //
-//  ReverseSideAnimator.swift
+//  SBtoBDAnimator.swift
 //  XListing
 //
-//  Created by Bruce Li on 2015-10-06.
+//  Created by Lance Zhu on 2015-09-11.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
@@ -14,18 +14,18 @@ private let BusinessHeightRatio = 0.61
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
 private let ScreenHeight = UIScreen.mainScreen().bounds.size.height
 
-public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTransitioning {
+public final class SBtoBDAnimator : NSObject, UIViewControllerAnimatedTransitioning {
     
-    private let tableView: UITableView
+    private let startRect: CGRect
+    private let destination: CGPoint
     private let headerView: SocialBusinessHeaderView
     private let utilityHeaderView: SocialBusiness_UtilityHeaderView
-    private let headerViewModel: SocialBusinessHeaderViewModel
     
-    public init(tableView: UITableView, headerView: SocialBusinessHeaderView, utilityHeaderView: SocialBusiness_UtilityHeaderView, headerVM: SocialBusinessHeaderViewModel) {
-        self.tableView = tableView
+    public init(startRect: CGRect, destination: CGPoint, headerView: SocialBusinessHeaderView, utilityHeaderView: SocialBusiness_UtilityHeaderView) {
+        self.startRect = startRect
+        self.destination = destination
         self.headerView = headerView
         self.utilityHeaderView = utilityHeaderView
-        self.headerViewModel = headerVM
     }
     
     public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
@@ -39,28 +39,31 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
         
         let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! as! BusinessDetailViewController
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! as! SocialBusinessViewController
+        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! as! SocialBusinessViewController
+        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! as! BusinessDetailViewController
         
-        let headerView = SocialBusinessHeaderView(frame: self.headerView.frame)
-        headerView.bindToViewModel(self.headerViewModel)
-        let utilityHeaderView = SocialBusiness_UtilityHeaderView(frame: self.utilityHeaderView.frame)
-        
-        let headerDestinationPoint = toViewController.getHeaderDestinationPoint()
         
         containerView.opaque = true
         containerView.backgroundColor = UIColor.whiteColor()
         
         // destination view controller is transparent at first
         toView.alpha = 0
+
+        headerView.frame = startRect
+        if -startRect.origin.y > startRect.height {
+            utilityHeaderView.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), 59)
+        } else {
+            utilityHeaderView.frame = CGRectMake(0, startRect.height+startRect.origin.y, CGFloat(ScreenWidth), 59)
+        }
+        
+        let tableView = toViewController.getAnimationMembers
+        tableView.frame = CGRectMake(0, CGFloat(ScreenHeight), CGFloat(ScreenWidth), 600)
         
         containerView.addSubview(toView)
         containerView.addSubview(fromView)
         containerView.addSubview(headerView)
         containerView.addSubview(utilityHeaderView)
         containerView.addSubview(tableView)
-        
-        toViewController.navigationController?.setNavigationBarHidden(false, animated: false)
         
         // chain animation
         Chain(
@@ -71,9 +74,10 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
                     options: UIViewAnimationOptions.TransitionNone,
                     animations: {
                         fromView.alpha = 0
+                        toViewController.navigationController?.setNavigationBarHidden(true, animated: false)
                     }) { finished in
                         done()
-                }
+                    }
             },
             { done in
                 UIView.animateWithDuration(
@@ -81,34 +85,28 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
                     delay: 0.0,
                     options: UIViewAnimationOptions.CurveEaseInOut,
                     animations: {
-                        toViewController.navigationController?.setNavigationBarHidden(false, animated: false)
-                        utilityHeaderView.setDetailInfoButtonStyleRegular()
-                        headerView.frame.origin = CGPoint(x:0, y:64+headerDestinationPoint.y)
-                        if -headerDestinationPoint.y > headerView.frame.height {
-                            utilityHeaderView.frame.origin = CGPoint(x:0, y:64)
-                        } else {
-                            utilityHeaderView.frame.origin = CGPoint(x:0, y:headerDestinationPoint.y+headerView.frame.height+64)
-                        }
-                        self.tableView.frame.origin = CGPoint(x:0, y:CGFloat(ScreenHeight))
+                        self.utilityHeaderView.setDetailInfoButtonStyleSelected()
+                        self.headerView.frame.origin = self.destination
+                        self.utilityHeaderView.frame.origin = CGPoint(x:0, y:self.headerView.frame.height+self.headerView.frame.origin.y)
+                        tableView.frame.origin = CGPoint(x:0, y:self.utilityHeaderView.frame.height+self.utilityHeaderView.frame.origin.y)
                     }) { finished in
                         done()
-                }
+                    }
             },
             { done in
                 UIView.animateWithDuration(
                     0.1,
                     animations: {
                         toView.alpha = 1
-                        
+
                     }) { finished in
                         transitionContext.completeTransition(true)
-                        headerView.removeFromSuperview()
-                        utilityHeaderView.removeFromSuperview()
-                        self.tableView.removeFromSuperview()
+                        self.headerView.removeFromSuperview()
+                        self.utilityHeaderView.removeFromSuperview()
                         fromView.alpha = 1
                         done()
-                }
+                    }
             }
-            ).run()
+        ).run()
     }
 }
