@@ -82,6 +82,7 @@ public final class ReverseSlideAnimator : NSObject, UIViewControllerAnimatedTran
                     options: UIViewAnimationOptions.CurveEaseInOut,
                     animations: {
                         toViewController.navigationController?.setNavigationBarHidden(false, animated: false)
+                        utilityHeaderView.setDetailInfoButtonStyleRegular()
                         headerView.frame.origin = CGPoint(x:0, y:64+headerDestinationPoint.y)
                         if -headerDestinationPoint.y > headerView.frame.height {
                             utilityHeaderView.frame.origin = CGPoint(x:0, y:64)

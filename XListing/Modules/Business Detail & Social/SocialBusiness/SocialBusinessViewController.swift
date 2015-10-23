@@ -47,8 +47,7 @@ public final class SocialBusinessViewController : XUIViewController {
     
     private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
         let view = SocialBusiness_UtilityHeaderView()
-        
-        
+        view.setDetailInfoButtonStyleRegular()
         return view
     }()
     
@@ -86,6 +85,7 @@ public final class SocialBusinessViewController : XUIViewController {
         super.viewWillAppear(animated)
         
         navigationController?.hidesBarsOnSwipe = false
+        utilityHeaderView.setDetailInfoButtonStyleRegular()
         
         compositeDisposable += viewmodel.fetchMoreData()
             |> take(1)
@@ -187,7 +187,7 @@ extension SocialBusinessViewController : UITableViewDelegate, UITableViewDataSou
     }
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44
+        return 59
     }
 }
 
