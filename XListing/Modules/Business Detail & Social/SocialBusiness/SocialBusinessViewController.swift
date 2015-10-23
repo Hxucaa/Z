@@ -70,10 +70,10 @@ public final class SocialBusinessViewController : XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
         
         constrain(tableView) { view in
-            view.top == view.superview!.top
+            view.top == view.superview!.top - 20
             view.trailing == view.superview!.trailing
             view.bottom == view.superview!.bottom
             view.leading == view.superview!.leading
@@ -85,6 +85,7 @@ public final class SocialBusinessViewController : XUIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.hidesBarsOnSwipe = false
         
         compositeDisposable += viewmodel.fetchMoreData()
@@ -205,10 +206,11 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
             else {
                 start = view.convertRect(headerView.frame, fromView: headerView)
             }
+            
             if let image = viewmodel.businessCoverImage {
                 let animateHeaderView = SocialBusinessHeaderView(frame: headerView.frame)
                 animateHeaderView.bindToViewModel(viewmodel.headerViewModel)
-                return UIImageSlideAnimator(startRect: start, destination: destination, headerView: animateHeaderView, utilityHeaderView: self.utilityHeaderView)
+                return SBtoBDAnimator(startRect: start, destination: destination, headerView: animateHeaderView, utilityHeaderView: self.utilityHeaderView)
             }
             else {
                 return nil
@@ -216,5 +218,5 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
         }
         return nil
     }
-    
 }
+
