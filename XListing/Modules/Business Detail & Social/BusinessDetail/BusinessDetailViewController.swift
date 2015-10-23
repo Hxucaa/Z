@@ -329,7 +329,7 @@ extension BusinessDetailViewController : UINavigationControllerDelegate {
         
         navigationController.setNavigationBarHidden(false, animated: false)
         if fromVC is BusinessDetailViewController && toVC is SocialBusinessViewController && operation == .Pop {
-            return ReverseSlideAnimator(tableView: tableView, headerView: headerView, utilityHeaderView: utilityHeaderView, headerVM: viewmodel.headerViewModel)
+            return BDtoSBAnimator(tableView: tableView, headerView: headerView, utilityHeaderView: utilityHeaderView, headerVM: viewmodel.headerViewModel)
         }
         return nil
     }
