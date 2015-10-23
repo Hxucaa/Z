@@ -51,9 +51,9 @@ public final class SBtoBDAnimator : NSObject, UIViewControllerAnimatedTransition
 
         headerView.frame = startRect
         if -startRect.origin.y > startRect.height {
-            utilityHeaderView.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), 44)
+            utilityHeaderView.frame = CGRectMake(0, 0, CGFloat(ScreenWidth), 59)
         } else {
-            utilityHeaderView.frame = CGRectMake(0, startRect.height+startRect.origin.y, CGFloat(ScreenWidth), 44)
+            utilityHeaderView.frame = CGRectMake(0, startRect.height+startRect.origin.y, CGFloat(ScreenWidth), 59)
         }
         
         let tableView = toViewController.getAnimationMembers
@@ -85,7 +85,7 @@ public final class SBtoBDAnimator : NSObject, UIViewControllerAnimatedTransition
                     delay: 0.0,
                     options: UIViewAnimationOptions.CurveEaseInOut,
                     animations: {
-                        
+                        self.utilityHeaderView.setDetailInfoButtonStyleSelected()
                         self.headerView.frame.origin = self.destination
                         self.utilityHeaderView.frame.origin = CGPoint(x:0, y:self.headerView.frame.height+self.headerView.frame.origin.y)
                         tableView.frame.origin = CGPoint(x:0, y:self.utilityHeaderView.frame.height+self.utilityHeaderView.frame.origin.y)

@@ -83,6 +83,7 @@ public final class BDtoSBAnimator : NSObject, UIViewControllerAnimatedTransition
                     animations: {
                         toViewController.navigationController?.navigationBarHidden = true
                         headerView.frame.origin = CGPoint(x:0, y:headerDestinationPoint.y)
+                        utilityHeaderView.setDetailInfoButtonStyleRegular()
                         if -headerDestinationPoint.y > headerView.frame.height {
                             utilityHeaderView.frame.origin = CGPoint(x:0, y:0)
                         } else {

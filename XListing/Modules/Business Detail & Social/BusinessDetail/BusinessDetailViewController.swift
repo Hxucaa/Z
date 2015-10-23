@@ -25,7 +25,7 @@ private let DescriptionCellIdentifier = "DescriptionTableviewCell"
 private let BusinessHeightRatio = 0.61
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
 private let ImageHeaderHeight = CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)
-private let UtilHeaderHeight = CGFloat(44)
+private let UtilHeaderHeight = CGFloat(59)
 private let TableViewStart = CGFloat(ImageHeaderHeight)+CGFloat(UtilHeaderHeight)
 private let DetailNavigationMapViewControllerName = "DetailNavigationMapViewController"
 
@@ -41,6 +41,7 @@ public final class BusinessDetailViewController : XUIViewController {
     
     private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
         let view = SocialBusiness_UtilityHeaderView(frame: CGRectMake(0, ImageHeaderHeight, ScreenWidth, UtilHeaderHeight))
+        view.setDetailInfoButtonStyleSelected()
         return view
     }()
     
@@ -123,6 +124,8 @@ public final class BusinessDetailViewController : XUIViewController {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        utilityHeaderView.setDetailInfoButtonStyleSelected()
         
         compositeDisposable += utilityHeaderView.detailInfoProxy
             |> takeUntilViewWillDisappear(self)

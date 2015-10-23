@@ -47,8 +47,7 @@ public final class SocialBusinessViewController : XUIViewController {
     
     private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
         let view = SocialBusiness_UtilityHeaderView()
-        
-        
+        view.setDetailInfoButtonStyleRegular()
         return view
     }()
     
@@ -87,6 +86,7 @@ public final class SocialBusinessViewController : XUIViewController {
         
         navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.hidesBarsOnSwipe = false
+        utilityHeaderView.setDetailInfoButtonStyleRegular()
         
         compositeDisposable += viewmodel.fetchMoreData()
             |> take(1)
@@ -188,7 +188,7 @@ extension SocialBusinessViewController : UITableViewDelegate, UITableViewDataSou
     }
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44
+        return 59
     }
 }
 
@@ -200,12 +200,8 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
             // convert to navigation controller's coordinate system so that the height of status bar and navigation bar is taken into account of
             let start: CGRect
             var destination = CGPointMake(0, 0)
-            if let nav = self.navigationController {
-                start = nav.view.convertRect(headerView.frame, fromView: headerView)
-            }
-            else {
-                start = view.convertRect(headerView.frame, fromView: headerView)
-            }
+
+            start = view.convertRect(headerView.frame, fromView: headerView)
             
             if let image = viewmodel.businessCoverImage {
                 let animateHeaderView = SocialBusinessHeaderView(frame: headerView.frame)
