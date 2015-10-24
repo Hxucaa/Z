@@ -48,7 +48,7 @@ public final class FeaturedListBusinessCell_InfoPanelViewModel : IFeaturedListBu
     
     // MARK: - Initializers
     
-    public init(geoLocationService: IGeoLocationService, businessName: String?, city: String?, district: String?, price: Int?, geopoint: AVGeoPoint?) {
+    public init(geoLocationService: IGeoLocationService, businessName: String?, city: String?, district: String?, price: Int?, geolocation: Geolocation?) {
         
         self.geoLocationService = geoLocationService
         
@@ -71,8 +71,8 @@ public final class FeaturedListBusinessCell_InfoPanelViewModel : IFeaturedListBu
         self._price = MutableProperty(price)
         
         
-        if let geopoint = geopoint {
-            setupEta(CLLocation(latitude: geopoint.latitude, longitude: geopoint.longitude))
+        if let geolocation = geolocation {
+            setupEta(CLLocation(latitude: geolocation.latitude, longitude: geolocation.longitude))
                 |> start()
         }
     }

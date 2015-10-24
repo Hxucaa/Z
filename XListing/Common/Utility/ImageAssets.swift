@@ -19,4 +19,7 @@ public struct ImageAssets {
     static let businessplaceholder = "businessplaceholder"
     static let logo = "Logo"
     static let pullToRefreshArrow = "Pull To Refresh Arrow"
+    static let profileHeaderBackground = "ProfileHeaderBackground"
+    static let editIcon = "Edit Button"
+    static let backButtonIcon = "Back Button Icon"
 }

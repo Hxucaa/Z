@@ -321,14 +321,14 @@ public final class SignUpViewController : XUIViewController {
         
         containerView.bottomStack.addSubview(button)
         
-        layout(button) { b in
-            b.width == button.frame.width
-            b.height == button.frame.height
+        constrain(button) {
+            $0.width == button.frame.width
+            $0.height == button.frame.height
         }
         
-        layout(button, containerView.bottomStack) { button, stack in
-            button.topMargin == stack.topMargin
-            button.centerX == stack.centerX
+        constrain(button, containerView.bottomStack) {
+            $0.topMargin == $1.topMargin
+            $0.centerX == $1.centerX
         }
     }
 }

@@ -17,6 +17,8 @@ public final class RootTabBarController : UITabBarController, UITabBarController
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        tabBar.tintColor = UIColor.x_PrimaryColor()
+        tabBar.translucent = false
         delegate = self
     }
     

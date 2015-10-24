@@ -11,7 +11,8 @@ private let StoryboardName = "Profile"
 
 public protocol ProfileNavigationControllerDelegate : class {
     func pushSocialBusiness<T: Business>(business: T, animated: Bool)
-    func presentProfileEdit<T: User>(user: T, animated: Bool, completion: CompletionHandler?)
+    func presentProfileEdit<T: User>(animated: Bool, completion: CompletionHandler?)
+    func presentFullScreenImage(animated: Bool, completion: CompletionHandler?)
 }
 
 public final class ProfileWireframe : IProfileWireframe {
@@ -39,7 +40,7 @@ public final class ProfileWireframe : IProfileWireframe {
     }
     
     private func initViewController() -> ProfileViewController {
-        let viewController = UIStoryboard(name: StoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(ProfileViewControllerIdentifier) as! ProfileViewController
+        let viewController = ProfileViewController()
         
         let viewmodel = ProfileViewModel(participationService: participationService, businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService, imageService: imageService)
 
@@ -55,7 +56,11 @@ extension ProfileWireframe : ProfileNavigator {
     public func pushSocialBusiness(business: Business, animated: Bool) {
         navigationControllerDelegate.pushSocialBusiness(business, animated: animated)
     }
-    public func presentProfileEdit(user: User, animated: Bool, completion: CompletionHandler?) {
-        navigationControllerDelegate.presentProfileEdit(user, animated: animated, completion: completion)
+    public func presentProfileEdit(animated: Bool, completion: CompletionHandler?) {
+        navigationControllerDelegate.presentProfileEdit(animated, completion: completion)
+    }
+    
+    public func presentFullScreenImage(animated: Bool, completion: CompletionHandler?) {
+        navigationControllerDelegate.presentFullScreenImage(animated, completion: completion)
     }
 }

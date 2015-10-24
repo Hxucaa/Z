@@ -10,6 +10,7 @@ import Foundation
 import ReactiveCocoa
 
 public protocol IUserService : class {
+    var currentUser: User? { get }
     func isLoggedInAlready() -> Bool
     func currentLoggedInUser() -> SignalProducer<User, NSError>
     func signUp<T: User>(user: T) -> SignalProducer<Bool, NSError>
