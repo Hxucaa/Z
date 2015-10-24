@@ -12,7 +12,7 @@ import Cartography
 import TTTAttributedLabel
 import ReactiveCocoa
 
-private let CoverImageSize = CGSizeMake(110, 110)
+private let CoverImageSize = CGSizeMake(84, 84)
 
 public final class SocialBusinessHeaderView : UIView {
     
@@ -20,7 +20,7 @@ public final class SocialBusinessHeaderView : UIView {
     private lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView(frame: self.frame)
         
-        let blur = UIBlurEffect(style: UIBlurEffectStyle.Dark)
+        let blur = UIBlurEffect(style: UIBlurEffectStyle.Light)
         let effectView = UIVisualEffectView(effect: blur)
         effectView.frame = imageView.frame
         
@@ -39,7 +39,7 @@ public final class SocialBusinessHeaderView : UIView {
     /// Wrap everything in the main stack and have them distributed vertically.
     private lazy var mainContainer: TZStackView = {
         
-        let container = TZStackView(arrangedSubviews: [self.coverImageView, self.businessNameLabel, self.locationAndDistanceContainer])
+        let container = TZStackView(arrangedSubviews: [self.coverImageView, self.businessNameLabel, self.cuisineAndPriceContainer,self.locationAndDistanceContainer])
         container.distribution = TZStackViewDistribution.EqualSpacing
         container.axis = .Vertical
         container.spacing = 8
@@ -52,13 +52,6 @@ public final class SocialBusinessHeaderView : UIView {
         let imageView = UIImageView(frame: CGRect(origin: CGPointMake(0, 0), size: CoverImageSize))
         imageView.contentMode = UIViewContentMode.ScaleAspectFill
         
-//        constrain(imageView) { view in
-//            view.width == CoverImageSize.width
-//            view.height == CoverImageSize.height
-//        }
-        
-        imageView.setContentCompressionResistancePriority(700, forAxis: .Vertical)
-        
         return imageView
     }()
     
@@ -68,7 +61,8 @@ public final class SocialBusinessHeaderView : UIView {
         label.opaque = false
         label.backgroundColor = UIColor.clearColor()
         label.textAlignment = NSTextAlignment.Center
-        label.font = UIFont.systemFontOfSize(24)
+        label.font = UIFont.boldSystemFontOfSize(37)
+        label.adjustsFontSizeToFitWidth = true
         label.textColor = UIColor.whiteColor()
         
         return label
@@ -86,6 +80,30 @@ public final class SocialBusinessHeaderView : UIView {
         return label
         
     }()
+    
+    private lazy var priceLabel: TTTAttributedLabel = {
+        
+        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 50, 22))
+        label.opaque = false
+        label.backgroundColor = UIColor.clearColor()
+        label.textAlignment = NSTextAlignment.Center
+        label.font = UIFont.systemFontOfSize(15)
+        label.textColor = UIColor.whiteColor()
+        
+        return label
+        
+        }()
+    
+    /// Wrap location, divider, and distance in a stack
+    private lazy var cuisineAndPriceContainer: TZStackView = {
+        let container = TZStackView(arrangedSubviews: [self.cuisineLabel, self.priceLabel])
+        container.distribution = TZStackViewDistribution.EqualSpacing
+        container.axis = .Horizontal
+        container.spacing = 10
+        container.alignment = .Center
+        
+        return container
+        }()
     
     /// Wrap location, divider, and distance in a stack
     private lazy var locationAndDistanceContainer: TZStackView = {
@@ -143,9 +161,12 @@ public final class SocialBusinessHeaderView : UIView {
         super.init(frame: frame)
 
         cuisineLabel.text = "川菜"
+        priceLabel.text = "$$"
 
         addSubview(backgroundImageView)
         backgroundImageView.addSubview(mainContainer)
+        
+        coverImageView.setContentCompressionResistancePriority(700, forAxis: .Vertical)
 
         constrain(backgroundImageView) { view in
             view.top == view.superview!.top
@@ -165,6 +186,8 @@ public final class SocialBusinessHeaderView : UIView {
             let gap = round(self.backgroundImageView.frame.height * 0.07)
             view.top == view.superview!.topMargin + gap
             view.bottom == view.superview!.bottomMargin
+            view.leading == view.superview!.leadingMargin
+            view.trailing == view.superview!.trailingMargin
         }
     }
     
@@ -173,7 +196,13 @@ public final class SocialBusinessHeaderView : UIView {
     }
     
     // MARK: - Setups
-
+    public override func intrinsicContentSize() -> CGSize {
+        let screenWidth = UIScreen.mainScreen().bounds.size.width
+        return CGSizeMake(screenWidth, screenWidth * 0.61)
+    }
+    
+    // MARK: - Bindings
+    
     public func bindToViewModel(viewmodel: SocialBusinessHeaderViewModel) {
         self.viewmodel = viewmodel
         
@@ -187,7 +216,7 @@ public final class SocialBusinessHeaderView : UIView {
         coverImageView.rac_image <~ self.viewmodel.coverImage.producer
             |> ignoreNil
             |> map {
-                $0.maskWithRoundedRect(CoverImageSize, cornerRadius: max(CoverImageSize.width, CoverImageSize.height) / 2, borderWidth: 4, opaque: false)
+                $0.maskWithRoundedRect(CoverImageSize, cornerRadius: max(CoverImageSize.width, CoverImageSize.height) / 2, borderWidth: 2, opaque: false)
             }
         
         backgroundImageView.rac_image <~ self.viewmodel.coverImage.producer

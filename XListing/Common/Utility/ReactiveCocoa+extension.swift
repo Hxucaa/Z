@@ -103,6 +103,7 @@ public func logLifeCycle<T, E>(context: LogContext, signalName: String, file: St
         case .Profile: ProfileLogVerbose(message, file: file, function: function, line: line)
         case .SocialBusiness: SBLogVerbose(message, file: file, function: function, line: line)
         case .UserProfile: UPLogVerbose(message, file: file, function: function, line: line)
+        case .FullScreenImage: FSILogVerbose(message, file: file, function: function, line: line)
         case .Other: DDLogVerbose(message, file: file, function: function, line: line)
         }
     }

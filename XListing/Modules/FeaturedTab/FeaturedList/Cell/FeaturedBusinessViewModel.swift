@@ -8,7 +8,6 @@
 
 import Foundation
 import ReactiveCocoa
-import AVOSCloud
 
 public final class FeaturedBusinessViewModel : IFeaturedBusinessViewModel {
     
@@ -21,7 +20,6 @@ public final class FeaturedBusinessViewModel : IFeaturedBusinessViewModel {
     // MARK: - ViewModels
     public let infoPanelViewModel: IFeaturedListBusinessCell_InfoPanelViewModel
     public let pariticipationViewModel: IFeaturedListBusinessCell_ParticipationViewModel
-    public let statsViewModel: IFeaturedListBusinessCell_StatsViewModel
     
     // MARK: - Properties
     private let userService: IUserService
@@ -31,7 +29,7 @@ public final class FeaturedBusinessViewModel : IFeaturedBusinessViewModel {
     private let business: Business
     
     // MARK: - Initializers
-    public init(userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService, participationService: IParticipationService, cover: AVFile?, geopoint: AVGeoPoint?, participationCount: Int, business: Business?) {
+    public init(userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService, participationService: IParticipationService, cover: ImageFile?, geolocation: Geolocation?, treatCount: Int, aaCount: Int, toGoCount: Int, business: Business?) {
         
         self.userService = userService
         self.geoLocationService = geoLocationService
@@ -40,9 +38,8 @@ public final class FeaturedBusinessViewModel : IFeaturedBusinessViewModel {
         
         self.business = business!
         
-        infoPanelViewModel = FeaturedListBusinessCell_InfoPanelViewModel(geoLocationService: geoLocationService, businessName: business?.nameSChinese, city: business?.city, district: business?.district, price: business?.price, geopoint: business?.geopoint)
+        infoPanelViewModel = FeaturedListBusinessCell_InfoPanelViewModel(geoLocationService: geoLocationService, businessName: business?.nameSChinese, city: business?.city, district: business?.district, price: business?.price, geolocation: geolocation)
         pariticipationViewModel = FeaturedListBusinessCell_ParticipationViewModel(userService: userService, imageService: imageService, participationService: participationService, business: business)
-        statsViewModel = FeaturedListBusinessCell_StatsViewModel(treatCount: 123, aaCount: 157, toGoCount: 97)
     }
 
     
@@ -51,7 +48,7 @@ public final class FeaturedBusinessViewModel : IFeaturedBusinessViewModel {
     // MARK: - API
     
     public func getCoverImage() -> SignalProducer<Void, NSError> {
-        if let url = business.cover?.url, nsurl = NSURL(string: url) {
+        if let url = business.cover_?.url, nsurl = NSURL(string: url) {
             return imageService.getImage(nsurl)
                 |> on(next: {
                     self._coverImage.put($0)

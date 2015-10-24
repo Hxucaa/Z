@@ -12,7 +12,7 @@ import AVOSCloud
 
 public final class UserService : IUserService {
     
-    private var currentUser: User? {
+    public var currentUser: User? {
         return AVUser.currentUser() as? User
     }
     
@@ -95,22 +95,13 @@ public final class UserService : IUserService {
     
     public func save<T: User>(user: T) -> SignalProducer<Bool, NSError> {
         return SignalProducer { sink, disposable in
-            if let profileImg = user.profileImg {
-                profileImg.saveInBackgroundWithBlock { (success, error) -> Void in
-                    if error == nil {
-                        user.saveInBackgroundWithBlock { (success, error) -> Void in
-                            if error == nil {
-                                sendNext(sink, success)
-                                sendCompleted(sink)
-                            }
-                            else {
-                                sendError(sink, error)
-                            }
-                        }
-                    }
-                    else {
-                        sendError(sink, error)
-                    }
+            user.saveInBackgroundWithBlock { (success, error) -> Void in
+                if error == nil {
+                    sendNext(sink, success)
+                    sendCompleted(sink)
+                }
+                else {
+                    sendError(sink, error)
                 }
             }
         }

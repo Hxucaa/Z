@@ -29,8 +29,9 @@ public final class Business: AVObject, AVSubclassing {
         case Featured = "featured"
         case TimeStart = "timeStart"
         case TimeEnd = "timeEnd"
-        case WantToGoCounter = "wantToGoCounter"
-        case Categories = "categories"
+        case aaCount = "aaCount"
+        case treatCount = "treatCount"
+        case toGoCount = "toGoCount"
         case Unit = "unit"
         case Address = "address"
         case District = "district"
@@ -38,9 +39,7 @@ public final class Business: AVObject, AVSubclassing {
         case State = "state"
         case Country = "country"
         case PostalCode = "postalCode"
-        case CrossStreets = "crossStreets"
-        case Neighborhoods = "neighborhoods"
-        case Geopoint = "geopoint"
+        case Geolocation = "geopoint"
         case Price = "price"
     }
     
@@ -101,12 +100,21 @@ public final class Business: AVObject, AVSubclassing {
     // Rating for this business (value ranges from 1, 1.5, ... 4.5, 5)
     @NSManaged public var rating: Double
     
-    @NSManaged public var cover: AVFile?
-    public var coverImageUrl: NSURL? {
-        if let url = cover?.url {
-            return NSURL(string: url)
+    @NSManaged private var cover: AVFile?
+    public var cover_: ImageFile? {
+        get {
+            if let url = cover?.url {
+                return ImageFile(url: url)
+            }
+            else {
+                return nil
+            }
         }
-        return nil
+        set {
+            if let newValue = newValue {
+                cover = AVFile(name: newValue.name, data: newValue.data)
+            }
+        }
     }
     
     @NSManaged public var price: Int
@@ -128,14 +136,12 @@ public final class Business: AVObject, AVSubclassing {
     */
     
     
-    @NSManaged public var wantToGoCounter: Int
+    @NSManaged public var aaCount: Int
     
-    /*!
-    Provides a list of category name, alias pairs that this business is associated with. For example,
-    [["Local Flavor", "localflavor"], ["Active Life", "active"], ["Mass Media", "massmedia"]]
-    The alias is provided so you can search with the category_filter.
-    */
-    @NSManaged public var categories: [String]?
+    @NSManaged public var treatCount: Int
+    
+    @NSManaged public var toGoCount: Int
+    
     
     /**
     Location
@@ -172,10 +178,6 @@ public final class Business: AVObject, AVSubclassing {
         }
     }
     
-    public var cllocation: CLLocation {
-        return CLLocation(latitude: geopoint!.latitude, longitude: geopoint!.longitude)
-    }
-    
     @NSManaged public var unit: String?
     
     // Address for this business. Only includes address fields.
@@ -193,11 +195,18 @@ public final class Business: AVObject, AVSubclassing {
     // Postal code for this business
     @NSManaged public var postalCode: String?
     
-    // Cross streets for this business
-    @NSManaged public var crossStreets: String?
-    
-    // List that provides neighborhood(s) information for business
-    @NSManaged public var neighborhoods: [String]?
-    
-    @NSManaged public var geopoint: AVGeoPoint?
+    @NSManaged private var geopoint: AVGeoPoint?
+    public var geolocation: Geolocation? {
+        get {
+            if let geopoint = geopoint {
+                return Geolocation(latitude: geopoint.latitude, longitude: geopoint.longitude)
+            }
+            return nil
+        }
+        set {
+            if let newValue = newValue {
+                geopoint = AVGeoPoint(latitude: newValue.latitude, longitude: newValue.longitude)
+            }
+        }
+    }
 }

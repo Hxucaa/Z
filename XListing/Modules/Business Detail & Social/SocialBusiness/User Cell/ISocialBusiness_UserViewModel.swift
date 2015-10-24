@@ -8,20 +8,12 @@
 
 import Foundation
 import ReactiveCocoa
-import AVOSCloud
 
-public protocol ISocialBusiness_UserViewModel : class {
+public protocol ISocialBusiness_UserViewModel : class, IBasicUserInfoViewModel {
     
     // MARK: - Outputs
-    var profileImage: PropertyOf<UIImage?> { get }
-    var nickname: PropertyOf<String> { get }
-    var ageGroup: PropertyOf<String> { get }
-    var horoscope: PropertyOf<String> { get }
-    var status: PropertyOf<String> { get }
     var participationType: PropertyOf<String> { get }
-    var gender: PropertyOf<String> { get }
-    var user: PropertyOf<User> { get }
     
     // MARK: - Initializers
-    init(participationService: IParticipationService, imageService: IImageService, user: User?, nickname: String?, ageGroup: String?, horoscope: String?, gender: Gender, profileImage: AVFile?)
+    init(participationService: IParticipationService, imageService: IImageService, user: User, nickname: String?, ageGroup: AgeGroup?, horoscope: Horoscope?, gender: Gender, profileImage: ImageFile?, status: String?, participationType: ParticipationType)
 }
