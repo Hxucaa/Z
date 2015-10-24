@@ -33,17 +33,11 @@ public class InfinityScrollConductor<T: UITableView, U: IInfinityScrollDataSourc
             if let this = self {
                 this.infinityScrollable.fetchMoreData()
                     |> on(next: { _ in
-                        MiscLogVerbose("Infinity scroll fetched additional data for infinite scrolling.")
+                        FeaturedLogVerbose("Infinity scroll fetched additional data for infinite scrolling.")
                     })
-                    |> start(
-                        error: { error in
-                            scrollView.ins_endInfinityScroll()
-                            MiscLogError("Infinity scroll error: \(error)")
-                        },
-                        completed: {
-                            scrollView.ins_endInfinityScroll()
-                        }
-                    )
+                    |> start(next: { businesses in
+                        scrollView.ins_endInfinityScroll()
+                    })
             }
         }
         
@@ -61,6 +55,6 @@ public class InfinityScrollConductor<T: UITableView, U: IInfinityScrollDataSourc
     }
     
     deinit {
-        MiscLogVerbose("InfinityScrollConductor deinitializes.")
+        DDLogVerbose("InfinityScrollConductor deinitializes.")
     }
 }

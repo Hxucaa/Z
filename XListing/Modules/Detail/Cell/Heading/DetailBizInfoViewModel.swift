@@ -1,0 +1,125 @@
+//
+//  DetailBizInfoViewModel.swift
+//  XListing
+//
+//  Created by Lance Zhu on 2015-06-13.
+//  Copyright (c) 2015 ZenChat. All rights reserved.
+//
+
+import Foundation
+import ReactiveCocoa
+import MapKit
+import AVOSCloud
+
+private let 我想去 = "\u{f08a} 我想去"
+private let 已参与 = "\u{f004} 以参与"
+
+public struct DetailBizInfoViewModel {
+    
+    // MARK: Inputs
+    
+    // MARK: Outputs
+    public let businessName: ConstantProperty<String>
+    public let locationText: MutableProperty<String> = MutableProperty("")
+    public let participationButtonTitle: MutableProperty<String> = MutableProperty(我想去)
+    public let participationButtonEnabled: MutableProperty<Bool> = MutableProperty(true)
+    
+    // MARK: Properties
+    private let userService: IUserService
+    private let participationService: IParticipationService
+    private let geoLocationService: IGeoLocationService
+    private let business: Business
+    
+
+    
+    /**
+    Participate the business with one of the given choices.
+    
+    :returns: A SignalProcuer indicating if the operation is successful.
+    */
+    public func participate() -> SignalProducer<Bool, NSError> {
+        
+        
+        return self.userService.currentLoggedInUser()
+            |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
+                let p = Participation()
+                p.user = user
+                p.business = self.business
+                // participationType of 0 denotes interested, temporary measure
+                p.type = ParticipationType.Treat
+                return self.participationService.create(p)
+            }
+            |> on(next: { success in
+                // if operation is successful, change the participation button.
+                if success {
+                    self.alreadyParticipating()
+                }
+            })
+    }
+    
+    // MARK; Initializers
+    public init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, business: Business) {
+        // services
+        self.userService = userService
+        self.participationService = participationService
+        self.geoLocationService = geoLocationService
+        
+        self.business = business
+        
+        self.businessName = ConstantProperty(business.nameSChinese!)
+        
+        let city = business.city!
+        locationText.put(city)
+        
+        //
+        setupLocationText(business)
+        setupParticipation(business)
+    }
+    
+    // MARK: Setup
+    /**
+    Setup participation.
+    
+    :param: business The business.
+    */
+    private func setupParticipation(business: Business) -> Disposable {
+        /**
+        *  Query database to check if user has already participated in this business.
+        */
+        return self.userService.currentLoggedInUser()
+            |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Participation, NSError> in
+                typealias Property = Participation.Property
+                let query = Participation.query()
+                
+                query.whereKey(Property.User.rawValue, equalTo: user)
+                query.whereKey(Property.Business.rawValue, equalTo: business)
+                
+                return self.participationService.get(query)
+            }
+            |> start(next: { participation in
+                self.alreadyParticipating()
+            })
+    }
+    
+    /**
+    Setup location text.
+    
+    :param: business The business
+    */
+    private func setupLocationText(business: Business) -> Disposable {
+        /**
+        *  Calculate ETA to the business.
+        */
+        return self.geoLocationService.calculateETA(business.cllocation)
+            |> start(next: { interval in
+                let minute = Int(ceil(interval / 60))
+                self.locationText.put("\(business.city!) \(CITY_DISTANCE_SEPARATOR) 开车\(minute)分钟")
+            })
+    }
+    
+    // MARK: Others
+    private func alreadyParticipating() {
+        participationButtonTitle.put(已参与)
+        participationButtonEnabled.put(false)
+    }
+}

@@ -157,27 +157,6 @@ extension AssetsKit {
         )
     }
     
-    internal class func x_imageOfAddNewPhotoButton(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
-        
-        return self.drawing(
-            draw: {
-                // calculate scaleX and scaleY based on size
-                let scaledX: CGFloat = (sizeToFit ?? drawingSize).width / drawingSize.width
-                let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
-                // change this function to the appropriate drawing function
-                AssetsKit.drawAddNewPhotoButton(scaleX: scaledX, scaleY: scaledY)
-            },
-            
-            sizeToFit: sizeToFit,
-            drawingSize: drawingSize,
-            backgroundColor: backgroundColor,
-            opaque: opaque,
-            imageContextScale: imageContextScale,
-            pressed: pressed,
-            shadow: shadow
-        )
-    }
-    
     internal class func x_imageOfCarIcon(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
         
         return self.drawing(
@@ -440,48 +419,6 @@ extension AssetsKit {
                 let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
                 // change this function to the appropriate drawing function
                 AssetsKit.drawEtcIcon(scaleX: scaledX, scaleY: scaledY)
-            },
-            
-            sizeToFit: sizeToFit,
-            drawingSize: drawingSize,
-            backgroundColor: backgroundColor,
-            opaque: opaque,
-            imageContextScale: imageContextScale,
-            pressed: pressed,
-            shadow: shadow
-        )
-    }
-    
-    internal class func x_imageOfTreatIcon(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
-        
-        return self.drawing(
-            draw: {
-                // calculate scaleX and scaleY based on size
-                let scaledX: CGFloat = (sizeToFit ?? drawingSize).width / drawingSize.width
-                let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
-                // change this function to the appropriate drawing function
-                AssetsKit.drawTreatIcon(scaleX: scaledX, scaleY: scaledY, ifPressed: false)
-            },
-            
-            sizeToFit: sizeToFit,
-            drawingSize: drawingSize,
-            backgroundColor: backgroundColor,
-            opaque: opaque,
-            imageContextScale: imageContextScale,
-            pressed: pressed,
-            shadow: shadow
-        )
-    }
-    
-    internal class func x_imageOfWTGIcon(sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
-        
-        return self.drawing(
-            draw: {
-                // calculate scaleX and scaleY based on size
-                let scaledX: CGFloat = (sizeToFit ?? drawingSize).width / drawingSize.width
-                let scaledY: CGFloat = (sizeToFit ?? drawingSize).height / drawingSize.height
-                // change this function to the appropriate drawing function
-                AssetsKit.drawWTGIcon(scaleX: scaledX, scaleY: scaledY, ifPressed: false)
             },
             
             sizeToFit: sizeToFit,

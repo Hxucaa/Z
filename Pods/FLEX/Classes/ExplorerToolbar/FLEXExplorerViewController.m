@@ -14,7 +14,6 @@
 #import "FLEXGlobalsTableViewController.h"
 #import "FLEXObjectExplorerViewController.h"
 #import "FLEXObjectExplorerFactory.h"
-#import "FLEXNetworkHistoryTableViewController.h"
 
 typedef NS_ENUM(NSUInteger, FLEXExplorerMode) {
     FLEXExplorerModeDefault,
@@ -368,12 +367,21 @@ typedef NS_ENUM(NSUInteger, FLEXExplorerMode) {
 
 - (void)selectButtonTapped:(FLEXToolbarItem *)sender
 {
-    [self toggleSelectTool];
+    if (self.currentMode == FLEXExplorerModeSelect) {
+        self.currentMode = FLEXExplorerModeDefault;
+    } else {
+        self.currentMode = FLEXExplorerModeSelect;
+    }
 }
 
 - (void)hierarchyButtonTapped:(FLEXToolbarItem *)sender
 {
-    [self toggleViewsTool];
+    NSArray *allViews = [self allViewsInHierarchy];
+    NSDictionary *depthsForViews = [self hierarchyDepthsForViews:allViews];
+    FLEXHierarchyTableViewController *hierarchyTVC = [[FLEXHierarchyTableViewController alloc] initWithViews:allViews viewsAtTap:self.viewsAtTapPoint selectedView:self.selectedView depths:depthsForViews];
+    hierarchyTVC.delegate = self;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:hierarchyTVC];
+    [self makeKeyAndPresentViewController:navigationController animated:YES completion:nil];
 }
 
 - (NSArray *)allViewsInHierarchy
@@ -419,12 +427,20 @@ typedef NS_ENUM(NSUInteger, FLEXExplorerMode) {
 
 - (void)moveButtonTapped:(FLEXToolbarItem *)sender
 {
-    [self toggleMoveTool];
+    if (self.currentMode == FLEXExplorerModeMove) {
+        self.currentMode = FLEXExplorerModeDefault;
+    } else {
+        self.currentMode = FLEXExplorerModeMove;
+    }
 }
 
 - (void)globalsButtonTapped:(FLEXToolbarItem *)sender
 {
-    [self toggleMenuTool];
+    FLEXGlobalsTableViewController *globalsViewController = [[FLEXGlobalsTableViewController alloc] init];
+    globalsViewController.delegate = self;
+    [FLEXGlobalsTableViewController setApplicationWindow:[[UIApplication sharedApplication] keyWindow]];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:globalsViewController];
+    [self makeKeyAndPresentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)closeButtonTapped:(FLEXToolbarItem *)sender
@@ -812,105 +828,6 @@ typedef NS_ENUM(NSUInteger, FLEXExplorerMode) {
 - (BOOL)wantsWindowToBecomeKey
 {
     return self.previousKeyWindow != nil;
-}
-
-#pragma mark - Keyboard Shortcut Helpers
-
-- (void)toggleSelectTool
-{
-    if (self.currentMode == FLEXExplorerModeSelect) {
-        self.currentMode = FLEXExplorerModeDefault;
-    } else {
-        self.currentMode = FLEXExplorerModeSelect;
-    }
-}
-
-- (void)toggleMoveTool
-{
-    if (self.currentMode == FLEXExplorerModeMove) {
-        self.currentMode = FLEXExplorerModeDefault;
-    } else {
-        self.currentMode = FLEXExplorerModeMove;
-    }
-}
-
-- (void)toggleViewsTool
-{
-    BOOL viewsModalShown = [[self presentedViewController] isKindOfClass:[UINavigationController class]];
-    viewsModalShown = viewsModalShown && [[[(UINavigationController *)[self presentedViewController] viewControllers] firstObject] isKindOfClass:[FLEXHierarchyTableViewController class]];
-    if (viewsModalShown) {
-        [self resignKeyAndDismissViewControllerAnimated:YES completion:nil];
-    } else {
-        [self resignKeyAndDismissViewControllerAnimated:NO completion:nil];
-        NSArray *allViews = [self allViewsInHierarchy];
-        NSDictionary *depthsForViews = [self hierarchyDepthsForViews:allViews];
-        FLEXHierarchyTableViewController *hierarchyTVC = [[FLEXHierarchyTableViewController alloc] initWithViews:allViews viewsAtTap:self.viewsAtTapPoint selectedView:self.selectedView depths:depthsForViews];
-        hierarchyTVC.delegate = self;
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:hierarchyTVC];
-        [self makeKeyAndPresentViewController:navigationController animated:YES completion:nil];
-    }
-}
-
-- (void)toggleMenuTool
-{
-    BOOL menuModalShown = [[self presentedViewController] isKindOfClass:[UINavigationController class]];
-    menuModalShown = menuModalShown && [[[(UINavigationController *)[self presentedViewController] viewControllers] firstObject] isKindOfClass:[FLEXGlobalsTableViewController class]];
-    if (menuModalShown) {
-        [self resignKeyAndDismissViewControllerAnimated:YES completion:nil];
-    } else {
-        [self resignKeyAndDismissViewControllerAnimated:NO completion:nil];
-        FLEXGlobalsTableViewController *globalsViewController = [[FLEXGlobalsTableViewController alloc] init];
-        globalsViewController.delegate = self;
-        [FLEXGlobalsTableViewController setApplicationWindow:[[UIApplication sharedApplication] keyWindow]];
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:globalsViewController];
-        [self makeKeyAndPresentViewController:navigationController animated:YES completion:nil];
-    }
-}
-
-- (void)handleDownArrowKeyPressed
-{
-    if (self.currentMode == FLEXExplorerModeMove) {
-        CGRect frame = self.selectedView.frame;
-        frame.origin.y += 1.0 / [[UIScreen mainScreen] scale];
-        self.selectedView.frame = frame;
-    } else if (self.currentMode == FLEXExplorerModeSelect && [self.viewsAtTapPoint count] > 0) {
-        NSInteger selectedViewIndex = [self.viewsAtTapPoint indexOfObject:self.selectedView];
-        if (selectedViewIndex > 0) {
-            self.selectedView = [self.viewsAtTapPoint objectAtIndex:selectedViewIndex - 1];
-        }
-    }
-}
-
-- (void)handleUpArrowKeyPressed
-{
-    if (self.currentMode == FLEXExplorerModeMove) {
-        CGRect frame = self.selectedView.frame;
-        frame.origin.y -= 1.0 / [[UIScreen mainScreen] scale];
-        self.selectedView.frame = frame;
-    } else if (self.currentMode == FLEXExplorerModeSelect && [self.viewsAtTapPoint count] > 0) {
-        NSInteger selectedViewIndex = [self.viewsAtTapPoint indexOfObject:self.selectedView];
-        if (selectedViewIndex < [self.viewsAtTapPoint count] - 1) {
-            self.selectedView = [self.viewsAtTapPoint objectAtIndex:selectedViewIndex + 1];
-        }
-    }
-}
-
-- (void)handleRightArrowKeyPressed
-{
-    if (self.currentMode == FLEXExplorerModeMove) {
-        CGRect frame = self.selectedView.frame;
-        frame.origin.x += 1.0 / [[UIScreen mainScreen] scale];
-        self.selectedView.frame = frame;
-    }
-}
-
-- (void)handleLeftArrowKeyPressed
-{
-    if (self.currentMode == FLEXExplorerModeMove) {
-        CGRect frame = self.selectedView.frame;
-        frame.origin.x -= 1.0 / [[UIScreen mainScreen] scale];
-        self.selectedView.frame = frame;
-    }
 }
 
 @end

@@ -36,15 +36,16 @@ public final class LogInViewController : XUIViewController {
         containerView = UINib(nibName: ContainerViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! ContainerView
         
         usernameAndPasswordView = UINib(nibName: UsernameAndPasswordViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UsernameAndPasswordView
+        
+        containerView.midStack.addSubview(usernameAndPasswordView)
+        view = containerView
+        layout(usernameAndPasswordView) { view in
+            view.center == view.superview!.center
+        }
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        containerView.midStack.addSubview(usernameAndPasswordView)
-        
-        view = containerView
         
         /**
         *  Setup submit button
@@ -52,17 +53,12 @@ public final class LogInViewController : XUIViewController {
         let submitButton = usernameAndPasswordView.signUpButton
         containerView.bottomStack.addSubview(submitButton)
         
-        
-        constrain(usernameAndPasswordView) { view in
-            view.center == view.superview!.center
-        }
-        
-        constrain(submitButton) { b in
+        layout(submitButton) { b in
             b.width == submitButton.frame.width
             b.height == submitButton.frame.height
         }
         
-        constrain(submitButton, containerView.bottomStack) { button, stack in
+        layout(submitButton, containerView.bottomStack) { button, stack in
             button.topMargin == stack.topMargin
             button.centerX == stack.centerX
         }

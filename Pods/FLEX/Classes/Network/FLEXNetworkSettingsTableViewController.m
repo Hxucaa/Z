@@ -39,6 +39,9 @@
     UITableViewCell *networkDebuggingCell = [self switchCellWithTitle:@"Network Debugging" toggleAction:@selector(networkDebuggingToggled:) isOn:[FLEXNetworkObserver isEnabled]];
     [mutableCells addObject:networkDebuggingCell];
 
+    UITableViewCell *enableOnLaunchCell = [self switchCellWithTitle:@"Enable on Launch" toggleAction:@selector(enableOnLaunchToggled:) isOn:[FLEXNetworkObserver shouldEnableOnLaunch]];
+    [mutableCells addObject:enableOnLaunchCell];
+
     UITableViewCell *cacheMediaResponsesCell = [self switchCellWithTitle:@"Cache Media Responses" toggleAction:@selector(cacheMediaResponsesToggled:) isOn:NO];
     [mutableCells addObject:cacheMediaResponsesCell];
 
@@ -59,6 +62,11 @@
 - (void)networkDebuggingToggled:(UISwitch *)sender
 {
     [FLEXNetworkObserver setEnabled:sender.isOn];
+}
+
+- (void)enableOnLaunchToggled:(UISwitch *)sender
+{
+    [FLEXNetworkObserver setShouldEnableOnLaunch:sender.isOn];
 }
 
 - (void)cacheMediaResponsesToggled:(UISwitch *)sender

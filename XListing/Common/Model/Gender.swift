@@ -21,7 +21,7 @@ public enum Gender : Printable {
         }
     }
     
-    public var dbRepresentation: Bool {
+    public var value: Bool {
         switch self {
         case .Male:
             return true

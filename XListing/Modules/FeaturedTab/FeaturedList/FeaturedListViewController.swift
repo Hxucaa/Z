@@ -13,8 +13,7 @@ import Dollar
 import Cartography
 
 private let CellIdentifier = "Cell"
-private let CellHeightToScreenWidthRatio = 0.565
-private let CellRowHeight = round(UIScreen.mainScreen().bounds.width * CGFloat(CellHeightToScreenWidthRatio))
+private let CellHeightToScreenWidthRatio = 0.64
 
 /**
 How is Infinite Scrolling implemented?
@@ -37,17 +36,20 @@ public final class FeaturedListViewController: XUIViewController {
         // makes the gap at the bottom of the table view go away
         tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         
-        tableView.separatorStyle = .None
+        
         tableView.dataSource = self
         
         // set cell height based on devices
-        tableView.rowHeight = round(UIScreen.mainScreen().bounds.width * CGFloat(CellHeightToScreenWidthRatio))
+        tableView.rowHeight = UIScreen.mainScreen().bounds.width * CGFloat(CellHeightToScreenWidthRatio)
+        
+        tableView.registerClass(FeaturedListBusinessTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
         
         return tableView
         
     }()
     
     private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, FeaturedListViewModel>!
+//    private let statusBarBackgroundView = StatusBarBackgroundView()
     
     // MARK: - Properties
     private var viewmodel: IFeaturedListViewModel!
@@ -59,13 +61,12 @@ public final class FeaturedListViewController: XUIViewController {
         
         title = "推荐"
         navigationController?.navigationBar.tintColor = UIColor.blackColor()
-        navigationController?.navigationBar.barTintColor = UIColor.x_PrimaryColor()
         navigationController?.setNavigationBarHidden(false, animated: false)
         
         view.opaque = true
-        view.backgroundColor = UIColor.x_FeaturedTableBG()
+        view.backgroundColor = UIColor.grayColor()
         
-        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! FeaturedListViewModel)
+        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: viewmodel as! FeaturedListViewModel)
         
         view.addSubview(tableView)
         
@@ -90,7 +91,9 @@ public final class FeaturedListViewController: XUIViewController {
         
         navigationController?.navigationBarHidden = false
         navigationController?.hidesBarsOnSwipe = true
-
+        
+        // add statusBarBackgroundView to navigationController
+//        navigationController?.view.addSubview(statusBarBackgroundView)
         navigationController?.navigationBar.translucent = false
         
         compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
@@ -99,12 +102,12 @@ public final class FeaturedListViewController: XUIViewController {
             |> start()
         
         willAppearTableView()
-        
     }
     
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
+//        statusBarBackgroundView.removeFromSuperview()
     }
     
     public override func viewDidAppear(animated: Bool) {
@@ -178,8 +181,7 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as? FeaturedListBusinessTableViewCell ?? FeaturedListBusinessTableViewCell(estimatedFrame: CGRectMake(0, 0, tableView.frame.width, CellRowHeight), style: UITableViewCellStyle.Default, reuseIdentifier: CellIdentifier)
-        
+        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as! FeaturedListBusinessTableViewCell
         cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return cell
     }

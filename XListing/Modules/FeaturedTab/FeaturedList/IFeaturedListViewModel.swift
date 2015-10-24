@@ -11,12 +11,7 @@ import ReactiveCocoa
 import ReactiveArray
 
 public protocol IFeaturedListViewModel : IInfinityScrollDataSource, IPullToRefreshDataSource, IPredictiveScrollDataSource {
-    
-    // MARK: - Outputs
-    
     var collectionDataSource: ReactiveArray<FeaturedBusinessViewModel> { get }
-    
     init(businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService,  participationService: IParticipationService)
-    
     func pushSocialBusinessModule(section: Int)
 }

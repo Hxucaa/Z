@@ -19,15 +19,14 @@ public final class ProfileTabContent : ITabContent {
     private let profileWireframe: IProfileWireframe
     private let socialBusinessWireframe: ISocialBusinessWireframe
     private let profileEditWireframe: IProfileEditWireframe
-    private let fullScreenImageWireframe: IFullScreenImageWireframe
     
-    public init(profileWireframe: IProfileWireframe, socialBusinessWireframe: ISocialBusinessWireframe, profileEditWireframe: IProfileEditWireframe, fullScreenImageWireframe: IFullScreenImageWireframe) {
+    public init(profileWireframe: IProfileWireframe, socialBusinessWireframe: ISocialBusinessWireframe, profileEditWireframe: IProfileEditWireframe) {
         profileTabNavigationController = ProfileTabNavigationController(rootViewController: profileWireframe.rootViewController)
         
         self.profileWireframe = profileWireframe
         self.socialBusinessWireframe = socialBusinessWireframe
         self.profileEditWireframe = profileEditWireframe
-        self.fullScreenImageWireframe = fullScreenImageWireframe
+
         self.profileWireframe.navigationControllerDelegate = self
     }
 
@@ -39,11 +38,7 @@ extension ProfileTabContent : ProfileNavigationControllerDelegate {
         profileTabNavigationController.pushViewController(socialBusinessWireframe.viewController(business), animated: animated)
     }
 
-        public func presentProfileEdit(animated: Bool, completion: CompletionHandler?) {
-        profileTabNavigationController.presentViewController(profileEditWireframe.viewController(), animated: true, completion: completion)
-    }
-    
-    public func presentFullScreenImage(animated: Bool, completion: CompletionHandler?) {
-        profileTabNavigationController.presentViewController(fullScreenImageWireframe.viewController(), animated: true, completion: completion)
+    public func presentProfileEdit<T: User>(user: T, animated: Bool, completion: CompletionHandler?) {
+        profileTabNavigationController.presentViewController(profileEditWireframe.viewController(user), animated: true, completion: completion)
     }
 }

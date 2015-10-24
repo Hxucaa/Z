@@ -9,10 +9,6 @@
 import Foundation
 
 public protocol IProfileEditWireframe : class {
-    
-    // MARK: - Initializers
-    
-    init(userService: IUserService, imageService: IImageService)
-    
-    func viewController() -> ProfileEditViewController
+    init(userService: IUserService)
+    func viewController(user: User) -> ProfileEditViewController
 }

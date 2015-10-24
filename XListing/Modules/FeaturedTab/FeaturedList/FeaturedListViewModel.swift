@@ -8,6 +8,7 @@
 
 import Foundation
 import ReactiveCocoa
+import AVOSCloud
 import Dollar
 import ReactiveArray
 
@@ -37,7 +38,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
     
     // MARK: Variables
     public weak var navigator: FeaturedListNavigator!
-    private var businessArr = [Business]()
+    private let businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
     private var numberOfBusinessesLoaded = 0
     
     // MARK: - Initializers
@@ -78,7 +79,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
     }
     
     public func pushSocialBusinessModule(section: Int) {
-        navigator.pushSocialBusiness(businessArr[section])
+        navigator.pushSocialBusiness(businessArr.value[section])
     }
     
     // MARK: - Others
@@ -101,8 +102,8 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
             query.skip = numberOfBusinessesLoaded
         }
         
-        return businessService.findBy(query)
-            |> map { $.shuffle($0) }
+        return SignalProducer<[Business], NSError>.empty
+            |> then(businessService.findBy(query))
             |> on(next: { businesses in
                 
                 if refresh {
@@ -110,21 +111,21 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
                     self.numberOfBusinessesLoaded = businesses.count
                     
                     // ignore old data, put in new array
-                    self.businessArr = businesses
+                    self.businessArr.put(businesses)
                 }
                 else {
                     // increment numberOfBusinessesLoaded
                     self.numberOfBusinessesLoaded += businesses.count
                     
                     // save the new data in addition to the old ones
-                    self.businessArr.extend(businesses)
+                    self.businessArr.put(self.businessArr.value + businesses)
                 }
             })
             |> map { businesses -> [FeaturedBusinessViewModel] in
                 
                 // map the business models to viewmodels
                 return businesses.map {
-                    FeaturedBusinessViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, cover: $0.cover_, geolocation: $0.geolocation, treatCount: $0.treatCount, aaCount: $0.aaCount, toGoCount: $0.toGoCount, business: $0)
+                    FeaturedBusinessViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, cover: $0.cover, geopoint: $0.geopoint, participationCount: $0.wantToGoCounter, business: $0)
                 }
             }
             |> on(

@@ -38,7 +38,8 @@ public final class BackgroundLocationWorker : NSObject, IBackgroundLocationWorke
         userService.currentLoggedInUser()
             |> flatMap(.Concat) { user -> SignalProducer<Bool, NSError> in
                 
-                user.latestGeolocation = Geolocation(location: newLocation)
+                let latestLocation = AVGeoPoint(location: newLocation)
+                user.latestLocation = latestLocation
                 return self.userService.save(user)
             }
             |> on(

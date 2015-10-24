@@ -32,8 +32,9 @@ public final class SocialBusinessViewController : XUIViewController {
         tableView.opaque = true
         tableView.tableHeaderView = self.headerView
         tableView.separatorInset = UIEdgeInsetsMake(0, 8, 0, 8)
-        tableView.backgroundColor = .whiteColor()
+        tableView.backgroundColor = .x_FeaturedCardBG()
         tableView.rowHeight = CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
+        
         tableView.dataSource = self
         
         return tableView
@@ -47,7 +48,8 @@ public final class SocialBusinessViewController : XUIViewController {
     
     private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
         let view = SocialBusiness_UtilityHeaderView()
-        view.setDetailInfoButtonStyleRegular()
+        
+        
         return view
     }()
     
@@ -63,30 +65,26 @@ public final class SocialBusinessViewController : XUIViewController {
     }
     private let compositeDisposable = CompositeDisposable()
     private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, SocialBusinessViewModel>!
-    
+
     // MARK: - Setups
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.addSubview(tableView)
-        navigationController?.setNavigationBarHidden(true, animated: true)
         
         constrain(tableView) { view in
-            view.top == view.superview!.top - 20
+            view.top == view.superview!.top
             view.trailing == view.superview!.trailing
             view.bottom == view.superview!.bottom
             view.leading == view.superview!.leading
         }
         
-        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! SocialBusinessViewModel)
+        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: viewmodel as! SocialBusinessViewModel)
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        navigationController?.setNavigationBarHidden(true, animated: false)
-        navigationController?.hidesBarsOnSwipe = false
-        utilityHeaderView.setDetailInfoButtonStyleRegular()
         
         compositeDisposable += viewmodel.fetchMoreData()
             |> take(1)
@@ -155,11 +153,6 @@ public final class SocialBusinessViewController : XUIViewController {
     public override func prefersStatusBarHidden() -> Bool {
         return true
     }
-    
-    public func getHeaderDestinationPoint() -> CGPoint {
-        let headerRect = view.convertRect(headerView.frame, fromView: headerView)
-        return headerRect.origin
-    }
 
     // MARK: - Bindings
     
@@ -174,12 +167,12 @@ public final class SocialBusinessViewController : XUIViewController {
 extension SocialBusinessViewController : UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return 10//viewmodel.collectionDataSource.count
+        return viewmodel.collectionDataSource.count
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as! SocialBusiness_UserCell
-        //cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
+        cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return cell
     }
     
@@ -188,7 +181,7 @@ extension SocialBusinessViewController : UITableViewDelegate, UITableViewDataSou
     }
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 59
+        return 50
     }
 }
 
@@ -200,13 +193,24 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
             // convert to navigation controller's coordinate system so that the height of status bar and navigation bar is taken into account of
             let start: CGRect
             var destination = CGPointMake(0, 0)
-
-            start = view.convertRect(headerView.frame, fromView: headerView)
+            if let nav = self.navigationController {
+                start = nav.view.convertRect(headerView.frame, fromView: headerView)
+                if !nav.navigationBarHidden {
+                    destination.y += nav.navigationBar.frame.height
+                }
+                
+            }
+            else {
+                start = view.convertRect(headerView.frame, fromView: headerView)
+            }
+            
+            let app = UIApplication.sharedApplication()
+            if !app.statusBarHidden {
+                destination.y += app.statusBarFrame.size.height
+            }
             
             if let image = viewmodel.businessCoverImage {
-                let animateHeaderView = SocialBusinessHeaderView(frame: headerView.frame)
-                animateHeaderView.bindToViewModel(viewmodel.headerViewModel)
-                return SBtoBDAnimator(startRect: start, destination: destination, headerView: animateHeaderView, utilityHeaderView: self.utilityHeaderView)
+                return UIImageSlideAnimator(startRect: start, destination: destination, image: image)
             }
             else {
                 return nil
@@ -215,4 +219,3 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
         return nil
     }
 }
-

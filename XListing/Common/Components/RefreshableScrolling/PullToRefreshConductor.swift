@@ -34,7 +34,7 @@ public class PullToRefreshConductor<T: UITableView, U: IPullToRefreshDataSource>
                 let startTime = NSDate.timeIntervalSinceReferenceDate()
                 this.pullToRefreshable.refreshData()
                     |> on(next: { _ in
-                        MiscLogVerbose("Pull to refresh fetched additional data for infinite scrolling.")
+                        DDLogVerbose("Pull to refresh fetched additional data for infinite scrolling.")
                     })
                     |> flatMap(.Merge) { _ -> SignalProducer<Void, NSError> in
                         
@@ -57,14 +57,10 @@ public class PullToRefreshConductor<T: UITableView, U: IPullToRefreshDataSource>
                         }
                     }
                     |> start(
-                        error: { error in
-                            scrollView.ins_endPullToRefresh()
-                            MiscLogError("Pull to refresh error: \(error)")
-                        },
                         completed: {
                             scrollView.ins_endPullToRefresh()
                         }
-                    )
+                )
             }
         }
         
@@ -81,7 +77,7 @@ public class PullToRefreshConductor<T: UITableView, U: IPullToRefreshDataSource>
     }
     
     deinit {
-        MiscLogVerbose("PullToRefreshConductor deinitializes.")
+        DDLogVerbose("PullToRefreshConductor deinitializes.")
     }
 }
 

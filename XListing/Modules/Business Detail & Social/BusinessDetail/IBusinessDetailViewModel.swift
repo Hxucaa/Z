@@ -11,14 +11,12 @@ import ReactiveCocoa
 
 public protocol IBusinessDetailViewModel : class {
     var businessName: PropertyOf<String> { get }
-    var headerViewModel: SocialBusinessHeaderViewModel { get }
 //    var detailImageViewModel: DetailImageViewModel { get }
-    var detailAddressAndMapViewModel: DetailAddressAndMapViewModel { get }
-    var detailPhoneWebViewModel: DetailPhoneWebViewModel { get }
+//    var detailAddressAndMapViewModel: DetailAddressAndMapViewModel { get }
+//    var detailPhoneWebViewModel: DetailPhoneWebViewModel { get }
 //    var detailBizInfoViewModel: DetailBizInfoViewModel { get }
-    var detailNavigationMapViewModel: DetailNavigationMapViewModel { get }
+//    var detailNavigationMapViewModel: DetailNavigationMapViewModel { get }
 //    var detailParticipationViewModel: DetailParticipationViewModel { get }
-    var businessHourViewModel: BusinessHourCellViewModel { get }
     init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, business: Business)
     
 }

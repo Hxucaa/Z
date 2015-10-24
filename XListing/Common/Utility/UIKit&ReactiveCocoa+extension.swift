@@ -20,7 +20,6 @@ private struct AssociationKey {
     static var maximumDate: UInt = 8
     static var image: UInt8 = 9
     static var optionalText: UInt8 = 10
-    static var backgroundColor: UInt8 = 11
 }
 
 // lazily creates a gettable associated property via the given factory
@@ -29,7 +28,7 @@ private func lazyAssociatedProperty<T: AnyObject>(host: AnyObject, key: UnsafePo
         let associatedProperty = factory()
         objc_setAssociatedObject(host, key, associatedProperty, UInt(OBJC_ASSOCIATION_RETAIN))
         return associatedProperty
-    }()
+        }()
 }
 
 private func lazyMutableProperty<T>(host: AnyObject, key: UnsafePointer<Void>, setter: T -> (), getter: () -> T) -> MutableProperty<T> {
@@ -58,11 +57,6 @@ extension UIView {
     public var rac_hidden: MutableProperty<Bool> {
         return lazyMutableProperty(self, &AssociationKey.hidden, { self.hidden = $0 }, { self.hidden  })
     }
-    
-    public var rac_backgroundColor: MutableProperty<UIColor?> {
-        return lazyMutableProperty(self, &AssociationKey.backgroundColor, { self.backgroundColor = $0 }, { self.backgroundColor })
-    }
-    
 }
 
 extension UILabel {

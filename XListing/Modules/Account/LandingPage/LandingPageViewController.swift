@@ -67,8 +67,13 @@ public final class LandingPageViewController: XUIViewController {
 
     }
     
-    deinit {
+    public override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
         compositeDisposable.dispose()
+    }
+    
+    deinit {
         AccountLogVerbose("Landing Page View Controller deinitializes.")
     }
     

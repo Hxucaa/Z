@@ -16,7 +16,7 @@ public final class User: AVUser, AVSubclassing {
         case NickName = "nickname"
         case ProfileImg = "profileImg"
         case Profile = "profile"
-        case LatestGeolocation = "latestLocation"
+        case LatestLocation = "latestLocation"
         case Gender = "gender"
         case Horoscope = "horoscope"
         case AgeGroup = "ageGroup"
@@ -46,66 +46,19 @@ public final class User: AVUser, AVSubclassing {
     }
     
     @NSManaged public var birthday: NSDate?
-    
     @NSManaged public var nickname: String?
-    
-    @NSManaged private var profileImg: AVFile?
-    public var profileImg_: ImageFile? {
-        get {
-            if let url = profileImg?.url {
-                return ImageFile(url: url)
-            }
-            else {
-                return nil
-            }
-        }
-        set {
-            if let newValue = newValue {
-                profileImg = AVFile(name: newValue.name, data: newValue.data)
-            }
-        }
-    }
-    
+    @NSManaged public var profileImg: AVFile?
     @NSManaged public var profile: Profile
-    
-    @NSManaged private var latestLocation: AVGeoPoint?
-    public var latestGeolocation: Geolocation? {
-        get {
-            if let latestLocation = latestLocation {
-                return Geolocation(latitude: latestLocation.latitude, longitude: latestLocation.longitude)
-            }
-            return nil
-        }
-        set {
-            if let newValue = newValue {
-                latestLocation = AVGeoPoint(latitude: newValue.latitude, longitude: newValue.longitude)
-            }
-        }
-    }
-    
+    @NSManaged public var latestLocation: AVGeoPoint?
     @NSManaged private var gender: Bool
     public var gender_: Gender {
         get {
             return gender ? Gender.Male : Gender.Female
         }
         set {
-            gender = newValue.dbRepresentation
+            gender = newValue.value
         }
     }
-    
-    @NSManaged private var horoscope: Int
-    public var horoscope_: Horoscope? {
-        get {
-            return Horoscope(rawValue: horoscope)
-        }
-    }
-    
-    @NSManaged private var ageGroup: Int
-    public var ageGroup_: AgeGroup? {
-        get {
-            return AgeGroup(rawValue: ageGroup)
-        }
-    }
-    
-    @NSManaged public var status: String?
+    @NSManaged public var horoscope: String?
+    @NSManaged public var ageGroup: String?
 }

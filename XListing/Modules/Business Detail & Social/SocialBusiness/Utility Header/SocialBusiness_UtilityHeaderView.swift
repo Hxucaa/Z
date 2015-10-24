@@ -20,13 +20,11 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
         let button = UIButton()
         
         button.titleLabel?.opaque = true
-        button.titleLabel?.backgroundColor = .whiteColor()
+        button.titleLabel?.backgroundColor = .x_FeaturedCardBG()
         button.titleLabel?.layer.masksToBounds = true
-        button.titleLabel?.font = UIFont.boldSystemFontOfSize(18)
         button.setTitle("详细信息", forState: .Normal)
         button.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button.backgroundColor = .whiteColor()
-        button.layer.cornerRadius = 5
+        button.backgroundColor = .x_FeaturedCardBG()
         
         let press = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
@@ -46,15 +44,11 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
         let button = UIButton()
         
         button.titleLabel?.opaque = true
-        button.titleLabel?.backgroundColor = .whiteColor()
+        button.titleLabel?.backgroundColor = .x_FeaturedCardBG()
         button.titleLabel?.layer.masksToBounds = true
-        button.titleLabel?.font = UIFont.boldSystemFontOfSize(18)
         button.setTitle("约起", forState: .Normal)
-        button.setTitleColor(UIColor.x_PrimaryColor(), forState: .Normal)
-        button.backgroundColor = .whiteColor()
-        button.layer.cornerRadius = 5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.x_PrimaryColor().CGColor
+        button.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        button.backgroundColor = .x_FeaturedCardBG()
         
         let press = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink, disposable in
@@ -87,6 +81,7 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
     // MARK: - Initializers
     public init() {
         super.init(frame: CGRectMake(0, 0, 0, 0))
+        
         setup()
     }
     
@@ -96,30 +91,6 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
         setup()
     }
     
-    // set the button style to have a grey background and an x icon
-    public func setDetailInfoButtonStyleSelected() {
-        detailInfoButton.backgroundColor = UIColor.grayColor()
-        detailInfoButton.titleLabel?.backgroundColor = UIColor.grayColor()
-        detailInfoButton.titleLabel?.textColor = UIColor.whiteColor()
-        let xAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: "FontAwesome", size: 18)!]
-        var xAttributedString = NSAttributedString(string: Icons.X, attributes: xAttributes)
-        let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.boldSystemFontOfSize(18)]
-        var attributedString = NSMutableAttributedString(string: "详细信息 ", attributes: attributes)
-        attributedString.appendAttributedString(xAttributedString)
-        detailInfoButton.setAttributedTitle(attributedString, forState: UIControlState.Normal)
-        
-    }
-    
-    // restore the button style to default white background and no x
-    public func setDetailInfoButtonStyleRegular() {
-        detailInfoButton.backgroundColor = UIColor.whiteColor()
-        detailInfoButton.titleLabel?.backgroundColor = UIColor.whiteColor()
-        detailInfoButton.titleLabel?.textColor = UIColor.blackColor()
-        let attributes = [NSForegroundColorAttributeName: UIColor.blackColor(), NSFontAttributeName: UIFont.boldSystemFontOfSize(18)]
-        var attributedString = NSMutableAttributedString(string: "详细信息", attributes: attributes)
-        detailInfoButton.setAttributedTitle(attributedString, forState: .Normal)
-    }
-    
     public required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -127,24 +98,22 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
     // MARK: - Setups
     
     private func setup() {
-        backgroundColor = .whiteColor()
+        backgroundColor = .x_FeaturedCardBG()
         opaque = true
         
         addSubview(detailInfoButton)
         addSubview(startEventButton)
         
         constrain(detailInfoButton) { view in
-            view.top == view.superview!.top+12
-            view.bottom == view.superview!.bottom-12
-            view.leading == view.superview!.leadingMargin + 48
-            view.width == 110
+            view.top == view.superview!.top
+            view.bottom == view.superview!.bottom
+            view.leading == view.superview!.leadingMargin + 50
         }
         
         constrain(startEventButton) { view in
-            view.top == view.superview!.top+12
-            view.bottom == view.superview!.bottom-12
-            view.trailing == view.superview!.trailingMargin - 16
-            view.width == 90
+            view.top == view.superview!.top
+            view.bottom == view.superview!.bottom
+            view.trailing == view.superview!.trailingMargin - 50
         }
     }
 }

@@ -18,7 +18,6 @@ public protocol NearbyNavigationControllerDelegate : class {
 
 public final class NearbyWireframe : INearbyWireframe {
     
-    
     public var rootViewController: UIViewController {
         return initViewController()
     }

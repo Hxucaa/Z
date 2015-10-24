@@ -12,14 +12,44 @@ import ReactiveArray
 import Dollar
 import AVOSCloud
 
-public final class SocialBusiness_UserViewModel : BasicUserInfoViewModel, ISocialBusiness_UserViewModel {
+// TODO: make this class conform to `ISocialBusiness_UserViewModel`
+public final class SocialBusiness_UserViewModel {
     
     // MARK: - Outputs
+    public var profileImage: PropertyOf<UIImage?> {
+        return PropertyOf(_profileImage)
+    }
+    public var nickname: PropertyOf<String> {
+        return PropertyOf(_nickname)
+    }
+    public var ageGroup: PropertyOf<String> {
+        return PropertyOf(_ageGroup)
+    }
+    public var horoscope: PropertyOf<String> {
+        return PropertyOf(_horoscope)
+    }
+//    public var status: PropertyOf<String> {
+//        return PropertyOf(_status)
+//    }
+//    public var participationType: PropertyOf<String> {
+//        return PropertyOf(_participationType)
+//    }
+    public var gender: PropertyOf<String> {
+        return PropertyOf(_gender)
+    }
     
-    private let _participationType: MutableProperty<String>
-    public var participationType: PropertyOf<String> {
-        return PropertyOf(_participationType)
-    }    
+    public var user: PropertyOf<User> {
+        return PropertyOf(_user)
+    }
+    
+    private let _nickname: MutableProperty<String>
+    private let _ageGroup: MutableProperty<String>
+    private let _horoscope: MutableProperty<String>
+//    private let _status: MutableProperty<String>
+//    private let _participationType: MutableProperty<String>
+    private let _gender: MutableProperty<String>
+    private let _profileImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.profilepicture))
+    private let _user: MutableProperty<User>
     
     // MARK: - Properties
     private let imageService: IImageService
@@ -27,12 +57,54 @@ public final class SocialBusiness_UserViewModel : BasicUserInfoViewModel, ISocia
 
     
     // MARK: - Initializers
-    public init(participationService: IParticipationService, imageService: IImageService, user: User, nickname: String?, ageGroup: AgeGroup?, horoscope: Horoscope?, gender: Gender, profileImage: ImageFile?, status: String?, participationType: ParticipationType) {
+    public init(participationService: IParticipationService, imageService: IImageService, user: User?, nickname: String?, ageGroup: String?, horoscope: String?, gender: Gender, profileImage: AVFile?) {
         self.participationService = participationService
         self.imageService = imageService
         
-        _participationType = MutableProperty(convertParticipationType(participationType))
+        if let user = user {
+            _user = MutableProperty(user)
+        } else {
+            _user = MutableProperty(User())
+        }
         
-        super.init(imageService: imageService, user: user, nickname: nickname, ageGroup: ageGroup, horoscope: horoscope, gender: gender, profileImage: profileImage, status: status)
+        if let nickname = nickname {
+            _nickname = MutableProperty(nickname)
+        } else {
+            _nickname = MutableProperty("")
+        }
+        
+        if let ageGroup = ageGroup {
+            _ageGroup = MutableProperty(ageGroup)
+        } else {
+            _ageGroup = MutableProperty("")
+        }
+        
+        if let horoscope = horoscope {
+            _horoscope = MutableProperty(horoscope)
+        } else {
+            _horoscope = MutableProperty("")
+        }
+        
+//        if let status = status {
+//            _status = MutableProperty(status)
+//        } else {
+//            _status = MutableProperty("")
+//        }
+//        
+//        if let participationType = participationType {
+//            _participationType = MutableProperty(participationType)
+//        } else {
+//            _participationType = MutableProperty("")
+//        }
+        
+        _gender = MutableProperty(gender.description)
+        
+
+        if let url = profileImage?.url, nsurl = NSURL(string: url) {
+            self.imageService.getImage(nsurl)
+                |> start(next: {
+                    self._profileImage.put($0)
+                })
+        }
     }
 }

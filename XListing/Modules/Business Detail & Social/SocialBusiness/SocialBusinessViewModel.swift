@@ -68,7 +68,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
             _businessName = MutableProperty("")
         }
         
-        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: geoLocationService, imageService: imageService, cover: businessModel.cover_, businessName: businessModel.nameSChinese, city: businessModel.city, geolocation: businessModel.geolocation)
+        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, imageURL: businessModel.coverImageUrl, businessName: businessModel.nameSChinese, city: businessModel.city, geopoint: businessModel.geopoint)
     }
     
     // MARK: - API
@@ -96,7 +96,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     }
     
     public func pushUserProfile(index: Int, animated: Bool) {
-        navigator.pushUserProfile(collectionDataSource.array[index].user, animated: true)
+        navigator.pushUserProfile(collectionDataSource.array[index].user.value, animated: true)
         
     }
     
@@ -107,7 +107,9 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         query.includeKey(User_Business_Participation.Property.User.rawValue)
         query.whereKey(User_Business_Participation.Property.Business.rawValue, equalTo: business)
 
-        return participationService.findBy(query)
+        
+        return SignalProducer<[Participation], NSError>.empty
+            |> then(participationService.findBy(query))
             |> on(next: { participation in
                 
                 if refresh {
@@ -120,9 +122,10 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
                 }
             })
             |> map { participations -> [SocialBusiness_UserViewModel] in
-
+//                let t = participations[0].user.nickname
+                
                 return participations.map {
-                    SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, nickname: $0.user.nickname, ageGroup: $0.user.ageGroup_, horoscope: $0.user.horoscope_, gender: $0.user.gender_, profileImage: $0.user.profileImg_, status: $0.user.status, participationType: $0.type)
+                    SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, nickname: $0.user.nickname, ageGroup: $0.user.ageGroup, horoscope: $0.user.horoscope, gender: $0.user.gender_, profileImage: $0.user.profileImg)
                 }
 
             }
@@ -142,7 +145,10 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     }
     
     public func pushBusinessDetail(animated: Bool) {
+        let business = Business()
+        business.nameSChinese = "hahah"
         navigator.pushBusinessDetail(business, animated: animated)
+        
     }
     
     

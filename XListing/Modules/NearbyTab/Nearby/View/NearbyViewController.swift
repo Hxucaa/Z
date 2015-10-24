@@ -98,7 +98,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                     if let this = self {
                         switch operation {
                         case let .Initiate(boxedValues):
-                            this.mapView.addAnnotations(boxedValues.value.filter( { $0.annotation.value != nil } ).map { $0.annotation.value })
+                            this.mapView.addAnnotations(boxedValues.value.map { $0.annotation.value })
                             this.businessCollectionView.reloadData()
                             
                         case let .Extend(boxedValues):

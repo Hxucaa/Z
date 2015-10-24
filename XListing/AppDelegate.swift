@@ -10,6 +10,7 @@ import UIKit
 import Fabric
 import Crashlytics
 
+
 @UIApplicationMain
 public final class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -19,12 +20,11 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     private var appDependencies: AppDependencies!
     private let backgroundOperationsWorkerFactory: IBackgroundOperationsWorkerFactory = BackgroundOperationsWorkerFactory()
-    private var mainThreadWatchdog = MainThreadWatchdog()
     
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-
+        
         // configure CocoaLumberjack
         Logger.configure()
         
@@ -54,7 +54,6 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
     public func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        mainThreadWatchdog.stopMonitoring()
     }
 
     public func applicationWillEnterForeground(application: UIApplication) {
@@ -63,7 +62,6 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        mainThreadWatchdog.startMonitoring()
     }
 
     public func applicationWillTerminate(application: UIApplication) {
@@ -75,6 +73,5 @@ public final class AppDelegate: UIResponder, UIApplicationDelegate {
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "NotFirstLaunch")
         }
     }
-    
 }
 

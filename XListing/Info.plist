@@ -44,7 +44,6 @@
 	<array>
 		<string>fontawesome-webfont.ttf</string>
 		<string>NotoSansCJKsc-Bold.otf</string>
-		<string>NotoSans-Regular.tff</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
@@ -73,18 +72,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>amazonaws.com</key>
-			<dict>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-		</dict>
-	</dict>
 </dict>
 </plist>
