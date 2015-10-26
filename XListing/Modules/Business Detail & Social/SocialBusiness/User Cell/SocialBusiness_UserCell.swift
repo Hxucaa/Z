@@ -47,7 +47,7 @@ public final class SocialBusiness_UserCell : UITableViewCell {
     
     private lazy var nicknameLabel: UILabel = {
         
-        let label = UILabel(frame: CGRectMake(0, 0, 68, 25))
+        let label = UILabel(frame: CGRectMake(0, 0, 68, 17))
         label.opaque = true
         label.backgroundColor = .whiteColor()
         label.layer.masksToBounds = true
@@ -57,7 +57,7 @@ public final class SocialBusiness_UserCell : UITableViewCell {
     
     private lazy var participationTypeLabel: UILabel = {
         
-        let label = UILabel(frame: CGRectMake(0, 0, 50, 22))
+        let label = UILabel(frame: CGRectMake(0, 0, 50, 17))
         label.opaque = true
         label.backgroundColor = .whiteColor()
         label.layer.masksToBounds = true
@@ -81,14 +81,15 @@ public final class SocialBusiness_UserCell : UITableViewCell {
     
     private lazy var ageGroupLabel: AgeGroupLabel = {
         
-        let label = AgeGroupLabel(frame: CGRectMake(0, 0, 50, 22))
-        
+        let label = AgeGroupLabel(frame: CGRectMake(0, 0, 50, 17))
+        label.font = UIFont(name: Fonts.FontAwesome, size: 12)
+        label.textInsets = UIEdgeInsets(top: 3, left: 8, bottom: 3, right: 8)
         return label
     }()
     
     private lazy var horoscopeLabel: UILabel = {
         
-        let label = UILabel(frame: CGRectMake(0, 0, 50, 22))
+        let label = UILabel(frame: CGRectMake(0, 0, 50, 17))
         label.opaque = true
         label.backgroundColor = .whiteColor()
         label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
@@ -133,33 +134,37 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         addSubview(profileImageView)
         addSubview(nicknameAndTypeContainer)
         addSubview(ageGroupAndHoroscopeContainer)
-        addSubview(statusLabel)
         
+        if (statusLabel.text != nil) {
+            addSubview(statusLabel)
+            constrain(statusLabel) { view in
+                view.width == self.bounds.size.width * 0.3
+                view.centerY == view.superview!.centerY
+                view.trailing == view.superview!.trailingMargin
+            }
+            statusLabel.setContentCompressionResistancePriority(750 - 1, forAxis: .Horizontal)
+            
+        }
         
         constrain(profileImageView) { view in
             view.leading == view.superview!.leadingMargin
-            view.top == view.superview!.topMargin
-            view.bottom == view.superview!.bottomMargin
+            view.top == view.superview!.topMargin + 5
+            view.bottom == view.superview!.bottomMargin - 5
             view.width == view.height
         }
         
         constrain(nicknameAndTypeContainer, ageGroupAndHoroscopeContainer, profileImageView) { nicknameAndType, ageGroupAndHoroscope, image in
             align(leading: nicknameAndType, ageGroupAndHoroscope)
             nicknameAndType.leading == image.trailing + 10
-            nicknameAndType.top == nicknameAndType.superview!.topMargin
-            ageGroupAndHoroscope.bottom == ageGroupAndHoroscope.superview!.bottomMargin
+            nicknameAndType.top == nicknameAndType.superview!.topMargin + 10
+            nicknameAndType.height == 17
+            ageGroupAndHoroscope.bottom == ageGroupAndHoroscope.superview!.bottomMargin - 10
+            ageGroupAndHoroscope.height == 17
         }
         
-        
-        constrain(statusLabel) { view in
-            view.width == self.bounds.size.width * 0.3
-            view.centerY == view.superview!.centerY
-            view.trailing == view.superview!.trailingMargin
-        }
-        
+
         profileImageView.setContentCompressionResistancePriority(750 + 1, forAxis: .Horizontal)
-        statusLabel.setContentCompressionResistancePriority(750 - 1, forAxis: .Horizontal)
-        
+
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -196,7 +201,7 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         profileImageView.rac_image <~ viewmodel.profileImage.producer
             |> takeUntilPrepareForReuse(self)
             |> ignoreNil
-            |> map { $0.maskWithRoundedRect(self.profileImageView.frame.size, cornerRadius: self.profileImageView.frame.size.height, backgroundColor: .x_FeaturedCardBG()) }
+            |> map { $0.maskWithRoundedRect(self.profileImageView.frame.size, cornerRadius: self.profileImageView.frame.size.height, backgroundColor: .whiteColor()) }
         
     }
 }

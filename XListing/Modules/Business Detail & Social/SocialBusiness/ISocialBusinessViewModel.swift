@@ -21,5 +21,6 @@ public protocol ISocialBusinessViewModel : class, IInfinityScrollDataSource, IPu
     func fetchMoreData() -> SignalProducer<Void, NSError>
     func refreshData() -> SignalProducer<Void, NSError>
     func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError>
+    func participate(choice: ParticipationType) -> SignalProducer<Bool, NSError>
     
 }

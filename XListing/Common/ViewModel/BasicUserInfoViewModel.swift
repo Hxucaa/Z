@@ -82,8 +82,12 @@ public class BasicUserInfoViewModel : IBasicUserInfoViewModel {
         _gender = MutableProperty(gender.description)
         
         switch gender {
-        case .Female: _ageGroupBackgroundColor = ConstantProperty(UIColor(red: 223.0/255, green: 68.0/255.0, blue: 154.0/255, alpha: 1.0))
-        case .Male: _ageGroupBackgroundColor = ConstantProperty(.blueColor())
+        case .Female:
+            _ageGroupBackgroundColor = ConstantProperty(.x_FemaleAgeGroupBG())
+            _ageGroup.put(Icons.Female+" "+_ageGroup.value)
+        case .Male:
+            _ageGroupBackgroundColor = ConstantProperty(.blueColor())
+            _ageGroup.put(Icons.Male+" "+_ageGroup.value)
         }
         
         if let url = profileImage?.url, nsurl = NSURL(string: url) {

@@ -18,4 +18,6 @@ public struct Icons {
     static let X = "\u{f00d}"
     static let Chevron = "\u{f053}"
     static let Location = "\u{f124}"
+    static let Female = "\u{f221}"
+    static let Male = "\u{f222}"
 }

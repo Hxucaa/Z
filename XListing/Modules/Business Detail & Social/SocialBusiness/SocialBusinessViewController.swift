@@ -39,6 +39,25 @@ public final class SocialBusinessViewController : XUIViewController {
         return tableView
     }()
     
+    private lazy var backButton: UIButton = {
+        let button = UIButton()
+        let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 17)!]
+        var attributedString = NSAttributedString(string: Icons.Chevron, attributes: attributes)
+        button.setAttributedTitle(attributedString, forState: UIControlState.Normal)
+        
+        let goBack = Action<UIButton, Void, NoError> { button in
+            return SignalProducer { sink ,disposable in
+                self.navigationController!.popViewControllerAnimated(true)
+                sendCompleted(sink)
+            }
+        }
+        
+        button.addTarget(goBack.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+        return button
+    }()
+    
     private lazy var headerView: SocialBusinessHeaderView =  {
         let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)))
         
@@ -69,6 +88,7 @@ public final class SocialBusinessViewController : XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
+        view.addSubview(backButton)
         navigationController?.setNavigationBarHidden(true, animated: true)
         
         constrain(tableView) { view in
@@ -76,6 +96,13 @@ public final class SocialBusinessViewController : XUIViewController {
             view.trailing == view.superview!.trailing
             view.bottom == view.superview!.bottom
             view.leading == view.superview!.leading
+        }
+        
+        constrain(backButton) { view in
+            view.top == view.superview!.topMargin + 12
+            view.leading == view.superview!.leading
+            //view.width == 24
+            view.height == 40
         }
         
         singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! SocialBusinessViewModel)
@@ -87,6 +114,25 @@ public final class SocialBusinessViewController : XUIViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.hidesBarsOnSwipe = false
         utilityHeaderView.setDetailInfoButtonStyleRegular()
+        tableView.reloadData()
+        
+        // change the color of the back button based on where the table view is scrolled
+        DynamicProperty(object: tableView, keyPath: "contentOffset").producer
+            |> map({
+                
+                ($0 as! NSValue).CGPointValue()
+            })
+            |> start(next: {value in
+                if value.y > self.headerView.frame.height - 64 {
+                    let attributes = [NSForegroundColorAttributeName: UIColor.blackColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 17)!]
+                    var attributedString = NSAttributedString(string: Icons.Chevron, attributes: attributes)
+                    self.backButton.setAttributedTitle(attributedString, forState: UIControlState.Normal)
+                } else {
+                    let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 17)!]
+                    var attributedString = NSAttributedString(string: Icons.Chevron, attributes: attributes)
+                    self.backButton.setAttributedTitle(attributedString, forState: UIControlState.Normal)
+                }
+        })
         
         compositeDisposable += viewmodel.fetchMoreData()
             |> take(1)
@@ -99,12 +145,14 @@ public final class SocialBusinessViewController : XUIViewController {
                 self?.viewmodel.pushBusinessDetail(true)
             })
         
-        compositeDisposable += utilityHeaderView.startEventProxy
+        compositeDisposable +=  utilityHeaderView.startEventProxy
             |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.startEventProxy")
-            |> start(next: { [weak self] in
-                
-            })
+            |> promoteErrors(NSError)
+            |> flatMap(FlattenStrategy.Concat) { _ -> SignalProducer<Bool, NSError> in
+                return self.viewmodel.participate(ParticipationType.ToGo)
+            }
+            |> start()
         
         let tapGesture = UITapGestureRecognizer()
         headerView.addGestureRecognizer(tapGesture)
@@ -174,12 +222,12 @@ public final class SocialBusinessViewController : XUIViewController {
 extension SocialBusinessViewController : UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return 10//viewmodel.collectionDataSource.count
+        return viewmodel.collectionDataSource.count
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as! SocialBusiness_UserCell
-        //cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
+        cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return cell
     }
     

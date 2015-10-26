@@ -26,7 +26,7 @@ public final class AgeGroupLabel : TTTAttributedLabel {
         textInsets = UIEdgeInsets(top: 1, left: 7, bottom: 1, right: 7)
         // TODO: Fix the performance issue caused by cornerRadius
         layer.masksToBounds = true
-        layer.cornerRadius = 10
+        layer.cornerRadius = 9
         
         // TODO: May not be correct. Require further investigation.
         layer.shouldRasterize = true

@@ -37,6 +37,11 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         return PropertyOf(_businessName)
     }
     
+    private let _isButtonEnabled: MutableProperty<Bool> = MutableProperty(true)
+    public var isButtonEnabled: PropertyOf<Bool> {
+        return PropertyOf(_isButtonEnabled)
+    }
+    
     // MARK: - Properties
     
     // MARK: - View Models
@@ -69,6 +74,8 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         }
         
         headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: geoLocationService, imageService: imageService, cover: businessModel.cover_, businessName: businessModel.nameSChinese, city: businessModel.city, geolocation: businessModel.geolocation)
+        
+//        userViewModel = SocialBusiness_UserViewModel(participationService: participationService, imageService: imageService, user: <#User#>, nickname: <#String?#>, ageGroup: <#AgeGroup?#>, horoscope: <#Horoscope?#>, gender: <#Gender#>, profileImage: <#ImageFile?#>, status: <#String?#>, participationType: <#ParticipationType#>)
     }
     
     // MARK: - API
@@ -145,6 +152,29 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         navigator.pushBusinessDetail(business, animated: animated)
     }
     
+    
+        /**
+        Participate Button Action
+    
+        :param: choice ParticipationChoice
+    
+        */
+        public func participate(choice: ParticipationType) -> SignalProducer<Bool, NSError> {
+            return self.userService.currentLoggedInUser()
+                |> flatMap(FlattenStrategy.Concat) { user -> SignalProducer<Bool, NSError> in
+                    let p = Participation()
+                    p.user = user
+                    p.business = self.business
+    
+                    return self.participationService.create(p)
+                }
+                |> on(next: { [weak self] success in
+                    // if operation is successful, change the participation button.
+                    if success {
+                        self?._isButtonEnabled.put(false)
+                    }
+                })
+        }
     
     
     // MARK: - Others

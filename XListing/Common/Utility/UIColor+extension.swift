@@ -56,6 +56,10 @@ extension UIColor {
     internal class func x_FeaturedTableBG() -> UIColor {
         return UIColor(red: 227.0/255.0, green: 227.0/255.0, blue: 227.0/255.0, alpha: 1.0)
     }
+    
+    internal class func x_FemaleAgeGroupBG() -> UIColor {
+        return UIColor(red: 223.0/255, green: 68.0/255.0, blue: 154.0/255, alpha: 1.0)
+    }
 }
 
 

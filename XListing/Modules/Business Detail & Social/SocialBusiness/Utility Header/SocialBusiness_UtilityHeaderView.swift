@@ -101,7 +101,7 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
         detailInfoButton.backgroundColor = UIColor.grayColor()
         detailInfoButton.titleLabel?.backgroundColor = UIColor.grayColor()
         detailInfoButton.titleLabel?.textColor = UIColor.whiteColor()
-        let xAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: "FontAwesome", size: 18)!]
+        let xAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 18)!]
         var xAttributedString = NSAttributedString(string: Icons.X, attributes: xAttributes)
         let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.boldSystemFontOfSize(18)]
         var attributedString = NSMutableAttributedString(string: "详细信息 ", attributes: attributes)
