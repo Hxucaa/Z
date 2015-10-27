@@ -123,9 +123,9 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         */
         contentView.addSubview(backgroundContainer)
         constrain(backgroundContainer) { view in
-            view.leading == view.superview!.leading + 10
+            view.leading == view.superview!.leading + 8
             view.top == view.superview!.top + 6
-            view.trailing == view.superview!.trailing - 10
+            view.trailing == view.superview!.trailing - 8
             view.bottom == view.superview!.bottom
         }
         

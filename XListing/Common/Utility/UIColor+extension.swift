@@ -50,16 +50,17 @@ extension UIColor {
     }
 
     internal class func x_FeaturedCardBG() -> UIColor {
-        return UIColor(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1.0)
+        return UIColor(red: 250.0/255.0, green: 250.0/255.0, blue: 250.0/255.0, alpha: 1.0)
     }
     
     internal class func x_FeaturedTableBG() -> UIColor {
-        return UIColor(red: 227.0/255.0, green: 227.0/255.0, blue: 227.0/255.0, alpha: 1.0)
+        return UIColor(red: 212.0/255.0, green: 212.0/255.0, blue: 215.0/255.0, alpha: 1.0)
     }
     
     internal class func x_FemaleAgeGroupBG() -> UIColor {
-        return UIColor(red: 223.0/255, green: 68.0/255.0, blue: 154.0/255, alpha: 1.0)
+        return UIColor(red: 223.0/255, green: 68.0/255.0, blue: 154.0/255.0, alpha: 1.0)
     }
+    
 }
 
 
