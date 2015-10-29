@@ -53,10 +53,11 @@ public final class SocialBusinessWireframe : ISocialBusinessWireframe {
 
 extension SocialBusinessWireframe : SocialBusinessNavigator {
     public func pushUserProfile(user: User, animated: Bool) {
-        let viewController = UIStoryboard(name: UserProfileStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(UserProfileViewControllerIdentifier) as! UserProfileViewController
+        let viewController = PublicProfileViewController()
         
-        let userProfileViewModel = UserProfileViewModel()
-        viewController.bindToViewModel(userProfileViewModel)
+        let publicProfileViewModel = PublicProfileViewModel(userService: userService, imageService: imageService)
+        publicProfileViewModel.navigator = self
+        viewController.bindToViewModel(publicProfileViewModel)
         
         sharedNavigationController?.pushViewController(viewController, animated: animated)
     }
@@ -72,4 +73,15 @@ extension SocialBusinessWireframe : SocialBusinessNavigator {
         sharedNavigationController?.pushViewController(viewController, animated: animated)
         sharedNavigationController?.delegate = nil
     }
+}
+
+extension SocialBusinessWireframe : PublicProfileNavigator {
+    public func presentFullScreenImage(imageURL: NSURL, animated: Bool, completion: CompletionHandler?) {
+        
+        let viewController = FullScreenImageViewController()
+        let fullScreenImageViewModel = FullScreenImageViewModel(imageService: imageService)
+        viewController.bindToViewModel(fullScreenImageViewModel)
+        sharedNavigationController?.presentViewController(viewController, animated: true, completion: completion)
+    }
+    
 }

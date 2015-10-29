@@ -69,7 +69,7 @@ public final class ProfileHeaderView: UIView {
         label.opaque = false
         label.backgroundColor = .clearColor()
         label.textColor = UIColor.whiteColor()
-        
+       
         return label
         
     }()
@@ -77,7 +77,7 @@ public final class ProfileHeaderView: UIView {
     private lazy var ageGroupLabel: AgeGroupLabel = {
         
         let label = AgeGroupLabel(frame: CGRectMake(0, 0, 50, 22))
-        
+        label.font = UIFont(name: Fonts.FontAwesome, size: 14)
         return label
     }()
     
