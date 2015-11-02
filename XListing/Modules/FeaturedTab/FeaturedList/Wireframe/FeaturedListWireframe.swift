@@ -41,7 +41,7 @@ public final class FeaturedListWireframe : IFeaturedListWireframe {
     /**
         Inject ViewModel to view controller.
     
-        :returns: Properly configured FeaturedListViewController.
+        - returns: Properly configured FeaturedListViewController.
     */
     private func initViewController() -> FeaturedListViewController {
         let viewController = FeaturedListViewController()

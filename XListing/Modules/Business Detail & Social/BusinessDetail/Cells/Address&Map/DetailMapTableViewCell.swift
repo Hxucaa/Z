@@ -78,7 +78,7 @@ public final class DetailMapTableViewCell: UITableViewCell {
         }
     }
 
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -102,7 +102,7 @@ public final class DetailMapTableViewCell: UITableViewCell {
 }
 
 extension DetailMapTableViewCell : MKMapViewDelegate {
-    public func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    public func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
         if (annotation is MKUserLocation) {
             //if annotation is not an MKPointAnnotation (eg. MKUserLocation),
             //return nil so map draws default view for it (eg. blue dot)...

@@ -28,7 +28,7 @@ public final class SBtoBDAnimator : NSObject, UIViewControllerAnimatedTransition
         self.utilityHeaderView = utilityHeaderView
     }
     
-    public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return 0.4
     }
     

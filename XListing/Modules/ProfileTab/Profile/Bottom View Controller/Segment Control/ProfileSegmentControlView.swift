@@ -92,7 +92,7 @@ public final class ProfileSegmentControlView : ButtonPageControl {
         setup()
     }
     
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         setup()

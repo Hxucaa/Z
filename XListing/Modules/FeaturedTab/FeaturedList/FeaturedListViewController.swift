@@ -160,10 +160,10 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     /**
     Tells the data source to return the number of rows in a given section of a table view. (required)
     
-    :param: tableView The table-view object requesting this information.
-    :param: section   An index number identifying a section in tableView.
+    - parameter tableView: The table-view object requesting this information.
+    - parameter section:   An index number identifying a section in tableView.
     
-    :returns: The number of rows in section.
+    - returns: The number of rows in section.
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.collectionDataSource.count
@@ -172,10 +172,10 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     /**
     Asks the data source for a cell to insert in a particular location of the table view. (required)
     
-    :param: tableView A table-view object requesting the cell.
-    :param: indexPath An index path locating a row in tableView.
+    - parameter tableView: A table-view object requesting the cell.
+    - parameter indexPath: An index path locating a row in tableView.
     
-    :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
+    - returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as? FeaturedListBusinessTableViewCell ?? FeaturedListBusinessTableViewCell(estimatedFrame: CGRectMake(0, 0, tableView.frame.width, CellRowHeight), style: UITableViewCellStyle.Default, reuseIdentifier: CellIdentifier)
@@ -190,9 +190,9 @@ extension FeaturedListViewController : UIScrollViewDelegate {
     /**
     Tells the delegate when the user finishes scrolling the content.
     
-    :param: scrollView          The scroll-view object where the user ended the touch..
-    :param: velocity            The velocity of the scroll view (in points) at the moment the touch was released.
-    :param: targetContentOffset The expected offset when the scrolling action decelerates to a stop.
+    - parameter scrollView:          The scroll-view object where the user ended the touch..
+    - parameter velocity:            The velocity of the scroll view (in points) at the moment the touch was released.
+    - parameter targetContentOffset: The expected offset when the scrolling action decelerates to a stop.
     */
     public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         // make sure the scrollView instance is the same instance as tha tableView in this class.

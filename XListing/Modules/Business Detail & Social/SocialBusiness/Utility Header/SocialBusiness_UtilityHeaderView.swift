@@ -102,9 +102,9 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
         detailInfoButton.titleLabel?.backgroundColor = UIColor.grayColor()
         detailInfoButton.titleLabel?.textColor = UIColor.whiteColor()
         let xAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 18)!]
-        var xAttributedString = NSAttributedString(string: Icons.X, attributes: xAttributes)
+        let xAttributedString = NSAttributedString(string: Icons.X, attributes: xAttributes)
         let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.boldSystemFontOfSize(18)]
-        var attributedString = NSMutableAttributedString(string: "详细信息 ", attributes: attributes)
+        let attributedString = NSMutableAttributedString(string: "详细信息 ", attributes: attributes)
         attributedString.appendAttributedString(xAttributedString)
         detailInfoButton.setAttributedTitle(attributedString, forState: UIControlState.Normal)
         
@@ -116,11 +116,11 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
         detailInfoButton.titleLabel?.backgroundColor = UIColor.whiteColor()
         detailInfoButton.titleLabel?.textColor = UIColor.blackColor()
         let attributes = [NSForegroundColorAttributeName: UIColor.blackColor(), NSFontAttributeName: UIFont.boldSystemFontOfSize(18)]
-        var attributedString = NSMutableAttributedString(string: "详细信息", attributes: attributes)
+        let attributedString = NSMutableAttributedString(string: "详细信息", attributes: attributes)
         detailInfoButton.setAttributedTitle(attributedString, forState: .Normal)
     }
     
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

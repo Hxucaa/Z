@@ -86,7 +86,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
     /**
     Fetch featured businesses. If `refresh` is `true`, the function will replace the original list with new data, effectively refreshing the list. If `refresh` is `false`, the function will get data continuously like pagination.
     
-    :param: refresh A `Boolean` value indicating whether the function should `refresh` or `get more like pagination`.
+    - parameter refresh: A `Boolean` value indicating whether the function should `refresh` or `get more like pagination`.
     */
     private func fetchBusinesses(refresh: Bool = false) -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
         let query = Business.query()!

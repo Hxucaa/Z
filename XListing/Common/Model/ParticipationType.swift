@@ -9,7 +9,7 @@
 import Foundation
 import AVOSCloud
 
-public enum ParticipationType : Int, Printable {
+public enum ParticipationType : Int, CustomStringConvertible {
     case AA = 2
     case Treat = 1
     case ToGo = 0

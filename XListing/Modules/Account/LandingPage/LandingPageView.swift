@@ -104,7 +104,7 @@ public final class LandingPageView : UIView {
         addSubview(view)
         
         // turn off autoresizing mask off to allow custom autolayout constraints
-        view.setTranslatesAutoresizingMaskIntoConstraints(false)
+        view.translatesAutoresizingMaskIntoConstraints = false
         
         // add constraints
         addConstraints(
@@ -194,7 +194,7 @@ public final class LandingPageView : UIView {
         dividerLabel?.layer.masksToBounds = false
         dividerLabel?.layer.shadowRadius = 3.0
         dividerLabel?.layer.shadowOpacity = 0.5
-        dividerLabel?.layer.shadowOffset = CGSize.zeroSize
+        dividerLabel?.layer.shadowOffset = CGSize.zero
         
     }
     
@@ -206,7 +206,7 @@ public final class LandingPageView : UIView {
         addSubview(backButtonView)
         
         // turn off autoresizing mask off to allow custom autolayout constraints
-        backButtonView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        backButtonView.translatesAutoresizingMaskIntoConstraints = false
         
         // leading margin 8.0
         let backButtonLeading = NSLayoutConstraint(

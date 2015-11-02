@@ -27,7 +27,7 @@ private struct AssociationKey {
 private func lazyAssociatedProperty<T: AnyObject>(host: AnyObject, key: UnsafePointer<Void>, factory: ()->T) -> T {
     return objc_getAssociatedObject(host, key) as? T ?? {
         let associatedProperty = factory()
-        objc_setAssociatedObject(host, key, associatedProperty, UInt(OBJC_ASSOCIATION_RETAIN))
+        objc_setAssociatedObject(host, key, associatedProperty, UInt(objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN))
         return associatedProperty
     }()
 }

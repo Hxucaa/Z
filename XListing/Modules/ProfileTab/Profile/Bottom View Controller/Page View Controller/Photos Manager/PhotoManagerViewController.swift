@@ -96,16 +96,16 @@ public final class PhotoManagerViewController : UIViewController {
     
     // Present an action sheet to choose between a profile picture
     public func chooseProfilePictureSource() {
-        var alert = UIAlertController(title: "选择上传方式", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
-        var galleryAction = UIAlertAction(title: "在相册中选取", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
+        let alert = UIAlertController(title: "选择上传方式", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let galleryAction = UIAlertAction(title: "在相册中选取", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
             self.imagePicker.sourceType = .PhotoLibrary
             self.presentViewController(self.imagePicker, animated: true, completion: nil)
         }
-        var cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
         
-        var cameraAction = UIAlertAction(title: "拍照", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
+        let cameraAction = UIAlertAction(title: "拍照", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
             if (!UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
-                var noCameraAlert = UIAlertController(title: "This device does not have a camera", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+                let noCameraAlert = UIAlertController(title: "This device does not have a camera", message: "", preferredStyle: UIAlertControllerStyle.Alert)
                 noCameraAlert.addAction(cancelAction)
                 self.presentViewController(noCameraAlert, animated: true, completion: nil)
             } else {
@@ -181,10 +181,10 @@ extension PhotoManagerViewController : UIImagePickerControllerDelegate, UINaviga
     /**
     Tells the delegate that the user picked a still image or movie.
     
-    :param: picker The controller object managing the image picker interface.
-    :param: info   A dictionary containing the original image and the edited image, if an image was picked; or a filesystem URL for the movie, if a movie was picked. The dictionary also contains any relevant editing information. The keys for this dictionary are listed in Editing Information Keys.
+    - parameter picker: The controller object managing the image picker interface.
+    - parameter info:   A dictionary containing the original image and the edited image, if an image was picked; or a filesystem URL for the movie, if a movie was picked. The dictionary also contains any relevant editing information. The keys for this dictionary are listed in Editing Information Keys.
     */
-    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
             // TO DO: ADD NEW PHOTO TO DATA ARRAY
         }
@@ -195,7 +195,7 @@ extension PhotoManagerViewController : UIImagePickerControllerDelegate, UINaviga
     /**
     Tells the delegate that the user cancelled the pick operation.
     
-    :param: picker The controller object managing the image picker interface.
+    - parameter picker: The controller object managing the image picker interface.
     */
     public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         dismissViewControllerAnimated(true, completion: nil)

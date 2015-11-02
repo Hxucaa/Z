@@ -44,19 +44,19 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
     /**
     Modify the `SignalProducer` on the `collectionDataSource`. This function accepts several handlers for each of the opeartion that can occur in a `ReactiveArray`. If you don't provide a custom implementation for a handler, the default implementation will get executed.
     
-    :param: targetedSection      The section number in the table view that should react to change in data source.
-    :param: appendHandler        `Append` operation
-    :param: extendHandler        `Extend` operation
-    :param: insertHandler        `Insert` operation
-    :param: replaceHandler       `Replace` operation
-    :param: removeElementHandler `RemoveAtIndex` operation
-    :param: replaceAllHandler    `ReplaceAll` operation
-    :param: removeAllHandler     `RemoveAll` operation
+    - parameter targetedSection:      The section number in the table view that should react to change in data source.
+    - parameter appendHandler:        `Append` operation
+    - parameter extendHandler:        `Extend` operation
+    - parameter insertHandler:        `Insert` operation
+    - parameter replaceHandler:       `Replace` operation
+    - parameter removeElementHandler: `RemoveAtIndex` operation
+    - parameter replaceAllHandler:    `ReplaceAll` operation
+    - parameter removeAllHandler:     `RemoveAll` operation
     
-    :returns: The `SignalProducer`
+    - returns: The `SignalProducer`
     */
     public func reactToDataSource(
-        #targetedSection: Int,
+        targetedSection targetedSection: Int,
         appendHandler: AppendHandler? = nil,
         extendHandler: ExtendHandler? = nil,
         insertHandler: InsertHandler? = nil,
@@ -153,8 +153,8 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
     /**
     Predictive scroll.
     
-    :param: velocity            The velocity of the scroll view (in points) at the moment the touch was released.
-    :param: targetContentOffset The expected offset when the scrolling action decelerates to a stop.
+    - parameter velocity:            The velocity of the scroll view (in points) at the moment the touch was released.
+    - parameter targetContentOffset: The expected offset when the scrolling action decelerates to a stop.
     */
     public func predictivelyScroll(velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         predictiveScrolling(tableView, withVelocity: velocity, targetContentOffset: targetContentOffset, predictiveScrollable: viewmodel)

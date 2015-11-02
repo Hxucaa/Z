@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum Horoscope : Int, Printable {
+public enum Horoscope : Int, CustomStringConvertible {
     
     case Capricorn = 1, Aquarius, Pisces, Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius
     

@@ -1,7 +1,7 @@
 //  Copyright (c) 2015 Rob Rix. All rights reserved.
 
 /// An enum representing either a failure with an explanatory error, or a success with a result value.
-public enum Result<T, Error>: Printable, DebugPrintable {
+public enum Result<T, Error>: CustomStringConvertible, DebugPrintable {
 	case Success(Box<T>)
 	case Failure(Box<Error>)
 
@@ -48,7 +48,7 @@ public enum Result<T, Error>: Printable, DebugPrintable {
 	/// Case analysis for Result.
 	///
 	/// Returns the value produced by applying `ifFailure` to `Failure` Results, or `ifSuccess` to `Success` Results.
-	public func analysis<Result>(@noescape #ifSuccess: T -> Result, @noescape ifFailure: Error -> Result) -> Result {
+	public func analysis<Result>(@noescape ifSuccess ifSuccess: T -> Result, @noescape ifFailure: Error -> Result) -> Result {
 		switch self {
 		case let .Success(value):
 			return ifSuccess(value.value)

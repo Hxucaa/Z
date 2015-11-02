@@ -38,7 +38,7 @@ public final class NearbyWireframe : INearbyWireframe {
     /**
     Inject view model to view controller.
     
-    :returns: Properly configure and injected instance of NearbyViewController.
+    - returns: Properly configure and injected instance of NearbyViewController.
     */
     private func initViewController() -> NearbyViewController {
         // retrieve view controller from storyboard

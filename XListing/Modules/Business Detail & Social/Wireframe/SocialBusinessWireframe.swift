@@ -32,7 +32,7 @@ public final class SocialBusinessWireframe : ISocialBusinessWireframe {
     /**
     Inject ViewModel to view controller.
     
-    :returns: Properly configured DetailViewController.
+    - returns: Properly configured DetailViewController.
     */
     private func injectViewModelToViewController(businessModel: Business) -> SocialBusinessViewController {
         let viewController = SocialBusinessViewController()

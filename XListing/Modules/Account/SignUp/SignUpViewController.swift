@@ -315,7 +315,7 @@ public final class SignUpViewController : XUIViewController {
     /**
     Install a button in the bottom stack.
     
-    :param: button The UIButton.
+    - parameter button: The UIButton.
     */
     private func installSubviewButton<T: UIButton>(button: T) {
         

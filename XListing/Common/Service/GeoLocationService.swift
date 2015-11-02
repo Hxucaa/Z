@@ -58,9 +58,9 @@ public final class GeoLocationService : IGeoLocationService {
     /**
     Calculate ETA from current location to destination location. Current location is automatically acquired.
     
-    :param: destination Destination location.
+    - parameter destination: Destination location.
     
-    :returns: A SignalProducer containing time interval expressed in NSTimeInterval.
+    - returns: A SignalProducer containing time interval expressed in NSTimeInterval.
     */
     public func calculateETA(destination: CLLocation) -> SignalProducer<NSTimeInterval, NSError> {
         return calETA(destination, currentLocation: nil)
@@ -69,10 +69,10 @@ public final class GeoLocationService : IGeoLocationService {
     /**
     Calculate ETA from current location to destination location. User has to provide current location.
     
-    :param: destination     Destination location.
-    :param: currentLocation Current location provided by user.
+    - parameter destination:     Destination location.
+    - parameter currentLocation: Current location provided by user.
     
-    :returns: A SignalProducer containing time interval expressed in NSTimeInterval.
+    - returns: A SignalProducer containing time interval expressed in NSTimeInterval.
     */
     public func calculateETA(destination: CLLocation, currentLocation: CLLocation) -> SignalProducer<NSTimeInterval, NSError> {
         return calETA(destination, currentLocation: currentLocation)

@@ -78,7 +78,7 @@ public final class BusinessHourCellViewModel {
     public init() {
         
         //get current day of the Week
-        let weekday = NSCalendar.currentCalendar().components(.CalendarUnitWeekday, fromDate: NSDate()).weekday
+        let weekday = NSCalendar.currentCalendar().components(.Weekday, fromDate: NSDate()).weekday
         
         //set all days to hidden initially
         _sunHidden = MutableProperty(true)

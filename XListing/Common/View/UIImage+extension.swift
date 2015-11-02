@@ -13,15 +13,15 @@ extension UIImage {
     /**
     Draw an UIImage with rounded corner via CGGraphics. Note that if the cornerRadius is bigger than the radius of the image, it will be a circle.
     
-    :param: sizeToFit       Size of the image to draw on.
-    :param: cornerRadius    Raidus of corner.
-    :param: borderWidth     Default to 0.
-    :param: borderColor     Default to white.
-    :param: backgroundColor Background color. If you set `opaque` to true, you should provide a background color otherwise it will be black.
-    :param: opaque          By default, set to true for performance reason.
-    :param: scale           By default, set to `UIScreen.mainScreen().scale`.
+    - parameter sizeToFit:       Size of the image to draw on.
+    - parameter cornerRadius:    Raidus of corner.
+    - parameter borderWidth:     Default to 0.
+    - parameter borderColor:     Default to white.
+    - parameter backgroundColor: Background color. If you set `opaque` to true, you should provide a background color otherwise it will be black.
+    - parameter opaque:          By default, set to true for performance reason.
+    - parameter scale:           By default, set to `UIScreen.mainScreen().scale`.
     
-    :returns: The drawn UIImage.
+    - returns: The drawn UIImage.
     */
     public func maskWithRoundedRect(sizeToFit: CGSize, cornerRadius: CGFloat, borderWidth: CGFloat = 0, borderColor: UIColor = UIColor.whiteColor(), backgroundColor: UIColor? = nil, opaque: Bool = true, scale: CGFloat = UIScreen.mainScreen().scale) -> UIImage {
         // size to draw

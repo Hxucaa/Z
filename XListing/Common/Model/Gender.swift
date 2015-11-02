@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum Gender : Printable {
+public enum Gender : CustomStringConvertible {
     case Male
     case Female
     

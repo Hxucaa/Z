@@ -119,10 +119,10 @@ extension ParticipationListViewController : UITableViewDataSource, UITableViewDe
     /**
     Tells the data source to return the number of rows in a given section of a table view. (required)
     
-    :param: tableView The table-view object requesting this information.
-    :param: section   An index number identifying a section in tableView.
+    - parameter tableView: The table-view object requesting this information.
+    - parameter section:   An index number identifying a section in tableView.
     
-    :returns: The number of rows in section.
+    - returns: The number of rows in section.
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         

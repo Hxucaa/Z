@@ -11,7 +11,7 @@ import UIKit
 import INSPullToRefresh
 import ReactiveCocoa
 
-public func predictiveScrolling<T: UITableView, U: IPredictiveScrollDataSource>(tableView: T, withVelocity velocity: CGPoint, #targetContentOffset: UnsafeMutablePointer<CGPoint>, #predictiveScrollable: U) {
+public func predictiveScrolling<T: UITableView, U: IPredictiveScrollDataSource>(tableView: T, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>, predictiveScrollable: U) {
     
     // table view is being scrolled down, not up
     if velocity.y > 0.0 &&

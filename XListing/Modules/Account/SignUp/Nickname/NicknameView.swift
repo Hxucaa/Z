@@ -102,9 +102,9 @@ extension NicknameView : UITextFieldDelegate {
     /**
     The text field calls this method whenever the user taps the return button. You can use this method to implement any custom behavior when the button is tapped.
     
-    :param: textField The text field whose return button was pressed.
+    - parameter textField: The text field whose return button was pressed.
     
-    :returns: YES if the text field should implement its default behavior for the return button; otherwise, NO.
+    - returns: YES if the text field should implement its default behavior for the return button; otherwise, NO.
     */
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == nicknameField {

@@ -156,7 +156,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         /**
         Participate Button Action
     
-        :param: choice ParticipationChoice
+        - parameter choice: ParticipationChoice
     
         */
         public func participate(choice: ParticipationType) -> SignalProducer<Bool, NSError> {

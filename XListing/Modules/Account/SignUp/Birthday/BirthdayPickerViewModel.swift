@@ -57,7 +57,7 @@ public final class BirthdayPickerViewModel {
     // MARK: - Others
     private func calDate(currentDate: NSDate, age: Int) -> NSDate {
         let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components(NSCalendarUnit.CalendarUnitDay | NSCalendarUnit.CalendarUnitMonth | NSCalendarUnit.CalendarUnitYear, fromDate: currentDate)
+        let components = calendar.components([NSCalendarUnit.Day, NSCalendarUnit.Month, NSCalendarUnit.Year], fromDate: currentDate)
         let currentYear = components.year
         let currentMonth = components.month
         let currentDay = components.day
@@ -72,9 +72,9 @@ public final class BirthdayPickerViewModel {
     /**
     Check whether age is within the restriction
     
-    :param: age The age
+    - parameter age: The age
     
-    :returns: Bool value indicating validity.
+    - returns: Bool value indicating validity.
     */
     private func validAgeOnly<T: NSDate, E>() -> SignalProducer<T, E> -> SignalProducer<T, E> {
         return { producer in

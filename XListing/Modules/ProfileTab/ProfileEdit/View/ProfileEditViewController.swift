@@ -290,16 +290,16 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
     
     // Present an action sheet to choose between a profile picture 
     public func chooseProfilePictureSource() {
-        var alert = UIAlertController(title: "选择上传方式", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
-        var galleryAction = UIAlertAction(title: "在相册中选取", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
+        let alert = UIAlertController(title: "选择上传方式", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let galleryAction = UIAlertAction(title: "在相册中选取", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
             self.imagePicker.sourceType = .PhotoLibrary
             self.presentViewController(self.imagePicker, animated: true, completion: nil)
         }
-        var cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
         
-        var cameraAction = UIAlertAction(title: "拍照", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
+        let cameraAction = UIAlertAction(title: "拍照", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
             if (!UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
-                var noCameraAlert = UIAlertController(title: "This device does not have a camera", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+                let noCameraAlert = UIAlertController(title: "This device does not have a camera", message: "", preferredStyle: UIAlertControllerStyle.Alert)
                 noCameraAlert.addAction(cancelAction)
                 self.presentViewController(noCameraAlert, animated: true, completion: nil)
             } else {
@@ -385,10 +385,10 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
     /**
     Tells the data source to return the number of rows in a given section of a table view. (required)
     
-    :param: tableView The table-view object requesting this information.
-    :param: section   An index number identifying a section in tableView.
+    - parameter tableView: The table-view object requesting this information.
+    - parameter section:   An index number identifying a section in tableView.
     
-    :returns: The number of rows in section.
+    - returns: The number of rows in section.
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch Section(rawValue:section)! {
@@ -404,10 +404,10 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
     /**
     Asks the data source for a cell to insert in a particular location of the table view. (required)
     
-    :param: tableView A table-view object requesting the cell.
-    :param: indexPath An index path locating a row in tableView.
+    - parameter tableView: A table-view object requesting the cell.
+    - parameter indexPath: An index path locating a row in tableView.
     
-    :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
+    - returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch Section(rawValue: indexPath.section)! {
@@ -461,8 +461,8 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         // Adjust the positioning based on the width of the device
-        var deviceWidth = UIScreen.mainScreen().bounds.size.width
-        var profilePicView = UIView(frame: CGRectMake(deviceWidth-90, -245, 85, 100))
+        let deviceWidth = UIScreen.mainScreen().bounds.size.width
+        let profilePicView = UIView(frame: CGRectMake(deviceWidth-90, -245, 85, 100))
         if (profilePicture == nil) {
             profilePicture.image = UIImage(named: ImageAssets.profilepicture)
         }
@@ -490,10 +490,10 @@ extension ProfileEditViewController : UIImagePickerControllerDelegate, UINavigat
     /**
     Tells the delegate that the user picked a still image or movie.
     
-    :param: picker The controller object managing the image picker interface.
-    :param: info   A dictionary containing the original image and the edited image, if an image was picked; or a filesystem URL for the movie, if a movie was picked. The dictionary also contains any relevant editing information. The keys for this dictionary are listed in Editing Information Keys.
+    - parameter picker: The controller object managing the image picker interface.
+    - parameter info:   A dictionary containing the original image and the edited image, if an image was picked; or a filesystem URL for the movie, if a movie was picked. The dictionary also contains any relevant editing information. The keys for this dictionary are listed in Editing Information Keys.
     */
-    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
             viewmodel.profileImage <~ MutableProperty<UIImage?>(pickedImage)
             profilePicture.image = pickedImage
@@ -505,7 +505,7 @@ extension ProfileEditViewController : UIImagePickerControllerDelegate, UINavigat
     /**
     Tells the delegate that the user cancelled the pick operation.
     
-    :param: picker The controller object managing the image picker interface.
+    - parameter picker: The controller object managing the image picker interface.
     */
     public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         dismissViewControllerAnimated(true, completion: nil)

@@ -205,10 +205,10 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     /**
     Tells the data source to return the number of rows in a given section of a table view. (required)
     
-    :param: tableView The table-view object requesting this information.
-    :param: section   An index number identifying a section in tableView.
+    - parameter tableView: The table-view object requesting this information.
+    - parameter section:   An index number identifying a section in tableView.
     
-    :returns: The number of rows in section.
+    - returns: The number of rows in section.
     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
@@ -224,9 +224,9 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     /**
     Asks the data source to return the number of sections in a table view.
     
-    :param: tableView A table-view object requesting the cell.
+    - parameter tableView: A table-view object requesting the cell.
     
-    :returns: The number of sections in table view.
+    - returns: The number of sections in table view.
     */
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 3
@@ -235,10 +235,10 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
     /**
     Asks the data source for a cell to insert in a particular location of the table view. (required)
     
-    :param: tableView A table-view object requesting the cell.
-    :param: indexPath An index path locating a row in tableView.
+    - parameter tableView: A table-view object requesting the cell.
+    - parameter indexPath: An index path locating a row in tableView.
     
-    :returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
+    - returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         

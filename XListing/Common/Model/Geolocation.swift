@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 
-public struct Geolocation : Printable {
+public struct Geolocation : CustomStringConvertible {
     
     /// Latitude of point in degrees.  Valid range (-90.0, 90.0).
     public var latitude: Double {
@@ -31,7 +31,7 @@ public struct Geolocation : Printable {
     /**
     Initializes a new Geolocation struct for the given CLLocation, set to the location's coordinates.
     
-    :param: location CLLocation object, with set latitude and longitude.
+    - parameter location: CLLocation object, with set latitude and longitude.
     */
     public init(location: CLLocation) {
         latitude = location.coordinate.latitude
@@ -41,8 +41,8 @@ public struct Geolocation : Printable {
     /**
     Initializes a new Geolocation struct with the specified latitude and longitude.
     
-    :param: latitude  Latitude of point in degrees.
-    :param: longitude Longitude of point in degrees.
+    - parameter latitude:  Latitude of point in degrees.
+    - parameter longitude: Longitude of point in degrees.
     */
     public init(latitude: Double, longitude: Double) {
         self.latitude = latitude

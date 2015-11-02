@@ -35,9 +35,9 @@ public final class HUD {
     /**
     Inject display of HUD as side effects.
     
-    :param: message The work in progress message. Has a default implementation if you do not provide one.
+    - parameter message: The work in progress message. Has a default implementation if you do not provide one.
     
-    :returns: A SignalProducer which can be continued with the next function.
+    - returns: A SignalProducer which can be continued with the next function.
     */
     public class func showWithStatusMessage<T, E>(message: String? = DefaultWIPMessage) -> SignalProducer<T, E> -> SignalProducer<T, E> {
         return { producer in
@@ -54,11 +54,11 @@ public final class HUD {
     /**
     Dismiss the HUD on one of the four events: interrupted, error, completed, next. You can customize the status message for each event. Note that the error event takes a errorHandler closure which provides an error and expects to return a message string.
     
-    :param: successMessage   Status message for success.
-    :param: interruptedMessage Status message for interruption.
-    :param: errorHandler       Error handler which provides the error and expects a message string.
+    - parameter successMessage:   Status message for success.
+    - parameter interruptedMessage: Status message for interruption.
+    - parameter errorHandler:       Error handler which provides the error and expects a message string.
     
-    :returns: A SignalProducer which can be continued with the next function.
+    - returns: A SignalProducer which can be continued with the next function.
     */
     public class func dismissWithStatusMessage<T, E>(successMessage: String? = DefaultSuccessMessage, interruptedMessage: String? = DefaultInterruptMessage, errorHandler: (E -> String)? = { _ in DefaultErrorMessage }) -> SignalProducer<T, E> -> SignalProducer<T, E> {
         return { producer in
@@ -104,7 +104,7 @@ public final class HUD {
     
     Subcribe to HUD disappear notification. Must manually dispose of this signal.
     
-    :returns: A SignalProducer containing the statu message displayed by the HUD.
+    - returns: A SignalProducer containing the statu message displayed by the HUD.
     */
     public class func didDissappearNotification() -> SignalProducer<DisappearStatus, NoError> {
         return notification(SVProgressHUDDidDisappearNotification)
@@ -121,7 +121,7 @@ public final class HUD {
     /**
     Subscribe to a touch down inside on the HUD.
     
-    :returns: A SignalProducer.
+    - returns: A SignalProducer.
     */
     public class func didTouchDownInsideNotification() -> SignalProducer<UIEvent, NoError> {
         return notification(SVProgressHUDDidTouchDownInsideNotification)

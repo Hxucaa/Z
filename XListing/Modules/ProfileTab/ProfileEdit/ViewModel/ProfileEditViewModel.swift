@@ -143,7 +143,7 @@ public final class ProfileEditViewModel {
     public var ageLimit: AgeLimit {
         func calDate(currentDate: NSDate, age: Int) -> NSDate {
             let calendar = NSCalendar.currentCalendar()
-            let components = calendar.components(NSCalendarUnit.CalendarUnitDay | NSCalendarUnit.CalendarUnitMonth | NSCalendarUnit.CalendarUnitYear, fromDate: currentDate)
+            let components = calendar.components([NSCalendarUnit.Day, NSCalendarUnit.Month, NSCalendarUnit.Year], fromDate: currentDate)
             let currentYear = components.year
             let currentMonth = components.month
             let currentDay = components.day
@@ -158,7 +158,7 @@ public final class ProfileEditViewModel {
         // Restrict birthdays
         let currentDate = NSDate()
         
-        return (floor: calDate(currentDate, 65), ceil: calDate(currentDate, 17))
+        return (floor: calDate(currentDate, age: 65), ceil: calDate(currentDate, age: 17))
     }
     
     /**
@@ -176,9 +176,9 @@ public final class ProfileEditViewModel {
     /**
     Check whether age is within the restriction
     
-    :param: age The age
+    - parameter age: The age
     
-    :returns: Bool value indicating validity.
+    - returns: Bool value indicating validity.
     */
     private func isValidAge(age: NSDate) -> Bool {
         let ageLimit = self.ageLimit
@@ -193,8 +193,8 @@ public final class ProfileEditViewModel {
     }
     
     private func testRegex(input: String, pattern: String) -> Bool {
-        let regex = NSRegularExpression(pattern: pattern, options: nil, error: nil)
-        let matches = regex!.matchesInString(input, options: nil, range:NSMakeRange(0, count(input)))
+        let regex = try? NSRegularExpression(pattern: pattern, options: [])
+        let matches = regex!.matchesInString(input, options: [], range:NSMakeRange(0, input.characters.count))
         return matches.count == 1
     }
 }

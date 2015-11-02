@@ -16,7 +16,7 @@ import Spring
 public final class BirthdayPickerView : SpringView {
     
     // MARK: - UI Controls
-    @IBOutlet private weak var cakeIcon: CakeIcon!
+    private weak var cakeIcon: CakeIcon!
     @IBOutlet private weak var birthdayTextField: UITextField!
     private let _continueButton = RoundedButton()
     public var continueButton: RoundedButton {

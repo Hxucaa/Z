@@ -40,7 +40,7 @@ public final class NicknameViewModel {
         // - letters, numbers, dashes, periods, and underscores only
         validNicknameSignal = nickname.producer
             |> ignoreNil
-            |> filter { count($0) > 1 && count($0) <= 15 }
+            |> filter { $0.count > 1 && $0.count <= 15 }
 //            |> filter { self.testRegex($0, pattern: "^([\(self.symbols)]|[\(self.chinese)]|[\(self.emoji)]|[A-Za-z\\d]){3,15}$")}
         
         isNicknameValid <~ validNicknameSignal

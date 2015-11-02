@@ -456,9 +456,9 @@ extension NearbyViewController : UICollectionViewDataSource {
     /**
     Asks the data source for the number of sections in the collection view.
     
-    :param: collectionView An object representing the collection view requesting this information.
+    - parameter collectionView: An object representing the collection view requesting this information.
     
-    :returns: The number of sections in collectionView.
+    - returns: The number of sections in collectionView.
     */
     public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return viewmodel.collectionDataSource.array.count
@@ -467,10 +467,10 @@ extension NearbyViewController : UICollectionViewDataSource {
     /**
     Asks the data source for the number of items in the specified section.
     
-    :param: collectionView An object representing the collection view requesting this information.
-    :param: section        An index number identifying a section in collectionView. This index value is 0-based.
+    - parameter collectionView: An object representing the collection view requesting this information.
+    - parameter section:        An index number identifying a section in collectionView. This index value is 0-based.
     
-    :returns: The number of rows in section.
+    - returns: The number of rows in section.
     */
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return NumberOfRowsInCollectionView
@@ -479,10 +479,10 @@ extension NearbyViewController : UICollectionViewDataSource {
     /**
     Asks the data source for the cell that corresponds to the specified item in the collection view.
     
-    :param: collectionView An object representing the collection view requesting this information.
-    :param: indexPath      The index path that specifies the location of the item.
+    - parameter collectionView: An object representing the collection view requesting this information.
+    - parameter indexPath:      The index path that specifies the location of the item.
     
-    :returns: A configured cell object. You must not return nil from this method.
+    - returns: A configured cell object. You must not return nil from this method.
     */
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = businessCollectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier, forIndexPath: indexPath) as! NearbyCollectionViewCell
@@ -498,7 +498,7 @@ extension NearbyViewController : UIScrollViewDelegate {
     /**
     Tells the delegate when the user scrolls the content view within the receiver.
     
-    :param: scrollView The scroll-view object in which the scrolling occurred.
+    - parameter scrollView: The scroll-view object in which the scrolling occurred.
     */
     public func scrollViewDidScroll(scrollView: UIScrollView) {
         // This is a workaround for a bug where there's no way to reliably determine when a scroll ends and its final position.
@@ -515,11 +515,11 @@ extension NearbyViewController : UICollectionViewDelegateFlowLayout {
     /**
     Asks the delegate for the size of the specified item’s cell.
     
-    :param: collectionView       The collection view object displaying the flow layout.
-    :param: collectionViewLayout The layout object requesting the information.
-    :param: indexPath            The index path of the item.
+    - parameter collectionView:       The collection view object displaying the flow layout.
+    - parameter collectionViewLayout: The layout object requesting the information.
+    - parameter indexPath:            The index path of the item.
     
-    :returns: The width and height of the specified item. Both values must be greater than 0.
+    - returns: The width and height of the specified item. Both values must be greater than 0.
     */
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return collectionView.bounds.size

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum AgeGroup : Int, Printable {
+public enum AgeGroup : Int, CustomStringConvertible {
 //    case 70后 = 1, 75后, 80后, 85后, 90后, 95后, 00后, 05后
     case 五零后 = 50
     case 六零后 = 60

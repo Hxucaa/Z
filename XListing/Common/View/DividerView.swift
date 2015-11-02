@@ -18,7 +18,7 @@ public class DividerView : UIView {
         backgroundColor = UIColor(hex: "D5D5D5")
     }
     
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

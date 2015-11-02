@@ -69,9 +69,9 @@ public final class ProfilePageViewController : UIPageViewController {
         delegate = self
         
         if (shouldDisplayCollection) {
-            displayPhotosManagerPage(animated: true, completion: nil)
+            displayPhotosManagerPage(true, completion: nil)
         } else {
-            displayParticipationListPage(animated: true, completion: nil)
+            displayParticipationListPage(true, completion: nil)
         }
 
         photoManagerViewController.fullImageProxy
@@ -122,7 +122,7 @@ extension ProfilePageViewController : UIPageViewControllerDataSource, UIPageView
         return nil
     }
     
-    public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
+    public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
         // ensures the page view controller doesn't reset to the participation list after the photo picker is presented
         if (pageViewController.viewControllers[0].className == NSStringFromClass(ParticipationListViewController)) {

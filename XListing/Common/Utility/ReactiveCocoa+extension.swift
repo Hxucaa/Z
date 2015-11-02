@@ -87,7 +87,7 @@ Log the life cycle of a signal, including `started`, `completed`, `interrupted`,
 
 :returns: Continue the signal.
 */
-public func logLifeCycle<T, E>(context: LogContext, signalName: String, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UWord = __LINE__) -> SignalProducer<T, E> -> SignalProducer<T, E> {
+public func logLifeCycle<T, E>(context: LogContext, signalName: String, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UInt = __LINE__) -> SignalProducer<T, E> -> SignalProducer<T, E> {
     
     // use the appropriate method to log
     let log = { (context: LogContext, message: String) -> Void in

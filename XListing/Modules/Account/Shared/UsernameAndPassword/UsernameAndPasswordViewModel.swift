@@ -67,9 +67,9 @@ public final class UsernameAndPasswordViewModel {
     
     // MARK: - Others
     private func testRegex(input: String, pattern: String) -> Bool {
-        if let regex = NSRegularExpression(pattern: pattern, options: nil, error: nil) {
+        if let regex = try? NSRegularExpression(pattern: pattern, options: []) {
             
-            let match = regex.numberOfMatchesInString(input, options: nil, range:NSMakeRange(0, count(input)))
+            let match = regex.numberOfMatchesInString(input, options: [], range:NSMakeRange(0, input.characters.count))
             return match == 1
         }
         else {
