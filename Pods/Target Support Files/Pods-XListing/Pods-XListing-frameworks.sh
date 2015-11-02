@@ -84,9 +84,9 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${PODS_ROOT}/AVOSCloudCrashReportingDynamic/iOS/release-v3.1.5.2/AVOSCloudCrashReporting/Dynamic/AVOSCloudCrashReporting.framework"
-  install_framework "${PODS_ROOT}/AVOSCloudDynamic/iOS/release-v3.1.5.2/AVOSCloud/Dynamic/AVOSCloud.framework"
-  install_framework "${PODS_ROOT}/AVOSCloudIMDynamic/iOS/release-v3.1.5.2/AVOSCloudIM/Dynamic/AVOSCloudIM.framework"
+  install_framework "${PODS_ROOT}/AVOSCloudCrashReportingDynamic/iOS/release-v3.1.6/AVOSCloudCrashReporting/Dynamic/AVOSCloudCrashReporting.framework"
+  install_framework "${PODS_ROOT}/AVOSCloudDynamic/iOS/release-v3.1.6/AVOSCloud/Dynamic/AVOSCloud.framework"
+  install_framework "${PODS_ROOT}/AVOSCloudIMDynamic/iOS/release-v3.1.6/AVOSCloudIM/Dynamic/AVOSCloudIM.framework"
   install_framework "Pods-XListing/ActionSheetPicker_3_0.framework"
   install_framework "Pods-XListing/Aspects.framework"
   install_framework "Pods-XListing/AsyncDisplayKit.framework"
@@ -110,9 +110,9 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-XListing/XAssets.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${PODS_ROOT}/AVOSCloudCrashReportingDynamic/iOS/release-v3.1.5.2/AVOSCloudCrashReporting/Dynamic/AVOSCloudCrashReporting.framework"
-  install_framework "${PODS_ROOT}/AVOSCloudDynamic/iOS/release-v3.1.5.2/AVOSCloud/Dynamic/AVOSCloud.framework"
-  install_framework "${PODS_ROOT}/AVOSCloudIMDynamic/iOS/release-v3.1.5.2/AVOSCloudIM/Dynamic/AVOSCloudIM.framework"
+  install_framework "${PODS_ROOT}/AVOSCloudCrashReportingDynamic/iOS/release-v3.1.6/AVOSCloudCrashReporting/Dynamic/AVOSCloudCrashReporting.framework"
+  install_framework "${PODS_ROOT}/AVOSCloudDynamic/iOS/release-v3.1.6/AVOSCloud/Dynamic/AVOSCloud.framework"
+  install_framework "${PODS_ROOT}/AVOSCloudIMDynamic/iOS/release-v3.1.6/AVOSCloudIM/Dynamic/AVOSCloudIM.framework"
   install_framework "Pods-XListing/ActionSheetPicker_3_0.framework"
   install_framework "Pods-XListing/Aspects.framework"
   install_framework "Pods-XListing/AsyncDisplayKit.framework"

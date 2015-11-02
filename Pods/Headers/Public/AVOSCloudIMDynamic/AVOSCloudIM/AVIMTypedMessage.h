@@ -1,1 +1,1 @@
-../../../../AVOSCloudIMDynamic/iOS/release-v3.1.5.2/AVOSCloudIM/Dynamic/AVOSCloudIM.framework/Headers/AVIMTypedMessage.h
+../../../../AVOSCloudIMDynamic/iOS/release-v3.1.6/AVOSCloudIM/Dynamic/AVOSCloudIM.framework/Headers/AVIMTypedMessage.h

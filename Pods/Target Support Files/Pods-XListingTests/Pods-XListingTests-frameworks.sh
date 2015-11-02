@@ -84,7 +84,7 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${PODS_ROOT}/AVOSCloudDynamic/iOS/release-v3.1.5.2/AVOSCloud/Dynamic/AVOSCloud.framework"
+  install_framework "${PODS_ROOT}/AVOSCloudDynamic/iOS/release-v3.1.6/AVOSCloud/Dynamic/AVOSCloud.framework"
   install_framework "Pods-XListingTests/Box.framework"
   install_framework "Pods-XListingTests/ReactiveCocoa.framework"
   install_framework "Pods-XListingTests/Result.framework"
@@ -92,7 +92,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-XListingTests/Quick.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${PODS_ROOT}/AVOSCloudDynamic/iOS/release-v3.1.5.2/AVOSCloud/Dynamic/AVOSCloud.framework"
+  install_framework "${PODS_ROOT}/AVOSCloudDynamic/iOS/release-v3.1.6/AVOSCloud/Dynamic/AVOSCloud.framework"
   install_framework "Pods-XListingTests/Box.framework"
   install_framework "Pods-XListingTests/ReactiveCocoa.framework"
   install_framework "Pods-XListingTests/Result.framework"
