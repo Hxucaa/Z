@@ -1,1 +1,1 @@
-../../../../AVOSCloudIMDynamic/iOS/release-v3.1.5.2/AVOSCloudIM/Dynamic/AVOSCloudIM.framework/Headers/AVIMUserOptions.h
+../../../../AVOSCloudIMDynamic/iOS/release-v3.1.6/AVOSCloudIM/Dynamic/AVOSCloudIM.framework/Headers/AVIMUserOptions.h

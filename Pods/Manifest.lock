@@ -4,10 +4,10 @@ PODS:
   - AsyncDisplayKit (1.2.3):
     - AsyncDisplayKit/ASDealloc2MainObject (= 1.2.3)
   - AsyncDisplayKit/ASDealloc2MainObject (1.2.3)
-  - AVOSCloudCrashReportingDynamic (3.1.5.2):
+  - AVOSCloudCrashReportingDynamic (3.1.6):
     - AVOSCloudDynamic
-  - AVOSCloudDynamic (3.1.5.2)
-  - AVOSCloudIMDynamic (3.1.5.2):
+  - AVOSCloudDynamic (3.1.6)
+  - AVOSCloudIMDynamic (3.1.6):
     - AVOSCloudDynamic
   - Box (1.2.2)
   - Cartography (0.5.0)
@@ -24,7 +24,7 @@ PODS:
   - Fabric (1.5.5):
     - Fabric/Base (= 1.5.5)
   - Fabric/Base (1.5.5)
-  - FLEX (2.1.0)
+  - FLEX (2.1.1)
   - GPUImage (0.1.7)
   - INSPullToRefresh (1.0.12)
   - Locksmith (1.2.2)
@@ -108,16 +108,16 @@ SPEC CHECKSUMS:
   ActionSheetPicker-3.0: c5bdca19fd8b3d798f0c79892cbab6f11a8523ae
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
   AsyncDisplayKit: 5c8f38225f7478e39c48196cec0dd0d2ac3455ed
-  AVOSCloudCrashReportingDynamic: caa0e7ae41f6134b51b1f9125002b697b320f3b8
-  AVOSCloudDynamic: 5884f80ce56801d303d5c1f6f87801575ee2ac0e
-  AVOSCloudIMDynamic: 95a5a31d61fecbd96094858c456f62ce76db0cec
+  AVOSCloudCrashReportingDynamic: b0dfe4bde43ae2832487abe315aaa19d5c1dcb73
+  AVOSCloudDynamic: a5ca2eff87cbcedeaa396f1ffcfdb857e06a2f78
+  AVOSCloudIMDynamic: 82469e767640db50ee04a1d278bdff347f35b1f0
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   Cartography: 774e5cc446f5a6bca5d4345c5aa6af9a1fe74dc6
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
   Dollar: ae37f1da42cdc16061fcc1e91a070281b207f5c8
   Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
-  FLEX: 8b469d7b103ddce41110fe2f0d8a9398c03759a8
+  FLEX: 27b768fcae23a313a1eb115076d429180ca9b472
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
   INSPullToRefresh: 3c3840b1837870d6553f749dab6520e31f551a76
   Locksmith: c84c10bf23f99e6d04703dba65065dc38b038d88
