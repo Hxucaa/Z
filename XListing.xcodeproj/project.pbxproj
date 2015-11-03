@@ -21,6 +21,7 @@
 		264A03CF1BDF23D9008563D0 /* PublicProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264A03CE1BDF23D9008563D0 /* PublicProfileViewController.swift */; };
 		264A03D11BDF2406008563D0 /* PublicProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264A03D01BDF2406008563D0 /* PublicProfileViewModel.swift */; };
 		264A03D31BDF2422008563D0 /* IPublicProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264A03D21BDF2422008563D0 /* IPublicProfileViewModel.swift */; };
+		265E1DD41BE84924000735A0 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265E1DD31BE84924000735A0 /* BackButton.swift */; };
 		2661B9201B4B72C9005D9C41 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2661B91F1B4B72C9005D9C41 /* Gender.swift */; };
 		26645ACB1B54C4F200ADDCD1 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */; };
 		26645ACF1B57956600ADDCD1 /* GenderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */; };
@@ -276,6 +277,7 @@
 		264A03CE1BDF23D9008563D0 /* PublicProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PublicProfileViewController.swift; path = "Business Detail & Social/PublicProfile/PublicProfileViewController.swift"; sourceTree = "<group>"; };
 		264A03D01BDF2406008563D0 /* PublicProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PublicProfileViewModel.swift; path = "Business Detail & Social/PublicProfile/PublicProfileViewModel.swift"; sourceTree = "<group>"; };
 		264A03D21BDF2422008563D0 /* IPublicProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPublicProfileViewModel.swift; path = "Business Detail & Social/PublicProfile/IPublicProfileViewModel.swift"; sourceTree = "<group>"; };
+		265E1DD31BE84924000735A0 /* BackButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		2661B91F1B4B72C9005D9C41 /* Gender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 		26645ACA1B54C4F200ADDCD1 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
 		26645ACE1B57956600ADDCD1 /* GenderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderTableViewCell.swift; sourceTree = "<group>"; };
@@ -667,6 +669,7 @@
 		2A1B3A1C1B256BCF003E70E0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				265E1DD31BE84924000735A0 /* BackButton.swift */,
 				7E39F4B91BB0ABEA00D6603E /* DividerView.swift */,
 				B4F1958A1B2938FC00B8C519 /* HUD.swift */,
 				B4F195941B2A276C00B8C519 /* XUIViewController.swift */,
@@ -1799,6 +1802,7 @@
 				B47C0EAA1AC0A82C00F9FB31 /* FeaturedListWireframe.swift in Sources */,
 				B4D5707C1B02AC1600D2C06C /* NearbyHorizontalScrollCellViewModel.swift in Sources */,
 				7EF371111AB8C012009AA3B9 /* AppDelegate.swift in Sources */,
+				265E1DD41BE84924000735A0 /* BackButton.swift in Sources */,
 				B4F332801B9699330048D1B4 /* RootTabBarController.swift in Sources */,
 				B4F195BD1B2CE2B200B8C519 /* User_Business_Participation.swift in Sources */,
 				B4FCC72C1AE9D339009B4DF6 /* AccountWireframe.swift in Sources */,

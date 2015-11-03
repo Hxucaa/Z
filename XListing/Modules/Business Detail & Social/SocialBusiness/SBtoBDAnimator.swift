@@ -76,6 +76,7 @@ public final class SBtoBDAnimator : NSObject, UIViewControllerAnimatedTransition
                         fromView.alpha = 0
                         toViewController.navigationController?.setNavigationBarHidden(true, animated: false)
                     }) { finished in
+                        self.utilityHeaderView.setDetailInfoButtonStyleSelected()
                         done()
                     }
             },
@@ -85,11 +86,12 @@ public final class SBtoBDAnimator : NSObject, UIViewControllerAnimatedTransition
                     delay: 0.0,
                     options: UIViewAnimationOptions.CurveEaseInOut,
                     animations: {
-                        self.utilityHeaderView.setDetailInfoButtonStyleSelected()
+                        
                         self.headerView.frame.origin = self.destination
                         self.utilityHeaderView.frame.origin = CGPoint(x:0, y:self.headerView.frame.height+self.headerView.frame.origin.y)
                         tableView.frame.origin = CGPoint(x:0, y:self.utilityHeaderView.frame.height+self.utilityHeaderView.frame.origin.y)
                     }) { finished in
+                        
                         done()
                     }
             },

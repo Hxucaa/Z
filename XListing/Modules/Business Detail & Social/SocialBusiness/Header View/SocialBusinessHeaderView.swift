@@ -12,7 +12,9 @@ import Cartography
 import TTTAttributedLabel
 import ReactiveCocoa
 
-private let CoverImageSize = CGSizeMake(84, 84)
+
+private let CoverImageWidth = round(UIScreen.mainScreen().bounds.width * 0.20)
+private let CoverImageSize = CGSizeMake(CoverImageWidth, CoverImageWidth)
 
 public final class SocialBusinessHeaderView : UIView {
     

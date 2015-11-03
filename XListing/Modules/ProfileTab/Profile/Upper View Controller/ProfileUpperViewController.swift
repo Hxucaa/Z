@@ -26,10 +26,6 @@ public final class ProfileUpperViewController : UIViewController {
     }()
     
     // MARK: - Proxies
-    private let (_editProxy, _editSink) = SimpleProxy.proxy()
-    public var editProxy: SimpleProxy {
-        return _editProxy
-    }
     
     // MARK: - Properties
     private var viewmodel: IProfileUpperViewModel!
@@ -70,16 +66,7 @@ public final class ProfileUpperViewController : UIViewController {
             |> start(next: { [weak self] viewmodel in
                 self?.headerView.bindToViewModel(viewmodel)
             })
-        
-        headerView.editProxy
-            // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Profile, "headerView.editProxy")
-            |> start(next: { [weak self] in
-                if let this = self {
-                    proxyNext(this._editSink, ())
-                }
-            })
+
     }
     
     // MARK: - Bindings

@@ -12,8 +12,9 @@ import ReactiveCocoa
 import Cartography
 
 private let PhotoCellIdentifier = "PhotoCell"
-private let CellSize = round(UIScreen.mainScreen().bounds.width * 0.307)
-private let SectionInsets = UIEdgeInsets(top: 10.0, left: 5.0, bottom: 10.0, right: 5.0)
+private let CellSize = round(UIScreen.mainScreen().bounds.width * 0.325)
+private let SectionInsets = UIEdgeInsets(top: 0.0, left: 2.0, bottom: 2.0, right: 2.0)
+private let UtilHeaderHeight = CGFloat(59)
 public final class PublicProfileViewController : XUIViewController {
 
     
@@ -27,7 +28,7 @@ public final class PublicProfileViewController : XUIViewController {
         flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
         
         let view = UICollectionView(frame: CGRect(origin: CGPointMake(0, 0), size: self.view.frame.size), collectionViewLayout: flowLayout)
-        view.backgroundColor = UIColor.x_FeaturedCardBG()
+        view.backgroundColor = UIColor.whiteColor()
         view.registerClass(ProfilePhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCellIdentifier)
         view.dataSource = self
         return view
@@ -35,6 +36,26 @@ public final class PublicProfileViewController : XUIViewController {
     
     private let upperViewController = ProfileUpperViewController()
     
+    private lazy var backButton: BackButton = {
+        let button = BackButton()
+        
+        let goBack = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { sink ,disposable in
+                self?.navigationController?.popViewControllerAnimated(true)
+                sendCompleted(sink)
+            }
+        }
+        
+        button.addTarget(goBack.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+        
+        return button
+        }()
+    
+    private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
+        let view = SocialBusiness_UtilityHeaderView()
+        view.hideDetailInfoButton()
+        return view
+        }()
     
     // MARK: - Properties
     private var viewmodel: IPublicProfileViewModel! {
@@ -56,7 +77,9 @@ public final class PublicProfileViewController : XUIViewController {
         addChildViewController(upperViewController)
         
         view.addSubview(upperViewController.view)
+        view.addSubview(utilityHeaderView)
         view.addSubview(collectionView)
+        view.addSubview(backButton)
         
         upperViewController.didMoveToParentViewController(self)
         
@@ -66,12 +89,29 @@ public final class PublicProfileViewController : XUIViewController {
             $0.trailing == $0.superview!.trailing
             $0.height == $0.superview!.height * 0.30
         }
+        
+        constrain(utilityHeaderView) {
+            $0.leading == $0.superview!.leading
+            $0.trailing == $0.superview!.trailing
+            $0.height == UtilHeaderHeight
+        }
 
-        constrain(upperViewController.view, collectionView) {
+        constrain(upperViewController.view, utilityHeaderView) {
+            $1.leading == $1.superview!.leading
+            $1.top == $0.bottom
+            $1.trailing == $1.superview!.trailing
+        }
+        
+        constrain(utilityHeaderView, collectionView) {
             $1.leading == $1.superview!.leading
             $1.top == $0.bottom
             $1.trailing == $1.superview!.trailing
             $1.bottom == $1.superview!.bottom
+        }
+        
+        constrain(backButton) { view in
+            view.top == view.superview!.topMargin + 12
+            view.leading == view.superview!.leading
         }
     }
     
@@ -156,4 +196,23 @@ extension PublicProfileViewController : UICollectionViewDelegateFlowLayout {
             
             return SectionInsets
     }
+    
+    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 2.0
+    }
+    
+    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 2.0
+    }
+    
+    
+//    #pragma mark collection view cell paddings
+//    - (UIEdgeInsets)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+//    return UIEdgeInsetsMake(0, 0, 0, 0); // top, left, bottom, right
+//    }
+//    
+//    - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+//    
+//    return 5.0;
+//    }
 }

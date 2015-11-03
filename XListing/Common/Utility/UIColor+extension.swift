@@ -61,6 +61,10 @@ extension UIColor {
         return UIColor(red: 223.0/255, green: 68.0/255.0, blue: 154.0/255.0, alpha: 1.0)
     }
     
+    internal class func x_MaleAgeGroupBG() -> UIColor {
+        return UIColor(red: 74.0/255, green: 144.0/255.0, blue: 226.0/255.0, alpha: 1.0)
+    }
+    
 }
 
 

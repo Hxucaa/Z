@@ -13,8 +13,8 @@ import AVOSCloud
 import Dollar
 import Cartography
 
-private let sectionInsets = UIEdgeInsets(top: 10.0, left: 5.0, bottom: 10.0, right: 5.0)
-private let CellSize = round(UIScreen.mainScreen().bounds.width * 0.307)
+private let CellSize = round(UIScreen.mainScreen().bounds.width * 0.325)
+private let SectionInsets = UIEdgeInsets(top: 2.0, left: 2.0, bottom: 2.0, right: 2.0)
 private let PhotoCellIdentifier = "PhotoCell"
 private let AddPhotoCellIdentifier = "AddPhotoCell"
 private let MaxNumberOfPhotos = 8
@@ -170,7 +170,15 @@ extension PhotoManagerViewController : UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAtIndex section: Int) -> UIEdgeInsets {
             
-            return sectionInsets
+            return SectionInsets
+    }
+    
+    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 2.0
+    }
+    
+    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 2.0
     }
 }
 

@@ -39,21 +39,17 @@ public final class SocialBusinessViewController : XUIViewController {
         return tableView
     }()
     
-    private lazy var backButton: UIButton = {
-        let button = UIButton()
-        let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 17)!]
-        var attributedString = NSAttributedString(string: Icons.Chevron, attributes: attributes)
-        button.setAttributedTitle(attributedString, forState: UIControlState.Normal)
-        
-        let goBack = Action<UIButton, Void, NoError> { button in
+    private lazy var backButton: BackButton = {
+        let button = BackButton()
+
+        let goBack = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { sink ,disposable in
-                self.navigationController!.popViewControllerAnimated(true)
+                self?.navigationController?.popViewControllerAnimated(true)
                 sendCompleted(sink)
             }
         }
         
         button.addTarget(goBack.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-        
         
         return button
     }()
@@ -67,6 +63,7 @@ public final class SocialBusinessViewController : XUIViewController {
     private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
         let view = SocialBusiness_UtilityHeaderView()
         view.setDetailInfoButtonStyleRegular()
+        view.addSubview(DividerView(frame: CGRect(x: 0, y: 59, width: ScreenWidth, height: 1)))
         return view
     }()
     
@@ -101,8 +98,6 @@ public final class SocialBusinessViewController : XUIViewController {
         constrain(backButton) { view in
             view.top == view.superview!.topMargin + 12
             view.leading == view.superview!.leading
-            //view.width == 24
-            view.height == 40
         }
         
         singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! SocialBusinessViewModel)
