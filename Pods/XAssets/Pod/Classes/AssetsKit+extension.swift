@@ -11,7 +11,7 @@ import Foundation
 extension AssetsKit {
     
     
-    private class func drawingLabel(#draw: Void -> Void, sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, textInput: String? = nil) -> UIImage {
+    private class func drawingLabel(draw draw: Void -> Void, sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, textInput: String? = nil) -> UIImage {
         
         // enter the size of the original drawing
         
@@ -31,7 +31,7 @@ extension AssetsKit {
         return image
     }
     
-    private class func drawing(#draw: Void -> Void, sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
+    private class func drawing(draw draw: Void -> Void, sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, pressed: Bool? = false, shadow: Bool? = false) -> UIImage {
         
         // enter the size of the original drawing
         
@@ -51,7 +51,7 @@ extension AssetsKit {
         return image
     }
     
-    private class func drawingJoinButton(#draw: Void -> Void, sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, ifAA: Bool? = false, ifGo: Bool? = false, ifPay: Bool? = false, ifNotTapped: Bool? = false) -> UIImage {
+    private class func drawingJoinButton(draw draw: Void -> Void, sizeToFit: CGSize?, drawingSize: CGSize, backgroundColor: UIColor? = nil, opaque: Bool? = true, imageContextScale: CGFloat? = 0, ifAA: Bool? = false, ifGo: Bool? = false, ifPay: Bool? = false, ifNotTapped: Bool? = false) -> UIImage {
        
         // enter the size of the original drawing
         

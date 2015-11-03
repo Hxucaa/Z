@@ -86,7 +86,7 @@ public final class FeaturedListViewController: XUIViewController {
         super.viewWillAppear(animated)
         
         viewmodel.fetchMoreData()
-            |> start()
+            .start()
         
         navigationController?.navigationBarHidden = false
         navigationController?.hidesBarsOnSwipe = true
@@ -94,9 +94,9 @@ public final class FeaturedListViewController: XUIViewController {
         navigationController?.navigationBar.translucent = false
         
         compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Featured, "viewmodel.collectionDataSource.producer")
-            |> start()
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.Featured, "viewmodel.collectionDataSource.producer")
+            .start()
         
         willAppearTableView()
         
@@ -123,10 +123,10 @@ public final class FeaturedListViewController: XUIViewController {
         // when the specified row is now selected
         compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> map { ($0 as! RACTuple).second as! NSIndexPath }
-            |> logLifeCycle(LogContext.Featured, "tableView:didSelectRowAtIndexPath:")
-            |> start(
+            .takeUntilViewWillDisappear(self)
+            .map { ($0 as! RACTuple).second as! NSIndexPath }
+            .logLifeCycle(LogContext.Featured, "tableView:didSelectRowAtIndexPath:")
+            .start(
                 next: { [weak self] indexPath in
                     let something = indexPath.row
                     self?.viewmodel.pushSocialBusinessModule(indexPath.row)

@@ -24,7 +24,7 @@ public struct ProfilePhotoCellViewModel {
         
         if let url = image?.url, nsurl = NSURL(string: url) {
             self.imageService.getImage(nsurl)
-                |> start(next: {
+                .start(next: {
                     self._image.put($0)
                 })
         }

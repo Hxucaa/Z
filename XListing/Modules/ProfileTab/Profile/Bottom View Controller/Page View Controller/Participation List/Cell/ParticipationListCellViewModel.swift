@@ -76,7 +76,7 @@ public final class ParticipationListCellViewModel : IParticipationListCellViewMo
         
         if let url = cover?.url, nsurl = NSURL(string: url) {
             imageService.getImage(nsurl)
-                |> start(next: {
+                .start(next: {
                     self._coverImage.put($0)
                 })
         }
@@ -87,7 +87,7 @@ public final class ParticipationListCellViewModel : IParticipationListCellViewMo
     // MARK: - Others
     private func setupEta(destination: CLLocation) {
         self.geoLocationService.calculateETA(destination)
-            |> start(next: { interval in
+            .start(next: { interval in
                 let minute = Int(ceil(interval / 60))
                 self._eta.put(" \(CITY_DISTANCE_SEPARATOR) 开车\(minute)分钟")
                 }, error: { error in

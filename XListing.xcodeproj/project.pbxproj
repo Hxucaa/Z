@@ -59,7 +59,6 @@
 		45CBB4D53772AB5C9D2FD37D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB717784EC301CD7D042E /* ProfileViewController.swift */; };
 		45CBBB3CCC6E72DCE005EE35 /* IProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */; };
 		45CBBDCF399C77A93D0B1C1E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CBB2272E6DA7ED3BDD24AE /* ProfileViewModel.swift */; };
-		7E2EB1E11B8131650012BAB3 /* StatusBarBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2EB1E01B8131650012BAB3 /* StatusBarBackgroundView.swift */; };
 		7E33F4081BA408A7002C63FE /* Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E33F4071BA408A7002C63FE /* Chain.swift */; };
 		7E39F4BA1BB0ABEA00D6603E /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E39F4B91BB0ABEA00D6603E /* DividerView.swift */; };
 		7E3A1C071B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A1C061B1EFB9E00E84ABE /* CocoaLumberjack+extension.swift */; };
@@ -142,7 +141,6 @@
 		B4307F421B78D96F00E3D41B /* CakeIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F411B78D96F00E3D41B /* CakeIcon.swift */; };
 		B4307F441B796B4300E3D41B /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F431B796B4300E3D41B /* RoundedButton.swift */; };
 		B4307F4B1B7BE47A00E3D41B /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4307F4A1B7BE47A00E3D41B /* LogInViewController.swift */; };
-		B43FDA731BBC607900678404 /* MainThreadWatchdog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43FDA721BBC607900678404 /* MainThreadWatchdog.swift */; };
 		B446A61A1B1FA88000106CAF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B446A6191B1FA88000106CAF /* Logger.swift */; };
 		B446A61C1B1FBE9000106CAF /* ASLFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B446A61B1B1FBE9000106CAF /* ASLFormatter.swift */; };
 		B44E35011AD5D0AE00657A31 /* IFeaturedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */; };
@@ -317,7 +315,6 @@
 		45CBB53ECBE3D40D88EA190E /* IProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IProfileViewModel.swift; sourceTree = "<group>"; };
 		45CBB6EB1EBF881F9EB25C64 /* IProfileWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IProfileWireframe.swift; sourceTree = "<group>"; };
 		45CBB717784EC301CD7D042E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		7E2EB1E01B8131650012BAB3 /* StatusBarBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarBackgroundView.swift; sourceTree = "<group>"; };
 		7E33F4071BA408A7002C63FE /* Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chain.swift; sourceTree = "<group>"; };
 		7E39F4B91BB0ABEA00D6603E /* DividerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
 		7E3A1C021B1EF84500E84ABE /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = "Pods/../build/Debug-iphoneos/Pods-XListing/CocoaLumberjack.framework"; sourceTree = "<group>"; };
@@ -404,7 +401,6 @@
 		B4307F411B78D96F00E3D41B /* CakeIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CakeIcon.swift; sourceTree = "<group>"; };
 		B4307F431B796B4300E3D41B /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		B4307F4A1B7BE47A00E3D41B /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
-		B43FDA721BBC607900678404 /* MainThreadWatchdog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainThreadWatchdog.swift; sourceTree = "<group>"; };
 		B446A6191B1FA88000106CAF /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		B446A61B1B1FBE9000106CAF /* ASLFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASLFormatter.swift; sourceTree = "<group>"; };
 		B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IFeaturedListViewModel.swift; sourceTree = "<group>"; };
@@ -672,9 +668,7 @@
 				B4F195941B2A276C00B8C519 /* XUIViewController.swift */,
 				D08B589B1B94001500F3945F /* UIImage+extension.swift */,
 				B41334EC1B5F44B300B5F22D /* Keyboard.swift */,
-				7E2EB1E01B8131650012BAB3 /* StatusBarBackgroundView.swift */,
 				B4F332811B9699D10048D1B4 /* XBaseUINavigationController.swift */,
-				B43FDA721BBC607900678404 /* MainThreadWatchdog.swift */,
 				B427B3591BC49085008A9F19 /* AgeGroupLabel.swift */,
 				B427B3651BC50469008A9F19 /* ButtonPageControl.swift */,
 				7EB7ED021BDECD9F0086E1E3 /* Thumbnail.swift */,
@@ -1508,7 +1502,7 @@
 			attributes = {
 				LastSwiftMigration = 0710;
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = ZenChat;
 				TargetAttributes = {
 					7EF3710A1AB8C012009AA3B9 = {
@@ -1813,7 +1807,6 @@
 				3DB8AC301B06D0DF00E51F0E /* Profile.swift in Sources */,
 				B4E7E5071B93F32C0034B093 /* SocialBusinessViewController.swift in Sources */,
 				B4104F621B843DC300D7E4BD /* IPredictiveScrollDataSource.swift in Sources */,
-				7E2EB1E11B8131650012BAB3 /* StatusBarBackgroundView.swift in Sources */,
 				261687C31B71B8AF0094F315 /* IProfileEditWireframe.swift in Sources */,
 				B4F195AB1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift in Sources */,
 				B427B3621BC50309008A9F19 /* ProfileSegmentControlViewModel.swift in Sources */,
@@ -1833,7 +1826,6 @@
 				B4E1384C1AE1BD0D0082DCA3 /* UserService.swift in Sources */,
 				261D91031B6873D5004B1CF6 /* Icons.swift in Sources */,
 				3D70CCE71B562AE3004588EC /* ImageService.swift in Sources */,
-				B43FDA731BBC607900678404 /* MainThreadWatchdog.swift in Sources */,
 				B427B3931BC6FC40008A9F19 /* IProfilePageViewModel.swift in Sources */,
 				B4E1384A1AE1B94C0082DCA3 /* User.swift in Sources */,
 				B459565E1BBEFECB009AE8FC /* TemporaryHolding.swift in Sources */,
@@ -1975,6 +1967,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2051,6 +2044,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited) -D DEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = "ZenChat.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "XListing-Bridging-Header.h";
@@ -2073,6 +2067,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ZenChat.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "XListing-Bridging-Header.h";
@@ -2098,6 +2093,7 @@
 				);
 				INFOPLIST_FILE = XListingTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ZenChat.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "XListingTests-Bridging-Header.h";
@@ -2119,6 +2115,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INFOPLIST_FILE = XListingTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ZenChat.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "XListingTests-Bridging-Header.h";

@@ -3,20 +3,20 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'XListing' do
-  pod 'XAssets', :git => 'https://zenchatapp.com/stash/scm/zen/xassets.git'
+  pod 'XAssets', :git => 'ssh://git@dev.lai.io:2345/diffusion/IA/ios-assets.git'
   pod 'FLEX', '~> 2.0', :configurations => ['DEBUG']
-  pod 'Watchdog', '~> 1.0.0', :configurations => ['DEBUG']
-  pod 'Spring', '~> 1.0.3'
+  pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift2'
   pod 'SVProgressHUD', :git => 'https://github.com/Hxucaa/SVProgressHUD.git'
-  pod 'CocoaLumberjack', '~> 2.2.0'
+  pod 'CocoaLumberjack/Swift', '~> 2.2.0'
+  pod 'pop', '~> 1.0'
   pod 'Dollar', '~> 4.0.1'
   pod 'SDWebImage', '~> 3.7.0'
   pod 'Locksmith', '~> 2.0.2'
-  pod 'ReactiveCocoa', '= 4.0.4-alpha-1'
+  pod 'ReactiveCocoa', '= 4.0.2-alpha-3'
   pod 'ActionSheetPicker-3.0', '~> 2.0.3'
   pod 'Cartography', '~> 0.6.0'
   pod 'INSPullToRefresh', '~> 1.0.11'
-  pod 'ReactiveArray', :git => 'https://github.com/Hxucaa/ReactiveArray.git'
+  pod 'ReactiveArray', :git => 'ssh://git@dev.lai.io:2345/diffusion/RA/reactivearray.git'
   pod 'Aspects', '~> 1.4.0'
   pod 'TZStackView', '~> 1.1.2'
   pod 'TTTAttributedLabel', '~> 1.13.4'
@@ -31,7 +31,7 @@ end
 
 target 'XListingTests' do
   pod 'AVOSCloudDynamic', '~> 3.1'
-  pod 'ReactiveCocoa', '= 4.0.4-alpha-1'
+  pod 'ReactiveCocoa', '= 4.0.2-alpha-3'
   pod 'Quick', '~> 0.8.0'
   pod 'Nimble', '~> 3.0.0'
 end

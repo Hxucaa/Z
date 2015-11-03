@@ -45,35 +45,35 @@ public final class UsernameAndPasswordView : SpringView {
                     // check for the validity of inputs first
                     disposable += viewmodel.allInputsValid.producer
                         // on error displays error prompt
-                        |> on(next: { validity in
+                        .on(next: { validity in
                             if !validity {
                                 // TODO: implement error prompt
                             }
                         })
                         // only valid inputs can continue through
-                        |> filter { $0 }
+                        .filter { $0 }
                         // delay the signal due to the animation of retracting keyboard
                         // this cannot be executed on main thread, otherwise UI will be blocked
-                        |> ReactiveCocoa.delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                        .ReactiveCocoa.delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
                         // return the signal to main/ui thread in order to run UI related code
-                        |> observeOn(UIScheduler())
-                        //                        |> then(HUD.show())
-                        |> flatMap(.Latest) { _ in
+                        .observeOn(UIScheduler())
+                        //                        .then(HUD.show())
+                        .flatMap(.Latest) { _ in
                             return HUD.show()
                         }
                         // map error to the same type as other signal
-                        |> promoteErrors(NSError)
+                        .promoteErrors(NSError)
                         // submit network request
-                        |> flatMap(.Latest) { _ in
+                        .flatMap(.Latest) { _ in
                             return viewmodel.submit
                         }
                         // dismiss HUD based on the result of sign up signal
-                        |> HUD.dismissWithStatusMessage(errorHandler: { [weak self] error -> String in
+                        .HUD.dismissWithStatusMessage(errorHandler: { [weak self] error -> String in
                             AccountLogError(error.description)
                             return error.customErrorDescription
                         })
                         // does not `sendCompleted` because completion is handled when HUD is disappeared
-                        |> start(
+                        .start(
                             error: { error in
                                 sendError(sink, error)
                             },
@@ -84,8 +84,8 @@ public final class UsernameAndPasswordView : SpringView {
                     
                     // Subscribe to touch down inside event
                     disposable += HUD.didTouchDownInsideNotification()
-                        |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
-                        |> start(
+                        .on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                        .start(
                             next: { _ in
                                 // dismiss HUD
                                 HUD.dismiss()
@@ -97,8 +97,8 @@ public final class UsernameAndPasswordView : SpringView {
                     
                     // Subscribe to disappear notification
                     disposable += HUD.didDissappearNotification()
-                        |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
-                        |> start(
+                        .on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                        .start(
                             next: { [weak self] status in
                                 if status == HUD.DisappearStatus.Normal {
                                     
@@ -124,9 +124,9 @@ public final class UsernameAndPasswordView : SpringView {
         _signUpButton.addTarget(submitAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         
         compositeDisposable += viewmodel.producer
-            |> ignoreNil
-            |> logLifeCycle(LogContext.Account, "viewmodel.producer")
-            |> start(next: { [weak self] viewmodel in
+            .ignoreNil
+            .logLifeCycle(LogContext.Account, "viewmodel.producer")
+            .start(next: { [weak self] viewmodel in
                 if let this = self {
                     // bind signals
                     viewmodel.username <~ this.usernameField.rac_text

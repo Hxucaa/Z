@@ -38,8 +38,8 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         
         let goToWebsite = Action<UIButton, Void, NoError> { button in
             return self.viewmodel.webSiteURL.producer
-                |> ignoreNil
-                |> map { url -> Void in
+                .ignoreNil
+                .map { url -> Void in
                     let webVC = DetailWebViewViewController(url: url, businessName: self.viewmodel.businessName.value)
                     let navController = UINavigationController()
                     navController.pushViewController(webVC, animated: true)
@@ -119,14 +119,14 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         self.viewmodel = viewmodel
         
         compositeDisposable += self.viewmodel.phoneDisplay.producer
-            |> takeUntilPrepareForReuse(self)
-            |> start(next: { [weak self] phoneDisplay in
+            .takeUntilPrepareForReuse(self)
+            .start(next: { [weak self] phoneDisplay in
                 self?.phoneButton.setTitle(phoneDisplay, forState: .Normal)
             })
         
         compositeDisposable += self.viewmodel.webSiteDisplay.producer
-            |> takeUntilPrepareForReuse(self)
-            |> start(next: { [weak self] websiteDisplay in
+            .takeUntilPrepareForReuse(self)
+            .start(next: { [weak self] websiteDisplay in
                 self?.websiteButton.setTitle(websiteDisplay, forState: .Normal)
             })
     }

@@ -69,7 +69,7 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
     
 //    public func undoParticipation(index: Int) -> SignalProducer<Bool, NSError> {
 //        return participationService.delete(participationArr.value[index])
-//            |> on(
+//            .on(
 //                next: { _ in
 //                    ProfileLogInfo("participation backend completed")
 //                    self.participationArr.value.removeAtIndex(index)
@@ -86,11 +86,11 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
 //        query.includeKey(Property.Business.rawValue)
 //        
 //        return participationService.findBy(query)
-//            |> on(next: { participations in
+//            .on(next: { participations in
 //                self.participationArr.put(participations)
 //                self.businessArr.put(participations.map { $0.business })
 //            })
-//            |> map { participations -> [ProfileBusinessViewModel] in
+//            .map { participations -> [ProfileBusinessViewModel] in
 //                
 //                // map participation to its view model
 //                return participations.map {
@@ -99,7 +99,7 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
 //                    return viewmodel
 //                }
 //            }
-//            |> on(
+//            .on(
 //                next: { response in
 //                    self.profileBusinessViewModelArr.put(response)
 //                },

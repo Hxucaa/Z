@@ -30,10 +30,10 @@ public func predictiveScrolling<T: UITableView, U: IPredictiveScrollDataSource>(
             
             if let row = indexPath?.row {
                 predictiveScrollable.predictivelyFetchMoreData(row)
-                    |> on(next: { _ in
+                    .on(next: { _ in
                         MiscLogVerbose("'PredictiveScrolling' fetched additional data for infinite scrolling.")
                     })
-                    |> start()
+                    .start()
             }
     }
 

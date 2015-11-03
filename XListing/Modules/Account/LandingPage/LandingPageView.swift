@@ -75,8 +75,8 @@ public final class LandingPageView : UIView {
         super.awakeFromNib()
         
         compositeDisposable += viewmodel.producer
-            |> ignoreNil
-            |> start(next: { [weak self] viewmodel in
+            .ignoreNil
+            .start(next: { [weak self] viewmodel in
                 // conditionally load subviews
                 if viewmodel.rePrompt {
                     self?.setupButtonsView(RePromptButtonsViewNibName)

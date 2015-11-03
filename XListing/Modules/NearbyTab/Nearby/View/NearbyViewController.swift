@@ -71,9 +71,9 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
             
             // set the initial view region based on current location
             compositeDisposable += viewmodel.currentLocation
-                |> takeUntilViewWillDisappear(self)
-                |> logLifeCycle(LogContext.Nearby, "viewmodel.currentLocation")
-                |> start(next: { [weak self] location in
+                .takeUntilViewWillDisappear(self)
+                .logLifeCycle(LogContext.Nearby, "viewmodel.currentLocation")
+                .start(next: { [weak self] location in
                     let span = MapViewSpan
                     let region = MKCoordinateRegion(center: location.coordinate, span: span)
                     if let this = self {
@@ -81,9 +81,9 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                         this.searchOrigin = location
                         
                         this.compositeDisposable += this.viewmodel.getAdditionalBusinesses(location)
-                            |> takeUntilViewWillDisappear(this)
-                            |> logLifeCycle(LogContext.Nearby, "viewmodel.getAdditionalBusinesses")
-                            |> start()
+                            .takeUntilViewWillDisappear(this)
+                            .logLifeCycle(LogContext.Nearby, "viewmodel.getAdditionalBusinesses")
+                            .start()
                     }
                     
                 })
@@ -91,9 +91,9 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         
         // observing collection data source
         compositeDisposable += viewmodel.collectionDataSource.producer
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Nearby, "viewmodel.collectionDataSource.producer")
-            |> start(
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.Nearby, "viewmodel.collectionDataSource.producer")
+            .start(
                 next: { [weak self] operation in
                     if let this = self {
                         switch operation {
@@ -210,7 +210,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                     
                     // start the query
                     disposable += this.viewmodel.getBusinessesWithMap(this.searchOrigin, radius: radiusOfMapInKm)
-                        |> start(completed: {
+                        .start(completed: {
                             self?.redoSearchButton.hidden = true
                             sendCompleted(sink)
                         })
@@ -234,10 +234,10 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         // when annotation is added to the mapview, this signal receives the next event
         compositeDisposable += rac_signalForSelector(Selector("mapView:didAddAnnotationViews:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> map { ($0 as! RACTuple).second as! [MKAnnotationView] }
-            |> logLifeCycle(LogContext.Nearby, "mapView:didAddAnnotationViews:")
-            |> start(next: { [weak self] annotationViews in
+            .takeUntilViewWillDisappear(self)
+            .map { ($0 as! RACTuple).second as! [MKAnnotationView] }
+            .logLifeCycle(LogContext.Nearby, "mapView:didAddAnnotationViews:")
+            .start(next: { [weak self] annotationViews in
                 
                 // iterate over annotation view and add tap gesture recognizer to each
                 $.each(annotationViews, callback: { (index, view) -> () in
@@ -249,9 +249,9 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                     // listen to the gesture signal
                     self?.compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
                         // forwards events from the producer until the annotation view is prepared to be reused
-                        |> takeUntilPrepareForReuse(view)
-                        //                        |> logLifeCycle(LogContext.Nearby, "\(typeNameAndAddress(view)) tapGesture")
-                        |> start(next: { _ in
+                        .takeUntilPrepareForReuse(view)
+                        //                        .logLifeCycle(LogContext.Nearby, "\(typeNameAndAddress(view)) tapGesture")
+                        .start(next: { _ in
                             if let this = self, mapView = self?.mapView {
                                 let annotation = view.annotation
                                 
@@ -292,10 +292,10 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         
         compositeDisposable += rac_signalForSelector(Selector("mapView:regionWillChangeAnimated:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
             // Completes the signal when the view controller disappears
-            |> takeUntilViewWillDisappear(self)
-            |> map { ($0 as! RACTuple).second as! Bool }
-            |> logLifeCycle(LogContext.Nearby, "mapView:regionWillChangeAnimated:")
-            |> start(
+            .takeUntilViewWillDisappear(self)
+            .map { ($0 as! RACTuple).second as! Bool }
+            .logLifeCycle(LogContext.Nearby, "mapView:regionWillChangeAnimated:")
+            .start(
                 next: { [weak self] regionDidChangeAnimated in
                     
                     /// Determine whether the region change is triggered by user interaction.
@@ -321,10 +321,10 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         
         compositeDisposable += rac_signalForSelector(Selector("mapView:regionDidChangeAnimated:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
             // Completes the signal when the view controller disappears
-            |> takeUntilViewWillDisappear(self)
-            |> map { ($0 as! RACTuple).second as! Bool }
-            |> logLifeCycle(LogContext.Nearby, "mapView:regionDidChangeAnimated:")
-            |> start(
+            .takeUntilViewWillDisappear(self)
+            .map { ($0 as! RACTuple).second as! Bool }
+            .logLifeCycle(LogContext.Nearby, "mapView:regionDidChangeAnimated:")
+            .start(
                 next: { [weak self] regionDidChangeAnimated in
                     if (mapChangedFromUserInteraction) {
                         // show the redo search button when user moves the map
@@ -354,11 +354,11 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         // This replaces the need to implement the function from the delegate
         compositeDisposable += rac_signalForSelector(Selector("collectionView:didSelectItemAtIndexPath:"), fromProtocol: UICollectionViewDelegate.self).toSignalProducer()
             // Completes the signal when the view controller disappears
-            |> takeUntilViewWillDisappear(self)
+            .takeUntilViewWillDisappear(self)
             // Map the value obtained from signal to the desired one
-            |> map { ($0 as! RACTuple).second as! NSIndexPath }
-            |> logLifeCycle(LogContext.Nearby, "collectionView:didSelectItemAtIndexPath:")
-            |> start(
+            .map { ($0 as! RACTuple).second as! NSIndexPath }
+            .logLifeCycle(LogContext.Nearby, "collectionView:didSelectItemAtIndexPath:")
+            .start(
                 next: { [weak self] indexPath in
                     self?.viewmodel.pushSocialBusinessModule(indexPath.section)
                 }
@@ -367,10 +367,10 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndScrollingAnimation:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
             
             // Completes the signal when the view controller disappears
-            |> takeUntilViewWillDisappear(self)
-            |> map { ($0 as! RACTuple).first as! UIScrollView }
-            |> logLifeCycle(LogContext.Nearby, "scrollViewDidEndScrollingAnimation:")
-            |> start(
+            .takeUntilViewWillDisappear(self)
+            .map { ($0 as! RACTuple).first as! UIScrollView }
+            .logLifeCycle(LogContext.Nearby, "scrollViewDidEndScrollingAnimation:")
+            .start(
                 next: { [weak self] scrollView in
                     if let
                         this = self,
@@ -402,10 +402,10 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         // create a signal associated with `scrollViewDidEndDragging:willDecelerate:` from delegate `UIScrollViewDelegate`
         compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
             // Completes the signal when the view controller disappears
-            |> takeUntilViewWillDisappear(self)
-            |> map { ($0 as! RACTuple).first as! UIScrollView }
-            |> logLifeCycle(LogContext.Nearby, "scrollViewDidEndDragging:willDecelerate:")
-            |> start(
+            .takeUntilViewWillDisappear(self)
+            .map { ($0 as! RACTuple).first as! UIScrollView }
+            .logLifeCycle(LogContext.Nearby, "scrollViewDidEndDragging:willDecelerate:")
+            .start(
                 next: { scrollView in
                     
                     //if we reach the last item of the collection view, start the query for pagination
@@ -415,7 +415,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                         where currentIndexPath.section == self.businessCollectionView.numberOfSections() - 1 {
                             
                         self.compositeDisposable += self.viewmodel.getAdditionalBusinesses(self.searchOrigin)
-                            |> start()
+                            .start()
                     }
                 }
         )

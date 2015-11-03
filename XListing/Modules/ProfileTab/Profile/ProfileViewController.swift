@@ -79,16 +79,16 @@ public final class ProfileViewController : XUIViewController {
         
         upperViewController.editProxy
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Profile, "headerView.editProxy")
-            |> start(next: { [weak self] in
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.Profile, "headerView.editProxy")
+            .start(next: { [weak self] in
                 self?.viewmodel.presentProfileEditModule(true, completion: nil)
             })
         
         bottomViewController.fullImageProxy
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Profile, "photoManager.fullImageProxy")
-            |> start(next: { [weak self] in
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.Profile, "photoManager.fullImageProxy")
+            .start(next: { [weak self] in
                 self?.viewmodel.presentFullScreenImageModule(true, completion: nil)
                 })
     }

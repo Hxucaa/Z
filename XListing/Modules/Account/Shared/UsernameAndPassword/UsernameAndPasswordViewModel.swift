@@ -35,11 +35,11 @@ public final class UsernameAndPasswordViewModel {
         // - between 3 and 30 characters
         // - letters, numbers, dashes, periods, and underscores only
         validUsernameSignal = username.producer
-            |> ignoreNil
-            |> filter { self.testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
+            .ignoreNil
+            .filter { self.testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
         
         isUsernameValid <~ validUsernameSignal
-            |> map { _ in true }
+            .map { _ in true }
         
         
         // only allow passwords with:
@@ -47,17 +47,17 @@ public final class UsernameAndPasswordViewModel {
         // - letters, numbers, and most standard symbols
         // - at least one number, capital letter, or special character
         validPasswordSignal = password.producer
-            |> ignoreNil
-            |> filter { count($0) > 0 }
-        //            |> filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
+            .ignoreNil
+            .filter { count($0) > 0 }
+        //            .filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
         
         isPasswordValid <~ validPasswordSignal
-            |> map { _ in true }
+            .map { _ in true }
         
         
         
         allInputsValid <~ combineLatest(isUsernameValid.producer, isPasswordValid.producer)
-            |> map { $0.0 && $0.1 }
+            .map { $0.0 && $0.1 }
     }
     
     // MARK: - Setups

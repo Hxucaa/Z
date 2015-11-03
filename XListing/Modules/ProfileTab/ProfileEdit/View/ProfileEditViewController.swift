@@ -132,7 +132,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
                     // check for the validity of inputs first
                     disposable += this.viewmodel.allInputsValid.producer
                         // on error displays error prompt
-                        |> on(next: { validity in
+                        .on(next: { validity in
                             if !validity {
                                 var alert = UIAlertController(title: "提交失败啦", message: "请填写昵称,性别,生日和上传一张照片😊", preferredStyle: UIAlertControllerStyle.Alert)
                                 alert.addAction(UIAlertAction(title: "确定", style: UIAlertActionStyle.Cancel, handler: nil))
@@ -142,29 +142,29 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
                             }
                         })
                         // only valid inputs can continue through
-                        |> filter { $0 }
+                        .filter { $0 }
                         // delay the signal due to the animation of retracting keyboard
                         // this cannot be executed on main thread, otherwise UI will be blocked
-                        |> delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                        .delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
                         // return the signal to main/ui thread in order to run UI related code
-                        |> observeOn(UIScheduler())
+                        .observeOn(UIScheduler())
                         // show the HUD
-                        |> flatMap(FlattenStrategy.Latest) { _ in
+                        .flatMap(FlattenStrategy.Latest) { _ in
                             return HUD.show()
                         }
                         // map error to the same type as other signal
-                        |> promoteErrors(NSError)
+                        .promoteErrors(NSError)
                         // update the DB with profile data
-                        |> flatMap(FlattenStrategy.Latest) { _ in
+                        .flatMap(FlattenStrategy.Latest) { _ in
                             return this.viewmodel.updateProfile
                         }
                         // dismiss HUD based on the result of update profile signal
-                        |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
+                        .HUD.dismissWithStatusMessage(errorHandler: { error -> String in
                             ProfileLogError(error.description)
                             return error.customErrorDescription
                         })
                         // does not `sendCompleted` because completion is handled when HUD is disappeared
-                        |> start(
+                        .start(
                             error: { error in
                                 sendError(sink, error)
                             },
@@ -176,8 +176,8 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
                     
                     // Subscribe to touch down inside event
                     disposable += HUD.didTouchDownInsideNotification()
-                        |> on(next: { _ in ProfileLogVerbose("HUD touch down inside.") })
-                        |> start(
+                        .on(next: { _ in ProfileLogVerbose("HUD touch down inside.") })
+                        .start(
                             next: { _ in
                                 // dismiss HUD
                                 HUD.dismiss()
@@ -186,8 +186,8 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
                     
                     // Subscribe to disappear notification
                     disposable += HUD.didDissappearNotification()
-                        |> on(next: { _ in ProfileLogVerbose("HUD disappeared.") })
-                        |> start(next: { status in
+                        .on(next: { _ in ProfileLogVerbose("HUD disappeared.") })
+                        .start(next: { status in
                             
                             // completes the action
                             sendNext(sink, ())
@@ -255,7 +255,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
     private func setupKeyboard() {
         compositeDisposable += Keyboard.willShowNotification
             // forwards events until the view is going to disappear
-            |> start(
+            .start(
                 next: { [weak self] _ in
                     var contentInsets:UIEdgeInsets
                     var deviceWidth = UIScreen.mainScreen().bounds.size.width
@@ -271,7 +271,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
         
         compositeDisposable += Keyboard.willHideNotification
             // forwards events until the view is going to disappear
-            |> start(
+            .start(
                 next: { [weak self] _ in
                     
                     self?.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0)

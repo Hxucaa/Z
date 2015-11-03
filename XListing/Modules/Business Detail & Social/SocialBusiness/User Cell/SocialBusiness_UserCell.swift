@@ -180,28 +180,28 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         self.viewmodel = viewmodel
         
         nicknameLabel.rac_text <~ viewmodel.nickname.producer
-            |> takeUntilPrepareForReuse(self)
+            .takeUntilPrepareForReuse(self)
         
         participationTypeLabel.rac_text <~ viewmodel.participationType.producer
-            |> takeUntilPrepareForReuse(self)
+            .takeUntilPrepareForReuse(self)
         
         ageGroupLabel.rac_text <~ viewmodel.ageGroup.producer
-            |> takeUntilPrepareForReuse(self)
+            .takeUntilPrepareForReuse(self)
         
         horoscopeLabel.rac_text <~ viewmodel.horoscope.producer
-            |> takeUntilPrepareForReuse(self)
+            .takeUntilPrepareForReuse(self)
         
         statusLabel.rac_text <~ viewmodel.status.producer
-            |> takeUntilPrepareForReuse(self)
+            .takeUntilPrepareForReuse(self)
         
         ageGroupLabel.rac_backgroundColor <~ viewmodel.ageGroupBackgroundColor.producer
-            |> takeUntilPrepareForReuse(self)
-            |> map { Optional.Some($0) }
+            .takeUntilPrepareForReuse(self)
+            .map { Optional.Some($0) }
         
         profileImageView.rac_image <~ viewmodel.profileImage.producer
-            |> takeUntilPrepareForReuse(self)
-            |> ignoreNil
-            |> map { $0.maskWithRoundedRect(self.profileImageView.frame.size, cornerRadius: self.profileImageView.frame.size.height, backgroundColor: .whiteColor()) }
+            .takeUntilPrepareForReuse(self)
+            .ignoreNil
+            .map { $0.maskWithRoundedRect(self.profileImageView.frame.size, cornerRadius: self.profileImageView.frame.size.height, backgroundColor: .whiteColor()) }
         
     }
 }

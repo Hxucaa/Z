@@ -44,8 +44,8 @@ public struct DetailPhoneWebViewModel {
     // MARK: - API
     public var callPhone: SignalProducer<Void, NoError> {
         return self.phoneURL.producer
-            |> filter { $0 != nil }
-            |> map { url -> Void in
+            .filter { $0 != nil }
+            .map { url -> Void in
                 UIApplication.sharedApplication().openURL(url!)
             }
     }

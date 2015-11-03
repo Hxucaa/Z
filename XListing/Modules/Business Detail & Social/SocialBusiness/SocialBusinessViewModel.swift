@@ -82,12 +82,12 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     
     public func fetchMoreData() -> SignalProducer<Void, NSError> {
         return fetchParticipatingUsers(refresh: false)
-            |> map { _ in }
+            .map { _ in }
     }
     
     public func refreshData() -> SignalProducer<Void, NSError> {
         return fetchParticipatingUsers(refresh: true)
-            |> map { _ in }
+            .map { _ in }
     }
     
     public func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
@@ -98,7 +98,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
             // else fetch more data
         else {
             return fetchParticipatingUsers(refresh: false)
-                |> map { _ in }
+                .map { _ in }
         }
     }
     
@@ -115,7 +115,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         query.whereKey(User_Business_Participation.Property.Business.rawValue, equalTo: business)
 
         return participationService.findBy(query)
-            |> on(next: { participation in
+            .on(next: { participation in
                 
                 if refresh {
                     // ignore old data, put in new array
@@ -126,14 +126,14 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
                     self.userArr.put(self.userArr.value + participation)
                 }
             })
-            |> map { participations -> [SocialBusiness_UserViewModel] in
+            .map { participations -> [SocialBusiness_UserViewModel] in
 
                 return participations.map {
                     SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, nickname: $0.user.nickname, ageGroup: $0.user.ageGroup_, horoscope: $0.user.horoscope_, gender: $0.user.gender_, profileImage: $0.user.profileImg_, status: $0.user.status, participationType: $0.type)
                 }
 
             }
-            |> on(
+            .on(
                 next: { viewmodels in
                     if refresh && viewmodels.count > 0 {
                         // ignore old data
@@ -161,14 +161,14 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         */
         public func participate(choice: ParticipationType) -> SignalProducer<Bool, NSError> {
             return self.userService.currentLoggedInUser()
-                |> flatMap(FlattenStrategy.Concat) { user -> SignalProducer<Bool, NSError> in
+                .flatMap(FlattenStrategy.Concat) { user -> SignalProducer<Bool, NSError> in
                     let p = Participation()
                     p.user = user
                     p.business = self.business
     
                     return self.participationService.create(p)
                 }
-                |> on(next: { [weak self] success in
+                .on(next: { [weak self] success in
                     // if operation is successful, change the participation button.
                     if success {
                         self?._isButtonEnabled.put(false)

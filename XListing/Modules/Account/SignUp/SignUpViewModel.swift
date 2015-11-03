@@ -32,10 +32,10 @@ public final class SignUpViewModel {
         let viewmodel = UsernameAndPasswordViewModel(submit: self.signUp)
         
         self.username <~ viewmodel.validUsernameSignal
-            |> map { Optional<String>($0) }
+            .map { Optional<String>($0) }
         
         self.password <~ viewmodel.validPasswordSignal
-            |> map { Optional<String>($0) }
+            .map { Optional<String>($0) }
         
         return viewmodel
     }()
@@ -44,7 +44,7 @@ public final class SignUpViewModel {
         let viewmodel = NicknameViewModel()
         
         self.nickname <~ viewmodel.validNicknameSignal
-            |> map { Optional<String>($0) }
+            .map { Optional<String>($0) }
         
         return viewmodel
     }()
@@ -53,7 +53,7 @@ public final class SignUpViewModel {
         let viewmodel = GenderPickerViewModel()
         
         self.gender <~ viewmodel.validGenderSignal
-            |> map { Optional<Gender>($0) }
+            .map { Optional<Gender>($0) }
         
         return viewmodel
     }()
@@ -62,7 +62,7 @@ public final class SignUpViewModel {
         let viewmodel = BirthdayPickerViewModel()
         
         self.birthday <~ viewmodel.validBirthdaySignal
-            |> map { Optional<NSDate>($0) }
+            .map { Optional<NSDate>($0) }
         
         return viewmodel
     }()
@@ -71,7 +71,7 @@ public final class SignUpViewModel {
         let viewmodel = PhotoViewModel(updateProfile: self.updateProfile)
         
         self.photo <~ viewmodel.validProfileImageSignal
-            |> map { Optional<UIImage>($0) }
+            .map { Optional<UIImage>($0) }
         
         // output `areAllProfileInputsPresent` to the sub-viewmodel so that it is aware that all info for the profile are collected
         viewmodel.areAllProfileInputsPresent <~ self.areAllProfileInputsPresent
@@ -82,8 +82,8 @@ public final class SignUpViewModel {
     // MARK: - Properties
     private weak var accountNavigator: IAccountNavigator!
     private let userService: IUserService
-    private lazy var allProfileInputs: SignalProducer<(String, NSDate, UIImage, Gender), NoError> = combineLatest(self.nickname.producer |> ignoreNil, self.birthday.producer |> ignoreNil, self.photo.producer |> ignoreNil, self.gender.producer |> ignoreNil)
-    private lazy var allSignUpInputs: SignalProducer<(String, String), NoError> = combineLatest(self.username.producer |> ignoreNil, self.password.producer |> ignoreNil)
+    private lazy var allProfileInputs: SignalProducer<(String, NSDate, UIImage, Gender), NoError> = combineLatest(self.nickname.producer .ignoreNil, self.birthday.producer .ignoreNil, self.photo.producer .ignoreNil, self.gender.producer .ignoreNil)
+    private lazy var allSignUpInputs: SignalProducer<(String, String), NoError> = combineLatest(self.username.producer .ignoreNil, self.password.producer .ignoreNil)
     
     // MARK: Initializers
     public init(accountNavigator: IAccountNavigator, userService: IUserService) {
@@ -91,10 +91,10 @@ public final class SignUpViewModel {
         self.accountNavigator = accountNavigator
         
         areAllProfileInputsPresent <~ allProfileInputs
-            |> map { _ in true }
+            .map { _ in true }
         
         areSignUpInputsPresent <~ allSignUpInputs
-            |> map { _ in true }
+            .map { _ in true }
         
     }
     
@@ -109,10 +109,10 @@ public final class SignUpViewModel {
     private var signUp: SignalProducer<Bool, NSError> {
         return self.areSignUpInputsPresent.producer
             // only allow TRUE value
-            |> filter { $0 }
-            |> flatMap(.Concat) { _ in self.allSignUpInputs }
-            |> promoteErrors(NSError)
-            |> flatMap(FlattenStrategy.Merge) { username, password -> SignalProducer<Bool, NSError> in
+            .filter { $0 }
+            .flatMap(.Concat) { _ in self.allSignUpInputs }
+            .promoteErrors(NSError)
+            .flatMap(FlattenStrategy.Merge) { username, password -> SignalProducer<Bool, NSError> in
                 let user = User()
                 user.username = username
                 user.password = password
@@ -123,13 +123,13 @@ public final class SignUpViewModel {
     private var updateProfile: SignalProducer<Bool, NSError> {
         return self.areAllProfileInputsPresent.producer
             // only allow TRUE value
-            |> filter { $0 }
-            |> promoteErrors(NSError)
-            |> flatMap(.Concat) { _ in self.userService.currentLoggedInUser() }
-            |> flatMap(.Concat) { user -> SignalProducer<Bool, NSError> in
+            .filter { $0 }
+            .promoteErrors(NSError)
+            .flatMap(.Concat) { _ in self.userService.currentLoggedInUser() }
+            .flatMap(.Concat) { user -> SignalProducer<Bool, NSError> in
                 return self.allProfileInputs
-                    |> promoteErrors(NSError)
-                    |> flatMap(.Latest) { (nickname, birthday, profileImage, gender) -> SignalProducer<Bool, NSError> in
+                    .promoteErrors(NSError)
+                    .flatMap(.Latest) { (nickname, birthday, profileImage, gender) -> SignalProducer<Bool, NSError> in
                         let imageData = UIImagePNGRepresentation(profileImage)
                         user.nickname = nickname
                         user.birthday = birthday

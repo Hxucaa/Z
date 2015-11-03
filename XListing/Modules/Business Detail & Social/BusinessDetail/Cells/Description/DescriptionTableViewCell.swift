@@ -59,7 +59,7 @@ public final class DescriptionTableViewCell: UITableViewCell {
     public func bindViewModel(viewmodel: DescriptionCellViewModel) {
         self.viewmodel = viewmodel
         //descriptionLabel.rac_text <~ viewmodel.description.producer
-        //    |> takeUntilPrepareForReuse(self)
+        //    .takeUntilPrepareForReuse(self)
     }
 
 }

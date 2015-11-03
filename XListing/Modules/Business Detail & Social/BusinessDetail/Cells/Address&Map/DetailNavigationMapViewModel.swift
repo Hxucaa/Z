@@ -34,14 +34,14 @@ public struct DetailNavigationMapViewModel {
             
             
             region <~ self.geoLocationService.getCurrentLocation()
-                |> map { current -> MKCoordinateRegion? in
+                .map { current -> MKCoordinateRegion? in
                     let distance = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude).distanceFromLocation(current)
                     let spanFactor = distance / 45000.00
                     let span = MKCoordinateSpanMake(spanFactor, spanFactor)
                     let region = MKCoordinateRegion(center: coordinate, span: span)
                     return region
                 }
-                |> catch { error in
+                .flatMapError { error in
                     return SignalProducer<MKCoordinateRegion?, NoError>.empty
             }
             

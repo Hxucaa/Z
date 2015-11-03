@@ -9,16 +9,14 @@ PODS:
   - AVOSCloudDynamic (3.1.6)
   - AVOSCloudIMDynamic (3.1.6):
     - AVOSCloudDynamic
-  - Box (1.2.2)
   - Cartography (0.6.0)
-  - CocoaLumberjack (2.2.0):
-    - CocoaLumberjack/Default (= 2.2.0)
-    - CocoaLumberjack/Extensions (= 2.2.0)
   - CocoaLumberjack/Core (2.2.0)
   - CocoaLumberjack/Default (2.2.0):
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.2.0):
     - CocoaLumberjack/Default
+  - CocoaLumberjack/Swift (2.2.0):
+    - CocoaLumberjack/Extensions
   - Crashlytics (3.3.4)
   - Dollar (4.0.1)
   - Fabric (1.5.5):
@@ -29,22 +27,22 @@ PODS:
   - INSPullToRefresh (1.0.12)
   - Locksmith (2.0.2)
   - Nimble (3.0.0)
+  - pop (1.0.8)
   - Quick (0.8.0)
-  - ReactiveArray (0.1.7):
-    - ReactiveCocoa (~> 3.0.0)
-  - ReactiveCocoa (3.0.0):
-    - ReactiveCocoa/UI (= 3.0.0)
-    - Result (~> 0.4.1)
-  - ReactiveCocoa/Core (3.0.0):
+  - ReactiveArray (0.6.0):
+    - ReactiveCocoa (= 4.0.2-alpha-3)
+  - ReactiveCocoa (4.0.2-alpha-3):
+    - ReactiveCocoa/UI (= 4.0.2-alpha-3)
+    - Result (~> 0.6.0-beta.6)
+  - ReactiveCocoa/Core (4.0.2-alpha-3):
     - ReactiveCocoa/no-arc
-    - Result (~> 0.4.1)
-  - ReactiveCocoa/no-arc (3.0.0):
-    - Result (~> 0.4.1)
-  - ReactiveCocoa/UI (3.0.0):
+    - Result (~> 0.6.0-beta.6)
+  - ReactiveCocoa/no-arc (4.0.2-alpha-3):
+    - Result (~> 0.6.0-beta.6)
+  - ReactiveCocoa/UI (4.0.2-alpha-3):
     - ReactiveCocoa/Core
-    - Result (~> 0.4.1)
-  - Result (0.4.4):
-    - Box (~> 1.2)
+    - Result (~> 0.6.0-beta.6)
+  - Result (0.6.0-beta.6)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
@@ -52,9 +50,8 @@ PODS:
   - SVProgressHUD (1.1.3)
   - TTTAttributedLabel (1.13.4)
   - TZStackView (1.1.2)
-  - Watchdog (1.0.2)
-  - XAssets (0.3.9):
-    - ReactiveCocoa (~> 3.0.0)
+  - XAssets (0.5.1):
+    - ReactiveCocoa (= 4.0.2-alpha-3)
     - SDWebImage (~> 3.7.0)
 
 DEPENDENCIES:
@@ -65,7 +62,7 @@ DEPENDENCIES:
   - AVOSCloudDynamic (~> 3.1)
   - AVOSCloudIMDynamic (~> 3.1)
   - Cartography (~> 0.6.0)
-  - CocoaLumberjack (~> 2.2.0)
+  - CocoaLumberjack/Swift (~> 2.2.0)
   - Crashlytics (~> 3.3.1)
   - Dollar (~> 4.0.1)
   - Fabric (~> 1.5.1)
@@ -74,35 +71,41 @@ DEPENDENCIES:
   - INSPullToRefresh (~> 1.0.11)
   - Locksmith (~> 2.0.2)
   - Nimble (~> 3.0.0)
+  - pop (~> 1.0)
   - Quick (~> 0.8.0)
-  - ReactiveArray (from `https://github.com/Hxucaa/ReactiveArray.git`)
-  - ReactiveCocoa (~> 3.0.0)
+  - ReactiveArray (from `ssh://git@dev.lai.io:2345/diffusion/RA/reactivearray.git`)
+  - ReactiveCocoa (= 4.0.2-alpha-3)
   - SDWebImage (~> 3.7.0)
-  - Spring (~> 1.0.3)
+  - Spring (from `https://github.com/MengTo/Spring.git`, branch `swift2`)
   - SVProgressHUD (from `https://github.com/Hxucaa/SVProgressHUD.git`)
   - TTTAttributedLabel (~> 1.13.4)
   - TZStackView (~> 1.1.2)
-  - Watchdog (~> 1.0.0)
-  - XAssets (from `https://zenchatapp.com/stash/scm/zen/xassets.git`)
+  - XAssets (from `ssh://git@dev.lai.io:2345/diffusion/IA/ios-assets.git`)
 
 EXTERNAL SOURCES:
   ReactiveArray:
-    :git: https://github.com/Hxucaa/ReactiveArray.git
+    :git: ssh://git@dev.lai.io:2345/diffusion/RA/reactivearray.git
+  Spring:
+    :branch: swift2
+    :git: https://github.com/MengTo/Spring.git
   SVProgressHUD:
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
-    :git: https://zenchatapp.com/stash/scm/zen/xassets.git
+    :git: ssh://git@dev.lai.io:2345/diffusion/IA/ios-assets.git
 
 CHECKOUT OPTIONS:
   ReactiveArray:
-    :commit: 8b9c447f0bb03dc2d7ec3fd079c9e6e1fb08cc02
-    :git: https://github.com/Hxucaa/ReactiveArray.git
+    :commit: 65106861dbc01420295dcbde0e2603eed2714462
+    :git: ssh://git@dev.lai.io:2345/diffusion/RA/reactivearray.git
+  Spring:
+    :commit: 18d5c7b74489de8044e34767f856d1e574f0820e
+    :git: https://github.com/MengTo/Spring.git
   SVProgressHUD:
     :commit: 4cbf1de2f9becbdfe38257bf9129f2930a2668ab
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
-    :commit: f71b6c08061172bdcfbbd3f0205645a32f0088e1
-    :git: https://zenchatapp.com/stash/scm/zen/xassets.git
+    :commit: 3f8b7f290bcf2a7fbfef4da0134795a34b95a27e
+    :git: ssh://git@dev.lai.io:2345/diffusion/IA/ios-assets.git
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 11f2053085d3088dc1ef9d38a9f11c18b528dd9e
@@ -111,7 +114,6 @@ SPEC CHECKSUMS:
   AVOSCloudCrashReportingDynamic: b0dfe4bde43ae2832487abe315aaa19d5c1dcb73
   AVOSCloudDynamic: a5ca2eff87cbcedeaa396f1ffcfdb857e06a2f78
   AVOSCloudIMDynamic: 82469e767640db50ee04a1d278bdff347f35b1f0
-  Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
@@ -122,16 +124,16 @@ SPEC CHECKSUMS:
   INSPullToRefresh: 3c3840b1837870d6553f749dab6520e31f551a76
   Locksmith: 7f2b68448449a7712348f9a4ed60604c1cc8dfa6
   Nimble: 4c353d43735b38b545cbb4cb91504588eb5de926
+  pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   Quick: 563d0f6ec5f72e394645adb377708639b7dd38ab
-  ReactiveArray: 42940221dcf83277d4b15b58fa9987b089314097
-  ReactiveCocoa: 5c4710e2f00f69f39a7f135d1f3ab48f8dace034
-  Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
+  ReactiveArray: 9be4e809db93e8962c362d827db765562761be7f
+  ReactiveCocoa: 441c518a69d0f6202a1886d77b66d8f79e1f4a81
+  Result: dc390d0b58f9ec43fcd536f1ebdd130803cc6cbc
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
   TZStackView: 19aeaa414fb653f4be9b80a73f4f0c66e33bf033
-  Watchdog: df151f580ea32831011cef05eda6c42385cd8423
-  XAssets: 4d138c0886f598b6d057afa8e457858e801c1caa
+  XAssets: c3548d909d81f181848be931eb3660cc9b928ca4
 
 COCOAPODS: 0.39.0

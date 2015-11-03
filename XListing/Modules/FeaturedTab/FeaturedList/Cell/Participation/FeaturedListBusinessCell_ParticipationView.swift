@@ -85,8 +85,8 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
 
         let imageView = self.makeIconImageView(CGRectMake(0, 0, wtgIconSize, wtgIconSize))
         imageView.rac_image <~ AssetFactory.getImage(Asset.WTGIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-            |> take(1)
-            |> map { Optional<UIImage>($0) }
+            .take(1)
+            .map { Optional<UIImage>($0) }
         
         let label = UILabel(frame: CGRectMake(wtgIconSize, 2, labelSize, labelSize))
         label.text = "20"
@@ -114,8 +114,8 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         let imageView = self.makeIconImageView(CGRectMake(0, 0, treatIconSize, treatIconSize))
         
         imageView.rac_image <~ AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-            |> take(1)
-            |> map { Optional<UIImage>($0) }
+            .take(1)
+            .map { Optional<UIImage>($0) }
         
         let label = UILabel(frame: CGRectMake(treatIconSize, 3, labelSize, labelSize))
         label.text = "20"
@@ -213,24 +213,24 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         self.viewmodel = viewmodel
         
 //        joinButton.rac_enabled <~ viewmodel.buttonEnabled.producer
-//            |> takeUntilPrepareForReuse(self)
+//            .takeUntilPrepareForReuse(self)
 //
 //        viewmodel.buttonEnabled.producer
-//            |> ignoreNil
-//            |> start(next: {[weak self] input in
+//            .ignoreNil
+//            .start(next: {[weak self] input in
 //                    self?.joinButtonUIButton.enabled = input
 //                    self?.joinButtonUIButton.hidden  = false
 //                })
         
         compositeDisposable += self.viewmodel.getParticipantPreview()
-            |> start()
+            .start()
         
         compositeDisposable += self.viewmodel.getUserParticipation()
-            |> start()
+            .start()
         
         compositeDisposable += self.viewmodel.participantViewModelArr.producer
-            |> filter { $0.count > 0 }
-            |> start (next: { [weak self] participants in
+            .filter { $0.count > 0 }
+            .start (next: { [weak self] participants in
                 if let this = self {
                     
                     // iterate through previewImageViews
@@ -239,9 +239,9 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
                             
                             // place the image into image view
                             participants[index].avatar.producer
-                                |> ignoreNil
-                                |> map { $0.maskWithRoundedRect(view.frame.size, cornerRadius: view.frame.size.width, backgroundColor: .x_FeaturedCardBG()) }
-                                |> start(next: { image in
+                                .ignoreNil
+                                .map { $0.maskWithRoundedRect(view.frame.size, cornerRadius: view.frame.size.width, backgroundColor: .x_FeaturedCardBG()) }
+                                .start(next: { image in
                                     view.image = image
                                 })
                         }

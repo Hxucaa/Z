@@ -37,14 +37,14 @@ public final class BirthdayPickerViewModel {
         pickerLowerLimit = ConstantProperty<NSDate>(NSDate(timeInterval: 1, sinceDate: 年龄下限))
         
         validBirthdaySignal = birthday.producer
-            |> ignoreNil
-            |> validAgeOnly()
+            .ignoreNil
+            .validAgeOnly()
 
         isBirthdayValid <~ validBirthdaySignal
-            |> map { _ in true }
+            .map { _ in true }
         
         birthdayText <~ validBirthdaySignal
-            |> map { date in
+            .map { date in
                 let formatter = NSDateFormatter()
                 formatter.locale = NSLocale(localeIdentifier: "zh_CN")
                 formatter.dateStyle = NSDateFormatterStyle.LongStyle
@@ -79,7 +79,7 @@ public final class BirthdayPickerViewModel {
     private func validAgeOnly<T: NSDate, E>() -> SignalProducer<T, E> -> SignalProducer<T, E> {
         return { producer in
             return producer
-                |> filter { ($0.compare(self.年龄上限) == .OrderedAscending) && ($0.compare(self.年龄下限) == .OrderedDescending) }
+                .filter { ($0.compare(self.年龄上限) == .OrderedAscending) && ($0.compare(self.年龄下限) == .OrderedDescending) }
         }
     }
 }

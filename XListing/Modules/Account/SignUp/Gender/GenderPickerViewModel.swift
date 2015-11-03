@@ -25,10 +25,10 @@ public final class GenderPickerViewModel {
     // MARK: - Initializers
     public init() {
         validGenderSignal = gender.producer
-            |> ignoreNil
+            .ignoreNil
 
         isGenderValid <~ validGenderSignal
-            |> map { _ in true }
+            .map { _ in true }
         
     }
     

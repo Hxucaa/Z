@@ -33,10 +33,10 @@ public class PullToRefreshConductor<T: UITableView, U: IPullToRefreshDataSource>
             if let this = self {
                 let startTime = NSDate.timeIntervalSinceReferenceDate()
                 this.pullToRefreshable.refreshData()
-                    |> on(next: { _ in
+                    .on(next: { _ in
                         MiscLogVerbose("Pull to refresh fetched additional data for infinite scrolling.")
                     })
-                    |> flatMap(.Merge) { _ -> SignalProducer<Void, NSError> in
+                    .flatMap(.Merge) { _ -> SignalProducer<Void, NSError> in
                         
                         /**
                         *  Ensure the pull to refresh is displayed for a minimum amount of time even if network request is very fast.
@@ -48,15 +48,15 @@ public class PullToRefreshConductor<T: UITableView, U: IPullToRefreshDataSource>
                             return SignalProducer<Void, NSError>.empty
                                 // delay the signal due to the animation of retracting keyboard
                                 // this cannot be executed on main thread, otherwise UI will be blocked
-                                |> delay(Constants.PULL_TO_REFRESH_DELAY - elapsedTime, onScheduler: QueueScheduler())
+                                .delay(Constants.PULL_TO_REFRESH_DELAY - elapsedTime, onScheduler: QueueScheduler())
                                 // return the signal to main/ui thread in order to run UI related code
-                                |> observeOn(UIScheduler())
+                                .observeOn(UIScheduler())
                         }
                         else {
                             return SignalProducer<Void, NSError>.empty
                         }
                     }
-                    |> start(
+                    .start(
                         error: { error in
                             scrollView.ins_endPullToRefresh()
                             MiscLogError("Pull to refresh error: \(error)")

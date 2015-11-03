@@ -22,7 +22,7 @@ pod "XAssets"
 
 ## Author
 
-Lance Zhu, lance.zhu@zenchatapp.com
+Lance Zhu, lzhu@lai.io
 
 ## License
 

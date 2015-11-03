@@ -33,8 +33,8 @@ public class TransitionManager {
         
         compositeDisposable += viewTransitionProducer
             // forwards events along with the previous value. The first member is the previous value and the second is the current value.
-            |> combinePrevious(initial())
-            |> start(next: { [weak self] current, next in
+            .combinePrevious(initial())
+            .start(next: { [weak self] current, next in
                 transformation(current: current, next: next)
             })
     }

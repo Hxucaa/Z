@@ -70,7 +70,7 @@ public final class UserService : IUserService {
                 }
             }
         }
-            |> on(completed: {
+            .on(completed: {
                 LSLogVerbose("Sign up succeeded.")
             })
     }

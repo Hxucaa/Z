@@ -36,15 +36,15 @@ public final class BackgroundLocationWorker : NSObject, IBackgroundLocationWorke
     
     public func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
         userService.currentLoggedInUser()
-            |> flatMap(.Concat) { user -> SignalProducer<Bool, NSError> in
+            .flatMap(.Concat) { user -> SignalProducer<Bool, NSError> in
                 
                 user.latestGeolocation = Geolocation(location: newLocation)
                 return self.userService.save(user)
             }
-            |> on(
+            .on(
                 next: { _ in BOLogVerbose("User location updated") },
                 error: { _ in BOLogError("Location update failed!") }
             )
-            |> start()
+            .start()
     }
 }

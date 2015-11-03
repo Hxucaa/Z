@@ -24,10 +24,10 @@ public final class LogInViewModel {
         let viewmodel = UsernameAndPasswordViewModel(submit: self.logIn)
         
         self.username <~ viewmodel.validUsernameSignal
-            |> map { Optional<String>($0) }
+            .map { Optional<String>($0) }
         
         self.password <~ viewmodel.validPasswordSignal
-            |> map { Optional<String>($0) }
+            .map { Optional<String>($0) }
         
         return viewmodel
     }()
@@ -36,7 +36,7 @@ public final class LogInViewModel {
     // MARK: - Properties
     private let userService: IUserService
     private weak var accountNavigator: IAccountNavigator!
-    private lazy var allLogInInputs: SignalProducer<(String, String), NoError> = combineLatest(self.username.producer |> ignoreNil, self.password.producer |> ignoreNil)
+    private lazy var allLogInInputs: SignalProducer<(String, String), NoError> = combineLatest(self.username.producer .ignoreNil, self.password.producer .ignoreNil)
     
     // MARK: - Initializers
     
@@ -46,7 +46,7 @@ public final class LogInViewModel {
         
         
         areLogInInputsPresent <~ allLogInInputs
-            |> map { _ in true }
+            .map { _ in true }
     }
     
     deinit {
@@ -61,21 +61,21 @@ public final class LogInViewModel {
         
         return self.areLogInInputsPresent.producer
             // only allow TRUE value
-            |> filter { $0 }
+            .filter { $0 }
             // combine the username and password into one signal
-            |> flatMap(.Concat) { _ in self.allLogInInputs }
+            .flatMap(.Concat) { _ in self.allLogInInputs }
             // promote to NSError
-            |> promoteErrors(NSError)
+            .promoteErrors(NSError)
             // log in user
-            |> flatMap(FlattenStrategy.Merge) { username, password -> SignalProducer<User, NSError> in
+            .flatMap(FlattenStrategy.Merge) { username, password -> SignalProducer<User, NSError> in
                 return self.userService.logIn(username, password: password)
             }
-            |> map { _ in
+            .map { _ in
                 return true
             }
     }
     
-    public func finishModule(_ callback: (CompletionHandler? -> ())? = nil) {
+    public func finishModule(callback: (CompletionHandler? -> ())? = nil) {
         accountNavigator.finishModule { handler in
             callback?(handler)
         }

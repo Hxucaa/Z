@@ -27,40 +27,40 @@ private struct AssociationKey {
 private func lazyAssociatedProperty<T: AnyObject>(host: AnyObject, key: UnsafePointer<Void>, factory: ()->T) -> T {
     return objc_getAssociatedObject(host, key) as? T ?? {
         let associatedProperty = factory()
-        objc_setAssociatedObject(host, key, associatedProperty, UInt(objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN))
+        objc_setAssociatedObject(host, key, associatedProperty, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
         return associatedProperty
     }()
 }
 
 private func lazyMutableProperty<T>(host: AnyObject, key: UnsafePointer<Void>, setter: T -> (), getter: () -> T) -> MutableProperty<T> {
-    return lazyAssociatedProperty(host, key) {
-        var property = MutableProperty<T>(getter())
+    return lazyAssociatedProperty(host, key: key) {
+        let property = MutableProperty<T>(getter())
         property.producer
-            .start(next: {
+            .startWithNext {
                 newValue in
                 setter(newValue)
-            })
+            }
         return property
     }
 }
 
 extension UIControl {
     public var rac_enabled: MutableProperty<Bool> {
-        return lazyMutableProperty(self, &AssociationKey.enabled, { self.enabled = $0 }, { self.enabled })
+        return lazyMutableProperty(self, key: &AssociationKey.enabled, setter: { self.enabled = $0 }, getter: { self.enabled })
     }
 }
 
 extension UIView {
     public var rac_alpha: MutableProperty<CGFloat> {
-        return lazyMutableProperty(self, &AssociationKey.alpha, { self.alpha = $0 }, { self.alpha  })
+        return lazyMutableProperty(self, key: &AssociationKey.alpha, setter: { self.alpha = $0 }, getter: { self.alpha  })
     }
     
     public var rac_hidden: MutableProperty<Bool> {
-        return lazyMutableProperty(self, &AssociationKey.hidden, { self.hidden = $0 }, { self.hidden  })
+        return lazyMutableProperty(self, key: &AssociationKey.hidden, setter: { self.hidden = $0 }, getter: { self.hidden  })
     }
     
     public var rac_backgroundColor: MutableProperty<UIColor?> {
-        return lazyMutableProperty(self, &AssociationKey.backgroundColor, { self.backgroundColor = $0 }, { self.backgroundColor })
+        return lazyMutableProperty(self, key: &AssociationKey.backgroundColor, setter: { self.backgroundColor = $0 }, getter: { self.backgroundColor })
     }
     
 }
@@ -68,25 +68,25 @@ extension UIView {
 extension UILabel {
     
     public var rac_text: MutableProperty<String> {
-        return lazyMutableProperty(self, &AssociationKey.text, { self.text = $0 }, { self.text ?? "" })
+        return lazyMutableProperty(self, key: &AssociationKey.text, setter: { self.text = $0 }, getter: { self.text ?? "" })
     }
 }
 
 extension UINavigationItem {
     public var rac_title: MutableProperty<String> {
-        return lazyMutableProperty(self, &AssociationKey.title, { self.title = $0 }, { self.title ?? ""})
+        return lazyMutableProperty(self, key: &AssociationKey.title, setter: { self.title = $0 }, getter: { self.title ?? ""})
     }
 }
 
 extension UIDatePicker {
     public var rac_date: MutableProperty<NSDate> {
-        return lazyAssociatedProperty(self, &AssociationKey.date) {
+        return lazyAssociatedProperty(self, key: &AssociationKey.date) {
             
             self.addTarget(self, action: "changed", forControlEvents: UIControlEvents.ValueChanged)
             
-            var property = MutableProperty<NSDate>(self.date)
+            let property = MutableProperty<NSDate>(self.date)
             property.producer
-                .start(next: { self.date = $0 })
+                .startWithNext { self.date = $0 }
             
             return property
         }
@@ -100,16 +100,16 @@ extension UIDatePicker {
 extension UITextField {
     
     public var rac_text: MutableProperty<String?> {
-        return lazyAssociatedProperty(self, &AssociationKey.text) {
+        return lazyAssociatedProperty(self, key: &AssociationKey.text) {
             
             self.addTarget(self, action: "changed", forControlEvents: UIControlEvents.EditingChanged)
             
-            var property = MutableProperty<String?>(self.text)
+            let property = MutableProperty<String?>(self.text)
             property.producer
-                .start(next: {
+                .startWithNext {
                     newValue in
                     self.text = newValue
-                })
+                }
             return property
         }
     }
@@ -121,7 +121,7 @@ extension UITextField {
 
 extension UIImageView {
     public var rac_image: MutableProperty<UIImage?> {
-        return lazyMutableProperty(self, &AssociationKey.image, { self.image = $0 }, { self.image })
+        return lazyMutableProperty(self, key: &AssociationKey.image, setter: { self.image = $0 }, getter: { self.image })
     }
 }
 
@@ -133,7 +133,7 @@ extension UIViewController {
     
     public var rac_viewWillDisappearProducer: SignalProducer<Bool, NSError> {
         return rac_viewWillDisappear.toSignalProducer()
-            |> map { ($0 as! RACTuple).first as! Bool }
+            .map { ($0 as! RACTuple).first as! Bool }
     }
     
     public var rac_viewDidDisappear: RACSignal {
@@ -142,7 +142,7 @@ extension UIViewController {
     
     public var rac_viewDidDisappearProducer: SignalProducer<Bool, NSError> {
         return rac_viewDidDisappear.toSignalProducer()
-            |> map { ($0 as! RACTuple).first as! Bool }
+            .map { ($0 as! RACTuple).first as! Bool }
     }
     
     public var rac_viewWillAppear: RACSignal {
@@ -151,7 +151,7 @@ extension UIViewController {
     
     public var rac_viewWillAppearProducer: SignalProducer<Bool, NSError> {
         return rac_viewWillAppear.toSignalProducer()
-            |> map { ($0 as! RACTuple).first as! Bool }
+            .map { ($0 as! RACTuple).first as! Bool }
     }
     
     public var rac_viewDidAppear: RACSignal {
@@ -160,7 +160,7 @@ extension UIViewController {
     
     public var rac_viewDidAppearProducer: SignalProducer<Bool, NSError> {
         return rac_viewDidAppear.toSignalProducer()
-            |> map { ($0 as! RACTuple).first as! Bool }
+            .map { ($0 as! RACTuple).first as! Bool }
     }
     
 }
@@ -172,6 +172,6 @@ extension UIView {
     
     public var rac_removeFromSuperviewProducer: SignalProducer<Void, NSError> {
         return rac_removeFromSuperview.toSignalProducer()
-            |> map { _ in }
+            .map { _ in }
     }
 }

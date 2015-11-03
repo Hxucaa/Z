@@ -32,10 +32,10 @@ public class InfinityScrollConductor<T: UITableView, U: IInfinityScrollDataSourc
             // When infinity scroll is triggered, fetch more data if not already happening
             if let this = self {
                 this.infinityScrollable.fetchMoreData()
-                    |> on(next: { _ in
+                    .on(next: { _ in
                         MiscLogVerbose("Infinity scroll fetched additional data for infinite scrolling.")
                     })
-                    |> start(
+                    .start(
                         error: { error in
                             scrollView.ins_endInfinityScroll()
                             MiscLogError("Infinity scroll error: \(error)")

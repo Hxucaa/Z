@@ -87,15 +87,15 @@ public final class DetailMapTableViewCell: UITableViewCell {
         self.viewmodel = viewmodel
         
         compositeDisposable += self.viewmodel.annotation.producer
-            |> takeUntilPrepareForReuse(self)
-            |> start(next: { [weak self] annotation in
+            .takeUntilPrepareForReuse(self)
+            .start(next: { [weak self] annotation in
                 self?.mapView.addAnnotation(annotation)
             })
         
         compositeDisposable += self.viewmodel.cellMapRegion.producer
-            |> takeUntilPrepareForReuse(self)
-            |> ignoreNil
-            |> start(next: { [weak self] region in
+            .takeUntilPrepareForReuse(self)
+            .ignoreNil
+            .start(next: { [weak self] region in
                 self?.mapView.setRegion(region, animated: false)
             })
     }

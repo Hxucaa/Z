@@ -84,8 +84,8 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         self.viewmodel = viewmodel
         
         compositeDisposable += self.viewmodel.fullAddress.producer
-            |> takeUntilPrepareForReuse(self)
-            |> start(next: { [weak self] address in
+            .takeUntilPrepareForReuse(self)
+            .start(next: { [weak self] address in
                 self?.addressButton.setTitle(address, forState: UIControlState.Normal)
             })
     }

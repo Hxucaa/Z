@@ -25,10 +25,10 @@ public final class HUD {
     Show HUD.
     */
     public class func show() -> SignalProducer<Void, NoError> {
-        return SignalProducer<Void, NoError> { sink, disposable in
+        return SignalProducer<Void, NoError> { observer, disposable in
             SVProgressHUD.show()
-            sendNext(sink, ())
-            sendCompleted(sink)
+            observer.sendNext(())
+            observer.sendCompleted()
         }
     }
     
@@ -39,10 +39,10 @@ public final class HUD {
     
     - returns: A SignalProducer which can be continued with the next function.
     */
-    public class func showWithStatusMessage<T, E>(message: String? = DefaultWIPMessage) -> SignalProducer<T, E> -> SignalProducer<T, E> {
+    public class func showWithStatusMessage<Value, Error>(message: String? = DefaultWIPMessage) -> SignalProducer<Value, Error> -> SignalProducer<Value, Error> {
         return { producer in
             return producer
-                |> on(
+                .on(
                     next: { value in
                         SVProgressHUD.showWithStatus(message!)
                     }
@@ -60,10 +60,10 @@ public final class HUD {
     
     - returns: A SignalProducer which can be continued with the next function.
     */
-    public class func dismissWithStatusMessage<T, E>(successMessage: String? = DefaultSuccessMessage, interruptedMessage: String? = DefaultInterruptMessage, errorHandler: (E -> String)? = { _ in DefaultErrorMessage }) -> SignalProducer<T, E> -> SignalProducer<T, E> {
+    public class func dismissWithStatusMessage<Value, Error>(successMessage: String? = DefaultSuccessMessage, interruptedMessage: String? = DefaultInterruptMessage, errorHandler: (E -> String)? = { _ in DefaultErrorMessage }) -> SignalProducer<Value, Error> -> SignalProducer<Value, Error> {
         return { producer in
             return producer
-                |> on(
+                .on(
 //                    interrupted: { _ in
 //                        SVProgressHUD.showInfoWithStatus(interruptedMessage)
 //                    },
@@ -108,8 +108,8 @@ public final class HUD {
     */
     public class func didDissappearNotification() -> SignalProducer<DisappearStatus, NoError> {
         return notification(SVProgressHUDDidDisappearNotification)
-            |> map { notification -> DisappearStatus in
-                if let userInfo = notification.userInfo as? [String : String], statusMessage = userInfo[SVProgressHUDStatusUserInfoKey] {
+            .map { notification -> DisappearStatus in
+                if let userInfo = notification.userInfo as? [String : String], _ = userInfo[SVProgressHUDStatusUserInfoKey] {
                     return DisappearStatus.Normal
                 }
                 else {
@@ -125,7 +125,7 @@ public final class HUD {
     */
     public class func didTouchDownInsideNotification() -> SignalProducer<UIEvent, NoError> {
         return notification(SVProgressHUDDidTouchDownInsideNotification)
-            |> map { $0.object as! UIEvent }
+            .map { $0.object as! UIEvent }
     }
     
     /// Dismiss the HUD.
@@ -134,6 +134,6 @@ public final class HUD {
     }
     
     private class func notification(name: String) -> SignalProducer<NSNotification, NoError> {
-        return NSNotificationCenter.defaultCenter().rac_notifications(name: name, object: nil)
+        return NSNotificationCenter.defaultCenter().rac_notifications(name, object: nil)
     }
 }

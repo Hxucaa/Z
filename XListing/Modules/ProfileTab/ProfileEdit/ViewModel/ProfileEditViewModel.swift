@@ -69,7 +69,7 @@ public final class ProfileEditViewModel {
         
         if let profileImage = user.profileImg_, url = profileImage.url, nsurl = NSURL(string: url) {
             imageService.getImage(nsurl)
-                |> start(next: { [weak self] image in
+                .start(next: { [weak self] image in
                     self?.profileImage.put(image)
                 })
         }
@@ -83,32 +83,32 @@ public final class ProfileEditViewModel {
         // - between 3 and 15 characters
         // - emoji, letters, numbers, chinese characters, and standard symbols only
         isNicknameValid <~ nickname.producer
-            |> filter { self.testRegex($0!, pattern: "^([\(self.symbols)]|[\(self.chinese)]|[\(self.emoji)]|[A-Za-z\\d]){3,15}$")}
-            |> map { _ in true }
+            .filter { self.testRegex($0!, pattern: "^([\(self.symbols)]|[\(self.chinese)]|[\(self.emoji)]|[A-Za-z\\d]){3,15}$")}
+            .map { _ in true }
     }
     
     private func setupBirthday() {
         isBirthdayValid <~ birthday.producer
-            |> map { self.isValidAge($0) }
+            .map { self.isValidAge($0) }
     }
     
     private func setupProfileImage() {
         isProfileImageValid <~ profileImage.producer
-            |> ignoreNil
-            |> map { _ in true }
+            .ignoreNil
+            .map { _ in true }
     }
     
     private func setupGender() {
         isGenderValid <~ gender.producer
-            |> ignoreNil
-            |> map { _ in true }
+            .ignoreNil
+            .map { _ in true }
     }
     
     
     private func setupAllInputsValid() {
         allInputsValid <~ combineLatest(isNicknameValid.producer, isBirthdayValid.producer, isProfileImageValid.producer, isGenderValid.producer)
-            //            |> on(next: { value in AccountLogDebug("(\(value.0) \(value.1) \(value.2) \(value.3))") })
-            |> map { values -> Bool in
+            //            .on(next: { value in AccountLogDebug("(\(value.0) \(value.1) \(value.2) \(value.3))") })
+            .map { values -> Bool in
                 return values.0 && values.1 && values.2 && values.3
         }
     }
@@ -118,12 +118,12 @@ public final class ProfileEditViewModel {
     public var updateProfile: SignalProducer<Bool, NSError> {
         return self.allInputsValid.producer
             // only allow TRUE value
-            |> filter { $0 }
-            |> mapError { _ in NSError() }
-            |> flatMap(FlattenStrategy.Merge) { _ -> SignalProducer<User, NSError> in
+            .filter { $0 }
+            .mapError { _ in NSError() }
+            .flatMap(FlattenStrategy.Merge) { _ -> SignalProducer<User, NSError> in
                 return self.userService.currentLoggedInUser()
             }
-            |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
+            .flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
                 
                 let imageData = UIImagePNGRepresentation(self.profileImage.value)
                 let file = ImageFile(name: "profile.png", data: imageData)
@@ -166,7 +166,7 @@ public final class ProfileEditViewModel {
     */
     public func getUserData() -> SignalProducer<(), NSError> {
         return userService.currentLoggedInUser()
-            |> map { user -> () in
+            .map { user -> () in
                 self.currentUser.put(user)
         }
     }

@@ -30,7 +30,7 @@ public final class Keyboard {
     
     public static var afterKeyboardRetracted: SignalProducer<Void, NoError> {
         return didHideNotification
-            |> flatMap(.Latest) { notification -> SignalProducer<Void, NoError> in
+            .flatMap(.Latest) { notification -> SignalProducer<Void, NoError> in
                 let userInfo = notification.userInfo as! [String : AnyObject]
                 let animationDelay = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
                 
@@ -40,9 +40,9 @@ public final class Keyboard {
                     }
                     // delay the signal due to the animation of retracting keyboard
                     // this cannot be executed on main thread, otherwise UI will be blocked
-                    |> delay(animationDelay, onScheduler: QueueScheduler())
+                    .delay(animationDelay, onScheduler: QueueScheduler())
                     // return the signal to main/ui thread in order to run UI related code
-                    |> observeOn(UIScheduler())
+                    .observeOn(UIScheduler())
             }
     }
     

@@ -86,24 +86,24 @@ public final class ProfileBottomViewController : UIViewController {
         pageViewController.displayParticipationListPage()
         
         pageControls.participationListProxy
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Profile, "pageControls.participationListProxy")
-            |> start(next: { [weak self] in
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.Profile, "pageControls.participationListProxy")
+            .start(next: { [weak self] in
                 self?.pageViewController.displayParticipationListPage()
             })
         
         pageControls.photosManagerProxy
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Profile, "pageControls.photosManagerProxy")
-            |> start(next: { [weak self] in
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.Profile, "pageControls.photosManagerProxy")
+            .start(next: { [weak self] in
                 self?.pageViewController.displayPhotosManagerPage()
             })
         
         pageViewController.fullImageProxy
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Profile, "pageViewController.fullImageProxy")
-            |> start(next: { [weak self] in
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.Profile, "pageViewController.fullImageProxy")
+            .start(next: { [weak self] in
                 if let this = self {
                     proxyNext(this._fullImageSink, ())
                 }

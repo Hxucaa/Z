@@ -183,10 +183,10 @@ public final class ProfileHeaderView: UIView {
         statusLabel.rac_text <~ viewmodel.status
         
         ageGroupLabel.rac_backgroundColor <~ viewmodel.ageGroupBackgroundColor.producer
-            |> map { Optional.Some($0) }
+            .map { Optional.Some($0) }
 
         profileImageView.rac_image <~ self.viewModel.profileImage.producer
-            |> ignoreNil
-            |> map { $0.maskWithRoundedRect(ProfileImageSize, cornerRadius: max(ProfileImageSize.width, ProfileImageSize.height) / 2, borderWidth: 3, opaque: false) }
+            .ignoreNil
+            .map { $0.maskWithRoundedRect(ProfileImageSize, cornerRadius: max(ProfileImageSize.width, ProfileImageSize.height) / 2, borderWidth: 3, opaque: false) }
     }
 }

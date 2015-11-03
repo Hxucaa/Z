@@ -36,11 +36,11 @@ public final class ProfileUpperViewModel : IProfileUpperViewModel {
     
     public func getUserInfo() -> SignalProducer<Void, NSError> {
         return self.userService.currentLoggedInUser()
-            |> on(next: { user in
+            .on(next: { user in
                 self.user = user
                 var viewmodel = ProfileHeaderViewModel(imageService: self.imageService, user: user, nickname: user.nickname, ageGroup: user.ageGroup_, horoscope: user.horoscope_, gender: user.gender_, profileImage: user.profileImg_, status: user.status)
                 self._profileHeaderViewModel.put(viewmodel)
             })
-            |> map { _ in }
+            .map { _ in }
     }
 }

@@ -19,21 +19,21 @@ public final class AssetFactory {
 //        println("Image generated successfully")
         let key = asset.cacheKey()
         
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             // cache has to be declared locally to solve a compile time compatibility issue between SDWebImage and ReactiveCocoa
             let cache = SDImageCache(namespace: CacheNamespace)
             
             cache.queryDiskCacheForKey(key) { image, type in
                 if image != nil {
-                    sendNext(sink, image)
-                    sendCompleted(sink)
+                    observer.sendNext(image)
+                    observer.sendCompleted()
                 }
                 else {
                     let image = asset.image()
                     cache.storeImage(image, forKey: key)
                     
-                    sendNext(sink, image)
-                    sendCompleted(sink)
+                    observer.sendNext(image)
+                    observer.sendCompleted()
                 }
             }
         }
@@ -41,12 +41,12 @@ public final class AssetFactory {
     
     /// Remove image from memory cache. Optionally remove from disk cache.
     public class func removeImage(asset: Asset, fromDisk: Bool? = true) -> SignalProducer<Void, NoError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             // cache has to be declared locally to solve a compile time compatibility issue between SDWebImage and ReactiveCocoa
             let cache = SDImageCache(namespace: CacheNamespace)
             cache.removeImageForKey(asset.cacheKey(), fromDisk: fromDisk!) { () -> Void in
-                sendNext(sink, ())
-                sendCompleted(sink)
+                observer.sendNext(())
+                observer.sendCompleted()
             }
         }
     }
@@ -59,11 +59,11 @@ public final class AssetFactory {
     
     /// Clear disk cache.
     public class func clearDiskCache() -> SignalProducer<Void, NoError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             let cache = SDImageCache(namespace: CacheNamespace)
             cache.clearDiskOnCompletion { () -> Void in
-                sendNext(sink, ())
-                sendCompleted(sink)
+                observer.sendNext(())
+                observer.sendCompleted()
             }
         }
     }}

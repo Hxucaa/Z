@@ -18,8 +18,8 @@ public final class AddPhotoCollectionViewCell: UICollectionViewCell {
         let plusImage = AssetFactory.getImage(Asset.AddNewPhotoButton(size: CGSizeMake(500, 500), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
         let imageView = UIImageView()
         imageView.rac_image <~ plusImage
-            |> take(1)
-            |> map { Optional<UIImage>($0) }
+            .take(1)
+            .map { Optional<UIImage>($0) }
         return imageView
         }()
     

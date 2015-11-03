@@ -85,10 +85,10 @@ public final class PublicProfileViewController : XUIViewController {
         // when the specified row is now selected
         compositeDisposable += rac_signalForSelector(Selector("collectionView:didSelectItemAtIndexPath:"), fromProtocol: UICollectionViewDelegate.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> map { ($0 as! RACTuple).second as! NSIndexPath }
-            |> logLifeCycle(LogContext.FullScreenImage, "collectionView:didSelectItemAtIndexPath:")
-            |> start(
+            .takeUntilViewWillDisappear(self)
+            .map { ($0 as! RACTuple).second as! NSIndexPath }
+            .logLifeCycle(LogContext.FullScreenImage, "collectionView:didSelectItemAtIndexPath:")
+            .start(
                 next: { [weak self] indexPath in
                     self?.viewmodel.presentFullScreenImageModule(indexPath.row, animated: true, completion: nil)
                 }

@@ -92,7 +92,7 @@ public class BasicUserInfoViewModel : IBasicUserInfoViewModel {
         
         if let url = profileImage?.url, nsurl = NSURL(string: url) {
             self.imageService.getImage(nsurl)
-                |> start(next: {
+                .start(next: {
                     self._profileImage.put($0)
                 })
         }

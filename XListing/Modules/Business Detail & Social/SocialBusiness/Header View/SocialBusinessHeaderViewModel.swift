@@ -56,14 +56,14 @@ public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewMode
         
         if let url = cover?.url, nsurl = NSURL(string: url) {
             self.imageService.getImage(nsurl)
-                |> start(next: {
+                .start(next: {
                     self._coverImage.put($0)
                 })
         }
         
         if let geolocation = geolocation {
             setupEta(CLLocation(latitude: geolocation.latitude, longitude: geolocation.longitude))
-                |> start()
+                .start()
         }
         
     }
@@ -73,7 +73,7 @@ public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewMode
     
     private func setupEta(destination: CLLocation) -> SignalProducer<NSTimeInterval, NSError> {
         return geoLocationService.calculateETA(destination)
-            |> on(
+            .on(
                 next: { interval in
                     let minute = Int(ceil(interval / 60))
                     self._eta.put("\(minute)分钟")

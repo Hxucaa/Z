@@ -28,11 +28,11 @@ public final class PhotoViewModel {
         self.updateProfile = updateProfile
         
         validProfileImageSignal = profileImage.producer
-            |> skip(1)
-            |> ignoreNil
+            .skip(1)
+            .ignoreNil
 
         isProfileImageValid <~ validProfileImageSignal
-            |> map { _ in true }
+            .map { _ in true }
     }
     
     // MARK: - Setups

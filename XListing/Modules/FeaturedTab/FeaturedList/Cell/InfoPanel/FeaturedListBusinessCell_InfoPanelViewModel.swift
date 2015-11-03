@@ -73,14 +73,14 @@ public final class FeaturedListBusinessCell_InfoPanelViewModel : IFeaturedListBu
         
         if let geolocation = geolocation {
             setupEta(CLLocation(latitude: geolocation.latitude, longitude: geolocation.longitude))
-                |> start()
+                .start()
         }
     }
     
     
     private func setupEta(destination: CLLocation) -> SignalProducer<NSTimeInterval, NSError> {
         return geoLocationService.calculateETA(destination)
-            |> on(
+            .on(
                 next: { interval in
                     let minute = Int(ceil(interval / 60))
                     self._eta.put("\(minute)分钟")

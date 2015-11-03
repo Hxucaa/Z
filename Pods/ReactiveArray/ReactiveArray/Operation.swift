@@ -7,35 +7,34 @@
 //
 
 import Foundation
-import Box
 
-public enum Operation<T>: DebugPrintable {
+public enum Operation<T>: CustomDebugStringConvertible {
     
-    case Initiate(values: Box<[T]>)
-    case Append(value: Box<T>)
-    case Extend(values: Box<[T]>)
-    case Insert(value: Box<T>, atIndex: Int)
-    case Replace(value: Box<T>, atIndex: Int)
+    case Initiate(values: [T])
+    case Append(value: T)
+    case AppendContentsOf(values: [T])
+    case Insert(value: T, atIndex: Int)
+    case Replace(value: T, atIndex: Int)
     case RemoveElement(atIndex: Int)
-    case ReplaceAll(values: Box<[T]>)
+    case ReplaceAll(values: [T])
     case RemoveAll(keepCapacity: Bool)
     
     public func map<U>(mapper: T -> U) -> Operation<U> {
         switch self {
-        case .Initiate(let boxedValues):
-            return Operation<U>.Initiate(values: Box(boxedValues.value.map { mapper($0) }))
-        case .Append(let boxedValue):
-            return Operation<U>.Append(value: Box(mapper(boxedValue.value)))
-        case .Extend(let boxedValues):
-            return Operation<U>.Extend(values: Box(boxedValues.value.map { mapper($0) }))
-        case let .Insert(boxedValue, index):
-            return Operation<U>.Insert(value: Box(mapper(boxedValue.value)), atIndex: index)
-        case .Replace(let boxedValue, let index):
-            return Operation<U>.Replace(value: Box(mapper(boxedValue.value)), atIndex: index)
+        case .Initiate(let values):
+            return Operation<U>.Initiate(values: values.map(mapper))
+        case .Append(let value):
+            return Operation<U>.Append(value: mapper(value))
+        case .AppendContentsOf(let values):
+            return Operation<U>.AppendContentsOf(values: values.map(mapper))
+        case let .Insert(value, index):
+            return Operation<U>.Insert(value: mapper(value), atIndex: index)
+        case .Replace(let value, let index):
+            return Operation<U>.Replace(value: mapper(value), atIndex: index)
         case .RemoveElement(let index):
             return Operation<U>.RemoveElement(atIndex: index)
-        case .ReplaceAll(let boxedValues):
-            return Operation<U>.ReplaceAll(values: Box(boxedValues.value.map { mapper($0) }))
+        case .ReplaceAll(let values):
+            return Operation<U>.ReplaceAll(values: values.map(mapper))
         case let .RemoveAll(keepCapacity):
             return Operation<U>.RemoveAll(keepCapacity: keepCapacity)
         }
@@ -44,20 +43,20 @@ public enum Operation<T>: DebugPrintable {
     public var debugDescription: String {
         let description: String
         switch self {
-        case .Initiate(let boxedValues):
-            description = ".Initiate(values:\(boxedValues.value))"
-        case .Append(let boxedValue):
-            description = ".Append(value:\(boxedValue.value))"
-        case .Extend(let boxedValues):
-            description = ".Extend(values:\(boxedValues.value))"
-        case let .Insert(boxedValue, index):
-            description = ".Insert(value:\(boxedValue.value), atIndex:\(index))"
-        case .Replace(let boxedValue, let index):
-            description = ".Replace(value: \(boxedValue.value), atIndex:\(index))"
+        case .Initiate(let values):
+            description = ".Initiate(values:\(values))"
+        case .Append(let value):
+            description = ".Append(value:\(value))"
+        case .AppendContentsOf(let values):
+            description = ".Extend(values:\(values))"
+        case let .Insert(value, index):
+            description = ".Insert(value:\(value), atIndex:\(index))"
+        case .Replace(let value, let index):
+            description = ".Replace(value: \(value), atIndex:\(index))"
         case .RemoveElement(let index):
             description = ".RemoveElement(atIndex:\(index))"
-        case .ReplaceAll(let boxedValues):
-            description = ".ReplaceAll(values:\(boxedValues.value))"
+        case .ReplaceAll(let values):
+            description = ".ReplaceAll(values:\(values))"
         case .RemoveAll(let keepCapacity):
             description = ".RemoveAll(keepCapacity:\(keepCapacity)"
         }
@@ -66,12 +65,12 @@ public enum Operation<T>: DebugPrintable {
     
     public var value: T? {
         switch self {
-        case .Append(let boxedValue):
-            return boxedValue.value
-        case .Replace(let boxedValue, let index):
-            return boxedValue.value
-        case let .Insert(boxedValue, index):
-            return boxedValue.value
+        case let .Append(value):
+            return value
+        case let .Replace(value, _):
+            return value
+        case let .Insert(value, _):
+            return value
         default:
             return Optional.None
         }
@@ -79,12 +78,12 @@ public enum Operation<T>: DebugPrintable {
     
     public var arrayValue: [T]? {
         switch self {
-        case .Initiate(let boxedValues):
-            return boxedValues.value
-        case .Extend(let boxedValues):
-            return boxedValues.value
-        case .ReplaceAll(let boxedValues):
-            return boxedValues.value
+        case .Initiate(let values):
+            return values
+        case .AppendContentsOf(let values):
+            return values
+        case .ReplaceAll(let values):
+            return values
         default:
             return Optional.None
         }
@@ -96,20 +95,20 @@ public enum Operation<T>: DebugPrintable {
 
 public func ==<T: Equatable>(lhs: Operation<T>, rhs: Operation<T>) -> Bool {
     switch (lhs, rhs) {
-    case (.Initiate(let leftBoxedValues), .Initiate(let rightBoxedValues)):
-        return leftBoxedValues.value == rightBoxedValues.value
-    case (.Append(let leftBoxedValue), .Append(let rightBoxedValue)):
-        return leftBoxedValue.value == rightBoxedValue.value
-    case (.Extend(let leftBoxedValues), .Extend(let rightBoxedValues)):
-        return leftBoxedValues.value == rightBoxedValues.value
-    case (.Insert(let leftBoxedValue, let leftIndex), .Insert(let rightBoxedValue, let rightIndex)):
-        return leftIndex == rightIndex && leftBoxedValue.value == rightBoxedValue.value
-    case (.Replace(let leftBoxedValue, let leftIndex), .Replace(let rightBoxedValue, let rightIndex)):
-        return leftIndex == rightIndex && leftBoxedValue.value == rightBoxedValue.value
+    case (.Initiate(let leftValues), .Initiate(let rightValues)):
+        return leftValues == rightValues
+    case (.Append(let leftValue), .Append(let rightValue)):
+        return leftValue == rightValue
+    case (.AppendContentsOf(let leftValues), .AppendContentsOf(let rightValues)):
+        return leftValues == rightValues
+    case (.Insert(let leftValue, let leftIndex), .Insert(let rightValue, let rightIndex)):
+        return leftIndex == rightIndex && leftValue == rightValue
+    case (.Replace(let leftValue, let leftIndex), .Replace(let rightValue, let rightIndex)):
+        return leftIndex == rightIndex && leftValue == rightValue
     case (.RemoveElement(let leftIndex), .RemoveElement(let rightIndex)):
         return leftIndex == rightIndex
-    case (.ReplaceAll(let leftBoxedValues), .ReplaceAll(let rightBoxedValues)):
-        return leftBoxedValues.value == rightBoxedValues.value
+    case (.ReplaceAll(let leftValues), .ReplaceAll(let rightValues)):
+        return leftValues == rightValues
     default:
         return false
     }

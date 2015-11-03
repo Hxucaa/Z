@@ -39,12 +39,12 @@ public final class NicknameViewModel {
         // - between 3 and 30 characters
         // - letters, numbers, dashes, periods, and underscores only
         validNicknameSignal = nickname.producer
-            |> ignoreNil
-            |> filter { $0.count > 1 && $0.count <= 15 }
-//            |> filter { self.testRegex($0, pattern: "^([\(self.symbols)]|[\(self.chinese)]|[\(self.emoji)]|[A-Za-z\\d]){3,15}$")}
+            .ignoreNil
+            .filter { $0.count > 1 && $0.count <= 15 }
+//            .filter { self.testRegex($0, pattern: "^([\(self.symbols)]|[\(self.chinese)]|[\(self.emoji)]|[A-Za-z\\d]){3,15}$")}
         
         isNicknameValid <~ validNicknameSignal
-            |> map { _ in true }
+            .map { _ in true }
     }
     
     // MARK: - Others

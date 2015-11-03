@@ -74,7 +74,7 @@ public final class SocialBusinessViewController : XUIViewController {
     private var viewmodel: ISocialBusinessViewModel! {
         didSet {
             viewmodel.businessName.producer
-                |> start(next: { [weak self] name in
+                .start(next: { [weak self] name in
                     self?.title = name
                 })
             headerView.bindToViewModel(viewmodel.headerViewModel)
@@ -118,11 +118,11 @@ public final class SocialBusinessViewController : XUIViewController {
         
         // change the color of the back button based on where the table view is scrolled
         DynamicProperty(object: tableView, keyPath: "contentOffset").producer
-            |> map({
+            .map({
                 
                 ($0 as! NSValue).CGPointValue()
             })
-            |> start(next: {value in
+            .start(next: {value in
                 if value.y > self.headerView.frame.height - 64 {
                     let attributes = [NSForegroundColorAttributeName: UIColor.blackColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 17)!]
                     var attributedString = NSAttributedString(string: Icons.Chevron, attributes: attributes)
@@ -135,31 +135,31 @@ public final class SocialBusinessViewController : XUIViewController {
         })
         
         compositeDisposable += viewmodel.fetchMoreData()
-            |> take(1)
-            |> start()
+            .take(1)
+            .start()
         
         compositeDisposable += utilityHeaderView.detailInfoProxy
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.detailInfoProxy")
-            |> start(next: { [weak self] in
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.detailInfoProxy")
+            .start(next: { [weak self] in
                 self?.viewmodel.pushBusinessDetail(true)
             })
         
         compositeDisposable +=  utilityHeaderView.startEventProxy
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.startEventProxy")
-            |> promoteErrors(NSError)
-            |> flatMap(FlattenStrategy.Concat) { _ -> SignalProducer<Bool, NSError> in
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.startEventProxy")
+            .promoteErrors(NSError)
+            .flatMap(FlattenStrategy.Concat) { _ -> SignalProducer<Bool, NSError> in
                 return self.viewmodel.participate(ParticipationType.ToGo)
             }
-            |> start()
+            .start()
         
         let tapGesture = UITapGestureRecognizer()
         headerView.addGestureRecognizer(tapGesture)
         compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.SocialBusiness, "SocialBusinessHeaderView tapGesture")
-            |> start(next: { [weak self] _ in
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.SocialBusiness, "SocialBusinessHeaderView tapGesture")
+            .start(next: { [weak self] _ in
                 self?.viewmodel.pushBusinessDetail(true)
             })
         
@@ -167,19 +167,19 @@ public final class SocialBusinessViewController : XUIViewController {
         // when the specified row is now selected
         compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> map { ($0 as! RACTuple).second as! NSIndexPath }
-            |> logLifeCycle(LogContext.SocialBusiness, "tableView:didSelectRowAtIndexPath:")
-            |> start(
+            .takeUntilViewWillDisappear(self)
+            .map { ($0 as! RACTuple).second as! NSIndexPath }
+            .logLifeCycle(LogContext.SocialBusiness, "tableView:didSelectRowAtIndexPath:")
+            .start(
                 next: { [weak self] indexPath in
                     self?.viewmodel.pushUserProfile(indexPath.row, animated: true)
                 }
             )
         
         compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.SocialBusiness, "viewmodel.collectionDataSource.producer")
-            |> start()
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.SocialBusiness, "viewmodel.collectionDataSource.producer")
+            .start()
         
         /**
         Assigning UITableView delegate has to happen after signals are established.

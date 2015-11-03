@@ -79,7 +79,7 @@ extension AccountWireframe : IAccountNavigator {
         }
     }
     
-    public func finishModule(_ callback: (CompletionHandler? -> ())? = nil) {
+    public func finishModule(callback: (CompletionHandler? -> ())? = nil) {
         
         let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
         if let rootViewController = appDelegate?.window?.rootViewController where rootViewController is RootTabBarController {

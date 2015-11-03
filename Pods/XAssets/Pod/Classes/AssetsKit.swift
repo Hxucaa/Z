@@ -17,14 +17,14 @@ public class AssetsKit : NSObject {
     //// Cache
 
     private struct Cache {
-        static var femaleIconFill: UIColor = UIColor(red: 0.988, green: 0.271, blue: 0.596, alpha: 1.000)
-        static var maleIconFill: UIColor = UIColor(red: 0.157, green: 0.302, blue: 0.608, alpha: 1.000)
-        static var iconUntapped: UIColor = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.000)
-        static var primaryColor: UIColor = UIColor(red: 0.000, green: 0.698, blue: 0.675, alpha: 1.000)
-        static var flameColor: UIColor = UIColor(red: 0.973, green: 0.278, blue: 0.059, alpha: 1.000)
-        static var businessSectionIconColor: UIColor = UIColor(red: 0.992, green: 0.584, blue: 0.075, alpha: 1.000)
-        static var etcColor: UIColor = UIColor(red: 0.796, green: 0.796, blue: 0.796, alpha: 1.000)
-        static var bottomBarButtonInactive: UIColor = UIColor(red: 0.584, green: 0.584, blue: 0.584, alpha: 1.000)
+        static let femaleIconFill: UIColor = UIColor(red: 0.988, green: 0.271, blue: 0.596, alpha: 1.000)
+        static let maleIconFill: UIColor = UIColor(red: 0.157, green: 0.302, blue: 0.608, alpha: 1.000)
+        static let iconUntapped: UIColor = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.000)
+        static let primaryColor: UIColor = UIColor(red: 0.000, green: 0.698, blue: 0.675, alpha: 1.000)
+        static let flameColor: UIColor = UIColor(red: 0.973, green: 0.278, blue: 0.059, alpha: 1.000)
+        static let businessSectionIconColor: UIColor = UIColor(red: 0.992, green: 0.584, blue: 0.075, alpha: 1.000)
+        static let etcColor: UIColor = UIColor(red: 0.796, green: 0.796, blue: 0.796, alpha: 1.000)
+        static let bottomBarButtonInactive: UIColor = UIColor(red: 0.584, green: 0.584, blue: 0.584, alpha: 1.000)
     }
 
     //// Colors
@@ -40,7 +40,7 @@ public class AssetsKit : NSObject {
 
     //// Drawing Methods
 
-    public class func drawFemaleIcon(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
+    public class func drawFemaleIcon(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -48,7 +48,7 @@ public class AssetsKit : NSObject {
         CGContextSaveGState(context)
         CGContextScaleCTM(context, scaleX, scaleY)
 
-        var femaleUnpressedPath = UIBezierPath()
+        let femaleUnpressedPath = UIBezierPath()
         femaleUnpressedPath.moveToPoint(CGPointMake(18.37, 3.68))
         femaleUnpressedPath.addCurveToPoint(CGPointMake(14.33, 4.14), controlPoint1: CGPointMake(16.98, 3.68), controlPoint2: CGPointMake(15.63, 3.85))
         femaleUnpressedPath.addCurveToPoint(CGPointMake(18.37, 0.7), controlPoint1: CGPointMake(14.55, 2.21), controlPoint2: CGPointMake(16.27, 0.7))
@@ -115,7 +115,7 @@ public class AssetsKit : NSObject {
             CGContextTranslateCTM(context, 1, 0.7)
             CGContextScaleCTM(context, scaleX, scaleY)
 
-            var femalePressedPath = UIBezierPath()
+            let femalePressedPath = UIBezierPath()
             femalePressedPath.moveToPoint(CGPointMake(17.37, 2.98))
             femalePressedPath.addCurveToPoint(CGPointMake(13.33, 3.44), controlPoint1: CGPointMake(15.98, 2.98), controlPoint2: CGPointMake(14.63, 3.15))
             femalePressedPath.addCurveToPoint(CGPointMake(17.37, 0), controlPoint1: CGPointMake(13.55, 1.51), controlPoint2: CGPointMake(15.27, 0))
@@ -177,7 +177,7 @@ public class AssetsKit : NSObject {
         }
     }
 
-    public class func drawMaleIcon(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
+    public class func drawMaleIcon(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -185,7 +185,7 @@ public class AssetsKit : NSObject {
         CGContextSaveGState(context)
         CGContextScaleCTM(context, scaleX, scaleY)
 
-        var maleUnpressedPath = UIBezierPath()
+        let maleUnpressedPath = UIBezierPath()
         maleUnpressedPath.moveToPoint(CGPointMake(35.27, 21.55))
         maleUnpressedPath.addLineToPoint(CGPointMake(35.27, 14.32))
         maleUnpressedPath.addCurveToPoint(CGPointMake(35.17, 12.91), controlPoint1: CGPointMake(35.27, 13.82), controlPoint2: CGPointMake(35.23, 13.35))
@@ -262,7 +262,7 @@ public class AssetsKit : NSObject {
             CGContextTranslateCTM(context, 1, 0.9)
             CGContextScaleCTM(context, scaleX, scaleY)
 
-            var malePressedPath = UIBezierPath()
+            let malePressedPath = UIBezierPath()
             malePressedPath.moveToPoint(CGPointMake(34.27, 20.66))
             malePressedPath.addLineToPoint(CGPointMake(34.27, 13.42))
             malePressedPath.addCurveToPoint(CGPointMake(34.17, 12.02), controlPoint1: CGPointMake(34.27, 12.92), controlPoint2: CGPointMake(34.23, 12.46))
@@ -334,7 +334,7 @@ public class AssetsKit : NSObject {
         }
     }
 
-    public class func drawCakeIcon(#scaleX: CGFloat, scaleY: CGFloat) {
+    public class func drawCakeIcon(scaleX scaleX: CGFloat, scaleY: CGFloat) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -342,7 +342,7 @@ public class AssetsKit : NSObject {
         CGContextSaveGState(context)
         CGContextScaleCTM(context, scaleX, scaleY)
 
-        var bezierPath = UIBezierPath()
+        let bezierPath = UIBezierPath()
         bezierPath.moveToPoint(CGPointMake(40, 33.29))
         bezierPath.addCurveToPoint(CGPointMake(40.09, 32.79), controlPoint1: CGPointMake(40.06, 33.13), controlPoint2: CGPointMake(40.09, 32.97))
         bezierPath.addLineToPoint(CGPointMake(40.09, 17.28))
@@ -472,7 +472,7 @@ public class AssetsKit : NSObject {
         CGContextRestoreGState(context)
     }
 
-    public class func drawFlameIcon(#scaleX: CGFloat, scaleY: CGFloat, ifTrending: Bool) {
+    public class func drawFlameIcon(scaleX scaleX: CGFloat, scaleY: CGFloat, ifTrending: Bool) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -480,7 +480,7 @@ public class AssetsKit : NSObject {
         CGContextSaveGState(context)
         CGContextScaleCTM(context, scaleX, scaleY)
 
-        var notTrendingPath = UIBezierPath()
+        let notTrendingPath = UIBezierPath()
         notTrendingPath.moveToPoint(CGPointMake(9.45, 34))
         notTrendingPath.addCurveToPoint(CGPointMake(10.14, 24.04), controlPoint1: CGPointMake(7.14, 29.28), controlPoint2: CGPointMake(8.37, 26.58))
         notTrendingPath.addCurveToPoint(CGPointMake(12.58, 18.49), controlPoint1: CGPointMake(12.08, 21.25), controlPoint2: CGPointMake(12.58, 18.49))
@@ -508,7 +508,7 @@ public class AssetsKit : NSObject {
             CGContextSaveGState(context)
             CGContextScaleCTM(context, scaleX, scaleY)
 
-            var trendingPath = UIBezierPath()
+            let trendingPath = UIBezierPath()
             trendingPath.moveToPoint(CGPointMake(9.45, 34))
             trendingPath.addCurveToPoint(CGPointMake(10.14, 24.04), controlPoint1: CGPointMake(7.14, 29.28), controlPoint2: CGPointMake(8.37, 26.58))
             trendingPath.addCurveToPoint(CGPointMake(12.58, 18.49), controlPoint1: CGPointMake(12.08, 21.25), controlPoint2: CGPointMake(12.58, 18.49))
@@ -532,7 +532,7 @@ public class AssetsKit : NSObject {
         }
     }
 
-    public class func drawCarIcon(#scaleX: CGFloat, scaleY: CGFloat) {
+    public class func drawCarIcon(scaleX scaleX: CGFloat, scaleY: CGFloat) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -545,7 +545,7 @@ public class AssetsKit : NSObject {
         //// Shape-Copy Drawing
         CGContextSaveGState(context)
 
-        var shapeCopyPath = UIBezierPath()
+        let shapeCopyPath = UIBezierPath()
         shapeCopyPath.moveToPoint(CGPointMake(12.98, 6.27))
         shapeCopyPath.addCurveToPoint(CGPointMake(11.7, 5), controlPoint1: CGPointMake(12.94, 5.61), controlPoint2: CGPointMake(12.3, 5))
         shapeCopyPath.addLineToPoint(CGPointMake(11.69, 3.64))
@@ -610,7 +610,7 @@ public class AssetsKit : NSObject {
         CGContextRestoreGState(context)
     }
 
-    public class func drawEtcIcon(#scaleX: CGFloat, scaleY: CGFloat) {
+    public class func drawEtcIcon(scaleX scaleX: CGFloat, scaleY: CGFloat) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -618,7 +618,7 @@ public class AssetsKit : NSObject {
         CGContextSaveGState(context)
         CGContextScaleCTM(context, scaleX, scaleY)
 
-        var bezierPath = UIBezierPath()
+        let bezierPath = UIBezierPath()
         bezierPath.moveToPoint(CGPointMake(8.89, 5.5))
         bezierPath.addCurveToPoint(CGPointMake(4.44, 1), controlPoint1: CGPointMake(8.89, 3.01), controlPoint2: CGPointMake(6.9, 1))
         bezierPath.addCurveToPoint(CGPointMake(0, 5.5), controlPoint1: CGPointMake(1.99, 1), controlPoint2: CGPointMake(0, 3.01))
@@ -643,7 +643,7 @@ public class AssetsKit : NSObject {
         CGContextRestoreGState(context)
     }
 
-    public class func drawPriceIcon(#scaleX: CGFloat, scaleY: CGFloat) {
+    public class func drawPriceIcon(scaleX scaleX: CGFloat, scaleY: CGFloat) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -659,12 +659,12 @@ public class AssetsKit : NSObject {
         CGContextBeginTransparencyLayer(context, nil)
 
         //// Clip Clip
-        var clipPath = UIBezierPath(ovalInRect: CGRectMake(2.49, 0, 5.9, 5.5))
+        let clipPath = UIBezierPath(ovalInRect: CGRectMake(2.49, 0, 5.9, 5.5))
         clipPath.addClip()
 
 
         //// Oval Drawing
-        var ovalPath = UIBezierPath(ovalInRect: CGRectMake(2.49, 0, 5.9, 5.5))
+        let ovalPath = UIBezierPath(ovalInRect: CGRectMake(2.49, 0, 5.9, 5.5))
         AssetsKit.businessSectionIconColor.setStroke()
         ovalPath.lineWidth = 2
         ovalPath.stroke()
@@ -679,7 +679,7 @@ public class AssetsKit : NSObject {
         CGContextBeginTransparencyLayer(context, nil)
 
         //// Clip Clip 2
-        var clip2Path = UIBezierPath()
+        let clip2Path = UIBezierPath()
         clip2Path.moveToPoint(CGPointMake(10.74, 7.46))
         clip2Path.addCurveToPoint(CGPointMake(10.54, 6.69), controlPoint1: CGPointMake(10.69, 7.18), controlPoint2: CGPointMake(10.62, 6.92))
         clip2Path.addCurveToPoint(CGPointMake(10.21, 5.99), controlPoint1: CGPointMake(10.46, 6.45), controlPoint2: CGPointMake(10.34, 6.22))
@@ -715,7 +715,7 @@ public class AssetsKit : NSObject {
 
 
         //// Bezier Drawing
-        var bezierPath = UIBezierPath()
+        let bezierPath = UIBezierPath()
         bezierPath.moveToPoint(CGPointMake(10.74, 7.46))
         bezierPath.addCurveToPoint(CGPointMake(10.54, 6.69), controlPoint1: CGPointMake(10.69, 7.18), controlPoint2: CGPointMake(10.62, 6.92))
         bezierPath.addCurveToPoint(CGPointMake(10.21, 5.99), controlPoint1: CGPointMake(10.46, 6.45), controlPoint2: CGPointMake(10.34, 6.22))
@@ -758,7 +758,7 @@ public class AssetsKit : NSObject {
         CGContextRestoreGState(context)
     }
 
-    public class func drawHomeButton(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
+    public class func drawHomeButton(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -766,7 +766,7 @@ public class AssetsKit : NSObject {
         CGContextSaveGState(context)
         CGContextScaleCTM(context, scaleX, scaleY)
 
-        var homeUnpressedPath = UIBezierPath()
+        let homeUnpressedPath = UIBezierPath()
         homeUnpressedPath.moveToPoint(CGPointMake(5.17, 14.66))
         homeUnpressedPath.addLineToPoint(CGPointMake(5.17, 25.55))
         homeUnpressedPath.addLineToPoint(CGPointMake(13.66, 25.55))
@@ -796,7 +796,7 @@ public class AssetsKit : NSObject {
             CGContextSaveGState(context)
             CGContextScaleCTM(context, scaleX, scaleY)
 
-            var homePressedPath = UIBezierPath()
+            let homePressedPath = UIBezierPath()
             homePressedPath.moveToPoint(CGPointMake(5.17, 14.66))
             homePressedPath.addLineToPoint(CGPointMake(5.17, 25.55))
             homePressedPath.addLineToPoint(CGPointMake(13.66, 25.55))
@@ -822,7 +822,7 @@ public class AssetsKit : NSObject {
         }
     }
 
-    public class func drawNearbyButton(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
+    public class func drawNearbyButton(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -830,7 +830,7 @@ public class AssetsKit : NSObject {
         CGContextSaveGState(context)
         CGContextScaleCTM(context, scaleX, scaleY)
 
-        var nearbyUnpressedPath = UIBezierPath()
+        let nearbyUnpressedPath = UIBezierPath()
         nearbyUnpressedPath.moveToPoint(CGPointMake(13.84, 3.58))
         nearbyUnpressedPath.addCurveToPoint(CGPointMake(10.56, 6.85), controlPoint1: CGPointMake(12.03, 3.58), controlPoint2: CGPointMake(10.56, 5.05))
         nearbyUnpressedPath.addCurveToPoint(CGPointMake(13.84, 10.12), controlPoint1: CGPointMake(10.56, 8.65), controlPoint2: CGPointMake(12.03, 10.12))
@@ -897,7 +897,7 @@ public class AssetsKit : NSObject {
             CGContextSaveGState(context)
             CGContextScaleCTM(context, scaleX, scaleY)
 
-            var nearbyPressedPath = UIBezierPath()
+            let nearbyPressedPath = UIBezierPath()
             nearbyPressedPath.moveToPoint(CGPointMake(13.84, 3.58))
             nearbyPressedPath.addCurveToPoint(CGPointMake(10.56, 6.85), controlPoint1: CGPointMake(12.03, 3.58), controlPoint2: CGPointMake(10.56, 5.05))
             nearbyPressedPath.addCurveToPoint(CGPointMake(13.84, 10.12), controlPoint1: CGPointMake(10.56, 8.65), controlPoint2: CGPointMake(12.03, 10.12))
@@ -960,7 +960,7 @@ public class AssetsKit : NSObject {
         }
     }
 
-    public class func drawChatButton(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
+    public class func drawChatButton(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -971,7 +971,7 @@ public class AssetsKit : NSObject {
 
 
         //// Bezier 3 Drawing
-        var bezier3Path = UIBezierPath()
+        let bezier3Path = UIBezierPath()
         bezier3Path.moveToPoint(CGPointMake(4.87, 22.47))
         bezier3Path.addCurveToPoint(CGPointMake(2.44, 25.91), controlPoint1: CGPointMake(5.37, 22.94), controlPoint2: CGPointMake(1.87, 25.53))
         bezier3Path.addCurveToPoint(CGPointMake(8.33, 24.81), controlPoint1: CGPointMake(3.03, 26.31), controlPoint2: CGPointMake(7.67, 24.51))
@@ -987,7 +987,7 @@ public class AssetsKit : NSObject {
 
 
         //// Bezier 4 Drawing
-        var bezier4Path = UIBezierPath()
+        let bezier4Path = UIBezierPath()
         bezier4Path.moveToPoint(CGPointMake(9.08, 14.7))
         bezier4Path.addCurveToPoint(CGPointMake(8.71, 15.21), controlPoint1: CGPointMake(9.15, 14.77), controlPoint2: CGPointMake(8.63, 15.15))
         bezier4Path.addCurveToPoint(CGPointMake(9.59, 15.05), controlPoint1: CGPointMake(8.8, 15.27), controlPoint2: CGPointMake(9.49, 15))
@@ -1023,7 +1023,7 @@ public class AssetsKit : NSObject {
 
 
             //// Bezier Drawing
-            var bezierPath = UIBezierPath()
+            let bezierPath = UIBezierPath()
             bezierPath.moveToPoint(CGPointMake(4.87, 22.47))
             bezierPath.addCurveToPoint(CGPointMake(2.44, 25.91), controlPoint1: CGPointMake(5.37, 22.94), controlPoint2: CGPointMake(1.87, 25.53))
             bezierPath.addCurveToPoint(CGPointMake(8.33, 24.81), controlPoint1: CGPointMake(3.03, 26.31), controlPoint2: CGPointMake(7.67, 24.51))
@@ -1039,7 +1039,7 @@ public class AssetsKit : NSObject {
 
 
             //// Bezier 2 Drawing
-            var bezier2Path = UIBezierPath()
+            let bezier2Path = UIBezierPath()
             bezier2Path.moveToPoint(CGPointMake(9.08, 14.7))
             bezier2Path.addCurveToPoint(CGPointMake(8.71, 15.21), controlPoint1: CGPointMake(9.15, 14.77), controlPoint2: CGPointMake(8.63, 15.15))
             bezier2Path.addCurveToPoint(CGPointMake(9.59, 15.05), controlPoint1: CGPointMake(8.8, 15.27), controlPoint2: CGPointMake(9.49, 15))
@@ -1068,7 +1068,7 @@ public class AssetsKit : NSObject {
         }
     }
 
-    public class func drawProfileButton(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
+    public class func drawProfileButton(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -1079,7 +1079,7 @@ public class AssetsKit : NSObject {
 
 
         //// Oval-94 Drawing
-        var oval94Path = UIBezierPath()
+        let oval94Path = UIBezierPath()
         oval94Path.moveToPoint(CGPointMake(20.99, 25.33))
         oval94Path.addCurveToPoint(CGPointMake(16.68, 15.71), controlPoint1: CGPointMake(20.99, 21.15), controlPoint2: CGPointMake(19.44, 17.65))
         oval94Path.addCurveToPoint(CGPointMake(15.28, 14.95), controlPoint1: CGPointMake(16.35, 15.48), controlPoint2: CGPointMake(15.95, 15.27))
@@ -1119,7 +1119,7 @@ public class AssetsKit : NSObject {
 
 
         //// Oval-93 Drawing
-        var oval93Path = UIBezierPath(ovalInRect: CGRectMake(3.8, 1.41, 14.42, 14.42))
+        let oval93Path = UIBezierPath(ovalInRect: CGRectMake(3.8, 1.41, 14.42, 14.42))
         AssetsKit.bottomBarButtonInactive.setStroke()
         oval93Path.lineWidth = 1
         oval93Path.stroke()
@@ -1137,7 +1137,7 @@ public class AssetsKit : NSObject {
 
 
             //// Oval- Drawing
-            var ovalPath = UIBezierPath()
+            let ovalPath = UIBezierPath()
             ovalPath.moveToPoint(CGPointMake(20.99, 25.33))
             ovalPath.addCurveToPoint(CGPointMake(16.68, 15.71), controlPoint1: CGPointMake(20.99, 21.15), controlPoint2: CGPointMake(19.44, 17.65))
             ovalPath.addCurveToPoint(CGPointMake(15.28, 14.95), controlPoint1: CGPointMake(16.35, 15.48), controlPoint2: CGPointMake(15.95, 15.27))
@@ -1177,7 +1177,7 @@ public class AssetsKit : NSObject {
 
 
             //// Oval- 2 Drawing
-            var oval2Path = UIBezierPath(ovalInRect: CGRectMake(3.8, 1.41, 14.42, 14.42))
+            let oval2Path = UIBezierPath(ovalInRect: CGRectMake(3.8, 1.41, 14.42, 14.42))
             AssetsKit.primaryColor.setStroke()
             oval2Path.lineWidth = 1
             oval2Path.stroke()
@@ -1188,7 +1188,7 @@ public class AssetsKit : NSObject {
         }
     }
 
-    public class func drawSearchButton(#scaleX: CGFloat, scaleY: CGFloat) {
+    public class func drawSearchButton(scaleX scaleX: CGFloat, scaleY: CGFloat) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -1196,7 +1196,7 @@ public class AssetsKit : NSObject {
         CGContextSaveGState(context)
         CGContextScaleCTM(context, scaleX, scaleY)
 
-        var fill139Path = UIBezierPath()
+        let fill139Path = UIBezierPath()
         fill139Path.moveToPoint(CGPointMake(18.99, 18.96))
         fill139Path.addLineToPoint(CGPointMake(12.64, 12.61))
         fill139Path.addCurveToPoint(CGPointMake(14.42, 8.11), controlPoint1: CGPointMake(13.74, 11.43), controlPoint2: CGPointMake(14.42, 9.85))
@@ -1227,7 +1227,7 @@ public class AssetsKit : NSObject {
         CGContextRestoreGState(context)
     }
 
-    public class func drawFilterButton(#scaleX: CGFloat, scaleY: CGFloat, ifShadow: Bool) {
+    public class func drawFilterButton(scaleX scaleX: CGFloat, scaleY: CGFloat, ifShadow: Bool) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -1242,7 +1242,7 @@ public class AssetsKit : NSObject {
         CGContextSaveGState(context)
         CGContextScaleCTM(context, scaleX, scaleY)
 
-        var filterWithoutShadowPath = UIBezierPath()
+        let filterWithoutShadowPath = UIBezierPath()
         filterWithoutShadowPath.moveToPoint(CGPointMake(3, 6.11))
         filterWithoutShadowPath.addLineToPoint(CGPointMake(3, 7.98))
         filterWithoutShadowPath.addLineToPoint(CGPointMake(10.49, 15.46))
@@ -1283,7 +1283,7 @@ public class AssetsKit : NSObject {
             CGContextSaveGState(context)
             CGContextScaleCTM(context, scaleX, scaleY)
 
-            var filterWithShadowPath = UIBezierPath()
+            let filterWithShadowPath = UIBezierPath()
             filterWithShadowPath.moveToPoint(CGPointMake(3, 6.11))
             filterWithShadowPath.addLineToPoint(CGPointMake(3, 7.98))
             filterWithShadowPath.addLineToPoint(CGPointMake(10.49, 15.46))
@@ -1323,7 +1323,7 @@ public class AssetsKit : NSObject {
         }
     }
 
-    public class func drawVenusLabel(#scaleX: CGFloat, scaleY: CGFloat, generation: String) {
+    public class func drawVenusLabel(scaleX scaleX: CGFloat, scaleY: CGFloat, generation: String) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -1334,7 +1334,7 @@ public class AssetsKit : NSObject {
 
 
         //// Bezier Drawing
-        var bezierPath = UIBezierPath()
+        let bezierPath = UIBezierPath()
         bezierPath.moveToPoint(CGPointMake(0.5, 8.5))
         bezierPath.addCurveToPoint(CGPointMake(9, 0), controlPoint1: CGPointMake(0.5, 3.81), controlPoint2: CGPointMake(4.31, 0))
         bezierPath.addLineToPoint(CGPointMake(49, 0))
@@ -1352,7 +1352,7 @@ public class AssetsKit : NSObject {
 
 
         //// Bezier 2 Drawing
-        var bezier2Path = UIBezierPath()
+        let bezier2Path = UIBezierPath()
         bezier2Path.moveToPoint(CGPointMake(17.43, 6.27))
         bezier2Path.addCurveToPoint(CGPointMake(12.97, 2.25), controlPoint1: CGPointMake(17.43, 4.05), controlPoint2: CGPointMake(15.43, 2.25))
         bezier2Path.addCurveToPoint(CGPointMake(8.5, 6.27), controlPoint1: CGPointMake(10.5, 2.25), controlPoint2: CGPointMake(8.5, 4.05))
@@ -1401,7 +1401,7 @@ public class AssetsKit : NSObject {
         CGContextRestoreGState(context)
     }
 
-    public class func drawMarsLabel(#scaleX: CGFloat, scaleY: CGFloat, generation: String) {
+    public class func drawMarsLabel(scaleX scaleX: CGFloat, scaleY: CGFloat, generation: String) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -1412,7 +1412,7 @@ public class AssetsKit : NSObject {
 
 
         //// Bezier Drawing
-        var bezierPath = UIBezierPath()
+        let bezierPath = UIBezierPath()
         bezierPath.moveToPoint(CGPointMake(0.5, 8.5))
         bezierPath.addCurveToPoint(CGPointMake(9, 0), controlPoint1: CGPointMake(0.5, 3.81), controlPoint2: CGPointMake(4.31, 0))
         bezierPath.addLineToPoint(CGPointMake(49, 0))
@@ -1430,7 +1430,7 @@ public class AssetsKit : NSObject {
 
 
         //// Bezier 2 Drawing
-        var bezier2Path = UIBezierPath()
+        let bezier2Path = UIBezierPath()
         bezier2Path.moveToPoint(CGPointMake(19.45, 6.62))
         bezier2Path.addLineToPoint(CGPointMake(19.45, 3.11))
         bezier2Path.addLineToPoint(CGPointMake(15.93, 3.11))
@@ -1481,7 +1481,7 @@ public class AssetsKit : NSObject {
         CGContextRestoreGState(context)
     }
 
-    public class func drawShareButton(#scaleX: CGFloat, scaleY: CGFloat, ifShadow: Bool) {
+    public class func drawShareButton(scaleX scaleX: CGFloat, scaleY: CGFloat, ifShadow: Bool) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -1496,7 +1496,7 @@ public class AssetsKit : NSObject {
         CGContextSaveGState(context)
         CGContextScaleCTM(context, scaleX, scaleY)
 
-        var shareWithoutShadowPath = UIBezierPath()
+        let shareWithoutShadowPath = UIBezierPath()
         shareWithoutShadowPath.moveToPoint(CGPointMake(18.77, 14.44))
         shareWithoutShadowPath.addCurveToPoint(CGPointMake(15.49, 16.18), controlPoint1: CGPointMake(17.41, 14.44), controlPoint2: CGPointMake(16.21, 15.13))
         shareWithoutShadowPath.addLineToPoint(CGPointMake(10.48, 13.4))
@@ -1548,7 +1548,7 @@ public class AssetsKit : NSObject {
             CGContextSaveGState(context)
             CGContextScaleCTM(context, scaleX, scaleY)
 
-            var shareWithShadowPath = UIBezierPath()
+            let shareWithShadowPath = UIBezierPath()
             shareWithShadowPath.moveToPoint(CGPointMake(18.77, 14.44))
             shareWithShadowPath.addCurveToPoint(CGPointMake(15.49, 16.18), controlPoint1: CGPointMake(17.41, 14.44), controlPoint2: CGPointMake(16.21, 15.13))
             shareWithShadowPath.addLineToPoint(CGPointMake(10.48, 13.4))
@@ -1600,7 +1600,7 @@ public class AssetsKit : NSObject {
         }
     }
 
-    public class func drawJoinButton(#scaleX: CGFloat, scaleY: CGFloat, ifAA: Bool, ifGo: Bool, ifPay: Bool, ifNotTapped: Bool) {
+    public class func drawJoinButton(scaleX scaleX: CGFloat, scaleY: CGFloat, ifAA: Bool, ifGo: Bool, ifPay: Bool, ifNotTapped: Bool) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -1622,7 +1622,7 @@ public class AssetsKit : NSObject {
 
             //// Text Drawing
             let textRect = CGRectMake(18, 6, 34, 20)
-            var textTextContent = NSString(string: "A A")
+            let textTextContent = NSString(string: "A A")
             let textStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
             textStyle.alignment = NSTextAlignment.Center
 
@@ -1658,7 +1658,7 @@ public class AssetsKit : NSObject {
 
             //// Text 2 Drawing
             let text2Rect = CGRectMake(18, 6, 34, 20)
-            var text2TextContent = NSString(string: "想去")
+            let text2TextContent = NSString(string: "想去")
             let text2Style = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
             text2Style.alignment = NSTextAlignment.Center
 
@@ -1694,7 +1694,7 @@ public class AssetsKit : NSObject {
 
             //// Text 3 Drawing
             let text3Rect = CGRectMake(18, 6, 34, 20)
-            var text3TextContent = NSString(string: "请客")
+            let text3TextContent = NSString(string: "请客")
             let text3Style = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
             text3Style.alignment = NSTextAlignment.Center
 
@@ -1728,7 +1728,7 @@ public class AssetsKit : NSObject {
 
             //// Text 4 Drawing
             let text4Rect = CGRectMake(18, 6, 34, 20)
-            var text4TextContent = NSString(string: "约起")
+            let text4TextContent = NSString(string: "约起")
             let text4Style = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
             text4Style.alignment = NSTextAlignment.Center
 
@@ -1746,7 +1746,7 @@ public class AssetsKit : NSObject {
         }
     }
 
-    public class func drawWTGIcon(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
+    public class func drawWTGIcon(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -1754,7 +1754,7 @@ public class AssetsKit : NSObject {
         CGContextSaveGState(context)
         CGContextScaleCTM(context, scaleX, scaleY)
 
-        var wTGIconUnpressedPath = UIBezierPath()
+        let wTGIconUnpressedPath = UIBezierPath()
         wTGIconUnpressedPath.moveToPoint(CGPointMake(16.8, 2.24))
         wTGIconUnpressedPath.addCurveToPoint(CGPointMake(13.47, 1), controlPoint1: CGPointMake(15.99, 1.41), controlPoint2: CGPointMake(14.88, 1))
         wTGIconUnpressedPath.addCurveToPoint(CGPointMake(12.27, 1.21), controlPoint1: CGPointMake(13.07, 1), controlPoint2: CGPointMake(12.67, 1.07))
@@ -1820,7 +1820,7 @@ public class AssetsKit : NSObject {
             CGContextSaveGState(context)
             CGContextScaleCTM(context, scaleX, scaleY)
 
-            var wTGIconPressedPath = UIBezierPath()
+            let wTGIconPressedPath = UIBezierPath()
             wTGIconPressedPath.moveToPoint(CGPointMake(16.8, 2.24))
             wTGIconPressedPath.addCurveToPoint(CGPointMake(13.47, 1), controlPoint1: CGPointMake(15.99, 1.41), controlPoint2: CGPointMake(14.88, 1))
             wTGIconPressedPath.addCurveToPoint(CGPointMake(12.27, 1.21), controlPoint1: CGPointMake(13.07, 1), controlPoint2: CGPointMake(12.67, 1.07))
@@ -1855,7 +1855,7 @@ public class AssetsKit : NSObject {
         }
     }
 
-    public class func drawTreatIcon(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
+    public class func drawTreatIcon(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -1863,7 +1863,7 @@ public class AssetsKit : NSObject {
         CGContextSaveGState(context)
         CGContextScaleCTM(context, scaleX, scaleY)
 
-        var treatIconUnpressedPath = UIBezierPath()
+        let treatIconUnpressedPath = UIBezierPath()
         treatIconUnpressedPath.moveToPoint(CGPointMake(11.12, 2.09))
         treatIconUnpressedPath.addCurveToPoint(CGPointMake(1.59, 11.91), controlPoint1: CGPointMake(9.61, 7.11), controlPoint2: CGPointMake(3.09, 6.89))
         treatIconUnpressedPath.addCurveToPoint(CGPointMake(6.88, 17.36), controlPoint1: CGPointMake(3.34, 13.72), controlPoint2: CGPointMake(5.13, 15.56))
@@ -2015,7 +2015,7 @@ public class AssetsKit : NSObject {
 
 
             //// TreatIcon Pressed 6 Drawing
-            var treatIconPressed6Path = UIBezierPath()
+            let treatIconPressed6Path = UIBezierPath()
             treatIconPressed6Path.moveToPoint(CGPointMake(11.87, 1.32))
             treatIconPressed6Path.addLineToPoint(CGPointMake(17.16, 6.77))
             treatIconPressed6Path.addCurveToPoint(CGPointMake(17.42, 7.87), controlPoint1: CGPointMake(17.44, 7.06), controlPoint2: CGPointMake(17.54, 7.48))
@@ -2047,7 +2047,7 @@ public class AssetsKit : NSObject {
                 CGContextSaveGState(context)
                 CGContextScaleCTM(context, scaleX, scaleY)
 
-                var treatIconPressed7Path = UIBezierPath()
+                let treatIconPressed7Path = UIBezierPath()
                 treatIconPressed7Path.moveToPoint(CGPointMake(11.4, 3.76))
                 treatIconPressed7Path.addCurveToPoint(CGPointMake(11.33, 3.85), controlPoint1: CGPointMake(11.36, 3.8), controlPoint2: CGPointMake(11.34, 3.82))
                 treatIconPressed7Path.addLineToPoint(CGPointMake(10.98, 4.34))
@@ -2071,7 +2071,7 @@ public class AssetsKit : NSObject {
 
 
             //// TreatIcon Pressed 2 Drawing
-            var treatIconPressed2Path = UIBezierPath()
+            let treatIconPressed2Path = UIBezierPath()
             treatIconPressed2Path.moveToPoint(CGPointMake(8.41, 7.19))
             treatIconPressed2Path.addCurveToPoint(CGPointMake(8.3, 7.21), controlPoint1: CGPointMake(8.38, 7.19), controlPoint2: CGPointMake(8.34, 7.2))
             treatIconPressed2Path.addCurveToPoint(CGPointMake(7.82, 7.4), controlPoint1: CGPointMake(8.13, 7.24), controlPoint2: CGPointMake(7.98, 7.31))
@@ -2131,7 +2131,7 @@ public class AssetsKit : NSObject {
 
 
             //// TreatIcon Pressed 3 Drawing
-            var treatIconPressed3Path = UIBezierPath()
+            let treatIconPressed3Path = UIBezierPath()
             treatIconPressed3Path.moveToPoint(CGPointMake(8.46, 9.31))
             treatIconPressed3Path.addCurveToPoint(CGPointMake(7.93, 9.49), controlPoint1: CGPointMake(8.25, 9.43), controlPoint2: CGPointMake(8.08, 9.49))
             treatIconPressed3Path.addCurveToPoint(CGPointMake(7.53, 9.34), controlPoint1: CGPointMake(7.78, 9.5), controlPoint2: CGPointMake(7.65, 9.45))
@@ -2146,7 +2146,7 @@ public class AssetsKit : NSObject {
 
 
             //// TreatIcon Pressed 4 Drawing
-            var treatIconPressed4Path = UIBezierPath()
+            let treatIconPressed4Path = UIBezierPath()
             treatIconPressed4Path.moveToPoint(CGPointMake(10.13, 9.66))
             treatIconPressed4Path.addCurveToPoint(CGPointMake(10.37, 9.81), controlPoint1: CGPointMake(10.21, 9.68), controlPoint2: CGPointMake(10.3, 9.73))
             treatIconPressed4Path.addCurveToPoint(CGPointMake(10.51, 10.05), controlPoint1: CGPointMake(10.45, 9.88), controlPoint2: CGPointMake(10.49, 9.96))
@@ -2163,7 +2163,7 @@ public class AssetsKit : NSObject {
 
 
             //// TreatIcon Pressed 5 Drawing
-            var treatIconPressed5Path = UIBezierPath()
+            let treatIconPressed5Path = UIBezierPath()
             treatIconPressed5Path.moveToPoint(CGPointMake(8.36, 13.07))
             treatIconPressed5Path.addCurveToPoint(CGPointMake(7.37, 13.94), controlPoint1: CGPointMake(7.98, 13.37), controlPoint2: CGPointMake(7.66, 13.64))
             treatIconPressed5Path.addCurveToPoint(CGPointMake(6.59, 14.87), controlPoint1: CGPointMake(7.08, 14.24), controlPoint2: CGPointMake(6.82, 14.55))
@@ -2186,7 +2186,7 @@ public class AssetsKit : NSObject {
         }
     }
 
-    public class func drawAddNewPhotoButton(#scaleX: CGFloat, scaleY: CGFloat) {
+    public class func drawAddNewPhotoButton(scaleX scaleX: CGFloat, scaleY: CGFloat) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -2197,7 +2197,7 @@ public class AssetsKit : NSObject {
 
 
         //// Bezier Drawing
-        var bezierPath = UIBezierPath()
+        let bezierPath = UIBezierPath()
         bezierPath.moveToPoint(CGPointMake(5, 7))
         bezierPath.addCurveToPoint(CGPointMake(6.99, 5), controlPoint1: CGPointMake(5, 5.89), controlPoint2: CGPointMake(5.89, 5))
         bezierPath.addLineToPoint(CGPointMake(122.01, 5))
@@ -2214,7 +2214,7 @@ public class AssetsKit : NSObject {
 
 
         //// Bezier 2 Drawing
-        var bezier2Path = UIBezierPath()
+        let bezier2Path = UIBezierPath()
         bezier2Path.moveToPoint(CGPointMake(69.52, 33.12))
         bezier2Path.addCurveToPoint(CGPointMake(70.75, 34.26), controlPoint1: CGPointMake(70.15, 33.34), controlPoint2: CGPointMake(70.56, 33.75))
         bezier2Path.addCurveToPoint(CGPointMake(70.9, 36.06), controlPoint1: CGPointMake(70.9, 34.74), controlPoint2: CGPointMake(70.9, 35.18))
@@ -2262,7 +2262,7 @@ public class AssetsKit : NSObject {
         CGContextRestoreGState(context)
     }
 
-    public class func drawMyBusinessIcon(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
+    public class func drawMyBusinessIcon(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
 
@@ -2273,7 +2273,7 @@ public class AssetsKit : NSObject {
 
 
         //// Bezier Drawing
-        var bezierPath = UIBezierPath()
+        let bezierPath = UIBezierPath()
         bezierPath.moveToPoint(CGPointMake(4.49, 6.35))
         bezierPath.addLineToPoint(CGPointMake(5.35, 4.42))
         bezierPath.addLineToPoint(CGPointMake(7.89, 3.83))
@@ -2295,7 +2295,7 @@ public class AssetsKit : NSObject {
         CGContextTranslateCTM(context, 26.5, 25.59)
         CGContextRotateCTM(context, -0.3 * CGFloat(M_PI) / 180)
 
-        var star2Path = UIBezierPath()
+        let star2Path = UIBezierPath()
         star2Path.moveToPoint(CGPointMake(0, -13.94))
         star2Path.addLineToPoint(CGPointMake(4.27, -5.67))
         star2Path.addLineToPoint(CGPointMake(13.75, -4.31))
@@ -2328,7 +2328,7 @@ public class AssetsKit : NSObject {
 
 
             //// Bezier 2 Drawing
-            var bezier2Path = UIBezierPath()
+            let bezier2Path = UIBezierPath()
             bezier2Path.moveToPoint(CGPointMake(4.49, 6.35))
             bezier2Path.addLineToPoint(CGPointMake(5.35, 4.42))
             bezier2Path.addLineToPoint(CGPointMake(7.89, 3.83))
@@ -2350,7 +2350,7 @@ public class AssetsKit : NSObject {
             CGContextTranslateCTM(context, 26.5, 25.59)
             CGContextRotateCTM(context, -0.3 * CGFloat(M_PI) / 180)
 
-            var starPath = UIBezierPath()
+            let starPath = UIBezierPath()
             starPath.moveToPoint(CGPointMake(0, -13.94))
             starPath.addLineToPoint(CGPointMake(4.27, -5.67))
             starPath.addLineToPoint(CGPointMake(13.75, -4.31))
@@ -2378,7 +2378,7 @@ public class AssetsKit : NSObject {
 
     //// Generated Images
 
-    public class func imageOfFemaleIcon(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
+    public class func imageOfFemaleIcon(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(36, 40), false, 0)
             AssetsKit.drawFemaleIcon(scaleX: scaleX, scaleY: scaleY, ifPressed: ifPressed)
 
@@ -2388,7 +2388,7 @@ public class AssetsKit : NSObject {
         return imageOfFemaleIcon
     }
 
-    public class func imageOfMaleIcon(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
+    public class func imageOfMaleIcon(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(37, 40), false, 0)
             AssetsKit.drawMaleIcon(scaleX: scaleX, scaleY: scaleY, ifPressed: ifPressed)
 
@@ -2398,7 +2398,7 @@ public class AssetsKit : NSObject {
         return imageOfMaleIcon
     }
 
-    public class func imageOfCakeIcon(#scaleX: CGFloat, scaleY: CGFloat) -> UIImage {
+    public class func imageOfCakeIcon(scaleX scaleX: CGFloat, scaleY: CGFloat) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(45, 36), false, 0)
             AssetsKit.drawCakeIcon(scaleX: scaleX, scaleY: scaleY)
 
@@ -2408,7 +2408,7 @@ public class AssetsKit : NSObject {
         return imageOfCakeIcon
     }
 
-    public class func imageOfFlameIcon(#scaleX: CGFloat, scaleY: CGFloat, ifTrending: Bool) -> UIImage {
+    public class func imageOfFlameIcon(scaleX scaleX: CGFloat, scaleY: CGFloat, ifTrending: Bool) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(32, 34), false, 0)
             AssetsKit.drawFlameIcon(scaleX: scaleX, scaleY: scaleY, ifTrending: ifTrending)
 
@@ -2418,7 +2418,7 @@ public class AssetsKit : NSObject {
         return imageOfFlameIcon
     }
 
-    public class func imageOfCarIcon(#scaleX: CGFloat, scaleY: CGFloat) -> UIImage {
+    public class func imageOfCarIcon(scaleX scaleX: CGFloat, scaleY: CGFloat) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(14, 13), false, 0)
             AssetsKit.drawCarIcon(scaleX: scaleX, scaleY: scaleY)
 
@@ -2428,7 +2428,7 @@ public class AssetsKit : NSObject {
         return imageOfCarIcon
     }
 
-    public class func imageOfEtcIcon(#scaleX: CGFloat, scaleY: CGFloat) -> UIImage {
+    public class func imageOfEtcIcon(scaleX scaleX: CGFloat, scaleY: CGFloat) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(32, 11), false, 0)
             AssetsKit.drawEtcIcon(scaleX: scaleX, scaleY: scaleY)
 
@@ -2438,7 +2438,7 @@ public class AssetsKit : NSObject {
         return imageOfEtcIcon
     }
 
-    public class func imageOfPriceIcon(#scaleX: CGFloat, scaleY: CGFloat) -> UIImage {
+    public class func imageOfPriceIcon(scaleX scaleX: CGFloat, scaleY: CGFloat) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(11, 11), false, 0)
             AssetsKit.drawPriceIcon(scaleX: scaleX, scaleY: scaleY)
 
@@ -2448,7 +2448,7 @@ public class AssetsKit : NSObject {
         return imageOfPriceIcon
     }
 
-    public class func imageOfHomeButton(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
+    public class func imageOfHomeButton(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(32, 27), false, 0)
             AssetsKit.drawHomeButton(scaleX: scaleX, scaleY: scaleY, ifPressed: ifPressed)
 
@@ -2458,7 +2458,7 @@ public class AssetsKit : NSObject {
         return imageOfHomeButton
     }
 
-    public class func imageOfNearbyButton(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
+    public class func imageOfNearbyButton(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(27, 27), false, 0)
             AssetsKit.drawNearbyButton(scaleX: scaleX, scaleY: scaleY, ifPressed: ifPressed)
 
@@ -2468,7 +2468,7 @@ public class AssetsKit : NSObject {
         return imageOfNearbyButton
     }
 
-    public class func imageOfChatButton(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
+    public class func imageOfChatButton(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(27, 27), false, 0)
             AssetsKit.drawChatButton(scaleX: scaleX, scaleY: scaleY, ifPressed: ifPressed)
 
@@ -2478,7 +2478,7 @@ public class AssetsKit : NSObject {
         return imageOfChatButton
     }
 
-    public class func imageOfProfileButton(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
+    public class func imageOfProfileButton(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(22, 27), false, 0)
             AssetsKit.drawProfileButton(scaleX: scaleX, scaleY: scaleY, ifPressed: ifPressed)
 
@@ -2488,7 +2488,7 @@ public class AssetsKit : NSObject {
         return imageOfProfileButton
     }
 
-    public class func imageOfSearchButton(#scaleX: CGFloat, scaleY: CGFloat) -> UIImage {
+    public class func imageOfSearchButton(scaleX scaleX: CGFloat, scaleY: CGFloat) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(20, 21), false, 0)
             AssetsKit.drawSearchButton(scaleX: scaleX, scaleY: scaleY)
 
@@ -2498,7 +2498,7 @@ public class AssetsKit : NSObject {
         return imageOfSearchButton
     }
 
-    public class func imageOfFilterButton(#scaleX: CGFloat, scaleY: CGFloat, ifShadow: Bool) -> UIImage {
+    public class func imageOfFilterButton(scaleX scaleX: CGFloat, scaleY: CGFloat, ifShadow: Bool) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(26, 25), false, 0)
             AssetsKit.drawFilterButton(scaleX: scaleX, scaleY: scaleY, ifShadow: ifShadow)
 
@@ -2508,7 +2508,7 @@ public class AssetsKit : NSObject {
         return imageOfFilterButton
     }
 
-    public class func imageOfVenusLabel(#scaleX: CGFloat, scaleY: CGFloat, generation: String) -> UIImage {
+    public class func imageOfVenusLabel(scaleX scaleX: CGFloat, scaleY: CGFloat, generation: String) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(58, 17), false, 0)
             AssetsKit.drawVenusLabel(scaleX: scaleX, scaleY: scaleY, generation: generation)
 
@@ -2518,7 +2518,7 @@ public class AssetsKit : NSObject {
         return imageOfVenusLabel
     }
 
-    public class func imageOfMarsLabel(#scaleX: CGFloat, scaleY: CGFloat, generation: String) -> UIImage {
+    public class func imageOfMarsLabel(scaleX scaleX: CGFloat, scaleY: CGFloat, generation: String) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(58, 17), false, 0)
             AssetsKit.drawMarsLabel(scaleX: scaleX, scaleY: scaleY, generation: generation)
 
@@ -2528,7 +2528,7 @@ public class AssetsKit : NSObject {
         return imageOfMarsLabel
     }
 
-    public class func imageOfShareButton(#scaleX: CGFloat, scaleY: CGFloat, ifShadow: Bool) -> UIImage {
+    public class func imageOfShareButton(scaleX scaleX: CGFloat, scaleY: CGFloat, ifShadow: Bool) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(26, 25), false, 0)
             AssetsKit.drawShareButton(scaleX: scaleX, scaleY: scaleY, ifShadow: ifShadow)
 
@@ -2538,7 +2538,7 @@ public class AssetsKit : NSObject {
         return imageOfShareButton
     }
 
-    public class func imageOfJoinButton(#scaleX: CGFloat, scaleY: CGFloat, ifAA: Bool, ifGo: Bool, ifPay: Bool, ifNotTapped: Bool) -> UIImage {
+    public class func imageOfJoinButton(scaleX scaleX: CGFloat, scaleY: CGFloat, ifAA: Bool, ifGo: Bool, ifPay: Bool, ifNotTapped: Bool) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(69, 32), false, 0)
             AssetsKit.drawJoinButton(scaleX: scaleX, scaleY: scaleY, ifAA: ifAA, ifGo: ifGo, ifPay: ifPay, ifNotTapped: ifNotTapped)
 
@@ -2548,7 +2548,7 @@ public class AssetsKit : NSObject {
         return imageOfJoinButton
     }
 
-    public class func imageOfWTGIcon(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
+    public class func imageOfWTGIcon(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(18, 17), false, 0)
             AssetsKit.drawWTGIcon(scaleX: scaleX, scaleY: scaleY, ifPressed: ifPressed)
 
@@ -2558,7 +2558,7 @@ public class AssetsKit : NSObject {
         return imageOfWTGIcon
     }
 
-    public class func imageOfTreatIcon(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
+    public class func imageOfTreatIcon(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(19, 20), false, 0)
             AssetsKit.drawTreatIcon(scaleX: scaleX, scaleY: scaleY, ifPressed: ifPressed)
 
@@ -2568,7 +2568,7 @@ public class AssetsKit : NSObject {
         return imageOfTreatIcon
     }
 
-    public class func imageOfAddNewPhotoButton(#scaleX: CGFloat, scaleY: CGFloat) -> UIImage {
+    public class func imageOfAddNewPhotoButton(scaleX scaleX: CGFloat, scaleY: CGFloat) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(129, 129), false, 0)
             AssetsKit.drawAddNewPhotoButton(scaleX: scaleX, scaleY: scaleY)
 
@@ -2578,7 +2578,7 @@ public class AssetsKit : NSObject {
         return imageOfAddNewPhotoButton
     }
 
-    public class func imageOfMyBusinessIcon(#scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
+    public class func imageOfMyBusinessIcon(scaleX scaleX: CGFloat, scaleY: CGFloat, ifPressed: Bool) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(53, 58), false, 0)
             AssetsKit.drawMyBusinessIcon(scaleX: scaleX, scaleY: scaleY, ifPressed: ifPressed)
 

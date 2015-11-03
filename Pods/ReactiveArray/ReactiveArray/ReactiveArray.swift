@@ -8,16 +8,15 @@
 
 import Foundation
 import ReactiveCocoa
-import Box
 
 public final class ReactiveArray<T>: MutableCollectionType {
     
-    typealias OperationProducer = SignalProducer<Operation<T>, NoError>
-    typealias OperationSignal = Signal<Operation<T>, NoError>
+    public typealias OperationProducer = SignalProducer<Operation<T>, NoError>
+    public typealias OperationSignal = Signal<Operation<T>, NoError>
     
     private var _elements: Array<T> = []
     
-    private let (_signal, _sink) = OperationSignal.pipe()
+    private let (_signal, _observer) = OperationSignal.pipe()
     
     private let _mutableCount: MutableProperty<Int>
     
@@ -26,7 +25,7 @@ public final class ReactiveArray<T>: MutableCollectionType {
         _elements = elements
         _mutableCount = MutableProperty<Int>(elements.count)
         
-        _signal.observe { [unowned self](operation) in
+        _signal.observeNext { [unowned self] operation in
             self.updateArray(operation)
         }
         
@@ -35,14 +34,16 @@ public final class ReactiveArray<T>: MutableCollectionType {
     public convenience init(producer: OperationProducer) {
         self.init()
         
-        producer |> start(_sink)
+        producer
+            .start(_observer)
     }
     
     public convenience init(producer: OperationProducer, startWithElements: Array<T>) {
         self.init()
         
         _elements = startWithElements
-        producer |> start(_sink)
+        producer
+            .start(_observer)
     }
     
     public convenience init() {
@@ -57,15 +58,16 @@ public final class ReactiveArray<T>: MutableCollectionType {
     }
     
     public var producer: OperationProducer {
-        let appendCurrentElements = OperationProducer(value: Operation.Initiate(values: Box(_elements)))
+        let appendCurrentElements = OperationProducer(value: Operation.Initiate(values: _elements))
         
         let forwardOperations = OperationProducer { (observer, dispoable) in self._signal.observe(observer) }
         
-        return  appendCurrentElements |> concat(forwardOperations)
+        return  appendCurrentElements
+            .concat(forwardOperations)
     }
     
-    private lazy var _observableCount: PropertyOf<Int> = PropertyOf(self._mutableCount)
-    public var observableCount: PropertyOf<Int> {
+    private lazy var _observableCount: AnyProperty<Int> = AnyProperty(self._mutableCount)
+    public var observableCount: AnyProperty<Int> {
         return _observableCount
     }
     
@@ -73,93 +75,93 @@ public final class ReactiveArray<T>: MutableCollectionType {
     /**
     Append newElement to the `ReactiveArray`.
     
-    :param: element newElement
+    - parameter element: newElement
     */
     public func append(element: T) {
-        let operation: Operation<T> = .Append(value: Box(element))
-        sendNext(_sink, operation)
+        let operation: Operation<T> = .Append(value: element)
+        _observer.sendNext(operation)
     }
     
     /**
-    Append the elements of newElements to self.
-    
-    :param: elements Array of new elements.
-    */
-    public func extend(elements: [T]) {
-        let operation: Operation<T> = .Extend(values: Box(elements))
-        sendNext(_sink, operation)
+     Append the elements of newElements to self.
+     
+     - parameter elements: Array of new elements.
+     */
+    public func appendContentsOf(elements: [T]) {
+        let operation: Operation<T> = .AppendContentsOf(values: elements)
+        _observer.sendNext(operation)
     }
     
     /**
-    Insert newElement at index i.
-    
-    Requires: i <= count
-    
-    Complexity: O(count).
-    
-    :param: element newElement
-    :param: index   The index i.
-    */
+     Insert newElement at index i.
+     
+     Requires: i <= count
+     
+     Complexity: O(count).
+     
+     - parameter element: newElement
+     - parameter index:   The index i.
+     */
     public func insert(element: T, atIndex index: Int) {
-        let operation: Operation<T> = .Insert(value: Box(element), atIndex: index)
-        sendNext(_sink, operation)
+        let operation: Operation<T> = .Insert(value: element, atIndex: index)
+        _observer.sendNext(operation)
     }
     
     /**
-    Replace and return the element at index i with another element.
-    
-    :param: newElement The new element.
-    :param: index      The index i.
-    
-    :returns: The original element at index i
-    */
+     Replace and return the element at index i with another element.
+     
+     - parameter newElement: The new element.
+     - parameter index:      The index i.
+     
+     - returns: The original element at index i
+     */
     public func replace(newElement: T, atIndex index : Int) -> T {
-        let operation: Operation<T> = .Replace(value: Box(newElement), atIndex: index)
+        let operation: Operation<T> = .Replace(value: newElement, atIndex: index)
         // temporarily save the element before replace happens
         let toBeReplacedElement = _elements[index]
-        sendNext(_sink, operation)
+        _observer.sendNext(operation)
         return toBeReplacedElement
     }
     
     /**
-    Remove and return the element at index i.
-    
-    :param: index The index of the element that is to be removed.
-    
-    :returns: Element at index i.
-    */
+     Remove and return the element at index i.
+     
+     - parameter index: The index of the element that is to be removed.
+     
+     - returns: Element at index i.
+     */
     public func removeAtIndex(index: Int) -> T {
         let operation: Operation<T> = .RemoveElement(atIndex: index)
         // temporarily save the element before removal happens
         let toBeRemovedElement = _elements[index]
-        sendNext(_sink, operation)
+        _observer.sendNext(operation)
         return toBeRemovedElement
     }
     
     /**
-    Replace the underlying array of elements with a new one.
-    
-    :param: elements The new array of elements.
-    */
+     Replace the underlying array of elements with a new one.
+     
+     - parameter elements: The new array of elements.
+     */
     public func replaceAll(elements: [T]) {
-        let operation: Operation<T> = .ReplaceAll(values: Box(elements))
-        sendNext(_sink, operation)
+        let operation: Operation<T> = .ReplaceAll(values: elements)
+        _observer.sendNext(operation)
     }
     
     /**
-    Remove all elements.
-    
-    :param: keepCapacity A boolean value.
-    */
+     Remove all elements.
+     
+     - parameter keepCapacity: A boolean value.
+     */
     public func removeAll(keepCapacity: Bool) {
         let operation: Operation<T> = .RemoveAll(keepCapacity: keepCapacity)
-        sendNext(_sink, operation)
+        _observer.sendNext(operation)
     }
     
     // MARK: Array Functions
     
     public func mirror<U>(transformer: T -> U) -> ReactiveArray<U> {
-        return ReactiveArray<U>(producer: producer |> ReactiveCocoa.map { $0.map(transformer) }, startWithElements: _elements.map(transformer))
+        return ReactiveArray<U>(producer: producer.map { $0.map(transformer) }, startWithElements: _elements.map(transformer))
     }
     
     public subscript(index: Int) -> T {
@@ -179,26 +181,26 @@ public final class ReactiveArray<T>: MutableCollectionType {
     // MARK: - Others
     private func updateArray(operation: Operation<T>) {
         switch operation {
-        case .Initiate(let boxedValues):
+        case .Initiate(_):
             // do nothing as the data is present when `Initiate` opearation occurs
             break
-        case .Append(let boxedValue):
-            _elements.append(boxedValue.value)
-        case .Extend(let boxedValues):
-            _elements.extend(boxedValues.value)
-        case .Insert(let boxedValue, let index):
-            _elements.insert(boxedValue.value, atIndex: index)
-        case .Replace(let boxedValue, let index):
-            _elements[index] = boxedValue.value
+        case .Append(let value):
+            _elements.append(value)
+        case .AppendContentsOf(let values):
+            _elements.appendContentsOf(values)
+        case .Insert(let value, let index):
+            _elements.insert(value, atIndex: index)
+        case .Replace(let value, let index):
+            _elements[index] = value
         case .RemoveElement(let index):
             _elements.removeAtIndex(index)
-        case .ReplaceAll(let boxedValues):
-            _elements = boxedValues.value
+        case .ReplaceAll(let values):
+            _elements = values
         case .RemoveAll(let keepCapacity):
             _elements.removeAll(keepCapacity: keepCapacity)
         }
         
-        _mutableCount.put(_elements.count)
+        _mutableCount.value = _elements.count
     }
     
 }
@@ -234,17 +236,9 @@ extension ReactiveArray : CollectionType {
     public var last: T? {
         return _elements.last
     }
-    
-    // TODO: Remove this in Swift 2.0
-    /**
-    Return a generator over the elements.
-    */
-    public func generate() -> IndexingGenerator<Array<T>> {
-        return _elements.generate()
-    }
 }
 
-extension ReactiveArray : DebugPrintable {
+extension ReactiveArray : CustomDebugStringConvertible {
     
     public var debugDescription: String {
         return _elements.debugDescription

@@ -55,21 +55,21 @@ public final class FeaturedListBusinessCell_ParticipationViewModel : IFeaturedLi
         query.limit = 5
         
         return participationService.findBy(query)
-            |> on(next: { participations in
+            .on(next: { participations in
                 self._participationArr.put(self._participationArr.value + participations)
             })
-            |> map { participations -> [ParticipantViewModel] in
+            .map { participations -> [ParticipantViewModel] in
                 return participations.map {
                     ParticipantViewModel(imageService: self.imageService, user: $0.user)
                 }
             }
-            |> on(
+            .on(
                 next: { response in
                     self._participantViewModelArr.put(response)
                 },
                 error: { FeaturedLogError($0.customErrorDescription) }
             )
-            |> map { _ -> Void in return }
+            .map { _ -> Void in return }
     }
     
     
@@ -78,7 +78,7 @@ public final class FeaturedListBusinessCell_ParticipationViewModel : IFeaturedLi
         *  Query database to check if user has already participated in this business.
         */
         return self.userService.currentLoggedInUser()
-            |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Participation, NSError> in
+            .flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Participation, NSError> in
                 typealias Property = Participation.Property
                 let query = Participation.query()
                 
@@ -88,10 +88,10 @@ public final class FeaturedListBusinessCell_ParticipationViewModel : IFeaturedLi
                 
                 return self.participationService.get(query)
             }
-            |> on(next: { [weak self] participation in
+            .on(next: { [weak self] participation in
                 self?._isButtonEnabled.put(false)
             })
-            |> map { _ in return }
+            .map { _ in return }
     }
     
 //    /**
@@ -102,14 +102,14 @@ public final class FeaturedListBusinessCell_ParticipationViewModel : IFeaturedLi
 //    */
 //    public func participate(choice: ParticipationType) -> SignalProducer<Bool, NSError> {
 //        return self.userService.currentLoggedInUser()
-//            |> flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
+//            .flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
 //                let p = Participation()
 //                p.user = user
 //                p.business = self.business
 //                
 //                return self.participationService.create(p)
 //            }
-//            |> on(next: { [weak self] success in
+//            .on(next: { [weak self] success in
 //                // if operation is successful, change the participation button.
 //                if success {
 //                    self?._isButtonEnabled.put(false)

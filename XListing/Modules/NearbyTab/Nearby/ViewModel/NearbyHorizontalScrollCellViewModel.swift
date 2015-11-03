@@ -61,7 +61,7 @@ public final class NearbyTableCellViewModel {
         setupEta(businessLocation.cllocation)
         
         imageService.getImage(NSURL(string: "http://lasttear.com/wp-content/uploads/2015/03/interior-design-ideas-furniture-architecture-mesmerizing-chinese-restaurant-interior-with-red-nuance-inspiring.jpg")!)
-            |> start(next: {
+            .start(next: {
                 self.coverImage.put($0)
             })
         
@@ -69,7 +69,7 @@ public final class NearbyTableCellViewModel {
     
     private func setupEta(destination: CLLocation) {
         geoLocationService.calculateETA(destination)
-            |> start(next: { interval in
+            .start(next: { interval in
                 let minute = Int(ceil(interval / 60))
                 self.eta.put(" \(CITY_DISTANCE_SEPARATOR) 开车\(minute)分钟")
                 }, error: { error in

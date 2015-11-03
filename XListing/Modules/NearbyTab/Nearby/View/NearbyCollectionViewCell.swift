@@ -39,21 +39,21 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
         self.viewmodel = viewmodel
         
         businessNameLabel.rac_text <~ self.viewmodel.businessName.producer
-            |> takeUntilPrepareForReuse(self)
+            .takeUntilPrepareForReuse(self)
         
         cityLabel.rac_text <~ self.viewmodel.city.producer
-            |> takeUntilPrepareForReuse(self)
+            .takeUntilPrepareForReuse(self)
         
         businessHoursLabel.rac_text <~ self.viewmodel.participation.producer
-            |> takeUntilPrepareForReuse(self)
+            .takeUntilPrepareForReuse(self)
         
         etaLabel.rac_text <~ self.viewmodel.eta.producer
-            |> takeUntilPrepareForReuse(self)
+            .takeUntilPrepareForReuse(self)
         
         compositeDisposable += self.viewmodel.coverImage.producer
-            |> takeUntilPrepareForReuse(self)
-            |> ignoreNil
-            |> start (
+            .takeUntilPrepareForReuse(self)
+            .ignoreNil
+            .start (
                 next: { [weak self] in
                     self?.coverImageView.setImageWithAnimation($0)
                 }

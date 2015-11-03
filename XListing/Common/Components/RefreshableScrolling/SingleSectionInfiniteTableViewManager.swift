@@ -67,8 +67,8 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
         ) -> SignalProducer<Operation<U.Payload>, NoError> {
         
             return viewmodel.collectionDataSource.producer
-                |> logLifeCycle(LogContext.Misc, "SingleSectionInfiniteTableViewManager viewmodel.collectionDataSource.producer")
-                |> on(
+                .logLifeCycle(LogContext.Misc, "SingleSectionInfiniteTableViewManager viewmodel.collectionDataSource.producer")
+                .on(
                     next: { [weak self] operation in
                         if let this = self {
                             switch operation {

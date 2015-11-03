@@ -23,8 +23,7 @@ public final class ProfileSegmentControlView : ButtonPageControl {
         button.opaque = true
         
         AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(35, 35), backgroundColor: .whiteColor(), opaque: true, imageContextScale: nil, pressed: false, shadow: false))
-            |> start(
-                next: { [weak button] image in
+            .startWithNext { [weak button] image in
                     button?.setImage(image, forState: .Normal)
                 }
         )
@@ -49,7 +48,7 @@ public final class ProfileSegmentControlView : ButtonPageControl {
         button.opaque = true
         
         AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(35, 35), backgroundColor: .whiteColor(), opaque: true, imageContextScale: nil, pressed: false, shadow: false))
-            |> start(
+            .start(
                 next: { [weak button] image in
                     button?.setImage(image, forState: .Normal)
                 }

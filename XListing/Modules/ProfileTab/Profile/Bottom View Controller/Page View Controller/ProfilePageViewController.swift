@@ -76,9 +76,9 @@ public final class ProfilePageViewController : UIPageViewController {
 
         photoManagerViewController.fullImageProxy
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Profile, "photoManagerViewController.fullImageProxy")
-            |> start(next: { [weak self] in
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.Profile, "photoManagerViewController.fullImageProxy")
+            .start(next: { [weak self] in
                 if let this = self {
                     proxyNext(this._fullImageSink, ())
                 }

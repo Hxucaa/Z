@@ -205,12 +205,12 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         self.viewmodel = viewmodel
 
         self.viewmodel.getCoverImage()
-            |> start()
+            .start()
 
         self.viewmodel.coverImage.producer
-            |> takeUntilPrepareForReuse(self)
-            |> ignoreNil
-            |> start (next: { [weak self] image in
+            .takeUntilPrepareForReuse(self)
+            .ignoreNil
+            .start (next: { [weak self] image in
                 self?.businessImageView.image = image
                 
             })

@@ -58,10 +58,10 @@ public final class DetailNavigationMapViewController: XUIViewController {
             return SignalProducer { sink, disposable in
                 if let this = self {
                     disposable += combineLatest(
-                        this.viewmodel.annotation.producer |> ignoreNil,
-                        this.viewmodel.region.producer |> ignoreNil
+                        this.viewmodel.annotation.producer .ignoreNil,
+                        this.viewmodel.region.producer .ignoreNil
                         )
-                        |> start(next: { annotation, region in
+                        .start(next: { annotation, region in
                             let placemark = MKPlacemark(coordinate: region.center, addressDictionary: nil)
                             let mapItem = MKMapItem(placemark: placemark)
                             mapItem.name = annotation.title
@@ -141,21 +141,21 @@ public final class DetailNavigationMapViewController: XUIViewController {
         self.viewmodel = viewmodel
         
         compositeDisposable += self.viewmodel.annotation.producer
-            |> takeUntil(
+            .takeUntil(
                 rac_signalForSelector(Selector("viewDidDisappear:")).toSignalProducer()
-                    |> toNihil
+                    .toNihil
             )
-            |> start(next: { [weak self] annotation in
+            .start(next: { [weak self] annotation in
                 self?.mapView.addAnnotation(annotation)
             })
         
         compositeDisposable += self.viewmodel.region.producer
-            |> takeUntil(
+            .takeUntil(
                 rac_signalForSelector(Selector("viewDidDisappear:")).toSignalProducer()
-                    |> toNihil
+                    .toNihil
             )
-            |> ignoreNil
-            |> start(next: { [weak self] region in
+            .ignoreNil
+            .start(next: { [weak self] region in
                 self?.mapView.setRegion(region, animated: false)
             })
     }

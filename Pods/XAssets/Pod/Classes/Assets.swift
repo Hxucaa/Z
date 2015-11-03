@@ -167,8 +167,6 @@ public enum Asset {
             return CGSizeMake(18, 17)
         case .AddNewPhotoButton:
             return CGSizeMake(129,129)
-        default:
-            return CGSizeMake(0, 0)
         }
     }
 }

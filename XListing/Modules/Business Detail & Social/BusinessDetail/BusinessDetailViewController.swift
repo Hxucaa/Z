@@ -115,7 +115,7 @@ public final class BusinessDetailViewController : XUIViewController {
         navigationMapViewController = DetailNavigationMapViewController()
         
         compositeDisposable += navigationMapViewController.goBackProxy
-            |> start(next: { handler in
+            .start(next: { handler in
                 self.dismissViewControllerAnimated(true, completion: handler)
             })
         
@@ -128,16 +128,16 @@ public final class BusinessDetailViewController : XUIViewController {
         utilityHeaderView.setDetailInfoButtonStyleSelected()
         
         compositeDisposable += utilityHeaderView.detailInfoProxy
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.detailInfoProxy")
-            |> start(next: { [weak self] in
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.detailInfoProxy")
+            .start(next: { [weak self] in
                 self?.navigationController?.popViewControllerAnimated(true)
             })
         
         compositeDisposable += utilityHeaderView.startEventProxy
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.startEventProxy")
-            |> start(next: { [weak self] in
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.startEventProxy")
+            .start(next: { [weak self] in
                 println("want to go")
             })
         
@@ -271,8 +271,8 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 let cell = tableView.dequeueReusableCellWithIdentifier(BusinessHourCellIdentifier) as! BusinessHourCell
                 cell.bindViewModel(viewmodel.businessHourViewModel)
                 compositeDisposable += cell.expandBusinessHoursProxy
-                    |> takeUntilPrepareForReuse(cell)
-                    |> start(next: { [weak self] vc in
+                    .takeUntilPrepareForReuse(cell)
+                    .start(next: { [weak self] vc in
                         self?.tableView.beginUpdates()
                         self?.tableView.endUpdates()
                     })
@@ -289,8 +289,8 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 let mapCell = tableView.dequeueReusableCellWithIdentifier(MapCellIdentifier) as! DetailMapTableViewCell
                 mapCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
                 compositeDisposable += mapCell.navigationMapProxy
-                    |> takeUntilPrepareForReuse(mapCell)
-                    |> start(next: { [weak self] in
+                    .takeUntilPrepareForReuse(mapCell)
+                    .start(next: { [weak self] in
                         self?.presentNavigationMapViewController()
                     })
                 return mapCell
@@ -299,8 +299,8 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 let addressCell = tableView.dequeueReusableCellWithIdentifier(AddressCellIdentifier) as! DetailAddressTableViewCell
                 addressCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
                 compositeDisposable += addressCell.navigationMapProxy
-                    |> takeUntilPrepareForReuse(addressCell)
-                    |> start(next: { [weak self] in
+                    .takeUntilPrepareForReuse(addressCell)
+                    .start(next: { [weak self] in
                         self?.presentNavigationMapViewController()
                     })
                 return addressCell
@@ -309,8 +309,8 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 let phoneWebCell = tableView.dequeueReusableCellWithIdentifier(PhoneWebCellIdentifier) as! DetailPhoneWebTableViewCell
                 phoneWebCell.bindToViewModel(viewmodel.detailPhoneWebViewModel)
                 compositeDisposable += phoneWebCell.presentWebViewProxy
-                    |> takeUntilPrepareForReuse(phoneWebCell)
-                    |> start(next: { [weak self] vc in
+                    .takeUntilPrepareForReuse(phoneWebCell)
+                    .start(next: { [weak self] vc in
                         self?.presentViewController(vc, animated: true, completion: nil)
                     })
                 return phoneWebCell

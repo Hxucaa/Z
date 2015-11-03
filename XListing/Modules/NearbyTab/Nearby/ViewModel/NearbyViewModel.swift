@@ -39,7 +39,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
     */
     public var currentLocation: SignalProducer<CLLocation, NSError> {
         return geoLocationService.getCurrentLocation()
-            |> catch { error -> SignalProducer<CLLocation, NSError> in
+            .flatMapError { error -> SignalProducer<CLLocation, NSError> in
                 
                 return SignalProducer { sink, disposable in
                     // with hardcoded location
@@ -58,7 +58,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
         query.whereKey(Business.Property.Geolocation.rawValue, nearGeoPoint: centreGeoPoint)
         query.skip = collectionDataSource.array.count
         return getBusinessesWithQuery(query, isPagination: true)
-            |> map { [weak self] _ in
+            .map { [weak self] _ in
                 return
             }
     }
@@ -70,7 +70,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
         query.whereKey(Business.Property.Geolocation.rawValue, nearGeoPoint: centreGeoPoint, withinKilometers: radius)
         
         return getBusinessesWithQuery(query, isPagination: false)
-            |> flatMap(.Merge) { data in
+            .flatMap(.Merge) { data in
                 if data.count < 1 {
                     return self.getNearestBusinesses(centreGeoPoint)
                 }
@@ -103,7 +103,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
         let query = Business.query()
         query.whereKey(Business.Property.Geolocation.rawValue, nearGeoPoint: centreGeoPoint)
         return getBusinessesWithQuery(query, isPagination: false)
-            |> map { [weak self] _ in
+            .map { [weak self] _ in
                 return
             }
     }
@@ -112,19 +112,19 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
         // TODO: implement default location.
         query.limit = Constants.PAGINATION_LIMIT
         return businessService.findBy(query)
-            |> on(next: { businesses in
+            .on(next: { businesses in
                 if isPagination {
                     self.businessArr.value.extend(businesses)
                 } else {
                     self.businessArr.put(businesses)
                 }
             })
-            |> map { businesses -> [NearbyTableCellViewModel] in
+            .map { businesses -> [NearbyTableCellViewModel] in
                 businesses.map {
                     NearbyTableCellViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover_, geolocation: $0.geolocation, aaCount: $0.aaCount, treatCount: $0.treatCount, toGoCount: $0.toGoCount)
                 }
             }
-            |> on(
+            .on(
                 next: { response in
                     if response.count > 0 {
                         

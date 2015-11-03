@@ -60,22 +60,22 @@ public final class ProfileUpperViewController : UIViewController {
         
         viewmodel.getUserInfo()
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> start()
+            .takeUntilViewWillDisappear(self)
+            .start()
 
         viewmodel.profileHeaderViewModel.producer
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> ignoreNil
-            |> start(next: { [weak self] viewmodel in
+            .takeUntilViewWillDisappear(self)
+            .ignoreNil
+            .start(next: { [weak self] viewmodel in
                 self?.headerView.bindToViewModel(viewmodel)
             })
         
         headerView.editProxy
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Profile, "headerView.editProxy")
-            |> start(next: { [weak self] in
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.Profile, "headerView.editProxy")
+            .start(next: { [weak self] in
                 if let this = self {
                     proxyNext(this._editSink, ())
                 }

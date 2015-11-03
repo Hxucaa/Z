@@ -61,21 +61,21 @@ public final class ParticipationListViewController : UIViewController {
         
         
 //        viewmodel.fetchMoreData()
-//            |> start()
+//            .start()
         
         singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
-            |> takeUntilViewWillDisappear(self)
-            |> logLifeCycle(LogContext.Profile, "viewmodel.collectionDataSource.producer")
-            |> start()
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.Profile, "viewmodel.collectionDataSource.producer")
+            .start()
         
         // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
         // when the specified row is now selected
         rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> map { ($0 as! RACTuple).second as! NSIndexPath }
-            |> logLifeCycle(LogContext.Profile, "tableView:didSelectRowAtIndexPath:")
-            |> start(
+            .takeUntilViewWillDisappear(self)
+            .map { ($0 as! RACTuple).second as! NSIndexPath }
+            .logLifeCycle(LogContext.Profile, "tableView:didSelectRowAtIndexPath:")
+            .start(
                 next: { [weak self] indexPath in
                     self?.viewmodel.pushSocialBusinessModule(indexPath.row, animated: true)
                 }
@@ -83,18 +83,18 @@ public final class ParticipationListViewController : UIViewController {
         
         rac_signalForSelector(Selector("tableView:commitEditingStyle:forRowAtIndexPath:"), fromProtocol: UITableViewDataSource.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
-            |> takeUntilViewWillDisappear(self)
-            |> map { parameters -> (UITableViewCellEditingStyle, NSIndexPath) in
+            .takeUntilViewWillDisappear(self)
+            .map { parameters -> (UITableViewCellEditingStyle, NSIndexPath) in
                 let tuple = parameters as! RACTuple
                 return (tuple.second as! UITableViewCellEditingStyle, tuple.third as! NSIndexPath)
             }
-            |> logLifeCycle(LogContext.Profile, "tableView:commitEditingStyle:forRowAtIndexPath:")
-            |> start(
+            .logLifeCycle(LogContext.Profile, "tableView:commitEditingStyle:forRowAtIndexPath:")
+            .start(
                 next: { [weak self] editingStyle, indexPath in
                     if let this = self {
                         if editingStyle == UITableViewCellEditingStyle.Delete {
                             this.viewmodel.removeDataAtIndex(indexPath.row)
-                                |> start()
+                                .start()
                         }
                     }
                 }

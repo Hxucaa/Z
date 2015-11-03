@@ -94,8 +94,8 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         let imageView = self.makeIconImageView(CGRectMake(10, 110, 12, 12))
         
         imageView.rac_image <~ AssetFactory.getImage(Asset.PriceIcon(size: imageView.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-            |> take(1)
-            |> map { Optional<UIImage>($0) }
+            .take(1)
+            .map { Optional<UIImage>($0) }
         
         return imageView
         
@@ -112,8 +112,8 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         
         // Adding ETA icon
         imageView.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: imageView.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-            |> take(1)
-            |> map { Optional<UIImage>($0) }
+            .take(1)
+            .map { Optional<UIImage>($0) }
         
         return imageView
         
@@ -203,13 +203,13 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         locationLabel.rac_text <~ viewmodel.city.producer
         
         viewmodel.price.producer
-            |> ignoreNil
-            |> start(next: { [weak self] price in
+            .ignoreNil
+            .start(next: { [weak self] price in
                 self?.priceLabel.text = "$ \(price)"
             })
         
         etaLabel.rac_text <~ viewmodel.eta.producer
-            |> ignoreNil
+            .ignoreNil
     }
     
     // MARK: - Others

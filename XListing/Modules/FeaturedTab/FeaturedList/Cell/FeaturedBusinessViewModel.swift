@@ -50,10 +50,10 @@ public final class FeaturedBusinessViewModel : IFeaturedBusinessViewModel {
     public func getCoverImage() -> SignalProducer<Void, NSError> {
         if let url = business.cover_?.url, nsurl = NSURL(string: url) {
             return imageService.getImage(nsurl)
-                |> on(next: {
+                .on(next: {
                     self._coverImage.put($0)
                 })
-                |> map { _ in return }
+                .map { _ in return }
         }
         else {
             return SignalProducer<Void, NSError>.empty
