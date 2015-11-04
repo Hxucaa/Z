@@ -35,7 +35,7 @@ public final class UsernameAndPasswordViewModel {
         // - between 3 and 30 characters
         // - letters, numbers, dashes, periods, and underscores only
         validUsernameSignal = username.producer
-            .ignoreNil
+            .ignoreNil()
             .filter { self.testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
         
         isUsernameValid <~ validUsernameSignal
@@ -47,8 +47,8 @@ public final class UsernameAndPasswordViewModel {
         // - letters, numbers, and most standard symbols
         // - at least one number, capital letter, or special character
         validPasswordSignal = password.producer
-            .ignoreNil
-            .filter { count($0) > 0 }
+            .ignoreNil()
+            .filter { $0.characters.count > 0 }
         //            .filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
         
         isPasswordValid <~ validPasswordSignal

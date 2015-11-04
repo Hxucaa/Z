@@ -34,9 +34,9 @@ public class TransitionManager {
         compositeDisposable += viewTransitionProducer
             // forwards events along with the previous value. The first member is the previous value and the second is the current value.
             .combinePrevious(initial())
-            .start(next: { [weak self] current, next in
+            .startWithNext { current, next in
                 transformation(current: current, next: next)
-            })
+            }
     }
     
     deinit {
@@ -46,7 +46,7 @@ public class TransitionManager {
     
     public func transitionNext() {
         assert(currentIndex < followUps.count - 1, "Cannot transition beyond the total number of follow up transitions defined!")
-        sendNext(viewTransitionObserver, followUps[++currentIndex]())
+        viewTransitionObserver.sendNext(followUps[++currentIndex]())
     }
     
     public func installInitial() {

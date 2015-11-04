@@ -76,9 +76,9 @@ public final class ParticipationListCellViewModel : IParticipationListCellViewMo
         
         if let url = cover?.url, nsurl = NSURL(string: url) {
             imageService.getImage(nsurl)
-                .start(next: {
-                    self._coverImage.put($0)
-                })
+                .startWithNext {
+                    self._coverImage.value = $0
+                }
         }
     }
     
@@ -87,11 +87,15 @@ public final class ParticipationListCellViewModel : IParticipationListCellViewMo
     // MARK: - Others
     private func setupEta(destination: CLLocation) {
         self.geoLocationService.calculateETA(destination)
-            .start(next: { interval in
-                let minute = Int(ceil(interval / 60))
-                self._eta.put(" \(CITY_DISTANCE_SEPARATOR) 开车\(minute)分钟")
-                }, error: { error in
+            .start { event in
+                switch event {
+                case .Next(let interval):
+                    let minute = Int(ceil(interval / 60))
+                    self._eta.value = " \(CITY_DISTANCE_SEPARATOR) 开车\(minute)分钟"
+                case .Failed(let error):
                     ProfileLogError(error.description)
-            })
+                default: break
+                }
+            }
     }
 }

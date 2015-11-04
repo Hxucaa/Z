@@ -53,7 +53,7 @@ extension AccountWireframe : IAccountNavigator {
     public func goToSignUpComponent() {
         let viewController = UIStoryboard(name: AccountStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(SignUpViewControllerIdentifier) as! SignUpViewController
         let viewmodel = SignUpViewModel(accountNavigator: self, userService: userService)
-        viewController.viewmodel.put(viewmodel)
+        viewController.viewmodel.value = viewmodel
         
         moduleNavController.pushViewController(viewController, animated: false)
     }
@@ -62,7 +62,7 @@ extension AccountWireframe : IAccountNavigator {
     public func goToLogInComponent() {
         let viewController = UIStoryboard(name: AccountStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(LogInViewControllerIdentifier) as! LogInViewController
         let viewmodel = LogInViewModel(accountNavigator: self, userService: userService)
-        viewController.viewmodel.put(viewmodel)
+        viewController.viewmodel.value = viewmodel
         
         moduleNavController.pushViewController(viewController, animated: false)
     }

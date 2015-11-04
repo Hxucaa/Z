@@ -84,17 +84,17 @@ public class BasicUserInfoViewModel : IBasicUserInfoViewModel {
         switch gender {
         case .Female:
             _ageGroupBackgroundColor = ConstantProperty(.x_FemaleAgeGroupBG())
-            _ageGroup.put(Icons.Female+" "+_ageGroup.value)
+            _ageGroup.value = Icons.Female + " " + _ageGroup.value
         case .Male:
             _ageGroupBackgroundColor = ConstantProperty(.blueColor())
-            _ageGroup.put(Icons.Male+" "+_ageGroup.value)
+            _ageGroup.value = Icons.Male + " " + _ageGroup.value
         }
         
         if let url = profileImage?.url, nsurl = NSURL(string: url) {
             self.imageService.getImage(nsurl)
-                .start(next: {
-                    self._profileImage.put($0)
-                })
+                .startWithNext {
+                    self._profileImage.value = $0
+                }
         }
     }
 }

@@ -20,7 +20,7 @@ public final class ImageService : IImageService {
                     observer.sendNext(image)
                     observer.sendCompleted()
                 } else {
-                    sendError(observer, error)
+                    observer.sendFailed(error)
                 }
             })
         }
@@ -38,12 +38,12 @@ public final class ImageService : IImageService {
                         observer.sendCompleted()
                     }
                     else {
-                        sendError(observer, error)
+                        observer.sendFailed(error)
                     }
                 })
             }
             else {
-                sendError(observer, NSError(domain: "XListing.ImageService", code: 999, userInfo: ["message" : "Invalid url"]))
+                observer.sendFailed(NSError(domain: "XListing.ImageService", code: 999, userInfo: ["message" : "Invalid url"]))
             }
         }
     }
@@ -64,12 +64,12 @@ public final class ImageService : IImageService {
                         observer.sendNext(image as! Thumbnail)
                         observer.sendCompleted()
                     } else {
-                        sendError(observer, error)
+                        observer.sendFailed(error)
                     }
                 })
             }
             else {
-                sendError(observer, NSError(domain: "XListing.ImageService", code: 999, userInfo: ["message" : "Invalid url"]))
+                observer.sendFailed(NSError(domain: "XListing.ImageService", code: 999, userInfo: ["message" : "Invalid url"]))
             }
         }
     }

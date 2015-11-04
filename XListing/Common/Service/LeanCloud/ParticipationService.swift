@@ -20,7 +20,7 @@ public final class ParticipationService : IParticipationService {
                     observer.sendCompleted()
                 }
                 else {
-                    sendError(observer, error)
+                    observer.sendFailed(error)
                 }
             }
         }
@@ -34,7 +34,7 @@ public final class ParticipationService : IParticipationService {
                     observer.sendCompleted()
                 }
                 else {
-                    sendError(observer, error)
+                    observer.sendFailed(error)
                 }
             }
         }
@@ -48,7 +48,7 @@ public final class ParticipationService : IParticipationService {
                     observer.sendCompleted()
                 }
                 else {
-                    sendError(observer, error)
+                    observer.sendFailed(error)
                 }
             }
         }
@@ -63,7 +63,7 @@ public final class ParticipationService : IParticipationService {
                 }
                 else{
                     LSLogError("participation delete failed")
-                    sendError(observer, error)
+                    observer.sendFailed(error)
                 }
             }
         }

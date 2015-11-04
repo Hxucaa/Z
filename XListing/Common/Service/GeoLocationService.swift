@@ -34,7 +34,7 @@ public final class GeoLocationService : IGeoLocationService {
                     observer.sendCompleted()
                 }
                 else {
-                    sendError(observer, error)
+                    observer.sendFailed(error)
                 }
             }
         }
@@ -49,7 +49,7 @@ public final class GeoLocationService : IGeoLocationService {
                     observer.sendCompleted()
                 }
                 else {
-                    sendError(observer, error)
+                    observer.sendFailed(error)
                 }
             }
         }
@@ -101,7 +101,7 @@ public final class GeoLocationService : IGeoLocationService {
                     observer.sendCompleted()
                 }
                 else {
-                    sendError(observer, error)
+                    observer.sendFailed(error)
                 }
             }
         }

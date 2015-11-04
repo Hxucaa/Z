@@ -73,29 +73,29 @@ public final class LogInViewController : XUIViewController {
         
         compositeDisposable += usernameAndPasswordView.viewmodel <~ viewmodel.producer
             .takeUntilViewWillDisappear(self)
-            .ignoreNil
+            .ignoreNil()
             .map { $0.usernameAndPasswordViewModel }
         
         
         compositeDisposable += containerView.goBackProxy
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Account, "containerView.goBackProxy")
-            .start(next: { [weak self] in
+            .logLifeCycle(LogContext.Account, signalName: "containerView.goBackProxy")
+            .startWithNext { [weak self] in
                 // transition to landing page view
                 self?.navigationController?.popViewControllerAnimated(false)
-            })
+            }
         
         compositeDisposable += usernameAndPasswordView.submitProxy
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Account, "usernameAndPasswordView.submitProxy")
-            .start(next: { [weak self] in
+            .logLifeCycle(LogContext.Account, signalName: "usernameAndPasswordView.submitProxy")
+            .startWithNext { [weak self] in
                 if let viewmodel = self?.viewmodel.value {
                     viewmodel.finishModule { handler in
                         self?.dismissViewControllerAnimated(true, completion: handler)
                     }
                     self?.navigationController?.setNavigationBarHidden(false, animated: false)
                 }
-            })
+            }
     }
     
     deinit {

@@ -59,14 +59,11 @@ public final class ProfilePageViewController : UIPageViewController {
         view.opaque = true
         view.backgroundColor = UIColor.whiteColor()
         
-        dataSource = self
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        delegate = nil
-        delegate = self
         
         if (shouldDisplayCollection) {
             displayPhotosManagerPage(true, completion: nil)
@@ -77,12 +74,10 @@ public final class ProfilePageViewController : UIPageViewController {
         photoManagerViewController.fullImageProxy
             // forwards events from producer until the view controller is going to disappear
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Profile, "photoManagerViewController.fullImageProxy")
-            .start(next: { [weak self] in
-                if let this = self {
-                    proxyNext(this._fullImageObserver, ())
-                }
-                })
+            .logLifeCycle(LogContext.Profile, signalName: "photoManagerViewController.fullImageProxy")
+            .startWithNext { [weak self] in
+                self?._fullImageObserver.proxyNext(())
+            }
     }
     
     // MARK: - Bindings
@@ -100,36 +95,4 @@ public final class ProfilePageViewController : UIPageViewController {
     public func displayPhotosManagerPage(animated: Bool = false, completion: (Bool -> Void)? = nil) {
         setViewControllers([photoManagerViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: animated, completion: completion)
     }
-}
-
-extension ProfilePageViewController : UIPageViewControllerDataSource, UIPageViewControllerDelegate {
-    
-    public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        let index = $.findIndex(pageDataSource) { $0 === viewController }
-        if let index = index where index - 1 >= 0 {
-            return pageDataSource[index - 1]
-        }
-        
-        return nil
-    }
-    
-    public func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        let index = $.findIndex(pageDataSource) { $0 === viewController }
-        if let index = index where index + 1 < count(pageDataSource) {
-            return pageDataSource[index + 1]
-        }
-        
-        return nil
-    }
-    
-    public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        
-        // ensures the page view controller doesn't reset to the participation list after the photo picker is presented
-        if (pageViewController.viewControllers[0].className == NSStringFromClass(ParticipationListViewController)) {
-            shouldDisplayCollection = false
-        } else {
-            shouldDisplayCollection = true
-        }
-    }
-    
 }

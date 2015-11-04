@@ -38,8 +38,8 @@ public final class ProfileUpperViewModel : IProfileUpperViewModel {
         return self.userService.currentLoggedInUser()
             .on(next: { user in
                 self.user = user
-                var viewmodel = ProfileHeaderViewModel(imageService: self.imageService, user: user, nickname: user.nickname, ageGroup: user.ageGroup_, horoscope: user.horoscope_, gender: user.gender_, profileImage: user.profileImg_, status: user.status)
-                self._profileHeaderViewModel.put(viewmodel)
+                let viewmodel = ProfileHeaderViewModel(imageService: self.imageService, user: user, nickname: user.nickname, ageGroup: user.ageGroup_, horoscope: user.horoscope_, gender: user.gender_, profileImage: user.profileImg_, status: user.status)
+                self._profileHeaderViewModel.value = viewmodel
             })
             .map { _ in }
     }

@@ -166,7 +166,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
                         // does not `sendCompleted` because completion is handled when HUD is disappeared
                         .start(
                             error: { error in
-                                sendError(observer, error)
+                                observer.sendFailed(error)
                             },
                             interrupted: { _ in
                                 sendInterrupted(observer)

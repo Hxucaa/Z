@@ -29,7 +29,7 @@ public final class PhotoViewModel {
         
         validProfileImageSignal = profileImage.producer
             .skip(1)
-            .ignoreNil
+            .ignoreNil()
 
         isProfileImageValid <~ validProfileImageSignal
             .map { _ in true }

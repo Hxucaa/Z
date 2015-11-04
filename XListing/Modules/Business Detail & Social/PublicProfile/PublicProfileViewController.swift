@@ -87,13 +87,10 @@ public final class PublicProfileViewController : XUIViewController {
             // forwards events from producer until the view controller is going to disappear
             .takeUntilViewWillDisappear(self)
             .map { ($0 as! RACTuple).second as! NSIndexPath }
-            .logLifeCycle(LogContext.FullScreenImage, "collectionView:didSelectItemAtIndexPath:")
-            .start(
-                next: { [weak self] indexPath in
-                    self?.viewmodel.presentFullScreenImageModule(indexPath.row, animated: true, completion: nil)
-                }
-                    
-        )
+            .logLifeCycle(LogContext.FullScreenImage, signalName: "collectionView:didSelectItemAtIndexPath:")
+            .startWithNext { [weak self] indexPath in
+                self?.viewmodel.presentFullScreenImageModule(indexPath.row, animated: true, completion: nil)
+            }
         
         collectionView.delegate = nil
         collectionView.delegate = self

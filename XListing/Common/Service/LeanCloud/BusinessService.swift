@@ -20,7 +20,7 @@ public final class BusinessService : IBusinessService {
                     observer.sendCompleted()
                 }
                 else {
-                    sendError(observer, error)
+                    observer.sendFailed(error)
                 }
             }
         }
@@ -40,7 +40,7 @@ public final class BusinessService : IBusinessService {
                     observer.sendCompleted()
                 }
                 else {
-                    sendError(observer, error)
+                    observer.sendFailed(error)
                 }
             }
         }

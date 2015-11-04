@@ -230,24 +230,29 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         
         compositeDisposable += self.viewmodel.participantViewModelArr.producer
             .filter { $0.count > 0 }
-            .start (next: { [weak self] participants in
-                if let this = self {
+            .start { [weak self] event in
+                switch event {
+                case .Next(let participants):
                     
-                    // iterate through previewImageViews
-                    $.each(this.previewImageViews) { index, view in
-                        if index < participants.count {
-                            
-                            // place the image into image view
-                            participants[index].avatar.producer
-                                .ignoreNil
-                                .map { $0.maskWithRoundedRect(view.frame.size, cornerRadius: view.frame.size.width, backgroundColor: .x_FeaturedCardBG()) }
-                                .start(next: { image in
-                                    view.image = image
-                                })
+                    if let this = self {
+                        
+                        // iterate through previewImageViews
+                        $.each(this.previewImageViews) { index, view in
+                            if index < participants.count {
+                                
+                                // place the image into image view
+                                participants[index].avatar.producer
+                                    .ignoreNil()
+                                    .map { $0.maskWithRoundedRect(view.frame.size, cornerRadius: view.frame.size.width, backgroundColor: .x_FeaturedCardBG()) }
+                                    .startWithNext { image in
+                                        view.image = image
+                                    }
+                            }
                         }
                     }
+                default: break
                 }
-            })
+            }
     }
     
     // MARK: - Others

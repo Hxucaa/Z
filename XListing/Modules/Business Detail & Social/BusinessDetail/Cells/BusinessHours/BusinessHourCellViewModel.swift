@@ -91,13 +91,13 @@ public final class BusinessHourCellViewModel {
         
         //show only the hours for the current day initially
         switch(weekday) {
-            case 1: _sunHidden.put(false)
-            case 2: _monHidden.put(false)
-            case 3: _tuesHidden.put(false)
-            case 4: _wedsHidden.put(false)
-            case 5: _thursHidden.put(false)
-            case 6: _friHidden.put(false)
-            case 7: _satHidden.put(false)
+            case 1: _sunHidden.value = false
+            case 2: _monHidden.value = false
+            case 3: _tuesHidden.value = false
+            case 4: _wedsHidden.value = false
+            case 5: _thursHidden.value = false
+            case 6: _friHidden.value = false
+            case 7: _satHidden.value = false
             default: SBLogError("error getting current weekday")
         }
         
@@ -116,12 +116,12 @@ public final class BusinessHourCellViewModel {
     
     //flip the hidden state
     public func switchLabelState() {
-        _sunHidden.put(!_sunHidden.value)
-        _monHidden.put(!_monHidden.value)
-        _tuesHidden.put(!_tuesHidden.value)
-        _wedsHidden.put(!_wedsHidden.value)
-        _thursHidden.put(!_thursHidden.value)
-        _friHidden.put(!_friHidden.value)
-        _satHidden.put(!_satHidden.value)
+        _sunHidden.value = !_sunHidden.value
+        _monHidden.value = !_monHidden.value
+        _tuesHidden.value = !_tuesHidden.value
+        _wedsHidden.value = !_wedsHidden.value
+        _thursHidden.value = !_thursHidden.value
+        _friHidden.value = !_friHidden.value
+        _satHidden.value = !_satHidden.value
     }
 }

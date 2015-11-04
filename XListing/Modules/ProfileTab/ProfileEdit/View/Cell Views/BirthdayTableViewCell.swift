@@ -31,7 +31,7 @@ public final class BirthdayTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    public func getTextfieldText () -> String{
+    public func getTextfieldText () -> String {
         return textField.text
     }
     

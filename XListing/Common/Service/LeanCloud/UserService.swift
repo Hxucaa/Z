@@ -47,12 +47,12 @@ public final class UserService : IUserService {
                         observer.sendCompleted()
                     }
                     else {
-                        sendError(observer, error)
+                        observer.sendFailed(error)
                     }
                 }
             }
             else {
-                sendError(observer, NSError(domain: "UserService", code: 899, userInfo: nil))
+                observer.sendFailed(NSError(domain: "UserService", code: 899, userInfo: nil))
             }
         }
     }
@@ -66,7 +66,7 @@ public final class UserService : IUserService {
                     observer.sendCompleted()
                 }
                 else {
-                    sendError(observer, error)
+                    observer.sendFailed(error)
                 }
             }
         }
@@ -83,7 +83,7 @@ public final class UserService : IUserService {
                     observer.sendCompleted()
                 }
                 else {
-                    sendError(observer, error)
+                    observer.sendFailed(error)
                 }
             }
         }
@@ -101,7 +101,7 @@ public final class UserService : IUserService {
                     observer.sendCompleted()
                 }
                 else {
-                    sendError(observer, error)
+                    observer.sendFailed(error)
                 }
             }
         }

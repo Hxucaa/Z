@@ -51,7 +51,7 @@ public final class FeaturedBusinessViewModel : IFeaturedBusinessViewModel {
         if let url = business.cover_?.url, nsurl = NSURL(string: url) {
             return imageService.getImage(nsurl)
                 .on(next: {
-                    self._coverImage.put($0)
+                    self._coverImage.value = $0
                 })
                 .map { _ in return }
         }

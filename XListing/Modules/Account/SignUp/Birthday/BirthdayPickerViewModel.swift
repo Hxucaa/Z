@@ -37,8 +37,8 @@ public final class BirthdayPickerViewModel {
         pickerLowerLimit = ConstantProperty<NSDate>(NSDate(timeInterval: 1, sinceDate: 年龄下限))
         
         validBirthdaySignal = birthday.producer
-            .ignoreNil
-            .validAgeOnly()
+            .ignoreNil()
+            .filter { ($0.compare(self.年龄上限) == .OrderedAscending) && ($0.compare(self.年龄下限) == .OrderedDescending) }
 
         isBirthdayValid <~ validBirthdaySignal
             .map { _ in true }
@@ -67,19 +67,5 @@ public final class BirthdayPickerViewModel {
         ageComponents.month = currentMonth
         ageComponents.day = currentDay
         return calendar.dateFromComponents(ageComponents)!
-    }
-    
-    /**
-    Check whether age is within the restriction
-    
-    - parameter age: The age
-    
-    - returns: Bool value indicating validity.
-    */
-    private func validAgeOnly<T: NSDate, E>() -> SignalProducer<T, E> -> SignalProducer<T, E> {
-        return { producer in
-            return producer
-                .filter { ($0.compare(self.年龄上限) == .OrderedAscending) && ($0.compare(self.年龄下限) == .OrderedDescending) }
-        }
     }
 }

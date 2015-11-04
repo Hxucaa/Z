@@ -305,14 +305,14 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
             .logLifeCycle(LogContext.Nearby, signalName: "mapView:regionWillChangeAnimated:")
             .start { [weak self] event in
                 switch event {
-                case .Next(let regionDidChangeAnimated):
+                case .Next(_):
                     
                     /// Determine whether the region change is triggered by user interaction.
                     /// Note that this implementation depends on the internal impelmentation MKMapView by Apple, which could break at later versions.
                     mapChangedFromUserInteraction = { () -> Bool in
                         
                         //  Look through gesture recognizers to determine whether this region change is from user interaction
-                        if let view = self?.mapView.subviews.first as? UIView, gestureRecognizers = view.gestureRecognizers {
+                        if let view = self?.mapView.subviews.first as UIView!, gestureRecognizers = view.gestureRecognizers {
                             for recognizer in gestureRecognizers {
                                 if( recognizer.state == UIGestureRecognizerState.Began || recognizer.state == UIGestureRecognizerState.Ended ) {
                                     return true
@@ -336,7 +336,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
             .logLifeCycle(LogContext.Nearby, signalName: "mapView:regionDidChangeAnimated:")
             .start { [weak self] event in
                 switch event {
-                case .Next(let regionDidChangeAnimated):
+                case .Next(_):
                     if (mapChangedFromUserInteraction) {
                         // show the redo search button when user moves the map
                         self?.redoSearchButton.hidden = false
@@ -412,21 +412,19 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
             // Completes the signal when the view controller disappears
             .takeUntilViewWillDisappear(self)
             .map { ($0 as! RACTuple).first as! UIScrollView }
-            .logLifeCycle(LogContext.Nearby, "scrollViewDidEndDragging:willDecelerate:")
-            .start(
-                next: { scrollView in
+            .logLifeCycle(LogContext.Nearby, signalName: "scrollViewDidEndDragging:willDecelerate:")
+            .startWithNext { scrollView in
                     
-                    //if we reach the last item of the collection view, start the query for pagination
-                    
-                    //return the index of the currently visible cell from the collection view
-                    if let currentIndexPath = self.businessCollectionView.indexPathsForVisibleItems().first as? NSIndexPath
-                        where currentIndexPath.section == self.businessCollectionView.numberOfSections() - 1 {
-                            
-                        self.compositeDisposable += self.viewmodel.getAdditionalBusinesses(self.searchOrigin)
-                            .start()
-                    }
+                //if we reach the last item of the collection view, start the query for pagination
+                
+                //return the index of the currently visible cell from the collection view
+                if let currentIndexPath = self.businessCollectionView.indexPathsForVisibleItems().first as NSIndexPath!
+                    where currentIndexPath.section == self.businessCollectionView.numberOfSections() - 1 {
+                        
+                    self.compositeDisposable += self.viewmodel.getAdditionalBusinesses(self.searchOrigin)
+                        .start()
                 }
-        )
+            }
         
         /**
         Assigning UITableView delegate has to happen after signals are established.

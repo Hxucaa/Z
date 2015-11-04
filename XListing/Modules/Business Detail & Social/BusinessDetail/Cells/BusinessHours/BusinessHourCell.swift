@@ -77,11 +77,9 @@ public final class BusinessHourCell: UITableViewCell {
         
         let expandHoursAction = Action<UITapGestureRecognizer, Void, NoError> { [weak self] gesture in
             return SignalProducer { observer, disposable in
-            if let this = self {
-                this.viewmodel.switchLabelState()
-                sendNext(this._expandBusinessHoursObserver, ())
+                self?.viewmodel.switchLabelState()
+                self?._expandBusinessHoursObserver.sendNext(())
                 observer.sendCompleted()
-                }
             }
         }
         let tapGesture = UITapGestureRecognizer(target: expandHoursAction.unsafeCocoaAction, action: CocoaAction.selector)
