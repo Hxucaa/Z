@@ -200,7 +200,7 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         
         profileImageView.rac_image <~ viewmodel.profileImage.producer
             .takeUntilPrepareForReuse(self)
-            .ignoreNil
+            .ignoreNil()
             .map { $0.maskWithRoundedRect(self.profileImageView.frame.size, cornerRadius: self.profileImageView.frame.size.height, backgroundColor: .whiteColor()) }
         
     }

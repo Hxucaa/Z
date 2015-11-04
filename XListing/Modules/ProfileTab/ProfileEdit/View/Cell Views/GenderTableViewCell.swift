@@ -38,16 +38,16 @@ public final class GenderTableViewCell: UITableViewCell {
     
     public func setUpEditProfileButton () {
         let editProfilePicAction = Action<UIButton, Bool, NSError> { [weak self] button in
-            self?.delegate.editPictureTextButtonAction()
             return SignalProducer { [weak self] observer, disposible in
+                self?.delegate.editPictureTextButtonAction()
                 observer.sendCompleted()
             }
         }
         editProfilePicButton.addTarget(editProfilePicAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
     
-    public func getTextfieldText () -> String{
-        return textField.text
+    public func getTextfieldText () -> String {
+        return textField.text!
     }
     
     public func setTextfieldText (text: String?) {

@@ -74,9 +74,9 @@ public final class SocialBusinessViewController : XUIViewController {
     private var viewmodel: ISocialBusinessViewModel! {
         didSet {
             viewmodel.businessName.producer
-                .start(next: { [weak self] name in
+                .startWithNext { [weak self] name in
                     self?.title = name
-                })
+                }
             headerView.bindToViewModel(viewmodel.headerViewModel)
         }
     }
@@ -122,17 +122,18 @@ public final class SocialBusinessViewController : XUIViewController {
                 
                 ($0 as! NSValue).CGPointValue()
             })
-            .start(next: {value in
+            .startWithNext {value in
                 if value.y > self.headerView.frame.height - 64 {
                     let attributes = [NSForegroundColorAttributeName: UIColor.blackColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 17)!]
-                    var attributedString = NSAttributedString(string: Icons.Chevron, attributes: attributes)
-                    self.backButton.setAttributedTitle(attributedString, forState: UIControlState.Normal)
-                } else {
-                    let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 17)!]
-                    var attributedString = NSAttributedString(string: Icons.Chevron, attributes: attributes)
+                    let attributedString = NSAttributedString(string: Icons.Chevron, attributes: attributes)
                     self.backButton.setAttributedTitle(attributedString, forState: UIControlState.Normal)
                 }
-        })
+                else {
+                    let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 17)!]
+                    let attributedString = NSAttributedString(string: Icons.Chevron, attributes: attributes)
+                    self.backButton.setAttributedTitle(attributedString, forState: UIControlState.Normal)
+                }
+            }
         
         compositeDisposable += viewmodel.fetchMoreData()
             .take(1)
@@ -140,14 +141,14 @@ public final class SocialBusinessViewController : XUIViewController {
         
         compositeDisposable += utilityHeaderView.detailInfoProxy
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.detailInfoProxy")
-            .start(next: { [weak self] in
+            .logLifeCycle(LogContext.SocialBusiness, signalName: "utilityHeaderView.detailInfoProxy")
+            .startWithNext { [weak self] in
                 self?.viewmodel.pushBusinessDetail(true)
-            })
+            }
         
         compositeDisposable +=  utilityHeaderView.startEventProxy
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.startEventProxy")
+            .logLifeCycle(LogContext.SocialBusiness, signalName: "utilityHeaderView.startEventProxy")
             .promoteErrors(NSError)
             .flatMap(FlattenStrategy.Concat) { _ -> SignalProducer<Bool, NSError> in
                 return self.viewmodel.participate(ParticipationType.ToGo)
@@ -158,10 +159,10 @@ public final class SocialBusinessViewController : XUIViewController {
         headerView.addGestureRecognizer(tapGesture)
         compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.SocialBusiness, "SocialBusinessHeaderView tapGesture")
-            .start(next: { [weak self] _ in
+            .logLifeCycle(LogContext.SocialBusiness, signalName: "SocialBusinessHeaderView tapGesture")
+            .startWithNext { [weak self] _ in
                 self?.viewmodel.pushBusinessDetail(true)
-            })
+            }
         
         // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
         // when the specified row is now selected
@@ -169,16 +170,14 @@ public final class SocialBusinessViewController : XUIViewController {
             // forwards events from producer until the view controller is going to disappear
             .takeUntilViewWillDisappear(self)
             .map { ($0 as! RACTuple).second as! NSIndexPath }
-            .logLifeCycle(LogContext.SocialBusiness, "tableView:didSelectRowAtIndexPath:")
-            .start(
-                next: { [weak self] indexPath in
-                    self?.viewmodel.pushUserProfile(indexPath.row, animated: true)
-                }
-            )
+            .logLifeCycle(LogContext.SocialBusiness, signalName: "tableView:didSelectRowAtIndexPath:")
+            .startWithNext { [weak self] indexPath in
+                self?.viewmodel.pushUserProfile(indexPath.row, animated: true)
+            }
         
         compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.SocialBusiness, "viewmodel.collectionDataSource.producer")
+            .logLifeCycle(LogContext.SocialBusiness, signalName: "viewmodel.collectionDataSource.producer")
             .start()
         
         /**
@@ -247,11 +246,11 @@ extension SocialBusinessViewController : UINavigationControllerDelegate {
             
             // convert to navigation controller's coordinate system so that the height of status bar and navigation bar is taken into account of
             let start: CGRect
-            var destination = CGPointMake(0, 0)
+            let destination = CGPointMake(0, 0)
 
             start = view.convertRect(headerView.frame, fromView: headerView)
             
-            if let image = viewmodel.businessCoverImage {
+            if let _ = viewmodel.businessCoverImage {
                 let animateHeaderView = SocialBusinessHeaderView(frame: headerView.frame)
                 animateHeaderView.bindToViewModel(viewmodel.headerViewModel)
                 return SBtoBDAnimator(startRect: start, destination: destination, headerView: animateHeaderView, utilityHeaderView: self.utilityHeaderView)

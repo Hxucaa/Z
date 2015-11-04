@@ -9,7 +9,7 @@
 import Foundation
 import AVOSCloud
 
-public final class User: AVUser, AVSubclassing {
+public final class User: AVUser {
     
     public enum Property : String {
         case Birthday = "birthday"

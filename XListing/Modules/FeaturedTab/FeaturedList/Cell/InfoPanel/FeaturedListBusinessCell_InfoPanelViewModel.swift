@@ -83,9 +83,9 @@ public final class FeaturedListBusinessCell_InfoPanelViewModel : IFeaturedListBu
             .on(
                 next: { interval in
                     let minute = Int(ceil(interval / 60))
-                    self._eta.put("\(minute)分钟")
+                    self._eta.value = "\(minute)分钟"
                 },
-                error: { error in
+                failed: { error in
                     FeaturedLogError(error.description)
                 }
         )

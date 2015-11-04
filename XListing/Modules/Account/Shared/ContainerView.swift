@@ -77,11 +77,10 @@ public final class ContainerView : UIView {
             return SignalProducer { [weak self] observer, disposable in
                 self?.endEditing(true)
                 
+                self?._goBackObserver.sendNext(())
+                
                 observer.sendCompleted()
                 
-                if let this = self {
-                    sendNext(this._goBackObserver, ())
-                }
             }
         }
         

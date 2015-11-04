@@ -47,6 +47,6 @@ public final class Keyboard {
     }
     
     private static func notification(name: String) -> SignalProducer<NSNotification, NoError> {
-        return NSNotificationCenter.defaultCenter().rac_notifications(name: name, object: nil)
+        return NSNotificationCenter.defaultCenter().rac_notifications(name, object: nil)
     }
 }

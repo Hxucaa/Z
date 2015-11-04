@@ -211,10 +211,10 @@ public final class SocialBusinessHeaderView : UIView {
         locationLabel.rac_text <~ viewmodel.location.producer
         
         distanceLabel.rac_text <~ viewmodel.eta.producer
-            .ignoreNil
+            .ignoreNil()
         
         coverImageView.rac_image <~ self.viewmodel.coverImage.producer
-            .ignoreNil
+            .ignoreNil()
             .map {
                 $0.maskWithRoundedRect(CoverImageSize, cornerRadius: max(CoverImageSize.width, CoverImageSize.height) / 2, borderWidth: 2, opaque: false)
             }

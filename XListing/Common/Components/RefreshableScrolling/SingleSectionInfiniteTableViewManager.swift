@@ -67,18 +67,18 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
         ) -> SignalProducer<Operation<U.Payload>, NoError> {
         
             return viewmodel.collectionDataSource.producer
-                .logLifeCycle(LogContext.Misc, "SingleSectionInfiniteTableViewManager viewmodel.collectionDataSource.producer")
+                .logLifeCycle(LogContext.Misc, signalName: "SingleSectionInfiniteTableViewManager viewmodel.collectionDataSource.producer")
                 .on(
                     next: { [weak self] operation in
                         if let this = self {
                             switch operation {
-                            case let .Initiate(boxedValues):
-                                if boxedValues.value.count != this.tableView.numberOfRowsInSection(targetedSection) {
+                            case let .Initiate(values):
+                                if values.count != this.tableView.numberOfRowsInSection(targetedSection) {
                                     this.tableView.reloadData()
                                 }
-                            case let .Append(boxedValue):
+                            case let .Append(value):
                                 if let appendHandler = appendHandler {
-                                    appendHandler(value: boxedValue.value)
+                                    appendHandler(value: value)
                                 }
                                 else {
                                     if this.isFirstLoad {
@@ -90,9 +90,9 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
                                         this.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: rows, inSection: targetedSection)], withRowAnimation: UITableViewRowAnimation.None)
                                     }
                                 }
-                            case let .Extend(boxedValues):
+                            case let .AppendContentsOf(values):
                                 if let extendHandler = extendHandler {
-                                    extendHandler(values: boxedValues.value)
+                                    extendHandler(values: values)
                                 }
                                 else {
                                     if this.isFirstLoad {
@@ -101,19 +101,19 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
                                     }
                                     else {
                                         var rows = this.tableView.numberOfRowsInSection(targetedSection)
-                                        this.tableView.insertRowsAtIndexPaths(boxedValues.value.map { viewmodel in NSIndexPath(forRow: rows++, inSection: targetedSection) }, withRowAnimation: UITableViewRowAnimation.None)
+                                        this.tableView.insertRowsAtIndexPaths(values.map { viewmodel in NSIndexPath(forRow: rows++, inSection: targetedSection) }, withRowAnimation: UITableViewRowAnimation.None)
                                     }
                                 }
-                            case let .Insert(boxedValue, index):
+                            case let .Insert(value, index):
                                 if let insertHandler = insertHandler {
-                                    insertHandler(value: boxedValue.value, index: index)
+                                    insertHandler(value: value, index: index)
                                 }
                                 else {
                                     this.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: targetedSection)], withRowAnimation: UITableViewRowAnimation.None)
                                 }
-                            case let .Replace(boxedValue, index):
+                            case let .Replace(value, index):
                                 if let replaceHandler = replaceHandler {
-                                    replaceHandler(value: boxedValue.value, index: index)
+                                    replaceHandler(value: value, index: index)
                                 }
                                 else {
                                     this.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: targetedSection)], withRowAnimation: UITableViewRowAnimation.None)
@@ -125,9 +125,9 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
                                 else {
                                     this.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: atIndex, inSection: targetedSection)], withRowAnimation: UITableViewRowAnimation.None)
                                 }
-                            case let .ReplaceAll(boxedValues):
+                            case let .ReplaceAll(values):
                                 if let replaceAllHandler = replaceAllHandler {
-                                    replaceAllHandler(values: boxedValues.value)
+                                    replaceAllHandler(values: values)
                                 }
                                 else {
                                     this.tableView.reloadData()

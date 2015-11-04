@@ -35,11 +35,10 @@ public final class SBtoBDAnimator : NSObject, UIViewControllerAnimatedTransition
     public func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
         
         /// A `UITransitionView` that contains the source and destination views
-        let containerView = transitionContext.containerView()
+        let containerView = transitionContext.containerView()!
         
         let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)! as! SocialBusinessViewController
         let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! as! BusinessDetailViewController
         
         

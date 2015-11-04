@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol IKeychainService : class {
-    func clearKeychain() -> Bool
+    func clearKeychain() throws
 }

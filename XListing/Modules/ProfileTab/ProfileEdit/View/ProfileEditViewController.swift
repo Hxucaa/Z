@@ -164,36 +164,34 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
                             return error.customErrorDescription
                         })
                         // does not `sendCompleted` because completion is handled when HUD is disappeared
-                        .start(
-                            error: { error in
+                        .start { event in
+                            switch event {
+                            case .Failed(let error):
                                 observer.sendFailed(error)
-                            },
-                            interrupted: { _ in
-                                sendInterrupted(observer)
+                            case .Interrupted:
+                                observer.sendInterrupted()
                             }
-                        )
+                        }
                     
                     
                     // Subscribe to touch down inside event
                     disposable += HUD.didTouchDownInsideNotification()
                         .on(next: { _ in ProfileLogVerbose("HUD touch down inside.") })
-                        .start(
-                            next: { _ in
-                                // dismiss HUD
-                                HUD.dismiss()
-                            }
-                    )
+                        .startWithNext { _ in
+                            // dismiss HUD
+                            HUD.dismiss()
+                        }
                     
                     // Subscribe to disappear notification
                     disposable += HUD.didDissappearNotification()
                         .on(next: { _ in ProfileLogVerbose("HUD disappeared.") })
-                        .start(next: { status in
+                        .startWithNext { status in
                             
                             // completes the action
                             observer.sendNext(())
                             observer.sendCompleted()
                             self?.dismissViewControllerAnimated(true, completion: nil)
-                        })
+                        }
                     
                     // Add the signals to CompositeDisposable for automatic memory management
                     disposable.addDisposable {
@@ -216,7 +214,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
                 self?.dismissViewControllerAnimated(true, completion: nil)
             }
         }
-        var dismissButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: dismissAction.unsafeCocoaAction, action: CocoaAction.selector)
+        let dismissButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: dismissAction.unsafeCocoaAction, action: CocoaAction.selector)
         dismissButton.tintColor = UIColor.whiteColor()
         return dismissButton
     }
@@ -225,7 +223,8 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
         // allow keyboard dismissal by tapping anywhere else on the screen
         let endEditingAction = Action<UITapGestureRecognizer, Void, NoError> { [weak self] gesture in
             return SignalProducer { observer, disposable in
-                view.endEditing(true)
+                self?.view.endEditing(true)
+                observer.sendCompleted()
             }
         }
         let tapRecognizer = UITapGestureRecognizer(target: endEditingAction.unsafeCocoaAction, action: CocoaAction.selector)
@@ -255,30 +254,24 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
     private func setupKeyboard() {
         compositeDisposable += Keyboard.willShowNotification
             // forwards events until the view is going to disappear
-            .start(
-                next: { [weak self] _ in
-                    var contentInsets:UIEdgeInsets
-                    var deviceWidth = UIScreen.mainScreen().bounds.size.width
-                    contentInsets = UIEdgeInsetsMake(0.0, 0.0, 224, 0.0)
-                    
-                    if let shouldAdjustForKeyboard = self?.shouldAdjustForKeyboard where shouldAdjustForKeyboard {
-                        self?.tableView.contentInset = contentInsets
-                        self?.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1), atScrollPosition: .Top, animated: true)
-                        self?.tableView.scrollIndicatorInsets = contentInsets
-                    }
+            .startWithNext { [weak self] _ in
+                let contentInsets = UIEdgeInsetsMake(0.0, 0.0, 224, 0.0)
+                
+                if let shouldAdjustForKeyboard = self?.shouldAdjustForKeyboard where shouldAdjustForKeyboard {
+                    self?.tableView.contentInset = contentInsets
+                    self?.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1), atScrollPosition: .Top, animated: true)
+                    self?.tableView.scrollIndicatorInsets = contentInsets
                 }
-            )
+            }
         
         compositeDisposable += Keyboard.willHideNotification
             // forwards events until the view is going to disappear
-            .start(
-                next: { [weak self] _ in
+            .startWithNext { [weak self] _ in
                     
-                    self?.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0)
-                    self?.tableView.contentInset = UIEdgeInsetsMake(64,0,0,0)
-                    self?.shouldAdjustForKeyboard = false
-                }
-            )
+                self?.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0)
+                self?.tableView.contentInset = UIEdgeInsetsMake(64,0,0,0)
+                self?.shouldAdjustForKeyboard = false
+            }
     }
     
     deinit {
@@ -321,11 +314,11 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
         let birthdayCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow:Primary.Birthday.rawValue, inSection: Section.Primary.rawValue)) as! BirthdayTableViewCell
         
         // create the birthday action sheet
-        var actionDatePicker = ActionSheetDatePicker(title: "生日", datePickerMode: UIDatePickerMode.Date, selectedDate: NSDate(timeInterval: 0, sinceDate: viewmodel.birthday.value), doneBlock: {
+        let actionDatePicker = ActionSheetDatePicker(title: "生日", datePickerMode: UIDatePickerMode.Date, selectedDate: NSDate(timeInterval: 0, sinceDate: viewmodel.birthday.value), doneBlock: {
             picker, value, index in
             
-            var birthdayData = value as! NSDate
-            self.viewmodel.birthday.put(birthdayData)
+            let birthdayData = value as! NSDate
+            self.viewmodel.birthday.value = birthdayData
             
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "dd-MM-yyyy"
@@ -340,8 +333,8 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
         actionDatePicker.maximumDate = ageLimit.ceil
         
         //create custom buttons in order to change title to chinese
-        var cancelButton = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
-        var doneButton = UIBarButtonItem(title: "确定", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+        let cancelButton = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+        let doneButton = UIBarButtonItem(title: "确定", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
         actionDatePicker.setCancelButton(cancelButton)
         actionDatePicker.setDoneButton(doneButton)
         
@@ -353,24 +346,24 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
         let genderCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow:Primary.Gender.rawValue, inSection: Section.Primary.rawValue)) as! GenderTableViewCell
 
         // create the gender action sheet
-        var actionGenderPicker = ActionSheetStringPicker(title: "性别", rows: [Gender.Male.description, Gender.Female.description], initialSelection: 0, doneBlock: {
+        let actionGenderPicker = ActionSheetStringPicker(title: "性别", rows: [Gender.Male.description, Gender.Female.description], initialSelection: 0, doneBlock: {
             picker, index, value in
             
-            var genderData = value as! String
+            let genderData = value as! String
             genderCell.setTextfieldText(genderData)
             if index == 0 {
-                self.viewmodel.gender.put(Gender.Male)
+                self.viewmodel.gender.value = Gender.Male
             }
             else {
-                self.viewmodel.gender.put(Gender.Female)
+                self.viewmodel.gender.value = Gender.Female
             }
         
             return
             }, cancelBlock: { ActionStringCancelBlock in return }, origin: self.view.superview)
         
         //create custom buttons in order to change title to chinese
-        var cancelButton = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
-        var doneButton = UIBarButtonItem(title: "确定", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+        let cancelButton = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+        let doneButton = UIBarButtonItem(title: "确定", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
         actionGenderPicker.setCancelButton(cancelButton)
         actionGenderPicker.setDoneButton(doneButton)
         
@@ -475,11 +468,11 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
     
     // Format the header title
     public func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        let header:UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
-        header.textLabel.textColor = UIColor.grayColor()
-        header.textLabel.font = UIFont.boldSystemFontOfSize(18)
-        header.textLabel.frame = header.frame
-        header.textLabel.textAlignment = NSTextAlignment.Left
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor.grayColor()
+        header.textLabel?.font = UIFont.boldSystemFontOfSize(18)
+        header.textLabel?.frame = header.frame
+        header.textLabel?.textAlignment = NSTextAlignment.Left
     }
 }
 

@@ -34,7 +34,7 @@ public final class BackgroundLocationWorker : NSObject, IBackgroundLocationWorke
         locationManager.startMonitoringSignificantLocationChanges()
     }
     
-    public func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
+    public func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         userService.currentLoggedInUser()
             .flatMap(.Concat) { user -> SignalProducer<Bool, NSError> in
                 
@@ -43,7 +43,7 @@ public final class BackgroundLocationWorker : NSObject, IBackgroundLocationWorke
             }
             .on(
                 next: { _ in BOLogVerbose("User location updated") },
-                error: { _ in BOLogError("Location update failed!") }
+                failed: { _ in BOLogError("Location update failed!") }
             )
             .start()
     }

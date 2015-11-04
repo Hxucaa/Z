@@ -45,7 +45,7 @@ public final class ParticipationListViewCell : UITableViewCell {
         cityLabel.rac_text <~ viewmodel.city
         popularityLabel.rac_text <~ viewmodel.participation
         distanceLabel.rac_text <~ viewmodel.eta.producer
-            .ignoreNil
+            .ignoreNil()
         businessImageView.rac_image <~ viewmodel.coverImage
     }
 }

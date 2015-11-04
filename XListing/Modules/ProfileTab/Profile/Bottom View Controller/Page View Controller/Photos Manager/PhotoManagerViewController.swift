@@ -77,12 +77,10 @@ public final class PhotoManagerViewController : UIViewController {
             // forwards events from producer until the view controller is going to disappear
             .takeUntilViewWillDisappear(self)
             .map { ($0 as! RACTuple).second as! NSIndexPath }
-            .logLifeCycle(LogContext.FullScreenImage, "collectionView:didSelectItemAtIndexPath:")
-            .start(
-                next: { [weak self] indexPath in
-                    proxyNext(self!._fullImageObserver, ())
-                }
-        )
+            .logLifeCycle(LogContext.FullScreenImage, signalName: "collectionView:didSelectItemAtIndexPath:")
+            .startWithNext { [weak self] indexPath in
+                self?._fullImageObserver.proxyNext(())
+            }
         
         collectionView.delegate = nil
         collectionView.delegate = self

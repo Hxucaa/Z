@@ -81,12 +81,12 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     // MARK: - API
     
     public func fetchMoreData() -> SignalProducer<Void, NSError> {
-        return fetchParticipatingUsers(refresh: false)
+        return fetchParticipatingUsers(false)
             .map { _ in }
     }
     
     public func refreshData() -> SignalProducer<Void, NSError> {
-        return fetchParticipatingUsers(refresh: true)
+        return fetchParticipatingUsers(true)
             .map { _ in }
     }
     
@@ -97,7 +97,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         }
             // else fetch more data
         else {
-            return fetchParticipatingUsers(refresh: false)
+            return fetchParticipatingUsers(false)
                 .map { _ in }
         }
     }
@@ -119,11 +119,11 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
                 
                 if refresh {
                     // ignore old data, put in new array
-                    self.userArr.put(participation)
+                    self.userArr.value = participation
                 }
                 else {
                     // save the new data in addition to the old ones
-                    self.userArr.put(self.userArr.value + participation)
+                    self.userArr.value = self.userArr.value + participation
                 }
             })
             .map { participations -> [SocialBusiness_UserViewModel] in
@@ -141,10 +141,10 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
                     }
                     else if !refresh && viewmodels.count > 0 {
                         // save the new data with old ones
-                        self.collectionDataSource.extend(viewmodels)
+                        self.collectionDataSource.appendContentsOf(viewmodels)
                     }
                 },
-                error: { DetailLogError($0.description) }
+                failed: { DetailLogError($0.description) }
             )
     }
     
@@ -171,7 +171,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
                 .on(next: { [weak self] success in
                     // if operation is successful, change the participation button.
                     if success {
-                        self?._isButtonEnabled.put(false)
+                        self?._isButtonEnabled.value = false
                     }
                 })
         }

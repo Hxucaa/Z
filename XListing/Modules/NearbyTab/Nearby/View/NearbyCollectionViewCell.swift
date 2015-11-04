@@ -52,11 +52,9 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
         
         compositeDisposable += self.viewmodel.coverImage.producer
             .takeUntilPrepareForReuse(self)
-            .ignoreNil
-            .start (
-                next: { [weak self] in
-                    self?.coverImageView.setImageWithAnimation($0)
-                }
-            )
+            .ignoreNil()
+            .startWithNext { [weak self] in
+                self?.coverImageView.setImageWithAnimation($0)
+            }
     }
 }

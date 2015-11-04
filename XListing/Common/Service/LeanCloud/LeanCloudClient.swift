@@ -45,7 +45,7 @@ public final class LeanCloudClient {
         var key: String?
         
         let env = NSProcessInfo.processInfo().environment
-        if let mode = env["exec_mode"] as? String {
+        if let mode = env["exec_mode"] as String! {
             LSLogInfo("We are in \(mode.uppercaseString) mode!")
             
             let path = NSBundle.mainBundle().pathForResource("Parse", ofType: "plist")

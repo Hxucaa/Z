@@ -115,9 +115,9 @@ public final class BusinessDetailViewController : XUIViewController {
         navigationMapViewController = DetailNavigationMapViewController()
         
         compositeDisposable += navigationMapViewController.goBackProxy
-            .start(next: { handler in
-                self.dismissViewControllerAnimated(true, completion: handler)
-            })
+            .startWithNext { [weak self] handler in
+                self?.dismissViewControllerAnimated(true, completion: handler)
+            }
         
         tableView.reloadData()
     }
@@ -129,17 +129,17 @@ public final class BusinessDetailViewController : XUIViewController {
         
         compositeDisposable += utilityHeaderView.detailInfoProxy
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.detailInfoProxy")
-            .start(next: { [weak self] in
+            .logLifeCycle(LogContext.SocialBusiness, signalName: "utilityHeaderView.detailInfoProxy")
+            .startWithNext { [weak self] in
                 self?.navigationController?.popViewControllerAnimated(true)
-            })
+            }
         
         compositeDisposable += utilityHeaderView.startEventProxy
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.SocialBusiness, "utilityHeaderView.startEventProxy")
-            .start(next: { [weak self] in
-                println("want to go")
-            })
+            .logLifeCycle(LogContext.SocialBusiness, signalName: "utilityHeaderView.startEventProxy")
+            .startWithNext { _ in
+                print("want to go")
+            }
         
         
         /**
@@ -272,10 +272,10 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 cell.bindViewModel(viewmodel.businessHourViewModel)
                 compositeDisposable += cell.expandBusinessHoursProxy
                     .takeUntilPrepareForReuse(cell)
-                    .start(next: { [weak self] vc in
+                    .startWithNext { [weak self] vc in
                         self?.tableView.beginUpdates()
                         self?.tableView.endUpdates()
-                    })
+                    }
                 return cell
             }
             
@@ -290,9 +290,9 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 mapCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
                 compositeDisposable += mapCell.navigationMapProxy
                     .takeUntilPrepareForReuse(mapCell)
-                    .start(next: { [weak self] in
+                    .startWithNext { [weak self] in
                         self?.presentNavigationMapViewController()
-                    })
+                    }
                 return mapCell
                 
             case .Address:
@@ -300,9 +300,9 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 addressCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
                 compositeDisposable += addressCell.navigationMapProxy
                     .takeUntilPrepareForReuse(addressCell)
-                    .start(next: { [weak self] in
+                    .startWithNext { [weak self] in
                         self?.presentNavigationMapViewController()
-                    })
+                    }
                 return addressCell
                 
             case .PhoneWeb:
@@ -310,9 +310,9 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 phoneWebCell.bindToViewModel(viewmodel.detailPhoneWebViewModel)
                 compositeDisposable += phoneWebCell.presentWebViewProxy
                     .takeUntilPrepareForReuse(phoneWebCell)
-                    .start(next: { [weak self] vc in
+                    .startWithNext { [weak self] vc in
                         self?.presentViewController(vc, animated: true, completion: nil)
-                    })
+                    }
                 return phoneWebCell
             
             }

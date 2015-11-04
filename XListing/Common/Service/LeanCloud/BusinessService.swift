@@ -32,7 +32,7 @@ public final class BusinessService : IBusinessService {
         :params: query A PFQuery.
         - returns: a Task containing the result DAO in optional.
     */
-    public func getFirst(var query: AVQuery) -> SignalProducer<Business, NSError> {
+    public func getFirst(query: AVQuery) -> SignalProducer<Business, NSError> {
         return SignalProducer { observer, disposable in
             query.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
                 if error == nil {

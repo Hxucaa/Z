@@ -56,7 +56,7 @@ public final class FeaturedListBusinessCell_ParticipationViewModel : IFeaturedLi
         
         return participationService.findBy(query)
             .on(next: { participations in
-                self._participationArr.put(self._participationArr.value + participations)
+                self._participationArr.value = self._participationArr.value + participations
             })
             .map { participations -> [ParticipantViewModel] in
                 return participations.map {
@@ -65,9 +65,9 @@ public final class FeaturedListBusinessCell_ParticipationViewModel : IFeaturedLi
             }
             .on(
                 next: { response in
-                    self._participantViewModelArr.put(response)
+                    self._participantViewModelArr.value = response
                 },
-                error: { FeaturedLogError($0.customErrorDescription) }
+                failed: { FeaturedLogError($0.customErrorDescription) }
             )
             .map { _ -> Void in return }
     }
@@ -89,7 +89,7 @@ public final class FeaturedListBusinessCell_ParticipationViewModel : IFeaturedLi
                 return self.participationService.get(query)
             }
             .on(next: { [weak self] participation in
-                self?._isButtonEnabled.put(false)
+                self?._isButtonEnabled.value = false
             })
             .map { _ in return }
     }

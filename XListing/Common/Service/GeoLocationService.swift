@@ -85,23 +85,23 @@ public final class GeoLocationService : IGeoLocationService {
         return SignalProducer<NSTimeInterval, NSError> { observer, disposable in
             let request = MKDirectionsRequest()
             if let currentLocation = currentLocation {
-                request.setSource(MKMapItem(placemark: MKPlacemark(coordinate: currentLocation.coordinate, addressDictionary: nil)))
+                request.source = MKMapItem(placemark: MKPlacemark(coordinate: currentLocation.coordinate, addressDictionary: nil))
             }
             else {
-                request.setSource(MKMapItem.mapItemForCurrentLocation())
+                request.source = MKMapItem.mapItemForCurrentLocation()
             }
-            request.setDestination(MKMapItem(placemark: MKPlacemark(coordinate: destination.coordinate, addressDictionary: nil)))
+            request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination.coordinate, addressDictionary: nil))
             request.requestsAlternateRoutes = false
             request.transportType = MKDirectionsTransportType.Automobile
             
             let direction = MKDirections(request: request)
             direction.calculateETAWithCompletionHandler { (response, error) -> Void in
                 if error == nil {
-                    observer.sendNext(response.expectedTravelTime)
+                    observer.sendNext(response!.expectedTravelTime)
                     observer.sendCompleted()
                 }
                 else {
-                    observer.sendFailed(error)
+                    observer.sendFailed(error!)
                 }
             }
         }

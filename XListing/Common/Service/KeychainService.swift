@@ -13,20 +13,19 @@ private let account = "org.XListing.com"
 
 public final class KeychainService : IKeychainService {
     
-    public func clearKeychain() -> Bool {
-        let t = Locksmith.deleteDataForUserAccount(account)
-        return t != nil ? true : false
+    public func clearKeychain() throws {
+        try Locksmith.deleteDataForUserAccount(account)
     }
     
-    private func loadData() -> (NSDictionary?, NSError?) {
+    private func loadData() -> NSDictionary? {
         return Locksmith.loadDataForUserAccount(account)
     }
     
-    private func saveData(dict: Dictionary<String, String>) -> NSError? {
-        return Locksmith.saveData(dict, forUserAccount: account)
+    private func saveData(dict: Dictionary<String, String>) throws {
+        try Locksmith.saveData(dict, forUserAccount: account)
     }
     
-    private func updateData(dict: Dictionary<String, String>) -> NSError? {
-        return Locksmith.updateData(dict, forUserAccount: account)
+    private func updateData(dict: Dictionary<String, String>) throws {
+        try Locksmith.updateData(dict, forUserAccount: account)
     }
 }

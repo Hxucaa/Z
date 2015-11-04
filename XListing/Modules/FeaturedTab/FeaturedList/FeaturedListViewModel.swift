@@ -56,13 +56,13 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
     */
     
     public func fetchMoreData() -> SignalProducer<Void, NSError> {
-        return fetchBusinesses(refresh: false)
-            |> map { _ in }
+        return fetchBusinesses(false)
+            .map { _ in }
     }
     
     public func refreshData() -> SignalProducer<Void, NSError> {
-        return fetchBusinesses(refresh: true)
-            |> map { _ in }
+        return fetchBusinesses(true)
+            .map { _ in }
     }
     
     public func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
@@ -72,8 +72,8 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
         }
         // else fetch more data
         else {
-            return fetchBusinesses(refresh: false)
-                |> map { _ in }
+            return fetchBusinesses(false)
+                .map { _ in }
         }
     }
     
@@ -102,8 +102,8 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
         }
         
         return businessService.findBy(query)
-            |> map { $.shuffle($0) }
-            |> on(next: { businesses in
+            .map { $.shuffle($0) }
+            .on(next: { businesses in
                 
                 if refresh {
                     // set numberOfBusinessesLoaded to the number of businesses fetched
@@ -117,17 +117,17 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
                     self.numberOfBusinessesLoaded += businesses.count
                     
                     // save the new data in addition to the old ones
-                    self.businessArr.extend(businesses)
+                    self.businessArr.appendContentsOf(businesses)
                 }
             })
-            |> map { businesses -> [FeaturedBusinessViewModel] in
+            .map { businesses -> [FeaturedBusinessViewModel] in
                 
                 // map the business models to viewmodels
                 return businesses.map {
                     FeaturedBusinessViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, cover: $0.cover_, geolocation: $0.geolocation, treatCount: $0.treatCount, aaCount: $0.aaCount, toGoCount: $0.toGoCount, business: $0)
                 }
             }
-            |> on(
+            .on(
                 next: { viewmodels in
                     if refresh && viewmodels.count > 0 {
                         // ignore old data
@@ -135,10 +135,10 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
                     }
                     else if !refresh && viewmodels.count > 0 {
                         // save the new data with old ones
-                        self.collectionDataSource.extend(viewmodels)
+                        self.collectionDataSource.appendContentsOf(viewmodels)
                     }
                 },
-                error: { FeaturedLogError($0.description) }
+                failed: { FeaturedLogError($0.description) }
             )
     }
 }

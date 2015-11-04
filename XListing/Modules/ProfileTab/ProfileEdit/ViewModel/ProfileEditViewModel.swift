@@ -69,9 +69,9 @@ public final class ProfileEditViewModel {
         
         if let profileImage = user.profileImg_, url = profileImage.url, nsurl = NSURL(string: url) {
             imageService.getImage(nsurl)
-                .start(next: { [weak self] image in
-                    self?.profileImage.put(image)
-                })
+                .startWithNext { [weak self] image in
+                    self?.profileImage.value = image
+                }
         }
     }
     
@@ -94,13 +94,13 @@ public final class ProfileEditViewModel {
     
     private func setupProfileImage() {
         isProfileImageValid <~ profileImage.producer
-            .ignoreNil
+            .ignoreNil()
             .map { _ in true }
     }
     
     private func setupGender() {
         isGenderValid <~ gender.producer
-            .ignoreNil
+            .ignoreNil()
             .map { _ in true }
     }
     
@@ -119,13 +119,13 @@ public final class ProfileEditViewModel {
         return self.allInputsValid.producer
             // only allow TRUE value
             .filter { $0 }
-            .mapError { _ in NSError() }
+            .promoteErrors(NSError)
             .flatMap(FlattenStrategy.Merge) { _ -> SignalProducer<User, NSError> in
                 return self.userService.currentLoggedInUser()
             }
             .flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
                 
-                let imageData = UIImagePNGRepresentation(self.profileImage.value)
+                let imageData = UIImagePNGRepresentation(self.profileImage.value!)
                 let file = ImageFile(name: "profile.png", data: imageData)
                 
                 user.nickname = self.nickname.value

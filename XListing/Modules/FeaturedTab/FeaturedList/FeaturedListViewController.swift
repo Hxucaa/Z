@@ -95,7 +95,7 @@ public final class FeaturedListViewController: XUIViewController {
         
         compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Featured, "viewmodel.collectionDataSource.producer")
+            .logLifeCycle(LogContext.Featured, signalName: "viewmodel.collectionDataSource.producer")
             .start()
         
         willAppearTableView()
@@ -125,13 +125,10 @@ public final class FeaturedListViewController: XUIViewController {
             // forwards events from producer until the view controller is going to disappear
             .takeUntilViewWillDisappear(self)
             .map { ($0 as! RACTuple).second as! NSIndexPath }
-            .logLifeCycle(LogContext.Featured, "tableView:didSelectRowAtIndexPath:")
-            .start(
-                next: { [weak self] indexPath in
-                    let something = indexPath.row
-                    self?.viewmodel.pushSocialBusinessModule(indexPath.row)
-                }
-            )
+            .logLifeCycle(LogContext.Featured, signalName: "tableView:didSelectRowAtIndexPath:")
+            .startWithNext { [weak self] indexPath in
+                self?.viewmodel.pushSocialBusinessModule(indexPath.row)
+            }
                                 
         /**
         Assigning UITableView delegate has to happen after signals are established.
@@ -178,7 +175,7 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     - returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as? FeaturedListBusinessTableViewCell ?? FeaturedListBusinessTableViewCell(estimatedFrame: CGRectMake(0, 0, tableView.frame.width, CellRowHeight), style: UITableViewCellStyle.Default, reuseIdentifier: CellIdentifier)
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as? FeaturedListBusinessTableViewCell ?? FeaturedListBusinessTableViewCell(estimatedFrame: CGRectMake(0, 0, tableView.frame.width, CellRowHeight), style: UITableViewCellStyle.Default, reuseIdentifier: CellIdentifier)
         
         cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return cell

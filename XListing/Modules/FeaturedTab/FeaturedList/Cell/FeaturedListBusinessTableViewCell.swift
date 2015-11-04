@@ -209,11 +209,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
 
         self.viewmodel.coverImage.producer
             .takeUntilPrepareForReuse(self)
-            .ignoreNil
-            .start (next: { [weak self] image in
+            .ignoreNil()
+            .startWithNext { [weak self] image in
                 self?.businessImageView.image = image
                 
-            })
+            }
 
     }
 }

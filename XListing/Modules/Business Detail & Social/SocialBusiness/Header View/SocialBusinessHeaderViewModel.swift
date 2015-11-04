@@ -56,9 +56,13 @@ public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewMode
         
         if let url = cover?.url, nsurl = NSURL(string: url) {
             self.imageService.getImage(nsurl)
-                .start(next: {
-                    self._coverImage.put($0)
-                })
+                .start { event in
+                    switch event {
+                    case .Next(let value):
+                        self._coverImage.value = value
+                    default: break
+                    }
+                }
         }
         
         if let geolocation = geolocation {
@@ -75,10 +79,10 @@ public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewMode
         return geoLocationService.calculateETA(destination)
             .on(
                 next: { interval in
-                    let minute = Int(ceil(interval / 60))
-                    self._eta.put("\(minute)分钟")
+                    let minute = Int(ceil(Double(interval) / 60.0))
+                    self._eta.value = "\(minute)分钟"
                 },
-                error: { error in
+                failed: { error in
                     FeaturedLogError(error.description)
                 }
         )

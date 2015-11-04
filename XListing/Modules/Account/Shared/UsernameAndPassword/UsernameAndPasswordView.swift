@@ -54,7 +54,7 @@ public final class UsernameAndPasswordView : SpringView {
                         .filter { $0 }
                         // delay the signal due to the animation of retracting keyboard
                         // this cannot be executed on main thread, otherwise UI will be blocked
-                        .ReactiveCocoa.delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                        .delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
                         // return the signal to main/ui thread in order to run UI related code
                         .observeOn(UIScheduler())
                         //                        .then(HUD.show())
@@ -73,44 +73,41 @@ public final class UsernameAndPasswordView : SpringView {
                             return error.customErrorDescription
                         })
                         // does not `sendCompleted` because completion is handled when HUD is disappeared
-                        .start(
-                            error: { error in
+                        .start { event in
+                            switch event {
+                            case .Failed(let error):
                                 observer.sendFailed(error)
-                            },
-                            interrupted: { _ in
-                                sendInterrupted(observer)
+                            case .Interrupted:
+                                observer.sendInterrupted()
                             }
-                    )
+                        }
                     
                     // Subscribe to touch down inside event
                     disposable += HUD.didTouchDownInsideNotification()
                         .on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
-                        .start(
-                            next: { _ in
-                                // dismiss HUD
-                                HUD.dismiss()
-                                
-                                // interrupts the action
-                                // sendInterrupted(observer)
-                            }
-                        )
+                        .startWithNext { _ in
+                            // dismiss HUD
+                            HUD.dismiss()
+                            
+                            // interrupts the action
+                            // sendInterrupted(observer)
+                        }
+                    
                     
                     // Subscribe to disappear notification
                     disposable += HUD.didDissappearNotification()
                         .on(next: { _ in AccountLogVerbose("HUD disappeared.") })
-                        .start(
-                            next: { [weak self] status in
-                                if status == HUD.DisappearStatus.Normal {
-                                    
-                                    // inform that submit is successful
-                                    proxyNext(this._submitObserver, ())
-                                }
+                        .startWithNext { [weak self] status in
+                            if status == HUD.DisappearStatus.Normal {
                                 
-                                // completes the action
-                                observer.sendNext(())
-                                observer.sendCompleted()
+                                // inform that submit is successful
+                                this._submitObserver.proxyNext(())
                             }
-                        )
+                            
+                            // completes the action
+                            observer.sendNext(())
+                            observer.sendCompleted()
+                        }
                     
                     // retract keyboard
                     self?.endEditing(true)
@@ -124,9 +121,9 @@ public final class UsernameAndPasswordView : SpringView {
         _signUpButton.addTarget(submitAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         
         compositeDisposable += viewmodel.producer
-            .ignoreNil
-            .logLifeCycle(LogContext.Account, "viewmodel.producer")
-            .start(next: { [weak self] viewmodel in
+            .ignoreNil()
+            .logLifeCycle(LogContext.Account, signalName: "viewmodel.producer")
+            .startWithNext { [weak self] viewmodel in
                 if let this = self {
                     // bind signals
                     viewmodel.username <~ this.usernameField.rac_text
@@ -135,14 +132,13 @@ public final class UsernameAndPasswordView : SpringView {
                     // TODO: implement different validation for different input fields.
                     this._signUpButton.rac_enabled <~ viewmodel.allInputsValid
                 }
-                
-            })
+            }
         
         /**
         Setup constraints
         */
         
-        let group = constrain(self) { view in
+        constrain(self) { view in
             view.width == self.frame.width
             view.height == self.frame.height
         }

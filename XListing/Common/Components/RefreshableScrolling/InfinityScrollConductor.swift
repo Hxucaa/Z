@@ -35,15 +35,16 @@ public class InfinityScrollConductor<T: UITableView, U: IInfinityScrollDataSourc
                     .on(next: { _ in
                         MiscLogVerbose("Infinity scroll fetched additional data for infinite scrolling.")
                     })
-                    .start(
-                        error: { error in
+                    .start { event in
+                        switch event {
+                        case .Failed(let error):
                             scrollView.ins_endInfinityScroll()
                             MiscLogError("Infinity scroll error: \(error)")
-                        },
-                        completed: {
+                        case .Completed:
                             scrollView.ins_endInfinityScroll()
+                        default: break
                         }
-                    )
+                    }
             }
         }
         
