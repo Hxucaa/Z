@@ -13,14 +13,14 @@ import AVOSCloud
 
 public final class ImageService : IImageService {
     public func getImage(url: NSURL) -> SignalProducer<UIImage, NSError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             let imageManager = SDWebImageManager.sharedManager()
             imageManager.downloadImageWithURL(url, options: SDWebImageOptions.ContinueInBackground, progress: nil, completed: { image, error, cache, finished, url in
                 if (error == nil) {
-                    sendNext(sink, image)
-                    sendCompleted(sink)
+                    observer.sendNext(image)
+                    observer.sendCompleted()
                 } else {
-                    sendError(sink, error)
+                    sendError(observer, error)
                 }
             })
         }
@@ -28,28 +28,28 @@ public final class ImageService : IImageService {
     }
     
     public func getImage(image: ImageFile) -> SignalProducer<UIImage, NSError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             
             let imageManager = SDWebImageManager.sharedManager()
             if let url = image.url, nsurl = NSURL(string: url) {
                 imageManager.downloadImageWithURL(nsurl, options: SDWebImageOptions.ContinueInBackground, progress: nil, completed: { image, error, cache, finished, url -> Void in
                     if error == nil {
-                        sendNext(sink, image)
-                        sendCompleted(sink)
+                        observer.sendNext(image)
+                        observer.sendCompleted()
                     }
                     else {
-                        sendError(sink, error)
+                        sendError(observer, error)
                     }
                 })
             }
             else {
-                sendError(sink, NSError(domain: "XListing.ImageService", code: 999, userInfo: ["message" : "Invalid url"]))
+                sendError(observer, NSError(domain: "XListing.ImageService", code: 999, userInfo: ["message" : "Invalid url"]))
             }
         }
     }
     
     public func getThumbnail(image: ImageFile, thumbnailSize: Thumbnail.Dimension) -> SignalProducer<Thumbnail, NSError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             
             let dimension = thumbnailSize.value
             
@@ -61,15 +61,15 @@ public final class ImageService : IImageService {
                 let imageManager = SDWebImageManager.sharedManager()
                 imageManager.downloadImageWithURL(nsurl, options: SDWebImageOptions.ContinueInBackground, progress: nil, completed: { image, error, cache, finished, url in
                     if (error == nil) {
-                        sendNext(sink, image as! Thumbnail)
-                        sendCompleted(sink)
+                        observer.sendNext(image as! Thumbnail)
+                        observer.sendCompleted()
                     } else {
-                        sendError(sink, error)
+                        sendError(observer, error)
                     }
                 })
             }
             else {
-                sendError(sink, NSError(domain: "XListing.ImageService", code: 999, userInfo: ["message" : "Invalid url"]))
+                sendError(observer, NSError(domain: "XListing.ImageService", code: 999, userInfo: ["message" : "Invalid url"]))
             }
         }
     }

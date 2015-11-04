@@ -17,28 +17,28 @@ public final class FeaturedListBusinessCell_InfoPanelViewModel : IFeaturedListBu
     // MARK: - Outputs
     
     private let _businessName: ConstantProperty<String>
-    public var businessName: PropertyOf<String> {
-        return PropertyOf(_businessName)
+    public var businessName: AnyProperty<String> {
+        return AnyProperty(_businessName)
     }
     
     private let _city: ConstantProperty<String>
-    public var city: PropertyOf<String> {
-        return PropertyOf(_city)
+    public var city: AnyProperty<String> {
+        return AnyProperty(_city)
     }
     
     private let _eta: MutableProperty<String?> = MutableProperty(nil)
-    public var eta: PropertyOf<String?> {
-        return PropertyOf(_eta)
+    public var eta: AnyProperty<String?> {
+        return AnyProperty(_eta)
     }
     
     private let _price: MutableProperty<Int?>
-    public var price: PropertyOf<Int?> {
-        return PropertyOf(_price)
+    public var price: AnyProperty<Int?> {
+        return AnyProperty(_price)
     }
     
     private let _district: ConstantProperty<String>
-    public var district: PropertyOf<String> {
-        return PropertyOf(_district)
+    public var district: AnyProperty<String> {
+        return AnyProperty(_district)
     }
     
     // MARK: - Properties

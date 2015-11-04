@@ -65,7 +65,7 @@ public final class ParticipationListViewController : UIViewController {
         
         singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Profile, "viewmodel.collectionDataSource.producer")
+            .logLifeCycle(LogContext.Profile, signalName: "viewmodel.collectionDataSource.producer")
             .start()
         
         // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
@@ -74,12 +74,10 @@ public final class ParticipationListViewController : UIViewController {
             // forwards events from producer until the view controller is going to disappear
             .takeUntilViewWillDisappear(self)
             .map { ($0 as! RACTuple).second as! NSIndexPath }
-            .logLifeCycle(LogContext.Profile, "tableView:didSelectRowAtIndexPath:")
-            .start(
-                next: { [weak self] indexPath in
-                    self?.viewmodel.pushSocialBusinessModule(indexPath.row, animated: true)
-                }
-            )
+            .logLifeCycle(LogContext.Profile, signalName: "tableView:didSelectRowAtIndexPath:")
+            .startWithNext { [weak self] indexPath in
+                self?.viewmodel.pushSocialBusinessModule(indexPath.row, animated: true)
+            }
         
         rac_signalForSelector(Selector("tableView:commitEditingStyle:forRowAtIndexPath:"), fromProtocol: UITableViewDataSource.self).toSignalProducer()
             // forwards events from producer until the view controller is going to disappear
@@ -88,17 +86,15 @@ public final class ParticipationListViewController : UIViewController {
                 let tuple = parameters as! RACTuple
                 return (tuple.second as! UITableViewCellEditingStyle, tuple.third as! NSIndexPath)
             }
-            .logLifeCycle(LogContext.Profile, "tableView:commitEditingStyle:forRowAtIndexPath:")
-            .start(
-                next: { [weak self] editingStyle, indexPath in
-                    if let this = self {
-                        if editingStyle == UITableViewCellEditingStyle.Delete {
-                            this.viewmodel.removeDataAtIndex(indexPath.row)
-                                .start()
-                        }
+            .logLifeCycle(LogContext.Profile, signalName: "tableView:commitEditingStyle:forRowAtIndexPath:")
+            .startWithNext { [weak self] editingStyle, indexPath in
+                if let this = self {
+                    if editingStyle == UITableViewCellEditingStyle.Delete {
+                        this.viewmodel.removeDataAtIndex(indexPath.row)
+                            .start()
                     }
                 }
-            )
+            }
         
         tableView.delegate = nil
         tableView.delegate = self
@@ -114,7 +110,7 @@ public final class ParticipationListViewController : UIViewController {
 /**
 *  UITableViewDataSource
 */
-extension ParticipationListViewController : UITableViewDataSource, UITableViewDelegate {
+extension ParticipationListViewController : UITableViewDataSource {
     
     /**
     Tells the data source to return the number of rows in a given section of a table view. (required)
@@ -131,7 +127,7 @@ extension ParticipationListViewController : UITableViewDataSource, UITableViewDe
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var businessCell = tableView.dequeueReusableCellWithIdentifier(BusinessCellIdentifier, forIndexPath: indexPath) as! ParticipationListViewCell
+        let businessCell = tableView.dequeueReusableCellWithIdentifier(BusinessCellIdentifier, forIndexPath: indexPath) as! ParticipationListViewCell
         businessCell.bindToViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         
         return businessCell

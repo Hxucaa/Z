@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 
 public protocol IFeaturedBusinessViewModel : class {
-    var coverImage: PropertyOf<UIImage?> { get }
+    var coverImage: AnyProperty<UIImage?> { get }
     var infoPanelViewModel: IFeaturedListBusinessCell_InfoPanelViewModel { get }
     var pariticipationViewModel: IFeaturedListBusinessCell_ParticipationViewModel { get }
     func getCoverImage() -> SignalProducer<Void, NSError>

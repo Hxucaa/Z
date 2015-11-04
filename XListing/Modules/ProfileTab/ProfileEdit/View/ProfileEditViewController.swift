@@ -125,7 +125,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
     private func setupSaveButton() -> UIBarButtonItem {
 
         let submitAction = Action<UIBarButtonItem, Void, NSError> { [weak self] button in
-            return SignalProducer { sink, disposable in
+            return SignalProducer { observer, disposable in
                 if let this = self {
                     
                     // display HUD to indicate work in progress
@@ -137,8 +137,8 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
                                 var alert = UIAlertController(title: "提交失败啦", message: "请填写昵称,性别,生日和上传一张照片😊", preferredStyle: UIAlertControllerStyle.Alert)
                                 alert.addAction(UIAlertAction(title: "确定", style: UIAlertActionStyle.Cancel, handler: nil))
                                 self?.presentViewController(alert, animated: true, completion: nil)
-                                sendNext(sink, ())
-                                sendCompleted(sink)
+                                observer.sendNext(())
+                                observer.sendCompleted()
                             }
                         })
                         // only valid inputs can continue through
@@ -166,10 +166,10 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
                         // does not `sendCompleted` because completion is handled when HUD is disappeared
                         .start(
                             error: { error in
-                                sendError(sink, error)
+                                sendError(observer, error)
                             },
                             interrupted: { _ in
-                                sendInterrupted(sink)
+                                sendInterrupted(observer)
                             }
                         )
                     
@@ -190,8 +190,8 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
                         .start(next: { status in
                             
                             // completes the action
-                            sendNext(sink, ())
-                            sendCompleted(sink)
+                            observer.sendNext(())
+                            observer.sendCompleted()
                             self?.dismissViewControllerAnimated(true, completion: nil)
                         })
                     
@@ -212,7 +212,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
     private func setupDismissButton() -> UIBarButtonItem {
         let dismissAction = Action<UIBarButtonItem, Void, NoError> { [weak self]
             button in
-            return SignalProducer { sink, disposable in
+            return SignalProducer { observer, disposable in
                 self?.dismissViewControllerAnimated(true, completion: nil)
             }
         }
@@ -224,7 +224,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
     private func setupKeyboardDismissal() {
         // allow keyboard dismissal by tapping anywhere else on the screen
         let endEditingAction = Action<UITapGestureRecognizer, Void, NoError> { [weak self] gesture in
-            return SignalProducer { sink, disposable in
+            return SignalProducer { observer, disposable in
                 view.endEditing(true)
             }
         }

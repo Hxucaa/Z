@@ -59,7 +59,7 @@ public final class ContainerView : UIView {
     // MARK: - Proxies
     
     /// Go back to previous page.
-    private let (_goBackProxy, _goBackSink) = SimpleProxy.proxy()
+    private let (_goBackProxy, _goBackObserver) = SimpleProxy.proxy()
     public var goBackProxy: SimpleProxy {
         return _goBackProxy
     }
@@ -74,13 +74,13 @@ public final class ContainerView : UIView {
     
     private func setupBackButton () {
         let goBackAction = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { [weak self] sink, disposable in
+            return SignalProducer { [weak self] observer, disposable in
                 self?.endEditing(true)
                 
-                sendCompleted(sink)
+                observer.sendCompleted()
                 
                 if let this = self {
-                    sendNext(this._goBackSink, ())
+                    sendNext(this._goBackObserver, ())
                 }
             }
         }

@@ -40,9 +40,9 @@ public final class DetailWebViewViewController : XUIViewController {
         self.navigationItem.title = businessName
         
         let dismiss = Action<Void, Void, NoError> {
-            return SignalProducer { [weak self] sink, disposable in
+            return SignalProducer { [weak self] observer, disposable in
                 self?.dismissViewControllerAnimated(true, completion: nil)
-                sendCompleted(sink)
+                observer.sendCompleted()
             }
         }
         

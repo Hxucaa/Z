@@ -14,7 +14,7 @@ public protocol IProfileUpperViewModel : class {
     // MARK: - Properties
     
     // MARK: ViewModels
-    var profileHeaderViewModel: PropertyOf<IProfileHeaderViewModel?> { get }
+    var profileHeaderViewModel: AnyProperty<IProfileHeaderViewModel?> { get }
     
     // MARK: - API
     func getUserInfo() -> SignalProducer<Void, NSError>

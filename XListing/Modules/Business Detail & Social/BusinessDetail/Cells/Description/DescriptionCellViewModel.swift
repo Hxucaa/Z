@@ -13,8 +13,8 @@ public final class DescriptionCellViewModel {
 
     // MARK: - Outputs
     private let _description: MutableProperty<String>
-    public var description: PropertyOf<String> {
-        return PropertyOf(_description)
+    public var description: AnyProperty<String> {
+        return AnyProperty(_description)
     }
     
     // MARK: - Initializers

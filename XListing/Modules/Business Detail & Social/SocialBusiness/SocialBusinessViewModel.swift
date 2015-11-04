@@ -33,13 +33,13 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     }
     
     private let _businessName: MutableProperty<String>
-    public var businessName: PropertyOf<String> {
-        return PropertyOf(_businessName)
+    public var businessName: AnyProperty<String> {
+        return AnyProperty(_businessName)
     }
     
     private let _isButtonEnabled: MutableProperty<Bool> = MutableProperty(true)
-    public var isButtonEnabled: PropertyOf<Bool> {
-        return PropertyOf(_isButtonEnabled)
+    public var isButtonEnabled: AnyProperty<Bool> {
+        return AnyProperty(_isButtonEnabled)
     }
     
     // MARK: - Properties

@@ -203,13 +203,13 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         locationLabel.rac_text <~ viewmodel.city.producer
         
         viewmodel.price.producer
-            .ignoreNil
-            .start(next: { [weak self] price in
+            .ignoreNil()
+            .startWithNext { [weak self] price in
                 self?.priceLabel.text = "$ \(price)"
-            })
+            }
         
         etaLabel.rac_text <~ viewmodel.eta.producer
-            .ignoreNil
+            .ignoreNil()
     }
     
     // MARK: - Others

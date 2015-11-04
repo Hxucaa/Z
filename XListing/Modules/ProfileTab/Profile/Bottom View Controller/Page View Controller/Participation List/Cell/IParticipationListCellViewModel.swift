@@ -13,9 +13,9 @@ public protocol IParticipationListCellViewModel : class {
     
     // MARK: - Outputs
     
-    var coverImage: PropertyOf<UIImage?> { get }
-    var businessName: PropertyOf<String> { get }
-    var city: PropertyOf<String> { get }
-    var participation: PropertyOf<String> { get }
-    var eta: PropertyOf<String?> { get }
+    var coverImage: AnyProperty<UIImage?> { get }
+    var businessName: AnyProperty<String> { get }
+    var city: AnyProperty<String> { get }
+    var participation: AnyProperty<String> { get }
+    var eta: AnyProperty<String?> { get }
 }

@@ -46,9 +46,9 @@ public final class SocialBusinessViewController : XUIViewController {
         button.setAttributedTitle(attributedString, forState: UIControlState.Normal)
         
         let goBack = Action<UIButton, Void, NoError> { button in
-            return SignalProducer { sink ,disposable in
+            return SignalProducer { observer ,disposable in
                 self.navigationController!.popViewControllerAnimated(true)
-                sendCompleted(sink)
+                observer.sendCompleted()
             }
         }
         

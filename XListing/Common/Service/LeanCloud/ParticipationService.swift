@@ -13,57 +13,57 @@ import AVOSCloud
 public final class ParticipationService : IParticipationService {
     
     public func findBy(query: AVQuery) -> SignalProducer<[Participation], NSError> {
-        return SignalProducer<[Participation], NSError> {sink, disposable in
+        return SignalProducer<[Participation], NSError> {observer, disposable in
             query.findObjectsInBackgroundWithBlock { object, error -> Void in
                 if error == nil {
-                    sendNext(sink, object as! [Participation])
-                    sendCompleted(sink)
+                    observer.sendNext(object as! [Participation])
+                    observer.sendCompleted()
                 }
                 else {
-                    sendError(sink, error)
+                    sendError(observer, error)
                 }
             }
         }
     }
     
     public func get(query: AVQuery) -> SignalProducer<Participation, NSError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             query.getFirstObjectInBackgroundWithBlock { object, error -> Void in
                 if error == nil {
-                    sendNext(sink, object as! Participation)
-                    sendCompleted(sink)
+                    observer.sendNext(object as! Participation)
+                    observer.sendCompleted()
                 }
                 else {
-                    sendError(sink, error)
+                    sendError(observer, error)
                 }
             }
         }
     }
     
     public func create(participation: Participation) -> SignalProducer<Bool, NSError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             participation.saveInBackgroundWithBlock { (success, error) -> Void in
                 if error == nil {
-                    sendNext(sink, success)
-                    sendCompleted(sink)
+                    observer.sendNext(success)
+                    observer.sendCompleted()
                 }
                 else {
-                    sendError(sink, error)
+                    sendError(observer, error)
                 }
             }
         }
     }
     
     public func delete(participation: Participation) -> SignalProducer<Bool, NSError>{
-        return SignalProducer{ sink, disposable in
+        return SignalProducer{ observer, disposable in
             participation.deleteInBackgroundWithBlock { (success, error) -> Void in
                 if error == nil{
-                    sendNext(sink, success)
-                    sendCompleted(sink)
+                    observer.sendNext(success)
+                    observer.sendCompleted()
                 }
                 else{
                     LSLogError("participation delete failed")
-                    sendError(sink, error)
+                    sendError(observer, error)
                 }
             }
         }

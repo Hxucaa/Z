@@ -16,30 +16,30 @@ public final class ParticipationListCellViewModel : IParticipationListCellViewMo
     
     // MARK: - Outputs
     private let _coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
-    public var coverImage: PropertyOf<UIImage?> {
-        return PropertyOf(_coverImage)
+    public var coverImage: AnyProperty<UIImage?> {
+        return AnyProperty(_coverImage)
     }
     
     private let _businessName: ConstantProperty<String>
-    public var businessName: PropertyOf<String> {
-        return PropertyOf(_businessName)
+    public var businessName: AnyProperty<String> {
+        return AnyProperty(_businessName)
     }
     
     private let _city: ConstantProperty<String>
-    public var city: PropertyOf<String> {
-        return PropertyOf(_city)
+    public var city: AnyProperty<String> {
+        return AnyProperty(_city)
     }
     
     private let _district: ConstantProperty<String>
     
     private let _participation: MutableProperty<String>
-    public var participation: PropertyOf<String> {
-        return PropertyOf(_participation)
+    public var participation: AnyProperty<String> {
+        return AnyProperty(_participation)
     }
     
     private let _eta: MutableProperty<String?> = MutableProperty(nil)
-    public var eta: PropertyOf<String?> {
-        return PropertyOf(_eta)
+    public var eta: AnyProperty<String?> {
+        return AnyProperty(_eta)
     }
     
     // MARK: - Properties

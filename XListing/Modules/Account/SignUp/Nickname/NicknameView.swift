@@ -26,7 +26,7 @@ public final class NicknameView : SpringView {
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Proxies
-    private let (_continueProxy, _continueSink) = SimpleProxy.proxy()
+    private let (_continueProxy, _continueObserver) = SimpleProxy.proxy()
     public var continueProxy: SimpleProxy {
         return _continueProxy
     }
@@ -41,13 +41,13 @@ public final class NicknameView : SpringView {
         _continueButton.setTitle("继 续", forState: .Normal)
         
         let continueAction = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
+            return SignalProducer { observer, disposable in
                 if let this = self {
-                    proxyNext(this._continueSink, ())
-                    sendCompleted(sink)
+                    this._continueObserver.proxyNext(())
                 }
+                observer.sendCompleted()
             }
-            |> logLifeCycle(LogContext.Account, "continueButton Continue Action")
+            .logLifeCycle(LogContext.Account, signalName: "continueButton Continue Action")
         }
         
         continueButton.addTarget(continueAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
@@ -55,7 +55,7 @@ public final class NicknameView : SpringView {
         /**
         Setup constraints
         */
-        let group = constrain(self) { view in
+        constrain(self) { view in
             view.width == self.frame.width
             view.height == self.frame.height
         }
@@ -70,16 +70,16 @@ public final class NicknameView : SpringView {
         *  Setup view model
         */
         compositeDisposable += viewmodel.producer
-            |> takeUntilRemoveFromSuperview(self)
-            |> logLifeCycle(LogContext.Account, "viewmodel.producer")
-            |> ignoreNil
-            |> start(next: { [weak self] viewmodel in
+            .takeUntilRemoveFromSuperview(self)
+            .logLifeCycle(LogContext.Account, signalName: "viewmodel.producer")
+            .ignoreNil()
+            .startWithNext { [weak self] viewmodel in
                 if let this = self {
                     viewmodel.nickname <~ this.nicknameField.rac_text
                     
                     this.continueButton.rac_enabled <~ viewmodel.isNicknameValid
                 }
-            })
+            }
     }
     
     public override func removeFromSuperview() {

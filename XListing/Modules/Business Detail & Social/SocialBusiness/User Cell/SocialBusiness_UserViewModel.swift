@@ -17,8 +17,8 @@ public final class SocialBusiness_UserViewModel : BasicUserInfoViewModel, ISocia
     // MARK: - Outputs
     
     private let _participationType: MutableProperty<String>
-    public var participationType: PropertyOf<String> {
-        return PropertyOf(_participationType)
+    public var participationType: AnyProperty<String> {
+        return AnyProperty(_participationType)
     }    
     
     // MARK: - Properties

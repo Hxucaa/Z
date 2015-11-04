@@ -19,7 +19,7 @@ The `TransitionActor` is a wrapper around `Transition` so that it can pass throu
 public class TransitionManager {
     
     private let compositeDisposable = CompositeDisposable()
-    private let (viewTransitionProducer, viewTransitionSink) = SignalProducer<TransitionActor, NoError>.buffer(0)
+    private let (viewTransitionProducer, viewTransitionObserver) = SignalProducer<TransitionActor, NoError>.buffer(0)
     private var currentIndex = -1
     private let initial: () -> TransitionActor
     private let followUps: [() -> TransitionActor]
@@ -46,7 +46,7 @@ public class TransitionManager {
     
     public func transitionNext() {
         assert(currentIndex < followUps.count - 1, "Cannot transition beyond the total number of follow up transitions defined!")
-        sendNext(viewTransitionSink, followUps[++currentIndex]())
+        sendNext(viewTransitionObserver, followUps[++currentIndex]())
     }
     
     public func installInitial() {

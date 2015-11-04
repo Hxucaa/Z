@@ -22,13 +22,11 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         
         // Action
         let pushNavMap = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                if let this = self {
+            return SignalProducer { observer, disposable in
                     
-                    sendNext(this._navigationMapSink, ())
-                    
-                    sendCompleted(sink)
-                }
+                self?._navigationMapObserver.proxyNext(())
+                
+                observer.sendCompleted()
             }
         }
         
@@ -38,7 +36,7 @@ public final class DetailAddressTableViewCell: UITableViewCell {
     }()
     
     // MARK: - Proxies
-    private let (_navigationMapProxy, _navigationMapSink) = SimpleProxy.proxy()
+    private let (_navigationMapProxy, _navigationMapObserver) = SimpleProxy.proxy()
     public var navigationMapProxy: SimpleProxy {
         return _navigationMapProxy
     }
@@ -85,8 +83,8 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         
         compositeDisposable += self.viewmodel.fullAddress.producer
             .takeUntilPrepareForReuse(self)
-            .start(next: { [weak self] address in
+            .startWithNext { [weak self] address in
                 self?.addressButton.setTitle(address, forState: UIControlState.Normal)
-            })
+            }
     }
 }

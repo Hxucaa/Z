@@ -16,8 +16,8 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
     
     // MARK: - Outputs
     private let _businessName: ConstantProperty<String>
-    public var businessName: PropertyOf<String> {
-        return PropertyOf(_businessName)
+    public var businessName: AnyProperty<String> {
+        return AnyProperty(_businessName)
     }
     
     // MARK: - Variables

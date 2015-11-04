@@ -56,22 +56,23 @@ public class PullToRefreshConductor<T: UITableView, U: IPullToRefreshDataSource>
                             return SignalProducer<Void, NSError>.empty
                         }
                     }
-                    .start(
-                        error: { error in
+                    .start { event in
+                        switch event {
+                        case .Failed(let error):
                             scrollView.ins_endPullToRefresh()
                             MiscLogError("Pull to refresh error: \(error)")
-                        },
-                        completed: {
+                        case .Completed:
                             scrollView.ins_endPullToRefresh()
+                        default: break
                         }
-                    )
+                    }
             }
         }
         
         /**
         *  Setup the view to Pull to Refresh
         */
-        let pullToRefresh = PullToRefresh(coder: CGRectMake(0, 0, 24, 24))
+        let pullToRefresh = PullToRefresh(frame: CGRectMake(0, 0, 24, 24))
         tableView.ins_pullToRefreshBackgroundView.delegate = pullToRefresh
         tableView.ins_pullToRefreshBackgroundView.addSubview(pullToRefresh)
     }

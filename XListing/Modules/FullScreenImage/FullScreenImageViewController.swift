@@ -27,9 +27,9 @@ public final class FullScreenImageViewController: UIViewController {
         var attributedString = NSAttributedString(string: Icons.Chevron + " 返回", attributes: attributes)
         button.setAttributedTitle(attributedString, forState: UIControlState.Normal)
         let goBack = Action<UIButton, Void, NoError> { button in
-            return SignalProducer { sink ,disposable in
+            return SignalProducer { observer ,disposable in
                 self.dismissViewControllerAnimated(true, completion: nil)
-                sendCompleted(sink)
+                observer.sendCompleted()
             }
         }
         

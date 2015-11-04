@@ -36,19 +36,19 @@ public final class LandingPageView : UIView {
     public var skipProxy: SimpleProxy {
         return _skipProxy
     }
-    private let (_skipProxy, _skipSink) = SimpleProxy.proxy()
+    private let (_skipProxy, _skipObserver) = SimpleProxy.proxy()
     
     /// Go to Log In view.
     public var loginProxy: SimpleProxy {
         return _loginProxy
     }
-    private let (_loginProxy, _loginSink) = SimpleProxy.proxy()
+    private let (_loginProxy, _loginObserver) = SimpleProxy.proxy()
     
     /// Go to Sign Up view.
     public var signUpProxy: SimpleProxy {
         return _signUpProxy
     }
-    private let (_signUpProxy, _signUpSink) = SimpleProxy.proxy()
+    private let (_signUpProxy, _signUpObserver) = SimpleProxy.proxy()
     
     
     // MARK: - Properties
@@ -58,14 +58,12 @@ public final class LandingPageView : UIView {
     // MARK: - Actions
     /// Skip this view
     private lazy var skipAction: Action<UIButton, Void, NoError> = Action<UIButton, Void, NoError> { [weak self] button in
-        return SignalProducer { sink, disposable in
-            if let this = self {
-                // send event to skip proxy
-                sendNext(this._skipSink, ())
-            }
+        return SignalProducer { observer, disposable in
+            // send event to skip proxy
+            self?._skipObserver.sendNext(())
             
             // completes this action
-            sendCompleted(sink)
+            observer.sendCompleted()
         }
     }
     
@@ -75,8 +73,8 @@ public final class LandingPageView : UIView {
         super.awakeFromNib()
         
         compositeDisposable += viewmodel.producer
-            .ignoreNil
-            .start(next: { [weak self] viewmodel in
+            .ignoreNil()
+            .startWithNext { [weak self] viewmodel in
                 // conditionally load subviews
                 if viewmodel.rePrompt {
                     self?.setupButtonsView(RePromptButtonsViewNibName)
@@ -92,7 +90,7 @@ public final class LandingPageView : UIView {
                 self?.setupSkipButton()
                 self?.setupDividerLabel()
                 
-            })
+            }
         
     }
     
@@ -155,12 +153,10 @@ public final class LandingPageView : UIView {
     
     private func setupLoginButton() {
         let gotoLogin = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                if let this = self {
-                    sendNext(this._loginSink, ())
-                }
+            return SignalProducer { observer, disposable in
+                self?._loginObserver.sendNext(())
                 
-                sendCompleted(sink)
+                observer.sendCompleted()
             }
         }
         
@@ -171,12 +167,10 @@ public final class LandingPageView : UIView {
         signUpButton.layer.masksToBounds = true
         signUpButton.layer.cornerRadius = 8
         let gotoSignup = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                if let this = self {
-                    sendNext(this._signUpSink, ())
-                }
+            return SignalProducer { observer, disposable in
+                self?._signUpObserver.sendNext(())
                 
-                sendCompleted(sink)
+                observer.sendCompleted()
             }
         }
         
@@ -250,7 +244,7 @@ public final class LandingPageView : UIView {
     
     // MARK: - Bindings
     public func bindToViewModel(viewmodel: ILandingPageViewModel) {
-        self.viewmodel.put(viewmodel)
+        self.viewmodel.value = viewmodel
     }
     
     // MARK: - Others

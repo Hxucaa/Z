@@ -14,17 +14,17 @@ import AVOSCloud
 
 public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewModel {
     // MARK: - Outputs
-    public var coverImage: PropertyOf<UIImage?> {
-        return PropertyOf(_coverImage)
+    public var coverImage: AnyProperty<UIImage?> {
+        return AnyProperty(_coverImage)
     }
-    public var businessName: PropertyOf<String> {
-        return PropertyOf(_businessName)
+    public var businessName: AnyProperty<String> {
+        return AnyProperty(_businessName)
     }
-    public var location: PropertyOf<String> {
-        return PropertyOf(_city)
+    public var location: AnyProperty<String> {
+        return AnyProperty(_city)
     }
-    public var eta: PropertyOf<String?> {
-        return PropertyOf(_eta)
+    public var eta: AnyProperty<String?> {
+        return AnyProperty(_eta)
     }
     
     // MARK: - Properties

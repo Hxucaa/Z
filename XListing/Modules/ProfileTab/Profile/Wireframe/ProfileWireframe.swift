@@ -11,7 +11,7 @@ private let StoryboardName = "Profile"
 
 public protocol ProfileNavigationControllerDelegate : class {
     func pushSocialBusiness<T: Business>(business: T, animated: Bool)
-    func presentProfileEdit<T: User>(animated: Bool, completion: CompletionHandler?)
+    func presentProfileEdit(animated: Bool, completion: CompletionHandler?)
     func presentFullScreenImage(animated: Bool, completion: CompletionHandler?)
 }
 

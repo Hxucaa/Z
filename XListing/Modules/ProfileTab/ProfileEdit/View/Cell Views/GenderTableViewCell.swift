@@ -39,8 +39,8 @@ public final class GenderTableViewCell: UITableViewCell {
     public func setUpEditProfileButton () {
         let editProfilePicAction = Action<UIButton, Bool, NSError> { [weak self] button in
             self?.delegate.editPictureTextButtonAction()
-            return SignalProducer { [weak self] sink, disposible in
-                sendCompleted(sink)
+            return SignalProducer { [weak self] observer, disposible in
+                observer.sendCompleted()
             }
         }
         editProfilePicButton.addTarget(editProfilePicAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)

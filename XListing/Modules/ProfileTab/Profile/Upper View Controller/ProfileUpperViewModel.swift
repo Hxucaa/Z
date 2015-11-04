@@ -19,8 +19,8 @@ public final class ProfileUpperViewModel : IProfileUpperViewModel {
     // MARK: ViewModels
     
     private let _profileHeaderViewModel = MutableProperty<IProfileHeaderViewModel?>(nil)
-    public var profileHeaderViewModel: PropertyOf<IProfileHeaderViewModel?> {
-        return PropertyOf(_profileHeaderViewModel)
+    public var profileHeaderViewModel: AnyProperty<IProfileHeaderViewModel?> {
+        return AnyProperty(_profileHeaderViewModel)
     }
     
     // MARK: Variables

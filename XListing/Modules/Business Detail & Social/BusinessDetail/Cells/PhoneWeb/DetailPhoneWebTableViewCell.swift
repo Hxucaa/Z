@@ -38,13 +38,13 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         
         let goToWebsite = Action<UIButton, Void, NoError> { button in
             return self.viewmodel.webSiteURL.producer
-                .ignoreNil
+                .ignoreNil()
                 .map { url -> Void in
                     let webVC = DetailWebViewViewController(url: url, businessName: self.viewmodel.businessName.value)
                     let navController = UINavigationController()
                     navController.pushViewController(webVC, animated: true)
                     
-                    proxyNext(self._presentWebViewSink, navController)
+                    self._presentWebViewObserver.proxyNext(navController)
                 }
         }
         
@@ -54,7 +54,7 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
     }()
     
     // MARK: -  Proxies
-    private let (_presentWebViewProxy, _presentWebViewSink) = SignalProducer<UIViewController, NoError>.proxy()
+    private let (_presentWebViewProxy, _presentWebViewObserver) = SignalProducer<UIViewController, NoError>.proxy()
     public var presentWebViewProxy: SignalProducer<UIViewController, NoError> {
         return _presentWebViewProxy
     }
@@ -120,14 +120,14 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         
         compositeDisposable += self.viewmodel.phoneDisplay.producer
             .takeUntilPrepareForReuse(self)
-            .start(next: { [weak self] phoneDisplay in
+            .startWithNext { [weak self] phoneDisplay in
                 self?.phoneButton.setTitle(phoneDisplay, forState: .Normal)
-            })
+            }
         
         compositeDisposable += self.viewmodel.webSiteDisplay.producer
             .takeUntilPrepareForReuse(self)
-            .start(next: { [weak self] websiteDisplay in
+            .startWithNext { [weak self] websiteDisplay in
                 self?.websiteButton.setTitle(websiteDisplay, forState: .Normal)
-            })
+            }
     }
 }

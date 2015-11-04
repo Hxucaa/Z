@@ -10,8 +10,8 @@ import Foundation
 import ReactiveCocoa
 
 public protocol IFeaturedListBusinessCell_ParticipationViewModel : class {
-    var participantViewModelArr: PropertyOf<[ParticipantViewModel]> { get }
-    var isButtonEnabled: PropertyOf<Bool> { get }
+    var participantViewModelArr: AnyProperty<[ParticipantViewModel]> { get }
+    var isButtonEnabled: AnyProperty<Bool> { get }
     func getParticipantPreview() -> SignalProducer<Void, NSError>
     func getUserParticipation() -> SignalProducer<Void, NSError>
 }

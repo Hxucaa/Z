@@ -45,7 +45,7 @@ public final class ProfilePageViewController : UIPageViewController {
     private var shouldDisplayCollection = false
     
     // MARK: - Proxies
-    private let (_fullImageProxy, _fullImageSink) = SimpleProxy.proxy()
+    private let (_fullImageProxy, _fullImageObserver) = SimpleProxy.proxy()
     public var fullImageProxy: SimpleProxy {
         return _fullImageProxy
     }
@@ -80,7 +80,7 @@ public final class ProfilePageViewController : UIPageViewController {
             .logLifeCycle(LogContext.Profile, "photoManagerViewController.fullImageProxy")
             .start(next: { [weak self] in
                 if let this = self {
-                    proxyNext(this._fullImageSink, ())
+                    proxyNext(this._fullImageObserver, ())
                 }
                 })
     }

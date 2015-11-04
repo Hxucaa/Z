@@ -36,7 +36,10 @@ public final class LogInViewModel {
     // MARK: - Properties
     private let userService: IUserService
     private weak var accountNavigator: IAccountNavigator!
-    private lazy var allLogInInputs: SignalProducer<(String, String), NoError> = combineLatest(self.username.producer .ignoreNil, self.password.producer .ignoreNil)
+    private lazy var allLogInInputs: SignalProducer<(String, String), NoError> = combineLatest(
+        self.username.producer.ignoreNil(),
+        self.password.producer.ignoreNil()
+    )
     
     // MARK: - Initializers
     

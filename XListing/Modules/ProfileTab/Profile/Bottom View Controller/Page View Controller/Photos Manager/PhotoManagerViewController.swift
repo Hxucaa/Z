@@ -41,7 +41,7 @@ public final class PhotoManagerViewController : UIViewController {
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Proxies
-    private let (_fullImageProxy, _fullImageSink) = SimpleProxy.proxy()
+    private let (_fullImageProxy, _fullImageObserver) = SimpleProxy.proxy()
     public var fullImageProxy: SimpleProxy {
         return _fullImageProxy
     }
@@ -80,7 +80,7 @@ public final class PhotoManagerViewController : UIViewController {
             .logLifeCycle(LogContext.FullScreenImage, "collectionView:didSelectItemAtIndexPath:")
             .start(
                 next: { [weak self] indexPath in
-                    proxyNext(self!._fullImageSink, ())
+                    proxyNext(self!._fullImageObserver, ())
                 }
         )
         

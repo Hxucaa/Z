@@ -27,7 +27,7 @@ public final class UsernameAndPasswordView : SpringView {
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Proxies
-    private let (_submitProxy, _submitSink) = SimpleProxy.proxy()
+    private let (_submitProxy, _submitObserver) = SimpleProxy.proxy()
     public var submitProxy: SimpleProxy {
         return _submitProxy
     }
@@ -39,7 +39,7 @@ public final class UsernameAndPasswordView : SpringView {
         _signUpButton.setTitle("注 册", forState: .Normal)
         
         let submitAction = Action<UIButton, Void, NSError> { [weak self] button in
-            return SignalProducer<Void, NSError> { sink, disposable in
+            return SignalProducer<Void, NSError> { observer, disposable in
                 if let this = self, viewmodel = self?.viewmodel.value {
                     // display HUD to indicate work in progress
                     // check for the validity of inputs first
@@ -75,10 +75,10 @@ public final class UsernameAndPasswordView : SpringView {
                         // does not `sendCompleted` because completion is handled when HUD is disappeared
                         .start(
                             error: { error in
-                                sendError(sink, error)
+                                sendError(observer, error)
                             },
                             interrupted: { _ in
-                                sendInterrupted(sink)
+                                sendInterrupted(observer)
                             }
                     )
                     
@@ -91,7 +91,7 @@ public final class UsernameAndPasswordView : SpringView {
                                 HUD.dismiss()
                                 
                                 // interrupts the action
-                                // sendInterrupted(sink)
+                                // sendInterrupted(observer)
                             }
                         )
                     
@@ -103,12 +103,12 @@ public final class UsernameAndPasswordView : SpringView {
                                 if status == HUD.DisappearStatus.Normal {
                                     
                                     // inform that submit is successful
-                                    proxyNext(this._submitSink, ())
+                                    proxyNext(this._submitObserver, ())
                                 }
                                 
                                 // completes the action
-                                sendNext(sink, ())
-                                sendCompleted(sink)
+                                observer.sendNext(())
+                                observer.sendCompleted()
                             }
                         )
                     

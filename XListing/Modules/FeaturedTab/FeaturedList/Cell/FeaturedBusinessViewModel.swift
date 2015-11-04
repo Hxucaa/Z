@@ -13,8 +13,8 @@ public final class FeaturedBusinessViewModel : IFeaturedBusinessViewModel {
     
     // MARK: - Outputs
     private let _coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
-    public var coverImage: PropertyOf<UIImage?> {
-        return PropertyOf(_coverImage)
+    public var coverImage: AnyProperty<UIImage?> {
+        return AnyProperty(_coverImage)
     }
     
     // MARK: - ViewModels

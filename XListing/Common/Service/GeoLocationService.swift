@@ -26,30 +26,30 @@ public final class GeoLocationService : IGeoLocationService {
     private let locationManager = LocationManager()
     
     public func getCurrentLocation() -> SignalProducer<CLLocation, NSError> {
-        return SignalProducer<CLLocation, NSError> { sink, disposable in
+        return SignalProducer<CLLocation, NSError> { observer, disposable in
             // get current location
             AVGeoPoint.geoPointForCurrentLocationInBackground { (geopoint, error) -> Void in
                 if error == nil {
-                    sendNext(sink, CLLocation(latitude: geopoint!.latitude, longitude: geopoint!.longitude))
-                    sendCompleted(sink)
+                    observer.sendNext(CLLocation(latitude: geopoint!.latitude, longitude: geopoint!.longitude))
+                    observer.sendCompleted()
                 }
                 else {
-                    sendError(sink, error)
+                    sendError(observer, error)
                 }
             }
         }
     }
     
     public func getCurrentGeoPoint() -> SignalProducer<AVGeoPoint, NSError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             // get current location
             AVGeoPoint.geoPointForCurrentLocationInBackground { (geopoint, error) -> Void in
                 if error == nil {
-                    sendNext(sink, geopoint)
-                    sendCompleted(sink)
+                    observer.sendNext(geopoint)
+                    observer.sendCompleted()
                 }
                 else {
-                    sendError(sink, error)
+                    sendError(observer, error)
                 }
             }
         }
@@ -82,7 +82,7 @@ public final class GeoLocationService : IGeoLocationService {
         
         requestWhenInUseAuthorization()
         
-        return SignalProducer<NSTimeInterval, NSError> { sink, disposable in
+        return SignalProducer<NSTimeInterval, NSError> { observer, disposable in
             let request = MKDirectionsRequest()
             if let currentLocation = currentLocation {
                 request.setSource(MKMapItem(placemark: MKPlacemark(coordinate: currentLocation.coordinate, addressDictionary: nil)))
@@ -97,11 +97,11 @@ public final class GeoLocationService : IGeoLocationService {
             let direction = MKDirections(request: request)
             direction.calculateETAWithCompletionHandler { (response, error) -> Void in
                 if error == nil {
-                    sendNext(sink, response.expectedTravelTime)
-                    sendCompleted(sink)
+                    observer.sendNext(response.expectedTravelTime)
+                    observer.sendCompleted()
                 }
                 else {
-                    sendError(sink, error)
+                    sendError(observer, error)
                 }
             }
         }

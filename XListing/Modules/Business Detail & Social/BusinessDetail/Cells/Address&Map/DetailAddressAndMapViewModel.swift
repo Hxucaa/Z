@@ -16,16 +16,16 @@ public struct DetailAddressAndMapViewModel {
     
     // MARK: - Outputs
     private let _fullAddress: ConstantProperty<String>
-    public var fullAddress: PropertyOf<String> {
-        return PropertyOf(_fullAddress)
+    public var fullAddress: AnyProperty<String> {
+        return AnyProperty(_fullAddress)
     }
     private let _annotation: ConstantProperty<MKPointAnnotation?>
-    public var annotation: PropertyOf<MKPointAnnotation?> {
-        return PropertyOf(_annotation)
+    public var annotation: AnyProperty<MKPointAnnotation?> {
+        return AnyProperty(_annotation)
     }
     private let _cellMapRegion: ConstantProperty<MKCoordinateRegion?>
-    public var cellMapRegion: PropertyOf<MKCoordinateRegion?> {
-        return PropertyOf(_cellMapRegion)
+    public var cellMapRegion: AnyProperty<MKCoordinateRegion?> {
+        return AnyProperty(_cellMapRegion)
     }
     
     // MARK: - Properties

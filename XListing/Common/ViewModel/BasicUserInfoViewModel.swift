@@ -16,38 +16,38 @@ public class BasicUserInfoViewModel : IBasicUserInfoViewModel {
     
     // MARK: - Outputs
     private let _profileImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.profilepicture))
-    public var profileImage: PropertyOf<UIImage?> {
-        return PropertyOf(_profileImage)
+    public var profileImage: AnyProperty<UIImage?> {
+        return AnyProperty(_profileImage)
     }
     
     private let _nickname: MutableProperty<String>
-    public var nickname: PropertyOf<String> {
-        return PropertyOf(_nickname)
+    public var nickname: AnyProperty<String> {
+        return AnyProperty(_nickname)
     }
     
     private let _ageGroup: MutableProperty<String>
-    public var ageGroup: PropertyOf<String> {
-        return PropertyOf(_ageGroup)
+    public var ageGroup: AnyProperty<String> {
+        return AnyProperty(_ageGroup)
     }
     
     private let _horoscope: MutableProperty<String>
-    public var horoscope: PropertyOf<String> {
-        return PropertyOf(_horoscope)
+    public var horoscope: AnyProperty<String> {
+        return AnyProperty(_horoscope)
     }
     
     private let _status: MutableProperty<String>
-    public var status: PropertyOf<String> {
-        return PropertyOf(_status)
+    public var status: AnyProperty<String> {
+        return AnyProperty(_status)
     }
     
     private let _gender: MutableProperty<String>
-    public var gender: PropertyOf<String> {
-        return PropertyOf(_gender)
+    public var gender: AnyProperty<String> {
+        return AnyProperty(_gender)
     }
     
     private let _ageGroupBackgroundColor: ConstantProperty<UIColor>
-    public var ageGroupBackgroundColor: PropertyOf<UIColor> {
-        return PropertyOf(_ageGroupBackgroundColor)
+    public var ageGroupBackgroundColor: AnyProperty<UIColor> {
+        return AnyProperty(_ageGroupBackgroundColor)
     }
     
     public let user: User

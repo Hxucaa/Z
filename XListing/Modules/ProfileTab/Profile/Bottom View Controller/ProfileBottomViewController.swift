@@ -35,7 +35,7 @@ public final class ProfileBottomViewController : UIViewController {
     }()
     
     // MARK: - Proxies
-    private let (_fullImageProxy, _fullImageSink) = SimpleProxy.proxy()
+    private let (_fullImageProxy, _fullImageObserver) = SimpleProxy.proxy()
     public var fullImageProxy: SimpleProxy {
         return _fullImageProxy
     }
@@ -105,7 +105,7 @@ public final class ProfileBottomViewController : UIViewController {
             .logLifeCycle(LogContext.Profile, "pageViewController.fullImageProxy")
             .start(next: { [weak self] in
                 if let this = self {
-                    proxyNext(this._fullImageSink, ())
+                    proxyNext(this._fullImageObserver, ())
                 }
                 })
         

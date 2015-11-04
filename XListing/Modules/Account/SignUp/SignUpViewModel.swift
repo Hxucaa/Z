@@ -82,8 +82,14 @@ public final class SignUpViewModel {
     // MARK: - Properties
     private weak var accountNavigator: IAccountNavigator!
     private let userService: IUserService
-    private lazy var allProfileInputs: SignalProducer<(String, NSDate, UIImage, Gender), NoError> = combineLatest(self.nickname.producer .ignoreNil, self.birthday.producer .ignoreNil, self.photo.producer .ignoreNil, self.gender.producer .ignoreNil)
-    private lazy var allSignUpInputs: SignalProducer<(String, String), NoError> = combineLatest(self.username.producer .ignoreNil, self.password.producer .ignoreNil)
+    private lazy var allProfileInputs: SignalProducer<(String, NSDate, UIImage, Gender), NoError> = combineLatest(
+        self.nickname.producer.ignoreNil(),
+        self.birthday.producer.ignoreNil(),
+        self.photo.producer .ignoreNil(),
+        self.gender.producer .ignoreNil())
+    private lazy var allSignUpInputs: SignalProducer<(String, String), NoError> = combineLatest(
+        self.username.producer.ignoreNil(),
+        self.password.producer.ignoreNil())
     
     // MARK: Initializers
     public init(accountNavigator: IAccountNavigator, userService: IUserService) {
@@ -143,7 +149,7 @@ public final class SignUpViewModel {
         }
     }
     
-    public func finishModule(_ callback: (CompletionHandler? -> ())? = nil) {
+    public func finishModule(callback: (CompletionHandler? -> ())? = nil) {
         accountNavigator.finishModule { handler in
             callback?(handler)
         }

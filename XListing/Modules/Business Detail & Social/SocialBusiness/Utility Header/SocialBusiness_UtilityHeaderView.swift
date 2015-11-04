@@ -29,11 +29,9 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
         button.layer.cornerRadius = 5
         
         let press = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                if let this = self {
-                    proxyNext(this._detailInfoSink, ())
-                }
-                sendCompleted(sink)
+            return SignalProducer { observer, disposable in
+                self?._detailInfoObserver.proxyNext(())
+                observer.sendCompleted()
             }
         }
         
@@ -57,11 +55,9 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
         button.layer.borderColor = UIColor.x_PrimaryColor().CGColor
         
         let press = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                if let this = self {
-                    proxyNext(this._startEventSink, ())
-                }
-                sendCompleted(sink)
+            return SignalProducer { observer, disposable in
+                self?._startEventObserver.proxyNext(())
+                observer.sendCompleted()
                 
             }
         }
@@ -72,12 +68,12 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
     }()
     
     // MARK: - Proxies
-    private let (_detailInfoProxy, _detailInfoSink) = SimpleProxy.proxy()
+    private let (_detailInfoProxy, _detailInfoObserver) = SimpleProxy.proxy()
     public var detailInfoProxy: SimpleProxy {
         return _detailInfoProxy
     }
     
-    private let (_startEventProxy, _startEventSink) = SimpleProxy.proxy()
+    private let (_startEventProxy, _startEventObserver) = SimpleProxy.proxy()
     public var startEventProxy: SimpleProxy {
         return _startEventProxy
     }

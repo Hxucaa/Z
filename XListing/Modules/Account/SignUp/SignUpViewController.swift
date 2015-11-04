@@ -99,13 +99,11 @@ public final class SignUpViewController : XUIViewController {
         
         compositeDisposable += containerView.goBackProxy
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Account, "containerView.goBackProxy")
-            .start(next: { [weak self] in
-                if let this = self {
-                    // transition to landing page view
-                    self?.navigationController?.popViewControllerAnimated(false)
-                }
-            })
+            .logLifeCycle(LogContext.Account, signalName: "containerView.goBackProxy")
+            .startWithNext { [weak self] in
+                // transition to landing page view
+                self?.navigationController?.popViewControllerAnimated(false)
+            }
     }
     
     // username and password
@@ -121,14 +119,14 @@ public final class SignUpViewController : XUIViewController {
                     this.installSubviewButton(view.signUpButton)
                     
                     transitionDisposable += view.viewmodel <~ this.viewmodel.producer
-                        .ignoreNil
+                        .ignoreNil()
                         .map { $0.usernameAndPasswordViewModel }
                     
                     transitionDisposable += view.submitProxy
-                        .logLifeCycle(LogContext.Account, "usernameAndPasswordView.submitProxy")
-                        .start(next: { [weak self] in
+                        .logLifeCycle(LogContext.Account, signalName: "usernameAndPasswordView.submitProxy")
+                        .startWithNext { [weak self] in
                             self?.transitionManager.transitionNext()
-                        })
+                        }
                     
                 }
             },
@@ -154,14 +152,14 @@ public final class SignUpViewController : XUIViewController {
                     this.installSubviewButton(view.continueButton)
                     
                     transitionDisposable += view.viewmodel <~ this.viewmodel.producer
-                        .ignoreNil
+                        .ignoreNil()
                         .map { $0.nicknameViewModel }
                     
                     transitionDisposable += view.continueProxy
-                        .logLifeCycle(LogContext.Account, "usernameAndPasswordView.continueProxy")
-                        .start(next: {
+                        .logLifeCycle(LogContext.Account, signalName: "usernameAndPasswordView.continueProxy")
+                        .startWithNext {
                             this.transitionManager.transitionNext()
-                        })
+                        }
                 }
                 
             },
@@ -187,14 +185,14 @@ public final class SignUpViewController : XUIViewController {
                     this.installSubviewButton(view.continueButton)
                     
                     transitionDisposable += view.viewmodel <~ this.viewmodel.producer
-                        .ignoreNil
+                        .ignoreNil()
                         .map { $0.genderPickerViewModel }
                     
                     transitionDisposable += view.continueProxy
-                        .logLifeCycle(LogContext.Account, "genderPickerView.continueProxy")
-                        .start(next: {
+                        .logLifeCycle(LogContext.Account, signalName: "genderPickerView.continueProxy")
+                        .startWithNext {
                             this.transitionManager.transitionNext()
-                        })
+                        }
                 }
             },
             cleanUp: { [weak self] view in
@@ -220,14 +218,14 @@ public final class SignUpViewController : XUIViewController {
                     this.installSubviewButton(view.continueButton)
                     
                     transitionDisposable += view.viewmodel <~ this.viewmodel.producer
-                        .ignoreNil
+                        .ignoreNil()
                         .map { $0.birthdayPickerViewModel }
                     
                     transitionDisposable += view.continueProxy
-                        .logLifeCycle(LogContext.Account, "birthdayPickerView.continueProxy")
-                        .start(next: {
+                        .logLifeCycle(LogContext.Account, signalName: "birthdayPickerView.continueProxy")
+                        .startWithNext {
                             this.transitionManager.transitionNext()
-                        })
+                        }
                 }
                 
             },
@@ -254,26 +252,26 @@ public final class SignUpViewController : XUIViewController {
                     this.installSubviewButton(view.doneButton)
                     
                     transitionDisposable += view.viewmodel <~ this.viewmodel.producer
-                        .ignoreNil
+                        .ignoreNil()
                         .map { $0.photoViewModel }
                     
                     transitionDisposable += view.presentUIImagePickerProxy
-                        .logLifeCycle(LogContext.Account, "photoView.presentUIImagePickerProxy")
-                        .start(next: { imagePicker in
+                        .logLifeCycle(LogContext.Account, signalName: "photoView.presentUIImagePickerProxy")
+                        .startWithNext { imagePicker in
                             // present image picker
                             self?.presentViewController(imagePicker, animated: true, completion: nil)
-                        })
+                        }
                     
                     transitionDisposable += view.dismissUIImagePickerProxy
-                        .logLifeCycle(LogContext.Account, "photoView.dismissUIImagePickerProxy")
-                        .start(next: { handler in
+                        .logLifeCycle(LogContext.Account, signalName: "photoView.dismissUIImagePickerProxy")
+                        .startWithNext { handler in
                             // dismiss image picker
                             self?.dismissViewControllerAnimated(true, completion: handler)
-                        })
+                        }
                     
                     transitionDisposable += view.doneProxy
-                        .logLifeCycle(LogContext.Account, "photoView.doneProxy")
-                        .start(next: {
+                        .logLifeCycle(LogContext.Account, signalName: "photoView.doneProxy")
+                        .startWithNext {
                             if let viewmodel = self?.viewmodel.value {
                                 viewmodel.finishModule { handler in
                                     self?.dismissViewControllerAnimated(true, completion: handler)
@@ -281,7 +279,7 @@ public final class SignUpViewController : XUIViewController {
                                 
                                 self?.navigationController?.setNavigationBarHidden(false, animated: false)
                             }
-                        })
+                        }
                 }
                 
             },
@@ -307,7 +305,7 @@ public final class SignUpViewController : XUIViewController {
     */
     private func centerInSuperview<T: UIView, U: UIView>(superview: T, subview: U) {
         
-        let group = constrain(subview, superview) { view1, view2 in
+        constrain(subview, superview) { view1, view2 in
             view1.center == view2.center
         }
     }

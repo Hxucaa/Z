@@ -41,12 +41,12 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
         return geoLocationService.getCurrentLocation()
             .flatMapError { error -> SignalProducer<CLLocation, NSError> in
                 
-                return SignalProducer { sink, disposable in
+                return SignalProducer { observer, disposable in
                     // with hardcoded location
                     //TODO: better support for hardcoded location
                     NearbyLogWarning("Location service failed! Using default Vancouver location.")
-                    sendNext(sink, CLLocation(latitude: 49.27623, longitude: -123.12941))
-                    sendCompleted(sink)
+                    observer.sendNext(CLLocation(latitude: 49.27623, longitude: -123.12941))
+                    observer.sendCompleted()
                 }
         }
     }
@@ -58,7 +58,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
         query.whereKey(Business.Property.Geolocation.rawValue, nearGeoPoint: centreGeoPoint)
         query.skip = collectionDataSource.array.count
         return getBusinessesWithQuery(query, isPagination: true)
-            .map { [weak self] _ in
+            .map { _ in
                 return
             }
     }
@@ -70,7 +70,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
         query.whereKey(Business.Property.Geolocation.rawValue, nearGeoPoint: centreGeoPoint, withinKilometers: radius)
         
         return getBusinessesWithQuery(query, isPagination: false)
-            .flatMap(.Merge) { data in
+            .flatMap(.Merge) { data -> SignalProducer<Void, NSError> in
                 if data.count < 1 {
                     return self.getNearestBusinesses(centreGeoPoint)
                 }
@@ -103,7 +103,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
         let query = Business.query()
         query.whereKey(Business.Property.Geolocation.rawValue, nearGeoPoint: centreGeoPoint)
         return getBusinessesWithQuery(query, isPagination: false)
-            .map { [weak self] _ in
+            .map { _ in
                 return
             }
     }
@@ -114,9 +114,9 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
         return businessService.findBy(query)
             .on(next: { businesses in
                 if isPagination {
-                    self.businessArr.value.extend(businesses)
+                    self.businessArr.value.appendContentsOf(businesses)
                 } else {
-                    self.businessArr.put(businesses)
+                    self.businessArr.value = businesses
                 }
             })
             .map { businesses -> [NearbyTableCellViewModel] in
@@ -125,18 +125,20 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
                 }
             }
             .on(
-                next: { response in
-                    if response.count > 0 {
-                        
+                next: { viewmodels -> () in
+                    if viewmodels.count > 0 {
                         // if we are doing pagination, append the new businesses to the existing array, otherwise replace it
                         if isPagination {
-                            self.collectionDataSource.extend(response)
-                        } else {
-                            self.collectionDataSource.replaceAll(response)
+                            self.collectionDataSource.appendContentsOf(viewmodels)
+                        }
+                        else {
+                            self.collectionDataSource.replaceAll(viewmodels)
                         }
                     }
                 },
-                error: { NearbyLogError($0.description) }
+                failed: {
+                    NearbyLogError($0.description)
+                }
             )
     }
 }

@@ -34,9 +34,9 @@ public final class Keyboard {
                 let userInfo = notification.userInfo as! [String : AnyObject]
                 let animationDelay = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
                 
-                return SignalProducer<Void, NoError> { sink, disposable in
-                        sendNext(sink, ())
-                        sendCompleted(sink)
+                return SignalProducer<Void, NoError> { observer, disposable in
+                        observer.sendNext(())
+                        observer.sendCompleted()
                     }
                     // delay the signal due to the animation of retracting keyboard
                     // this cannot be executed on main thread, otherwise UI will be blocked

@@ -32,7 +32,7 @@ import Foundation
 * `fatal error: undefined: main.swift, line 131`
 *
 */
-func undefined<T>(_ hint: String="", file: StaticString=__FILE__, line: UInt=__LINE__) -> T {
+func undefined<T>(hint: String="", file: StaticString=__FILE__, line: UInt=__LINE__) -> T {
     let message = hint == "" ? "" : ": \(hint)"
     fatalError("undefined \(T.self)\(message)", file:file, line:line)
 }

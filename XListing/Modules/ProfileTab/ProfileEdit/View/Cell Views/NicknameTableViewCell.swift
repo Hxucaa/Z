@@ -35,8 +35,8 @@ public final class NicknameTableViewCell: UITableViewCell {
     public func setUpEditProfileButton () {
         let editProfilePicAction = Action<UIButton, Bool, NSError> { [weak self] button in
             self?.delegate.editPictureButtonAction()
-            return SignalProducer { [weak self] sink, disposible in
-                sendCompleted(sink)
+            return SignalProducer { observer, disposible in
+                observer.sendCompleted()
             }
         }
         editProfilePicButton.addTarget(editProfilePicAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)

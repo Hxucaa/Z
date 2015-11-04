@@ -26,7 +26,7 @@ public final class ProfileUpperViewController : UIViewController {
     }()
     
     // MARK: - Proxies
-    private let (_editProxy, _editSink) = SimpleProxy.proxy()
+    private let (_editProxy, _editObserver) = SimpleProxy.proxy()
     public var editProxy: SimpleProxy {
         return _editProxy
     }
@@ -77,7 +77,7 @@ public final class ProfileUpperViewController : UIViewController {
             .logLifeCycle(LogContext.Profile, "headerView.editProxy")
             .start(next: { [weak self] in
                 if let this = self {
-                    proxyNext(this._editSink, ())
+                    proxyNext(this._editObserver, ())
                 }
             })
     }

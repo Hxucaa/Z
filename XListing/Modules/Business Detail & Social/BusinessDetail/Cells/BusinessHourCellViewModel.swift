@@ -15,53 +15,53 @@ public final class BusinessHourCellViewModel {
     
     // MARK: - Outputs
     
-    public var monHours: PropertyOf<String> {
-        return PropertyOf(_monHours)
+    public var monHours: AnyProperty<String> {
+        return AnyProperty(_monHours)
     }
-    public var monHidden: PropertyOf<Bool> {
-        return PropertyOf(_monHidden)
-    }
-    
-    public var tuesHours: PropertyOf<String> {
-        return PropertyOf(_tuesHours)
-    }
-    public var tuesHidden: PropertyOf<Bool> {
-        return PropertyOf(_tuesHidden)
+    public var monHidden: AnyProperty<Bool> {
+        return AnyProperty(_monHidden)
     }
     
-    public var wedsHours: PropertyOf<String> {
-        return PropertyOf(_wedsHours)
+    public var tuesHours: AnyProperty<String> {
+        return AnyProperty(_tuesHours)
     }
-    public var wedsHidden: PropertyOf<Bool> {
-        return PropertyOf(_wedsHidden)
-    }
-    
-    public var thursHours: PropertyOf<String> {
-        return PropertyOf(_thursHours)
-    }
-    public var thursHidden: PropertyOf<Bool> {
-        return PropertyOf(_thursHidden)
+    public var tuesHidden: AnyProperty<Bool> {
+        return AnyProperty(_tuesHidden)
     }
     
-    public var friHours: PropertyOf<String> {
-        return PropertyOf(_friHours)
+    public var wedsHours: AnyProperty<String> {
+        return AnyProperty(_wedsHours)
     }
-    public var friHidden: PropertyOf<Bool> {
-        return PropertyOf(_friHidden)
-    }
-    
-    public var satHours: PropertyOf<String> {
-        return PropertyOf(_satHours)
-    }
-    public var satHidden: PropertyOf<Bool> {
-        return PropertyOf(_satHidden)
+    public var wedsHidden: AnyProperty<Bool> {
+        return AnyProperty(_wedsHidden)
     }
     
-    public var sunHours: PropertyOf<String> {
-        return PropertyOf(_sunHours)
+    public var thursHours: AnyProperty<String> {
+        return AnyProperty(_thursHours)
     }
-    public var sunHidden: PropertyOf<Bool> {
-        return PropertyOf(_sunHidden)
+    public var thursHidden: AnyProperty<Bool> {
+        return AnyProperty(_thursHidden)
+    }
+    
+    public var friHours: AnyProperty<String> {
+        return AnyProperty(_friHours)
+    }
+    public var friHidden: AnyProperty<Bool> {
+        return AnyProperty(_friHidden)
+    }
+    
+    public var satHours: AnyProperty<String> {
+        return AnyProperty(_satHours)
+    }
+    public var satHidden: AnyProperty<Bool> {
+        return AnyProperty(_satHidden)
+    }
+    
+    public var sunHours: AnyProperty<String> {
+        return AnyProperty(_sunHours)
+    }
+    public var sunHidden: AnyProperty<Bool> {
+        return AnyProperty(_sunHidden)
     }
     
     // MARK: - Properties

@@ -24,16 +24,15 @@ public final class ProfileSegmentControlView : ButtonPageControl {
         
         AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(35, 35), backgroundColor: .whiteColor(), opaque: true, imageContextScale: nil, pressed: false, shadow: false))
             .startWithNext { [weak button] image in
-                    button?.setImage(image, forState: .Normal)
-                }
-        )
+                button?.setImage(image, forState: .Normal)
+            }
         
         let action = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
+            return SignalProducer { observer, disposable in
                 if let this = self {
-                    proxyNext(this._participationListSink, ())
+                    this._participationListObserver.proxyNext(())
                 }
-                sendCompleted(sink)
+                observer.sendCompleted()
             }
         }
         
@@ -48,18 +47,16 @@ public final class ProfileSegmentControlView : ButtonPageControl {
         button.opaque = true
         
         AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(35, 35), backgroundColor: .whiteColor(), opaque: true, imageContextScale: nil, pressed: false, shadow: false))
-            .start(
-                next: { [weak button] image in
-                    button?.setImage(image, forState: .Normal)
-                }
-        )
+            .startWithNext({ [weak button] image in
+                button?.setImage(image, forState: .Normal)
+            })
         
         let action = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
+            return SignalProducer { observer, disposable in
                 if let this = self {
-                    proxyNext(this._photosManagerSink, ())
+                    this._photosManagerObserver.proxyNext(())
                 }
-                sendCompleted(sink)
+                observer.sendCompleted()
             }
         }
         
@@ -71,12 +68,12 @@ public final class ProfileSegmentControlView : ButtonPageControl {
     
     // MARK: - Proxies
     
-    private let (_participationListProxy, _participationListSink) = SimpleProxy.proxy()
+    private let (_participationListProxy, _participationListObserver) = SimpleProxy.proxy()
     public var participationListProxy: SimpleProxy {
         return _participationListProxy
     }
     
-    private let (_photosManagerProxy, _photosManagerSink) = SimpleProxy.proxy()
+    private let (_photosManagerProxy, _photosManagerObserver) = SimpleProxy.proxy()
     public var photosManagerProxy: SimpleProxy {
         return _photosManagerProxy
     }

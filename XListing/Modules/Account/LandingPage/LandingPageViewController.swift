@@ -41,10 +41,10 @@ public final class LandingPageViewController: XUIViewController {
         landingPageView.bindToViewModel(viewmodel)
 
         compositeDisposable += landingPageView.skipProxy
-            .logLifeCycle(LogContext.Account, "landingPageView.skipProxy")
-            .start(next: { [weak self] in
+            .logLifeCycle(LogContext.Account, signalName: "landingPageView.skipProxy")
+            .startWithNext { [weak self] in
                 self?.viewmodel.skipAccountModule()
-            })
+            }
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -52,18 +52,18 @@ public final class LandingPageViewController: XUIViewController {
 
         compositeDisposable += landingPageView.loginProxy
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Account, "landingPageView.loginProxy")
-            .start(next: { [weak self] in
+            .logLifeCycle(LogContext.Account, signalName: "landingPageView.loginProxy")
+            .startWithNext { [weak self] in
                 self?.viewmodel.goToLogInComponent()
-            })
+            }
         
         compositeDisposable += landingPageView.signUpProxy
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Account, "landingPageView.signUpProxy")
-            .start(next: { [weak self] in
+            .logLifeCycle(LogContext.Account, signalName: "landingPageView.signUpProxy")
+            .startWithNext { [weak self] in
                 // transition to sign up view
                 self?.viewmodel.goToSignUpComponent()
-            })
+            }
 
     }
     

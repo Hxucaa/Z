@@ -21,24 +21,24 @@ public struct DetailPhoneWebViewModel {
     
     // MARK: - Outputs
     private let _businessName: ConstantProperty<String>
-    public var businessName: PropertyOf<String> {
-        return PropertyOf(_businessName)
+    public var businessName: AnyProperty<String> {
+        return AnyProperty(_businessName)
     }
     private let _phoneDisplay: ConstantProperty<String>
-    public var phoneDisplay: PropertyOf<String> {
-        return PropertyOf(_phoneDisplay)
+    public var phoneDisplay: AnyProperty<String> {
+        return AnyProperty(_phoneDisplay)
     }
     private let _phoneURL: ConstantProperty<NSURL?>
-    public var phoneURL: PropertyOf<NSURL?> {
-        return PropertyOf(_phoneURL)
+    public var phoneURL: AnyProperty<NSURL?> {
+        return AnyProperty(_phoneURL)
     }
     private let _webSiteDisplay: ConstantProperty<String>
-    public var webSiteDisplay: PropertyOf<String> {
-        return PropertyOf(_webSiteDisplay)
+    public var webSiteDisplay: AnyProperty<String> {
+        return AnyProperty(_webSiteDisplay)
     }
     private let _webSiteURL: ConstantProperty<NSURL?>
-    public var webSiteURL: PropertyOf<NSURL?> {
-        return PropertyOf(_webSiteURL)
+    public var webSiteURL: AnyProperty<NSURL?> {
+        return AnyProperty(_webSiteURL)
     }
     
     // MARK: - API

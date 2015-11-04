@@ -129,7 +129,7 @@ public extension SignalProducerType {
 public extension Observer {
     /**
      Alias for `sendNext`.
-     Puts a `Next` event into the given sink.
+     Puts a `Next` event into the given observer.
      */
     public func proxyNext(value: Value) {
         self.sendNext(value)
@@ -137,7 +137,7 @@ public extension Observer {
     
     /**
      Alias for `sendFailed`.
-     Puts a `Failed` event into the given sink.
+     Puts a `Failed` event into the given observer.
      */
     public func proxyFailed(error: Error) {
         self.sendFailed(error)
@@ -145,7 +145,7 @@ public extension Observer {
     
     /**
      Alias for `sendCompleted`.
-     Puts a `Completed` event into the given sink.
+     Puts a `Completed` event into the given observer.
      */
     public func proxyCompleted() {
         self.sendCompleted()
@@ -153,7 +153,7 @@ public extension Observer {
     
     /**
      Alias for `sendInterrupted`.
-     Puts a `Interrupted` event into the given sink.
+     Puts a `Interrupted` event into the given observer.
      */
     public func proxyInterrupted() {
         self.sendInterrupted()

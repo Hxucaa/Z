@@ -32,15 +32,15 @@ public final class PhotoView : SpringView {
     public var presentUIImagePickerProxy: SignalProducer<UIImagePickerController, NoError> {
         return _presentUIImagePickerProxy
     }
-    private let (_presentUIImagePickerProxy, _presentUIImagePickerSink) = SignalProducer<UIImagePickerController, NoError>.proxy()
+    private let (_presentUIImagePickerProxy, _presentUIImagePickerObserver) = SignalProducer<UIImagePickerController, NoError>.proxy()
     
     /// Dismiss UIImage Picker Controller
     public var dismissUIImagePickerProxy: SignalProducer<CompletionHandler?, NoError> {
         return _dismissUIImagePickerProxy
     }
-    private let (_dismissUIImagePickerProxy, _dismissUIImagePickerSink) = SignalProducer<CompletionHandler?, NoError>.proxy()
+    private let (_dismissUIImagePickerProxy, _dismissUIImagePickerObserver) = SignalProducer<CompletionHandler?, NoError>.proxy()
     
-    private let (_doneProxy, _doneSink) = SimpleProxy.proxy()
+    private let (_doneProxy, _doneObserver) = SimpleProxy.proxy()
     public var doneProxy: SimpleProxy {
         return _doneProxy
     }
@@ -56,65 +56,63 @@ public final class PhotoView : SpringView {
         
         // Button action
         let doneAction = Action<UIButton, Void, NSError> { [weak self] button in
-            return SignalProducer<Void, NSError> { sink, disposable in
+            return SignalProducer<Void, NSError> { observer, disposable in
                 
                 if let this = self, viewmodel = self?.viewmodel.value {
                     
                     // Update profile and show the HUD
                     disposable += viewmodel.areAllProfileInputsPresent.producer
                         // only valid input goes through
-                        |> filter { $0 }
+                        .filter { $0 }
                         // delay the signal due to the animation of retracting keyboard
                         // this cannot be executed on main thread, otherwise UI will be blocked
-                        |> ReactiveCocoa.delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                        .delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
                         // return the signal to main/ui thread in order to run UI related code
-                        |> observeOn(UIScheduler())
-                        |> flatMap(.Concat) { _ in
+                        .observeOn(UIScheduler())
+                        .flatMap(.Concat) { _ in
                             return HUD.show()
                         }
                         // map error to the same type as other signal
-                        |> promoteErrors(NSError)
+                        .promoteErrors(NSError)
                         // update profile
-                        |> flatMap(.Concat) { _ in
+                        .flatMap(.Concat) { _ -> SignalProducer<Bool, NSError> in
                             return viewmodel.updateProfile
                         }
                         // dismiss HUD based on the result of update profile signal
-                        |> HUD.dismissWithStatusMessage(errorHandler: { error -> String in
+                        .HUD.dismissWithStatusMessage(errorHandler: { error -> String in
                             AccountLogError(error.description)
                             return error.customErrorDescription
                         })
                         // does not `sendCompleted` because completion is handled when HUD is disappeared
-                        |> start(
-                            error: { error in
-                                sendError(sink, error)
-                            },
-                            interrupted: { _ in
-                                sendInterrupted(sink)
+                        .start { event in
+                            switch event {
+                            case .Failed(let error):
+                                observer.sendFailed(error)
+                            case .Interrupted:
+                                observer.sendInterrupted()
                             }
-                    )
+                        }
                     
                     // Subscribe to touch down inside event
                     disposable += HUD.didTouchDownInsideNotification()
-                        |> on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
-                        |> start(
-                            next: { _ in
-                                // dismiss HUD
-                                HUD.dismiss()
-                            }
-                    )
+                        .on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                        .startWithNext { _ in
+                            // dismiss HUD
+                            HUD.dismiss()
+                        }
                     
                     // Subscribe to disappear notification
                     disposable += HUD.didDissappearNotification()
-                        |> on(next: { _ in AccountLogVerbose("HUD disappeared.") })
-                        |> start(next: { status in
+                        .on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                        .startWithNext { status in
                             if status == HUD.DisappearStatus.Normal {
-                                proxyNext(this._doneSink, ())
+                                this._doneObserver.proxyNext(())
                             }
                             
                             // completes the action
-                            sendNext(sink, ())
-                            sendCompleted(sink)
-                        })
+                            observer.sendNext(())
+                            observer.sendCompleted()
+                        }
                     
                     // Add the signals to CompositeDisposable for automatic memory management
                     disposable.addDisposable {
@@ -148,19 +146,18 @@ public final class PhotoView : SpringView {
         tapGesture.numberOfTapsRequired = 1
         photoImageView.addGestureRecognizer(tapGesture)
         compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
-            |> takeUntilRemoveFromSuperview(self)
-            |> start(
-                next: { [weak self] _ in
-                    if let this = self {
-                        sendNext(this._presentUIImagePickerSink, this.imagePicker)
-                    }
+            .takeUntilRemoveFromSuperview(self)
+            .startWithNext { [weak self] _ in
+                if let this = self {
+                    this._presentUIImagePickerObserver.proxyNext(this.imagePicker)
                 }
-            )
+            }
+        
         
         /**
         Setup constraints
         */
-        let group = layout(self) { view in
+        constrain(self) { view in
             view.width == self.frame.width
             view.height == self.frame.height
         }
@@ -170,14 +167,14 @@ public final class PhotoView : SpringView {
         *  Setup view model
         */
         compositeDisposable += viewmodel.producer
-            |> ignoreNil
-            |> logLifeCycle(LogContext.Account, "viewmodel.producer")
-            |> start(next: { [weak self] viewmodel in
+            .ignoreNil()
+            .logLifeCycle(LogContext.Account, signalName: "viewmodel.producer")
+            .startWithNext { [weak self] viewmodel in
                 if let this = self {
                     this.photoImageView.rac_image <~ viewmodel.profileImage
                     this.doneButton.rac_enabled <~ viewmodel.isProfileImageValid
                 }
-            })
+            }
     }
     
     private func setupImageSelectedSignal() {
@@ -185,24 +182,18 @@ public final class PhotoView : SpringView {
         // Subscribe to image picker, the signal sends the dictionary with info for the selected image
         compositeDisposable += imagePicker.rac_imageSelectedSignal().toSignalProducer()
             // map to the edited image
-            |> map { ($0 as! [NSObject : AnyObject])[UIImagePickerControllerEditedImage] as? UIImage }
-            |> start(
-                // when an image is selected
-                next: { [weak self] image in
-                    self?.viewmodel.value?.profileImage.put(image)
+            .map { ($0 as! [NSObject : AnyObject])[UIImagePickerControllerEditedImage] as? UIImage }
+            .start { [weak self] event in
+                switch event {
+                case let .Next(image):
+                    self?.viewmodel.value?.profileImage.value = image
                     
-                    if let this = self {
-                        sendNext(this._dismissUIImagePickerSink, nil)
-                    }
-                },
-                // when cancel button is pressed
-                completed: { [weak self] in
+                    self?._dismissUIImagePickerObserver.sendNext(nil)
+                case .Completed:
                     // after dismissing the controller, has to rebind the signal because cancellation caused the signal to stop
-                    if let this = self {
-                        sendNext(this._dismissUIImagePickerSink, { self?.setupImageSelectedSignal() })
-                    }
+                    self?._dismissUIImagePickerObserver.sendNext({ self?.setupImageSelectedSignal() })
                 }
-        )
+                }
     }
     
     deinit {

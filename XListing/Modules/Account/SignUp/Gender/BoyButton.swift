@@ -20,9 +20,9 @@ public final class BoyButton : UIButton {
         self.tintColor = UIColor.whiteColor()
         
         let tapped = Action<UIButton, Void, NoError> { button in
-            return SignalProducer { sink, disposable in
+            return SignalProducer { observer, disposable in
                 self.tintColor = AssetsKit.maleIconFill
-                sendCompleted(sink)
+                observer.sendCompleted()
             }
         }
         

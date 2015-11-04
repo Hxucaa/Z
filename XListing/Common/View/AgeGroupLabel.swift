@@ -32,7 +32,7 @@ public final class AgeGroupLabel : TTTAttributedLabel {
         layer.shouldRasterize = true
     }
     
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     

@@ -57,7 +57,7 @@ public final class BusinessHourCell: UITableViewCell {
     
     
     // MARK: - Proxies
-    private let (_expandBusinessHoursProxy, _expandBusinessHoursSink) = SimpleProxy.proxy()
+    private let (_expandBusinessHoursProxy, _expandBusinessHoursObserver) = SimpleProxy.proxy()
     public var expandBusinessHoursProxy: SimpleProxy {
         return _expandBusinessHoursProxy
     }
@@ -76,11 +76,11 @@ public final class BusinessHourCell: UITableViewCell {
         layoutMargins = UIEdgeInsetsMake(10, 15, 10, 10)
         
         let expandHoursAction = Action<UITapGestureRecognizer, Void, NoError> { [weak self] gesture in
-            return SignalProducer { sink, disposable in
+            return SignalProducer { observer, disposable in
             if let this = self {
                 this.viewmodel.switchLabelState()
-                sendNext(this._expandBusinessHoursSink, ())
-                sendCompleted(sink)
+                sendNext(this._expandBusinessHoursObserver, ())
+                observer.sendCompleted()
                 }
             }
         }

@@ -33,11 +33,9 @@ public final class ProfileHeaderView: UIView {
         button.setImage(UIImage(named: ImageAssets.editIcon), forState: .Normal)
         
         let editAction = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                if let this = self {
-                    proxyNext(this._editSink, ())
-                }
-                sendCompleted(sink)
+            return SignalProducer { observer, disposable in
+                self?._editObserver.proxyNext(())
+                observer.sendCompleted()
             }
         }
         
@@ -100,7 +98,7 @@ public final class ProfileHeaderView: UIView {
     public var editProxy: SimpleProxy {
         return _editProxy
     }
-    private let (_editProxy, _editSink) = SimpleProxy.proxy()
+    private let (_editProxy, _editObserver) = SimpleProxy.proxy()
     
     
     // MARK: - Initializers
@@ -148,7 +146,7 @@ public final class ProfileHeaderView: UIView {
         
         constrain(nicknameLabel, ageGroupLabel, statusLabel) {
             align(leading: $0, $1, $2)
-            let superview = $0.superview!
+            
             $1.top == $0.bottom + 25
             $2.top == $1.bottom + 24
             
@@ -186,7 +184,7 @@ public final class ProfileHeaderView: UIView {
             .map { Optional.Some($0) }
 
         profileImageView.rac_image <~ self.viewModel.profileImage.producer
-            .ignoreNil
+            .ignoreNil()
             .map { $0.maskWithRoundedRect(ProfileImageSize, cornerRadius: max(ProfileImageSize.width, ProfileImageSize.height) / 2, borderWidth: 3, opaque: false) }
     }
 }

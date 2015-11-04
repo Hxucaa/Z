@@ -26,47 +26,47 @@ public final class UserService : IUserService {
     }
     
     public func isLoggedInAlready() -> SignalProducer<Bool, NSError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             if let currentUser = self.currentUser where currentUser.isAuthenticated() {
-                sendNext(sink, true)
-                sendCompleted(sink)
+                observer.sendNext(true)
+                observer.sendCompleted()
             }
             else {
-                sendNext(sink, false)
-                sendCompleted(sink)
+                observer.sendNext(false)
+                observer.sendCompleted()
             }
         }
     }
     
     public func currentLoggedInUser() -> SignalProducer<User, NSError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             if let currentUser = self.currentUser where currentUser.isAuthenticated() {
                 currentUser.fetchInBackgroundWithBlock { object, error -> Void in
                     if error == nil {
-                        sendNext(sink, object as! User)
-                        sendCompleted(sink)
+                        observer.sendNext(object as! User)
+                        observer.sendCompleted()
                     }
                     else {
-                        sendError(sink, error)
+                        sendError(observer, error)
                     }
                 }
             }
             else {
-                sendError(sink, NSError(domain: "UserService", code: 899, userInfo: nil))
+                sendError(observer, NSError(domain: "UserService", code: 899, userInfo: nil))
             }
         }
     }
     
     public func signUp<T: User>(user: T) -> SignalProducer<Bool, NSError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             LSLogDebug("User created: \(user.toString())")
             user.signUpInBackgroundWithBlock { success, error -> Void in
                 if error == nil {
-                    sendNext(sink, success)
-                    sendCompleted(sink)
+                    observer.sendNext(success)
+                    observer.sendCompleted()
                 }
                 else {
-                    sendError(sink, error)
+                    sendError(observer, error)
                 }
             }
         }
@@ -76,14 +76,14 @@ public final class UserService : IUserService {
     }
     
     public func logIn(username: String, password: String) -> SignalProducer<User, NSError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             User.logInWithUsernameInBackground(username, password: password) { user, error -> Void in
                 if error == nil {
-                    sendNext(sink, user as! User)
-                    sendCompleted(sink)
+                    observer.sendNext(user as! User)
+                    observer.sendCompleted()
                 }
                 else {
-                    sendError(sink, error)
+                    sendError(observer, error)
                 }
             }
         }
@@ -94,14 +94,14 @@ public final class UserService : IUserService {
     }
     
     public func save<T: User>(user: T) -> SignalProducer<Bool, NSError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             user.saveInBackgroundWithBlock { (success, error) -> Void in
                 if error == nil {
-                    sendNext(sink, success)
-                    sendCompleted(sink)
+                    observer.sendNext(success)
+                    observer.sendCompleted()
                 }
                 else {
-                    sendError(sink, error)
+                    sendError(observer, error)
                 }
             }
         }

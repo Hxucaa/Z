@@ -13,10 +13,10 @@ import AVOSCloud
 public protocol ISocialBusinessHeaderViewModel : class {
     
     // MARK: - Outputs
-    var coverImage: PropertyOf<UIImage?> { get }
-    var businessName: PropertyOf<String> { get }
-    var location: PropertyOf<String> { get }
-    var eta: PropertyOf<String?> { get }
+    var coverImage: AnyProperty<UIImage?> { get }
+    var businessName: AnyProperty<String> { get }
+    var location: AnyProperty<String> { get }
+    var eta: AnyProperty<String?> { get }
     
     // MARK: - Initializers
     init(geoLocationService: IGeoLocationService, imageService: IImageService, cover: ImageFile?, businessName: String?, city: String?, geolocation: Geolocation?)

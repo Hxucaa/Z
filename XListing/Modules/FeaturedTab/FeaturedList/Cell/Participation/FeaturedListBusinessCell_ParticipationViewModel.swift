@@ -17,13 +17,13 @@ public final class FeaturedListBusinessCell_ParticipationViewModel : IFeaturedLi
     private let _participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
     
     private let _participantViewModelArr: MutableProperty<[ParticipantViewModel]> = MutableProperty([ParticipantViewModel]())
-    public var participantViewModelArr: PropertyOf<[ParticipantViewModel]> {
-        return PropertyOf(_participantViewModelArr)
+    public var participantViewModelArr: AnyProperty<[ParticipantViewModel]> {
+        return AnyProperty(_participantViewModelArr)
     }
     
     private let _isButtonEnabled: MutableProperty<Bool> = MutableProperty(true)
-    public var isButtonEnabled: PropertyOf<Bool> {
-        return PropertyOf(_isButtonEnabled)
+    public var isButtonEnabled: AnyProperty<Bool> {
+        return AnyProperty(_isButtonEnabled)
     }
     
     // MARK: - Properties

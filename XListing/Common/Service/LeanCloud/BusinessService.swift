@@ -13,14 +13,14 @@ import AVOSCloud
 public final class BusinessService : IBusinessService {
     
     public func findBy(query: AVQuery) -> SignalProducer<[Business], NSError> {
-        return SignalProducer<[Business], NSError> { sink, disposable in
+        return SignalProducer<[Business], NSError> { observer, disposable in
             query.findObjectsInBackgroundWithBlock { (object, error) -> Void in
                 if error == nil {
-                    sendNext(sink, object as! [Business])
-                    sendCompleted(sink)
+                    observer.sendNext(object as! [Business])
+                    observer.sendCompleted()
                 }
                 else {
-                    sendError(sink, error)
+                    sendError(observer, error)
                 }
             }
         }
@@ -33,14 +33,14 @@ public final class BusinessService : IBusinessService {
         - returns: a Task containing the result DAO in optional.
     */
     public func getFirst(var query: AVQuery) -> SignalProducer<Business, NSError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { observer, disposable in
             query.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
                 if error == nil {
-                    sendNext(sink, object as! Business)
-                    sendCompleted(sink)
+                    observer.sendNext(object as! Business)
+                    observer.sendCompleted()
                 }
                 else {
-                    sendError(sink, error)
+                    sendError(observer, error)
                 }
             }
         }

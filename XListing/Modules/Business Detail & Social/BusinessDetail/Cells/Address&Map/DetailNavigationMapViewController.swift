@@ -35,11 +35,11 @@ public final class DetailNavigationMapViewController: XUIViewController {
         var attributedString = NSAttributedString(string: Icons.Chevron + " 返回", attributes: attributes)
         button.setAttributedTitle(attributedString, forState: UIControlState.Normal)
         
-        let goBack = Action<UIButton, Void, NoError> { button in
-            return SignalProducer { sink ,disposable in
-                sendNext(self._goBackSink, nil)
+        let goBack = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { observer ,disposable in
+                self?._goBackObserver.sendNext(nil)
                 
-                sendCompleted(sink)
+                observer.sendCompleted()
             }
         }
         
@@ -55,21 +55,21 @@ public final class DetailNavigationMapViewController: XUIViewController {
         button.setAttributedTitle(attributedString, forState: UIControlState.Normal)
         
         let openMaps = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
+            return SignalProducer { observer, disposable in
                 if let this = self {
                     disposable += combineLatest(
-                        this.viewmodel.annotation.producer .ignoreNil,
-                        this.viewmodel.region.producer .ignoreNil
+                        this.viewmodel.annotation.producer.ignoreNil(),
+                        this.viewmodel.region.producer.ignoreNil()
                         )
-                        .start(next: { annotation, region in
+                        .startWithNext { annotation, region in
                             let placemark = MKPlacemark(coordinate: region.center, addressDictionary: nil)
                             let mapItem = MKMapItem(placemark: placemark)
                             mapItem.name = annotation.title
                             
                             MKMapItem.openMapsWithItems([MKMapItem.mapItemForCurrentLocation(), mapItem], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
                             
-                            sendCompleted(sink)
-                        })
+                            observer.sendCompleted()
+                        }
                 }
             }
         }
@@ -86,7 +86,7 @@ public final class DetailNavigationMapViewController: XUIViewController {
     }()
 
     // MARK: - Proxies
-    private let (_goBackProxy, _goBackSink) = SignalProducer<CompletionHandler?, NoError>.buffer(1)
+    private let (_goBackProxy, _goBackObserver) = SignalProducer<CompletionHandler?, NoError>.buffer(1)
     public var goBackProxy: SignalProducer<CompletionHandler?, NoError> {
         return _goBackProxy
     }
@@ -141,30 +141,25 @@ public final class DetailNavigationMapViewController: XUIViewController {
         self.viewmodel = viewmodel
         
         compositeDisposable += self.viewmodel.annotation.producer
-            .takeUntil(
-                rac_signalForSelector(Selector("viewDidDisappear:")).toSignalProducer()
-                    .toNihil
-            )
-            .start(next: { [weak self] annotation in
+            .takeUntilViewWillDisappear(self)
+            .ignoreNil()
+            .startWithNext { [weak self] annotation in
                 self?.mapView.addAnnotation(annotation)
-            })
+            }
         
         compositeDisposable += self.viewmodel.region.producer
-            .takeUntil(
-                rac_signalForSelector(Selector("viewDidDisappear:")).toSignalProducer()
-                    .toNihil
-            )
-            .ignoreNil
-            .start(next: { [weak self] region in
+            .takeUntilViewWillDisappear(self)
+            .ignoreNil()
+            .startWithNext { [weak self] region in
                 self?.mapView.setRegion(region, animated: false)
-            })
+            }
     }
 }
 
 extension DetailNavigationMapViewController : MKMapViewDelegate {
     
     // Display the custom map pin
-    public func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
+    public func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if (annotation is MKUserLocation) {
             //if annotation is not an MKPointAnnotation (eg. MKUserLocation),
             //return nil so map draws default view for it (eg. blue dot)...

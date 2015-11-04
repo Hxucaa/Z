@@ -43,13 +43,11 @@ public final class GenderPickerView : SpringView {
         _continueButton.setTitle("继 续", forState: .Normal)
         
         let continueAction = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                if let this = self {
-                    proxyNext(this._continueSink, ())
-                    sendCompleted(sink)
-                }
+            return SignalProducer { observer, disposable in
+                self?._continueSink.proxyNext(())
+                observer.sendCompleted()
             }
-            |> logLifeCycle(LogContext.Account, "continueButton Continue Action")
+            .logLifeCycle(LogContext.Account, signalName: "continueButton Continue Action")
         }
         
         continueButton.addTarget(continueAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
@@ -57,7 +55,7 @@ public final class GenderPickerView : SpringView {
         /**
         Setup constraints
         */
-        let group = layout(self) { view in
+        constrain(self) { view in
             view.width == self.frame.width
             view.height == self.frame.height
         }
@@ -66,11 +64,11 @@ public final class GenderPickerView : SpringView {
         *  Setup boy button
         */
         let boy = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                self?.viewmodel.value?.gender.put(Gender.Male)
+            return SignalProducer { observer, disposable in
+                self?.viewmodel.value?.gender.value = Gender.Male
                 self?.girlButton.tintColor = UIColor.whiteColor()
                 self?.girlButton.selected = false
-                sendCompleted(sink)
+                observer.sendCompleted()
             }
         }
         boyButton.addTarget(boy.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
@@ -80,11 +78,11 @@ public final class GenderPickerView : SpringView {
         *  Setup girl button
         */
         let girl = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                self?.viewmodel.value?.gender.put(Gender.Female)
+            return SignalProducer { observer, disposable in
+                self?.viewmodel.value?.gender.value = Gender.Female
                 self?.boyButton.tintColor = UIColor.whiteColor()
                 self?.boyButton.selected = false
-                sendCompleted(sink)
+                observer.sendCompleted()
             }
         }
         girlButton.addTarget(girl.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
@@ -93,14 +91,14 @@ public final class GenderPickerView : SpringView {
         *  Setup view model
         */
         compositeDisposable += viewmodel.producer
-            |> takeUntilRemoveFromSuperview(self)
-            |> logLifeCycle(LogContext.Account, "viewmodel.producer")
-            |> ignoreNil
-            |> start(next: { [weak self] viewmodel in
+            .takeUntilRemoveFromSuperview(self)
+            .logLifeCycle(LogContext.Account, signalName: "viewmodel.producer")
+            .ignoreNil()
+            .startWithNext { [weak self] viewmodel in
                 if let this = self {
                     this._continueButton.rac_enabled <~ viewmodel.isGenderValid
                 }
-            })
+            }
     }
     
     

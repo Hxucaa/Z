@@ -18,7 +18,7 @@ internal final class Logger {
         configAppleSystemLogger(aslFormatter)
     }
     
-    private class func configConsoleLogger(_ formatter: ConsoleFormatter? = nil) {
+    private class func configConsoleLogger(formatter: ConsoleFormatter? = nil) {
         let pink = UIColor(red: 255.0/255.0, green: 58.0/255.0, blue: 159.0/255.0, alpha: 1.0)
         let blue = UIColor(red: 135.0/255.0, green: 206.0/255.0, blue: 250.0/255.0, alpha: 1.0)
         
@@ -39,7 +39,7 @@ internal final class Logger {
         DDLog.addLogger(logger, withLevel: DDLogLevel.Verbose)
     }
     
-    private class func configAppleSystemLogger(_ formatter: ASLFormatter? = nil) {
+    private class func configAppleSystemLogger(formatter: ASLFormatter? = nil) {
         let logger = DDASLLogger.sharedInstance()
         if let formatter = formatter {
             logger.logFormatter = formatter
@@ -48,7 +48,7 @@ internal final class Logger {
         DDLog.addLogger(logger, withLevel: DDLogLevel.Info)
     }
     
-    private class func configFileLogger(_ formatter: ConsoleFormatter? = nil) {
+    private class func configFileLogger(formatter: ConsoleFormatter? = nil) {
         
         let fileLogger = DDFileLogger()
         fileLogger.rollingFrequency = 60 * 60 * 24 // 24 hour rolling

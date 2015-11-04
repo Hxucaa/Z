@@ -26,12 +26,12 @@ public final class DetailMapTableViewCell: UITableViewCell {
         
         // Action
         let pushNavMap = Action<UITapGestureRecognizer, Void, NoError> { [weak self] gesture in
-            return SignalProducer { sink, disposable in
+            return SignalProducer { observer, disposable in
                 if let this = self {
                     
-                    sendNext(this._navigationMapSink, ())
+                    self?._navigationMapObserver.proxyNext(())
                     
-                    sendCompleted(sink)
+                    observer.sendCompleted()
                 }
             }
         }
@@ -43,7 +43,7 @@ public final class DetailMapTableViewCell: UITableViewCell {
     }()
     
     // MARK: - Proxies
-    private let (_navigationMapProxy, _navigationMapSink) = SimpleProxy.proxy()
+    private let (_navigationMapProxy, _navigationMapObserver) = SimpleProxy.proxy()
     public var navigationMapProxy: SimpleProxy {
         return _navigationMapProxy
     }
@@ -88,21 +88,22 @@ public final class DetailMapTableViewCell: UITableViewCell {
         
         compositeDisposable += self.viewmodel.annotation.producer
             .takeUntilPrepareForReuse(self)
-            .start(next: { [weak self] annotation in
+            .ignoreNil()
+            .startWithNext { [weak self] annotation in
                 self?.mapView.addAnnotation(annotation)
-            })
+            }
         
         compositeDisposable += self.viewmodel.cellMapRegion.producer
             .takeUntilPrepareForReuse(self)
-            .ignoreNil
-            .start(next: { [weak self] region in
+            .ignoreNil()
+            .startWithNext { [weak self] region in
                 self?.mapView.setRegion(region, animated: false)
-            })
+            }
     }
 }
 
 extension DetailMapTableViewCell : MKMapViewDelegate {
-    public func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
+    public func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if (annotation is MKUserLocation) {
             //if annotation is not an MKPointAnnotation (eg. MKUserLocation),
             //return nil so map draws default view for it (eg. blue dot)...
