@@ -17,12 +17,12 @@ private let ProfileImageSize = CGSizeMake(83, 83)
 public final class ProfileHeaderView: UIView {
     
     // MARK: - UI Controls
-    private lazy var backgroundImageView: UIImageView = {
+    private lazy var backgroundImageView: UIView = {
         let imageView = UIImageView(image: UIImage(named: ImageAssets.profileHeaderBackground))
         imageView.userInteractionEnabled = true
         imageView.backgroundColor = .whiteColor()
         imageView.opaque = true
-        
+
         return imageView
     }()
     
@@ -53,11 +53,20 @@ public final class ProfileHeaderView: UIView {
     }()
     
     private lazy var nicknameLabel: TTTAttributedLabel = {
-        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 80, 30))
+        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 80, 40))
         label.opaque = false
         label.backgroundColor = .clearColor()
         label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        label.font = UIFont.systemFontOfSize(24)
         label.textColor = UIColor.whiteColor()
+        
+        label.layer.masksToBounds = false
+        label.layer.shouldRasterize = true
+        
+        label.layer.shadowRadius = 3.0
+        label.layer.shadowOpacity = 0.7
+        label.layer.shadowOffset = CGSize.zero
+        label.layer.shadowColor = UIColor.grayColor().CGColor
         
         return label
     }()
@@ -74,10 +83,11 @@ public final class ProfileHeaderView: UIView {
     
     private lazy var ageGroupLabel: AgeGroupLabel = {
         
-        let label = AgeGroupLabel(frame: CGRectMake(0, 0, 50, 22))
-        label.font = UIFont(name: Fonts.FontAwesome, size: 14)
+        let label = AgeGroupLabel(frame: CGRectMake(0, 0, 50, 17))
+        label.font = UIFont(name: Fonts.FontAwesome, size: 12)
+        label.textInsets = UIEdgeInsets(top: 3, left: 8, bottom: 3, right: 8)
         return label
-    }()
+        }()
     
     private lazy var statusLabel: TTTAttributedLabel = {
         
@@ -87,6 +97,14 @@ public final class ProfileHeaderView: UIView {
         label.textColor = UIColor.whiteColor()
         label.font = UIFont.systemFontOfSize(15)
 //        label.numberOfLines = 2
+        
+        label.layer.masksToBounds = false
+        label.layer.shouldRasterize = true
+        
+        label.layer.shadowRadius = 3.0
+        label.layer.shadowOpacity = 0.7
+        label.layer.shadowOffset = CGSize.zero
+        label.layer.shadowColor = UIColor.grayColor().CGColor
         
         return label
     }()
@@ -106,7 +124,6 @@ public final class ProfileHeaderView: UIView {
         super.init(frame: frame)
         
         addSubview(backgroundImageView)
-        backgroundImageView.addSubview(editButton)
         backgroundImageView.addSubview(profileImageView)
         backgroundImageView.addSubview(nicknameLabel)
         backgroundImageView.addSubview(ageGroupLabel)
@@ -120,24 +137,17 @@ public final class ProfileHeaderView: UIView {
             $0.bottom == $0.superview!.bottom
         }
         
-        constrain(editButton) {
-            $0.width == 26
-            $0.height == 30
-            $0.trailing == $0.superview!.trailingMargin
-            $0.top == $0.superview!.top + 25
-        }
-        
         constrain(profileImageView) {
             let superview = $0.superview!
             $0.leading == superview.leading + 40
-            $0.centerY == superview.centerY + 15
+            $0.centerY == superview.centerY + 5
             $0.width == superview.height * 0.50
             $0.height == $0.width
         }
         
         constrain(profileImageView, nicknameLabel) { image, label in
             label.leading == image.trailing + 35
-            label.top == image.top - 10
+            label.top == image.top
         }
         
         constrain(nicknameLabel) {
@@ -149,7 +159,11 @@ public final class ProfileHeaderView: UIView {
             
             $1.top == $0.bottom + 25
             $2.top == $1.bottom + 24
-            
+            $2.top == $1.bottom + 8
+        }
+        
+        constrain(profileImageView, statusLabel) { image, label in
+            label.bottom == image.bottom
         }
         
         constrain(statusLabel) {

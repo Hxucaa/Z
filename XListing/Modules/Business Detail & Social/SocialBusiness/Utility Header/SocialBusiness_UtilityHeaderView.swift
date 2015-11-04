@@ -23,8 +23,9 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
         button.titleLabel?.backgroundColor = .whiteColor()
         button.titleLabel?.layer.masksToBounds = true
         button.titleLabel?.font = UIFont.boldSystemFontOfSize(18)
-        button.setTitle("详细信息", forState: .Normal)
+        button.setTitle("  详细信息", forState: .Normal)
         button.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        button.contentHorizontalAlignment = .Left
         button.backgroundColor = .whiteColor()
         button.layer.cornerRadius = 5
         
@@ -94,26 +95,34 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
     
     // set the button style to have a grey background and an x icon
     public func setDetailInfoButtonStyleSelected() {
-        detailInfoButton.backgroundColor = UIColor.grayColor()
-        detailInfoButton.titleLabel?.backgroundColor = UIColor.grayColor()
-        detailInfoButton.titleLabel?.textColor = UIColor.whiteColor()
+
+
         let xAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 18)!]
         let xAttributedString = NSAttributedString(string: Icons.X, attributes: xAttributes)
         let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.boldSystemFontOfSize(18)]
-        let attributedString = NSMutableAttributedString(string: "详细信息 ", attributes: attributes)
+        let attributedString = NSMutableAttributedString(string: "  详细信息 ", attributes: attributes)
         attributedString.appendAttributedString(xAttributedString)
         detailInfoButton.setAttributedTitle(attributedString, forState: UIControlState.Normal)
+        detailInfoButton.backgroundColor = UIColor.grayColor()
+        detailInfoButton.titleLabel?.backgroundColor = UIColor.grayColor()
+        detailInfoButton.titleLabel?.textColor = UIColor.whiteColor()
         
     }
     
     // restore the button style to default white background and no x
     public func setDetailInfoButtonStyleRegular() {
+
+        let attributes = [NSForegroundColorAttributeName: UIColor.blackColor(), NSFontAttributeName: UIFont.boldSystemFontOfSize(18)]
+        let attributedString = NSMutableAttributedString(string: "  详细信息", attributes: attributes)
+        detailInfoButton.setAttributedTitle(attributedString, forState: .Normal)
         detailInfoButton.backgroundColor = UIColor.whiteColor()
         detailInfoButton.titleLabel?.backgroundColor = UIColor.whiteColor()
         detailInfoButton.titleLabel?.textColor = UIColor.blackColor()
-        let attributes = [NSForegroundColorAttributeName: UIColor.blackColor(), NSFontAttributeName: UIFont.boldSystemFontOfSize(18)]
-        let attributedString = NSMutableAttributedString(string: "详细信息", attributes: attributes)
-        detailInfoButton.setAttributedTitle(attributedString, forState: .Normal)
+    }
+    
+    // hide the detail info button - used on the public profile
+    public func hideDetailInfoButton() {
+        detailInfoButton.hidden = true
     }
     
     public required init?(coder aDecoder: NSCoder) {

@@ -19,6 +19,24 @@ public final class ProfileViewController : XUIViewController {
     private let upperViewController = ProfileUpperViewController()
     private let bottomViewController = ProfileBottomViewController()
     
+    private lazy var editButton: UIButton = {
+        let button = UIButton(frame: CGRectMake(345, 27, 26, 30))
+        button.userInteractionEnabled = true
+        button.contentEdgeInsets = UIEdgeInsets(top: 3, left: 2, bottom: 3, right: 2)
+        button.setImage(UIImage(named: ImageAssets.editIcon), forState: .Normal)
+        
+        let editAction = Action<UIButton, Void, NoError> { [weak self] button in
+            return SignalProducer { observer, disposable in
+                self?.viewmodel.presentProfileEditModule(true, completion: nil)
+                observer.sendCompleted()
+            }
+        }
+        
+        button.addTarget(editAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        
+        return button
+        }()
+    
     
     // MARK: - Properties
     private var viewmodel: IProfileViewModel! {
@@ -44,14 +62,12 @@ public final class ProfileViewController : XUIViewController {
         view.opaque = true
         view.backgroundColor = UIColor.grayColor()
         
-        navigationController?.navigationBarHidden = true
-        navigationItem.title = "个人"
-        
         addChildViewController(upperViewController)
         addChildViewController(bottomViewController)
         
         view.addSubview(upperViewController.view)
         view.addSubview(bottomViewController.view)
+        view.addSubview(editButton)
         
         upperViewController.didMoveToParentViewController(self)
         bottomViewController.didMoveToParentViewController(self)
@@ -68,6 +84,13 @@ public final class ProfileViewController : XUIViewController {
             $1.top == $0.bottom
             $1.trailing == $1.superview!.trailing
             $1.bottom == $1.superview!.bottom
+        }
+        
+        constrain(editButton) {
+            $0.width == 26
+            $0.height == 30
+            $0.trailing == $0.superview!.trailingMargin
+            $0.top == $0.superview!.top + 25
         }
     }
     
@@ -96,7 +119,6 @@ public final class ProfileViewController : XUIViewController {
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     public override func didReceiveMemoryWarning() {

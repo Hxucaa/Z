@@ -19,7 +19,7 @@ public final class FullScreenImageWireframe : IFullScreenImageWireframe {
     
     private func injectViewModelToViewController() -> FullScreenImageViewController {
         let viewController = FullScreenImageViewController()
-        let viewmodel = FullScreenImageViewModel(imageService: imageService)
+        _ = FullScreenImageViewModel(imageService: imageService)
         
         return viewController
     }

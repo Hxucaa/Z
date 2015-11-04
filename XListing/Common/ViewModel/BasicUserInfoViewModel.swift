@@ -76,7 +76,7 @@ public class BasicUserInfoViewModel : IBasicUserInfoViewModel {
         if let status = status {
             _status = MutableProperty(status)
         } else {
-            _status = MutableProperty("")
+            _status = MutableProperty("哈哈哈哈哈哈哈！")
         }
         
         _gender = MutableProperty(gender.description)
@@ -86,7 +86,7 @@ public class BasicUserInfoViewModel : IBasicUserInfoViewModel {
             _ageGroupBackgroundColor = ConstantProperty(.x_FemaleAgeGroupBG())
             _ageGroup.value = Icons.Female + " " + _ageGroup.value
         case .Male:
-            _ageGroupBackgroundColor = ConstantProperty(.blueColor())
+            _ageGroupBackgroundColor = ConstantProperty(.x_MaleAgeGroupBG())
             _ageGroup.value = Icons.Male + " " + _ageGroup.value
         }
         

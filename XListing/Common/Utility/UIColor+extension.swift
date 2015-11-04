@@ -57,8 +57,20 @@ extension UIColor {
         return UIColor(red: 212.0/255.0, green: 212.0/255.0, blue: 215.0/255.0, alpha: 1.0)
     }
     
+    internal class func x_ProfileTableBG() -> UIColor {
+        return UIColor(red: 249.0/255.0, green: 249.0/255.0, blue: 249.0/255.0, alpha: 1.0)
+    }
+    
+    internal class func x_TableSeparatorColor() -> UIColor{
+        return UIColor(red: 236.0/255.0, green: 236.0/255.0, blue: 236.0/255.0,
+            alpha: 1.0)
+    }
     internal class func x_FemaleAgeGroupBG() -> UIColor {
         return UIColor(red: 223.0/255, green: 68.0/255.0, blue: 154.0/255.0, alpha: 1.0)
+    }
+    
+    internal class func x_MaleAgeGroupBG() -> UIColor {
+        return UIColor(red: 74.0/255, green: 144.0/255.0, blue: 226.0/255.0, alpha: 1.0)
     }
     
 }

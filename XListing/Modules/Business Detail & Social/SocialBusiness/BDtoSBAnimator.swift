@@ -45,7 +45,7 @@ public final class BDtoSBAnimator : NSObject, UIViewControllerAnimatedTransition
         let headerView = SocialBusinessHeaderView(frame: self.headerView.frame)
         headerView.bindToViewModel(self.headerViewModel)
         let utilityHeaderView = SocialBusiness_UtilityHeaderView(frame: self.utilityHeaderView.frame)
-        
+        utilityHeaderView.setDetailInfoButtonStyleSelected()
         let headerDestinationPoint = toViewController.getHeaderDestinationPoint()
         
         containerView.opaque = true
@@ -72,6 +72,7 @@ public final class BDtoSBAnimator : NSObject, UIViewControllerAnimatedTransition
                     animations: {
                         fromView.alpha = 0
                     }) { finished in
+                        utilityHeaderView.setDetailInfoButtonStyleRegular()
                         done()
                 }
             },
@@ -83,14 +84,16 @@ public final class BDtoSBAnimator : NSObject, UIViewControllerAnimatedTransition
                     animations: {
                         toViewController.navigationController?.navigationBarHidden = true
                         headerView.frame.origin = CGPoint(x:0, y:headerDestinationPoint.y)
-                        utilityHeaderView.setDetailInfoButtonStyleRegular()
+                        
                         if -headerDestinationPoint.y > headerView.frame.height {
                             utilityHeaderView.frame.origin = CGPoint(x:0, y:0)
                         } else {
                             utilityHeaderView.frame.origin = CGPoint(x:0, y:headerDestinationPoint.y+headerView.frame.height)
                         }
                         self.tableView.frame.origin = CGPoint(x:0, y:CGFloat(ScreenHeight))
+                        
                     }) { finished in
+                        
                         done()
                 }
             },

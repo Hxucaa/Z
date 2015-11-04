@@ -20,82 +20,45 @@ public final class ParticipationListCellViewModel : IParticipationListCellViewMo
         return AnyProperty(_coverImage)
     }
     
-    private let _businessName: ConstantProperty<String>
-    public var businessName: AnyProperty<String> {
-        return AnyProperty(_businessName)
-    }
-    
-    private let _city: ConstantProperty<String>
-    public var city: AnyProperty<String> {
-        return AnyProperty(_city)
-    }
-    
-    private let _district: ConstantProperty<String>
-    
-    private let _participation: MutableProperty<String>
-    public var participation: AnyProperty<String> {
-        return AnyProperty(_participation)
-    }
-    
-    private let _eta: MutableProperty<String?> = MutableProperty(nil)
-    public var eta: AnyProperty<String?> {
-        return AnyProperty(_eta)
-    }
-    
     // MARK: - Properties
-    
-    // MARK: Services
+    private let userService: IUserService
     private let geoLocationService: IGeoLocationService
     private let imageService: IImageService
+    private let participationService: IParticipationService
+    private let business: Business
     
-    public init(geoLocationService: IGeoLocationService, imageService: IImageService, businessName: String?, city: String?, district: String?, cover: ImageFile?, geolocation: Geolocation?, aaCount: Int, treatCount: Int, toGoCount: Int) {
+    // MARK: ViewModels
+    public let infoPanelViewModel: ProfileTabInfoPanelViewModel
+    public let statusButtonViewModel: ProfileTabStatusButtonViewModel
+    
+    // MARK: - Initializers
+    public init(userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService, participationService: IParticipationService, cover: ImageFile?, geolocation: Geolocation?, business: Business?, type: ParticipationType?) {
+        
+        self.userService = userService
         self.geoLocationService = geoLocationService
         self.imageService = imageService
+        self.participationService = participationService
+        self.business = business!
         
-        if let businessName = businessName {
-            self._businessName = ConstantProperty(businessName)
-        } else {
-            self._businessName = ConstantProperty("")
-        }
-        if let city = city {
-            self._city = ConstantProperty(city)
-        } else {
-            self._city = ConstantProperty("")
-        }
-        if let district = district {
-            self._district = ConstantProperty(district)
-        } else {
-            self._district = ConstantProperty("")
-        }
         
-        _participation = MutableProperty("\(aaCount + treatCount + toGoCount)+ 人想去")
-        
-        if let geolocation = geolocation {
-            setupEta(geolocation.cllocation)
-        }
-        
-        if let url = cover?.url, nsurl = NSURL(string: url) {
-            imageService.getImage(nsurl)
-                .startWithNext {
-                    self._coverImage.value = $0
-                }
-        }
+        infoPanelViewModel = ProfileTabInfoPanelViewModel(geoLocationService: geoLocationService, businessName: business?.nameSChinese, city: business?.city, district: business?.district, price: business?.price, geolocation: geolocation)
+        statusButtonViewModel = ProfileTabStatusButtonViewModel(type: type)
     }
-    
-    // MARK: - Setups
     
     // MARK: - Others
-    private func setupEta(destination: CLLocation) {
-        self.geoLocationService.calculateETA(destination)
-            .start { event in
-                switch event {
-                case .Next(let interval):
-                    let minute = Int(ceil(interval / 60))
-                    self._eta.value = " \(CITY_DISTANCE_SEPARATOR) 开车\(minute)分钟"
-                case .Failed(let error):
-                    ProfileLogError(error.description)
-                default: break
-                }
-            }
+    
+    public func getCoverImage() -> SignalProducer<Void, NSError> {
+        if let url = business.cover_?.url, nsurl = NSURL(string: url) {
+            return imageService.getImage(nsurl)
+                .on(next: {
+                    self._coverImage.value = $0
+                })
+                .map { _ in return }
+        }
+        else {
+            return SignalProducer<Void, NSError>.empty
+        }
     }
+    
+    
 }

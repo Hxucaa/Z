@@ -12,10 +12,8 @@ import ReactiveCocoa
 public protocol IParticipationListCellViewModel : class {
     
     // MARK: - Outputs
-    
     var coverImage: AnyProperty<UIImage?> { get }
-    var businessName: AnyProperty<String> { get }
-    var city: AnyProperty<String> { get }
-    var participation: AnyProperty<String> { get }
-    var eta: AnyProperty<String?> { get }
+    var infoPanelViewModel: ProfileTabInfoPanelViewModel { get }
+    var statusButtonViewModel: ProfileTabStatusButtonViewModel { get }
+    func getCoverImage() -> SignalProducer<Void, NSError>
 }

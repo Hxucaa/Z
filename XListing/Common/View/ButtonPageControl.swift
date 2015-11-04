@@ -35,13 +35,11 @@ public class ButtonPageControl : UIView {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setup()
     }
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
         setup()
     }
     
@@ -49,7 +47,6 @@ public class ButtonPageControl : UIView {
     
     private func setup() {
         addSubview(buttonContainer)
-        
         constrain(buttonContainer) { view in
             view.leading == view.superview!.leading
             view.top == view.superview!.top

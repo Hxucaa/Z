@@ -90,7 +90,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
         let navigationBar = UINavigationBar(frame: CGRectMake(0, 0, self.view.frame.size.width, 64)) // Offset by 20 pixels vertically to take the status bar into account
         
         navigationBar.backgroundColor = UIColor.clearColor()
-        navigationBar.barTintColor = UIColor(red: 87/255.0, green: 202/255.0, blue: 197/255.0, alpha: 1.0)
+        navigationBar.barTintColor = UIColor.x_PrimaryColor()
         navigationBar.tintColor = UIColor.whiteColor()
         navigationBar.delegate = self;
         navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]

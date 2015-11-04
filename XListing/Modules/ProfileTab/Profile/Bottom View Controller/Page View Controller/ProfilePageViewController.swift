@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 import ReactiveCocoa
-import AVOSCloud
 import Dollar
 import Cartography
+
 
 public final class ProfilePageViewController : UIPageViewController {
     
@@ -42,8 +42,6 @@ public final class ProfilePageViewController : UIPageViewController {
         }
     }
     
-    private var shouldDisplayCollection = false
-    
     // MARK: - Proxies
     private let (_fullImageProxy, _fullImageObserver) = SimpleProxy.proxy()
     public var fullImageProxy: SimpleProxy {
@@ -59,17 +57,12 @@ public final class ProfilePageViewController : UIPageViewController {
         view.opaque = true
         view.backgroundColor = UIColor.whiteColor()
         
+        displayParticipationListPage()
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        
-        if (shouldDisplayCollection) {
-            displayPhotosManagerPage(true, completion: nil)
-        } else {
-            displayParticipationListPage(true, completion: nil)
-        }
 
         photoManagerViewController.fullImageProxy
             // forwards events from producer until the view controller is going to disappear

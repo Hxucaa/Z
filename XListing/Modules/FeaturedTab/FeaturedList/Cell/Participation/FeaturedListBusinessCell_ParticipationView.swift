@@ -233,7 +233,6 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
             .start { [weak self] event in
                 switch event {
                 case .Next(let participants):
-                    
                     if let this = self {
                         
                         // iterate through previewImageViews
