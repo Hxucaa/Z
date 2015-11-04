@@ -9,12 +9,6 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol IFeaturedListBusinessCell_InfoPanelViewModel : class {
-    var businessName: PropertyOf<String> { get }
-    var city: PropertyOf<String> { get }
-    var eta: PropertyOf<String?> { get }
-    var price: PropertyOf<Int?> { get }
-    var district: PropertyOf<String> { get }
-    
-    init(geoLocationService: IGeoLocationService, businessName: String?, city: String?, district: String?, price: Int?, geolocation: Geolocation?)
+public protocol IFeaturedListBusinessCell_InfoPanelViewModel : IBasicBusinessInfoViewModel {
+
 }

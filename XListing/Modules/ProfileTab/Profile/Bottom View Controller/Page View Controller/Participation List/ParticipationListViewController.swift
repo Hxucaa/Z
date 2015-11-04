@@ -14,6 +14,8 @@ import Dollar
 import Cartography
 
 private let BusinessCellIdentifier = "BusinessCell"
+private let CellRowHeight = round(UIScreen.mainScreen().bounds.width * 0.23)
+
 
 public final class ParticipationListViewController : UIViewController {
     
@@ -22,18 +24,20 @@ public final class ParticipationListViewController : UIViewController {
     private lazy var tableView: UITableView = {
         let frameSize = self.view.frame.size
         let view = UITableView(frame: CGRectMake(0, 0, frameSize.width, frameSize.height))
-        view.registerNib(UINib(nibName: "ParticipationListViewCell", bundle: nil), forCellReuseIdentifier: BusinessCellIdentifier)
-        view.separatorStyle = .None
-        view.rowHeight = 90
+        
+        view.separatorStyle = .SingleLine
+        view.separatorColor = UIColor.x_TableSeparatorColor()
+        view.rowHeight = CellRowHeight
         view.dataSource = self
+        view.backgroundColor = .x_ProfileTableBG()
         
         return view
     }()
     
-    private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, ParticipationListViewModel>!
     
     // MARK: - Properties
     private var viewmodel: IParticipationListViewModel!
+    private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, ParticipationListViewModel>!
     
     // MARK: - Initializers
     
@@ -42,13 +46,16 @@ public final class ParticipationListViewController : UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .x_ProfileTableBG()
         view.addSubview(tableView)
+        
+        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! ParticipationListViewModel)
         
         constrain(tableView) {
             $0.leading == $0.superview!.leading
             $0.top == $0.superview!.top
-            $0.trailing == $0.superview!.trailing
             $0.bottom == $0.superview!.bottom
+            $0.trailing == $0.superview!.trailing
         }
     }
     
@@ -56,12 +63,8 @@ public final class ParticipationListViewController : UIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        
-        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! ParticipationListViewModel)
-        
-        
-//        viewmodel.fetchMoreData()
-//            |> start()
+        viewmodel.refreshData()
+            |> start()
         
         singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
             |> takeUntilViewWillDisappear(self)
@@ -131,9 +134,9 @@ extension ParticipationListViewController : UITableViewDataSource, UITableViewDe
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var businessCell = tableView.dequeueReusableCellWithIdentifier(BusinessCellIdentifier, forIndexPath: indexPath) as! ParticipationListViewCell
-        businessCell.bindToViewModel(viewmodel.collectionDataSource.array[indexPath.row])
+        let businessCell = tableView.dequeueReusableCellWithIdentifier(BusinessCellIdentifier) as? ParticipationListViewCell ?? ParticipationListViewCell(estimatedFrame: CGRectMake(0, 0, view.frame.size.width, CellRowHeight), style: UITableViewCellStyle.Default, reuseIdentifier: BusinessCellIdentifier)
         
+        businessCell.bindToViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return businessCell
         
     }

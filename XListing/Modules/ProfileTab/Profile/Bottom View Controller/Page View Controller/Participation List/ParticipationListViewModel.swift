@@ -30,9 +30,11 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
     private let imageService: IImageService
     
     // MARK: Variables
-    private let participationArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
-    private let businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
-    
+    private var participationArr = [Participation]()
+    private var businessArr = [Business]()
+    private var numberOfParticipationsLoaded = 0
+    private let 启动无限scrolling参数 = 0.4
+
     // MARK: - Initializers
     public init(participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService) {
         
@@ -47,63 +49,113 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
     // MARK: - API
     
     public func fetchMoreData() -> SignalProducer<Void, NSError> {
-        return undefined()
+        return userService.currentLoggedInUser()
+            |> on(next: {user in
+                self.getParticipations(user, refresh: false)
+                    |> start()
+            })
+            |> map{ _ in }
     }
     
     public func refreshData() -> SignalProducer<Void, NSError> {
-        return undefined()
+        return userService.currentLoggedInUser()
+            |> on(next: {user in
+                self.getParticipations(user, refresh: true)
+                |> start()
+            })
+            |> map{ _ in }
     }
     
     public func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
-        return undefined()
+        // if there are still plenty of data for display, don't fetch more businesses
+        if Double(targetContentIndex) < Double(collectionDataSource.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数) {
+            return SignalProducer<Void, NSError>.empty
+        }
+            // else fetch more data
+        else {
+            return userService.currentLoggedInUser()
+                |> on(next: {user in
+                    self.getParticipations(user, refresh: false)
+                        |> start()
+                })
+                |> map{ _ in }
+        }
     }
     
-    public func removeDataAtIndex(index: Int) -> SignalProducer<Void, NSError> {
-        return undefined()
-//        collectionDataSource.removeAtIndex(index)
+    public func removeDataAtIndex(index: Int) -> SignalProducer<Bool, NSError> {
+        return participationService.delete(participationArr[index])
+            |> on(
+                next: { [weak self] _ in
+                    ProfileLogInfo("participation backend completed")
+                    if let this = self{
+                        this.participationArr.removeAtIndex(index)
+                        this.collectionDataSource.removeAtIndex(index)
+                    }
+                }
+        )
+        
     }
     
     public func pushSocialBusinessModule(section: Int, animated: Bool) {
         //        navigator.pushSocialBusiness(businessArr.value[section], animated: animated)
     }
     
-//    public func undoParticipation(index: Int) -> SignalProducer<Bool, NSError> {
-//        return participationService.delete(participationArr.value[index])
-//            |> on(
-//                next: { _ in
-//                    ProfileLogInfo("participation backend completed")
-//                    self.participationArr.value.removeAtIndex(index)
-//                }
-//        )
-//    }
     
     // MARK: - Others
     
-//    private func getParticipations(user : User) -> SignalProducer<[ProfileBusinessViewModel], NSError> {
-//        let query = Participation.query()!
-//        typealias Property = Participation.Property
-//        query.whereKey(Property.User.rawValue, equalTo: user)
-//        query.includeKey(Property.Business.rawValue)
-//        
-//        return participationService.findBy(query)
-//            |> on(next: { participations in
-//                self.participationArr.put(participations)
-//                self.businessArr.put(participations.map { $0.business })
-//            })
-//            |> map { participations -> [ProfileBusinessViewModel] in
-//                
-//                // map participation to its view model
-//                return participations.map {
-//                    let business = $0.business
-//                    let viewmodel = ProfileBusinessViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: business.nameSChinese, city: business.city, district: business.district, cover: business.cover_, geolocation: business.geolocation, aaCount: business.aaCount, treatCount: business.treatCount, toGoCount: business.toGoCount)
-//                    return viewmodel
-//                }
-//            }
-//            |> on(
-//                next: { response in
-//                    self.profileBusinessViewModelArr.put(response)
-//                },
-//                error: { ProfileLogError($0.customErrorDescription) }
-//        )
-//    }
+    public func getParticipations(user : User, refresh: Bool) -> SignalProducer<[IParticipationListCellViewModel], NSError> {
+        let query = Participation.query()!
+        typealias Property = Participation.Property
+        query.whereKey(Property.User.rawValue, equalTo: user)
+        query.includeKey(Property.Business.rawValue)
+        query.limit = Constants.PAGINATION_LIMIT
+        if refresh {
+            // don't skip any content if we are refresh the list
+            query.skip = 0
+        }
+        else {
+            query.skip = numberOfParticipationsLoaded
+        }
+        
+        
+        return participationService.findBy(query)
+            |> on(next: { participations in
+                if refresh {
+                    self.numberOfParticipationsLoaded = participations.count
+                    // ignore old data, put in new array
+                    self.participationArr = participations
+                    self.businessArr = (participations.map { $0.business })
+                }
+                else {
+                    // increment numberOfBusinessesLoaded
+                    self.numberOfParticipationsLoaded += participations.count
+                    
+                    // save the new data in addition to the old ones
+                    self.participationArr.extend(participations)
+                    self.businessArr.extend(participations.map { $0.business })
+                }
+            })
+            |> map { participations -> [IParticipationListCellViewModel] in
+                
+                // map participation to its view model
+                return participations.map {
+                    let business = $0.business
+                    let viewmodel = ParticipationListCellViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, cover: business.cover_, geolocation: business.geolocation, business: business, type: $0.type)
+                    return viewmodel
+                }
+            }
+            |> on(
+                next: { viewmodels in
+                    if refresh && viewmodels.count > 0 {
+                        // ignore old data
+                        self.collectionDataSource.replaceAll(viewmodels)
+                    }
+                    else if !refresh && viewmodels.count > 0 {
+                        // save the new data with old ones
+                        self.collectionDataSource.extend(viewmodels)
+                    }
+                },
+                error: { ProfileLogError($0.customErrorDescription) }
+        )
+    }
 }

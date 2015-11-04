@@ -16,6 +16,6 @@ public protocol IParticipationListViewModel : class, IInfinityScrollDataSource, 
     var collectionDataSource: ReactiveArray<IParticipationListCellViewModel> { get }
     
     // MARK: - API
-    func removeDataAtIndex(index: Int) -> SignalProducer<Void, NSError>
+    func removeDataAtIndex(index: Int) -> SignalProducer<Bool, NSError>
     func pushSocialBusinessModule(section: Int, animated: Bool)
 }

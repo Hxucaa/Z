@@ -236,7 +236,6 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
                     // iterate through previewImageViews
                     $.each(this.previewImageViews) { index, view in
                         if index < participants.count {
-                            
                             // place the image into image view
                             participants[index].avatar.producer
                                 |> ignoreNil
