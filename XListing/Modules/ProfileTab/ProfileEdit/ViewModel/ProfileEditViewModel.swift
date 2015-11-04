@@ -164,10 +164,10 @@ public final class ProfileEditViewModel {
     /**
     Retrieve featured business from database
     */
-    public func getUserData() -> SignalProducer<(), NSError> {
+    public func getUserData() -> SignalProducer<Void, NSError> {
         return userService.currentLoggedInUser()
             .map { user -> () in
-                self.currentUser.put(user)
+                self.currentUser.value = user
         }
     }
     

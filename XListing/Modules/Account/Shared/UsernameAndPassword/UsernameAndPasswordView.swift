@@ -68,17 +68,16 @@ public final class UsernameAndPasswordView : SpringView {
                             return viewmodel.submit
                         }
                         // dismiss HUD based on the result of sign up signal
-                        .HUD.dismissWithStatusMessage(errorHandler: { [weak self] error -> String in
-                            AccountLogError(error.description)
-                            return error.customErrorDescription
-                        })
+                        .on(failed: { _ in HUD.dismissWithFailedMessage() })
                         // does not `sendCompleted` because completion is handled when HUD is disappeared
                         .start { event in
                             switch event {
                             case .Failed(let error):
+                                AccountLogError(error.description)
                                 observer.sendFailed(error)
                             case .Interrupted:
                                 observer.sendInterrupted()
+                            default: break
                             }
                         }
                     
@@ -97,7 +96,7 @@ public final class UsernameAndPasswordView : SpringView {
                     // Subscribe to disappear notification
                     disposable += HUD.didDissappearNotification()
                         .on(next: { _ in AccountLogVerbose("HUD disappeared.") })
-                        .startWithNext { [weak self] status in
+                        .startWithNext { status in
                             if status == HUD.DisappearStatus.Normal {
                                 
                                 // inform that submit is successful

@@ -183,7 +183,7 @@ extension PhotoManagerViewController : UIImagePickerControllerDelegate, UINaviga
     - parameter info:   A dictionary containing the original image and the edited image, if an image was picked; or a filesystem URL for the movie, if a movie was picked. The dictionary also contains any relevant editing information. The keys for this dictionary are listed in Editing Information Keys.
     */
     public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+        if let _ = info[UIImagePickerControllerEditedImage] as? UIImage {
             // TO DO: ADD NEW PHOTO TO DATA ARRAY
         }
         dismissViewControllerAnimated(true, completion: nil)

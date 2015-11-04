@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 
 
-public struct ProfilePhotoCellViewModel {
+public final class ProfilePhotoCellViewModel {
     
     private let _image: MutableProperty<UIImage?> = MutableProperty(UIImage(named: "profilepicture"))
     public var image: AnyProperty<UIImage?> {
@@ -24,8 +24,8 @@ public struct ProfilePhotoCellViewModel {
         
         if let url = image?.url, nsurl = NSURL(string: url) {
             self.imageService.getImage(nsurl)
-                .startWithNext {
-                    self._image.value = $0
+                .startWithNext { image in
+                    self._image.value = image
                 }
         }
     }

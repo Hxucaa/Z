@@ -8,21 +8,21 @@
 
 import Foundation
 import CocoaLumberjack.DDDispatchQueueLogFormatter
-
-internal final class ASLFormatter: DDDispatchQueueLogFormatter, DDLogFormatter {
+//, DDLogFormatter
+internal final class ASLFormatter: DDDispatchQueueLogFormatter {
     
     internal override func formatLogMessage(logMessage: DDLogMessage!) -> String {
         var logLevel: String
         let logFlag = logMessage.flag
-        if logFlag & .Error == .Error {
+        if logFlag.contains(.Error) {
             logLevel = "E"
-        } else if logFlag & .Warning == .Warning {
+        } else if logFlag.contains(.Warning) {
             logLevel = "W"
-        } else if logFlag & .Info == .Info {
+        } else if logFlag.contains(.Info) {
             logLevel = "I"
-        } else if logFlag & .Debug == .Debug {
+        } else if logFlag.contains(.Debug) {
             logLevel = "D"
-        } else if logFlag & .Verbose == .Verbose {
+        } else if logFlag.contains(.Verbose) {
             logLevel = "V"
         } else {
             logLevel = "?"

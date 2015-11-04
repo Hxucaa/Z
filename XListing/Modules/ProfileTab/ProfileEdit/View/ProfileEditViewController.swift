@@ -134,7 +134,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
                         // on error displays error prompt
                         .on(next: { validity in
                             if !validity {
-                                var alert = UIAlertController(title: "提交失败啦", message: "请填写昵称,性别,生日和上传一张照片😊", preferredStyle: UIAlertControllerStyle.Alert)
+                                let alert = UIAlertController(title: "提交失败啦", message: "请填写昵称,性别,生日和上传一张照片😊", preferredStyle: UIAlertControllerStyle.Alert)
                                 alert.addAction(UIAlertAction(title: "确定", style: UIAlertActionStyle.Cancel, handler: nil))
                                 self?.presentViewController(alert, animated: true, completion: nil)
                                 observer.sendNext(())
@@ -159,17 +159,18 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
                             return this.viewmodel.updateProfile
                         }
                         // dismiss HUD based on the result of update profile signal
-                        .HUD.dismissWithStatusMessage(errorHandler: { error -> String in
-                            ProfileLogError(error.description)
-                            return error.customErrorDescription
+                        .on(failed: { error in
+                            HUD.dismissWithFailedMessage()
                         })
                         // does not `sendCompleted` because completion is handled when HUD is disappeared
                         .start { event in
                             switch event {
                             case .Failed(let error):
+                                ProfileLogError(error.description)
                                 observer.sendFailed(error)
                             case .Interrupted:
                                 observer.sendInterrupted()
+                            default: break
                             }
                         }
                     

@@ -79,17 +79,18 @@ public final class PhotoView : SpringView {
                             return viewmodel.updateProfile
                         }
                         // dismiss HUD based on the result of update profile signal
-                        .HUD.dismissWithStatusMessage(errorHandler: { error -> String in
-                            AccountLogError(error.description)
-                            return error.customErrorDescription
+                        .on(failed: { error in
+                            HUD.dismissWithFailedMessage()
                         })
                         // does not `sendCompleted` because completion is handled when HUD is disappeared
                         .start { event in
                             switch event {
                             case .Failed(let error):
                                 observer.sendFailed(error)
+                                AccountLogError(error.description)
                             case .Interrupted:
                                 observer.sendInterrupted()
+                            default: break
                             }
                         }
                     
@@ -192,8 +193,9 @@ public final class PhotoView : SpringView {
                 case .Completed:
                     // after dismissing the controller, has to rebind the signal because cancellation caused the signal to stop
                     self?._dismissUIImagePickerObserver.sendNext({ self?.setupImageSelectedSignal() })
+                default: break
                 }
-                }
+            }
     }
     
     deinit {
