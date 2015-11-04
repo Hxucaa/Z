@@ -13,24 +13,20 @@ import AVOSCloud
 import Dollar
 import Cartography
 
+private let PageControlHeightRatio = CGFloat(0.08)
 
 public final class ProfileBottomViewController : UIViewController {
     
     // MARK: - UI Controls
-    
     private lazy var pageControls: ProfileSegmentControlView = {
-        let view = ProfileSegmentControlView(frame: CGRect(origin: CGPointMake(0, 0), size: self.view.frame.size))
+        let view = ProfileSegmentControlView(frame: CGRect(origin: CGPointMake(0, 0), size: CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height * PageControlHeightRatio)))
         view.backgroundColor = .whiteColor()
         view.opaque = true
-        
         return view
     }()
     
     private lazy var pageViewController: ProfilePageViewController = {
         let vc = ProfilePageViewController(transitionStyle: UIPageViewControllerTransitionStyle.Scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, options: nil)
-        
-        
-        
         return vc
     }()
     
@@ -67,7 +63,7 @@ public final class ProfileBottomViewController : UIViewController {
             $0.leading == $0.superview!.leading
             $0.top == $0.superview!.top
             $0.trailing == $0.superview!.trailing
-            $0.height == $0.superview!.height * 0.10
+            $0.height == $0.superview!.height * PageControlHeightRatio
         }
         
         constrain(pageControls, pageViewController.view) {
@@ -81,10 +77,7 @@ public final class ProfileBottomViewController : UIViewController {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // default starting page
-        pageViewController.displayParticipationListPage()
-        
+                
         pageControls.participationListProxy
             |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.Profile, "pageControls.participationListProxy")
@@ -100,15 +93,13 @@ public final class ProfileBottomViewController : UIViewController {
             })
         
         pageViewController.fullImageProxy
-            // forwards events from producer until the view controller is going to disappear
             |> takeUntilViewWillDisappear(self)
             |> logLifeCycle(LogContext.Profile, "pageViewController.fullImageProxy")
             |> start(next: { [weak self] in
                 if let this = self {
                     proxyNext(this._fullImageSink, ())
                 }
-                })
-        
+            })
     }
     
     // MARK: - Bindings
@@ -116,4 +107,9 @@ public final class ProfileBottomViewController : UIViewController {
     public func bindToViewModel(viewmodel: IProfileBottomViewModel) {
         self.viewmodel = viewmodel
     }
+    
+    // MARK: - Others
+//    public func animateSegmentControl(index: Int){
+//        pageControls.animate(toIndex: index, duration: 0.1);
+//    }
 }

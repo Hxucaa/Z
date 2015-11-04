@@ -13,65 +13,51 @@ import Cartography
 import TTTAttributedLabel
 import ReactiveCocoa
 import XAssets
+import Spring
+
+private let LineView = (Height: CGFloat(3), MarginLeft: CGFloat(20), MarginRight: CGFloat(20))
+
 
 public final class ProfileSegmentControlView : ButtonPageControl {
-    
     // MARK: - UI Controls
-    
-    private lazy var participationListbutton: UIButton = {
-        let button = UIButton()
-        button.opaque = true
+    private lazy var buttonViews: [TabBarView] = {
         
-        AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(35, 35), backgroundColor: .whiteColor(), opaque: true, imageContextScale: nil, pressed: false, shadow: false))
-            |> start(
-                next: { [weak button] image in
-                    button?.setImage(image, forState: .Normal)
-                }
-        )
-        
-        let action = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                if let this = self {
-                    proxyNext(this._participationListSink, ())
-                }
-                sendCompleted(sink)
-            }
-        }
-        
-        button.addTarget(action.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+        let view1 = TabBarView(frame: CGRectMake(0, 0, 200, 40))
+        view1.label.text = "地方"
+        view1.label.font = UIFont.boldSystemFontOfSize(18)
+        view1.label.textColor = UIColor.x_PrimaryColor()
+        view1.label.textColor = UIColor.x_PrimaryColor()
         
         
-        return button
+        let view2 = TabBarView(frame: CGRectMake(0, 0, 200, 40))
+        view2.label.text = "相册"
+        view2.label.font = UIFont.boldSystemFontOfSize(18)
+        view2.label.textColor = UIColor.x_PrimaryColor()
+        view2.label.textColor = UIColor.x_PrimaryColor()
+        
+        return [view1, view2]
     }()
     
-    private lazy var photosManagerButton: UIButton = {
-        let button = UIButton()
-        button.opaque = true
-        
-        AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(35, 35), backgroundColor: .whiteColor(), opaque: true, imageContextScale: nil, pressed: false, shadow: false))
-            |> start(
-                next: { [weak button] image in
-                    button?.setImage(image, forState: .Normal)
-                }
-        )
-        
-        let action = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { sink, disposable in
-                if let this = self {
-                    proxyNext(this._photosManagerSink, ())
-                }
-                sendCompleted(sink)
-            }
-        }
-        
-        button.addTarget(action.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-        
-        
-        return button
+    private var participationView: TabBarView {
+        return buttonViews[0]
+    }
+    
+    private var photoView: TabBarView {
+        return buttonViews[1]
+    }
+    
+    private lazy var lineView: SpringView = {
+        let view = SpringView(frame: CGRectMake(LineView.MarginLeft, self.frame.height * 0.6, self.frame.width / CGFloat(count(self.buttonViews)) - LineView.MarginLeft - LineView.MarginRight, LineView.Height))
+        view.backgroundColor = UIColor.x_PrimaryColor()
+        return view
     }()
+    
+
+    // MARK: - Properties
+    private var selected = 0
+    private var slotWidth = CGFloat(400.0)
     
     // MARK: - Proxies
-    
     private let (_participationListProxy, _participationListSink) = SimpleProxy.proxy()
     public var participationListProxy: SimpleProxy {
         return _participationListProxy
@@ -82,28 +68,55 @@ public final class ProfileSegmentControlView : ButtonPageControl {
         return _photosManagerProxy
     }
     
-    // MARK: - Properties
-    
     // MARK: - Initializers
-    
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setup()
     }
     
     public required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
         setup()
     }
     
     // MARK: - Setups
-    
     private func setup() {
-        buttonContainer.addArrangedSubview(participationListbutton)
-        buttonContainer.addArrangedSubview(photosManagerButton)
+        slotWidth = frame.size.width / CGFloat(count(buttonViews))
+        buttonContainer.addArrangedSubview(participationView)
+        buttonContainer.addArrangedSubview(photoView)
+        
+        addSubview(lineView)
+        
+        participationView.tapGestureProxy
+            |> start(next: {[weak self] in
+                if let this = self {
+                    this.animate(toIndex: 0, duration: 1)
+                    proxyNext(this._participationListSink, ())
+                }
+            })
+        
+        photoView.tapGestureProxy
+            |> start(next: {[weak self] in
+                if let this = self{
+                    this.animate(toIndex: 1, duration: 1)
+                    proxyNext(this._photosManagerSink, ())
+                }
+            })
     }
     
-    // MARK: - Bindings
+    public func animate(toIndex index: Int, duration: CGFloat){
+        if selected == index {
+            return
+        }
+        lineView.x = CGFloat(selected - index) * slotWidth
+        lineView.damping = 0.7
+        lineView.duration = duration
+        lineView.curve = "spring"
+        lineView.center = CGPointMake(CGFloat(index)*slotWidth + slotWidth/2, lineView.center.y)
+        lineView.animateNext({[weak self] in
+            if let this = self{
+                this.selected = index
+            }
+        })
+    }
 }
