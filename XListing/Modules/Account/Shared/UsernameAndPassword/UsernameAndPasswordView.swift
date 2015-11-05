@@ -57,7 +57,6 @@ public final class UsernameAndPasswordView : SpringView {
                         .delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
                         // return the signal to main/ui thread in order to run UI related code
                         .observeOn(UIScheduler())
-                        //                        .then(HUD.show())
                         .flatMap(.Latest) { _ in
                             return HUD.show()
                         }
@@ -68,7 +67,14 @@ public final class UsernameAndPasswordView : SpringView {
                             return viewmodel.submit
                         }
                         // dismiss HUD based on the result of sign up signal
-                        .on(failed: { _ in HUD.dismissWithFailedMessage() })
+                        .on(
+                            next: { _ in
+                                HUD.dismissWithNextMessage()
+                            },
+                            failed: { _ in
+                                HUD.dismissWithFailedMessage()
+                            }
+                        )
                         // does not `sendCompleted` because completion is handled when HUD is disappeared
                         .start { event in
                             switch event {

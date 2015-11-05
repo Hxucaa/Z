@@ -17,7 +17,6 @@ target 'XListing' do
   pod 'Cartography', '~> 0.6.0'
   pod 'INSPullToRefresh', '~> 1.0.11'
   pod 'ReactiveArray', :git => 'ssh://git@dev.lai.io:2345/diffusion/RA/reactivearray.git'
-  pod 'Aspects', '~> 1.4.0'
   pod 'TZStackView', '~> 1.1.2'
   pod 'TTTAttributedLabel', '~> 1.13.4'
   pod 'AsyncDisplayKit', '~> 1.9'

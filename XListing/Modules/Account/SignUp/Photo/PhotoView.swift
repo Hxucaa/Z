@@ -79,9 +79,14 @@ public final class PhotoView : SpringView {
                             return viewmodel.updateProfile
                         }
                         // dismiss HUD based on the result of update profile signal
-                        .on(failed: { error in
-                            HUD.dismissWithFailedMessage()
-                        })
+                        .on(
+                            next: { _ in
+                                HUD.dismissWithNextMessage()
+                            },
+                            failed: { _ in
+                                HUD.dismissWithFailedMessage()
+                            }
+                        )
                         // does not `sendCompleted` because completion is handled when HUD is disappeared
                         .start { event in
                             switch event {

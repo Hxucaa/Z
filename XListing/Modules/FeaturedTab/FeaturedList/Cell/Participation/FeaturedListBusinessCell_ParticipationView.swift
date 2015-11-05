@@ -75,8 +75,12 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
     private lazy var dotLabel: UILabel = {
         let dot = UILabel(frame: CGRectMake(0, 0, 2, 2))
         dot.text = "・"
+        dot.opaque = true
+        dot.backgroundColor = .x_FeaturedCardBG()
         dot.textColor = UIColor.x_PrimaryColor()
         dot.textAlignment = .Center
+        dot.layer.masksToBounds = true
+        
         return dot
     }()
     
@@ -90,6 +94,9 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         
         let label = UILabel(frame: CGRectMake(wtgIconSize, 2, labelSize, labelSize))
         label.text = "20"
+        label.opaque = true
+        label.backgroundColor = .x_FeaturedCardBG()
+        label.layer.masksToBounds = true
         label.textColor = UIColor.x_PrimaryColor()
         label.adjustsFontSizeToFitWidth = true
         
@@ -119,6 +126,9 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         
         let label = UILabel(frame: CGRectMake(treatIconSize, 3, labelSize, labelSize))
         label.text = "20"
+        label.opaque = true
+        label.backgroundColor = .x_FeaturedCardBG()
+        label.layer.masksToBounds = true
         label.textColor = UIColor.x_PrimaryColor()
         label.adjustsFontSizeToFitWidth = true
         
@@ -177,9 +187,10 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         constrain(participantsPreviewView, joinButtonContainer) { container, button in
             container.leading == container.superview!.leadingMargin
             container.top == container.superview!.top
-            container.width == container.superview!.width * 0.62
+            container.width == container.superview!.width * 0.65
             container.bottom == container.superview!.bottom
             
+            button.leading == container.trailing
             (button.top == button.superview!.topMargin).identifier = "joinButtonContainer top"
             (button.trailing == button.superview!.trailingMargin - 8).identifier = "joinButtonContainer trailing"
             (button.bottom == button.superview!.bottomMargin).identifier = "joinButtonContainer bottom"
@@ -195,15 +206,15 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
             dotLabel.center == dotLabel.superview!.center
             
             wtgView.height == wtgIconSize
-            wtgView.width == wtgIconSize+labelSize+1
+            wtgView.width == wtgIconSize+labelSize+3
             treatView.height == treatIconSize
-            treatView.width == treatIconSize+labelSize
+//            treatView.width == treatIconSize+labelSize
             
-            wtgView.trailing == dotLabel.leading + 2
+            dotLabel.leading == wtgView.trailing - 2
             dotLabel.trailing == treatView.leading
             
-            wtgView.leading <= wtgView.superview!.leading ~ 250
-            treatView.trailing == treatView.superview!.trailing
+//            wtgView.leading <= wtgView.superview!.leading ~ 100
+//            treatView.trailing <= treatView.superview!.trailing ~ 100
         }
     }
     

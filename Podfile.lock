@@ -1,13 +1,12 @@
 PODS:
   - ActionSheetPicker-3.0 (2.0.3)
-  - Aspects (1.4.1)
   - AsyncDisplayKit (1.9):
     - AsyncDisplayKit/ASDealloc2MainObject (= 1.9)
   - AsyncDisplayKit/ASDealloc2MainObject (1.9)
-  - AVOSCloudCrashReportingDynamic (3.1.6):
+  - AVOSCloudCrashReportingDynamic (3.1.6.1):
     - AVOSCloudDynamic
-  - AVOSCloudDynamic (3.1.6)
-  - AVOSCloudIMDynamic (3.1.6):
+  - AVOSCloudDynamic (3.1.6.1)
+  - AVOSCloudIMDynamic (3.1.6.1):
     - AVOSCloudDynamic
   - Cartography (0.6.0)
   - CocoaLumberjack/Core (2.2.0)
@@ -56,7 +55,6 @@ PODS:
 
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.0.3)
-  - Aspects (~> 1.4.0)
   - AsyncDisplayKit (~> 1.9)
   - AVOSCloudCrashReportingDynamic (~> 3.1)
   - AVOSCloudDynamic (~> 3.1)
@@ -109,11 +107,10 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 11f2053085d3088dc1ef9d38a9f11c18b528dd9e
-  Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
   AsyncDisplayKit: 957560ccfd103fdc8f53605e11e4bc30b16aaf67
-  AVOSCloudCrashReportingDynamic: b0dfe4bde43ae2832487abe315aaa19d5c1dcb73
-  AVOSCloudDynamic: a5ca2eff87cbcedeaa396f1ffcfdb857e06a2f78
-  AVOSCloudIMDynamic: 82469e767640db50ee04a1d278bdff347f35b1f0
+  AVOSCloudCrashReportingDynamic: 6406cb7822838f15af111e80ac18c14cfbcf4e0e
+  AVOSCloudDynamic: 74f3ed0ff9d9d9c8e22f93984700063acbb34d43
+  AVOSCloudIMDynamic: 35b401e206ae60e02a4008a1d03bcf3c6206e87c
   Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c

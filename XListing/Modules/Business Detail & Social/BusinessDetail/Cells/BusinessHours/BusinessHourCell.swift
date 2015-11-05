@@ -105,6 +105,9 @@ public final class BusinessHourCell: UITableViewCell {
         label.font = UIFont.systemFontOfSize(14)
         label.numberOfLines = 1
         label.sizeToFit()
+        label.backgroundColor = .whiteColor()
+        label.layer.masksToBounds = true
+        
         return label
     }
     

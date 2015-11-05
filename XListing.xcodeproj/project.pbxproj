@@ -249,8 +249,6 @@
 		D06BFF6C1BE1B952007BD704 /* StatusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06BFF6B1BE1B952007BD704 /* StatusButton.swift */; };
 		D06BFF6E1BE1B970007BD704 /* IProfileTabStatusButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06BFF6D1BE1B970007BD704 /* IProfileTabStatusButtonViewModel.swift */; };
 		D06BFF701BE1B982007BD704 /* IProfileTabInfoPanelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06BFF6F1BE1B982007BD704 /* IProfileTabInfoPanelViewModel.swift */; };
-		D087D7DB1B9B794F0027596B /* UserInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D087D7DA1B9B794F0027596B /* UserInfoView.xib */; };
-		D087D7E11B9B7D140027596B /* CollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D087D7E01B9B7D140027596B /* CollectionCell.xib */; };
 		D06BFF721BE1D631007BD704 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06BFF711BE1D631007BD704 /* TabBarView.swift */; };
 		D08B58981B93FBE300F3945F /* ParticipantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B58971B93FBE300F3945F /* ParticipantViewModel.swift */; };
 		D08B589C1B94001500F3945F /* UIImage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B589B1B94001500F3945F /* UIImage+extension.swift */; };
@@ -522,8 +520,6 @@
 		D06BFF6B1BE1B952007BD704 /* StatusButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusButton.swift; sourceTree = "<group>"; };
 		D06BFF6D1BE1B970007BD704 /* IProfileTabStatusButtonViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IProfileTabStatusButtonViewModel.swift; sourceTree = "<group>"; };
 		D06BFF6F1BE1B982007BD704 /* IProfileTabInfoPanelViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IProfileTabInfoPanelViewModel.swift; sourceTree = "<group>"; };
-		D087D7DA1B9B794F0027596B /* UserInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserInfoView.xib; sourceTree = "<group>"; };
-		D087D7E01B9B7D140027596B /* CollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionCell.xib; sourceTree = "<group>"; };
 		D06BFF711BE1D631007BD704 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		D08B58971B93FBE300F3945F /* ParticipantViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipantViewModel.swift; sourceTree = "<group>"; };
 		D08B589B1B94001500F3945F /* UIImage+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+extension.swift"; sourceTree = "<group>"; };
@@ -1494,13 +1490,6 @@
 				D024D9781BDD979900BDC312 /* ProfileTabStatusButtonViewModel.swift */,
 			);
 			name = StatusButton;
-			sourceTree = "<group>";
-		};
-		D087D7E21B9B8E550027596B /* CollectionCell */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = CollectionCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

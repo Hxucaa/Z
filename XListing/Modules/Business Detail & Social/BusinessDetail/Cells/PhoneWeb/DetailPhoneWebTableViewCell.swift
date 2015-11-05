@@ -15,10 +15,13 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
     // MARK: - UI Controls
     private lazy var phoneButton: UIButton = {
         let button = UIButton()
+        button.backgroundColor = .whiteColor()
+        button.opaque = true
         button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
         button.titleLabel?.font = UIFont(name: "FontAwesome", size: 15)
         button.titleLabel?.textAlignment = NSTextAlignment.Left
         button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.backgroundColor = .whiteColor()
         
         let callPhone = Action<UIButton, Void, NoError> { button in
             return self.viewmodel.callPhone
@@ -31,10 +34,13 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
     
     private lazy var websiteButton: UIButton = {
         let button = UIButton()
+        button.backgroundColor = .whiteColor()
+        button.opaque = true
         button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
         button.titleLabel?.font = UIFont(name: "FontAwesome", size: 15)
         button.titleLabel?.textAlignment = NSTextAlignment.Left
         button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.backgroundColor = .whiteColor()
         
         let goToWebsite = Action<UIButton, Void, NoError> { button in
             return self.viewmodel.webSiteURL.producer
@@ -69,6 +75,8 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundView = UIImageView(image: UIImage(named: ImageAssets.divider))
         
+        contentView.backgroundColor = .whiteColor()
+        contentView.opaque = true
         layoutMargins = UIEdgeInsetsZero
         separatorInset = UIEdgeInsetsZero
         

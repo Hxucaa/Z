@@ -15,10 +15,14 @@ public final class DetailAddressTableViewCell: UITableViewCell {
     // MARK: - UI Controls
     private lazy var addressButton: UIButton = {
         let button = UIButton()
+        button.backgroundColor = .whiteColor()
+        button.opaque = true
         button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
         button.titleLabel?.font = UIFont(name: "FontAwesome", size: 15)
         button.titleLabel?.textAlignment = NSTextAlignment.Left
         button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.backgroundColor = .whiteColor()
+        
         
         // Action
         let pushNavMap = Action<UIButton, Void, NoError> { [weak self] button in
@@ -54,7 +58,7 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         layoutMargins = UIEdgeInsetsZero
         separatorInset = UIEdgeInsetsZero
         
-        addSubview(addressButton)
+        contentView.addSubview(addressButton)
         constrain(addressButton) { view in
             view.leading == view.superview!.leadingMargin
             view.top == view.superview!.top

@@ -28,6 +28,12 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
     // MARK: Setups
     public override func awakeFromNib() {
         super.awakeFromNib()
+        
+        coverImageView.layer.masksToBounds = true
+        businessNameLabel.layer.masksToBounds = true
+        businessHoursLabel.layer.masksToBounds = true
+        cityLabel.layer.masksToBounds = true
+        etaLabel.layer.masksToBounds = true
     }
     
     deinit {

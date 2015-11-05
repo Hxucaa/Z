@@ -18,7 +18,7 @@ extension UIColor {
     }
     
     internal class func x_PrimaryColor() -> UIColor {
-        return UIColor(red: 0/255, green: 178/255, blue: 172/255, alpha: 1)
+        return UIColor(red: 0.0/255.0, green: 178.0/255.0, blue: 172.0/255.0, alpha: 1)
     }
 
     internal class func x_Transparent() -> UIColor {

@@ -62,7 +62,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
         let imageView = UIImageView(frame: CGRectMake(0, 0, round(self.estimatedFrame.width * CGFloat(BusinessImageViewWidthToTopSectionWidthRatio)), self.topSectionHeight))
         imageView.backgroundColor = UIColor.x_FeaturedCardBG()
         imageView.image = UIImage(named: ImageAssets.businessplaceholder)
-        
+        imageView.opaque = true
         
         return imageView
     }()
