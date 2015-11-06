@@ -121,7 +121,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
             })
             .map { businesses -> [NearbyTableCellViewModel] in
                 businesses.map {
-                    NearbyTableCellViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover_, geolocation: $0.geolocation, aaCount: $0.aaCount, treatCount: $0.treatCount, toGoCount: $0.toGoCount)
+                    NearbyTableCellViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, businessName: $0.nameSChinese, city: $0.city, district: $0.district, cover: $0.cover_, geolocation: $0.geolocation, aaCount: $0.aaCount, treatCount: $0.treatCount, toGoCount: $0.toGoCount, business: $0)
                 }
             }
             .on(

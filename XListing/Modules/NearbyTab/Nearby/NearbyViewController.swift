@@ -55,7 +55,8 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.navigationBar.tintColor = UIColor.blackColor()
+        navigationController?.navigationBar.barTintColor = UIColor.x_PrimaryColor()
         
         businessCollectionView.pagingEnabled = true
         
@@ -66,6 +67,8 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        navigationController?.navigationBarHidden = false
         
         if viewmodel.collectionDataSource.isEmpty {
             

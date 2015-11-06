@@ -9,6 +9,7 @@
 import Foundation
 import ReactiveCocoa
 import UIKit
+import XAssets
 
 public final class NearbyCollectionViewCell : UICollectionViewCell {
     
@@ -18,6 +19,7 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
     @IBOutlet private weak var businessNameLabel: UILabel!
     @IBOutlet private weak var businessHoursLabel: UILabel!
     @IBOutlet private weak var cityLabel: UILabel!
+    @IBOutlet private weak var etaIcon: UIImageView!
     @IBOutlet private weak var etaLabel: UILabel!
     
     // MARK: Properties
@@ -29,11 +31,24 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
     public override func awakeFromNib() {
         super.awakeFromNib()
         
+        backgroundColor = .x_FeaturedCardBG()
+        
         coverImageView.layer.masksToBounds = true
+        coverImageView.backgroundColor = .x_FeaturedCardBG()
         businessNameLabel.layer.masksToBounds = true
+        businessNameLabel.backgroundColor = .x_FeaturedCardBG()
         businessHoursLabel.layer.masksToBounds = true
+        businessHoursLabel.backgroundColor = .x_FeaturedCardBG()
         cityLabel.layer.masksToBounds = true
+        cityLabel.backgroundColor = .x_FeaturedCardBG()
         etaLabel.layer.masksToBounds = true
+        etaLabel.backgroundColor = .x_FeaturedCardBG()
+        
+        
+        // Adding ETA icon
+        etaIcon.rac_image <~ AssetFactory.getImage(Asset.CarIcon(size: etaIcon.frame.size, backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
+            .take(1)
+            .map { Optional<UIImage>($0) }
     }
     
     deinit {
@@ -43,6 +58,9 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
     // MARK: Bindings
     public func bindToViewModel(viewmodel: NearbyTableCellViewModel) {
         self.viewmodel = viewmodel
+        
+        self.viewmodel.getCoverImage()
+            .start()
         
         businessNameLabel.rac_text <~ self.viewmodel.businessName.producer
             .takeUntilPrepareForReuse(self)
@@ -55,6 +73,7 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
         
         etaLabel.rac_text <~ self.viewmodel.eta.producer
             .takeUntilPrepareForReuse(self)
+            .ignoreNil()
         
         compositeDisposable += self.viewmodel.coverImage.producer
             .takeUntilPrepareForReuse(self)
