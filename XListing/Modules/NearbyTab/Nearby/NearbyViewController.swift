@@ -55,9 +55,10 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.navigationBar.tintColor = UIColor.blackColor()
         navigationController?.navigationBar.barTintColor = UIColor.x_PrimaryColor()
-        
+        navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        navigationController?.navigationBar.barStyle = UIBarStyle.Black
+
         businessCollectionView.pagingEnabled = true
         
         setupCurrentLocationButton()
@@ -67,6 +68,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
         
         navigationController?.navigationBarHidden = false
         

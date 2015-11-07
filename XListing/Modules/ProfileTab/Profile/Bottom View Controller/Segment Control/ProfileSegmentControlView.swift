@@ -33,7 +33,7 @@ public final class ProfileSegmentControlView : ButtonPageControl {
                 self?.animate(toIndex: 0, duration: 1)
                 self?._participationListObserver.proxyNext(())
             }
-        
+        view1.backgroundColor = UIColor.x_ProfileTableBG()
         
         let view2 = TabBarView(frame: CGRectMake(0, 0, 200, 40))
         view2.label.text = "相册"
@@ -46,6 +46,7 @@ public final class ProfileSegmentControlView : ButtonPageControl {
                 self?.animate(toIndex: 1, duration: 1)
                 self?._photosManagerObserver.proxyNext(())
             }
+        view2.backgroundColor = UIColor.x_ProfileTableBG()
         
         return [view1, view2]
     }()
@@ -93,10 +94,11 @@ public final class ProfileSegmentControlView : ButtonPageControl {
     
     // MARK: - Setups
     private func setup() {
+        
         slotWidth = frame.size.width / CGFloat(buttonViews.count)
         buttonContainer.addArrangedSubview(participationView)
         buttonContainer.addArrangedSubview(photoView)
-        
+        buttonContainer.backgroundColor = UIColor.x_ProfileTableBG()
         addSubview(lineView)
     }
     
