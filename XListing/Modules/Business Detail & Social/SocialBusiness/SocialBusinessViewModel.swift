@@ -165,6 +165,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
                     let p = Participation()
                     p.user = user
                     p.business = self.business
+                    p.type = choice
     
                     return self.participationService.create(p)
                 }

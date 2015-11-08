@@ -125,6 +125,15 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
         detailInfoButton.hidden = true
     }
     
+    public func disableStartEventButton(choice: ParticipationType) {
+        startEventButton.enabled = false
+        startEventButton.backgroundColor = UIColor.x_PrimaryColor()
+        let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.boldSystemFontOfSize(18)]
+        let attributedString = NSMutableAttributedString(string: choice.description, attributes: attributes)
+        startEventButton.setAttributedTitle(attributedString, forState: .Normal)
+        startEventButton.titleLabel?.backgroundColor = UIColor.x_PrimaryColor()
+    }
+    
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

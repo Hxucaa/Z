@@ -145,10 +145,9 @@ public final class SocialBusinessViewController : XUIViewController {
             .takeUntilViewWillDisappear(self)
             .logLifeCycle(LogContext.SocialBusiness, signalName: "utilityHeaderView.startEventProxy")
             .promoteErrors(NSError)
-            .flatMap(FlattenStrategy.Concat) { _ -> SignalProducer<Bool, NSError> in
-                return self.viewmodel.participate(ParticipationType.ToGo)
+            .startWithNext {
+                self.showParticipationOptions()
             }
-            .start()
         
         let tapGesture = UITapGestureRecognizer()
         headerView.addGestureRecognizer(tapGesture)
@@ -211,6 +210,32 @@ public final class SocialBusinessViewController : XUIViewController {
     }
     
     // MARK: - Others
+    
+    private func showParticipationOptions() {
+        let wtgAlert = UIAlertController(title: "你想怎么约?", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        wtgAlert.addAction(UIAlertAction(title: ParticipationType.Treat.description, style: .Default, handler: { (action: UIAlertAction!) in
+            self.utilityHeaderView.disableStartEventButton(ParticipationType.Treat)
+            self.viewmodel.participate(ParticipationType.Treat)
+        }))
+        
+        wtgAlert.addAction(UIAlertAction(title: ParticipationType.AA.description, style: .Default, handler: { (action: UIAlertAction!) in
+            self.utilityHeaderView.disableStartEventButton(ParticipationType.AA)
+            self.viewmodel.participate(ParticipationType.AA)
+        }))
+        
+        wtgAlert.addAction(UIAlertAction(title: ParticipationType.ToGo.description, style: .Default, handler: { (action: UIAlertAction!) in
+            self.utilityHeaderView.disableStartEventButton(ParticipationType.ToGo)
+            self.viewmodel.participate(ParticipationType.ToGo)
+        }))
+        
+        wtgAlert.addAction(UIAlertAction(title: "取消", style: .Cancel, handler: { (action: UIAlertAction!) in
+            
+        }))
+
+        presentViewController(wtgAlert, animated: true, completion: nil)
+        
+    }
 }
 
 extension SocialBusinessViewController : UITableViewDelegate, UITableViewDataSource {
