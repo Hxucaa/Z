@@ -95,7 +95,7 @@ public final class ProfileHeaderView: UIView {
 //        label.lineBreakMode = NSLineBreakMode.ByWordWrapping
         label.backgroundColor = .clearColor()
         label.textColor = UIColor.whiteColor()
-        label.font = UIFont.systemFontOfSize(15)
+        label.font = UIFont.systemFontOfSize(13)
 //        label.numberOfLines = 2
         
         label.layer.masksToBounds = false
@@ -156,10 +156,9 @@ public final class ProfileHeaderView: UIView {
         
         constrain(nicknameLabel, ageGroupLabel, statusLabel) {
             align(leading: $0, $1, $2)
-            
-            $1.top == $0.bottom + 25
-            $2.top == $1.bottom + 24
+
             $2.top == $1.bottom + 8
+            $2.height == 15
         }
         
         constrain(profileImageView, statusLabel) { image, label in

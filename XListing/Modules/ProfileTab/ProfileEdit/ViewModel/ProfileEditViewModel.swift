@@ -24,6 +24,8 @@ public final class ProfileEditViewModel {
     
     public let gender: MutableProperty<Gender?>
     
+    public let status: MutableProperty<String?>
+    
     // MARK: - Outputs
     public let allInputsValid = MutableProperty<Bool>(false)
     
@@ -60,6 +62,8 @@ public final class ProfileEditViewModel {
         else {
             self.birthday = MutableProperty(NSDate())
         }
+        
+        self.status = MutableProperty(user.status)
         
         setupNickname()
         setupGender()
@@ -134,6 +138,7 @@ public final class ProfileEditViewModel {
                 if let gender = self.gender.value {
                     user.gender_ = gender
                 }
+                user.status = self.status.value
                 return self.userService.save(user)
         }
     }

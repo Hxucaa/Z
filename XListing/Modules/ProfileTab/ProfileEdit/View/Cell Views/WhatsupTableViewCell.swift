@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ReactiveCocoa
 
 public final class WhatsupTableViewCell: UITableViewCell {
 
@@ -22,6 +23,14 @@ public final class WhatsupTableViewCell: UITableViewCell {
     public override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
+    }
+    
+    public func getTextfield_rac_text () -> MutableProperty<String?> {
+        return textField.rac_text
+    }
+    
+    public func setTextfieldText (text: MutableProperty<String?>) {
+        textField.text = text.value
     }
 
 }
