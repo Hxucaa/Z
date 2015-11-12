@@ -11,6 +11,12 @@ import Foundation
 public final class ProfilePageViewModel : IProfilePageViewModel {
     
     // MARK: - Properties
+    public weak var navigator: ProfileNavigator? {
+        didSet {
+            participationListViewModel.navigator = navigator
+        }
+    }
+    
     // MARK: Services
     private let businessService: IBusinessService
     private let participationService: IParticipationService

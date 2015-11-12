@@ -35,6 +35,8 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
     private var numberOfParticipationsLoaded = 0
     private let 启动无限scrolling参数 = 0.4
     
+    public weak var navigator: ProfileNavigator? 
+    
     // MARK: - Initializers
     public init(participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService) {
         
@@ -97,7 +99,13 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
     }
     
     public func pushSocialBusinessModule(section: Int, animated: Bool) {
-        //        navigator.pushSocialBusiness(businessArr.value[section], animated: animated)
+        if let nav = navigator {
+            nav.pushSocialBusiness(businessArr[section], animated: animated)
+        }
+    }
+    
+    public func getBusinessAtIndex(index: Int) -> Business {
+        return businessArr[index]
     }
     
     

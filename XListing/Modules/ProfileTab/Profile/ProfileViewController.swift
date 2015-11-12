@@ -97,7 +97,7 @@ public final class ProfileViewController : XUIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        navigationController?.navigationBarHidden = true
         navigationController?.hidesBarsOnSwipe = false
         
         upperViewController.editProxy
@@ -114,6 +114,7 @@ public final class ProfileViewController : XUIViewController {
             .startWithNext { [weak self] in
                 self?.viewmodel.presentFullScreenImageModule(true, completion: nil)
             }
+
     }
     
     public override func viewWillDisappear(animated: Bool) {

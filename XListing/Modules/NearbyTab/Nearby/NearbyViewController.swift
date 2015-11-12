@@ -68,7 +68,6 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: false)
         
         navigationController?.navigationBarHidden = false
         

@@ -35,7 +35,7 @@ public final class ProfileBottomViewController : UIViewController {
     public var fullImageProxy: SimpleProxy {
         return _fullImageProxy
     }
-    
+
     
     // MARK: - Properties
     private var viewmodel: IProfileBottomViewModel! {
@@ -101,6 +101,7 @@ public final class ProfileBottomViewController : UIViewController {
                     this._fullImageObserver.proxyNext(())
                 }
             }
+        
     }
     
     // MARK: - Bindings

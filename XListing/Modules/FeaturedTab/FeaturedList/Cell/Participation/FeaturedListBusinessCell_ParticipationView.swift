@@ -216,7 +216,7 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         constrain(participantsPreviewView, joinButtonContainer) { container, button in
             container.leading == container.superview!.leadingMargin
             container.top == container.superview!.top
-            container.width == container.superview!.width * 0.65
+            container.width == container.superview!.width * 0.655
             container.bottom == container.superview!.bottom
             
             button.leading == container.trailing

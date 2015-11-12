@@ -10,6 +10,7 @@ public protocol IProfileViewModel : class {
     // MARK: - Outputs
     
     // MARK: - Properties
+    var navigator: ProfileNavigator? { get set }
     
     // MARK: ViewModels
     var profileUpperViewModel: IProfileUpperViewModel { get }
@@ -19,7 +20,7 @@ public protocol IProfileViewModel : class {
     init(participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
     
     // MARK: - API
-    func pushSocialBusinessModule(section: Int, animated: Bool)
+    func pushSocialBusinessModule(business: Business, animated: Bool)
     func presentProfileEditModule(aniated: Bool, completion: CompletionHandler?)
     func presentFullScreenImageModule(animated: Bool, completion: CompletionHandler?)
 }

@@ -16,4 +16,5 @@ public protocol IParticipationListCellViewModel : class {
     var infoPanelViewModel: ProfileTabInfoPanelViewModel { get }
     var statusButtonViewModel: ProfileTabStatusButtonViewModel { get }
     func getCoverImage() -> SignalProducer<Void, NSError>
+    
 }

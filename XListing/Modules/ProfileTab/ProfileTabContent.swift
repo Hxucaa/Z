@@ -36,6 +36,7 @@ public final class ProfileTabContent : ITabContent {
 extension ProfileTabContent : ProfileNavigationControllerDelegate {
 
     public func pushSocialBusiness<T : Business>(business: T, animated: Bool) {
+        socialBusinessWireframe.sharedNavigationController = profileTabNavigationController
         profileTabNavigationController.pushViewController(socialBusinessWireframe.viewController(business), animated: animated)
     }
 

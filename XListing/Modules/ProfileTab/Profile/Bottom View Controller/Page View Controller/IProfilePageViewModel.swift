@@ -12,6 +12,7 @@ public protocol IProfilePageViewModel : class {
     
     
     // MARK: - Properties
+    var navigator: ProfileNavigator? { get set }
     
     // MARK: ViewModels
     var photoManagerViewModel: IPhotoManagerViewModel { get }

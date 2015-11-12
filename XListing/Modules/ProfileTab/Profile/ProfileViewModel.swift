@@ -36,7 +36,11 @@ public final class ProfileViewModel : IProfileViewModel {
     public let profileBottomViewModel: IProfileBottomViewModel
 
     // MARK: Variables
-    public weak var navigator: ProfileNavigator!
+    public weak var navigator: ProfileNavigator? {
+        didSet {
+            profileBottomViewModel.navigator = navigator
+        }
+    }
     
     // MARK: - Initializers
     
@@ -55,18 +59,24 @@ public final class ProfileViewModel : IProfileViewModel {
 
     // MARK: - API
 
-    public func pushSocialBusinessModule(section: Int, animated: Bool) {
-//        navigator.pushSocialBusiness(businessArr.value[section], animated: animated)
+    public func pushSocialBusinessModule(business: Business, animated: Bool) {
+        if let nav = navigator {
+            nav.pushSocialBusiness(business, animated: animated)
+        }
     }
 
     public func presentProfileEditModule(animated: Bool, completion: CompletionHandler? = nil) {
         if userService.isLoggedInAlready() {
-            navigator.presentProfileEdit(animated, completion: completion)
+            if let nav = navigator {
+                nav.presentProfileEdit(animated, completion: completion)
+            }
         }
     }
     
     public func presentFullScreenImageModule(animated: Bool, completion: CompletionHandler? = nil) {
-        navigator.presentFullScreenImage(animated, completion: completion)
+        if let nav = navigator {
+            nav.presentFullScreenImage(animated, completion: completion)
+        }
     }
 
 

@@ -61,7 +61,6 @@ public final class FeaturedListViewController: XUIViewController {
         navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         navigationController?.navigationBar.barTintColor = UIColor.x_PrimaryColor()
         navigationController?.navigationBar.barStyle = UIBarStyle.Black
-        navigationController?.setNavigationBarHidden(false, animated: false)
         
         view.opaque = true
         view.backgroundColor = UIColor.x_FeaturedTableBG()

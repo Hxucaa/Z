@@ -39,6 +39,7 @@ public final class ParticipationListViewController : UIViewController {
     private var viewmodel: IParticipationListViewModel!
     private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, ParticipationListViewModel>!
     
+    
     // MARK: - Initializers
     
     // MARK: - Setups
@@ -57,14 +58,12 @@ public final class ParticipationListViewController : UIViewController {
             $0.bottom == $0.superview!.bottom
             $0.trailing == $0.superview!.trailing
         }
+    
     }
     
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        
-        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! ParticipationListViewModel)
         
         viewmodel.refreshData()
             .start()

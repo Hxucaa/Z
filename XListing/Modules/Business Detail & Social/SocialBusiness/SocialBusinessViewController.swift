@@ -84,9 +84,16 @@ public final class SocialBusinessViewController : XUIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! SocialBusinessViewModel)
+        
+
         view.addSubview(tableView)
         view.addSubview(backButton)
-        navigationController?.setNavigationBarHidden(true, animated: true)
         
         constrain(tableView) { view in
             view.top == view.superview!.top - 20
@@ -100,7 +107,6 @@ public final class SocialBusinessViewController : XUIViewController {
             view.leading == view.superview!.leading
         }
         
-        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! SocialBusinessViewModel)
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -192,11 +198,7 @@ public final class SocialBusinessViewController : XUIViewController {
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
     }
-    
-    public override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
-    
+
     public func getHeaderDestinationPoint() -> CGPoint {
         let headerRect = view.convertRect(headerView.frame, fromView: headerView)
         return headerRect.origin
@@ -261,7 +263,7 @@ extension SocialBusinessViewController : UITableViewDelegate, UITableViewDataSou
 
 extension SocialBusinessViewController : UINavigationControllerDelegate {
     public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
+
         if fromVC is SocialBusinessViewController && toVC is BusinessDetailViewController && operation == .Push {
             
             // convert to navigation controller's coordinate system so that the height of status bar and navigation bar is taken into account of

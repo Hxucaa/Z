@@ -68,7 +68,7 @@ public class PullToRefreshConductor<T: UITableView, U: IPullToRefreshDataSource>
                     }
             }
         }
-        
+
         /**
         *  Setup the view to Pull to Refresh
         */

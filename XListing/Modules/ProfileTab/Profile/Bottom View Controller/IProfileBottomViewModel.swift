@@ -12,6 +12,7 @@ import ReactiveCocoa
 public protocol IProfileBottomViewModel : class {
     
     // MARK: - Properties
+    var navigator: ProfileNavigator? { get set }
     
     // MARK: ViewModels
     var profilePageViewModel: IProfilePageViewModel { get }

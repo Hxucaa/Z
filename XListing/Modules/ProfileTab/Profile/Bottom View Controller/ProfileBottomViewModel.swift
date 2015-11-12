@@ -11,6 +11,12 @@ import Foundation
 public final class ProfileBottomViewModel : IProfileBottomViewModel {
     
     // MARK: - Properties
+    public weak var navigator: ProfileNavigator? {
+        didSet {
+            profilePageViewModel.navigator = navigator
+        }
+    }
+    
     // MARK: Services
     private let businessService: IBusinessService
     private let participationService: IParticipationService
@@ -20,6 +26,7 @@ public final class ProfileBottomViewModel : IProfileBottomViewModel {
     
     // MARK: ViewModels
     public let profilePageViewModel: IProfilePageViewModel
+    
     
     // MARK: - Initializers
     
