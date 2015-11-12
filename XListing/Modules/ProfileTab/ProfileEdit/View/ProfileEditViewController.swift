@@ -434,6 +434,7 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
                 return birthdayCell
             case .Whatsup:
                 let whatsupCell = tableView.dequeueReusableCellWithIdentifier("WhatsupCell") as! WhatsupTableViewCell
+
                 whatsupCell.setTextfieldText(viewmodel.status)
                 viewmodel.status <~ whatsupCell.getTextfield_rac_text()
                 return whatsupCell

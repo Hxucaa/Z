@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "F1109F6584C2196647E76D6163D2B291AE973CAC",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "57F2F3AB6324161B20BE9DD0BC26BB3839282BDC" : 0,
+    "F1109F6584C2196647E76D6163D2B291AE973CAC" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "90533355-D4C0-4C87-BB72-E66FD58D749C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "57F2F3AB6324161B20BE9DD0BC26BB3839282BDC" : "xlisting\/lib\/XAssets",
+    "F1109F6584C2196647E76D6163D2B291AE973CAC" : "xlisting"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "XListing",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "XListing.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:zenchat\/xassets.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "57F2F3AB6324161B20BE9DD0BC26BB3839282BDC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:zenchat\/xlisting.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F1109F6584C2196647E76D6163D2B291AE973CAC"
+    }
+  ]
+}

@@ -21,6 +21,7 @@ private struct AssociationKey {
     static var image: UInt8 = 9
     static var optionalText: UInt8 = 10
     static var backgroundColor: UInt8 = 11
+    static var recognizerEnabled: UInt8 = 12
 }
 
 // lazily creates a gettable associated property via the given factory
@@ -47,6 +48,12 @@ private func lazyMutableProperty<T>(host: AnyObject, key: UnsafePointer<Void>, s
 extension UIControl {
     public var rac_enabled: MutableProperty<Bool> {
         return lazyMutableProperty(self, key: &AssociationKey.enabled, setter: { self.enabled = $0 }, getter: { self.enabled })
+    }
+}
+
+extension UIGestureRecognizer {
+    public var rac_enabled: MutableProperty<Bool> {
+        return lazyMutableProperty(self, key: &AssociationKey.recognizerEnabled, setter: { self.enabled = $0 }, getter: { self.enabled})
     }
 }
 

@@ -84,69 +84,98 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
         return dot
     }()
     
-    private lazy var wtgView: UIView = {
-        let wtgView = UIView(frame: CGRectMake(0, 0, 35, wtgIconSize))
-
-        let imageView = self.makeIconImageView(CGRectMake(0, 0, wtgIconSize, wtgIconSize))
-        imageView.rac_image <~ AssetFactory.getImage(Asset.WTGIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-            .take(1)
-            .map { Optional<UIImage>($0) }
+    private lazy var wtgTapGesture: UITapGestureRecognizer = {
+        let tapGesture = UITapGestureRecognizer()
         
+        let tapToGo = Action<UITapGestureRecognizer, Void, NoError> { [weak self] button in
+            return SignalProducer { observer ,disposable in
+                if let this = self {
+                    disposable += this.viewmodel.participate(ParticipationType.ToGo)
+                        .start()
+                    this.wtgImageView.rac_image <~ AssetFactory.getImage(Asset.WTGIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: true, shadow: false))
+                        .take(1)
+                        .map { Optional<UIImage>($0) }
+                    this.wtgTapGesture.enabled = false
+                    this.treatTapGesture.enabled = false
+                    observer.sendCompleted()
+                }
+            }
+        }
+        
+        tapGesture.addTarget(tapToGo.unsafeCocoaAction, action: CocoaAction.selector)
+        
+        return tapGesture
+    }()
+    
+    private lazy var wtgLabel: UILabel = {
         let label = UILabel(frame: CGRectMake(wtgIconSize, 2, labelSize, labelSize))
-        label.text = "20"
         label.opaque = true
         label.backgroundColor = .x_FeaturedCardBG()
         label.layer.masksToBounds = true
         label.textColor = UIColor.x_PrimaryColor()
         label.adjustsFontSizeToFitWidth = true
-        
-        wtgView.addSubview(imageView)
-        wtgView.addSubview(label)
-        
-        constrain(imageView, label) { imageView, label in
-            label.leading == imageView.trailing + 1
-            label.bottom == imageView.bottom
-            label.width == labelSize
-            label.height == labelSize
-        }
-        
-        let tapGesture = UITapGestureRecognizer()
-        wtgView.addGestureRecognizer(tapGesture)
+        label.textAlignment = .Center
+        return label
+    }()
+    
+    private lazy var wtgImageView: UIImageView = {
+        let imageView = self.makeIconImageView(CGRectMake(0, 0, wtgIconSize, wtgIconSize))
+
+        return imageView
+    }()
+    
+    private lazy var wtgView: UIView = {
+        let wtgView = UIView(frame: CGRectMake(0, 0, 35, wtgIconSize))
         
         return wtgView
     }()
     
-    private lazy var treatView: UIView = {
-        let treatView = UIView(frame: CGRectMake(0, 0, 35, treatIconSize))
+    private lazy var treatTapGesture: UITapGestureRecognizer = {
+        let tapGesture = UITapGestureRecognizer()
+        
+        let tapTreat = Action<UITapGestureRecognizer, Void, NoError> { [weak self] button in
+            return SignalProducer { observer ,disposable in
+                if let this = self {
+                    disposable += this.viewmodel.participate(ParticipationType.Treat)
+                        .start()
+                    this.treatImageView.rac_image <~ AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: true, shadow: false))
+                        .take(1)
+                        .map { Optional<UIImage>($0) }
+                    this.treatTapGesture.enabled = false
+                    this.wtgTapGesture.enabled = false
+                    observer.sendCompleted()
+                }
+            }
+        }
+        
+        tapGesture.addTarget(tapTreat.unsafeCocoaAction, action: CocoaAction.selector)
+        
+        return tapGesture
+    }()
+    
+    private lazy var treatImageView: UIImageView = {
         let imageView = self.makeIconImageView(CGRectMake(0, 0, treatIconSize, treatIconSize))
         
-        imageView.rac_image <~ AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: false, shadow: false))
-            .take(1)
-            .map { Optional<UIImage>($0) }
-        
+        return imageView
+    }()
+    
+    private lazy var treatLabel: UILabel = {
         let label = UILabel(frame: CGRectMake(treatIconSize, 3, labelSize, labelSize))
-        label.text = "20"
         label.opaque = true
         label.backgroundColor = .x_FeaturedCardBG()
         label.layer.masksToBounds = true
         label.textColor = UIColor.x_PrimaryColor()
         label.adjustsFontSizeToFitWidth = true
-        
-        treatView.addSubview(imageView)
-        treatView.addSubview(label)
-        
-        constrain(imageView, label) { imageView, label in
-            label.leading == imageView.trailing
-            label.bottom == imageView.bottom - (treatIconSize - wtgIconSize) / 2
-            label.width == labelSize
-            label.height == labelSize
-        }
-        
-        let tapGesture = UITapGestureRecognizer()
-        treatView.addGestureRecognizer(tapGesture)
-        
+        label.textAlignment = .Center
+        return label
+    }()
+    
+    private lazy var treatView: UIView = {
+        let treatView = UIView(frame: CGRectMake(0, 0, 35, treatIconSize))
+
         return treatView
     }()
+    
     
     private func makeIconImageView(frame: CGRect) -> UIImageView {
         let imageView = UIImageView(frame: frame)
@@ -196,6 +225,30 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
             (button.bottom == button.superview!.bottomMargin).identifier = "joinButtonContainer bottom"
         }
         
+        wtgView.addSubview(wtgImageView)
+        wtgView.addSubview(wtgLabel)
+        
+        constrain(wtgImageView, wtgLabel) { imageView, label in
+            label.leading == imageView.trailing + 1
+            label.bottom == imageView.bottom
+            label.width == labelSize
+            label.height == labelSize
+        }
+        
+        treatView.addSubview(treatImageView)
+        treatView.addSubview(treatLabel)
+        
+        constrain(treatImageView, treatLabel) { imageView, label in
+            label.leading == imageView.trailing
+            label.bottom == imageView.bottom - (treatIconSize - wtgIconSize) / 2
+            label.width == labelSize
+            label.height == labelSize
+        }
+        
+        
+        wtgView.addGestureRecognizer(wtgTapGesture)
+        treatView.addGestureRecognizer(treatTapGesture)
+        
         joinButtonContainer.addSubview(wtgView)
         joinButtonContainer.addSubview(treatView)
         joinButtonContainer.addSubview(dotLabel)
@@ -208,13 +261,11 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
             wtgView.height == wtgIconSize
             wtgView.width == wtgIconSize+labelSize+3
             treatView.height == treatIconSize
-//            treatView.width == treatIconSize+labelSize
+            treatView.width == treatIconSize+labelSize
             
             dotLabel.leading == wtgView.trailing - 2
             dotLabel.trailing == treatView.leading
-            
-//            wtgView.leading <= wtgView.superview!.leading ~ 100
-//            treatView.trailing <= treatView.superview!.trailing ~ 100
+
         }
     }
     
@@ -223,21 +274,49 @@ public final class FeaturedListBusinessCell_ParticipationView : UIView {
     public func bindToViewModel(viewmodel: IFeaturedListBusinessCell_ParticipationViewModel) {
         self.viewmodel = viewmodel
         
-//        joinButton.rac_enabled <~ viewmodel.buttonEnabled.producer
-//            .takeUntilPrepareForReuse(self)
-//
-//        viewmodel.buttonEnabled.producer
-//            .ignoreNil
-//            .start(next: {[weak self] input in
-//                    self?.joinButtonUIButton.enabled = input
-//                    self?.joinButtonUIButton.hidden  = false
-//                })
+        treatTapGesture.rac_enabled <~ viewmodel.isButtonEnabled
+        wtgTapGesture.rac_enabled <~ viewmodel.isButtonEnabled
+        
+        viewmodel.isTreatEnabled.producer
+            .startWithNext { [weak self] success in
+                if let this = self {
+                    
+                    this.treatImageView.rac_image <~ AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: this.viewmodel.isTreatEnabled.value, shadow: false))
+                        .take(1)
+                        .map { Optional<UIImage>($0) }
+                }
+        }
+        
+        viewmodel.isWTGEnabled.producer
+            .startWithNext { [weak self] success in
+                if let this = self {
+                    
+                    this.wtgImageView.rac_image <~ AssetFactory.getImage(Asset.WTGIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: this.viewmodel.isWTGEnabled.value, shadow: false))
+                        .take(1)
+                        .map { Optional<UIImage>($0) }
+                }
+        }
+
         
         compositeDisposable += self.viewmodel.getParticipantPreview()
             .start()
         
         compositeDisposable += self.viewmodel.getUserParticipation()
             .start()
+        
+        compositeDisposable += self.viewmodel.getWTGCount()
+            .start({[weak self] _ in
+                if let this = self {
+                    this.wtgLabel.rac_text <~ this.viewmodel.wtgCount
+                }
+            })
+        
+        compositeDisposable += self.viewmodel.getTreatCount()
+            .start({[weak self] _ in
+                if let this = self {
+                    this.treatLabel.rac_text <~ this.viewmodel.treatCount
+                }
+            })
         
         compositeDisposable += self.viewmodel.participantViewModelArr.producer
             .filter { $0.count > 0 }
