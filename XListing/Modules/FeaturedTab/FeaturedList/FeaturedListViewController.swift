@@ -89,7 +89,6 @@ public final class FeaturedListViewController: XUIViewController {
             .start()
         
         navigationController?.navigationBarHidden = false
-        navigationController?.hidesBarsOnSwipe = true
 
         navigationController?.navigationBar.translucent = false
         
