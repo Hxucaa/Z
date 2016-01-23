@@ -2,31 +2,20 @@
 //  Gender.swift
 //  XListing
 //
-//  Created by Bruce Li on 2015-07-06.
+//  Created by Lance Zhu on 2016-01-17.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import Foundation
 
-public enum Gender : CustomStringConvertible {
-    case Male
-    case Female
+public enum Gender : Int, CustomStringConvertible {
+    case Male = 1
+    case Female = 0
     
     public var description: String {
         switch self {
-        case .Male:
-            return "男"
-        case .Female:
-            return "女"
-        }
-    }
-    
-    public var dbRepresentation: Bool {
-        switch self {
-        case .Male:
-            return true
-        case .Female:
-            return false
+        case .Male: return "男"
+        case .Female: return "女"
         }
     }
 }

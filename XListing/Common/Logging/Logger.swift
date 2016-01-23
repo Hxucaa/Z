@@ -52,7 +52,7 @@ internal final class Logger {
         
         let fileLogger = DDFileLogger()
         fileLogger.rollingFrequency = 60 * 60 * 24 // 24 hour rolling
-        fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
+        fileLogger.logFileManager.maximumNumberOfLogFiles = 7
         if let formatter = formatter {
             fileLogger.logFormatter = formatter
         }

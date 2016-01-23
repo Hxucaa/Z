@@ -9,17 +9,21 @@
 import Foundation
 import ReactiveCocoa
 
-public final class FeaturedBusinessViewModel : IFeaturedBusinessViewModel {
+public final class FeaturedBusinessViewModel : BasicBusinessInfoViewModel, IFeaturedBusinessViewModel {
     
     // MARK: - Outputs
-    private let _coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
-    public var coverImage: AnyProperty<UIImage?> {
-        return AnyProperty(_coverImage)
-    }
     
-    // MARK: - ViewModels
-    public let infoPanelViewModel: IFeaturedListBusinessCell_InfoPanelViewModel
-    public let pariticipationViewModel: IFeaturedListBusinessCell_ParticipationViewModel
+    public var props: SignalProducer<RNProps, NoError> {
+        return combineLatest(name, city, coverImageUrl, eta.producer.ignoreNil(), treatCount, toGoCount)
+            .map {[
+                "businessName": $0,
+                "location": $1,
+                "coverImageUrl": $2,
+                "eta": $3,
+                "treatCount": $4,
+                "toGoCount": $5
+            ]}
+    }
     
     // MARK: - Properties
     private let userService: IUserService
@@ -29,35 +33,21 @@ public final class FeaturedBusinessViewModel : IFeaturedBusinessViewModel {
     private let business: Business
     
     // MARK: - Initializers
-    public init(userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService, participationService: IParticipationService, cover: ImageFile?, geolocation: Geolocation?, treatCount: Int, aaCount: Int, toGoCount: Int, business: Business?) {
+    public init(userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService, participationService: IParticipationService, business: Business) {
         
         self.userService = userService
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         self.participationService = participationService
         
-        self.business = business!
+        self.business = business
         
-        infoPanelViewModel = FeaturedListBusinessCell_InfoPanelViewModel(geoLocationService: geoLocationService, businessName: business?.nameSChinese, city: business?.city, district: business?.district, price: business?.price, geolocation: geolocation)
-        pariticipationViewModel = FeaturedListBusinessCell_ParticipationViewModel(userService: userService, imageService: imageService, participationService: participationService, business: business)
+        super.init(geoLocationService: geoLocationService, imageService: imageService, business: business)
     }
 
     
     // MARK: - Setups
     
     // MARK: - API
-    
-    public func getCoverImage() -> SignalProducer<Void, NSError> {
-        if let url = business.cover_?.url, nsurl = NSURL(string: url) {
-            return imageService.getImage(nsurl)
-                .on(next: {
-                    self._coverImage.value = $0
-                })
-                .map { _ in return }
-        }
-        else {
-            return SignalProducer<Void, NSError>.empty
-        }
-    }
     
 }

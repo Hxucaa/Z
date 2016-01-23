@@ -1,0 +1,22 @@
+disabled_rules:
+  - line_length
+  - function_body_length
+  - trailing_whitespace
+  - statement_position
+  - force_cast
+  - variable_name
+  - colon
+  - closing_brace
+  - legacy_constructor
+  - trailing_newline
+  - type_body_length
+  - todo
+  - type_name
+  - opening_brace
+included:
+  - XListing
+  - XListingTests
+excluded:
+  - Carthage
+  - Pods
+line_length: 100

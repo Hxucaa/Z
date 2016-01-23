@@ -68,10 +68,10 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
     }
     
     public override func viewDidLayoutSubviews() {
-        var viewBounds = self.view.bounds;
+        var viewBounds = self.view.bounds
         let topBarOffset = CGFloat(64.0)
-        viewBounds.origin.y = topBarOffset * -1;
-        self.tableView.bounds = viewBounds;
+        viewBounds.origin.y = topBarOffset * -1
+        self.tableView.bounds = viewBounds
     }
     
     public func bindToViewModel(viewmodel: ProfileEditViewModel) {
@@ -92,7 +92,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
         navigationBar.backgroundColor = UIColor.clearColor()
         navigationBar.barTintColor = UIColor.x_PrimaryColor()
         navigationBar.tintColor = UIColor.whiteColor()
-        navigationBar.delegate = self;
+        navigationBar.delegate = self
         navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         
         // Create a navigation item with a title
@@ -275,7 +275,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
             .startWithNext { [weak self] _ in
                     
                 self?.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0)
-                self?.tableView.contentInset = UIEdgeInsetsMake(64,0,0,0)
+                self?.tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0)
                 self?.shouldAdjustForKeyboard = false
             }
     }
@@ -297,7 +297,7 @@ public final class ProfileEditViewController: XUIViewController, UINavigationBar
         let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
         
         let cameraAction = UIAlertAction(title: "拍照", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
-            if (!UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
+            if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
                 let noCameraAlert = UIAlertController(title: "This device does not have a camera", message: "", preferredStyle: UIAlertControllerStyle.Alert)
                 noCameraAlert.addAction(cancelAction)
                 self.presentViewController(noCameraAlert, animated: true, completion: nil)
@@ -465,7 +465,7 @@ extension ProfileEditViewController: UITableViewDataSource, UITableViewDelegate 
         // Adjust the positioning based on the width of the device
         let deviceWidth = UIScreen.mainScreen().bounds.size.width
         let profilePicView = UIView(frame: CGRectMake(deviceWidth-90, -245, 85, 100))
-        if (profilePicture == nil) {
+        if profilePicture == nil {
             profilePicture.image = UIImage(named: ImageAssets.profilepicture)
         }
         profilePicView.addSubview(self.profilePicture)

@@ -24,7 +24,7 @@ public final class PublicProfileViewController : XUIViewController {
         
         
         var flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSizeMake(5, 5);
+        flowLayout.itemSize = CGSizeMake(5, 5)
         flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
         
         let view = UICollectionView(frame: CGRect(origin: CGPointMake(0, 0), size: self.view.frame.size), collectionViewLayout: flowLayout)
@@ -40,7 +40,7 @@ public final class PublicProfileViewController : XUIViewController {
         let button = BackButton()
         
         let goBack = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { observer ,disposable in
+            return SignalProducer { observer, disposable in
                 self?.navigationController?.popViewControllerAnimated(true)
                 observer.sendCompleted()
             }

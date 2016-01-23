@@ -90,7 +90,7 @@ public final class BusinessHourCellViewModel {
         _satHidden = MutableProperty(true)
         
         //show only the hours for the current day initially
-        switch(weekday) {
+        switch weekday {
             case 1: _sunHidden.value = false
             case 2: _monHidden.value = false
             case 3: _tuesHidden.value = false

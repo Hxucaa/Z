@@ -6,6 +6,6 @@
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
-public final class ProfileTabInfoPanelViewModel : BasicBusinessInfoViewModel, IProfileTabInfoPanelViewModel{
+public final class ProfileTabInfoPanelViewModel : BasicBusinessInfoViewModel, IProfileTabInfoPanelViewModel {
 
 }

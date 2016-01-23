@@ -1,4 +1,4 @@
-  //
+//
 //  ProfileEditViewModel.swift
 //  XListing
 //
@@ -54,7 +54,7 @@ public final class ProfileEditViewModel {
         
         self.nickname = MutableProperty(user.nickname)
         
-        self.gender = MutableProperty(user.gender_)
+        self.gender = MutableProperty(user.gender)
         
         if let birthday = user.birthday {
             self.birthday = MutableProperty(birthday)
@@ -63,7 +63,7 @@ public final class ProfileEditViewModel {
             self.birthday = MutableProperty(NSDate())
         }
         
-        self.status = MutableProperty(user.status)
+        self.status = MutableProperty(user.whatsUp)
         
         setupNickname()
         setupGender()
@@ -71,7 +71,7 @@ public final class ProfileEditViewModel {
         setupProfileImage()
         setupAllInputsValid()
         
-        if let profileImage = user.profileImg_, url = profileImage.url, nsurl = NSURL(string: url) {
+        if let profileImage = user.coverPhoto, nsurl = NSURL(string: profileImage.url) {
             imageService.getImage(nsurl)
                 .startWithNext { [weak self] image in
                     self?.profileImage.value = image
@@ -130,21 +130,20 @@ public final class ProfileEditViewModel {
             .flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
                 
                 let imageData = UIImagePNGRepresentation(self.profileImage.value!)
-                let file = ImageFile(name: "profile.png", data: imageData)
                 
-                user.nickname = self.nickname.value
+                user.nickname = self.nickname.value!
                 user.birthday = self.birthday.value
-                user.profileImg_ = file
+                user.setCoverPhoto("profile.png", data: imageData!)
                 if let gender = self.gender.value {
-                    user.gender_ = gender
+                    user.gender = gender
                 }
-                user.status = self.status.value
+                user.whatsUp = self.status.value
                 return self.userService.save(user)
         }
     }
     
     
-    /// Age restriction.
+    // Age restriction.
     public var ageLimit: AgeLimit {
         func calDate(currentDate: NSDate, age: Int) -> NSDate {
             let calendar = NSCalendar.currentCalendar()
@@ -168,6 +167,8 @@ public final class ProfileEditViewModel {
     
     /**
     Retrieve featured business from database
+     
+    - returns: A signal producer.
     */
     public func getUserData() -> SignalProducer<Void, NSError> {
         return userService.currentLoggedInUser()

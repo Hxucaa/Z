@@ -104,7 +104,11 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                         case .Next(let operation):
                             switch operation {
                             case let .Initiate(values):
-                                this.mapView.addAnnotations(values.filter( { $0.annotation.value != nil } ).map { $0.annotation.value })
+                                this.mapView.addAnnotations(
+                                    values
+                                        .filter { $0.annotation.value != nil }
+                                        .map { $0.annotation.value }
+                                )
                                 this.businessCollectionView.reloadData()
                             case .AppendContentsOf(let values):
                                 this.mapView.addAnnotations(values.map { $0.annotation.value })
@@ -192,7 +196,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         redoSearchButton.layer.masksToBounds = true
         
         let reQueryMapAction = Action<UIButton, Void, NSError> { [weak self] button in
-            return SignalProducer{ observer, disposable in
+            return SignalProducer { observer, disposable in
                 if let this = self {
                     
                     let latDelta = this.mapView.region.span.latitudeDelta
@@ -318,14 +322,14 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                         //  Look through gesture recognizers to determine whether this region change is from user interaction
                         if let view = self?.mapView.subviews.first as UIView!, gestureRecognizers = view.gestureRecognizers {
                             for recognizer in gestureRecognizers {
-                                if( recognizer.state == UIGestureRecognizerState.Began || recognizer.state == UIGestureRecognizerState.Ended ) {
+                                if recognizer.state == UIGestureRecognizerState.Began || recognizer.state == UIGestureRecognizerState.Ended {
                                     return true
                                 }
                             }
                         }
                         return false
                     }()
-                    if (mapChangedFromUserInteraction) {
+                    if mapChangedFromUserInteraction {
                         // show the redo search button when user moves the map
                         self?.redoSearchButton.hidden = false
                     }
@@ -341,7 +345,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
             .start { [weak self] event in
                 switch event {
                 case .Next(_):
-                    if (mapChangedFromUserInteraction) {
+                    if mapChangedFromUserInteraction {
                         // show the redo search button when user moves the map
                         self?.redoSearchButton.hidden = false
                     }

@@ -22,7 +22,6 @@ public final class LeanCloudClient {
     }
     
     private static func prepareClient() {
-        AVOSCloud.useAVCloudUS()
         AVOSCloud.setLastModifyEnabled(true)
         AVOSCloud.setVerbosePolicy(kAVVerboseAuto)
         
@@ -32,11 +31,12 @@ public final class LeanCloudClient {
         #endif
         
         
-        User.enableAutomaticUser()
+//        User.enableAutomaticUser()
         
         User.registerSubclass()
+        Me.registerSubclass()
         User_Business_Participation.registerSubclass()
-        Profile.registerSubclass()
+        Address.registerSubclass()
         Business.registerSubclass()
     }
     

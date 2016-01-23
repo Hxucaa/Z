@@ -30,14 +30,16 @@ public final class SocialBusinessWireframe : ISocialBusinessWireframe {
     }
     
     /**
-    Inject ViewModel to view controller.
+     Inject ViewModel to view controller.
+     
+     - parameter business: Business object.
     
-    - returns: Properly configured DetailViewController.
-    */
-    private func injectViewModelToViewController(businessModel: Business) -> SocialBusinessViewController {
+     - returns: Properly configured DetailViewController.
+     */
+    private func injectViewModelToViewController(business: Business) -> SocialBusinessViewController {
         let viewController = SocialBusinessViewController()
         
-        let socialBusinessViewModel = SocialBusinessViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, imageService: imageService, businessModel: businessModel)
+        let socialBusinessViewModel = SocialBusinessViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, imageService: imageService, business: business)
         socialBusinessViewModel.navigator = self
         viewController.bindToViewModel(socialBusinessViewModel)
         

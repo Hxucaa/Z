@@ -11,6 +11,7 @@ import SDWebImage
 import ReactiveCocoa
 import Dollar
 import Cartography
+import React
 
 private let CellIdentifier = "Cell"
 private let CellHeightToScreenWidthRatio = 0.565
@@ -174,7 +175,7 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     - returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
     */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as? FeaturedListBusinessTableViewCell ?? FeaturedListBusinessTableViewCell(estimatedFrame: CGRectMake(0, 0, tableView.frame.width, CellRowHeight), style: UITableViewCellStyle.Default, reuseIdentifier: CellIdentifier)
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as? FeaturedListBusinessTableViewCell ?? FeaturedListBusinessTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: CellIdentifier)
         
         cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return cell

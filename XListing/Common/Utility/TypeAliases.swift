@@ -12,3 +12,4 @@ import ReactiveCocoa
 
 public typealias CompletionHandler = (() -> Void)
 public typealias Participation = User_Business_Participation
+public typealias RNProps = [NSObject : AnyObject]

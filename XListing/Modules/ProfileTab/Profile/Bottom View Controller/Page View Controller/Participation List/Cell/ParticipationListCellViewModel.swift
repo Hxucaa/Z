@@ -32,23 +32,23 @@ public final class ParticipationListCellViewModel : IParticipationListCellViewMo
     public let statusButtonViewModel: ProfileTabStatusButtonViewModel
     
     // MARK: - Initializers
-    public init(userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService, participationService: IParticipationService, cover: ImageFile?, geolocation: Geolocation?, business: Business?, type: ParticipationType?) {
+    public init(userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService, participationService: IParticipationService, coverImage: ImageFile?, geolocation: Geolocation, business: Business, type: ParticipationType?) {
         
         self.userService = userService
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         self.participationService = participationService
-        self.business = business!
+        self.business = business
         
         
-        infoPanelViewModel = ProfileTabInfoPanelViewModel(geoLocationService: geoLocationService, businessName: business?.nameSChinese, city: business?.city, district: business?.district, price: business?.price, geolocation: geolocation)
+        infoPanelViewModel = ProfileTabInfoPanelViewModel(geoLocationService: geoLocationService, imageService: imageService, business: business)
         statusButtonViewModel = ProfileTabStatusButtonViewModel(type: type)
     }
     
     // MARK: - Others
     
     public func getCoverImage() -> SignalProducer<Void, NSError> {
-        if let url = business.cover_?.url, nsurl = NSURL(string: url) {
+        if let nsurl = NSURL(string: business.coverImage.url) {
             return imageService.getImage(nsurl)
                 .on(next: {
                     self._coverImage.value = $0

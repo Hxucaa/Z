@@ -89,7 +89,7 @@ public final class ProfileHeaderView: UIView {
         return label
         }()
     
-    private lazy var statusLabel: TTTAttributedLabel = {
+    private lazy var whatsUpLabel: TTTAttributedLabel = {
         
         let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 30, 100))
 //        label.lineBreakMode = NSLineBreakMode.ByWordWrapping
@@ -128,7 +128,7 @@ public final class ProfileHeaderView: UIView {
         backgroundImageView.addSubview(nicknameLabel)
         backgroundImageView.addSubview(ageGroupLabel)
         backgroundImageView.addSubview(horoscopeLabel)
-        backgroundImageView.addSubview(statusLabel)
+        backgroundImageView.addSubview(whatsUpLabel)
         
         constrain(backgroundImageView) {
             $0.leading == $0.superview!.leading
@@ -154,18 +154,18 @@ public final class ProfileHeaderView: UIView {
             $0.trailing <= $0.superview!.trailingMargin - 15
         }
         
-        constrain(nicknameLabel, ageGroupLabel, statusLabel) {
+        constrain(nicknameLabel, ageGroupLabel, whatsUpLabel) {
             align(leading: $0, $1, $2)
 
             $2.top == $1.bottom + 8
             $2.height == 15
         }
         
-        constrain(profileImageView, statusLabel) { image, label in
+        constrain(profileImageView, whatsUpLabel) { image, label in
             label.bottom == image.bottom
         }
         
-        constrain(statusLabel) {
+        constrain(whatsUpLabel) {
             $0.trailing <= $0.superview!.trailingMargin - 15
         }
         
@@ -191,12 +191,13 @@ public final class ProfileHeaderView: UIView {
         
         ageGroupLabel.rac_text <~ viewmodel.ageGroup
         
-        statusLabel.rac_text <~ viewmodel.status
+        whatsUpLabel.rac_text <~ viewmodel.whatsUp.producer
+            .ignoreNil()
         
         ageGroupLabel.rac_backgroundColor <~ viewmodel.ageGroupBackgroundColor.producer
             .map { Optional.Some($0) }
 
-        profileImageView.rac_image <~ self.viewModel.profileImage.producer
+        profileImageView.rac_image <~ self.viewModel.coverPhoto.producer
             .ignoreNil()
             .map { $0.maskWithRoundedRect(ProfileImageSize, cornerRadius: max(ProfileImageSize.width, ProfileImageSize.height) / 2, borderWidth: 3, opaque: false) }
     }

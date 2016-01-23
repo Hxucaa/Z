@@ -59,10 +59,10 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
     public func bindToViewModel(viewmodel: NearbyTableCellViewModel) {
         self.viewmodel = viewmodel
         
-        self.viewmodel.getCoverImage()
+        self.viewmodel.fetchCoverImage()
             .start()
         
-        businessNameLabel.rac_text <~ self.viewmodel.businessName.producer
+        businessNameLabel.rac_text <~ self.viewmodel.name.producer
             .takeUntilPrepareForReuse(self)
         
         cityLabel.rac_text <~ self.viewmodel.city.producer
@@ -77,7 +77,6 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
         
         compositeDisposable += self.viewmodel.coverImage.producer
             .takeUntilPrepareForReuse(self)
-            .ignoreNil()
             .startWithNext { [weak self] in
                 self?.coverImageView.setImageWithAnimation($0)
             }

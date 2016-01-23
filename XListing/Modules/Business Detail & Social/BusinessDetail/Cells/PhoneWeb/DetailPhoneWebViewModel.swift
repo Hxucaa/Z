@@ -51,8 +51,8 @@ public struct DetailPhoneWebViewModel {
     }
     
     // MARK: - Initializers
-    public init(businessName: String?, phone: String?, website: String?) {
-        self._businessName = ConstantProperty(businessName!)
+    public init(name: String, phone: String?, website: String?) {
+        self._businessName = ConstantProperty(name)
         if let phone = phone {
             _phoneDisplay = ConstantProperty("   \(PhoneIcon)   \(phone)")
             _phoneURL = ConstantProperty(NSURL(string: "telprompt://\(phone)"))

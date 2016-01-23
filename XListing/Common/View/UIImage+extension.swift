@@ -25,7 +25,7 @@ extension UIImage {
     */
     public func maskWithRoundedRect(sizeToFit: CGSize, cornerRadius: CGFloat, borderWidth: CGFloat = 0, borderColor: UIColor = UIColor.whiteColor(), backgroundColor: UIColor? = nil, opaque: Bool = true, scale: CGFloat = UIScreen.mainScreen().scale) -> UIImage {
         // size to draw
-        let rect = CGRect(origin: CGPointZero, size: sizeToFit)
+        let rect = CGRect(origin: CGPoint.zero, size: sizeToFit)
         
         UIGraphicsBeginImageContextWithOptions(sizeToFit, opaque ?? true, scale ?? UIScreen.mainScreen().scale)
         

@@ -15,5 +15,5 @@ public protocol ISocialBusiness_UserViewModel : class, IBasicUserInfoViewModel {
     var participationType: AnyProperty<String> { get }
     
     // MARK: - Initializers
-    init(participationService: IParticipationService, imageService: IImageService, user: User, nickname: String?, ageGroup: AgeGroup?, horoscope: Horoscope?, gender: Gender, profileImage: ImageFile?, status: String?, participationType: ParticipationType)
+    init(participationService: IParticipationService, imageService: IImageService, user: User, participationType: ParticipationType)
 }

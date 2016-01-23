@@ -20,7 +20,7 @@ public protocol SocialBusinessNavigator : class {
 }
 
 
-public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollectionDataSource  {
+public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollectionDataSource {
     
     public typealias Payload = SocialBusiness_UserViewModel
     
@@ -60,22 +60,16 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     public weak var navigator: SocialBusinessNavigator!
     
     // MARK: - Initializers
-    public required init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, businessModel: Business) {
+    public required init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, business: Business) {
         self.userService = userService
         self.participationService = participationService
         self.geoLocationService = geoLocationService
         self.imageService = imageService
-        self.business = businessModel
+        self.business = business
         
-        if let businessName = businessModel.nameSChinese {
-            _businessName = MutableProperty(businessName)
-        } else {
-            _businessName = MutableProperty("")
-        }
+        _businessName = MutableProperty(business.name)
         
-        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: geoLocationService, imageService: imageService, cover: businessModel.cover_, businessName: businessModel.nameSChinese, city: businessModel.city, geolocation: businessModel.geolocation)
-        
-//        userViewModel = SocialBusiness_UserViewModel(participationService: participationService, imageService: imageService, user: <#User#>, nickname: <#String?#>, ageGroup: <#AgeGroup?#>, horoscope: <#Horoscope?#>, gender: <#Gender#>, profileImage: <#ImageFile?#>, status: <#String?#>, participationType: <#ParticipationType#>)
+        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: geoLocationService, imageService: imageService, coverImage: business.coverImage, name: business.name, city: business.address.city, geolocation: business.address.geoLocation)
     }
     
     // MARK: - API
@@ -129,7 +123,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
             .map { participations -> [SocialBusiness_UserViewModel] in
 
                 return participations.map {
-                    SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, nickname: $0.user.nickname, ageGroup: $0.user.ageGroup_, horoscope: $0.user.horoscope_, gender: $0.user.gender_, profileImage: $0.user.profileImg_, status: $0.user.status, participationType: $0.type)
+                    SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, participationType: $0.type)
                 }
 
             }
@@ -153,29 +147,30 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     }
     
     
-        /**
-        Participate Button Action
-    
-        - parameter choice: ParticipationChoice
-    
-        */
-        public func participate(choice: ParticipationType) -> SignalProducer<Bool, NSError> {
-            return self.userService.currentLoggedInUser()
-                .flatMap(FlattenStrategy.Concat) { user -> SignalProducer<Bool, NSError> in
-                    let p = Participation()
-                    p.user = user
-                    p.business = self.business
-                    p.type = choice
-    
-                    return self.participationService.create(p)
+    /**
+     Participate Button Action
+
+     - parameter choice: ParticipationChoice
+
+     - returns: A signal producer
+     */
+    public func participate(choice: ParticipationType) -> SignalProducer<Bool, NSError> {
+        return self.userService.currentLoggedInUser()
+            .flatMap(FlattenStrategy.Concat) { user -> SignalProducer<Bool, NSError> in
+                let p = Participation()
+                p.user = user
+                p.business = self.business
+                p.type = choice
+
+                return self.participationService.create(p)
+            }
+            .on(next: { [weak self] success in
+                // if operation is successful, change the participation button.
+                if success {
+                    self?._isButtonEnabled.value = false
                 }
-                .on(next: { [weak self] success in
-                    // if operation is successful, change the participation button.
-                    if success {
-                        self?._isButtonEnabled.value = false
-                    }
-                })
-        }
+            })
+    }
     
     
     // MARK: - Others

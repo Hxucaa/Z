@@ -28,7 +28,7 @@ public final class User_Business_Participation: AVObject, AVSubclassing {
     
     // MARK: Constructors
     public override class func registerSubclass() {
-        var onceToken : dispatch_once_t = 0;
+        var onceToken: dispatch_once_t = 0
         dispatch_once(&onceToken) {
             super.registerSubclass()
         }

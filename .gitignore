@@ -44,3 +44,7 @@ XListing/Parse.plist
 #old submodule folder
 lib/
 Vendor/
+
+#node
+node_modules
+npm-debug.log

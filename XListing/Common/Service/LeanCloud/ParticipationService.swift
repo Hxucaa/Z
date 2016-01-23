@@ -54,14 +54,14 @@ public final class ParticipationService : IParticipationService {
         }
     }
     
-    public func delete(participation: Participation) -> SignalProducer<Bool, NSError>{
-        return SignalProducer{ observer, disposable in
+    public func delete(participation: Participation) -> SignalProducer<Bool, NSError> {
+        return SignalProducer { observer, disposable in
             participation.deleteInBackgroundWithBlock { (success, error) -> Void in
-                if error == nil{
+                if error == nil {
                     observer.sendNext(success)
                     observer.sendCompleted()
                 }
-                else{
+                else {
                     LSLogError("participation delete failed")
                     observer.sendFailed(error)
                 }

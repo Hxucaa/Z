@@ -64,10 +64,12 @@ public extension SignalProducerType {
             .takeUntil(view.rac_viewWillDisappear.toSignalProducer().toNihil())
     }
     
-    /**
+     /**
      Forwards events until the view is removed from the superview.
      
-     :param: view The superview.
+     - parameter view: The superview.
+     
+     - returns: A signal producer
      */
     public func takeUntilRemoveFromSuperview<U: UIView>(view: U) -> SignalProducer<Value, Error> {
         return self.takeUntil(view.rac_removeFromSuperview.toSignalProducer().toNihil())
@@ -127,9 +129,12 @@ public extension SignalProducerType {
 
 
 public extension Observer {
+    
     /**
      Alias for `sendNext`.
      Puts a `Next` event into the given observer.
+
+     - parameter value: A value.
      */
     public func proxyNext(value: Value) {
         self.sendNext(value)
@@ -138,6 +143,8 @@ public extension Observer {
     /**
      Alias for `sendFailed`.
      Puts a `Failed` event into the given observer.
+     
+     - parameter error: An error object.
      */
     public func proxyFailed(error: Error) {
         self.sendFailed(error)
@@ -165,10 +172,10 @@ public typealias SimpleProxy = SignalProducer<Void, NoError>
 
 extension SignalProducer {
     /**
-    Create a buffer of size 0. Use this with `SimpleProxy`.
+     Create a buffer of size 0. Use this with `SimpleProxy`.
     
-    :returns: A buffer of size 0.
-    */
+     - returns: A buffer of size 0.
+     */
     internal static func proxy() -> (SignalProducer, Signal<Value, Error>.Observer) {
         return self.buffer(0)
     }

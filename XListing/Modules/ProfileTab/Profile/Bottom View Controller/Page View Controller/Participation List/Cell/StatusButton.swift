@@ -17,7 +17,7 @@ public class StatusButton: UIButton {
     private var viewmodel: ProfileTabStatusButtonViewModel?
     
     // MARK: - Initializers
-    public override init(frame: CGRect){
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         
         setup()
@@ -36,7 +36,7 @@ public class StatusButton: UIButton {
     }
     
     // MARK: - Bindings
-    public func bindToViewModel(viewmodel: ProfileTabStatusButtonViewModel){
+    public func bindToViewModel(viewmodel: ProfileTabStatusButtonViewModel) {
         self.viewmodel = viewmodel
         
         viewmodel.type.producer

@@ -21,7 +21,7 @@ public final class PullToRefresh : UIView {
         
         imageView = UIImageView(frame: frame)
         imageView.image = UIImage(named: ImageAssets.pullToRefreshArrow)
-        imageView.contentMode = UIViewContentMode.ScaleAspectFit;
+        imageView.contentMode = UIViewContentMode.ScaleAspectFit
         imageView.opaque = true
         imageView.hidden = false
         

@@ -43,7 +43,7 @@ public final class SocialBusinessViewController : XUIViewController {
         let button = BackButton()
 
         let goBack = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { observer ,disposable in
+            return SignalProducer { observer, disposable in
                 self?.navigationController?.popViewControllerAnimated(true)
                 observer.sendCompleted()
             }
@@ -54,7 +54,7 @@ public final class SocialBusinessViewController : XUIViewController {
         return button
     }()
     
-    private lazy var headerView: SocialBusinessHeaderView =  {
+    private lazy var headerView: SocialBusinessHeaderView = {
         let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)))
         
         return view
@@ -242,11 +242,11 @@ public final class SocialBusinessViewController : XUIViewController {
 
 extension SocialBusinessViewController : UITableViewDelegate, UITableViewDataSource {
     
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.collectionDataSource.count
     }
     
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(UserCellIdentifier) as! SocialBusiness_UserCell
         cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return cell

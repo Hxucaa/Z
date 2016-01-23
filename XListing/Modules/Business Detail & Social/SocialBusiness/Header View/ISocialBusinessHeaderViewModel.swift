@@ -14,10 +14,10 @@ public protocol ISocialBusinessHeaderViewModel : class {
     
     // MARK: - Outputs
     var coverImage: AnyProperty<UIImage?> { get }
-    var businessName: AnyProperty<String> { get }
+    var name: AnyProperty<String> { get }
     var location: AnyProperty<String> { get }
     var eta: AnyProperty<String?> { get }
     
     // MARK: - Initializers
-    init(geoLocationService: IGeoLocationService, imageService: IImageService, cover: ImageFile?, businessName: String?, city: String?, geolocation: Geolocation?)
+    init(geoLocationService: IGeoLocationService, imageService: IImageService, coverImage: ImageFile, name: String, city: City, geolocation: Geolocation)
 }

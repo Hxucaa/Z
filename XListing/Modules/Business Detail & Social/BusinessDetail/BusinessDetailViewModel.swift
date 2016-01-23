@@ -49,17 +49,17 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
         self.imageService = imageService
         self.business = business
         
-        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, cover: business.cover_, businessName: business.nameSChinese, city: business.city, geolocation: business.geolocation)
+        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, coverImage: business.coverImage, name: business.name, city: business.address.city, geolocation: business.address.geoLocation)
         
 //        detailImageViewModel = DetailImageViewModel(imageService: imageService, coverImageURL: business.cover?.url)
-        detailAddressAndMapViewModel = DetailAddressAndMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, address: business.address, city: business.city, state: business.state, geolocation: business.geolocation)
-        detailPhoneWebViewModel = DetailPhoneWebViewModel(businessName: business.nameSChinese, phone: business.phone, website: business.url)
+        detailAddressAndMapViewModel = DetailAddressAndMapViewModel(geoLocationService: geoLocationService, name: business.name, street: business.address.street, city: business.address.city, province: business.address.province, geolocation: business.address.geoLocation)
+        detailPhoneWebViewModel = DetailPhoneWebViewModel(name: business.name, phone: business.phone, website: business.websiteUrl)
 //        detailBizInfoViewModel = DetailBizInfoViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, business: business)
-        detailNavigationMapViewModel = DetailNavigationMapViewModel(geoLocationService: geoLocationService, businessName: business.nameSChinese, geolocation: business.geolocation)
+        detailNavigationMapViewModel = DetailNavigationMapViewModel(geoLocationService: geoLocationService, name: business.name, geolocation: business.address.geoLocation)
 //        detailParticipationViewModel = DetailParticipationViewModel(participationCount: business.wantToGoCounter)
         businessHourViewModel = BusinessHourCellViewModel()
         
-        _businessName = ConstantProperty(business.nameSChinese!)
+        _businessName = ConstantProperty(business.name)
     }
     
     

@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 import MapKit
 
-public struct DetailAddressAndMapViewModel {
+public final class DetailAddressAndMapViewModel {
     
     // MARK: - Inputs
     
@@ -19,12 +19,12 @@ public struct DetailAddressAndMapViewModel {
     public var fullAddress: AnyProperty<String> {
         return AnyProperty(_fullAddress)
     }
-    private let _annotation: ConstantProperty<MKPointAnnotation?>
-    public var annotation: AnyProperty<MKPointAnnotation?> {
+    private let _annotation: ConstantProperty<MKPointAnnotation>
+    public var annotation: AnyProperty<MKPointAnnotation> {
         return AnyProperty(_annotation)
     }
-    private let _cellMapRegion: ConstantProperty<MKCoordinateRegion?>
-    public var cellMapRegion: AnyProperty<MKCoordinateRegion?> {
+    private let _cellMapRegion: ConstantProperty<MKCoordinateRegion>
+    public var cellMapRegion: AnyProperty<MKCoordinateRegion> {
         return AnyProperty(_cellMapRegion)
     }
     
@@ -36,33 +36,25 @@ public struct DetailAddressAndMapViewModel {
     // MARK: - API
     
     // MARK: Initializers
-    public init(geoLocationService: IGeoLocationService, businessName: String?, address: String?, city: String?, state: String?, geolocation: Geolocation?) {
+    public init(geoLocationService: IGeoLocationService, name: String, street: String, city: City, province: Province, geolocation: Geolocation) {
         self.geoLocationService = geoLocationService
-        let cstate = state ?? ""
-        let caddress = address ?? ""
-        let ccity = city ?? ""
-        self._fullAddress = ConstantProperty<String>("   \u{f124}   \(caddress), \(ccity), \(cstate)")
+        
+        self._fullAddress = ConstantProperty<String>("   \u{f124}   \(street), \(city.regionNameC), \(province.regionNameC)")
         
         businessLocation = geolocation
         
-        if let location = geolocation?.cllocation.coordinate {
+        let location = geolocation.cllocation.coordinate
             
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = location
-            annotation.title = businessName
-            self._annotation = ConstantProperty(annotation)
-            
-            /**
-            *  region for the map in cell
-            */
-            let span = MKCoordinateSpanMake(0.01, 0.01)
-            let region = MKCoordinateRegion(center: location, span: span)
-            self._cellMapRegion = ConstantProperty(region)
-        }
-        else {
-            
-            self._annotation = ConstantProperty(nil)
-            self._cellMapRegion = ConstantProperty(nil)
-        }
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = location
+        annotation.title = name
+        self._annotation = ConstantProperty(annotation)
+        
+        /**
+        *  region for the map in cell
+        */
+        let span = MKCoordinateSpanMake(0.01, 0.01)
+        let region = MKCoordinateRegion(center: location, span: span)
+        self._cellMapRegion = ConstantProperty(region)
     }
 }

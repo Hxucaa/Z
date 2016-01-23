@@ -63,7 +63,9 @@ public final class BDtoSBAnimator : NSObject, UIViewControllerAnimatedTransition
         toViewController.navigationController?.setNavigationBarHidden(true, animated: false)
         
         // chain animation
-        Chain(
+        
+        
+        Chain (
             { done in
                 UIView.animateWithDuration(
                     0.1,

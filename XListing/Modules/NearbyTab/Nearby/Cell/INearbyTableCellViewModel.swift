@@ -10,12 +10,14 @@ import Foundation
 import ReactiveCocoa
 
 public protocol INearbyTableCellViewModel: class, IBasicBusinessInfoViewModel {
+    
     // MARK: - Outputs
-    var coverImage: AnyProperty<UIImage?> { get }
     var participation: AnyProperty<String> { get }
     var businessHours: AnyProperty<String> { get }
     var annotation: AnyProperty<MKPointAnnotation> { get }
     
+    // MARK: - Initializers
+    init(geoLocationService: IGeoLocationService, imageService: IImageService, business: Business)
+    
     // MARK: - API
-    func getCoverImage() -> SignalProducer<Void, NSError>
 }

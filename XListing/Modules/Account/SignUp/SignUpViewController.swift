@@ -43,12 +43,16 @@ public final class SignUpViewController : XUIViewController {
     private lazy var transitionManager: TransitionManager = TransitionManager(
         initial: self.usernameAndPasswordTransition.transitionActor,
         // note that the transitions are wrapped in closures so that they will be loaded on demand instead of during initialization
+        
+        // swiftlint:disable:next opening_brace
         followUps: [
             { self.nicknameTransition.transitionActor },
             { self.genderPickerTransition.transitionActor },
             { self.birthdayPickerTransition.transitionActor },
             { self.photoTransition.transitionActor }
         ],
+        // swiftlint:disable:previous opening_brace
+        
         initialTransformation: { [weak self] transition in
             if let this = self, midStack = self?.containerView.midStack {
                 // display the usernameAndPassword view as the first
@@ -302,6 +306,8 @@ public final class SignUpViewController : XUIViewController {
     /**
     Place the subview in the center, horizontally and vertically, of the superview.
     
+    - parameter superview: Superview
+    - parameter subview:   Subview
     */
     private func centerInSuperview<T: UIView, U: UIView>(superview: T, subview: U) {
         

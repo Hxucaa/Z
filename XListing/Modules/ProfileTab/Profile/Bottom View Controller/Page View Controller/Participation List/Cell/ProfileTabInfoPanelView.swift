@@ -115,7 +115,7 @@ public final class ProfileTabInfoPanelView : UIView {
     public func bindToViewModel(viewmodel: ProfileTabInfoPanelViewModel) {
         self.viewmodel = viewmodel
         
-        businessNameLabel.rac_text <~ viewmodel.businessName.producer
+        businessNameLabel.rac_text <~ viewmodel.name
         
         locationLabel.rac_text <~ viewmodel.city.producer
     }

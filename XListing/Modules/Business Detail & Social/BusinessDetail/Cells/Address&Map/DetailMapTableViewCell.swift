@@ -88,14 +88,12 @@ public final class DetailMapTableViewCell: UITableViewCell {
         
         compositeDisposable += self.viewmodel.annotation.producer
             .takeUntilPrepareForReuse(self)
-            .ignoreNil()
             .startWithNext { [weak self] annotation in
                 self?.mapView.addAnnotation(annotation)
             }
         
         compositeDisposable += self.viewmodel.cellMapRegion.producer
             .takeUntilPrepareForReuse(self)
-            .ignoreNil()
             .startWithNext { [weak self] region in
                 self?.mapView.setRegion(region, animated: false)
             }
@@ -104,7 +102,7 @@ public final class DetailMapTableViewCell: UITableViewCell {
 
 extension DetailMapTableViewCell : MKMapViewDelegate {
     public func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        if (annotation is MKUserLocation) {
+        if annotation is MKUserLocation {
             //if annotation is not an MKPointAnnotation (eg. MKUserLocation),
             //return nil so map draws default view for it (eg. blue dot)...
             return nil

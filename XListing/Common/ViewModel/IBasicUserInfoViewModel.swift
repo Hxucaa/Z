@@ -13,11 +13,12 @@ import ReactiveCocoa
 public protocol IBasicUserInfoViewModel : class {
     
     // MARK: - Outputs
-    var profileImage: AnyProperty<UIImage?> { get }
-    var nickname: AnyProperty<String> { get }
-    var ageGroup: AnyProperty<String> { get }
-    var horoscope: AnyProperty<String> { get }
-    var status: AnyProperty<String> { get }
-    var gender: AnyProperty<String> { get }
-    var ageGroupBackgroundColor: AnyProperty<UIColor> { get }
+    var coverPhoto: AnyProperty<UIImage?> { get }
+    var coverPhotoUrl: SignalProducer<String?, NoError> { get }
+    var nickname: SignalProducer<String, NoError> { get }
+    var ageGroup: SignalProducer<String, NoError> { get }
+    var horoscope: SignalProducer<String, NoError> { get }
+    var whatsUp: SignalProducer<String?, NoError> { get }
+    var gender: SignalProducer<String, NoError> { get }
+    var ageGroupBackgroundColor: SignalProducer<UIColor, NoError> { get }
 }

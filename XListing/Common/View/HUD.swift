@@ -21,9 +21,11 @@ public final class HUD {
         case Normal, Interrupted
     }
     
-    /**
-    Show HUD.
-    */
+     /**
+     Show HUD.
+     
+     - returns: A signal producer
+     */
     public class func show() -> SignalProducer<Void, NoError> {
         return SignalProducer<Void, NoError> { observer, disposable in
             SVProgressHUD.show()

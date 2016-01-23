@@ -98,7 +98,7 @@ public final class BusinessHourCellViewModel {
         _satHidden = MutableProperty(true)
         
         //show only the hours for the current day initially
-        switch(weekday) {
+        switch weekday {
             case 1: _sunHidden.put(false)
             case 2: _monHidden.put(false)
             case 3: _tuesHidden.put(false)
@@ -109,7 +109,7 @@ public final class BusinessHourCellViewModel {
             default: SBLogError("error getting current weekday")
         }
         
-        //TODO: replace with data from lean cloud
+        // TODO: replace with data from lean cloud
         _monHours = MutableProperty("星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
         _tuesHours = MutableProperty("星期二：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
         _wedsHours = MutableProperty("星期三：10:30AM - 3:00PM  &  5:00PM - 11:00PM")

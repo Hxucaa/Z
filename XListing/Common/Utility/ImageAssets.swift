@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public struct ImageAssets {
     static let appIcon = "appIcon"
@@ -22,4 +23,9 @@ public struct ImageAssets {
     static let profileHeaderBackground = "ProfileHeaderBackground"
     static let editIcon = "Edit Button"
     static let backButtonIcon = "Back Button Icon"
+}
+
+public final class ImageAsset {
+    public static let placeholder = UIImage(named: ImageAssets.businessplaceholder)!
+    public static let profilePlaceholder = UIImage(named: "businessplaceholder")!
 }

@@ -27,12 +27,12 @@ public final class SocialBusiness_UserViewModel : BasicUserInfoViewModel, ISocia
 
     
     // MARK: - Initializers
-    public init(participationService: IParticipationService, imageService: IImageService, user: User, nickname: String?, ageGroup: AgeGroup?, horoscope: Horoscope?, gender: Gender, profileImage: ImageFile?, status: String?, participationType: ParticipationType) {
+    public init(participationService: IParticipationService, imageService: IImageService, user: User, participationType: ParticipationType) {
         self.participationService = participationService
         self.imageService = imageService
         
-        _participationType = MutableProperty(convertParticipationType(participationType))
+        _participationType = MutableProperty(participationType.description)
         
-        super.init(imageService: imageService, user: user, nickname: nickname, ageGroup: ageGroup, horoscope: horoscope, gender: gender, profileImage: profileImage, status: status)
+        super.init(imageService: imageService, user: user)
     }
 }

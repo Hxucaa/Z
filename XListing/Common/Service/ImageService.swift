@@ -16,10 +16,11 @@ public final class ImageService : IImageService {
         return SignalProducer { observer, disposable in
             let imageManager = SDWebImageManager.sharedManager()
             imageManager.downloadImageWithURL(url, options: SDWebImageOptions.ContinueInBackground, progress: nil, completed: { image, error, cache, finished, url in
-                if (error == nil) {
+                if error == nil {
                     observer.sendNext(image)
                     observer.sendCompleted()
-                } else {
+                }
+                else {
                     observer.sendFailed(error)
                 }
             })
@@ -31,20 +32,20 @@ public final class ImageService : IImageService {
         return SignalProducer { observer, disposable in
             
             let imageManager = SDWebImageManager.sharedManager()
-            if let url = image.url, nsurl = NSURL(string: url) {
-                imageManager.downloadImageWithURL(nsurl, options: SDWebImageOptions.ContinueInBackground, progress: nil, completed: { image, error, cache, finished, url -> Void in
-                    if error == nil {
-                        observer.sendNext(image)
-                        observer.sendCompleted()
-                    }
-                    else {
-                        observer.sendFailed(error)
-                    }
-                })
-            }
-            else {
+            guard let nsurl = NSURL(string: image.url) else {
                 observer.sendFailed(NSError(domain: "XListing.ImageService", code: 999, userInfo: ["message" : "Invalid url"]))
+                return
             }
+            
+            imageManager.downloadImageWithURL(nsurl, options: SDWebImageOptions.ContinueInBackground, progress: nil, completed: { image, error, cache, finished, url -> Void in
+                if error == nil {
+                    observer.sendNext(image)
+                    observer.sendCompleted()
+                }
+                else {
+                    observer.sendFailed(error)
+                }
+            })
         }
     }
     
@@ -53,24 +54,24 @@ public final class ImageService : IImageService {
             
             let dimension = thumbnailSize.value
             
-            let image = AVFile(data: image.data)
+            let image = AVFile(URL: image.url)
             let url = image.getThumbnailURLWithScaleToFit(dimension.scaleToFit, width: dimension.width, height: dimension.height, quality: dimension.quality, format: dimension.format)
             
-            if let nsurl = NSURL(string: url) {
-                
-                let imageManager = SDWebImageManager.sharedManager()
-                imageManager.downloadImageWithURL(nsurl, options: SDWebImageOptions.ContinueInBackground, progress: nil, completed: { image, error, cache, finished, url in
-                    if (error == nil) {
-                        observer.sendNext(image as! Thumbnail)
-                        observer.sendCompleted()
-                    } else {
-                        observer.sendFailed(error)
-                    }
-                })
-            }
-            else {
+            guard let nsurl = NSURL(string: url) else {
                 observer.sendFailed(NSError(domain: "XListing.ImageService", code: 999, userInfo: ["message" : "Invalid url"]))
+                return
             }
+            
+            let imageManager = SDWebImageManager.sharedManager()
+            imageManager.downloadImageWithURL(nsurl, options: SDWebImageOptions.ContinueInBackground, progress: nil, completed: { image, error, cache, finished, url in
+                if error == nil {
+                    observer.sendNext(image as! Thumbnail)
+                    observer.sendCompleted()
+                }
+                else {
+                    observer.sendFailed(error)
+                }
+            })
         }
     }
 }

@@ -11,11 +11,18 @@ import ReactiveCocoa
 import ReactiveArray
 
 public protocol ISocialBusinessViewModel : class, IInfinityScrollDataSource, IPullToRefreshDataSource, IPredictiveScrollDataSource {
+    
+    // MARK: - Inputs
+    
+    // MARK: - Outputs
     var collectionDataSource: ReactiveArray<SocialBusiness_UserViewModel> { get }
     var businessCoverImage: UIImage? { get }
     var businessName: AnyProperty<String> { get }
     var headerViewModel: SocialBusinessHeaderViewModel { get }
-    init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, businessModel: Business)
+    
+    // MARK: - Initializers
+    init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, business: Business)
+    
     func pushUserProfile(index: Int, animated: Bool)
     func pushBusinessDetail(animated: Bool)
     func fetchMoreData() -> SignalProducer<Void, NSError>

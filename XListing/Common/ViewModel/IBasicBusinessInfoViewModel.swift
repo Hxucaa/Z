@@ -2,7 +2,7 @@
 //  IBasicBusinessInfoViewModel.swift
 //  XListing
 //
-//  Created by Anson on 2015-10-24.
+//  Created by Lance Zhu on 2016-01-18.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
@@ -16,13 +16,25 @@ public protocol IBasicBusinessInfoViewModel : class {
     
     // MARK: - Outputs
     
-    var businessName: AnyProperty<String> { get }
-    var city: AnyProperty<String> { get }
+    var name: SignalProducer<String, NoError> { get }
+    var phone: SignalProducer<String, NoError> { get }
+    var email: SignalProducer<String?, NoError> { get }
+    var websiteUrl: SignalProducer<String?, NoError> { get }
+    var district: SignalProducer<String?, NoError> { get }
+    var city: SignalProducer<String, NoError> { get }
+    var province: SignalProducer<String, NoError> { get }
+    var coverImageUrl: SignalProducer<String, NoError> { get }
+    var coverImage: AnyProperty<UIImage> { get }
+//    var coverImageDataBase64: SignalProducer<String, NoError> { get }
+    var description: SignalProducer<String?, NoError> { get }
+    var aaCount: SignalProducer<Int, NoError> { get }
+    var treatCount: SignalProducer<Int, NoError> { get }
+    var toGoCount: SignalProducer<Int, NoError> { get }
     var eta: AnyProperty<String?> { get }
-    var price: AnyProperty<Int?> { get }
-    var district: AnyProperty<String> { get }
     
     // MARK: - Initializers
     
-    init(geoLocationService: IGeoLocationService, businessName: String?, city: String?, district: String?, price: Int?, geolocation: Geolocation?)
+    // MARK: - Actions
+    func calculateEta() -> SignalProducer<NSTimeInterval, NSError>
+    func fetchCoverImage() -> SignalProducer<UIImage, NSError>
 }

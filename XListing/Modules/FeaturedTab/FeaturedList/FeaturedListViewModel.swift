@@ -87,12 +87,15 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
     Fetch featured businesses. If `refresh` is `true`, the function will replace the original list with new data, effectively refreshing the list. If `refresh` is `false`, the function will get data continuously like pagination.
     
     - parameter refresh: A `Boolean` value indicating whether the function should `refresh` or `get more like pagination`.
+    
+    - returns: A signal producer.
     */
     private func fetchBusinesses(refresh: Bool = false) -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
-        let query = Business.query()!
+        let query = Business.query()
         // TODO: temporarily disabled until we have more featured businesses
         //        query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
         query.limit = Constants.PAGINATION_LIMIT
+        query.includeKey(Business.Property.address)
         if refresh {
             // don't skip any content if we are refresh the list
             query.skip = 0
@@ -124,7 +127,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
                 
                 // map the business models to viewmodels
                 return businesses.map {
-                    FeaturedBusinessViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, cover: $0.cover_, geolocation: $0.geolocation, treatCount: $0.treatCount, aaCount: $0.aaCount, toGoCount: $0.toGoCount, business: $0)
+                    FeaturedBusinessViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, business: $0)
                 }
             }
             .on(

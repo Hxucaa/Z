@@ -9,91 +9,56 @@
 import Foundation
 import ReactiveCocoa
 import ReactiveArray
-import Dollar
 import AVOSCloud
 
 public class BasicUserInfoViewModel : IBasicUserInfoViewModel {
     
     // MARK: - Outputs
-    private let _profileImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.profilepicture))
-    public var profileImage: AnyProperty<UIImage?> {
-        return AnyProperty(_profileImage)
+    private let _coverPhoto: MutableProperty<UIImage?> = MutableProperty(ImageAsset.profilePlaceholder)
+    public var coverPhoto: AnyProperty<UIImage?> {
+        return AnyProperty(_coverPhoto)
     }
-    
-    private let _nickname: MutableProperty<String>
-    public var nickname: AnyProperty<String> {
-        return AnyProperty(_nickname)
-    }
-    
-    private let _ageGroup: MutableProperty<String>
-    public var ageGroup: AnyProperty<String> {
-        return AnyProperty(_ageGroup)
-    }
-    
-    private let _horoscope: MutableProperty<String>
-    public var horoscope: AnyProperty<String> {
-        return AnyProperty(_horoscope)
-    }
-    
-    private let _status: MutableProperty<String>
-    public var status: AnyProperty<String> {
-        return AnyProperty(_status)
-    }
-    
-    private let _gender: MutableProperty<String>
-    public var gender: AnyProperty<String> {
-        return AnyProperty(_gender)
-    }
-    
-    private let _ageGroupBackgroundColor: ConstantProperty<UIColor>
-    public var ageGroupBackgroundColor: AnyProperty<UIColor> {
-        return AnyProperty(_ageGroupBackgroundColor)
-    }
-    
-    public let user: User
+    public let coverPhotoUrl: SignalProducer<String?, NoError>
+    public let nickname: SignalProducer<String, NoError>
+    public let ageGroup: SignalProducer<String, NoError>
+    public let horoscope: SignalProducer<String, NoError>
+    public let whatsUp: SignalProducer<String?, NoError>
+    public let gender: SignalProducer<String, NoError>
+    public let ageGroupBackgroundColor: SignalProducer<UIColor, NoError>
     
     
     // MARK: - Properties
+    public let user: User
     private let imageService: IImageService
     
     
     // MARK: - Initializers
-    public init(imageService: IImageService, user: User, nickname: String?, ageGroup: AgeGroup?, horoscope: Horoscope?, gender: Gender, profileImage: ImageFile?, status: String?) {
+    public init(imageService: IImageService, user: User) {
         self.imageService = imageService
         
         self.user = user
         
-        if let nickname = nickname {
-            _nickname = MutableProperty(nickname)
-        } else {
-            _nickname = MutableProperty("")
-        }
+        coverPhotoUrl = SignalProducer(value: user.coverPhoto?.url)
         
-        _ageGroup = MutableProperty(convertAgeGroup(ageGroup))
-        
-        _horoscope = MutableProperty(convertHoroscope(horoscope))
-        
-        if let status = status {
-            _status = MutableProperty(status)
-        } else {
-            _status = MutableProperty("哈哈哈哈哈哈哈！")
-        }
-        
-        _gender = MutableProperty(gender.description)
-        
-        switch gender {
+        switch user.gender {
         case .Female:
-            _ageGroupBackgroundColor = ConstantProperty(.x_FemaleAgeGroupBG())
-            _ageGroup.value = Icons.Female + " " + _ageGroup.value
+            ageGroupBackgroundColor = SignalProducer(value: .x_FemaleAgeGroupBG())
+            ageGroup = SignalProducer(value: Icons.Female + " " + user.ageGroup.description)
         case .Male:
-            _ageGroupBackgroundColor = ConstantProperty(.x_MaleAgeGroupBG())
-            _ageGroup.value = Icons.Male + " " + _ageGroup.value
+            ageGroupBackgroundColor = SignalProducer(value: .x_MaleAgeGroupBG())
+            ageGroup = SignalProducer(value: Icons.Male + " " + user.ageGroup.description)
         }
         
-        if let url = profileImage?.url, nsurl = NSURL(string: url) {
+        nickname = SignalProducer(value: user.nickname)
+        horoscope = SignalProducer(value: user.horoscope.description)
+        whatsUp = SignalProducer(value: user.whatsUp)
+        gender = SignalProducer(value: user.gender.description)
+        
+        
+        if let url = user.coverPhoto?.url, nsurl = NSURL(string: url) {
             self.imageService.getImage(nsurl)
                 .startWithNext {
-                    self._profileImage.value = $0
+                    self._coverPhoto.value = $0
                 }
         }
     }

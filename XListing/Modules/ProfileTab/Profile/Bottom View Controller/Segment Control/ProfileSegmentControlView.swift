@@ -102,7 +102,7 @@ public final class ProfileSegmentControlView : ButtonPageControl {
         addSubview(lineView)
     }
     
-    public func animate(toIndex index: Int, duration: CGFloat){
+    public func animate(toIndex index: Int, duration: CGFloat) {
         if selected == index {
             return
         }
@@ -111,8 +111,8 @@ public final class ProfileSegmentControlView : ButtonPageControl {
         lineView.duration = duration
         lineView.curve = "spring"
         lineView.center = CGPointMake(CGFloat(index)*slotWidth + slotWidth/2, lineView.center.y)
-        lineView.animateNext({[weak self] in
-            if let this = self{
+        lineView.animateNext({ [weak self] in
+            if let this = self {
                 this.selected = index
             }
         })

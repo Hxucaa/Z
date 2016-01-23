@@ -25,7 +25,7 @@ public final class PhotoManagerViewController : UIViewController {
         
         
         var flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSizeMake(5, 5);
+        flowLayout.itemSize = CGSizeMake(5, 5)
         flowLayout.scrollDirection = UICollectionViewScrollDirection.Vertical
         
         let view = UICollectionView(frame: CGRect(origin: CGPointMake(0, 0), size: self.view.frame.size), collectionViewLayout: flowLayout)
@@ -102,7 +102,7 @@ public final class PhotoManagerViewController : UIViewController {
         let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
         
         let cameraAction = UIAlertAction(title: "拍照", style: UIAlertActionStyle.Default) { UIAlertAction -> Void in
-            if (!UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
+            if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
                 let noCameraAlert = UIAlertController(title: "This device does not have a camera", message: "", preferredStyle: UIAlertControllerStyle.Alert)
                 noCameraAlert.addAction(cancelAction)
                 self.presentViewController(noCameraAlert, animated: true, completion: nil)
@@ -148,7 +148,7 @@ extension PhotoManagerViewController : UICollectionViewDelegate, UICollectionVie
     }
     
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == MaxNumberOfPhotos-1 && indexPath.row < 9{
+        if indexPath.row == MaxNumberOfPhotos - 1 && indexPath.row < 9 {
             chooseProfilePictureSource()
         }
     }
@@ -182,7 +182,7 @@ extension PhotoManagerViewController : UICollectionViewDelegateFlowLayout {
 
 // MARK: Image Picker
 
-extension PhotoManagerViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+extension PhotoManagerViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     /**
     Tells the delegate that the user picked a still image or movie.

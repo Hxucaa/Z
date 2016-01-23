@@ -9,26 +9,33 @@
 import Foundation
 import AVOSCloud
 
-public final class User: AVUser {
+public class User: AVUser {
     
-    public enum Property : String {
-        case Birthday = "birthday"
-        case NickName = "nickname"
-        case ProfileImg = "profileImg"
-        case Profile = "profile"
-        case LatestGeolocation = "latestLocation"
-        case Gender = "gender"
-        case Horoscope = "horoscope"
-        case AgeGroup = "ageGroup"
+    public struct Property {
+        static let type = "type"
+        static let status = "status"
+        static let isActive = "isActive"
+        static let nickName = "nickname"
+        static let gender = "gender"
+        static let birthday = "birthday"
+        static let ageGroup = "ageGroup"
+        static let horoscope = "horoscope"
+        static let address = "address"
+        static let coverPhoto = "coverPhoto"
+        static let whatsUp = "whatsUp"
+        static let latestLocation = "latestLocation"
+        static let aaCount = "aaCount"
+        static let treatCount = "treatCount"
+        static let toGoCount = "toGoCount"
     }
     
-    public func toString() -> String{
+    public func toString() -> String {
         var s = ""
-        s += "birthday: \(self[Property.Birthday.rawValue])"
-        s += "NickName: \(self[Property.NickName.rawValue])"
-        s += "Gender: \(self[Property.Gender.rawValue])"
-        s += "AgeGroup: \(self[Property.AgeGroup.rawValue])"
-        s += "Horoscope: \(self[Property.Horoscope.rawValue])"
+        s += "birthday: \(self[Property.birthday])"
+        s += "NickName: \(self[Property.nickName])"
+        s += "Gender: \(self[Property.gender])"
+        s += "AgeGroup: \(self[Property.ageGroup])"
+        s += "Horoscope: \(self[Property.horoscope])"
         return s
     }
     
@@ -39,73 +46,100 @@ public final class User: AVUser {
     
     // MARK: Constructors
     public override class func registerSubclass() {
-        var onceToken : dispatch_once_t = 0;
+        var onceToken: dispatch_once_t = 0
         dispatch_once(&onceToken) {
             super.registerSubclass()
         }
     }
     
+    public var type: UserType {
+        get {
+            return UserType(rawValue: self[Property.type] as! Int)!
+        }
+        set {
+            self[Property.type] = newValue.rawValue
+        }
+    }
+    
+    public var status: UserStatus {
+        get {
+            return UserStatus(rawValue: self[Property.status] as! Int)!
+        }
+        set {
+            self[Property.status] = newValue.rawValue
+        }
+    }
+    
+    public var isActive: Activation {
+        get {
+            return Activation(self[Property.isActive] as! Bool)
+        }
+        set {
+            self[Property.isActive] = newValue.boolValue
+        }
+    }
+    
+    @NSManaged public var nickname: String
+    
+    public var gender: Gender {
+        get {
+            return Gender(rawValue: self[Property.gender] as! Int)!
+        }
+        set {
+            self[Property.gender] = newValue.rawValue
+        }
+    }
+    
     @NSManaged public var birthday: NSDate?
     
-    @NSManaged public var nickname: String?
-    
-    @NSManaged private var profileImg: AVFile?
-    public var profileImg_: ImageFile? {
+    public var ageGroup: AgeGroup {
         get {
-            if let url = profileImg?.url {
-                return ImageFile(url: url)
+            return AgeGroup(rawValue: self[Property.ageGroup] as! Int)!
+        }
+    }
+    
+    public var horoscope: Horoscope {
+        get {
+            return Horoscope(rawValue: self[Property.horoscope] as! Int)!
+        }
+    }
+    
+    @NSManaged public var address: Address
+    
+    public var coverPhoto: ImageFile? {
+        get {
+            if let file = (self[Property.coverPhoto] as? AVFile) {
+                return ImageFile(name: file.name, url: file.url)
             }
             else {
                 return nil
             }
         }
+    }
+    
+    public func setCoverPhoto(name: String, data: NSData) {
+        self[Property.coverPhoto] = AVFile(name: name, data: data)
+    }
+    
+    @NSManaged public var whatsUp: String?
+    
+    public var latestLocation: Geolocation? {
+        get {
+            guard let geopoint = self[Property.latestLocation] as? AVGeoPoint else {
+                return nil
+            }
+            return Geolocation(latitude: geopoint.latitude, longitude: geopoint.longitude)
+        }
         set {
             if let newValue = newValue {
-                profileImg = AVFile(name: newValue.name, data: newValue.data)
+                self[Property.latestLocation] = AVGeoPoint(latitude: newValue.latitude, longitude: newValue.longitude)
             }
         }
     }
     
-    @NSManaged public var profile: Profile
+    @NSManaged public var aaCount: Int
     
-    @NSManaged private var latestLocation: AVGeoPoint?
-    public var latestGeolocation: Geolocation? {
-        get {
-            if let latestLocation = latestLocation {
-                return Geolocation(latitude: latestLocation.latitude, longitude: latestLocation.longitude)
-            }
-            return nil
-        }
-        set {
-            if let newValue = newValue {
-                latestLocation = AVGeoPoint(latitude: newValue.latitude, longitude: newValue.longitude)
-            }
-        }
-    }
+    @NSManaged public var treatCount: Int
     
-    @NSManaged private var gender: Bool
-    public var gender_: Gender {
-        get {
-            return gender ? Gender.Male : Gender.Female
-        }
-        set {
-            gender = newValue.dbRepresentation
-        }
-    }
-    
-    @NSManaged private var horoscope: Int
-    public var horoscope_: Horoscope? {
-        get {
-            return Horoscope(rawValue: horoscope)
-        }
-    }
-    
-    @NSManaged private var ageGroup: Int
-    public var ageGroup_: AgeGroup? {
-        get {
-            return AgeGroup(rawValue: ageGroup)
-        }
-    }
-    
-    @NSManaged public var status: String?
+    @NSManaged public var toGoCount: Int
 }

@@ -36,7 +36,7 @@ public final class DetailNavigationMapViewController: XUIViewController {
         button.setAttributedTitle(attributedString, forState: UIControlState.Normal)
         
         let goBack = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { observer ,disposable in
+            return SignalProducer { observer, disposable in
                 self?._goBackObserver.sendNext(nil)
                 
                 observer.sendCompleted()
@@ -58,7 +58,7 @@ public final class DetailNavigationMapViewController: XUIViewController {
             return SignalProducer { observer, disposable in
                 if let this = self {
                     disposable += combineLatest(
-                        this.viewmodel.annotation.producer.ignoreNil(),
+                        this.viewmodel.annotation.producer,
                         this.viewmodel.region.producer.ignoreNil()
                         )
                         .startWithNext { annotation, region in
@@ -140,19 +140,19 @@ public final class DetailNavigationMapViewController: XUIViewController {
     public func bindToViewModel(viewmodel: DetailNavigationMapViewModel) {
         self.viewmodel = viewmodel
         
-        compositeDisposable += self.viewmodel.annotation.producer
-            .takeUntilViewWillDisappear(self)
-            .ignoreNil()
-            .startWithNext { [weak self] annotation in
-                self?.mapView.addAnnotation(annotation)
-            }
-        
-        compositeDisposable += self.viewmodel.region.producer
-            .takeUntilViewWillDisappear(self)
-            .ignoreNil()
-            .startWithNext { [weak self] region in
-                self?.mapView.setRegion(region, animated: false)
-            }
+//        compositeDisposable += self.viewmodel.annotation.producer
+//            .takeUntilViewWillDisappear(self)
+//            .ignoreNil()
+//            .startWithNext { [weak self] annotation in
+//                self?.mapView.addAnnotation(annotation)
+//            }
+//        
+//        compositeDisposable += self.viewmodel.region.producer
+//            .takeUntilViewWillDisappear(self)
+//            .ignoreNil()
+//            .startWithNext { [weak self] region in
+//                self?.mapView.setRegion(region, animated: false)
+//            }
     }
 }
 
@@ -160,7 +160,7 @@ extension DetailNavigationMapViewController : MKMapViewDelegate {
     
     // Display the custom map pin
     public func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        if (annotation is MKUserLocation) {
+        if annotation is MKUserLocation {
             //if annotation is not an MKPointAnnotation (eg. MKUserLocation),
             //return nil so map draws default view for it (eg. blue dot)...
             return nil

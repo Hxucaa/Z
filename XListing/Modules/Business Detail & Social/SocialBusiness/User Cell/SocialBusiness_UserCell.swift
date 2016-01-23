@@ -135,7 +135,7 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         addSubview(nicknameAndTypeContainer)
         addSubview(ageGroupAndHoroscopeContainer)
         
-        if (statusLabel.text != nil) {
+        if statusLabel.text != nil {
             addSubview(statusLabel)
             constrain(statusLabel) { view in
                 view.width == self.bounds.size.width * 0.3
@@ -191,14 +191,15 @@ public final class SocialBusiness_UserCell : UITableViewCell {
         horoscopeLabel.rac_text <~ viewmodel.horoscope.producer
             .takeUntilPrepareForReuse(self)
         
-        statusLabel.rac_text <~ viewmodel.status.producer
+        statusLabel.rac_text <~ viewmodel.whatsUp.producer
+            .ignoreNil()
             .takeUntilPrepareForReuse(self)
         
         ageGroupLabel.rac_backgroundColor <~ viewmodel.ageGroupBackgroundColor.producer
             .takeUntilPrepareForReuse(self)
             .map { Optional.Some($0) }
         
-        profileImageView.rac_image <~ viewmodel.profileImage.producer
+        profileImageView.rac_image <~ viewmodel.coverPhoto.producer
             .takeUntilPrepareForReuse(self)
             .ignoreNil()
             .map { $0.maskWithRoundedRect(self.profileImageView.frame.size, cornerRadius: self.profileImageView.frame.size.height, backgroundColor: .whiteColor()) }

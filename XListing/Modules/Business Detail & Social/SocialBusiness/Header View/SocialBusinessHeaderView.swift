@@ -41,7 +41,7 @@ public final class SocialBusinessHeaderView : UIView {
     /// Wrap everything in the main stack and have them distributed vertically.
     private lazy var mainContainer: TZStackView = {
         
-        let container = TZStackView(arrangedSubviews: [self.coverImageView, self.businessNameLabel, self.cuisineAndPriceContainer,self.locationAndDistanceContainer])
+        let container = TZStackView(arrangedSubviews: [self.coverImageView, self.businessNameLabel, self.cuisineAndPriceContainer, self.locationAndDistanceContainer])
         container.distribution = TZStackViewDistribution.EqualSpacing
         container.axis = .Vertical
         container.spacing = 8
@@ -208,7 +208,7 @@ public final class SocialBusinessHeaderView : UIView {
     public func bindToViewModel(viewmodel: SocialBusinessHeaderViewModel) {
         self.viewmodel = viewmodel
         
-        businessNameLabel.rac_text <~ viewmodel.businessName.producer
+        businessNameLabel.rac_text <~ viewmodel.name.producer
         
         locationLabel.rac_text <~ viewmodel.location.producer
         

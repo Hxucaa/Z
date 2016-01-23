@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
+// swiftlint:disable variable_name_min_length
+
 import Foundation
 import UIKit
 

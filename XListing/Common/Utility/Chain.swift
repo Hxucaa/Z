@@ -26,6 +26,6 @@ public struct Chain {
     }
     
     private func recursion(index: Int) {
-        chains[index]( { index + 1 < self.chains.count ? self.recursion(index + 1) : () } )
+        chains[index] { index + 1 < self.chains.count ? self.recursion(index + 1) : () }
     }
 }

@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
+// swiftlint:disable variable_name
+
 import UIKit
 import ReactiveCocoa
 
@@ -25,7 +27,7 @@ private struct AssociationKey {
 }
 
 // lazily creates a gettable associated property via the given factory
-private func lazyAssociatedProperty<T: AnyObject>(host: AnyObject, key: UnsafePointer<Void>, factory: ()->T) -> T {
+private func lazyAssociatedProperty<T: AnyObject>(host: AnyObject, key: UnsafePointer<Void>, factory: () -> T) -> T {
     return objc_getAssociatedObject(host, key) as? T ?? {
         let associatedProperty = factory()
         objc_setAssociatedObject(host, key, associatedProperty, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)

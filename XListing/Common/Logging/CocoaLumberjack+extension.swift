@@ -13,6 +13,8 @@
 //   to endorse or promote products derived from this software without specific
 //   prior written permission of Deusty, LLC.
 
+// swiftlint:disable file_length
+
 import Foundation
 import CocoaLumberjack
 
@@ -413,7 +415,7 @@ public func MiscLogError(@autoclosure logText: () -> String, level: DDLogLevel =
     SwiftLogMacro(async, level: level, flag: .Error, context: .Misc, file: file, function: function, line: line, string: logText)
 }
 
-/// Analogous to the C preprocessor macro THIS_FILE
+// Analogous to the C preprocessor macro THIS_FILE
 public func CurrentFileName(fileName: StaticString = __FILE__) -> String {
     // Using string interpolation to prevent integer overflow warning when using StaticString.stringValue
     return (("\(fileName)" as NSString).lastPathComponent as NSString).stringByDeletingPathExtension

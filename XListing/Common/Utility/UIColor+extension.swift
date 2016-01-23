@@ -61,7 +61,7 @@ extension UIColor {
         return UIColor(red: 249.0/255.0, green: 249.0/255.0, blue: 249.0/255.0, alpha: 1.0)
     }
     
-    internal class func x_TableSeparatorColor() -> UIColor{
+    internal class func x_TableSeparatorColor() -> UIColor {
         return UIColor(red: 236.0/255.0, green: 236.0/255.0, blue: 236.0/255.0,
             alpha: 1.0)
     }

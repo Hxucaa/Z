@@ -27,11 +27,11 @@ public final class BusinessService : IBusinessService {
     }
     
     /**
-        This function finds the BusinessDAO based on the query.
+     This function finds the BusinessDAO based on the query.
 
-        :params: query A PFQuery.
-        - returns: a Task containing the result DAO in optional.
-    */
+     - parameter query: A PFQuery.
+     - returns: a Task containing the result DAO in optional.
+     */
     public func getFirst(query: AVQuery) -> SignalProducer<Business, NSError> {
         return SignalProducer { observer, disposable in
             query.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in

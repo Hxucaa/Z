@@ -15,7 +15,7 @@ public struct Icons {
     static let Status = "\u{f0a1}"
     static let Email = "\u{f003}"
     static let Phone = "\u{f095}"
-    static let X = "\u{f00d}"
+    static let X = "\u{f00d}"   // swiftlint:disable:this variable_name_min_length
     static let Chevron = "\u{f053}"
     static let Location = "\u{f124}"
     static let Female = "\u{f221}"

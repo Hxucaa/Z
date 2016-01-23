@@ -139,9 +139,9 @@ public final class SignUpViewModel {
                         let imageData = UIImagePNGRepresentation(profileImage)
                         user.nickname = nickname
                         user.birthday = birthday
-                        user.profileImg_ = ImageFile(name: "profile.png", data: imageData)
+                        user.setCoverPhoto("profile.png", data: imageData!)
                         if let gender = self.gender.value {
-                            user.gender_ = gender
+                            user.gender = gender
                         }
                         
                         return self.userService.save(user)

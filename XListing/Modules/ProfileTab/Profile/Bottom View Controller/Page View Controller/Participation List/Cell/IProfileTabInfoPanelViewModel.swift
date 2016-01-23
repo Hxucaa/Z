@@ -9,6 +9,6 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol IProfileTabInfoPanelViewModel : IFeaturedListBusinessCell_InfoPanelViewModel{
+public protocol IProfileTabInfoPanelViewModel : IBasicBusinessInfoViewModel {
     
 }

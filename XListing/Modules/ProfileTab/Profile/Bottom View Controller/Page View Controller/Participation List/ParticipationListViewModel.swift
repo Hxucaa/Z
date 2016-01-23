@@ -52,20 +52,20 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
     
     public func fetchMoreData() -> SignalProducer<Void, NSError> {
         return userService.currentLoggedInUser()
-            .on(next: {user in
+            .on(next: { user in
                 self.getParticipations(user, refresh: false)
                     .start()
             })
-            .map{ _ in }
+            .map { _ in }
     }
     
     public func refreshData() -> SignalProducer<Void, NSError> {
         return userService.currentLoggedInUser()
-            .on(next: {user in
+            .on(next: { user in
                 self.getParticipations(user, refresh: true)
                     .start()
             })
-            .map{ _ in }
+            .map { _ in }
     }
     
     public func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
@@ -76,11 +76,11 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
             // else fetch more data
         else {
             return userService.currentLoggedInUser()
-                .on(next: {user in
+                .on(next: { user in
                     self.getParticipations(user, refresh: false)
                         .start()
                 })
-                .map{ _ in }
+                .map { _ in }
         }
     }
     
@@ -89,7 +89,7 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
             .on(
                 next: { [weak self] _ in
                     ProfileLogInfo("participation backend completed")
-                    if let this = self{
+                    if let this = self {
                         this.participationArr.removeAtIndex(index)
                         this.collectionDataSource.removeAtIndex(index)
                     }
@@ -148,7 +148,7 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
                 // map participation to its view model
                 return participations.map {
                     let business = $0.business
-                    let viewmodel = ParticipationListCellViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, cover: business.cover_, geolocation: business.geolocation, business: business, type: $0.type)
+                    let viewmodel = ParticipationListCellViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, coverImage: business.coverImage, geolocation: business.address.geoLocation, business: business, type: $0.type)
                     return viewmodel
                 }
             }

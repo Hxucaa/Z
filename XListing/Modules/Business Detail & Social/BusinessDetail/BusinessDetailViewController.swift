@@ -33,7 +33,7 @@ public final class BusinessDetailViewController : XUIViewController {
     
     
     // MARK: - UI Controls
-    private lazy var headerView: SocialBusinessHeaderView =  {
+    private lazy var headerView: SocialBusinessHeaderView = {
         let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, ImageHeaderHeight))
         view.bindToViewModel(self.viewmodel.headerViewModel)
         return view
@@ -67,7 +67,7 @@ public final class BusinessDetailViewController : XUIViewController {
         // a hack which makes the gap between table view and utility header go away
         tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         // a hack which makes the gap at the bottom of the table view go away
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, -20, 0);
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, -20, 0)
         tableView.showsHorizontalScrollIndicator = false
         tableView.opaque = true
         

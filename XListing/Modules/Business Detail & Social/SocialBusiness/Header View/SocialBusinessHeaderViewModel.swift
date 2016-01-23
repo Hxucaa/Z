@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import ReactiveCocoa
 import ReactiveArray
 import Dollar
@@ -17,8 +18,8 @@ public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewMode
     public var coverImage: AnyProperty<UIImage?> {
         return AnyProperty(_coverImage)
     }
-    public var businessName: AnyProperty<String> {
-        return AnyProperty(_businessName)
+    public var name: AnyProperty<String> {
+        return AnyProperty(_name)
     }
     public var location: AnyProperty<String> {
         return AnyProperty(_city)
@@ -31,30 +32,22 @@ public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewMode
     private let geoLocationService: IGeoLocationService
     private let imageService: IImageService
     
-    private let _coverImage: MutableProperty<UIImage?> = MutableProperty(UIImage(named: ImageAssets.businessplaceholder))
-    private let _businessName: MutableProperty<String>
+    private let _coverImage: MutableProperty<UIImage?> = MutableProperty(ImageAsset.placeholder)
+    private let _name: MutableProperty<String>
     private let _city: MutableProperty<String>
     private let _eta: MutableProperty<String?> = MutableProperty(nil)
     
     // MARK: - Initializers
-    public init(geoLocationService: IGeoLocationService, imageService: IImageService, cover: ImageFile?, businessName: String?, city: String?, geolocation: Geolocation?) {
+    public init(geoLocationService: IGeoLocationService, imageService: IImageService, coverImage: ImageFile, name: String, city: City, geolocation: Geolocation) {
         
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         
-        if let businessName = businessName {
-            _businessName = MutableProperty(businessName)
-        } else {
-            _businessName = MutableProperty("")
-        }
+        _name = MutableProperty(name)
         
-        if let city = city {
-            _city = MutableProperty(city)
-        } else {
-            _city = MutableProperty("")
-        }
+        _city = MutableProperty(city.regionNameE)
         
-        if let url = cover?.url, nsurl = NSURL(string: url) {
+        if let nsurl = NSURL(string: coverImage.url) {
             self.imageService.getImage(nsurl)
                 .start { event in
                     switch event {
@@ -65,10 +58,8 @@ public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewMode
                 }
         }
         
-        if let geolocation = geolocation {
-            setupEta(CLLocation(latitude: geolocation.latitude, longitude: geolocation.longitude))
-                .start()
-        }
+        setupEta(CLLocation(latitude: geolocation.latitude, longitude: geolocation.longitude))
+            .start()
         
     }
     
