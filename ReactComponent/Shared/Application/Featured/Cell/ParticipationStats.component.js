@@ -4,6 +4,10 @@
 
 "use strict";
 
+/*****************************
+*    External Dependencies   *
+******************************/
+
 import React, {
   Text,
   View,
@@ -13,10 +17,15 @@ import React, {
   PropTypes
 } from "react-native";
 
-// import { createIconSetFromFontello } from "react-native-vector-icons";
+/*****************************
+*    Internal Dependencies   *
+******************************/
 
-// import fontelloConfig from "../../../../assets/fontello/config.json";
-// const CustomIcon = createIconSetFromFontello(fontelloConfig);
+import CustomIcon from "../../../../assets/lai-icons";
+
+/*****************************
+*          Constants         *
+******************************/
 
 const DEVICE_WIDTH = Dimensions.get("window").width;
 
@@ -25,6 +34,10 @@ const STATS_VIEW_WIDTH_OFFSET = 21;
 const HEART_ICON_SIZE = 18;
 const BILL_ICON_SIZE = 20;
 
+/*****************************
+*            Code            *
+******************************/
+
 const styles = StyleSheet.create({
   statsView: {
     marginRight: 10,
@@ -32,12 +45,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: DEVICE_WIDTH * STATS_VIEW_WIDTH_RATIO - STATS_VIEW_WIDTH_OFFSET
   },
-  // wtgIcon: {
-  //   marginLeft: 0,
-  //   marginTop: 23,
-  //   fontFamily: "lai-icons",
-  //   color: "#00B2AC"
-  // },
+  toGoIcon: {
+    marginLeft: 0,
+    marginTop: 23,
+    fontFamily: "lai-icons",
+    color: "#00B2AC"
+  },
   toGoCount: {
     marginLeft: 1,
     fontSize: 11,
@@ -54,12 +67,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#00B2AC"
   },
-  // treatIcon: {
-  //   marginLeft: 0,
-  //   marginTop: 23,
-  //   fontFamily: "lai-icons",
-  //   color: "#00B2AC"
-  // },
+  treatIcon: {
+    marginLeft: 0,
+    marginTop: 23,
+    fontFamily: "lai-icons",
+    color: "#00B2AC"
+  },
   treatCount: {
     marginTop: 28,
     marginLeft: 1,
@@ -74,9 +87,9 @@ export default class ParticipationStats extends Component {
 
   static propTypes = {
     data: PropTypes.shape({
-      treatCount: PropTypes.number.isRequired,
-      toGoCount: PropTypes.number.isRequired
-    }).isRequired
+      treatCount: PropTypes.number,
+      toGoCount: PropTypes.number
+    })
   };
 
   render() {
@@ -90,20 +103,18 @@ export default class ParticipationStats extends Component {
 
     return (
       <View style={styles.statsView}>
+        <CustomIcon
+          name="heart"
+          style={styles.toGoIcon}
+          size={HEART_ICON_SIZE}/>
         <Text style={styles.toGoCount}>{toGoCount}</Text>
         <Text style={styles.dot}>{'・'}</Text>
+        <CustomIcon
+          name="bill-unfilled"
+          style={styles.treatIcon}
+          size={BILL_ICON_SIZE}/>
         <Text style={styles.treatCount}>{treatCount}</Text>
       </View>
     );
   }
 }
-
-  // <View style={styles.statsView}>
-  //   <CustomIcon name="heart" style={styles.wtgIcon}
-  //     size={HEART_ICON_SIZE}/>
-  //   <Text style={styles.wtgStat}>{'55'}</Text>
-  //   <Text style={styles.dot}>{'・'}</Text>
-  //   <CustomIcon name="bill-unfilled" style={styles.treatIcon}
-  //     size={BILL_ICON_SIZE}/>
-  //   <Text style={styles.treatStat}>{'55'}</Text>
-  // </View>

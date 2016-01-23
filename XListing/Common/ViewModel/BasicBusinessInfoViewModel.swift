@@ -43,6 +43,7 @@ public class BasicBusinessInfoViewModel : IBasicBusinessInfoViewModel {
 //    }
     
     public let description: SignalProducer<String?, NoError>
+    public let averagePrice: SignalProducer<String, NoError>
     public let aaCount: SignalProducer<Int, NoError>
     public let treatCount: SignalProducer<Int, NoError>
     public let toGoCount: SignalProducer<Int, NoError>
@@ -75,6 +76,7 @@ public class BasicBusinessInfoViewModel : IBasicBusinessInfoViewModel {
         province = SignalProducer(value: business.address.province.regionNameC)
         coverImageUrl = SignalProducer(value: business.coverImage.url)
         description = SignalProducer(value: business.descript)
+        averagePrice = SignalProducer(value: "")
         aaCount = SignalProducer(value: business.aaCount)
         treatCount = SignalProducer(value: business.treatCount)
         toGoCount = SignalProducer(value: business.toGoCount)

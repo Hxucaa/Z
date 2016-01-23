@@ -4,6 +4,10 @@
 
 "use strict";
 
+/*****************************
+*    External Dependencies   *
+******************************/
+
 import React, {
   View,
   Dimensions,
@@ -12,8 +16,16 @@ import React, {
   PropTypes
 } from "react-native";
 
+/*****************************
+*    Internal Dependencies   *
+******************************/
+
 import ParticipationPictures from "./ParticipationPictures.component";
 import ParticipationStats from "./ParticipationStats.component";
+
+/*****************************
+*          Constants         *
+******************************/
 
 const DEVICE_WIDTH = Dimensions.get("window").width;
 
@@ -21,6 +33,9 @@ const PARTICIPATION_HEIGHT_RATIO = 0.17;
 const PARTICIPATION_WIDTH_OFFSET = 20;
 const PROFILE_WIDTH_RATIO = 0.63;
 
+/*****************************
+*            Code            *
+******************************/
 const styles = StyleSheet.create({
 
   participationView: {
@@ -44,10 +59,10 @@ export default class ParticipationInfoView extends Component {
 
   static propTypes = {
     data: PropTypes.shape({
-      treatCount: PropTypes.number.isRequired,
-      toGoCount: PropTypes.number.isRequired,
-      userProfilePreviewUrls: PropTypes.arrayOf(PropTypes.string).isRequired
-    }).isRequired
+      treatCount: PropTypes.number,
+      toGoCount: PropTypes.number,
+      userProfilePreviewUrls: PropTypes.arrayOf(PropTypes.string)
+    })
   };
 
   render() {

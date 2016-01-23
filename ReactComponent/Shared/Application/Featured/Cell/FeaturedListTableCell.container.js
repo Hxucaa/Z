@@ -1,5 +1,9 @@
 "use strict";
 
+/*****************************
+*    External Dependencies   *
+******************************/
+
 import React, {
   View,
   Component,
@@ -7,9 +11,20 @@ import React, {
   PropTypes
 } from "react-native";
 
+/*****************************
+*    Internal Dependencies   *
+******************************/
+
 import BusinessInfoView from "./BusinessInfo.component";
 import Participation from "./Participation.component";
 
+/*****************************
+*          Constants         *
+******************************/
+
+/*****************************
+*            Code            *
+******************************/
 const styles = StyleSheet.create({
   cellContainer: {
     flex: 1,
@@ -26,12 +41,13 @@ const styles = StyleSheet.create({
 export default class FeaturedListTableCell extends Component {
 
   static propTypes = {
-    businessName: PropTypes.string.isRequired,
-    location: PropTypes.string.isRequired,
-    coverImageUrl: PropTypes.string.isRequired,
-    eta: PropTypes.string.isRequired,
-    treatCount: PropTypes.number.isRequired,
-    toGoCount: PropTypes.number.isRequired
+    businessName: PropTypes.string,
+    location: PropTypes.string,
+    coverImageUrl: PropTypes.string,
+    eta: PropTypes.string,
+    averagePrice: PropTypes.string,
+    treatCount: PropTypes.number,
+    toGoCount: PropTypes.number
   };
 
   constructor(props) {
@@ -44,6 +60,7 @@ export default class FeaturedListTableCell extends Component {
       businessName,
       location,
       eta,
+      averagePrice,
       treatCount,
       toGoCount
     } = this.props;
@@ -62,7 +79,8 @@ export default class FeaturedListTableCell extends Component {
             businessName,
             location,
             coverImageUrl,
-            eta
+            eta,
+            averagePrice
           }} />
         <View style={styles.separator} />
         <Participation

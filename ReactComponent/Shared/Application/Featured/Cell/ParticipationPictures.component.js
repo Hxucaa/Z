@@ -4,6 +4,10 @@
 
 "use strict";
 
+/*****************************
+*    External Dependencies   *
+******************************/
+
 import React, {
   Image,
   View,
@@ -13,12 +17,24 @@ import React, {
   PropTypes
 } from "react-native";
 
+/*****************************
+*    Internal Dependencies   *
+******************************/
+
+
+/*****************************
+*          Constants         *
+******************************/
 const DEVICE_WIDTH = Dimensions.get("window").width;
 
 const PROFILES_VIEW_WIDTH_RATIO = 0.63;
 const PROFILE_IMG_BORDER_RADIUS_RATIO = 0.056;
 const PROFILE_IMG_WIDTH_RATIO = 0.11;
 const PROFILE_IMG_HEIGHT_RATIO = 0.112;
+
+/*****************************
+*            Code            *
+******************************/
 
 const styles = StyleSheet.create({
 
@@ -41,8 +57,8 @@ export default class ParticipationPictures extends Component {
 
     static propTypes = {
       data: PropTypes.shape({
-        userProfilePreviewUrls: PropTypes.arrayOf(PropTypes.string).isRequired
-      }).isRequired
+        userProfilePreviewUrls: PropTypes.arrayOf(PropTypes.string)
+      })
     };
 
   render() {

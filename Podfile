@@ -36,6 +36,7 @@ target 'XListing' do
   'RCTWebSocket',
   # Add any other subspecs you want to use in your project
   ]
+  pod `RNVectorIcons`, :path => `./node_modules/react-native-vector-icons`
 end
 
 target 'XListingTests' do

@@ -3,6 +3,10 @@
  */
 "use strict";
 
+/*****************************
+*    External Dependencies   *
+******************************/
+
 import React, {
   Image,
   Text,
@@ -13,10 +17,15 @@ import React, {
   PropTypes
 } from "react-native";
 
-import { createIconSetFromFontello } from "react-native-vector-icons";
+/*****************************
+*    Internal Dependencies   *
+******************************/
 
-import fontelloConfig from "../../../../assets/fontello/config.json";
-const CustomIcon = createIconSetFromFontello(fontelloConfig);
+import CustomIcon from "../../../../assets/lai-icons";
+
+/*****************************
+*          Constants         *
+******************************/
 
 const BIZ_IMAGE_WIDTH_RATIO = 0.57;
 const BIZ_IMAGE_HEIGHT_RATIO = 0.33;
@@ -29,6 +38,9 @@ const CAR_ICON_SIZE = 14;
 
 const DEVICE_WIDTH = Dimensions.get("window").width;
 
+/*****************************
+*            Code            *
+******************************/
 const styles = StyleSheet.create({
   row: {
     marginLeft: 10,
@@ -75,7 +87,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     color: "#f5a623"
   },
-  personText: {
+  averagePriceText: {
     marginLeft: 2,
     marginTop: 40,
     fontSize: 11,
@@ -92,14 +104,15 @@ const styles = StyleSheet.create({
 
 export default class BusinessInfoView extends Component {
 
-  // static propTypes = {
-  //   data: PropTypes.shape({
-  //     coverImageUrl: PropTypes.string.isRequired,
-  //     businessName: PropTypes.string.isRequired,
-  //     location: PropTypes.string.isRequired,
-  //     eta: PropTypes.string.isRequired
-  //   }).isRequired
-  // };
+  static propTypes = {
+    data: PropTypes.shape({
+      coverImageUrl: PropTypes.string,
+      businessName: PropTypes.string,
+      location: PropTypes.string,
+      eta: PropTypes.string,
+      averagePrice: PropTypes.string
+    })
+  };
 
   constructor(props) {
     super(props);
@@ -112,9 +125,20 @@ export default class BusinessInfoView extends Component {
         coverImageUrl,
         businessName,
         location,
-        eta
+        eta,
+        averagePrice
       }
     } = this.props;
+
+    const averagePriceIcon = averagePrice ?
+      <CustomIcon
+        name="person"
+        style={styles.personIcon}
+        size={PERSON_ICON_SIZE}/> :
+      null
+
+    const averagePriceText = averagePrice ?
+      <Text style={styles.averagePriceText}>{averagePrice}</Text> : null
 
     return (
         <View style={styles.row}>
@@ -127,7 +151,12 @@ export default class BusinessInfoView extends Component {
               {location}
             </Text>
             <View style={{ flexDirection: "row" }}>
-              <Text style={styles.personText}>{'$40'}</Text>
+              {averagePriceIcon}
+              {averagePriceText}
+              <CustomIcon
+                name="car"
+                style={styles.carIcon}
+                size={CAR_ICON_SIZE}/>
               <Text style={styles.etaText}>{eta}</Text>
             </View>
           </View>
@@ -135,24 +164,3 @@ export default class BusinessInfoView extends Component {
     );
   }
 }
-
-
-    // <View style={styles.row}>
-    //   <Image style={styles.bizImage} source={this.props.bizImage} />
-    //   <View style={styles.bizInfo}>
-    //     <Text style={styles.text} numberOfLines={1}>
-    //       {'小肥羊'}
-    //     </Text>
-    //     <Text style={styles.cityText}>
-    //       {'Richmond'}
-    //     </Text>
-    //     <View style={{ flexDirection: "row" }}>
-    //       <CustomIcon name="person" style={styles.personIcon}
-    //         size={PERSON_ICON_SIZE}/>
-    //       <Text style={styles.personText}>{'$40'}</Text>
-    //       <CustomIcon name="car" style={styles.carIcon}
-    //         size={CAR_ICON_SIZE}/>
-    //       <Text style={styles.distanceText}>{'10分钟'}</Text>
-    //     </View>
-    //   </View>
-    // </View>
