@@ -12,9 +12,16 @@ import ReactiveCocoa
 public final class FeaturedBusinessViewModel : BasicBusinessInfoViewModel, IFeaturedBusinessViewModel {
     
     // MARK: - Outputs
-    
     public var props: SignalProducer<RNProps, NoError> {
-        return combineLatest(name, city, coverImageUrl, eta.producer.ignoreNil(), treatCount, toGoCount)
+        
+        return combineLatest(
+            self.name.producer,
+            city.producer,
+            coverImageUrl.producer,
+            eta.producer.ignoreNil(),
+            treatCount.producer,
+            toGoCount.producer
+            )
             .map {[
                 "businessName": $0,
                 "location": $1,

@@ -9,10 +9,9 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol IFeaturedBusinessViewModel : class, IBasicBusinessInfoViewModel {
+public protocol IFeaturedBusinessViewModel : class, IBasicBusinessInfoViewModel, HasRNProps {
     
     // MARK: - Outputs
-    var props: SignalProducer<RNProps, NoError> { get }
     
     // MARK: - Actions
 }
