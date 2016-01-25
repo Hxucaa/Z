@@ -3,10 +3,10 @@ PODS:
   - AsyncDisplayKit (1.9.5):
     - AsyncDisplayKit/ASDealloc2MainObject (= 1.9.5)
   - AsyncDisplayKit/ASDealloc2MainObject (1.9.5)
-  - AVOSCloudCrashReportingDynamic (3.2.1):
+  - AVOSCloudCrashReportingDynamic (3.2.2):
     - AVOSCloudDynamic
-  - AVOSCloudDynamic (3.2.1)
-  - AVOSCloudIMDynamic (3.2.1):
+  - AVOSCloudDynamic (3.2.2)
+  - AVOSCloudIMDynamic (3.2.2):
     - AVOSCloudDynamic
   - Cartography (0.6.0)
   - CocoaLumberjack/Core (2.2.0)
@@ -20,10 +20,12 @@ PODS:
   - FLEX (2.2.0)
   - GPUImage (0.1.7)
   - INSPullToRefresh (1.1.4)
-  - Locksmith (2.0.5)
+  - Locksmith (2.0.6)
   - Nimble (3.1.0)
   - pop (1.0.8)
   - Quick (0.8.0)
+  - React (0.17.0):
+    - React/Core (= 0.17.0)
   - React/Core (0.17.0)
   - React/RCTImage (0.17.0):
     - React/Core
@@ -48,6 +50,8 @@ PODS:
     - ReactiveCocoa/Core
     - Result (~> 1.0)
   - Result (1.0.1)
+  - RNVectorIcons (0.8.4):
+    - React
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -83,6 +87,7 @@ DEPENDENCIES:
   - React/RCTWebSocket (from `./node_modules/react-native`)
   - ReactiveArray (from `ssh://git@dev.lai.io:2345/diffusion/RA/reactivearray.git`)
   - ReactiveCocoa (= 4.0.0-RC.1)
+  - RNVectorIcons (from `./node_modules/react-native-vector-icons`)
   - SDWebImage (~> 3.7.0)
   - Spring (from `https://github.com/MengTo/Spring.git`, branch `swift2`)
   - SVProgressHUD (from `https://github.com/Hxucaa/SVProgressHUD.git`)
@@ -96,6 +101,8 @@ EXTERNAL SOURCES:
     :path: "./node_modules/react-native"
   ReactiveArray:
     :git: ssh://git@dev.lai.io:2345/diffusion/RA/reactivearray.git
+  RNVectorIcons:
+    :path: "./node_modules/react-native-vector-icons"
   Spring:
     :branch: swift2
     :git: https://github.com/MengTo/Spring.git
@@ -121,16 +128,16 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 860466cb4a66854e6acb590071ecee404b48f49d
   AsyncDisplayKit: 9c55f1aadf4edc3eab9e27812171f500c13882c7
-  AVOSCloudCrashReportingDynamic: deadfe36d8297c8597dd266a045452b6845b1e58
-  AVOSCloudDynamic: bb035a303904c717461df26e42f81c5a88d9e375
-  AVOSCloudIMDynamic: 720b897f8565be998233916e75eb8b01e3a3ed74
+  AVOSCloudCrashReportingDynamic: ba496ce6a010bb43cc2a2f6c8086667746e65919
+  AVOSCloudDynamic: de57e0e0221d7d65a21bc87cda6514d505e5015b
+  AVOSCloudIMDynamic: 417c0ccfaf2ccc1fcce8c15877708c31500bb676
   Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   Dollar: 1ee47922ccdfda5b572c8a4956b08986f1b4c429
   FLEX: bc8a4fb887ed5d3cdf7c2f3bd665f7bb1647cc58
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
   INSPullToRefresh: a27f7faf022f858f02a7680943e11a1f7ce3430a
-  Locksmith: 6b527f58b7223e469a4b30d42d65ec9fcbf28c97
+  Locksmith: 42ec3d535448e3c218f4342782b07a222b1acfd1
   Nimble: 79d40f4d69d47314229bbabacaa02b8838c779b9
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   Quick: 563d0f6ec5f72e394645adb377708639b7dd38ab
@@ -138,6 +145,7 @@ SPEC CHECKSUMS:
   ReactiveArray: 4a3585664651bb02b34d7bed25d27635b6480bf9
   ReactiveCocoa: 2b0f654beb7642b82cfd3fdb845205ae9889422c
   Result: caef80340451e1f07492fa1e89117f83613bce24
+  RNVectorIcons: 9ba22dd582f1138a794b14bca7d226a903c82f38
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
