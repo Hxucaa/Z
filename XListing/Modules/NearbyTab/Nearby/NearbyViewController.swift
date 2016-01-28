@@ -104,36 +104,41 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                         case .Next(let operation):
                             switch operation {
                             case let .Initiate(values):
-                                this.mapView.addAnnotations(
-                                    values
-                                        .filter { $0.annotation.value != nil }
-                                        .map { $0.annotation.value }
-                                )
+                                zip(values.map { $0.annotation })
+                                    .startWithNext { this.mapView.addAnnotations($0) }
                                 this.businessCollectionView.reloadData()
+                                
                             case .AppendContentsOf(let values):
-                                this.mapView.addAnnotations(values.map { $0.annotation.value })
+                                zip(values.map { $0.annotation })
+                                    .startWithNext { this.mapView.addAnnotations($0) }
                                 let sections = this.businessCollectionView.numberOfSections()
                                 
                                 // manually insert sections to collection view.
                                 this.businessCollectionView.insertSections(NSIndexSet(indexesInRange: NSMakeRange(sections, values.count)))
                                 
                             case let .ReplaceAll(values):
-                                if values.count > 0 {
-                                    
-                                    this.businessCollectionView.reloadData()
-                                    this.mapView.addAnnotations(values.map { $0.annotation.value })
-                                    
-                                    // get the first result
-                                    let firstAnnotation = values[0].annotation.value
-                                    
-                                    // select and centre the map on the first result
-                                    this.mapView.selectAnnotation(firstAnnotation, animated: true)
-                                    this.mapView.setCenterCoordinate(firstAnnotation.coordinate, animated: true)
-                                    
-                                    // scroll the collection view to match
-                                    let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-                                    this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+                                guard let firstValue = values.first else {
+                                    break
                                 }
+                                
+                                this.businessCollectionView.reloadData()
+                                
+                                zip(values.map { $0.annotation })
+                                    .startWithNext { this.mapView.addAnnotations($0) }
+                                //                                    this.mapView.addAnnotations(values.map
+                                
+                                // get the first result
+                                firstValue.annotation
+                                    .startWithNext { firstAnnotation in
+                                        
+                                        // select and centre the map on the first result
+                                        this.mapView.selectAnnotation(firstAnnotation, animated: true)
+                                        this.mapView.setCenterCoordinate(firstAnnotation.coordinate, animated: true)
+                                        
+                                        // scroll the collection view to match
+                                        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+                                        this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+                                    }
                                 
                             default:
                                 this.businessCollectionView.reloadData()
@@ -267,35 +272,45 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                         // forwards events from the producer until the annotation view is prepared to be reused
                         .takeUntilPrepareForReuse(view)
                         //                        .logLifeCycle(LogContext.Nearby, "\(typeNameAndAddress(view)) tapGesture")
-                        .startWithNext { _ in
-                            if let this = self, mapView = self?.mapView, annotation = view.annotation {
-                                
-                                
+                        .on(next: { _ in
+                            if let mapView = self?.mapView, annotation = view.annotation {
                                 // center the map on the annotation if it is not already in view
                                 let visibleAnnotations = mapView.annotationsInMapRect(mapView.visibleMapRect)
                                 if let anno = annotation as? NSObject where !visibleAnnotations.contains(anno) {
                                     mapView.setCenterCoordinate(annotation.coordinate, animated: true)
                                 }
-                                
-                                // find the index of the business
-                                let index = $.findIndex(this.viewmodel.collectionDataSource.array) { business in
-                                    if let anno = annotation as? MKPointAnnotation {
-                                        return business.annotation.value == anno
-                                    }
-                                    else {
-                                        return false
-                                    }
+                            }
+                        })
+                        .flatMap(FlattenStrategy.Merge, transform: { _ -> SignalProducer<[MKPointAnnotation], NSError> in
+                            if let this = self {
+                                return zip(this.viewmodel.collectionDataSource.array.map { $0.annotation })
+                                    .promoteErrors(NSError)
+                            }
+                            else {
+                                return SignalProducer<[MKPointAnnotation], NSError>.empty
+                            }
+                        })
+                        .map { businessAnnotations -> NSIndexPath? in
+                            let index = $.findIndex(businessAnnotations) { businessAnnotation in
+                                if let anno = view.annotation as? MKPointAnnotation {
+                                    return businessAnnotation == anno
                                 }
-                                
-                                if let index = index {
-                                    
-                                    // Construct the index path. Note that the collection only has ONE row.
-                                    let indexPath = NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: index)
-                                    
-                                    // scroll to that business in the collection view.
-                                    this.businessCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+                                else {
+                                    return false
                                 }
                             }
+                            
+                            if let index = index {
+                                // Construct the index path. Note that the collection only has ONE row.
+                                return NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: index)
+                            }
+                            else {
+                                return nil
+                            }
+                        }
+                        .ignoreNil()
+                        .startWithNext {
+                            self?.businessCollectionView.scrollToItemAtIndexPath($0, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
                         }
                 })
             }
@@ -311,29 +326,24 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
             .takeUntilViewWillDisappear(self)
             .map { ($0 as! RACTuple).second as! Bool }
             .logLifeCycle(LogContext.Nearby, signalName: "mapView:regionWillChangeAnimated:")
-            .start { [weak self] event in
-                switch event {
-                case .Next(_):
+            .startWithNext { [weak self] _ in
+                /// Determine whether the region change is triggered by user interaction.
+                /// Note that this implementation depends on the internal impelmentation MKMapView by Apple, which could break at later versions.
+                mapChangedFromUserInteraction = { () -> Bool in
                     
-                    /// Determine whether the region change is triggered by user interaction.
-                    /// Note that this implementation depends on the internal impelmentation MKMapView by Apple, which could break at later versions.
-                    mapChangedFromUserInteraction = { () -> Bool in
-                        
-                        //  Look through gesture recognizers to determine whether this region change is from user interaction
-                        if let view = self?.mapView.subviews.first as UIView!, gestureRecognizers = view.gestureRecognizers {
-                            for recognizer in gestureRecognizers {
-                                if recognizer.state == UIGestureRecognizerState.Began || recognizer.state == UIGestureRecognizerState.Ended {
-                                    return true
-                                }
+                    //  Look through gesture recognizers to determine whether this region change is from user interaction
+                    if let view = self?.mapView.subviews.first as UIView!, gestureRecognizers = view.gestureRecognizers {
+                        for recognizer in gestureRecognizers {
+                            if recognizer.state == UIGestureRecognizerState.Began || recognizer.state == UIGestureRecognizerState.Ended {
+                                return true
                             }
                         }
-                        return false
-                    }()
-                    if mapChangedFromUserInteraction {
-                        // show the redo search button when user moves the map
-                        self?.redoSearchButton.hidden = false
                     }
-                default: break
+                    return false
+                    }()
+                if mapChangedFromUserInteraction {
+                    // show the redo search button when user moves the map
+                    self?.redoSearchButton.hidden = false
                 }
             }
         
@@ -342,14 +352,10 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
             .takeUntilViewWillDisappear(self)
             .map { ($0 as! RACTuple).second as! Bool }
             .logLifeCycle(LogContext.Nearby, signalName: "mapView:regionDidChangeAnimated:")
-            .start { [weak self] event in
-                switch event {
-                case .Next(_):
-                    if mapChangedFromUserInteraction {
-                        // show the redo search button when user moves the map
-                        self?.redoSearchButton.hidden = false
-                    }
-                default: break
+            .startWithNext { [weak self] _ in
+                if mapChangedFromUserInteraction {
+                    // show the redo search button when user moves the map
+                    self?.redoSearchButton.hidden = false
                 }
             }
         
@@ -388,51 +394,61 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
             .takeUntilViewWillDisappear(self)
             .map { ($0 as! RACTuple).first as! UIScrollView }
             .logLifeCycle(LogContext.Nearby, signalName: "scrollViewDidEndScrollingAnimation:")
-            .startWithNext { [weak self] scrollView in
+            .map { scrollView -> NSIndexPath? in
                 if let
-                    this = self,
-                    mapView = self?.mapView,
                     collectionView = scrollView as? UICollectionView,
                     lastCell = collectionView.visibleCells().last,
                     indexPath = collectionView.indexPathForCell(lastCell) {
-                        
-                        // After an end scrolling is detected, we must cancel the `performSelector`, otherwise this function will get called multiple times.
-                        NSObject.cancelPreviousPerformRequestsWithTarget(this)
-                        
-                        let business = this.viewmodel.collectionDataSource.array[indexPath.section]
-                        
-                        /// Center the map to the annotation.
-                        let annotation = business.annotation.value
-                        
-                        // Select the annotation
-                        mapView.selectAnnotation(annotation, animated: true)
-                        
-                        // center the map on the annotation if it is not already in view
-                        let visibleAnnotations = mapView.annotationsInMapRect(mapView.visibleMapRect)
-                        if !visibleAnnotations.contains(annotation) {
-                            mapView.setCenterCoordinate(annotation.coordinate, animated: true)
-                        }
+                        return indexPath
+                }
+                else {
+                    return nil
+                }
+            }
+            .ignoreNil()
+            .flatMap(.Merge) { [weak self] indexPath -> SignalProducer<MKPointAnnotation, NSError> in
+                if let this = self {
+                    // After an end scrolling is detected, we must cancel the `performSelector`, otherwise this function will get called multiple times.
+                    NSObject.cancelPreviousPerformRequestsWithTarget(this)
+                    
+                    let business = this.viewmodel.collectionDataSource.array[indexPath.section]
+                    
+                    /// Center the map to the annotation.
+                    return business.annotation
+                        .promoteErrors(NSError)
+                }
+                else {
+                    return SignalProducer<MKPointAnnotation, NSError>.empty
+                }
+            }
+            .startWithNext { [weak mapView = self.mapView] annotation in
+                
+                if let mapView = mapView {
+                    // Select the annotation
+                    mapView.selectAnnotation(annotation, animated: true)
+                    
+                    // center the map on the annotation if it is not already in view
+                    let visibleAnnotations = mapView.annotationsInMapRect(mapView.visibleMapRect)
+                    if !visibleAnnotations.contains(annotation) {
+                        mapView.setCenterCoordinate(annotation.coordinate, animated: true)
+                    }
+                    
                 }
             }
         
-        // create a signal associated with `scrollViewDidEndDragging:willDecelerate:` from delegate `UIScrollViewDelegate`
+        // if we reach the last item of the collection view, start the query for pagination
         compositeDisposable += rac_signalForSelector(Selector("scrollViewDidEndDragging:willDecelerate:"), fromProtocol: UIScrollViewDelegate.self).toSignalProducer()
             // Completes the signal when the view controller disappears
             .takeUntilViewWillDisappear(self)
-            .map { ($0 as! RACTuple).first as! UIScrollView }
             .logLifeCycle(LogContext.Nearby, signalName: "scrollViewDidEndDragging:willDecelerate:")
-            .startWithNext { scrollView in
-                    
-                //if we reach the last item of the collection view, start the query for pagination
-                
-                //return the index of the currently visible cell from the collection view
-                if let currentIndexPath = self.businessCollectionView.indexPathsForVisibleItems().first as NSIndexPath!
-                    where currentIndexPath.section == self.businessCollectionView.numberOfSections() - 1 {
-                        
-                    self.compositeDisposable += self.viewmodel.getAdditionalBusinesses(self.searchOrigin)
-                        .start()
-                }
-            }
+            .map { (($0 as! RACTuple).first as! UICollectionView).indexPathsForVisibleItems().first }
+            .ignoreNil()
+            // if we reach the last item of the collection view, start the query for pagination
+            .filter { $0.section == self.businessCollectionView.numberOfSections() - 1 }
+            .flatMap(.Merge, transform: { _ -> SignalProducer<Void, NSError> in
+                return self.viewmodel.getAdditionalBusinesses(self.searchOrigin)
+            })
+            .start()
         
         /**
         Assigning UITableView delegate has to happen after signals are established.

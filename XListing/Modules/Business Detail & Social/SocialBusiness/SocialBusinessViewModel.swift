@@ -47,8 +47,6 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     // MARK: - View Models
     public let headerViewModel: SocialBusinessHeaderViewModel
     
-    private let userArr: MutableProperty<[Participation]> = MutableProperty([Participation]())
-    
     // MARK: Services
     private let userService: IUserService
     private let participationService: IParticipationService
@@ -109,17 +107,6 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
         query.whereKey(User_Business_Participation.Property.Business.rawValue, equalTo: business)
 
         return participationService.findBy(query)
-            .on(next: { participation in
-                
-                if refresh {
-                    // ignore old data, put in new array
-                    self.userArr.value = participation
-                }
-                else {
-                    // save the new data in addition to the old ones
-                    self.userArr.value = self.userArr.value + participation
-                }
-            })
             .map { participations -> [SocialBusiness_UserViewModel] in
 
                 return participations.map {

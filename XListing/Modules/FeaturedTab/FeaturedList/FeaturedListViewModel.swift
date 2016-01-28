@@ -37,7 +37,6 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
     
     // MARK: Variables
     public weak var navigator: FeaturedListNavigator!
-    private var businessArr = [Business]()
     private var numberOfBusinessesLoaded = 0
     
     // MARK: - Initializers
@@ -78,7 +77,7 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
     }
     
     public func pushSocialBusinessModule(section: Int) {
-        navigator.pushSocialBusiness(businessArr[section])
+        navigator.pushSocialBusiness(collectionDataSource.array[section].business)
     }
     
     // MARK: - Others
@@ -111,16 +110,10 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
                 if refresh {
                     // set numberOfBusinessesLoaded to the number of businesses fetched
                     self.numberOfBusinessesLoaded = businesses.count
-                    
-                    // ignore old data, put in new array
-                    self.businessArr = businesses
                 }
                 else {
                     // increment numberOfBusinessesLoaded
                     self.numberOfBusinessesLoaded += businesses.count
-                    
-                    // save the new data in addition to the old ones
-                    self.businessArr.appendContentsOf(businesses)
                 }
             })
             .map { businesses -> [FeaturedBusinessViewModel] in

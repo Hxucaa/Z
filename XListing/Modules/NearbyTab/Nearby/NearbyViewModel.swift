@@ -28,7 +28,6 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
     
     // MARK: Variables
     public weak var navigationDelegate: NearbyNavigationDelegate!
-    private let businessArr: MutableProperty<[Business]> = MutableProperty([Business]())
     
     // MARK: - API
     
@@ -62,9 +61,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
         businessQuery.skip = collectionDataSource.array.count
         
         return getBusinessesWithQuery(businessQuery, isPagination: true)
-            .map { _ in
-                return
-            }
+            .map { _ in }
     }
     
     // fetch the businesses that are within radius km of the search origin
@@ -95,7 +92,7 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
      - parameter section: The business information to pass along.
      */
     public func pushSocialBusinessModule(section: Int) {
-        navigationDelegate.pushSocialBusiness(businessArr.value[section])
+        navigationDelegate.pushSocialBusiness(collectionDataSource.array[section].business)
     }
     
     // MARK: Initializers
@@ -116,22 +113,13 @@ public final class NearbyViewModel : INearbyViewModel, ICollectionDataSource {
         businessQuery.whereKey(Business.Property.address, matchesQuery: addressQuery)
         businessQuery.includeKey(Business.Property.address)
         return getBusinessesWithQuery(businessQuery, isPagination: false)
-            .map { _ in
-                return
-            }
+            .map { _ in }
     }
 
     private func getBusinessesWithQuery(query: AVQuery, isPagination: Bool) -> SignalProducer<[NearbyTableCellViewModel], NSError> {
         // TODO: implement default location.
         query.limit = Constants.PAGINATION_LIMIT
         return businessService.findBy(query)
-            .on(next: { businesses in
-                if isPagination {
-                    self.businessArr.value.appendContentsOf(businesses)
-                } else {
-                    self.businessArr.value = businesses
-                }
-            })
             .map { businesses -> [NearbyTableCellViewModel] in
                 businesses.map {
                     NearbyTableCellViewModel(geoLocationService: self.geoLocationService, imageService: self.imageService, business: $0)

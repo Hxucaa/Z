@@ -44,7 +44,7 @@ public final class FeaturedBusinessViewModel : BasicBusinessInfoViewModel, IFeat
     private let geoLocationService: IGeoLocationService
     private let imageService: IImageService
     private let participationService: IParticipationService
-    private let business: Business
+    public let business: Business
     
     // MARK: - Initializers
     public init(userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService, participationService: IParticipationService, business: Business) {

@@ -22,6 +22,7 @@ public final class SocialBusiness_UserViewModel : BasicUserInfoViewModel, ISocia
     }    
     
     // MARK: - Properties
+    public let user: User
     private let imageService: IImageService
     private let participationService: IParticipationService
 
@@ -30,6 +31,8 @@ public final class SocialBusiness_UserViewModel : BasicUserInfoViewModel, ISocia
     public init(participationService: IParticipationService, imageService: IImageService, user: User, participationType: ParticipationType) {
         self.participationService = participationService
         self.imageService = imageService
+        
+        self.user = user
         
         _participationType = MutableProperty(participationType.description)
         

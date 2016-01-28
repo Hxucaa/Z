@@ -13,8 +13,8 @@ public protocol INearbyTableCellViewModel: class, IBasicBusinessInfoViewModel {
     
     // MARK: - Outputs
     var participation: AnyProperty<String> { get }
-    var businessHours: AnyProperty<String> { get }
-    var annotation: AnyProperty<MKPointAnnotation> { get }
+    var businessHours: SignalProducer<String, NoError> { get }
+    var annotation: SignalProducer<MKPointAnnotation, NoError> { get }
     
     // MARK: - Initializers
     init(geoLocationService: IGeoLocationService, imageService: IImageService, business: Business)

@@ -21,18 +21,12 @@ public final class NearbyTableCellViewModel: BasicBusinessInfoViewModel, INearby
         return AnyProperty(_participation)
     }
     
-    private let _businessHours: ConstantProperty<String> = ConstantProperty("今天 10:00AM - 10:00PM")
-    public var businessHours: AnyProperty<String> {
-        return AnyProperty(_businessHours)
-    }
+    public let businessHours: SignalProducer<String, NoError> = SignalProducer(value: "今天 10:00AM - 10:00PM")
     
-    private let _annotation: ConstantProperty<MKPointAnnotation>
-    public var annotation: AnyProperty<MKPointAnnotation> {
-        return AnyProperty(_annotation)
-    }
+    public let annotation: SignalProducer<MKPointAnnotation, NoError>
     
     // MARK: - Properties
-    private let business: Business
+    public let business: Business
     
     // MARK: Services
     private let geoLocationService: IGeoLocationService
@@ -50,7 +44,7 @@ public final class NearbyTableCellViewModel: BasicBusinessInfoViewModel, INearby
         let annotation = MKPointAnnotation()
         annotation.coordinate = business.address.geoLocation.cllocation.coordinate
         annotation.title = business.name
-        self._annotation = ConstantProperty(annotation)
+        self.annotation = SignalProducer(value: annotation)
         
         super.init(geoLocationService: geoLocationService, imageService: imageService, business: business)
     }

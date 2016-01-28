@@ -28,7 +28,7 @@ public class BasicUserInfoViewModel : IBasicUserInfoViewModel {
     
     
     // MARK: - Properties
-    public let user: User
+    private let user: User
     private let imageService: IImageService
     
     
