@@ -127,6 +127,7 @@ public extension SignalProducerType {
     }
 }
 
+public typealias RNPropTuple = (String, AnyObject)
 
 public extension Observer {
     

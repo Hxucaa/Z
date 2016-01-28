@@ -61,15 +61,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     // MARK: Bindings
     public func bindViewModel(viewmodel: IFeaturedBusinessViewModel) {
         self.viewmodel = viewmodel
-
-//
-        self.viewmodel.calculateEta()
+        
+        viewmodel.calculateEta()
             .start()
         
-        self.viewmodel.props
+        featuredListTableCell.rac_appProperties <~ viewmodel.props
             .takeUntilPrepareForReuse(self)
-            .startWithNext { [weak self] dict in
-                self?.featuredListTableCell.appProperties = dict
-            }
     }
 }

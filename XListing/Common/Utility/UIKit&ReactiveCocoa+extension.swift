@@ -9,6 +9,7 @@
 // swiftlint:disable variable_name
 
 import UIKit
+import React
 import ReactiveCocoa
 
 private struct AssociationKey {
@@ -24,6 +25,7 @@ private struct AssociationKey {
     static var optionalText: UInt8 = 10
     static var backgroundColor: UInt8 = 11
     static var recognizerEnabled: UInt8 = 12
+    static var appProperties: UInt8 = 13
 }
 
 // lazily creates a gettable associated property via the given factory
@@ -84,6 +86,13 @@ extension UILabel {
 extension UINavigationItem {
     public var rac_title: MutableProperty<String> {
         return lazyMutableProperty(self, key: &AssociationKey.title, setter: { self.title = $0 }, getter: { self.title ?? ""})
+    }
+}
+
+
+extension RCTRootView {
+    public var rac_appProperties: MutableProperty<RNProps> {
+        return lazyMutableProperty(self, key: &AssociationKey.appProperties, setter: { self.appProperties = $0 }, getter: { self.appProperties })
     }
 }
 

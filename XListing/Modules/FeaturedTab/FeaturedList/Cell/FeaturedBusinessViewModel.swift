@@ -15,21 +15,28 @@ public final class FeaturedBusinessViewModel : BasicBusinessInfoViewModel, IFeat
     public var props: SignalProducer<RNProps, NoError> {
         
         return combineLatest(
-            self.name.producer,
+            name.producer,
             city.producer,
             coverImageUrl.producer,
-            eta.producer.ignoreNil(),
+            eta.producer,
             treatCount.producer,
             toGoCount.producer
             )
-            .map {[
-                "businessName": $0,
-                "location": $1,
-                "coverImageUrl": $2,
-                "eta": $3,
-                "treatCount": $4,
-                "toGoCount": $5
-            ]}
+            .map { name, city, coverImageUrl, eta, treatCount, toGoCount in
+                var props: RNProps = [
+                    "businessName": name,
+                    "location": city,
+                    "coverImageUrl": coverImageUrl,
+                    "treatCount": treatCount,
+                    "toGoCount": toGoCount
+                ]
+                
+                if let eta = eta {
+                    props["eta"] = eta
+                }
+                
+                return props
+            }
     }
     
     // MARK: - Properties

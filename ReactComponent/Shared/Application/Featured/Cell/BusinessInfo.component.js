@@ -136,9 +136,17 @@ export default class BusinessInfoView extends Component {
         style={styles.personIcon}
         size={PERSON_ICON_SIZE}/> :
       null
-
     const averagePriceText = averagePrice ?
       <Text style={styles.averagePriceText}>{averagePrice}</Text> : null
+
+    const etaIcon = eta ?
+      <CustomIcon
+        name="car"
+        style={styles.carIcon}
+        size={CAR_ICON_SIZE}/> :
+      null
+    const etaText = eta ?
+      <Text style={styles.etaText}>{eta}</Text> : null
 
     return (
         <View style={styles.row}>
@@ -153,11 +161,8 @@ export default class BusinessInfoView extends Component {
             <View style={{ flexDirection: "row" }}>
               {averagePriceIcon}
               {averagePriceText}
-              <CustomIcon
-                name="car"
-                style={styles.carIcon}
-                size={CAR_ICON_SIZE}/>
-              <Text style={styles.etaText}>{eta}</Text>
+              {etaIcon}
+              {etaText}
             </View>
           </View>
         </View>
