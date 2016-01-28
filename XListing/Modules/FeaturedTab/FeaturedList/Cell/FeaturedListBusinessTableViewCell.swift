@@ -62,9 +62,6 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     public func bindViewModel(viewmodel: IFeaturedBusinessViewModel) {
         self.viewmodel = viewmodel
         
-        viewmodel.calculateEta()
-            .start()
-        
         featuredListTableCell.rac_appProperties <~ viewmodel.props
             .takeUntilPrepareForReuse(self)
     }

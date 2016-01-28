@@ -27,6 +27,7 @@ target 'XListing' do
   pod 'AVOSCloudDynamic', '~> 3.1'
   pod 'AVOSCloudCrashReportingDynamic', '~> 3.1'
   pod 'AVOSCloudIMDynamic', '~> 3.1'
+  pod 'RongCloudIMKit', '~> 2.4.6'
   
   pod 'React', :path => './node_modules/react-native', :subspecs => [
   'Core',

@@ -126,8 +126,13 @@ public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDa
             .map { businesses -> [FeaturedBusinessViewModel] in
                 
                 // map the business models to viewmodels
-                return businesses.map {
-                    FeaturedBusinessViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, business: $0)
+                return businesses.map { business in
+                    let cellViewModel = FeaturedBusinessViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, business: business)
+                    
+                    cellViewModel.calculateEta()
+                        .start()
+                    
+                    return cellViewModel
                 }
             }
             .on(

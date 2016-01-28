@@ -17,10 +17,6 @@ public class BasicBusinessInfoViewModel : IBasicBusinessInfoViewModel {
     
     // MARK: - Outputs
 
-//    private let _name: ConstantProperty<String>
-//    public var name: AnyProperty<String> {
-//        return AnyProperty(_name)
-//    }
     public let name: ConstantProperty<String>
     public let phone: ConstantProperty<String>
     public let email: ConstantProperty<String?>
@@ -34,13 +30,6 @@ public class BasicBusinessInfoViewModel : IBasicBusinessInfoViewModel {
     public var coverImage: AnyProperty<UIImage> {
         return AnyProperty(_coverImage)
     }
-    
-//    public var coverImageDataBase64: SignalProducer<String> {
-//        // TODO: may need to cache this?? for performance reason
-//        
-//        return coverImage.producer
-//            .map { UIImageJPEGRepresentation($0, 1.0)!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength) }
-//    }
     
     public let description: ConstantProperty<String?>
     public let averagePrice: ConstantProperty<String>

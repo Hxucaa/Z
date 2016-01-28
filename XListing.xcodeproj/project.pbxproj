@@ -69,6 +69,7 @@
 		7EF371501AB8C1E8009AA3B9 /* Parse.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF371431AB8C1E8009AA3B9 /* Parse.plist */; };
 		7EF371571AB8C9B3009AA3B9 /* BusinessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371551AB8C9B3009AA3B9 /* BusinessSpec.swift */; };
 		7EF371581AB8C9B3009AA3B9 /* BusinessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */; };
+		7EF86F121C5A129700D33800 /* RongClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF86F111C5A129700D33800 /* RongClient.swift */; };
 		B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */; };
 		B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */; };
 		B31B50761B7E308100782341 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F195801B2789A100B8C519 /* Account.storyboard */; };
@@ -349,6 +350,7 @@
 		7EF371521AB8C8FA009AA3B9 /* XListingTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XListingTests-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		7EF371551AB8C9B3009AA3B9 /* BusinessSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessSpec.swift; sourceTree = "<group>"; };
 		7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessTests.swift; sourceTree = "<group>"; };
+		7EF86F111C5A129700D33800 /* RongClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RongClient.swift; sourceTree = "<group>"; };
 		B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Bold.ttf"; sourceTree = "<group>"; };
 		B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Regular.ttf"; sourceTree = "<group>"; };
 		B33C0E041B71653B005F8410 /* NicknameView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NicknameView.xib; path = XListing/Modules/Account/SignUp/Nickname/NicknameView.xib; sourceTree = SOURCE_ROOT; };
@@ -848,6 +850,7 @@
 		7EF3713F1AB8C1E8009AA3B9 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				7EF86F101C5A121500D33800 /* RongCloud */,
 				3DE38A7F1B11BB3D00DFA128 /* KeychainService.swift */,
 				3DE38A7D1B11BB3000DFA128 /* IKeychainService.swift */,
 				B4DB9AC11AF954AC009FBFE1 /* GeoLocationService.swift */,
@@ -891,6 +894,14 @@
 				7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		7EF86F101C5A121500D33800 /* RongCloud */ = {
+			isa = PBXGroup;
+			children = (
+				7EF86F111C5A129700D33800 /* RongClient.swift */,
+			);
+			path = RongCloud;
 			sourceTree = "<group>";
 		};
 		B401EA0C1B927AE00048BCD1 /* Components */ = {
@@ -1236,8 +1247,8 @@
 			children = (
 				B47C0EA81AC0A7EF00F9FB31 /* Wireframe */,
 				7EACBA0A1AFB2E4A009D8CA6 /* FeaturedListViewController.swift */,
-				B4A3C16C1AD44B7E00B9D699 /* FeaturedListViewModel.swift */,
 				B44E35001AD5D0AE00657A31 /* IFeaturedListViewModel.swift */,
+				B4A3C16C1AD44B7E00B9D699 /* FeaturedListViewModel.swift */,
 				B4A3C16B1AD44B3E00B9D699 /* Cell */,
 			);
 			path = FeaturedList;
@@ -1827,6 +1838,7 @@
 				B427B36D1BC5B7EF008A9F19 /* ProfileUpperViewModel.swift in Sources */,
 				264129141BCEF50200BEE87A /* AddPhotoCollectionViewCell.swift in Sources */,
 				B4104F601B84246F00D7E4BD /* IInfinityScrollDataSource.swift in Sources */,
+				7EF86F121C5A129700D33800 /* RongClient.swift in Sources */,
 				B427B3561BC44DAA008A9F19 /* BasicUserInfoViewModel.swift in Sources */,
 				2675C4BE1BB3AD1400F2683B /* DescriptionCellViewModel.swift in Sources */,
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,

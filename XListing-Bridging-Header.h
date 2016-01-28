@@ -10,5 +10,6 @@
 #define XListing_XListing_Bridging_Header_h
 
 #import "NSObject+Swift.h"
+#import <RongIMKit/RongIMKit.h>
 
 #endif

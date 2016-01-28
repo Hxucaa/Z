@@ -75,6 +75,14 @@ public final class NearbyCollectionViewCell : UICollectionViewCell {
             .takeUntilPrepareForReuse(self)
             .ignoreNil()
         
+        etaLabel.rac_hidden <~ self.viewmodel.eta.producer
+            .takeUntilPrepareForReuse(self)
+            .map { $0 == nil }
+        
+        etaIcon.rac_hidden <~ self.viewmodel.eta.producer
+            .takeUntilPrepareForReuse(self)
+            .map { $0 == nil }
+        
         compositeDisposable += self.viewmodel.coverImage.producer
             .takeUntilPrepareForReuse(self)
             .startWithNext { [weak self] in

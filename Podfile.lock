@@ -47,6 +47,7 @@ PODS:
   - Result (1.0.1)
   - RNVectorIcons (1.1.0):
     - React
+  - RongCloudIMKit (2.4.6)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -80,6 +81,7 @@ DEPENDENCIES:
   - ReactiveArray (from `ssh://git@dev.lai.io:2345/diffusion/RA/reactivearray.git`)
   - ReactiveCocoa (= 4.0.0-RC.1)
   - RNVectorIcons (from `./node_modules/react-native-vector-icons`)
+  - RongCloudIMKit (~> 2.4.6)
   - SDWebImage (~> 3.7.0)
   - Spring (from `https://github.com/MengTo/Spring.git`, branch `swift2`)
   - SVProgressHUD (from `https://github.com/Hxucaa/SVProgressHUD.git`)
@@ -135,6 +137,7 @@ SPEC CHECKSUMS:
   ReactiveCocoa: 2b0f654beb7642b82cfd3fdb845205ae9889422c
   Result: caef80340451e1f07492fa1e89117f83613bce24
   RNVectorIcons: 0ffe5debcfa820ae9c83b9ff54c863e1b0422f7d
+  RongCloudIMKit: fe92d68ac7f5a404618cc0b5b6aa668b5edefe6c
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
