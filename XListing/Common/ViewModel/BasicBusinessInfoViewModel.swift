@@ -21,32 +21,32 @@ public class BasicBusinessInfoViewModel : IBasicBusinessInfoViewModel {
 //    public var name: AnyProperty<String> {
 //        return AnyProperty(_name)
 //    }
-    public let name: SignalProducer<String, NoError>
-    public let phone: SignalProducer<String, NoError>
-    public let email: SignalProducer<String?, NoError>
-    public let websiteUrl: SignalProducer<String?, NoError>
-    public let district: SignalProducer<String?, NoError>
-    public let city: SignalProducer<String, NoError>
-    public let province: SignalProducer<String, NoError>
-    public let coverImageUrl: SignalProducer<String, NoError>
+    public let name: ConstantProperty<String>
+    public let phone: ConstantProperty<String>
+    public let email: ConstantProperty<String?>
+    public let websiteUrl: ConstantProperty<String?>
+    public let district: ConstantProperty<String?>
+    public let city: ConstantProperty<String>
+    public let province: ConstantProperty<String>
+    public let coverImageUrl: ConstantProperty<String>
     
     private let _coverImage: MutableProperty<UIImage> = MutableProperty(ImageAsset.placeholder)
     public var coverImage: AnyProperty<UIImage> {
         return AnyProperty(_coverImage)
     }
     
-//    public var coverImageDataBase64: SignalProducer<String, NoError> {
+//    public var coverImageDataBase64: SignalProducer<String> {
 //        // TODO: may need to cache this?? for performance reason
 //        
 //        return coverImage.producer
 //            .map { UIImageJPEGRepresentation($0, 1.0)!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength) }
 //    }
     
-    public let description: SignalProducer<String?, NoError>
-    public let averagePrice: SignalProducer<String, NoError>
-    public let aaCount: SignalProducer<Int, NoError>
-    public let treatCount: SignalProducer<Int, NoError>
-    public let toGoCount: SignalProducer<Int, NoError>
+    public let description: ConstantProperty<String?>
+    public let averagePrice: ConstantProperty<String>
+    public let aaCount: ConstantProperty<Int>
+    public let treatCount: ConstantProperty<Int>
+    public let toGoCount: ConstantProperty<Int>
     
     private let _eta: MutableProperty<String?> = MutableProperty(nil)
     public var eta: AnyProperty<String?> {
@@ -67,19 +67,19 @@ public class BasicBusinessInfoViewModel : IBasicBusinessInfoViewModel {
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         
-        name = SignalProducer(value: business.name)
-        phone = SignalProducer(value: business.phone)
-        email = SignalProducer(value: business.email)
-        websiteUrl = SignalProducer(value: business.websiteUrl)
-        district = SignalProducer(value: business.address.district.regionNameC)
-        city = SignalProducer(value: business.address.city.regionNameC)
-        province = SignalProducer(value: business.address.province.regionNameC)
-        coverImageUrl = SignalProducer(value: business.coverImage.url)
-        description = SignalProducer(value: business.descript)
-        averagePrice = SignalProducer(value: "")
-        aaCount = SignalProducer(value: business.aaCount)
-        treatCount = SignalProducer(value: business.treatCount)
-        toGoCount = SignalProducer(value: business.toGoCount)
+        name = ConstantProperty(business.name)
+        phone = ConstantProperty(business.phone)
+        email = ConstantProperty(business.email)
+        websiteUrl = ConstantProperty(business.websiteUrl)
+        district = ConstantProperty(business.address.district.regionNameC)
+        city = ConstantProperty(business.address.city.regionNameC)
+        province = ConstantProperty(business.address.province.regionNameC)
+        coverImageUrl = ConstantProperty(business.coverImage.url)
+        description = ConstantProperty(business.descript)
+        averagePrice = ConstantProperty("")
+        aaCount = ConstantProperty(business.aaCount)
+        treatCount = ConstantProperty(business.treatCount)
+        toGoCount = ConstantProperty(business.toGoCount)
         
         self.business = business
     }

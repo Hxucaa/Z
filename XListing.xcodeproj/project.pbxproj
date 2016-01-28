@@ -344,7 +344,7 @@
 		7EF371201AB8C012009AA3B9 /* XListingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XListingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EF371251AB8C012009AA3B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EF371411AB8C1E8009AA3B9 /* LeanCloudClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeanCloudClient.swift; sourceTree = "<group>"; };
-		7EF371431AB8C1E8009AA3B9 /* Parse.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Parse.plist; sourceTree = "<group>"; };
+		7EF371431AB8C1E8009AA3B9 /* Parse.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Parse.plist; path = ../Parse.plist; sourceTree = "<group>"; };
 		7EF371511AB8C26F009AA3B9 /* XListing-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XListing-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		7EF371521AB8C8FA009AA3B9 /* XListingTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XListingTests-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		7EF371551AB8C9B3009AA3B9 /* BusinessSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessSpec.swift; sourceTree = "<group>"; };
@@ -1538,7 +1538,7 @@
 						DevelopmentTeam = ANH52YVDY8;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -2079,7 +2079,7 @@
 			baseConfigurationReference = 3274F99E18CB33E02A5ADE6D /* Pods-XListing.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Zhi Hao Li (LKP28C7D67)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -2091,7 +2091,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "ZenChat.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a6b71fde-6df4-45ae-9e69-0a825a6cbf87";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "XListing-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};

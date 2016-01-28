@@ -16,20 +16,20 @@ public protocol IBasicBusinessInfoViewModel : class {
     
     // MARK: - Outputs
     
-    var name: SignalProducer<String, NoError> { get }
-    var phone: SignalProducer<String, NoError> { get }
-    var email: SignalProducer<String?, NoError> { get }
-    var websiteUrl: SignalProducer<String?, NoError> { get }
-    var district: SignalProducer<String?, NoError> { get }
-    var city: SignalProducer<String, NoError> { get }
-    var province: SignalProducer<String, NoError> { get }
-    var coverImageUrl: SignalProducer<String, NoError> { get }
+    var name: ConstantProperty<String> { get }
+    var phone: ConstantProperty<String> { get }
+    var email: ConstantProperty<String?> { get }
+    var websiteUrl: ConstantProperty<String?> { get }
+    var district: ConstantProperty<String?> { get }
+    var city: ConstantProperty<String> { get }
+    var province: ConstantProperty<String> { get }
+    var coverImageUrl: ConstantProperty<String> { get }
     var coverImage: AnyProperty<UIImage> { get }
-//    var coverImageDataBase64: SignalProducer<String, NoError> { get }
-    var description: SignalProducer<String?, NoError> { get }
-    var aaCount: SignalProducer<Int, NoError> { get }
-    var treatCount: SignalProducer<Int, NoError> { get }
-    var toGoCount: SignalProducer<Int, NoError> { get }
+//    var coverImageDataBase64: ConstantProperty<String> { get }
+    var description: ConstantProperty<String?> { get }
+    var aaCount: ConstantProperty<Int> { get }
+    var treatCount: ConstantProperty<Int> { get }
+    var toGoCount: ConstantProperty<Int> { get }
     var eta: AnyProperty<String?> { get }
     
     // MARK: - Initializers

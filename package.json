@@ -10,7 +10,8 @@
   "devDependencies": {},
   "scripts": {
     "start": "(JS_DIR=`pwd`/ReactComponent; cd node_modules/react-native; npm run start -- --root $JS_DIR)",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "pod install"
   },
   "repository": {
     "type": "git",

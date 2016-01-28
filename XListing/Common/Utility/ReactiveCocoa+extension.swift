@@ -127,7 +127,6 @@ public extension SignalProducerType {
     }
 }
 
-
 public extension Observer {
     
     /**

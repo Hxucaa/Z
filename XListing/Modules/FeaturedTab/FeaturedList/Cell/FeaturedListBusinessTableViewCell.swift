@@ -24,7 +24,7 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        featuredListTableCell = RCTRootView(bridge: appDelegate.rnBridge, moduleName: "FeaturedListTableCell", initialProperties: nil)
+        featuredListTableCell = RCTRootView(bridge: appDelegate.rnBridge, moduleName: "FeaturedListTableCell", initialProperties: RNProps())
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -61,15 +61,11 @@ public final class FeaturedListBusinessTableViewCell : UITableViewCell {
     // MARK: Bindings
     public func bindViewModel(viewmodel: IFeaturedBusinessViewModel) {
         self.viewmodel = viewmodel
-
-//
-        self.viewmodel.calculateEta()
+        
+        viewmodel.calculateEta()
             .start()
         
-        self.viewmodel.props
+        featuredListTableCell.rac_appProperties <~ viewmodel.props
             .takeUntilPrepareForReuse(self)
-            .startWithNext { [weak self] dict in
-                self?.featuredListTableCell.appProperties = dict
-            }
     }
 }
