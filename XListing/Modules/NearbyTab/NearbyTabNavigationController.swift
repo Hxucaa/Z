@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 import XAssets
+import AMScrollingNavbar
 
-public final class NearbyTabNavigationController : XBaseUINavigationController {
+public final class NearbyTabNavigationController : ScrollingNavigationController {
     
     public override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)

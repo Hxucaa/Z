@@ -12,6 +12,7 @@ import ReactiveCocoa
 import ReactiveArray
 import Dollar
 import Cartography
+import AMScrollingNavbar
 
 private let UserCellIdentifier = "SocialBusiness_UserCell"
 private let HeaderCellIdentifier = "HeaderCell"
@@ -29,7 +30,7 @@ private let UtilHeaderHeight = CGFloat(59)
 private let TableViewStart = CGFloat(ImageHeaderHeight)+CGFloat(UtilHeaderHeight)
 private let DetailNavigationMapViewControllerName = "DetailNavigationMapViewController"
 
-public final class BusinessDetailViewController : XUIViewController {
+public final class BusinessDetailViewController : XScrollingNavigationViewController {
     
     
     // MARK: - UI Controls
@@ -106,7 +107,6 @@ public final class BusinessDetailViewController : XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.delegate = self
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
 
         view.addSubview(headerView)
         view.addSubview(utilityHeaderView)
@@ -183,6 +183,12 @@ public final class BusinessDetailViewController : XUIViewController {
             table.bottom == table.superview!.bottom - 44
         }
         
+    }
+    
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        (self.navigationController as? ScrollingNavigationController)?.showNavbar(animated: true)
     }
     
     // MARK: - Bindings
@@ -298,11 +304,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
             case .Address:
                 let addressCell = tableView.dequeueReusableCellWithIdentifier(AddressCellIdentifier) as! DetailAddressTableViewCell
                 addressCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
-                compositeDisposable += addressCell.navigationMapProxy
-                    .takeUntilPrepareForReuse(addressCell)
-                    .startWithNext { [weak self] in
-                        self?.presentNavigationMapViewController()
-                    }
+                
                 return addressCell
                 
             case .PhoneWeb:
@@ -310,8 +312,14 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 phoneWebCell.bindToViewModel(viewmodel.detailPhoneWebViewModel)
                 compositeDisposable += phoneWebCell.presentWebViewProxy
                     .takeUntilPrepareForReuse(phoneWebCell)
-                    .startWithNext { [weak self] vc in
-                        self?.presentViewController(vc, animated: true, completion: nil)
+                    .flatMap(FlattenStrategy.Merge) { _ in
+                        return zip(self.viewmodel.businessName.producer, self.viewmodel.webSiteURL.producer.ignoreNil())
+                    }
+                    .startWithNext { [weak self] (businessName, url) in
+                        let navController = UINavigationController()
+                        let webVC = DetailWebViewViewController(url: url, businessName: businessName)
+                        navController.pushViewController(webVC, animated: true)
+                        self?.presentViewController(navController, animated: true, completion: nil)
                     }
                 return phoneWebCell
             
@@ -327,12 +335,28 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
         return 2
     }
 
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let row = indexPath.row
+        let section = indexPath.section
+        
+        switch Section(rawValue: section)! {
+        case .Map:
+            switch Map(rawValue: row)! {
+            case .Address:
+                presentNavigationMapViewController()
+                break
+            default:
+                break
+            }
+        default:
+            break
+        }
+    }
 }
 
 extension BusinessDetailViewController : UINavigationControllerDelegate {
     public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
-        navigationController.setNavigationBarHidden(false, animated: false)
         if fromVC is BusinessDetailViewController && toVC is SocialBusinessViewController && operation == .Pop {
             return BDtoSBAnimator(tableView: tableView, headerView: headerView, utilityHeaderView: utilityHeaderView, headerVM: viewmodel.headerViewModel)
         }

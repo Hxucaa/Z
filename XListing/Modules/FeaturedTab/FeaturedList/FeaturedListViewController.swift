@@ -12,6 +12,7 @@ import ReactiveCocoa
 import Dollar
 import Cartography
 import React
+import AMScrollingNavbar
 
 private let CellIdentifier = "Cell"
 private let CellHeightToScreenWidthRatio = 0.565
@@ -27,7 +28,7 @@ Install the pull to refresh view like so `tableView.ins_pullToRefreshBackgroundV
 We also detect when user scrolls pass a certain point, fetch more data from remote so that user don't have to scroll to the bottom of the table view to trigger fetching. This improves user experience.
 */
 
-public final class FeaturedListViewController: XUIViewController {
+public final class FeaturedListViewController: XScrollingNavigationViewController {
 
     // MARK: - UI Controls
     private lazy var tableView: UITableView = {
@@ -86,38 +87,24 @@ public final class FeaturedListViewController: XUIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        // Use followScrollView(_: delay:) to start following the scrolling of a scrollable view (e.g.: a UIScrollView or UITableView).
+        let navigationController = self.navigationController as? ScrollingNavigationController
+        navigationController?.followScrollView(tableView, delay: 50.0)
+        
+        // You can set a delegate to receive a call when the state of the navigation bar changes:
+        navigationController?.scrollingNavbarDelegate = self
+        
+        
         viewmodel.fetchMoreData()
             .start()
         
-        navigationController?.navigationBarHidden = false
-
-        navigationController?.navigationBar.translucent = false
         
         compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
             .takeUntilViewWillDisappear(self)
             .logLifeCycle(LogContext.Featured, signalName: "viewmodel.collectionDataSource.producer")
             .start()
         
-        willAppearTableView()
         
-    }
-    
-    public override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-    }
-    
-    public override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
-    deinit {
-        singleSectionInfiniteTableViewManager.cleanUp()
-        compositeDisposable.dispose()
-        FeaturedLogVerbose("Featured List View Controller deinitializes.")
-    }
-
-    private func willAppearTableView() {
         
         // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
         // when the specified row is now selected
@@ -128,8 +115,8 @@ public final class FeaturedListViewController: XUIViewController {
             .logLifeCycle(LogContext.Featured, signalName: "tableView:didSelectRowAtIndexPath:")
             .startWithNext { [weak self] indexPath in
                 self?.viewmodel.pushSocialBusinessModule(indexPath.row)
-            }
-                                
+        }
+        
         /**
         Assigning UITableView delegate has to happen after signals are established.
         
@@ -143,6 +130,22 @@ public final class FeaturedListViewController: XUIViewController {
         */
         tableView.delegate = nil
         tableView.delegate = self
+    }
+    
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        (self.navigationController as? ScrollingNavigationController)?.showNavbar(animated: true)
+    }
+    
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    deinit {
+        singleSectionInfiniteTableViewManager.cleanUp()
+        compositeDisposable.dispose()
+        FeaturedLogVerbose("Featured List View Controller deinitializes.")
     }
     
     // MARK: - Bindings
@@ -182,7 +185,7 @@ extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegat
     }
 }
 
-extension FeaturedListViewController : UIScrollViewDelegate {
+extension FeaturedListViewController {
     
     /**
     Tells the delegate when the user finishes scrolling the content.
@@ -196,5 +199,16 @@ extension FeaturedListViewController : UIScrollViewDelegate {
         if tableView === scrollView {
             predictiveScrolling(tableView, withVelocity: velocity, targetContentOffset: targetContentOffset, predictiveScrollable: viewmodel as! FeaturedListViewModel)
         }
+    }
+}
+
+extension FeaturedListViewController : ScrollingNavigationControllerDelegate {
+    
+    /**
+    When the user taps the status bar, by default a scrollable view scrolls to the top of its content. If you want to also show the navigation bar, make sure to include this in your controller
+    */
+    public override func scrollViewShouldScrollToTop(scrollView: UIScrollView) -> Bool {
+        (self.navigationController as? ScrollingNavigationController)?.showNavbar(animated: true)
+        return true
     }
 }

@@ -69,8 +69,6 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.navigationBarHidden = false
-        
         if viewmodel.collectionDataSource.isEmpty {
             
             // set the initial view region based on current location

@@ -12,6 +12,7 @@ import ReactiveCocoa
 import ReactiveArray
 import Dollar
 import Cartography
+import AMScrollingNavbar
 
 private let UserCellIdentifier = "SocialBusiness_UserCell"
 private let userControllerIdentifier = "UserProfileViewController"
@@ -20,7 +21,7 @@ private let UserHeightRatio = 0.224
 private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
 private let WTGBarHeight = CGFloat(70)
 
-public final class SocialBusinessViewController : XUIViewController {
+public final class SocialBusinessViewController : XScrollingNavigationViewController {
     
     // MARK: - UI Controls
     private lazy var tableView: UITableView = {
@@ -85,10 +86,6 @@ public final class SocialBusinessViewController : XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-
-        navigationController?.setNavigationBarHidden(true, animated: true)
-        
         singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! SocialBusinessViewModel)
         
 
@@ -112,8 +109,10 @@ public final class SocialBusinessViewController : XUIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.setNavigationBarHidden(true, animated: false)
-        navigationController?.hidesBarsOnSwipe = false
+        // Use followScrollView(_: delay:) to start following the scrolling of a scrollable view (e.g.: a UIScrollView or UITableView).
+        let navigationController = self.navigationController as? ScrollingNavigationController
+        navigationController?.followScrollView(tableView, delay: 50.0)
+        
         utilityHeaderView.setDetailInfoButtonStyleRegular()
         tableView.reloadData()
         
@@ -198,7 +197,13 @@ public final class SocialBusinessViewController : XUIViewController {
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
     }
-
+    
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        (self.navigationController as? ScrollingNavigationController)?.showNavbar(animated: true)
+    }
+    
     public func getHeaderDestinationPoint() -> CGPoint {
         let headerRect = view.convertRect(headerView.frame, fromView: headerView)
         return headerRect.origin

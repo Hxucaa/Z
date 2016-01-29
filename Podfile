@@ -17,6 +17,7 @@ target 'XListing' do
   pod 'ActionSheetPicker-3.0', '~> 2.0.3'
   pod 'Cartography', '~> 0.6.0'
   pod 'INSPullToRefresh', '~> 1.1.0'
+  pod 'AMScrollingNavbar', '~> 2.0.1'
   pod 'ReactiveArray', :git => 'ssh://git@dev.lai.io:2345/diffusion/RA/reactivearray.git'
   pod 'TZStackView', '~> 1.1.2'
   pod 'TTTAttributedLabel', '~> 1.13.4'

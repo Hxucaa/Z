@@ -39,7 +39,7 @@ public final class DetailAddressAndMapViewModel {
     public init(geoLocationService: IGeoLocationService, name: String, street: String, city: City, province: Province, geolocation: Geolocation) {
         self.geoLocationService = geoLocationService
         
-        self._fullAddress = ConstantProperty<String>("   \u{f124}   \(street), \(city.regionNameC), \(province.regionNameC)")
+        self._fullAddress = ConstantProperty<String>("\(street), \(city.regionNameC), \(province.regionNameC)")
         
         businessLocation = geolocation
         

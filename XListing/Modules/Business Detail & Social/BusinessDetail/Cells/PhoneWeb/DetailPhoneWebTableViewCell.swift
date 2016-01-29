@@ -43,15 +43,10 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         button.titleLabel?.backgroundColor = .whiteColor()
         
         let goToWebsite = Action<UIButton, Void, NoError> { button in
-            return self.viewmodel.webSiteURL.producer
-                .ignoreNil()
-                .map { url -> Void in
-                    let webVC = DetailWebViewViewController(url: url, businessName: self.viewmodel.businessName.value)
-                    let navController = UINavigationController()
-                    navController.pushViewController(webVC, animated: true)
-                    
-                    self._presentWebViewObserver.proxyNext(navController)
-                }
+            return SignalProducer { [weak self] observer, disposable in
+                self?._presentWebViewObserver.proxyNext(())
+                observer.sendCompleted()
+            }
         }
         
         button.addTarget(goToWebsite.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
@@ -60,8 +55,8 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
     }()
     
     // MARK: -  Proxies
-    private let (_presentWebViewProxy, _presentWebViewObserver) = SignalProducer<UIViewController, NoError>.proxy()
-    public var presentWebViewProxy: SignalProducer<UIViewController, NoError> {
+    private let (_presentWebViewProxy, _presentWebViewObserver) = SimpleProxy.proxy()
+    public var presentWebViewProxy: SimpleProxy {
         return _presentWebViewProxy
     }
     
@@ -79,6 +74,7 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         contentView.opaque = true
         layoutMargins = UIEdgeInsetsZero
         separatorInset = UIEdgeInsetsZero
+        selectionStyle = .None
         
         // Initialization code
         

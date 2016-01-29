@@ -9,45 +9,42 @@
 import UIKit
 import ReactiveCocoa
 import Cartography
+import TTTAttributedLabel
 
 public final class DetailAddressTableViewCell: UITableViewCell {
 
     // MARK: - UI Controls
-    private lazy var addressButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .whiteColor()
-        button.opaque = true
-        button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
-        button.titleLabel?.font = UIFont(name: "FontAwesome", size: 15)
-        button.titleLabel?.textAlignment = NSTextAlignment.Left
-        button.titleLabel?.adjustsFontSizeToFitWidth = true
-        button.titleLabel?.backgroundColor = .whiteColor()
+    private lazy var iconLabel: TTTAttributedLabel = {
+        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 30, 30))
+        label.backgroundColor = .whiteColor()
+        label.opaque = true
+        label.textColor = .blackColor()
+        label.font = UIFont(name: "FontAwesome", size: 18)
+        label.textAlignment = .Left
+        label.text = "\u{f124}"
+        label.baselineAdjustment = UIBaselineAdjustment.AlignCenters
+        label.userInteractionEnabled = false
         
+        return label
+    }()
+    
+    private lazy var addressLabel: TTTAttributedLabel = {
+        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 300, 40))
+        label.backgroundColor = .whiteColor()
+        label.font = UIFont(name: "FontAwesome", size: 15)
+        label.opaque = true
+        label.textColor = .blackColor()
+        label.textAlignment = .Left
+        label.adjustsFontSizeToFitWidth = true
+        label.userInteractionEnabled = false
         
-        // Action
-        let pushNavMap = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { observer, disposable in
-                    
-                self?._navigationMapObserver.proxyNext(())
-                
-                observer.sendCompleted()
-            }
-        }
-        
-        button.addTarget(pushNavMap.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-        
-        return button
+        return label
     }()
     
     // MARK: - Proxies
-    private let (_navigationMapProxy, _navigationMapObserver) = SimpleProxy.proxy()
-    public var navigationMapProxy: SimpleProxy {
-        return _navigationMapProxy
-    }
     
     // MARK: - Properties
     private var viewmodel: DetailAddressAndMapViewModel!
-    private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Setups
     
@@ -57,23 +54,23 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         
         layoutMargins = UIEdgeInsetsZero
         separatorInset = UIEdgeInsetsZero
+        selectionStyle = .None
         
-        contentView.addSubview(addressButton)
-        constrain(addressButton) { view in
-            view.leading == view.superview!.leadingMargin
-            view.top == view.superview!.top
-            view.bottom == view.superview!.bottom
-            view.trailing == view.superview!.trailingMargin
-            view.height == 44
+        contentView.addSubview(iconLabel)
+        contentView.addSubview(addressLabel)
+        
+        
+        constrain(iconLabel, addressLabel) { icon, address in
+            align(centerY: icon, address)
+            
+            icon.leading == icon.superview!.leadingMargin + 16
+            icon.centerY == icon.superview!.centerY
+            icon.width == 21
+            
+            icon.trailing == address.leading - 8
+            
+            address.trailing == address.superview!.trailingMargin
         }
-        
-        constrain(addressButton.titleLabel!) { label in
-            label.leading == label.superview!.leadingMargin
-            label.trailing == label.superview!.trailingMargin
-            label.top == label.superview!.topMargin
-            label.bottom == label.superview!.bottomMargin
-        }
-        
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -85,10 +82,7 @@ public final class DetailAddressTableViewCell: UITableViewCell {
     public func bindToViewModel(viewmodel: DetailAddressAndMapViewModel) {
         self.viewmodel = viewmodel
         
-        compositeDisposable += self.viewmodel.fullAddress.producer
+        addressLabel.rac_text <~ self.viewmodel.fullAddress.producer
             .takeUntilPrepareForReuse(self)
-            .startWithNext { [weak self] address in
-                self?.addressButton.setTitle(address, forState: UIControlState.Normal)
-            }
     }
 }

@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 import XAssets
+import AMScrollingNavbar
 
-public final class FeaturedTabNavigationController : XBaseUINavigationController {
+public final class FeaturedTabNavigationController : ScrollingNavigationController {
     
     public override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)

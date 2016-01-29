@@ -919,6 +919,7 @@
 				B403B0801BA0DA110085E0A3 /* BusinessDetailViewController.swift */,
 				B403B0821BA0DA4C0085E0A3 /* BusinessDetailViewModel.swift */,
 				B403B0841BA0DA6B0085E0A3 /* IBusinessDetailViewModel.swift */,
+				B4C6EA221AFE845B00A166AD /* DetailWebViewViewController.swift */,
 				2675C4BA1BB3AC9500F2683B /* Cells */,
 			);
 			name = BusinessDetail;
@@ -1428,7 +1429,6 @@
 			isa = PBXGroup;
 			children = (
 				2A9A9BA51B1C46840010EDA9 /* DetailPhoneWebTableViewCell.swift */,
-				B4C6EA221AFE845B00A166AD /* DetailWebViewViewController.swift */,
 				B4F195B71B2C154900B8C519 /* DetailPhoneWebViewModel.swift */,
 			);
 			name = PhoneWeb;

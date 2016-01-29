@@ -10,7 +10,9 @@ import Foundation
 import ReactiveCocoa
 
 public protocol IBusinessDetailViewModel : class {
-    var businessName: AnyProperty<String> { get }
+    var businessName: ConstantProperty<String> { get }
+    var webSiteURL: ConstantProperty<NSURL?> { get }
+    
     var headerViewModel: SocialBusinessHeaderViewModel { get }
 //    var detailImageViewModel: DetailImageViewModel { get }
     var detailAddressAndMapViewModel: DetailAddressAndMapViewModel { get }

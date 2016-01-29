@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AMScrollingNavbar
 #if DEBUG
     import FLEX
 #endif
@@ -14,6 +15,32 @@ import UIKit
 private let MinimumPressDuration = 4.0
 
 public class XUIViewController: UIViewController {
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        
+        // Add gesture recognizer
+        let gesture = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
+        gesture.minimumPressDuration = MinimumPressDuration
+        self.view.addGestureRecognizer(gesture)
+    }
+    
+    public override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    internal func handleLongPress(recognizer: UILongPressGestureRecognizer) {
+        #if DEBUG
+            if recognizer.state == UIGestureRecognizerState.Began {
+                FLEXManager.sharedManager().showExplorer()
+            }
+        #endif
+    }
+}
+
+public class XScrollingNavigationViewController : ScrollingNavigationViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()

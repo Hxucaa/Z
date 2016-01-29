@@ -1,5 +1,6 @@
 PODS:
   - ActionSheetPicker-3.0 (2.0.4)
+  - AMScrollingNavbar (2.0.10)
   - AVOSCloudCrashReportingDynamic (3.2.2):
     - AVOSCloudDynamic
   - AVOSCloudDynamic (3.2.2)
@@ -62,6 +63,7 @@ PODS:
 
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.0.3)
+  - AMScrollingNavbar (~> 2.0.1)
   - AVOSCloudCrashReportingDynamic (~> 3.1)
   - AVOSCloudDynamic (~> 3.1)
   - AVOSCloudIMDynamic (~> 3.1)
@@ -121,6 +123,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 860466cb4a66854e6acb590071ecee404b48f49d
+  AMScrollingNavbar: 7fa266bd11edaf53e3af19eeb867437663a5d53e
   AVOSCloudCrashReportingDynamic: ba496ce6a010bb43cc2a2f6c8086667746e65919
   AVOSCloudDynamic: de57e0e0221d7d65a21bc87cda6514d505e5015b
   AVOSCloudIMDynamic: 417c0ccfaf2ccc1fcce8c15877708c31500bb676

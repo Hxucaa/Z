@@ -60,7 +60,7 @@ public final class BDtoSBAnimator : NSObject, UIViewControllerAnimatedTransition
         containerView.addSubview(utilityHeaderView)
         containerView.addSubview(tableView)
         
-        toViewController.navigationController?.setNavigationBarHidden(true, animated: false)
+//        toViewController.navigationController?.setNavigationBarHidden(true, animated: false)
         
         // chain animation
         
@@ -84,7 +84,7 @@ public final class BDtoSBAnimator : NSObject, UIViewControllerAnimatedTransition
                     delay: 0.0,
                     options: UIViewAnimationOptions.CurveEaseInOut,
                     animations: {
-                        toViewController.navigationController?.navigationBarHidden = true
+                        toViewController.navigationController?.setNavigationBarHidden(false, animated: false)
                         headerView.frame.origin = CGPoint(x:0, y:headerDestinationPoint.y)
                         
                         if -headerDestinationPoint.y > headerView.frame.height {

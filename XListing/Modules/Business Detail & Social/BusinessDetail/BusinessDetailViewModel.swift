@@ -15,10 +15,8 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
     // MARK: - Public
     
     // MARK: - Outputs
-    private let _businessName: ConstantProperty<String>
-    public var businessName: AnyProperty<String> {
-        return AnyProperty(_businessName)
-    }
+    public let businessName: ConstantProperty<String>
+    public let webSiteURL: ConstantProperty<NSURL?>
     
     // MARK: - Variables
     
@@ -59,7 +57,13 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
 //        detailParticipationViewModel = DetailParticipationViewModel(participationCount: business.wantToGoCounter)
         businessHourViewModel = BusinessHourCellViewModel()
         
-        _businessName = ConstantProperty(business.name)
+        businessName = ConstantProperty(business.name)
+        if let website = business.websiteUrl {
+            webSiteURL = ConstantProperty(NSURL(string: website))
+        }
+        else {
+            webSiteURL = ConstantProperty(nil)
+        }
     }
     
     
