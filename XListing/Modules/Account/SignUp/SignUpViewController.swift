@@ -120,6 +120,8 @@ public final class SignUpViewController : XUIViewController {
             setup: { [weak self] view in
                 if let this = self {
                     
+                    view.setButtonTitle("继 续")
+                    
                     this.installSubviewButton(view.signUpButton)
                     
                     transitionDisposable += view.viewmodel <~ this.viewmodel.producer
@@ -249,43 +251,121 @@ public final class SignUpViewController : XUIViewController {
             view: UINib(nibName: PhotoViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! PhotoView,
             setup: { [weak self] view in
                 
-                if let this = self {
-                    
-                    this.containerView.backButton.hidden = true
-                    
-                    this.installSubviewButton(view.doneButton)
-                    
-                    transitionDisposable += view.viewmodel <~ this.viewmodel.producer
-                        .ignoreNil()
-                        .map { $0.photoViewModel }
-                    
-                    transitionDisposable += view.presentUIImagePickerProxy
-                        .logLifeCycle(LogContext.Account, signalName: "photoView.presentUIImagePickerProxy")
-                        .startWithNext { imagePicker in
-                            // present image picker
-                            self?.presentViewController(imagePicker, animated: true, completion: nil)
-                        }
-                    
-                    transitionDisposable += view.dismissUIImagePickerProxy
-                        .logLifeCycle(LogContext.Account, signalName: "photoView.dismissUIImagePickerProxy")
-                        .startWithNext { handler in
-                            // dismiss image picker
-                            self?.dismissViewControllerAnimated(true, completion: handler)
-                        }
-                    
-                    transitionDisposable += view.doneProxy
-                        .logLifeCycle(LogContext.Account, signalName: "photoView.doneProxy")
-                        .startWithNext {
-                            if let viewmodel = self?.viewmodel.value {
-                                viewmodel.finishModule { handler in
-                                    self?.dismissViewControllerAnimated(true, completion: handler)
-                                }
-                                
-                                self?.navigationController?.setNavigationBarHidden(false, animated: false)
-                            }
-                        }
+                guard let this = self else {
+                    return
                 }
+                    
+                this.containerView.backButton.hidden = true
                 
+                this.installSubviewButton(view.doneButton)
+                
+                transitionDisposable += view.viewmodel <~ this.viewmodel.producer
+                    .ignoreNil()
+                    .map { $0.photoViewModel }
+                
+                transitionDisposable += view.presentUIImagePickerProxy
+                    .logLifeCycle(LogContext.Account, signalName: "photoView.presentUIImagePickerProxy")
+                    .startWithNext { imagePicker in
+                        // present image picker
+                        self?.presentViewController(imagePicker, animated: true, completion: nil)
+                    }
+                
+                transitionDisposable += view.dismissUIImagePickerProxy
+                    .logLifeCycle(LogContext.Account, signalName: "photoView.dismissUIImagePickerProxy")
+                    .startWithNext { handler in
+                        // dismiss image picker
+                        self?.dismissViewControllerAnimated(true, completion: handler)
+                    }
+                
+                transitionDisposable += view.doneProxy
+                    .logLifeCycle(LogContext.Account, signalName: "photoView.doneProxy")
+                    .promoteErrors(NSError)
+                    .flatMap(FlattenStrategy.Concat) {
+                        SignalProducer<Void, NSError> { observer, disposable in
+                            disposable += this.viewmodel.producer
+                                .ignoreNil()
+                                .flatMap(FlattenStrategy.Concat) {
+                                    $0.areAllInputsPresent
+                                }
+                                // only valid input goes through
+                                .filter { $0 }
+                                // delay the signal due to the animation of retracting keyboard
+                                // this cannot be executed on main thread, otherwise UI will be blocked
+                                .delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                                // return the signal to main/ui thread in order to run UI related code
+                                .observeOn(UIScheduler())
+                                .flatMap(.Concat) { _ in
+                                    return HUD.show()
+                                }
+                                // map error to the same type as other signal
+                                .promoteErrors(NSError)
+                                // update profile
+                                .flatMap(.Concat) { _ -> SignalProducer<Bool, NSError> in
+                                    return this.viewmodel.producer
+                                        .ignoreNil()
+                                        .promoteErrors(NSError)
+                                        .flatMap(FlattenStrategy.Concat) {
+                                            $0.signUp()
+                                        }
+                                }
+                                // dismiss HUD based on the result of update profile signal
+                                .on(
+                                    next: { _ in
+                                        HUD.dismissWithNextMessage()
+                                    },
+                                    failed: { _ in
+                                        HUD.dismissWithFailedMessage()
+                                    }
+                                )
+                                // does not `sendCompleted` because completion is handled when HUD is disappeared
+                                .start { event in
+                                    switch event {
+                                    case .Failed(let error):
+                                        observer.sendFailed(error)
+                                        AccountLogError(error.description)
+                                    case .Interrupted:
+                                        observer.sendInterrupted()
+                                    default: break
+                                    }
+                            }
+                            
+                            // Subscribe to touch down inside event
+                            disposable += HUD.didTouchDownInsideNotification()
+                                .on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                                .startWithNext { _ in
+                                    // dismiss HUD
+                                    HUD.dismiss()
+                            }
+                            
+                            // Subscribe to disappear notification
+                            disposable += HUD.didDissappearNotification()
+                                .on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                                .startWithNext { status in
+//                                        if status == HUD.DisappearStatus.Normal {
+//                                            this._doneObserver.proxyNext(())
+//                                        }
+                                    
+                                    // completes the action
+                                    observer.sendNext(())
+                                    observer.sendCompleted()
+                            }
+                            
+                            // Add the signals to CompositeDisposable for automatic memory management
+                            disposable.addDisposable {
+                                AccountLogVerbose("Update profile action is disposed.")
+                            }
+
+                        }
+                    }
+                    .startWithNext {
+                        if let viewmodel = self?.viewmodel.value {
+                            viewmodel.finishModule { handler in
+                                self?.dismissViewControllerAnimated(true, completion: handler)
+                            }
+                            
+                            self?.navigationController?.setNavigationBarHidden(false, animated: false)
+                        }
+                    }
             },
             cleanUp: { [weak self] view in
                 view.doneButton.removeFromSuperview()

@@ -22,34 +22,32 @@ public final class UsernameAndPasswordViewModel {
     
     // MARK: - Properties
     /// Signal containing a valid username
-    public private(set) var validUsernameSignal: SignalProducer<String, NoError>!
-    /// Signal containing a valid password
-    public private(set) var validPasswordSignal: SignalProducer<String, NoError>!
-    public let submit: SignalProducer<Bool, NSError>
-    
-    // MARK: - Initializers
-    public init(submit: SignalProducer<Bool, NSError>) {
-        self.submit = submit
-        
+    public var validUsernameSignal: SignalProducer<String, NoError> {
         // only allow usernames with:
         // - between 3 and 30 characters
         // - letters, numbers, dashes, periods, and underscores only
-        validUsernameSignal = username.producer
+        return username.producer
             .ignoreNil()
             .filter { self.testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
-        
-        isUsernameValid <~ validUsernameSignal
-            .map { _ in true }
-        
-        
+    }
+    /// Signal containing a valid password
+    public var validPasswordSignal: SignalProducer<String, NoError> {
         // only allow passwords with:
         // - more than 8 characters
         // - letters, numbers, and most standard symbols
         // - at least one number, capital letter, or special character
-        validPasswordSignal = password.producer
+        return password.producer
             .ignoreNil()
             .filter { $0.characters.count > 0 }
         //            .filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
+    }
+    
+    // MARK: - Initializers
+    public init() {
+        
+        isUsernameValid <~ validUsernameSignal
+            .map { _ in true }
+        
         
         isPasswordValid <~ validPasswordSignal
             .map { _ in true }

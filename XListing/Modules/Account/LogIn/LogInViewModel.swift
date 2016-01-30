@@ -13,43 +13,26 @@ import AVOSCloud
 public final class LogInViewModel {
     
     // MARK: - Input
-    private let username = MutableProperty<String?>(nil)
-    private let password = MutableProperty<String?>(nil)
     
     // MARK: - Output
-    public let areLogInInputsPresent = MutableProperty<Bool>(false)
-    
-    // MARK: - View Models
-    public lazy var usernameAndPasswordViewModel: UsernameAndPasswordViewModel = { [unowned self] in
-        let viewmodel = UsernameAndPasswordViewModel(submit: self.logIn)
-        
-        self.username <~ viewmodel.validUsernameSignal
-            .map { Optional<String>($0) }
-        
-        self.password <~ viewmodel.validPasswordSignal
-            .map { Optional<String>($0) }
-        
-        return viewmodel
-    }()
-    
+    public var areLogInInputsPresent: SignalProducer<Bool, NoError> {
+        return usernameAndPasswordViewModel.allInputsValid.producer
+    }
     
     // MARK: - Properties
+    
+    // MARK: - View Models
+    public let usernameAndPasswordViewModel = UsernameAndPasswordViewModel()
+    
+    // MARK: - Services
     private let userService: IUserService
     private weak var accountNavigator: IAccountNavigator!
-    private lazy var allLogInInputs: SignalProducer<(String, String), NoError> = combineLatest(
-        self.username.producer.ignoreNil(),
-        self.password.producer.ignoreNil()
-    )
     
     // MARK: - Initializers
     
     public init(accountNavigator: IAccountNavigator, userService: IUserService) {
         self.accountNavigator = accountNavigator
         self.userService = userService
-        
-        
-        areLogInInputsPresent <~ allLogInInputs
-            .map { _ in true }
     }
     
     deinit {
@@ -62,11 +45,13 @@ public final class LogInViewModel {
     // MARK: - Others
     public var logIn: SignalProducer<Bool, NSError> {
         
-        return self.areLogInInputsPresent.producer
+        return usernameAndPasswordViewModel.allInputsValid.producer
             // only allow TRUE value
             .filter { $0 }
             // combine the username and password into one signal
-            .flatMap(.Concat) { _ in self.allLogInInputs }
+            .flatMap(.Concat) { _ in
+                zip(self.usernameAndPasswordViewModel.validUsernameSignal, self.usernameAndPasswordViewModel.validPasswordSignal)
+            }
             // promote to NSError
             .promoteErrors(NSError)
             // log in user

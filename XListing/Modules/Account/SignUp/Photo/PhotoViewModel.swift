@@ -16,16 +16,13 @@ public final class PhotoViewModel {
     
     // MARK: - Output
     public let isProfileImageValid = MutableProperty<Bool>(false)
-    /// Data of this signal comes from `SignUpViewModel`
-    public let areAllProfileInputsPresent = MutableProperty<Bool>(false)
     
     // MARK: - Variables
     public let validProfileImageSignal: SignalProducer<UIImage, NoError>
     
     
     // MARK: - Initializers
-    public init(updateProfile: SignalProducer<Bool, NSError>) {
-        self.updateProfile = updateProfile
+    public init() {
         
         validProfileImageSignal = profileImage.producer
             .skip(1)
@@ -38,5 +35,4 @@ public final class PhotoViewModel {
     // MARK: - Setups
     
     // MARK: - Others
-    public let updateProfile: SignalProducer<Bool, NSError>
 }

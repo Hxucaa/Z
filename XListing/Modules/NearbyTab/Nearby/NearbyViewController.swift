@@ -144,8 +144,6 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         
         setupMapView()
         setupBusinessCollectionView()
-        
-        navigationController?.hidesBarsOnSwipe = false
     }
     
     public override func viewDidAppear(animated: Bool) {
@@ -247,9 +245,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
             // find annotation that matches the selected annotation
             // then map its index in collection data source
             .map { selectedAnnotation in
-                $.findIndex(self.viewmodel.collectionDataSource.array.map { $0.annotation.value }, callback: { (annotation) -> Bool in
-                    return annotation === selectedAnnotation
-                })
+                $.findIndex(self.viewmodel.collectionDataSource.array.map { $0.annotation.value }) { $0 === selectedAnnotation }
             }
             .ignoreNil()
             // map to index path

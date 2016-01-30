@@ -41,6 +41,7 @@ public final class LogInViewController : XUIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        usernameAndPasswordView.setButtonTitle("登 入")
         
         containerView.midStack.addSubview(usernameAndPasswordView)
         
@@ -88,6 +89,88 @@ public final class LogInViewController : XUIViewController {
         compositeDisposable += usernameAndPasswordView.submitProxy
             .takeUntilViewWillDisappear(self)
             .logLifeCycle(LogContext.Account, signalName: "usernameAndPasswordView.submitProxy")
+            .promoteErrors(NSError)
+            .flatMap(FlattenStrategy.Concat) {
+                SignalProducer<Void, NSError> { observer, disposable in
+                    // display HUD to indicate work in progress
+                    // check for the validity of inputs first
+                    disposable += self.viewmodel.producer
+                        .ignoreNil()
+                        .flatMap(FlattenStrategy.Concat) {
+                            return $0.areLogInInputsPresent
+                        }
+                        // on error displays error prompt
+                        .on(next: { validity in
+                            print(validity)
+                            if !validity {
+                                // TODO: implement error prompt
+                            }
+                        })
+                        // only valid inputs can continue through
+                        .filter { $0 }
+                        // delay the signal due to the animation of retracting keyboard
+                        // this cannot be executed on main thread, otherwise UI will be blocked
+                        .delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
+                        // return the signal to main/ui thread in order to run UI related code
+                        .observeOn(UIScheduler())
+                        .flatMap(.Concat) { _ in
+                            return HUD.show()
+                        }
+                        // map error to the same type as other signal
+                        .promoteErrors(NSError)
+                        // submit network request
+                        .flatMap(.Concat) { _ in
+                            return self.viewmodel.producer
+                                .ignoreNil()
+                                .promoteErrors(NSError)
+                                .flatMap(FlattenStrategy.Concat) {
+                                    $0.logIn
+                                }
+                        }
+                        // dismiss HUD based on the result of sign up signal
+                        .on(
+                            next: { _ in
+                                HUD.dismissWithNextMessage()
+                            },
+                            failed: { _ in
+                                HUD.dismissWithFailedMessage()
+                            }
+                        )
+                        // does not `sendCompleted` because completion is handled when HUD is disappeared
+                        .start { event in
+                            switch event {
+                            case .Failed(let error):
+                                AccountLogError(error.description)
+                                observer.sendFailed(error)
+                            case .Interrupted:
+                                observer.sendInterrupted()
+                            default: break
+                            }
+                    }
+                    
+                    // Subscribe to touch down inside event
+                    disposable += HUD.didTouchDownInsideNotification()
+                        .on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+                        .startWithNext { _ in
+                            // dismiss HUD
+                            HUD.dismiss()
+                            
+                            // interrupts the action
+                            // sendInterrupted(observer)
+                    }
+                    
+                    
+                    // Subscribe to disappear notification
+                    disposable += HUD.didDissappearNotification()
+                        .on(next: { _ in AccountLogVerbose("HUD disappeared.") })
+                        .startWithNext { status in
+                            // completes the action
+                            observer.sendNext(())
+                            observer.sendCompleted()
+                    }
+                }
+
+            }
             .startWithNext { [weak self] in
                 if let viewmodel = self?.viewmodel.value {
                     viewmodel.finishModule { handler in
