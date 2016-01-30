@@ -40,7 +40,6 @@ public final class DescriptionTableViewCell: UITableViewCell {
         selectionStyle = UITableViewCellSelectionStyle.None
         layoutMargins = UIEdgeInsetsMake(5, 15, 5, 5)
         
-        descriptionLabel.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
         contentView.addSubview(descriptionLabel)
         
         constrain(descriptionLabel) { view in
@@ -58,10 +57,11 @@ public final class DescriptionTableViewCell: UITableViewCell {
     
     // MARK: - Bindings
     
-    public func bindViewModel(viewmodel: DescriptionCellViewModel) {
+    public func bindToViewModel(viewmodel: DescriptionCellViewModel) {
         self.viewmodel = viewmodel
-        //descriptionLabel.rac_text <~ viewmodel.description.producer
-        //    .takeUntilPrepareForReuse(self)
+        
+        descriptionLabel.rac_text <~ viewmodel.description.producer
+            .takeUntilPrepareForReuse(self)
     }
 
 }

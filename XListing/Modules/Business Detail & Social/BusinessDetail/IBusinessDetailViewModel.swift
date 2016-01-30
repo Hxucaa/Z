@@ -10,17 +10,20 @@ import Foundation
 import ReactiveCocoa
 
 public protocol IBusinessDetailViewModel : class {
+    
+    // MARK: Outputs
     var businessName: ConstantProperty<String> { get }
     var webSiteURL: ConstantProperty<NSURL?> { get }
     
     var headerViewModel: SocialBusinessHeaderViewModel { get }
-//    var detailImageViewModel: DetailImageViewModel { get }
+    var descriptionViewModel: DescriptionCellViewModel { get }
     var detailAddressAndMapViewModel: DetailAddressAndMapViewModel { get }
     var detailPhoneWebViewModel: DetailPhoneWebViewModel { get }
-//    var detailBizInfoViewModel: DetailBizInfoViewModel { get }
     var detailNavigationMapViewModel: DetailNavigationMapViewModel { get }
-//    var detailParticipationViewModel: DetailParticipationViewModel { get }
     var businessHourViewModel: BusinessHourCellViewModel { get }
+    
     init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, business: Business)
     
+    // MARK: Actions
+    func callPhone() -> SignalProducer<Bool, NoError>
 }

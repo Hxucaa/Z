@@ -262,6 +262,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                 
             case .Content:
                 let cell = tableView.dequeueReusableCellWithIdentifier(DescriptionCellIdentifier) as! DescriptionTableViewCell
+                cell.bindToViewModel(viewmodel.descriptionViewModel)
                 
                 return cell
             }
@@ -294,11 +295,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
             case .Map:
                 let mapCell = tableView.dequeueReusableCellWithIdentifier(MapCellIdentifier) as! DetailMapTableViewCell
                 mapCell.bindToViewModel(viewmodel.detailAddressAndMapViewModel)
-                compositeDisposable += mapCell.navigationMapProxy
-                    .takeUntilPrepareForReuse(mapCell)
-                    .startWithNext { [weak self] in
-                        self?.presentNavigationMapViewController()
-                    }
+                
                 return mapCell
                 
             case .Address:
@@ -310,6 +307,7 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
             case .PhoneWeb:
                 let phoneWebCell = tableView.dequeueReusableCellWithIdentifier(PhoneWebCellIdentifier) as! DetailPhoneWebTableViewCell
                 phoneWebCell.bindToViewModel(viewmodel.detailPhoneWebViewModel)
+                
                 compositeDisposable += phoneWebCell.presentWebViewProxy
                     .takeUntilPrepareForReuse(phoneWebCell)
                     .flatMap(FlattenStrategy.Merge) { _ in
@@ -321,6 +319,14 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
                         navController.pushViewController(webVC, animated: true)
                         self?.presentViewController(navController, animated: true, completion: nil)
                     }
+                
+                compositeDisposable += phoneWebCell.makeACallProxy
+                    .takeUntilPrepareForReuse(phoneWebCell)
+                    .flatMap(FlattenStrategy.Merge) { _ in
+                        return self.viewmodel.callPhone()
+                    }
+                    .start()
+                
                 return phoneWebCell
             
             }
@@ -342,6 +348,9 @@ extension BusinessDetailViewController : UITableViewDelegate, UITableViewDataSou
         switch Section(rawValue: section)! {
         case .Map:
             switch Map(rawValue: row)! {
+            case .Map:
+                presentNavigationMapViewController()
+                break
             case .Address:
                 presentNavigationMapViewController()
                 break

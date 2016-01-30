@@ -21,32 +21,14 @@ public final class DetailMapTableViewCell: UITableViewCell {
         mapView.scrollEnabled = false
         mapView.zoomEnabled = false
         mapView.rotateEnabled = false
+        mapView.userInteractionEnabled = false
         
         mapView.delegate = self
-        
-        // Action
-        let pushNavMap = Action<UITapGestureRecognizer, Void, NoError> { [weak self] gesture in
-            return SignalProducer { observer, disposable in
-                if let this = self {
-                    
-                    self?._navigationMapObserver.proxyNext(())
-                    
-                    observer.sendCompleted()
-                }
-            }
-        }
-        
-        let tapGesture = UITapGestureRecognizer(target: pushNavMap.unsafeCocoaAction, action: CocoaAction.selector)
-        mapView.addGestureRecognizer(tapGesture)
         
         return mapView
     }()
     
     // MARK: - Proxies
-    private let (_navigationMapProxy, _navigationMapObserver) = SimpleProxy.proxy()
-    public var navigationMapProxy: SimpleProxy {
-        return _navigationMapProxy
-    }
     
     // MARK: - Properties
     private var viewmodel: DetailAddressAndMapViewModel!

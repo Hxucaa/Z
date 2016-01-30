@@ -920,6 +920,8 @@
 				B403B0821BA0DA4C0085E0A3 /* BusinessDetailViewModel.swift */,
 				B403B0841BA0DA6B0085E0A3 /* IBusinessDetailViewModel.swift */,
 				B4C6EA221AFE845B00A166AD /* DetailWebViewViewController.swift */,
+				2ADF3E631B1ECBA200C2971E /* DetailNavigationMapViewController.swift */,
+				B4F195AE1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift */,
 				2675C4BA1BB3AC9500F2683B /* Cells */,
 			);
 			name = BusinessDetail;
@@ -1415,8 +1417,6 @@
 		B4F195B21B2BDF9400B8C519 /* Address&Map */ = {
 			isa = PBXGroup;
 			children = (
-				2ADF3E631B1ECBA200C2971E /* DetailNavigationMapViewController.swift */,
-				B4F195AE1B2BC44200B8C519 /* DetailNavigationMapViewModel.swift */,
 				2A9A9BA11B1C40610010EDA9 /* DetailMapTableViewCell.swift */,
 				2A9A9BA31B1C42EC0010EDA9 /* DetailAddressTableViewCell.swift */,
 				B4F195AA1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift */,

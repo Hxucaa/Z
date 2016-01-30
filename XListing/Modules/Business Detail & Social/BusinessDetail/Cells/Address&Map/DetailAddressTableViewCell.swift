@@ -19,7 +19,7 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         label.backgroundColor = .whiteColor()
         label.opaque = true
         label.textColor = .blackColor()
-        label.font = UIFont(name: "FontAwesome", size: 18)
+        label.font = UIFont(name: "FontAwesome", size: 16)
         label.textAlignment = .Left
         label.text = "\u{f124}"
         label.baselineAdjustment = UIBaselineAdjustment.AlignCenters
@@ -31,7 +31,7 @@ public final class DetailAddressTableViewCell: UITableViewCell {
     private lazy var addressLabel: TTTAttributedLabel = {
         let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 300, 40))
         label.backgroundColor = .whiteColor()
-        label.font = UIFont(name: "FontAwesome", size: 15)
+        label.font = UIFont(name: "FontAwesome", size: 16)
         label.opaque = true
         label.textColor = .blackColor()
         label.textAlignment = .Left

@@ -12,19 +12,17 @@ import ReactiveCocoa
 public final class DescriptionCellViewModel {
 
     // MARK: - Outputs
-    private let _description: MutableProperty<String>
-    public var description: AnyProperty<String> {
-        return AnyProperty(_description)
-    }
+    public let description: ConstantProperty<String>
     
     // MARK: - Initializers
     public init(description: String?) {
         
-        if let description = description {
-            _description = MutableProperty(description)
-        } else {
-            _description = MutableProperty("")
-        }
+        self.description = ConstantProperty("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.")
+//        if let description = description {
+//            self.description = MutableProperty(description)
+//        } else {
+//            self.description = MutableProperty("")
+//        }
         
     }
 }

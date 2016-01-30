@@ -13,44 +13,23 @@ public final class BusinessHourCellViewModel {
     
     // MARK: - Outputs
     
-    public var monHours: AnyProperty<String> {
-        return AnyProperty(_monHours)
-    }
     public var monHidden: AnyProperty<Bool> {
         return AnyProperty(_monHidden)
-    }
-    public var tuesHours: AnyProperty<String> {
-        return AnyProperty(_tuesHours)
     }
     public var tuesHidden: AnyProperty<Bool> {
         return AnyProperty(_tuesHidden)
     }
-    public var wedsHours: AnyProperty<String> {
-        return AnyProperty(_wedsHours)
-    }
     public var wedsHidden: AnyProperty<Bool> {
         return AnyProperty(_wedsHidden)
-    }
-    public var thursHours: AnyProperty<String> {
-        return AnyProperty(_thursHours)
     }
     public var thursHidden: AnyProperty<Bool> {
         return AnyProperty(_thursHidden)
     }
-    public var friHours: AnyProperty<String> {
-        return AnyProperty(_friHours)
-    }
     public var friHidden: AnyProperty<Bool> {
         return AnyProperty(_friHidden)
     }
-    public var satHours: AnyProperty<String> {
-        return AnyProperty(_satHours)
-    }
     public var satHidden: AnyProperty<Bool> {
         return AnyProperty(_satHidden)
-    }
-    public var sunHours: AnyProperty<String> {
-        return AnyProperty(_sunHours)
     }
     public var sunHidden: AnyProperty<Bool> {
         return AnyProperty(_sunHidden)
@@ -58,19 +37,19 @@ public final class BusinessHourCellViewModel {
     
     // MARK: - Private
     
-    private let _monHours: MutableProperty<String>
+    public let monHours: ConstantProperty<String>
     private let _monHidden: MutableProperty<Bool>
-    private let _tuesHours: MutableProperty<String>
+    public let tuesHours: ConstantProperty<String>
     private let _tuesHidden: MutableProperty<Bool>
-    private let _wedsHours: MutableProperty<String>
+    public let wedsHours: ConstantProperty<String>
     private let _wedsHidden: MutableProperty<Bool>
-    private let _thursHours: MutableProperty<String>
+    public let thursHours: ConstantProperty<String>
     private let _thursHidden: MutableProperty<Bool>
-    private let _friHours: MutableProperty<String>
+    public let friHours: ConstantProperty<String>
     private let _friHidden: MutableProperty<Bool>
-    private let _satHours: MutableProperty<String>
+    public let satHours: ConstantProperty<String>
     private let _satHidden: MutableProperty<Bool>
-    private let _sunHours: MutableProperty<String>
+    public let sunHours: ConstantProperty<String>
     private let _sunHidden: MutableProperty<Bool>
 
     // MARK: - Initializer
@@ -102,13 +81,13 @@ public final class BusinessHourCellViewModel {
         }
         
         //TODO: replace with data from lean cloud
-        _monHours = MutableProperty("星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
-        _tuesHours = MutableProperty("星期二：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
-        _wedsHours = MutableProperty("星期三：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
-        _thursHours = MutableProperty("星期四：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
-        _friHours = MutableProperty("星期五：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
-        _satHours = MutableProperty("星期六：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
-        _sunHours = MutableProperty("星期日：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
+        monHours = ConstantProperty("星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
+        tuesHours = ConstantProperty("星期二：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
+        wedsHours = ConstantProperty("星期三：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
+        thursHours = ConstantProperty("星期四：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
+        friHours = ConstantProperty("星期五：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
+        satHours = ConstantProperty("星期六：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
+        sunHours = ConstantProperty("星期日：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
         
     }
     

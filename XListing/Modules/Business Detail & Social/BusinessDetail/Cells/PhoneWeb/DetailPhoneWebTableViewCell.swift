@@ -9,55 +9,110 @@
 import UIKit
 import ReactiveCocoa
 import Cartography
+import TZStackView
+import TTTAttributedLabel
 
 public final class DetailPhoneWebTableViewCell: UITableViewCell {
 
     // MARK: - UI Controls
-    private lazy var phoneButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .whiteColor()
-        button.opaque = true
-        button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
-        button.titleLabel?.font = UIFont(name: "FontAwesome", size: 15)
-        button.titleLabel?.textAlignment = NSTextAlignment.Left
-        button.titleLabel?.adjustsFontSizeToFitWidth = true
-        button.titleLabel?.backgroundColor = .whiteColor()
+    private lazy var phoneIconLabel: TTTAttributedLabel = {
+        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 30, 30))
+        label.backgroundColor = .whiteColor()
+        label.opaque = true
+        label.textColor = .blackColor()
+        label.font = UIFont(name: "FontAwesome", size: 16)
+        label.textAlignment = .Left
+        label.text = "\u{f095}"
+        label.baselineAdjustment = UIBaselineAdjustment.AlignCenters
+        label.userInteractionEnabled = false
         
-        let callPhone = Action<UIButton, Void, NoError> { button in
-            return self.viewmodel.callPhone
-        }
-        
-        button.addTarget(callPhone.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-        
-        return button
+        return label
     }()
     
-    private lazy var websiteButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .whiteColor()
-        button.opaque = true
-        button.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
-        button.titleLabel?.font = UIFont(name: "FontAwesome", size: 15)
-        button.titleLabel?.textAlignment = NSTextAlignment.Left
-        button.titleLabel?.adjustsFontSizeToFitWidth = true
-        button.titleLabel?.backgroundColor = .whiteColor()
+    private lazy var phoneLabel: TTTAttributedLabel = {
+        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 150, 40))
+        label.backgroundColor = .whiteColor()
+        label.font = UIFont(name: "FontAwesome", size: 16)
+        label.opaque = true
+        label.textColor = .blackColor()
+        label.textAlignment = .Left
+        label.adjustsFontSizeToFitWidth = true
+        label.userInteractionEnabled = false
         
-        let goToWebsite = Action<UIButton, Void, NoError> { button in
-            return SignalProducer { [weak self] observer, disposable in
-                self?._presentWebViewObserver.proxyNext(())
-                observer.sendCompleted()
+        return label
+    }()
+    
+    private lazy var phoneStack: UIView = {
+        let stack = UIView()
+        
+        stack.addSubview(self.phoneIconLabel)
+        stack.addSubview(self.phoneLabel)
+        
+        let tapGesture = UITapGestureRecognizer()
+        stack.addGestureRecognizer(tapGesture)
+        
+        tapGesture.rac_gestureSignal().toSignalProducer()
+            .startWithNext { [weak self] _ in
+                self?._makeACallObserver.proxyNext(())
             }
-        }
         
-        button.addTarget(goToWebsite.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-        
-        return button
+        return stack
     }()
     
-    // MARK: -  Proxies
+    private lazy var websiteIconLabel: TTTAttributedLabel = {
+        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 30, 30))
+        label.backgroundColor = .whiteColor()
+        label.opaque = true
+        label.textColor = .blackColor()
+        label.font = UIFont(name: "FontAwesome", size: 16)
+        label.textAlignment = .Left
+        label.text = "\u{f0ac}"
+        label.baselineAdjustment = UIBaselineAdjustment.AlignCenters
+        label.userInteractionEnabled = false
+        
+        return label
+    }()
+    
+    private lazy var websiteLabel: TTTAttributedLabel = {
+        let label = TTTAttributedLabel(frame: CGRectMake(0, 0, 150, 40))
+        label.backgroundColor = .whiteColor()
+        label.font = UIFont(name: "FontAwesome", size: 16)
+        label.opaque = true
+        label.textColor = .blackColor()
+        label.textAlignment = .Left
+        label.adjustsFontSizeToFitWidth = true
+        label.userInteractionEnabled = false
+        
+        return label
+    }()
+    
+    private lazy var websiteStack: UIView = {
+        let stack = UIView()
+        
+        stack.addSubview(self.websiteIconLabel)
+        stack.addSubview(self.websiteLabel)
+        stack.userInteractionEnabled = true
+        
+        let tapGesture = UITapGestureRecognizer()
+        stack.addGestureRecognizer(tapGesture)
+        
+        tapGesture.rac_gestureSignal().toSignalProducer()
+            .startWithNext { [weak self] _ in
+                self?._presentWebViewObserver.proxyNext(())
+            }
+        
+        return stack
+    }()
+    
+    // MARK: - Proxies
     private let (_presentWebViewProxy, _presentWebViewObserver) = SimpleProxy.proxy()
     public var presentWebViewProxy: SimpleProxy {
         return _presentWebViewProxy
+    }
+    
+    private let (_makeACallProxy, _makeACallObserver) = SimpleProxy.proxy()
+    public var makeACallProxy: SimpleProxy {
+        return _makeACallProxy
     }
     
     // MARK: - Properties
@@ -78,39 +133,40 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         
         // Initialization code
         
-        contentView.addSubview(websiteButton)
-        contentView.addSubview(phoneButton)
+        contentView.addSubview(phoneStack)
+        contentView.addSubview(websiteStack)
         
-        constrain(phoneButton, websiteButton) { phone, website in
-            phone.leading == phone.superview!.leadingMargin
-            website.trailing == website.superview!.trailingMargin
-            phone.trailing == website.leading
-            
-            phone.height == 44
-            website.height == phone.height
-            
-            phone.width == phone.superview!.width/2
-            
-            phone.top == phone.superview!.top
-            phone.bottom == phone.superview!.bottom
+        constrain(phoneStack) {
+            $0.leading == $0.superview!.leading
+            $0.top == $0.superview!.top
+            $0.bottom == $0.superview!.bottom
+            $0.width == $0.superview!.width / 2
+        }
+        
+        constrain(phoneStack, websiteStack) { phone, website in
+            website.leading == phone.trailing
             website.top == website.superview!.top
             website.bottom == website.superview!.bottom
-
+            website.trailing == website.superview!.trailing
         }
         
-        constrain(phoneButton.titleLabel!) { label in
-            label.leading == label.superview!.leadingMargin
-            label.trailing == label.superview!.trailingMargin
-            label.top == label.superview!.topMargin
-            label.bottom == label.superview!.bottomMargin
+        func constrainIconAndText(icon: TTTAttributedLabel, text: TTTAttributedLabel) -> Void {
+            
+            constrain(icon, text) { icon, text in
+                align(centerY: icon, text)
+                
+                icon.leading == icon.superview!.leadingMargin + 16
+                icon.centerY == icon.superview!.centerY
+                icon.width == 21
+                
+                icon.trailing == text.leading - 8
+                
+                text.trailing == text.superview!.trailing
+            }
         }
         
-        constrain(websiteButton.titleLabel!) { label in
-            label.leading == label.superview!.leadingMargin
-            label.trailing == label.superview!.trailingMargin
-            label.top == label.superview!.topMargin
-            label.bottom == label.superview!.bottomMargin
-        }
+        constrainIconAndText(phoneIconLabel, text: phoneLabel)
+        constrainIconAndText(websiteIconLabel, text: websiteLabel)
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -122,16 +178,10 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
     public func bindToViewModel(viewmodel: DetailPhoneWebViewModel) {
         self.viewmodel = viewmodel
         
-        compositeDisposable += self.viewmodel.phoneDisplay.producer
+        phoneLabel.rac_text <~ self.viewmodel.phoneDisplay.producer
             .takeUntilPrepareForReuse(self)
-            .startWithNext { [weak self] phoneDisplay in
-                self?.phoneButton.setTitle(phoneDisplay, forState: .Normal)
-            }
         
-        compositeDisposable += self.viewmodel.webSiteDisplay.producer
+        websiteLabel.rac_text <~ self.viewmodel.webSiteDisplay.producer
             .takeUntilPrepareForReuse(self)
-            .startWithNext { [weak self] websiteDisplay in
-                self?.websiteButton.setTitle(websiteDisplay, forState: .Normal)
-            }
     }
 }
