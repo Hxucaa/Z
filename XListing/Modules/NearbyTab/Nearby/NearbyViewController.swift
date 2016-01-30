@@ -2,7 +2,7 @@
 //  NearbyBusinessViewController.swift
 //  XListing
 //
-//  Created by Bruce Li on 2015-04-05.
+//  Created by Lance Zhu on 2016-01-25.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
@@ -44,7 +44,6 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
     @IBOutlet private weak var redoSearchButton: UIButton!
     
     // MARK: Properties
-    private var searchOrigin : CLLocation!
     
     /// View Model
     private var viewmodel: INearbyViewModel!
@@ -63,33 +62,25 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         
         setupCurrentLocationButton()
         setupRedoSearchButton()
+        
+        compositeDisposable += viewmodel.currentLocation
+            .takeUntilViewWillDisappear(self)
+            .logLifeCycle(LogContext.Nearby, signalName: "viewmodel.currentLocation")
+            .on(next: { [weak self] location in
+                // set the initial view region based on current location
+                self?.mapView.setRegion(MKCoordinateRegion(center: location.coordinate, span: MapViewSpan), animated: false) }
+            )
+            .flatMap(FlattenStrategy.Latest) {
+                // get more businesses based on current location
+                self.viewmodel.getAdditionalBusinesses($0)
+                    .logLifeCycle(LogContext.Nearby, signalName: "viewmodel.getAdditionalBusinesses")
+            }
+            .start()
     }
     
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if viewmodel.collectionDataSource.isEmpty {
-            
-            // set the initial view region based on current location
-            compositeDisposable += viewmodel.currentLocation
-                .takeUntilViewWillDisappear(self)
-                .logLifeCycle(LogContext.Nearby, signalName: "viewmodel.currentLocation")
-                .startWithNext { [weak self] location in
-                    let span = MapViewSpan
-                    let region = MKCoordinateRegion(center: location.coordinate, span: span)
-                    if let this = self {
-                        this.mapView.setRegion(region, animated: false)
-                        this.searchOrigin = location
-                        
-                        this.compositeDisposable += this.viewmodel.getAdditionalBusinesses(location)
-                            .takeUntilViewWillDisappear(this)
-                            .logLifeCycle(LogContext.Nearby, signalName: "viewmodel.getAdditionalBusinesses")
-                            .start()
-                    }
-                    
-                }
-        }
         
         // observing collection data source
         compositeDisposable += viewmodel.collectionDataSource.producer
@@ -218,17 +209,15 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                     // get the number of km between the centre and the corner to form the search radius
                     let radiusOfMapInKm = centreLocation.distanceFromLocation(cornerCoordinate) / 1000
                     
-                    // clear the map of the previous pins
-                    this.mapView.removeAnnotations(this.mapView.annotations)
-                    
-                    this.searchOrigin = centreLocation
-                    
                     // start the query
-                    disposable += this.viewmodel.getBusinessesWithMap(this.searchOrigin, radius: radiusOfMapInKm)
+                    disposable += this.viewmodel.getBusinessesWithMap(centreLocation, radius: radiusOfMapInKm)
                         .start { event in
                             switch event {
                             case .Completed:
                                 self?.redoSearchButton.hidden = true
+                                // clear the map of the previous pins
+                                this.mapView.removeAnnotations(this.mapView.annotations)
+                                
                                 observer.sendCompleted()
                                 break
                             default: break
@@ -293,7 +282,8 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                         }
                     }
                     return false
-                    }()
+                }()
+                
                 if mapChangedFromUserInteraction {
                     // show the redo search button when user moves the map
                     self?.redoSearchButton.hidden = false
@@ -398,9 +388,10 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
             .ignoreNil()
             // if we reach the last item of the collection view, start the query for pagination
             .filter { $0.section == self.businessCollectionView.numberOfSections() - 1 }
-            .flatMap(.Merge, transform: { _ -> SignalProducer<Void, NSError> in
-                return self.viewmodel.getAdditionalBusinesses(self.searchOrigin)
-            })
+            .flatMap(FlattenStrategy.Merge) { _ in
+                self.viewmodel.currentLocation
+            }
+            .flatMap(FlattenStrategy.Merge) { self.viewmodel.getAdditionalBusinesses($0) }
             .start()
         
         /**
