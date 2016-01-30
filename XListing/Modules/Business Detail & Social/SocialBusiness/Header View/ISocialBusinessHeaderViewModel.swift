@@ -14,8 +14,8 @@ public protocol ISocialBusinessHeaderViewModel : class {
     
     // MARK: - Outputs
     var coverImage: AnyProperty<UIImage?> { get }
-    var name: AnyProperty<String> { get }
-    var location: AnyProperty<String> { get }
+    var name: ConstantProperty<String> { get }
+    var location: ConstantProperty<String> { get }
     var eta: AnyProperty<String?> { get }
     
     // MARK: - Initializers

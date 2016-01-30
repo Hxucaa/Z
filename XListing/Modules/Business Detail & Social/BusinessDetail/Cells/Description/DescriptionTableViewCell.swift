@@ -10,8 +10,6 @@ import UIKit
 import Cartography
 import ReactiveCocoa
 
-private let ScreenWidth = UIScreen.mainScreen().bounds.size.width
-
 public final class DescriptionTableViewCell: UITableViewCell {
     
     // MARK: - UI Controls

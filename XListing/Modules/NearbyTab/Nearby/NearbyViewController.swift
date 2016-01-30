@@ -102,12 +102,12 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                         case .Next(let operation):
                             switch operation {
                             case let .Initiate(values):
-                                zip(values.map { $0.annotation })
+                                zip(values.map { $0.annotation.producer })
                                     .startWithNext { this.mapView.addAnnotations($0) }
                                 this.businessCollectionView.reloadData()
                                 
                             case .AppendContentsOf(let values):
-                                zip(values.map { $0.annotation })
+                                zip(values.map { $0.annotation.producer })
                                     .startWithNext { this.mapView.addAnnotations($0) }
                                 let sections = this.businessCollectionView.numberOfSections()
                                 
@@ -121,12 +121,12 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                                 
                                 this.businessCollectionView.reloadData()
                                 
-                                zip(values.map { $0.annotation })
+                                zip(values.map { $0.annotation.producer })
                                     .startWithNext { this.mapView.addAnnotations($0) }
                                 //                                    this.mapView.addAnnotations(values.map
                                 
                                 // get the first result
-                                firstValue.annotation
+                                firstValue.annotation.producer
                                     .startWithNext { firstAnnotation in
                                         
                                         // select and centre the map on the first result
@@ -230,6 +230,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                             case .Completed:
                                 self?.redoSearchButton.hidden = true
                                 observer.sendCompleted()
+                                break
                             default: break
                             }
                         }
@@ -249,69 +250,23 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
         // not tracking user movement beacause it can be a battery hog
         //        mapView.setUserTrackingMode(.Follow, animated: false)
         
-        // create a signal associated with `mapView:didAddAnnotationViews:` from delegate `MKMapViewDelegate`
-        // when annotation is added to the mapview, this signal receives the next event
-        compositeDisposable += rac_signalForSelector(Selector("mapView:didAddAnnotationViews:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
-            // forwards events from producer until the view controller is going to disappear
+        compositeDisposable += rac_signalForSelector(Selector("mapView:didSelectAnnotationView:"), fromProtocol: MKMapViewDelegate.self).toSignalProducer()
             .takeUntilViewWillDisappear(self)
-            .map { ($0 as! RACTuple).second as! [MKAnnotationView] }
             .logLifeCycle(LogContext.Nearby, signalName: "mapView:didAddAnnotationViews:")
-            .startWithNext { [weak self] annotationViews in
-                
-                // iterate over annotation view and add tap gesture recognizer to each
-                $.each(annotationViews, callback: { (index, view) -> () in
-                    
-                    // add tap gesture recognizer to annotation view
-                    let tapGesture = UITapGestureRecognizer()
-                    view.addGestureRecognizer(tapGesture)
-                    
-                    // listen to the gesture signal
-                    self?.compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
-                        // forwards events from the producer until the annotation view is prepared to be reused
-                        .takeUntilPrepareForReuse(view)
-                        //                        .logLifeCycle(LogContext.Nearby, "\(typeNameAndAddress(view)) tapGesture")
-                        .on(next: { _ in
-                            if let mapView = self?.mapView, annotation = view.annotation {
-                                // center the map on the annotation if it is not already in view
-                                let visibleAnnotations = mapView.annotationsInMapRect(mapView.visibleMapRect)
-                                if let anno = annotation as? NSObject where !visibleAnnotations.contains(anno) {
-                                    mapView.setCenterCoordinate(annotation.coordinate, animated: true)
-                                }
-                            }
-                        })
-                        .flatMap(FlattenStrategy.Merge, transform: { _ -> SignalProducer<[MKPointAnnotation], NSError> in
-                            if let this = self {
-                                return zip(this.viewmodel.collectionDataSource.array.map { $0.annotation })
-                                    .promoteErrors(NSError)
-                            }
-                            else {
-                                return SignalProducer<[MKPointAnnotation], NSError>.empty
-                            }
-                        })
-                        .map { businessAnnotations -> NSIndexPath? in
-                            let index = $.findIndex(businessAnnotations) { businessAnnotation in
-                                if let anno = view.annotation as? MKPointAnnotation {
-                                    return businessAnnotation == anno
-                                }
-                                else {
-                                    return false
-                                }
-                            }
-                            
-                            if let index = index {
-                                // Construct the index path. Note that the collection only has ONE row.
-                                return NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: index)
-                            }
-                            else {
-                                return nil
-                            }
-                        }
-                        .ignoreNil()
-                        .startWithNext {
-                            self?.businessCollectionView.scrollToItemAtIndexPath($0, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
-                        }
+            .map { (($0 as! RACTuple).second as! MKAnnotationView).annotation }
+            .ignoreNil()
+            // find annotation that matches the selected annotation
+            // then map its index in collection data source
+            .map { selectedAnnotation in
+                $.findIndex(self.viewmodel.collectionDataSource.array.map { $0.annotation.value }, callback: { (annotation) -> Bool in
+                    return annotation === selectedAnnotation
                 })
             }
+            .ignoreNil()
+            // map to index path
+            .map { NSIndexPath(forRow: NumberOfRowsInCollectionView - 1, inSection: $0) }
+            // scroll collection view to match the business on selected annotation
+            .startWithNext { self.businessCollectionView.scrollToItemAtIndexPath($0, atScrollPosition: .Left, animated: false) }
         
         var mapChangedFromUserInteraction = false
         
@@ -412,7 +367,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
                     let business = this.viewmodel.collectionDataSource.array[indexPath.section]
                     
                     /// Center the map to the annotation.
-                    return business.annotation
+                    return business.annotation.producer
                         .promoteErrors(NSError)
                 }
                 else {
@@ -479,7 +434,6 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
 }
 
 extension NearbyViewController : UICollectionViewDataSource {
-    
     
     /**
     Asks the data source for the number of sections in the collection view.

@@ -14,28 +14,25 @@ import Dollar
 import AVOSCloud
 
 public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewModel {
+    
     // MARK: - Outputs
+    private let _coverImage: MutableProperty<UIImage?> = MutableProperty(ImageAsset.placeholder)
     public var coverImage: AnyProperty<UIImage?> {
         return AnyProperty(_coverImage)
     }
-    public var name: AnyProperty<String> {
-        return AnyProperty(_name)
-    }
-    public var location: AnyProperty<String> {
-        return AnyProperty(_city)
-    }
+    
+    private let _eta: MutableProperty<String?> = MutableProperty(nil)
     public var eta: AnyProperty<String?> {
         return AnyProperty(_eta)
     }
+    
+    public let name: ConstantProperty<String>
+    public let location: ConstantProperty<String>
     
     // MARK: - Properties
     private let geoLocationService: IGeoLocationService
     private let imageService: IImageService
     
-    private let _coverImage: MutableProperty<UIImage?> = MutableProperty(ImageAsset.placeholder)
-    private let _name: MutableProperty<String>
-    private let _city: MutableProperty<String>
-    private let _eta: MutableProperty<String?> = MutableProperty(nil)
     
     // MARK: - Initializers
     public init(geoLocationService: IGeoLocationService, imageService: IImageService, coverImage: ImageFile, name: String, city: City, geolocation: Geolocation) {
@@ -43,9 +40,9 @@ public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewMode
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         
-        _name = MutableProperty(name)
+        self.name = ConstantProperty(name)
         
-        _city = MutableProperty(city.regionNameE)
+        location = ConstantProperty(city.regionNameC)
         
         if let nsurl = NSURL(string: coverImage.url) {
             self.imageService.getImage(nsurl)

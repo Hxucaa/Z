@@ -106,7 +106,8 @@ public final class BusinessDetailViewController : XScrollingNavigationViewContro
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.delegate = self
+        
+        navigationController?.delegate = self
 
         view.addSubview(headerView)
         view.addSubview(utilityHeaderView)

@@ -23,7 +23,7 @@ public final class NearbyTableCellViewModel: BasicBusinessInfoViewModel, INearby
     
     public let businessHours: SignalProducer<String, NoError> = SignalProducer(value: "今天 10:00AM - 10:00PM")
     
-    public let annotation: SignalProducer<MKPointAnnotation, NoError>
+    public let annotation: ConstantProperty<MKPointAnnotation>
     
     // MARK: - Properties
     public let business: Business
@@ -44,7 +44,7 @@ public final class NearbyTableCellViewModel: BasicBusinessInfoViewModel, INearby
         let annotation = MKPointAnnotation()
         annotation.coordinate = business.address.geoLocation.cllocation.coordinate
         annotation.title = business.name
-        self.annotation = SignalProducer(value: annotation)
+        self.annotation = ConstantProperty(annotation)
         
         super.init(geoLocationService: geoLocationService, imageService: imageService, business: business)
     }
