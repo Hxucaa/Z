@@ -21,35 +21,20 @@ public final class UsernameAndPasswordViewModel {
     public let allInputsValid = MutableProperty<Bool>(false)
     
     // MARK: - Properties
-    /// Signal containing a valid username
-    public var validUsernameSignal: SignalProducer<String, NoError> {
-        // only allow usernames with:
-        // - between 3 and 30 characters
-        // - letters, numbers, dashes, periods, and underscores only
-        return username.producer
-            .ignoreNil()
-            .filter { self.testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
-    }
-    /// Signal containing a valid password
-    public var validPasswordSignal: SignalProducer<String, NoError> {
-        // only allow passwords with:
-        // - more than 8 characters
-        // - letters, numbers, and most standard symbols
-        // - at least one number, capital letter, or special character
-        return password.producer
-            .ignoreNil()
-            .filter { $0.characters.count > 0 }
-        //            .filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
-    }
     
     // MARK: - Initializers
     public init() {
         
-        isUsernameValid <~ validUsernameSignal
+        isUsernameValid <~ username.producer
+            .ignoreNil()
+            .filter { self.testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
             .map { _ in true }
         
         
-        isPasswordValid <~ validPasswordSignal
+        isPasswordValid <~ password.producer
+            .ignoreNil()
+            .filter { $0.characters.count > 0 }
+        //            .filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
             .map { _ in true }
         
         

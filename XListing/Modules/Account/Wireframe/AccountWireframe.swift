@@ -52,19 +52,21 @@ extension AccountWireframe : IAccountNavigator {
     
     public func goToSignUpComponent() {
         let viewController = UIStoryboard(name: AccountStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(SignUpViewControllerIdentifier) as! SignUpViewController
-        let viewmodel = SignUpViewModel(accountNavigator: self, userService: userService)
-        viewController.viewmodel.value = viewmodel
         
         moduleNavController.pushViewController(viewController, animated: false)
+        
+        let viewmodel = SignUpViewModel(accountNavigator: self, userService: userService)
+        viewController.bindToViewModel(viewmodel)
     }
     
     
     public func goToLogInComponent() {
         let viewController = UIStoryboard(name: AccountStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(LogInViewControllerIdentifier) as! LogInViewController
-        let viewmodel = LogInViewModel(accountNavigator: self, userService: userService)
-        viewController.viewmodel.value = viewmodel
         
         moduleNavController.pushViewController(viewController, animated: false)
+        
+        let viewmodel = LogInViewModel(accountNavigator: self, userService: userService)
+        viewController.bindToViewModel(viewmodel)
     }
     
     public func skipAccount() {

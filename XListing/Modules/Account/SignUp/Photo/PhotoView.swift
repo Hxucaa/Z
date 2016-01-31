@@ -23,7 +23,7 @@ public final class PhotoView : SpringView {
     }
     
     // MARK: - Properties
-    public let viewmodel = MutableProperty<PhotoViewModel?>(nil)
+    private var viewmodel: PhotoViewModel!
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Proxies
@@ -59,78 +59,8 @@ public final class PhotoView : SpringView {
             return SignalProducer<Void, NSError> { observer, disposable in
                 
                 self?._doneObserver.proxyNext(())
-                observer.sendCompleted()
-//                if let this = self, viewmodel = self?.viewmodel.value {
-//                    
-//                    // Update profile and show the HUD
-//                    disposable += viewmodel.areAllProfileInputsPresent.producer
-//                        // only valid input goes through
-//                        .filter { $0 }
-//                        // delay the signal due to the animation of retracting keyboard
-//                        // this cannot be executed on main thread, otherwise UI will be blocked
-//                        .delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
-//                        // return the signal to main/ui thread in order to run UI related code
-//                        .observeOn(UIScheduler())
-//                        .flatMap(.Concat) { _ in
-//                            return HUD.show()
-//                        }
-//                        // map error to the same type as other signal
-//                        .promoteErrors(NSError)
-//                        // update profile
-//                        .flatMap(.Concat) { _ -> SignalProducer<Bool, NSError> in
-//                            return viewmodel.updateProfile
-//                        }
-//                        // dismiss HUD based on the result of update profile signal
-//                        .on(
-//                            next: { _ in
-//                                HUD.dismissWithNextMessage()
-//                            },
-//                            failed: { _ in
-//                                HUD.dismissWithFailedMessage()
-//                            }
-//                        )
-//                        // does not `sendCompleted` because completion is handled when HUD is disappeared
-//                        .start { event in
-//                            switch event {
-//                            case .Failed(let error):
-//                                observer.sendFailed(error)
-//                                AccountLogError(error.description)
-//                            case .Interrupted:
-//                                observer.sendInterrupted()
-//                            default: break
-//                            }
-//                        }
-//                    
-//                    // Subscribe to touch down inside event
-//                    disposable += HUD.didTouchDownInsideNotification()
-//                        .on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
-//                        .startWithNext { _ in
-//                            // dismiss HUD
-//                            HUD.dismiss()
-//                        }
-//                    
-//                    // Subscribe to disappear notification
-//                    disposable += HUD.didDissappearNotification()
-//                        .on(next: { _ in AccountLogVerbose("HUD disappeared.") })
-//                        .startWithNext { status in
-//                            if status == HUD.DisappearStatus.Normal {
-//                                this._doneObserver.proxyNext(())
-//                            }
-//                            
-//                            // completes the action
-//                            observer.sendNext(())
-//                            observer.sendCompleted()
-//                        }
-//                    
-//                    // Add the signals to CompositeDisposable for automatic memory management
-//                    disposable.addDisposable {
-//                        AccountLogVerbose("Update profile action is disposed.")
-//                    }
-//                    
-//                    // retract keyboard
-//                    self?.endEditing(true)
-//                }
-            }
+                observer.sendNext(())
+                observer.sendCompleted()            }
         }
         
         doneButton.addTarget(doneAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
@@ -169,20 +99,6 @@ public final class PhotoView : SpringView {
             view.width == self.frame.width
             view.height == self.frame.height
         }
-        
-        
-        /**
-        *  Setup view model
-        */
-        compositeDisposable += viewmodel.producer
-            .ignoreNil()
-            .logLifeCycle(LogContext.Account, signalName: "viewmodel.producer")
-            .startWithNext { [weak self] viewmodel in
-                if let this = self {
-                    this.photoImageView.rac_image <~ viewmodel.profileImage
-                    this.doneButton.rac_enabled <~ viewmodel.isProfileImageValid
-                }
-            }
     }
     
     private func setupImageSelectedSignal() {
@@ -194,7 +110,7 @@ public final class PhotoView : SpringView {
             .start { [weak self] event in
                 switch event {
                 case let .Next(image):
-                    self?.viewmodel.value?.profileImage.value = image
+                    self?.viewmodel.profileImage.value = image
                     
                     self?._dismissUIImagePickerObserver.sendNext(nil)
                 case .Completed:
@@ -211,6 +127,12 @@ public final class PhotoView : SpringView {
     }
     
     // MARK: - Bindings
+    public func bindToViewModel(viewmodel: PhotoViewModel) {
+        self.viewmodel = viewmodel
+        
+        photoImageView.rac_image <~ viewmodel.profileImage
+        doneButton.rac_enabled <~ viewmodel.isProfileImageValid
+    }
     
     // MARK: - Others
 }

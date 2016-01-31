@@ -57,9 +57,18 @@ public final class UserService : IUserService {
         }
     }
     
-    public func signUp<T: User>(user: T) -> SignalProducer<Bool, NSError> {
+    public func signUp(username: String, password: String, nickname: String, birthday: NSDate, gender: Gender, profileImage: UIImage) -> SignalProducer<Bool, NSError> {
         return SignalProducer { observer, disposable in
-            LSLogDebug("User created: \(user.toString())")
+            let user = User()
+            
+            user.username = username
+            user.password = password
+            user.nickname = nickname
+            user.birthday = birthday
+            let imageData = UIImagePNGRepresentation(profileImage)
+            user.setCoverPhoto("profile.png", data: imageData!)
+            user.gender = gender
+            
             user.signUpInBackgroundWithBlock { success, error -> Void in
                 if error == nil {
                     observer.sendNext(success)

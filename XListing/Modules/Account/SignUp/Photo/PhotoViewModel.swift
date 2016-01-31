@@ -18,17 +18,14 @@ public final class PhotoViewModel {
     public let isProfileImageValid = MutableProperty<Bool>(false)
     
     // MARK: - Variables
-    public let validProfileImageSignal: SignalProducer<UIImage, NoError>
     
     
     // MARK: - Initializers
     public init() {
-        
-        validProfileImageSignal = profileImage.producer
+
+        isProfileImageValid <~ profileImage.producer
             .skip(1)
             .ignoreNil()
-
-        isProfileImageValid <~ validProfileImageSignal
             .map { _ in true }
     }
     

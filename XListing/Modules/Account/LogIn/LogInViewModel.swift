@@ -15,9 +15,6 @@ public final class LogInViewModel {
     // MARK: - Input
     
     // MARK: - Output
-    public var areLogInInputsPresent: SignalProducer<Bool, NoError> {
-        return usernameAndPasswordViewModel.allInputsValid.producer
-    }
     
     // MARK: - Properties
     
@@ -50,12 +47,12 @@ public final class LogInViewModel {
             .filter { $0 }
             // combine the username and password into one signal
             .flatMap(.Concat) { _ in
-                zip(self.usernameAndPasswordViewModel.validUsernameSignal, self.usernameAndPasswordViewModel.validPasswordSignal)
+                zip(self.usernameAndPasswordViewModel.username.producer.ignoreNil(), self.usernameAndPasswordViewModel.password.producer.ignoreNil())
             }
             // promote to NSError
             .promoteErrors(NSError)
             // log in user
-            .flatMap(FlattenStrategy.Merge) { username, password -> SignalProducer<User, NSError> in
+            .flatMap(FlattenStrategy.Merge) { username, password in
                 return self.userService.logIn(username, password: password)
             }
             .map { _ in

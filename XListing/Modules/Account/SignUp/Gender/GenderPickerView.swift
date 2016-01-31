@@ -24,7 +24,7 @@ public final class GenderPickerView : SpringView {
     }
     
     // MARK: - Properties
-    public let viewmodel = MutableProperty<GenderPickerViewModel?>(nil)
+    private var viewmodel: GenderPickerViewModel!
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Proxies
@@ -65,7 +65,7 @@ public final class GenderPickerView : SpringView {
         */
         let boy = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { observer, disposable in
-                self?.viewmodel.value?.gender.value = Gender.Male
+                self?.viewmodel.gender.value = Gender.Male
                 self?.girlButton.tintColor = UIColor.whiteColor()
                 self?.girlButton.selected = false
                 observer.sendCompleted()
@@ -79,7 +79,7 @@ public final class GenderPickerView : SpringView {
         */
         let girl = Action<UIButton, Void, NoError> { [weak self] button in
             return SignalProducer { observer, disposable in
-                self?.viewmodel.value?.gender.value = Gender.Female
+                self?.viewmodel.gender.value = Gender.Female
                 self?.boyButton.tintColor = UIColor.whiteColor()
                 self?.boyButton.selected = false
                 observer.sendCompleted()
@@ -87,18 +87,6 @@ public final class GenderPickerView : SpringView {
         }
         girlButton.addTarget(girl.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
         
-        /**
-        *  Setup view model
-        */
-        compositeDisposable += viewmodel.producer
-            .takeUntilRemoveFromSuperview(self)
-            .logLifeCycle(LogContext.Account, signalName: "viewmodel.producer")
-            .ignoreNil()
-            .startWithNext { [weak self] viewmodel in
-                if let this = self {
-                    this._continueButton.rac_enabled <~ viewmodel.isGenderValid
-                }
-            }
     }
     
     
@@ -108,6 +96,11 @@ public final class GenderPickerView : SpringView {
     }
     
     // MARK: - Bindings
+    public func bindToViewModel(viewmodel: GenderPickerViewModel) {
+        self.viewmodel = viewmodel
+        
+        _continueButton.rac_enabled <~ viewmodel.isGenderValid
+    }
     
     // MARK: - Others
 }

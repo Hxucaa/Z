@@ -34,7 +34,7 @@ public final class SignUpViewController : XUIViewController {
     // MARK: - Proxies
     
     // MARK: - Properties
-    public let viewmodel = MutableProperty<SignUpViewModel?>(nil)
+    public var viewmodel: SignUpViewModel!
     
     /// A disposable that will dispose of any number of other disposables.
     private let compositeDisposable = CompositeDisposable()
@@ -124,9 +124,7 @@ public final class SignUpViewController : XUIViewController {
                     
                     this.installSubviewButton(view.signUpButton)
                     
-                    transitionDisposable += view.viewmodel <~ this.viewmodel.producer
-                        .ignoreNil()
-                        .map { $0.usernameAndPasswordViewModel }
+                    view.bindToViewModel(this.viewmodel.usernameAndPasswordViewModel)
                     
                     transitionDisposable += view.submitProxy
                         .logLifeCycle(LogContext.Account, signalName: "usernameAndPasswordView.submitProxy")
@@ -157,9 +155,7 @@ public final class SignUpViewController : XUIViewController {
                     
                     this.installSubviewButton(view.continueButton)
                     
-                    transitionDisposable += view.viewmodel <~ this.viewmodel.producer
-                        .ignoreNil()
-                        .map { $0.nicknameViewModel }
+                    view.bindToViewModel(this.viewmodel.nicknameViewModel)
                     
                     transitionDisposable += view.continueProxy
                         .logLifeCycle(LogContext.Account, signalName: "usernameAndPasswordView.continueProxy")
@@ -190,9 +186,7 @@ public final class SignUpViewController : XUIViewController {
                     
                     this.installSubviewButton(view.continueButton)
                     
-                    transitionDisposable += view.viewmodel <~ this.viewmodel.producer
-                        .ignoreNil()
-                        .map { $0.genderPickerViewModel }
+                    view.bindToViewModel(this.viewmodel.genderPickerViewModel)
                     
                     transitionDisposable += view.continueProxy
                         .logLifeCycle(LogContext.Account, signalName: "genderPickerView.continueProxy")
@@ -223,9 +217,7 @@ public final class SignUpViewController : XUIViewController {
                     
                     this.installSubviewButton(view.continueButton)
                     
-                    transitionDisposable += view.viewmodel <~ this.viewmodel.producer
-                        .ignoreNil()
-                        .map { $0.birthdayPickerViewModel }
+                    view.bindToViewModel(this.viewmodel.birthdayPickerViewModel)
                     
                     transitionDisposable += view.continueProxy
                         .logLifeCycle(LogContext.Account, signalName: "birthdayPickerView.continueProxy")
@@ -259,9 +251,7 @@ public final class SignUpViewController : XUIViewController {
                 
                 this.installSubviewButton(view.doneButton)
                 
-                transitionDisposable += view.viewmodel <~ this.viewmodel.producer
-                    .ignoreNil()
-                    .map { $0.photoViewModel }
+                view.bindToViewModel(this.viewmodel.photoViewModel)
                 
                 transitionDisposable += view.presentUIImagePickerProxy
                     .logLifeCycle(LogContext.Account, signalName: "photoView.presentUIImagePickerProxy")
@@ -282,45 +272,19 @@ public final class SignUpViewController : XUIViewController {
                     .promoteErrors(NSError)
                     .flatMap(FlattenStrategy.Concat) {
                         SignalProducer<Void, NSError> { observer, disposable in
-                            disposable += this.viewmodel.producer
-                                .ignoreNil()
-                                .flatMap(FlattenStrategy.Concat) {
-                                    $0.areAllInputsPresent
-                                }
-                                // only valid input goes through
-                                .filter { $0 }
-                                // delay the signal due to the animation of retracting keyboard
-                                // this cannot be executed on main thread, otherwise UI will be blocked
-                                .delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
-                                // return the signal to main/ui thread in order to run UI related code
-                                .observeOn(UIScheduler())
-                                .flatMap(.Concat) { _ in
-                                    return HUD.show()
-                                }
+                            disposable += HUD.show()
                                 // map error to the same type as other signal
                                 .promoteErrors(NSError)
-                                // update profile
-                                .flatMap(.Concat) { _ -> SignalProducer<Bool, NSError> in
-                                    return this.viewmodel.producer
-                                        .ignoreNil()
-                                        .promoteErrors(NSError)
-                                        .flatMap(FlattenStrategy.Concat) {
-                                            $0.signUp()
-                                        }
+                                .flatMap(.Concat) { _ in
+                                    return this.viewmodel.signUp()
                                 }
-                                // dismiss HUD based on the result of update profile signal
-                                .on(
-                                    next: { _ in
-                                        HUD.dismissWithNextMessage()
-                                    },
-                                    failed: { _ in
-                                        HUD.dismissWithFailedMessage()
-                                    }
-                                )
                                 // does not `sendCompleted` because completion is handled when HUD is disappeared
                                 .start { event in
                                     switch event {
+                                    case .Next(_):
+                                        HUD.dismissWithNextMessage()
                                     case .Failed(let error):
+                                        HUD.dismissWithFailedMessage()
                                         observer.sendFailed(error)
                                         AccountLogError(error.description)
                                     case .Interrupted:
@@ -329,26 +293,23 @@ public final class SignUpViewController : XUIViewController {
                                     }
                             }
                             
-                            // Subscribe to touch down inside event
-                            disposable += HUD.didTouchDownInsideNotification()
-                                .on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
-                                .startWithNext { _ in
-                                    // dismiss HUD
-                                    HUD.dismiss()
-                            }
+                            // TODO: Disallow user to cancel network request
+//                            // Subscribe to touch down inside event
+//                            disposable += HUD.didTouchDownInsideNotification()
+//                                .on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+//                                .startWithNext { _ in
+//                                    // dismiss HUD
+//                                    HUD.dismiss()
+//                            }
                             
                             // Subscribe to disappear notification
                             disposable += HUD.didDissappearNotification()
                                 .on(next: { _ in AccountLogVerbose("HUD disappeared.") })
                                 .startWithNext { status in
-//                                        if status == HUD.DisappearStatus.Normal {
-//                                            this._doneObserver.proxyNext(())
-//                                        }
-                                    
                                     // completes the action
                                     observer.sendNext(())
                                     observer.sendCompleted()
-                            }
+                                }
                             
                             // Add the signals to CompositeDisposable for automatic memory management
                             disposable.addDisposable {
@@ -358,13 +319,11 @@ public final class SignUpViewController : XUIViewController {
                         }
                     }
                     .startWithNext {
-                        if let viewmodel = self?.viewmodel.value {
-                            viewmodel.finishModule { handler in
-                                self?.dismissViewControllerAnimated(true, completion: handler)
-                            }
-                            
-                            self?.navigationController?.setNavigationBarHidden(false, animated: false)
+                        this.viewmodel.finishModule { handler in
+                            self?.dismissViewControllerAnimated(true, completion: handler)
                         }
+                        
+                        self?.navigationController?.setNavigationBarHidden(false, animated: false)
                     }
             },
             cleanUp: { [weak self] view in
@@ -379,6 +338,12 @@ public final class SignUpViewController : XUIViewController {
         // Dispose signals before deinit.
         compositeDisposable.dispose()
         AccountLogVerbose("SignUp View Controller deinitializes.")
+    }
+    
+    // MARK: - Bindings
+    
+    public func bindToViewModel(viewmodel: SignUpViewModel) {
+        self.viewmodel = viewmodel
     }
     
     // MARK: - Others

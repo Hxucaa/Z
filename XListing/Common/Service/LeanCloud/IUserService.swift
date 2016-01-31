@@ -13,7 +13,7 @@ public protocol IUserService : class {
     var currentUser: User? { get }
     func isLoggedInAlready() -> Bool
     func currentLoggedInUser() -> SignalProducer<User, NSError>
-    func signUp<T: User>(user: T) -> SignalProducer<Bool, NSError>
+    func signUp(username: String, password: String, nickname: String, birthday: NSDate, gender: Gender, profileImage: UIImage) -> SignalProducer<Bool, NSError>
     func logIn(username: String, password: String) -> SignalProducer<User, NSError>
     func logOut()
     func save<T: User>(user: T) -> SignalProducer<Bool, NSError>

@@ -22,7 +22,7 @@ public final class NicknameView : SpringView {
     }
     
     // MARK: - Properties
-    public let viewmodel = MutableProperty<NicknameViewModel?>(nil)
+    private var viewmodel: NicknameViewModel!
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Proxies
@@ -66,20 +66,6 @@ public final class NicknameView : SpringView {
         nicknameField.delegate = self
         nicknameField.becomeFirstResponder()
         
-        /**
-        *  Setup view model
-        */
-        compositeDisposable += viewmodel.producer
-            .takeUntilRemoveFromSuperview(self)
-            .logLifeCycle(LogContext.Account, signalName: "viewmodel.producer")
-            .ignoreNil()
-            .startWithNext { [weak self] viewmodel in
-                if let this = self {
-                    viewmodel.nickname <~ this.nicknameField.rac_text
-                    
-                    this.continueButton.rac_enabled <~ viewmodel.isNicknameValid
-                }
-            }
     }
     
     public override func removeFromSuperview() {
@@ -94,6 +80,13 @@ public final class NicknameView : SpringView {
     }
     
     // MARK: - Bindings
+    public func bindToViewModel(viewmodel: NicknameViewModel) {
+        self.viewmodel = viewmodel
+
+        viewmodel.nickname <~ nicknameField.rac_text
+        
+        continueButton.rac_enabled <~ viewmodel.isNicknameValid
+    }
     
     // MARK: - Others
 }

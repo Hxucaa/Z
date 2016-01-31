@@ -23,7 +23,7 @@ public final class UsernameAndPasswordView : SpringView {
     }
     
     // MARK: - Properties
-    public let viewmodel = MutableProperty<UsernameAndPasswordViewModel?>(nil)
+    private var viewmodel: UsernameAndPasswordViewModel!
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Proxies
@@ -53,20 +53,6 @@ public final class UsernameAndPasswordView : SpringView {
         // Link UIControl event to actions
         _signUpButton.addTarget(submitAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         
-        compositeDisposable += viewmodel.producer
-            .ignoreNil()
-            .logLifeCycle(LogContext.Account, signalName: "viewmodel.producer")
-            .startWithNext { [weak self] viewmodel in
-                if let this = self {
-                    // bind signals
-                    viewmodel.username <~ this.usernameField.rac_text
-                    viewmodel.password <~ this.passwordField.rac_text
-                    
-                    // TODO: implement different validation for different input fields.
-                    this._signUpButton.rac_enabled <~ viewmodel.allInputsValid
-                }
-            }
-        
         /**
         Setup constraints
         */
@@ -87,6 +73,16 @@ public final class UsernameAndPasswordView : SpringView {
     }
     
     // MARK: Bindings
+    public func bindToViewModel(viewmodel: UsernameAndPasswordViewModel) {
+        self.viewmodel = viewmodel
+        
+        // bind signals
+        viewmodel.username <~ usernameField.rac_text
+        viewmodel.password <~ passwordField.rac_text
+        
+        // TODO: implement different validation for different input fields.
+        _signUpButton.rac_enabled <~ viewmodel.allInputsValid
+    }
     
     // MARK: Others
     public func setButtonTitle(text: String) {

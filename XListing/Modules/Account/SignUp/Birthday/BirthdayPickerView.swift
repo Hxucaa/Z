@@ -23,10 +23,7 @@ public final class BirthdayPickerView : SpringView {
     }
     
     // MARK: - Properties
-    public let viewmodel = MutableProperty<BirthdayPickerViewModel?>(nil)
-    private var _viewmodel: BirthdayPickerViewModel {
-        return viewmodel.value!
-    }
+    private var viewmodel: BirthdayPickerViewModel!
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Proxies
@@ -61,43 +58,6 @@ public final class BirthdayPickerView : SpringView {
             view.width == self.frame.width
             view.height == self.frame.height
         }
-        
-        /**
-        *  Setup birthday picker
-        */
-        let pickBirthday = Action<NSDate, Void, NoError> { [weak self] date in
-            return SignalProducer { observer, disposable in
-                self?.birthdayTextField.text = date.description
-                self?._viewmodel.birthday.value = date
-                observer.sendCompleted()
-            }
-        }
-        
-        // show the birthday picker as soon as the view is displayed
-        compositeDisposable += viewmodel.producer
-            .takeUntilRemoveFromSuperview(self)
-            .logLifeCycle(LogContext.Account, signalName: "viewmodel.producer")
-            .ignoreNil()
-            .startWithNext { [weak self] viewmodel in
-                
-                let picker = ActionSheetDatePicker(
-                    title: "生日",
-                    datePickerMode: UIDatePickerMode.Date,
-                    selectedDate: viewmodel.pickerUpperLimit.value,
-                    minimumDate: viewmodel.pickerLowerLimit.value,
-                    maximumDate: viewmodel.pickerUpperLimit.value,
-                    target: pickBirthday.unsafeCocoaAction,
-                    action: CocoaAction.selector,
-                    origin: self
-                )
-                picker.hideCancel = true
-                picker.showActionSheetPicker()
-                
-                if let this = self {
-                    this._continueButton.rac_enabled <~ viewmodel.isBirthdayValid
-                    this.birthdayTextField.rac_text <~ viewmodel.birthdayText
-                }
-            }
     }
     
     
@@ -107,6 +67,37 @@ public final class BirthdayPickerView : SpringView {
     }
     
     // MARK: - Bindings
+    public func bindToViewModel(viewmodel: BirthdayPickerViewModel) {
+        self.viewmodel = viewmodel
+        
+        _continueButton.rac_enabled <~ viewmodel.isBirthdayValid
+        birthdayTextField.rac_text <~ viewmodel.birthdayText
+        
+        
+        /**
+         *  Setup birthday picker
+         */
+        let pickBirthday = Action<NSDate, Void, NoError> { [weak self] date in
+            return SignalProducer { observer, disposable in
+                self?.birthdayTextField.text = date.description
+                self?.viewmodel.birthday.value = date
+                observer.sendCompleted()
+            }
+        }
+        
+        let picker = ActionSheetDatePicker(
+            title: "生日",
+            datePickerMode: UIDatePickerMode.Date,
+            selectedDate: viewmodel.pickerUpperLimit,
+            minimumDate: viewmodel.pickerLowerLimit,
+            maximumDate: viewmodel.pickerUpperLimit,
+            target: pickBirthday.unsafeCocoaAction,
+            action: CocoaAction.selector,
+            origin: self
+        )
+        picker.hideCancel = true
+        picker.showActionSheetPicker()
+    }
     
     // MARK: - Others
 }
