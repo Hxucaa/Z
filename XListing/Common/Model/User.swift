@@ -17,7 +17,6 @@ public class User: AVUser {
         static let isActive = "isActive"
         static let nickName = "nickname"
         static let gender = "gender"
-        static let birthday = "birthday"
         static let ageGroup = "ageGroup"
         static let horoscope = "horoscope"
         static let address = "address"
@@ -31,7 +30,6 @@ public class User: AVUser {
     
     public func toString() -> String {
         var s = ""
-        s += "birthday: \(self[Property.birthday])"
         s += "NickName: \(self[Property.nickName])"
         s += "Gender: \(self[Property.gender])"
         s += "AgeGroup: \(self[Property.ageGroup])"
@@ -56,26 +54,17 @@ public class User: AVUser {
         get {
             return UserType(rawValue: self[Property.type] as! Int)!
         }
-        set {
-            self[Property.type] = newValue.rawValue
-        }
     }
     
     public var status: UserStatus {
         get {
             return UserStatus(rawValue: self[Property.status] as! Int)!
         }
-        set {
-            self[Property.status] = newValue.rawValue
-        }
     }
     
     public var isActive: Activation {
         get {
             return Activation(self[Property.isActive] as! Bool)
-        }
-        set {
-            self[Property.isActive] = newValue.boolValue
         }
     }
     
@@ -85,12 +74,7 @@ public class User: AVUser {
         get {
             return Gender(rawValue: self[Property.gender] as! Int)!
         }
-        set {
-            self[Property.gender] = newValue.rawValue
-        }
     }
-    
-    @NSManaged public var birthday: NSDate?
     
     public var ageGroup: AgeGroup {
         get {
@@ -104,8 +88,6 @@ public class User: AVUser {
         }
     }
     
-    @NSManaged public var address: Address
-    
     public var coverPhoto: ImageFile? {
         get {
             if let file = (self[Property.coverPhoto] as? AVFile) {
@@ -117,10 +99,6 @@ public class User: AVUser {
         }
     }
     
-    public func setCoverPhoto(name: String, data: NSData) {
-        self[Property.coverPhoto] = AVFile(name: name, data: data)
-    }
-    
     @NSManaged public var whatsUp: String?
     
     public var latestLocation: Geolocation? {
@@ -129,11 +107,6 @@ public class User: AVUser {
                 return nil
             }
             return Geolocation(latitude: geopoint.latitude, longitude: geopoint.longitude)
-        }
-        set {
-            if let newValue = newValue {
-                self[Property.latestLocation] = AVGeoPoint(latitude: newValue.latitude, longitude: newValue.longitude)
-            }
         }
     }
     

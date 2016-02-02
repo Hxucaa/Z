@@ -14,17 +14,17 @@ private let ProfileEditStoryboardName = "ProfileEdit"
 
 public final class ProfileEditWireframe : IProfileEditWireframe {
 
-    private let userService: IUserService
+    private let meService: IMeService
     private let imageService: IImageService
     
-    public required init(userService: IUserService, imageService: IImageService) {
-        self.userService = userService
+    public required init(meService: IMeService, imageService: IImageService) {
+        self.meService = meService
         self.imageService = imageService
     }
     
     private func injectViewModelToViewController() -> ProfileEditViewController {
         let viewController = UIStoryboard(name: ProfileEditStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(ProfileEditViewControllerIdentifier) as! ProfileEditViewController
-        let viewmodel = ProfileEditViewModel(userService: userService, imageService: imageService)
+        let viewmodel = ProfileEditViewModel(meService: meService, imageService: imageService)
         viewController.bindToViewModel(viewmodel)
         
         return viewController

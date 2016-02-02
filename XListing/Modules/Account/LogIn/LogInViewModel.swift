@@ -22,14 +22,14 @@ public final class LogInViewModel {
     public let usernameAndPasswordViewModel = UsernameAndPasswordViewModel()
     
     // MARK: - Services
-    private let userService: IUserService
+    private let meService: IMeService
     private weak var accountNavigator: IAccountNavigator!
     
     // MARK: - Initializers
     
-    public init(accountNavigator: IAccountNavigator, userService: IUserService) {
+    public init(accountNavigator: IAccountNavigator, meService: IMeService) {
         self.accountNavigator = accountNavigator
-        self.userService = userService
+        self.meService = meService
     }
     
     deinit {
@@ -53,7 +53,7 @@ public final class LogInViewModel {
             .promoteErrors(NSError)
             // log in user
             .flatMap(FlattenStrategy.Merge) { username, password in
-                return self.userService.logIn(username, password: password)
+                return self.meService.logIn(username, password: password)
             }
             .map { _ in
                 return true

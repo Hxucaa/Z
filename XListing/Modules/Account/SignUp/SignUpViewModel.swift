@@ -27,11 +27,11 @@ public final class SignUpViewModel {
     
     // MARK: Services
     private weak var accountNavigator: IAccountNavigator!
-    private let userService: IUserService
+    private let meService: IMeService
     
     // MARK: Initializers
-    public init(accountNavigator: IAccountNavigator, userService: IUserService) {
-        self.userService = userService
+    public init(accountNavigator: IAccountNavigator, meService: IMeService) {
+        self.meService = meService
         self.accountNavigator = accountNavigator
     }
     
@@ -60,7 +60,7 @@ public final class SignUpViewModel {
             )
             .promoteErrors(NSError)
             .flatMap(FlattenStrategy.Concat) { username, password, nickname, gender, birthday, profileImage in
-                return self.userService.signUp(
+                return self.meService.signUp(
                     username,
                     password: password,
                     nickname: nickname,

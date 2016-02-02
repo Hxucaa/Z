@@ -9,7 +9,7 @@
 import Foundation
 import ReactiveCocoa
 
-public protocol IFeaturedBusinessViewModel : class, IBasicBusinessInfoViewModel, HasRNProps {
+public protocol IFeaturedBusinessViewModel : class, IBasicBusinessInfoViewModel {
     
     // MARK: - Outputs
     

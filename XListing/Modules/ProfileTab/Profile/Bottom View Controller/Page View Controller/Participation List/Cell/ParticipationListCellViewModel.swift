@@ -21,7 +21,7 @@ public final class ParticipationListCellViewModel : IParticipationListCellViewMo
     }
     
     // MARK: - Properties
-    private let userService: IUserService
+    private let meService: IMeService
     private let geoLocationService: IGeoLocationService
     private let imageService: IImageService
     private let participationService: IParticipationService
@@ -32,9 +32,9 @@ public final class ParticipationListCellViewModel : IParticipationListCellViewMo
     public let statusButtonViewModel: ProfileTabStatusButtonViewModel
     
     // MARK: - Initializers
-    public init(userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService, participationService: IParticipationService, coverImage: ImageFile?, geolocation: Geolocation, business: Business, type: ParticipationType?) {
+    public init(meService: IMeService, geoLocationService: IGeoLocationService, imageService: IImageService, participationService: IParticipationService, coverImage: ImageFile?, geolocation: Geolocation, business: Business, type: ParticipationType?) {
         
-        self.userService = userService
+        self.meService = meService
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         self.participationService = participationService

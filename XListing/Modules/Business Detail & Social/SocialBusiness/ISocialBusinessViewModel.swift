@@ -21,7 +21,7 @@ public protocol ISocialBusinessViewModel : class, IInfinityScrollDataSource, IPu
     var headerViewModel: SocialBusinessHeaderViewModel { get }
     
     // MARK: - Initializers
-    init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, business: Business)
+    init(meService: IMeService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, business: Business)
     
     func pushUserProfile(index: Int, animated: Bool)
     func pushBusinessDetail(animated: Bool)

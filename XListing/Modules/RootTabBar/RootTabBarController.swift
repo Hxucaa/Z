@@ -11,7 +11,7 @@ import UIKit
 
 public final class RootTabBarController : UITabBarController, UITabBarControllerDelegate {
     
-    public weak var userService: IUserService!
+    public var meService: IMeService!
     public weak var accountWireframe: IAccountWireframe!
     
     public override func viewDidLoad() {
@@ -25,13 +25,13 @@ public final class RootTabBarController : UITabBarController, UITabBarController
     public func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
         if viewController is ProfileTabNavigationController {
             // if user is logged in already, continue on
-            if userService.isLoggedInAlready() {
+            if meService.isLoggedInAlready() {
                 return true
             }
                 // else make the user log in / sign up first
             else {
                 accountWireframe.finishedCallback = { [weak self] in
-                    if let this = self where this.userService.isLoggedInAlready() {
+                    if let this = self where this.meService.isLoggedInAlready() {
                         self?.selectedViewController = viewController
                     }
                 }

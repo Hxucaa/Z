@@ -17,7 +17,7 @@ public protocol IProfileViewModel : class {
     var profileBottomViewModel: IProfileBottomViewModel { get }
     
     // MARK: - Initializers
-    init(participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
+    init(participationService: IParticipationService, businessService: IBusinessService, meService: IMeService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService)
     
     // MARK: - API
     func pushSocialBusinessModule(business: Business, animated: Bool)

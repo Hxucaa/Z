@@ -34,7 +34,7 @@ public final class ProfileEditViewModel {
     private var isBirthdayValid = MutableProperty<Bool>(false)
     private var isProfileImageValid = MutableProperty<Bool>(false)
     private var isGenderValid = MutableProperty<Bool>(false)
-    private let user: User
+    private let me: Me
     
     private let symbols = "~`!@#$%^&*()-_+={[}]|\\:;\"'<,>.?/"
     private let chinese = "\\p{script=Han}"
@@ -42,28 +42,23 @@ public final class ProfileEditViewModel {
     
     
     // MARK: - Services
-    private let userService: IUserService
+    private let meService: IMeService
     private let imageService: IImageService
     
     // MARK: Initializers
     
-    public init(userService: IUserService, imageService: IImageService) {
-        self.userService = userService
+    public init(meService: IMeService, imageService: IImageService) {
+        self.meService = meService
         self.imageService = imageService
-        self.user = userService.currentUser!
+        self.me = meService.currentUser!
         
-        self.nickname = MutableProperty(user.nickname)
+        self.nickname = MutableProperty(me.nickname)
         
-        self.gender = MutableProperty(user.gender)
+        self.gender = MutableProperty(me.gender)
         
-        if let birthday = user.birthday {
-            self.birthday = MutableProperty(birthday)
-        }
-        else {
-            self.birthday = MutableProperty(NSDate())
-        }
+        self.birthday = MutableProperty(me.birthday)
         
-        self.status = MutableProperty(user.whatsUp)
+        self.status = MutableProperty(me.whatsUp)
         
         setupNickname()
         setupGender()
@@ -71,7 +66,7 @@ public final class ProfileEditViewModel {
         setupProfileImage()
         setupAllInputsValid()
         
-        if let profileImage = user.coverPhoto, nsurl = NSURL(string: profileImage.url) {
+        if let profileImage = me.coverPhoto, nsurl = NSURL(string: profileImage.url) {
             imageService.getImage(nsurl)
                 .startWithNext { [weak self] image in
                     self?.profileImage.value = image
@@ -124,8 +119,8 @@ public final class ProfileEditViewModel {
             // only allow TRUE value
             .filter { $0 }
             .promoteErrors(NSError)
-            .flatMap(FlattenStrategy.Merge) { _ -> SignalProducer<User, NSError> in
-                return self.userService.currentLoggedInUser()
+            .flatMap(FlattenStrategy.Merge) { _ in
+                return self.meService.currentLoggedInUser()
             }
             .flatMap(FlattenStrategy.Merge) { user -> SignalProducer<Bool, NSError> in
                 
@@ -138,7 +133,7 @@ public final class ProfileEditViewModel {
                     user.gender = gender
                 }
                 user.whatsUp = self.status.value
-                return self.userService.save(user)
+                return self.meService.save(user)
         }
     }
     
@@ -171,7 +166,7 @@ public final class ProfileEditViewModel {
     - returns: A signal producer.
     */
     public func getUserData() -> SignalProducer<Void, NSError> {
-        return userService.currentLoggedInUser()
+        return meService.currentLoggedInUser()
             .map { user -> () in
                 self.currentUser.value = user
         }

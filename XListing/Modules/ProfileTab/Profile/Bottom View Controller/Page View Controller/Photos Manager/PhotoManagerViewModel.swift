@@ -15,11 +15,11 @@ public final class PhotoManagerViewModel : IPhotoManagerViewModel {
     
     // MARK: Services
     
-    private let userService: IUserService
+    private let meService: IMeService
     private let imageService: IImageService
     
-    public init(userService: IUserService, imageService: IImageService) {
-        self.userService = userService
+    public init(meService: IMeService, imageService: IImageService) {
+        self.meService = meService
         self.imageService = imageService
         
         profilePhotoCellViewModel = ProfilePhotoCellViewModel(imageService: imageService, image: nil)

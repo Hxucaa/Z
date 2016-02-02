@@ -14,7 +14,7 @@ private let UserProfileStoryboardName = "UserProfile"
 
 public final class SocialBusinessWireframe : ISocialBusinessWireframe {
     
-    private let userService: IUserService
+    private let meService: IMeService
     private let participationService: IParticipationService
     private let geoLocationService: IGeoLocationService
     private let imageService: IImageService
@@ -22,8 +22,8 @@ public final class SocialBusinessWireframe : ISocialBusinessWireframe {
     public weak var sharedNavigationController: UINavigationController?
     private weak var socialBusinessViewController: SocialBusinessViewController?
     
-    public required init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService) {
-        self.userService = userService
+    public required init(meService: IMeService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService) {
+        self.meService = meService
         self.participationService = participationService
         self.geoLocationService = geoLocationService
         self.imageService = imageService
@@ -39,7 +39,7 @@ public final class SocialBusinessWireframe : ISocialBusinessWireframe {
     private func injectViewModelToViewController(business: Business) -> SocialBusinessViewController {
         let viewController = SocialBusinessViewController()
         
-        let socialBusinessViewModel = SocialBusinessViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, imageService: imageService, business: business)
+        let socialBusinessViewModel = SocialBusinessViewModel(meService: meService, participationService: participationService, geoLocationService: geoLocationService, imageService: imageService, business: business)
         socialBusinessViewModel.navigator = self
         viewController.bindToViewModel(socialBusinessViewModel)
         
@@ -57,7 +57,7 @@ extension SocialBusinessWireframe : SocialBusinessNavigator {
     public func pushUserProfile(user: User, animated: Bool) {
         let viewController = PublicProfileViewController()
         
-        let publicProfileViewModel = PublicProfileViewModel(userService: userService, imageService: imageService)
+        let publicProfileViewModel = PublicProfileViewModel(meService: meService, imageService: imageService)
         publicProfileViewModel.navigator = self
         viewController.bindToViewModel(publicProfileViewModel)
         
@@ -67,7 +67,7 @@ extension SocialBusinessWireframe : SocialBusinessNavigator {
     public func pushBusinessDetail(business: Business, animated: Bool) {
         let viewController = BusinessDetailViewController()
         
-        let businessDetailViewModel = BusinessDetailViewModel(userService: userService, participationService: participationService, geoLocationService: geoLocationService, imageService: imageService, business: business)
+        let businessDetailViewModel = BusinessDetailViewModel(meService: meService, participationService: participationService, geoLocationService: geoLocationService, imageService: imageService, business: business)
         viewController.bindToViewModel(businessDetailViewModel)
         
         sharedNavigationController?.delegate = socialBusinessViewController

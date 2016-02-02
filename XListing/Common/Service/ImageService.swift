@@ -12,6 +12,7 @@ import ReactiveCocoa
 import AVOSCloud
 
 public final class ImageService : IImageService {
+    
     public func getImage(url: NSURL) -> SignalProducer<UIImage, NSError> {
         return SignalProducer { observer, disposable in
             let imageManager = SDWebImageManager.sharedManager()

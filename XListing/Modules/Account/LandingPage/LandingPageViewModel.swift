@@ -14,11 +14,11 @@ public final class LandingPageViewModel : ILandingPageViewModel {
     
     // MARK: Services
     private weak var accountNavigator: IAccountNavigator!
-    private let userService: IUserService
+    private let meService: IMeService
     
-    public init(accountNavigator: IAccountNavigator, userService: IUserService) {
+    public init(accountNavigator: IAccountNavigator, meService: IMeService) {
         self.accountNavigator = accountNavigator
-        self.userService = userService
+        self.meService = meService
     }
     
     deinit {

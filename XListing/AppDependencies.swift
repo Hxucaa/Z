@@ -37,6 +37,7 @@ public final class AppDependencies {
     private let imageService: IImageService = ImageService()
     private let us: IUserService = UserService()
     private let uds: IUserDefaultsService = UserDefaultsService()
+    private let ms: IMeService = MeService()
 
     public init(window: UIWindow) {
         // init HUD
@@ -44,19 +45,19 @@ public final class AppDependencies {
         
         featuredListWireframe = FeaturedListWireframe(businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds, imageService: imageService, participationService: ps)
         nearbyWireframe = NearbyWireframe(businessService: bs, geoLocationService: gs, imageService: imageService)
-        profileWireframe = ProfileWireframe(participationService: ps, businessService: bs, userService: us, geoLocationService: gs, userDefaultsService: uds, imageService: imageService)
-        profileEditWireframe = ProfileEditWireframe(userService: us, imageService: imageService)
-        socialBusinessWireframe = SocialBusinessWireframe(userService: us, participationService: ps, geoLocationService: gs, imageService: imageService)
-        accountWireframe = AccountWireframe(userService: us, userDefaultsService: uds)
+        profileWireframe = ProfileWireframe(participationService: ps, businessService: bs, meService: ms, geoLocationService: gs, userDefaultsService: uds, imageService: imageService)
+        profileEditWireframe = ProfileEditWireframe(meService: ms, imageService: imageService)
+        socialBusinessWireframe = SocialBusinessWireframe(meService: ms, participationService: ps, geoLocationService: gs, imageService: imageService)
+        accountWireframe = AccountWireframe(meService: ms, userDefaultsService: uds)
         fullScreenImageWireframe = FullScreenImageWireframe(imageService: imageService)
 
         featuredTabItem = TabItem(tabContent: FeaturedTabContent(featuredListWireframe: featuredListWireframe, socialBusinessWireframe: socialBusinessWireframe))
         nearbyTabItem = TabItem(tabContent: NearbyTabContent(nearbyWireframe: nearbyWireframe, socialBusinessWireframe: socialBusinessWireframe))
         profileTabItem = TabItem(tabContent: ProfileTabContent(profileWireframe: profileWireframe, socialBusinessWireframe: socialBusinessWireframe, profileEditWireframe: profileEditWireframe, fullScreenImageWireframe: fullScreenImageWireframe))
         
-        rootTabBarWireframe = RootTabBarWireframe(inWindow: window, userService: us, accountWireframe: accountWireframe, featuredListTabItem: featuredTabItem, nearbyTabItem: nearbyTabItem, profileTabItem: profileTabItem)
+        rootTabBarWireframe = RootTabBarWireframe(inWindow: window, meService: ms, accountWireframe: accountWireframe, featuredListTabItem: featuredTabItem, nearbyTabItem: nearbyTabItem, profileTabItem: profileTabItem)
         
-        if !uds.accountModuleSkipped && !us.isLoggedInAlready() {
+        if !uds.accountModuleSkipped && !ms.isLoggedInAlready() {
             window.rootViewController = accountWireframe.rootViewController
         }
         else {

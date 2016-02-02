@@ -24,15 +24,15 @@ public final class ProfileWireframe : IProfileWireframe {
     public weak var navigationControllerDelegate: ProfileNavigationControllerDelegate!
 
     private let businessService: IBusinessService
-    private let userService: IUserService
+    private let meService: IMeService
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
     private let imageService: IImageService
     private let participationService: IParticipationService
     
-    public required init(participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
+    public required init(participationService: IParticipationService, businessService: IBusinessService, meService: IMeService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
         self.businessService = businessService
-        self.userService = userService
+        self.meService = meService
         self.geoLocationService = geoLocationService
         self.userDefaultsService = userDefaultsService
         self.imageService = imageService
@@ -42,7 +42,7 @@ public final class ProfileWireframe : IProfileWireframe {
     private func initViewController() -> ProfileViewController {
         let viewController = ProfileViewController()
         
-        let viewmodel = ProfileViewModel(participationService: participationService, businessService: businessService, userService: userService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService, imageService: imageService)
+        let viewmodel = ProfileViewModel(participationService: participationService, businessService: businessService, meService: meService, geoLocationService: geoLocationService, userDefaultsService: userDefaultsService, imageService: imageService)
 
         viewmodel.navigator = self
         

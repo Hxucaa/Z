@@ -22,7 +22,7 @@ public protocol IBusinessDetailViewModel : class {
     var detailNavigationMapViewModel: DetailNavigationMapViewModel { get }
     var businessHourViewModel: BusinessHourCellViewModel { get }
     
-    init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, business: Business)
+    init(meService: IMeService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, business: Business)
     
     // MARK: Actions
     func callPhone() -> SignalProducer<Bool, NoError>

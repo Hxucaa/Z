@@ -28,4 +28,8 @@ public struct ImageAssets {
 public final class ImageAsset {
     public static let placeholder = UIImage(named: ImageAssets.businessplaceholder)!
     public static let profilePlaceholder = UIImage(named: "businessplaceholder")!
+    public static let person = UIImage(named: "personIcon")
+    public static let distance = UIImage(named: "distanceIcon")
+    public static let wtg = UIImage(named: "wtg")
+    public static let wtgFilled = UIImage(named: "wtg-filled")
 }

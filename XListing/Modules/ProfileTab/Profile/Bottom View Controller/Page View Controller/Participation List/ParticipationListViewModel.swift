@@ -25,7 +25,7 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
     // MARK: Services
     private let businessService: IBusinessService
     private let participationService: IParticipationService
-    private let userService: IUserService
+    private let meService: IMeService
     private let geoLocationService: IGeoLocationService
     private let imageService: IImageService
     
@@ -38,11 +38,11 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
     public weak var navigator: ProfileNavigator? 
     
     // MARK: - Initializers
-    public init(participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService) {
+    public init(participationService: IParticipationService, businessService: IBusinessService, meService: IMeService, geoLocationService: IGeoLocationService, imageService: IImageService) {
         
         self.participationService = participationService
         self.businessService = businessService
-        self.userService = userService
+        self.meService = meService
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         
@@ -51,7 +51,7 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
     // MARK: - API
     
     public func fetchMoreData() -> SignalProducer<Void, NSError> {
-        return userService.currentLoggedInUser()
+        return meService.currentLoggedInUser()
             .on(next: { user in
                 self.getParticipations(user, refresh: false)
                     .start()
@@ -60,7 +60,7 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
     }
     
     public func refreshData() -> SignalProducer<Void, NSError> {
-        return userService.currentLoggedInUser()
+        return meService.currentLoggedInUser()
             .on(next: { user in
                 self.getParticipations(user, refresh: true)
                     .start()
@@ -75,7 +75,7 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
         }
             // else fetch more data
         else {
-            return userService.currentLoggedInUser()
+            return meService.currentLoggedInUser()
                 .on(next: { user in
                     self.getParticipations(user, refresh: false)
                         .start()
@@ -148,7 +148,7 @@ public final class ParticipationListViewModel : IParticipationListViewModel, ICo
                 // map participation to its view model
                 return participations.map {
                     let business = $0.business
-                    let viewmodel = ParticipationListCellViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, coverImage: business.coverImage, geolocation: business.address.geoLocation, business: business, type: $0.type)
+                    let viewmodel = ParticipationListCellViewModel(meService: self.meService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, coverImage: business.coverImage, geolocation: business.address.geoLocation, business: business, type: $0.type)
                     return viewmodel
                 }
             }

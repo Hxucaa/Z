@@ -9,8 +9,8 @@
 // swiftlint:disable variable_name
 
 import UIKit
-import React
 import ReactiveCocoa
+import AsyncDisplayKit
 
 private struct AssociationKey {
     static var hidden: UInt8 = 1
@@ -25,7 +25,10 @@ private struct AssociationKey {
     static var optionalText: UInt8 = 10
     static var backgroundColor: UInt8 = 11
     static var recognizerEnabled: UInt8 = 12
-    static var appProperties: UInt8 = 13
+    
+    
+    static var URL: UInt8 = 13
+    static var attributedString: UInt8 = 14
 }
 
 // lazily creates a gettable associated property via the given factory
@@ -86,13 +89,6 @@ extension UILabel {
 extension UINavigationItem {
     public var rac_title: MutableProperty<String> {
         return lazyMutableProperty(self, key: &AssociationKey.title, setter: { self.title = $0 }, getter: { self.title ?? ""})
-    }
-}
-
-
-extension RCTRootView {
-    public var rac_appProperties: MutableProperty<RNProps> {
-        return lazyMutableProperty(self, key: &AssociationKey.appProperties, setter: { self.appProperties = $0 }, getter: { self.appProperties })
     }
 }
 
@@ -191,5 +187,17 @@ extension UIView {
     public var rac_removeFromSuperviewProducer: SignalProducer<Void, NSError> {
         return rac_removeFromSuperview.toSignalProducer()
             .map { _ in }
+    }
+}
+
+extension ASNetworkImageNode {
+    public var rac_URL: MutableProperty<NSURL?> {
+        return lazyMutableProperty(self, key: &AssociationKey.URL, setter: { self.URL = $0 }, getter: { self.URL })
+    }
+}
+
+extension ASTextNode {
+    public var rac_attributedString: MutableProperty<NSAttributedString?> {
+        return lazyMutableProperty(self, key: &AssociationKey.attributedString, setter: { self.attributedString = $0 }, getter: { self.attributedString })
     }
 }

@@ -9,7 +9,7 @@ import ReactiveCocoa
 
 public protocol ILandingPageViewModel : class {
     var rePrompt: Bool { get }
-    init(accountNavigator: IAccountNavigator, userService: IUserService)
+    init(accountNavigator: IAccountNavigator, meService: IMeService)
     func goToSignUpComponent()
     func goToLogInComponent()
     func skipAccountModule()

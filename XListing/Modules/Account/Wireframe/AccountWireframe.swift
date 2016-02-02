@@ -24,7 +24,7 @@ public protocol IAccountNavigator : class {
 
 public final class AccountWireframe : IAccountWireframe {
     
-    private let userService: IUserService
+    private let meService: IMeService
     private let userDefaultsService: IUserDefaultsService
     
     public var finishedCallback: CompletionHandler?
@@ -34,14 +34,14 @@ public final class AccountWireframe : IAccountWireframe {
         return moduleNavController
     }
     
-    public required init(userService: IUserService, userDefaultsService: IUserDefaultsService) {
-        self.userService = userService
+    public required init(meService: IMeService, userDefaultsService: IUserDefaultsService) {
+        self.meService = meService
         self.userDefaultsService = userDefaultsService
     }
     
     private func injectViewModelToViewController() -> LandingPageViewController {
         let viewController = UIStoryboard(name: AccountStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(LandingPageViewControllerIdentifier) as! LandingPageViewController
-        let viewmodel = LandingPageViewModel(accountNavigator: self, userService: userService)
+        let viewmodel = LandingPageViewModel(accountNavigator: self, meService: meService)
         viewController.bindToViewModel(viewmodel)
         
         return viewController
@@ -55,7 +55,7 @@ extension AccountWireframe : IAccountNavigator {
         
         moduleNavController.pushViewController(viewController, animated: false)
         
-        let viewmodel = SignUpViewModel(accountNavigator: self, userService: userService)
+        let viewmodel = SignUpViewModel(accountNavigator: self, meService: meService)
         viewController.bindToViewModel(viewmodel)
     }
     
@@ -65,7 +65,7 @@ extension AccountWireframe : IAccountNavigator {
         
         moduleNavController.pushViewController(viewController, animated: false)
         
-        let viewmodel = LogInViewModel(accountNavigator: self, userService: userService)
+        let viewmodel = LogInViewModel(accountNavigator: self, meService: meService)
         viewController.bindToViewModel(viewmodel)
     }
     

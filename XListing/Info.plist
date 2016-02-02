@@ -48,15 +48,6 @@
 	<string>We need your location data to provide better and accurate service, please allow access to location services. 获取地理位置信息帮助个性化信息推荐!</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>lai-icons.ttf</string>
-		<string>Zocial.ttf</string>
-		<string>Octicons.ttf</string>
-		<string>MaterialIcons.ttf</string>
-		<string>Ionicons.ttf</string>
-		<string>Foundation.ttf</string>
-		<string>EvilIcons.ttf</string>
-		<string>FontAwesome.ttf</string>
-		<string>Entypo.ttf</string>
 		<string>fontawesome-webfont.ttf</string>
 		<string>NotoSans-Regular.tff</string>
 	</array>

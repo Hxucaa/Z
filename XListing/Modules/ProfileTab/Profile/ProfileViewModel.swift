@@ -26,7 +26,7 @@ public final class ProfileViewModel : IProfileViewModel {
     // MARK: Services
     private let businessService: IBusinessService
     private let participationService: IParticipationService
-    private let userService: IUserService
+    private let meService: IMeService
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
     private let imageService: IImageService
@@ -44,17 +44,17 @@ public final class ProfileViewModel : IProfileViewModel {
     
     // MARK: - Initializers
     
-    public init(participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
+    public init(participationService: IParticipationService, businessService: IBusinessService, meService: IMeService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
         
         self.participationService = participationService
         self.businessService = businessService
-        self.userService = userService
+        self.meService = meService
         self.geoLocationService = geoLocationService
         self.userDefaultsService = userDefaultsService
         self.imageService = imageService
         
-        profileUpperViewModel = ProfileUpperViewModel(userService: userService, imageService: imageService)
-        profileBottomViewModel = ProfileBottomViewModel(participationService: participationService, businessService: businessService, userService: userService, geoLocationService: geoLocationService, imageService: imageService)
+        profileUpperViewModel = ProfileUpperViewModel(meService: meService, imageService: imageService)
+        profileBottomViewModel = ProfileBottomViewModel(participationService: participationService, businessService: businessService, meService: meService, geoLocationService: geoLocationService, imageService: imageService)
     }
 
     // MARK: - API
@@ -66,7 +66,7 @@ public final class ProfileViewModel : IProfileViewModel {
     }
 
     public func presentProfileEditModule(animated: Bool, completion: CompletionHandler? = nil) {
-        if userService.isLoggedInAlready() {
+        if meService.isLoggedInAlready() {
             if let nav = navigator {
                 nav.presentProfileEdit(animated, completion: completion)
             }

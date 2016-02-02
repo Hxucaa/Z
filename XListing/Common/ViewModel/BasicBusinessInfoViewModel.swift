@@ -24,7 +24,7 @@ public class BasicBusinessInfoViewModel : IBasicBusinessInfoViewModel {
     public let district: ConstantProperty<String?>
     public let city: ConstantProperty<String>
     public let province: ConstantProperty<String>
-    public let coverImageUrl: ConstantProperty<String>
+    public let coverImageUrl: ConstantProperty<NSURL?>
     
     private let _coverImage: MutableProperty<UIImage> = MutableProperty(ImageAsset.placeholder)
     public var coverImage: AnyProperty<UIImage> {
@@ -63,7 +63,7 @@ public class BasicBusinessInfoViewModel : IBasicBusinessInfoViewModel {
         district = ConstantProperty(business.address.district.regionNameC)
         city = ConstantProperty(business.address.city.regionNameC)
         province = ConstantProperty(business.address.province.regionNameC)
-        coverImageUrl = ConstantProperty(business.coverImage.url)
+        coverImageUrl = ConstantProperty(NSURL(string: business.coverImage.url))
         description = ConstantProperty(business.descript)
         averagePrice = ConstantProperty("")
         aaCount = ConstantProperty(business.aaCount)

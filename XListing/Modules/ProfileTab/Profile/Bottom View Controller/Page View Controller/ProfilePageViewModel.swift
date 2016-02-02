@@ -20,7 +20,7 @@ public final class ProfilePageViewModel : IProfilePageViewModel {
     // MARK: Services
     private let businessService: IBusinessService
     private let participationService: IParticipationService
-    private let userService: IUserService
+    private let meService: IMeService
     private let geoLocationService: IGeoLocationService
     private let imageService: IImageService
     
@@ -30,17 +30,17 @@ public final class ProfilePageViewModel : IProfilePageViewModel {
     
     // MARK: - Initializers
     
-    public init(participationService: IParticipationService, businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, imageService: IImageService) {
+    public init(participationService: IParticipationService, businessService: IBusinessService, meService: IMeService, geoLocationService: IGeoLocationService, imageService: IImageService) {
         
         self.participationService = participationService
         self.businessService = businessService
-        self.userService = userService
+        self.meService = meService
         self.geoLocationService = geoLocationService
         self.imageService = imageService
         
-        photoManagerViewModel = PhotoManagerViewModel(userService: userService, imageService: imageService)
+        photoManagerViewModel = PhotoManagerViewModel(meService: meService, imageService: imageService)
         
-        participationListViewModel = ParticipationListViewModel(participationService: participationService, businessService: businessService, userService: userService, geoLocationService: geoLocationService, imageService: imageService)
+        participationListViewModel = ParticipationListViewModel(participationService: participationService, businessService: businessService, meService: meService, geoLocationService: geoLocationService, imageService: imageService)
     }
     
 }

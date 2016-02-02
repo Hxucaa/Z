@@ -23,7 +23,7 @@ public protocol IBasicBusinessInfoViewModel : class {
     var district: ConstantProperty<String?> { get }
     var city: ConstantProperty<String> { get }
     var province: ConstantProperty<String> { get }
-    var coverImageUrl: ConstantProperty<String> { get }
+    var coverImageUrl: ConstantProperty<NSURL?> { get }
     var coverImage: AnyProperty<UIImage> { get }
 //    var coverImageDataBase64: ConstantProperty<String> { get }
     var description: ConstantProperty<String?> { get }

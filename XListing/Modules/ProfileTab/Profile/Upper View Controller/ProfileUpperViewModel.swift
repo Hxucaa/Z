@@ -13,7 +13,7 @@ public final class ProfileUpperViewModel : IProfileUpperViewModel {
     
     // MARK: - Properties
     // MARK: Services
-    private let userService: IUserService
+    private let meService: IMeService
     private let imageService: IImageService
     
     // MARK: ViewModels
@@ -26,8 +26,8 @@ public final class ProfileUpperViewModel : IProfileUpperViewModel {
     // MARK: Variables
     private var user: User?
     
-    public init(userService: IUserService, imageService: IImageService) {
-        self.userService = userService
+    public init(meService: IMeService, imageService: IImageService) {
+        self.meService = meService
         self.imageService = imageService
         
     }
@@ -35,7 +35,7 @@ public final class ProfileUpperViewModel : IProfileUpperViewModel {
     // MARK: - API
     
     public func getUserInfo() -> SignalProducer<Void, NSError> {
-        return self.userService.currentLoggedInUser()
+        return self.meService.currentLoggedInUser()
             .on(next: { user in
                 self.user = user
                 let viewmodel = ProfileHeaderViewModel(imageService: self.imageService, user: user)

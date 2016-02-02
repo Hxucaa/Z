@@ -12,7 +12,7 @@ public protocol IProfileEditWireframe : class {
     
     // MARK: - Initializers
     
-    init(userService: IUserService, imageService: IImageService)
+    init(meService: IMeService, imageService: IImageService)
     
     func viewController() -> ProfileEditViewController
 }

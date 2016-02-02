@@ -22,7 +22,7 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
     private let business: Business
     
     // MARK: Services
-    private let userService: IUserService
+    private let meService: IMeService
     private let participationService: IParticipationService
     private let geoLocationService: IGeoLocationService
     private let imageService: IImageService
@@ -46,8 +46,8 @@ public final class BusinessDetailViewModel : IBusinessDetailViewModel {
     }
     
     // MARK: Initializers
-    public init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, business: Business) {
-        self.userService = userService
+    public init(meService: IMeService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService, business: Business) {
+        self.meService = meService
         self.participationService = participationService
         self.geoLocationService = geoLocationService
         self.imageService = imageService

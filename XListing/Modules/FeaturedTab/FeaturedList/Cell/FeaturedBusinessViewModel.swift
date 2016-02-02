@@ -12,32 +12,7 @@ import ReactiveCocoa
 public final class FeaturedBusinessViewModel : BasicBusinessInfoViewModel, IFeaturedBusinessViewModel {
     
     // MARK: - Outputs
-    public var props: SignalProducer<RNProps, NoError> {
-        
-        return combineLatest(
-            name.producer,
-            city.producer,
-            coverImageUrl.producer,
-            eta.producer,
-            treatCount.producer,
-            toGoCount.producer
-            )
-            .map { name, city, coverImageUrl, eta, treatCount, toGoCount in
-                var props: RNProps = [
-                    "businessName": name,
-                    "location": city,
-                    "coverImageUrl": coverImageUrl,
-                    "treatCount": treatCount,
-                    "toGoCount": toGoCount
-                ]
-                
-                if let eta = eta {
-                    props["eta"] = eta
-                }
-                
-                return props
-            }
-    }
+    
     
     // MARK: - Properties
     private let userService: IUserService

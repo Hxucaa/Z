@@ -10,6 +10,6 @@ import Foundation
 import UIKit
 
 public protocol ISocialBusinessWireframe : class, ISharedWireframe {
-    init(userService: IUserService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService)
+    init(meService: IMeService, participationService: IParticipationService, geoLocationService: IGeoLocationService, imageService: IImageService)
     func viewController(business: Business) -> SocialBusinessViewController
 }

@@ -11,8 +11,8 @@ import SDWebImage
 import ReactiveCocoa
 import Dollar
 import Cartography
-import React
 import AMScrollingNavbar
+import AsyncDisplayKit
 
 private let CellIdentifier = "Cell"
 private let CellHeightToScreenWidthRatio = 0.565
@@ -29,10 +29,10 @@ We also detect when user scrolls pass a certain point, fetch more data from remo
 */
 
 public final class FeaturedListViewController: XScrollingNavigationViewController {
-
+    
     // MARK: - UI Controls
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView()
+    private lazy var tableView: ASTableView = {
+        let tableView = ASTableView(frame: self.view.bounds, style: UITableViewStyle.Grouped, asyncDataFetching: true)
         
         // makes the gap between table view and navigation bar go away
         tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
@@ -40,13 +40,9 @@ public final class FeaturedListViewController: XScrollingNavigationViewControlle
         tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
         
         tableView.separatorStyle = .None
-        tableView.dataSource = self
-        
-        // set cell height based on devices
-        tableView.rowHeight = round(UIScreen.mainScreen().bounds.width * CGFloat(CellHeightToScreenWidthRatio))
+        tableView.asyncDataSource = self
         
         return tableView
-        
     }()
     
     private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, FeaturedListViewModel>!
@@ -56,6 +52,7 @@ public final class FeaturedListViewController: XScrollingNavigationViewControlle
     private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Setups
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,16 +64,13 @@ public final class FeaturedListViewController: XScrollingNavigationViewControlle
         view.opaque = true
         view.backgroundColor = UIColor.x_FeaturedTableBG()
         
-        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! FeaturedListViewModel)
-        
         view.addSubview(tableView)
         
-        constrain(tableView) { view in
-            view.leading == view.superview!.leading
-            view.top == view.superview!.top
-            view.trailing == view.superview!.trailing
-            view.bottom == view.superview!.bottom
-        }
+        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! FeaturedListViewModel)
+    }
+    
+    public override func viewWillLayoutSubviews() {
+        self.tableView.frame = self.view.bounds
     }
     
     public override func didReceiveMemoryWarning() {
@@ -90,22 +84,22 @@ public final class FeaturedListViewController: XScrollingNavigationViewControlle
         // Use followScrollView(_: delay:) to start following the scrolling of a scrollable view (e.g.: a UIScrollView or UITableView).
         let navigationController = self.navigationController as? ScrollingNavigationController
         navigationController?.followScrollView(tableView, delay: 50.0)
-        
+
         // You can set a delegate to receive a call when the state of the navigation bar changes:
         navigationController?.scrollingNavbarDelegate = self
-        
-        
+
+
         viewmodel.fetchMoreData()
             .start()
-        
-        
+
+
         compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
             .takeUntilViewWillDisappear(self)
             .logLifeCycle(LogContext.Featured, signalName: "viewmodel.collectionDataSource.producer")
             .start()
-        
-        
-        
+
+
+
         // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
         // when the specified row is now selected
         compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
@@ -128,18 +122,14 @@ public final class FeaturedListViewController: XScrollingNavigationViewControlle
         
         The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
         */
-        tableView.delegate = nil
-        tableView.delegate = self
+        tableView.asyncDelegate = nil
+        tableView.asyncDelegate = self
     }
     
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
+
         (self.navigationController as? ScrollingNavigationController)?.showNavbar(animated: true)
-    }
-    
-    public override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
     }
     
     deinit {
@@ -149,51 +139,46 @@ public final class FeaturedListViewController: XScrollingNavigationViewControlle
     }
     
     // MARK: - Bindings
-    
+
     public func bindToViewModel(viewmodel: IFeaturedListViewModel) {
         self.viewmodel = viewmodel
         
     }
 }
 
-extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegate {
+extension FeaturedListViewController : ASTableViewDataSource, ASTableViewDelegate {
     /**
-    Tells the data source to return the number of rows in a given section of a table view. (required)
-    
-    - parameter tableView: The table-view object requesting this information.
-    - parameter section:   An index number identifying a section in tableView.
-    
-    - returns: The number of rows in section.
-    */
+     Tells the data source to return the number of rows in a given section of a table view. (required)
+     
+     - parameter tableView: The table-view object requesting this information.
+     - parameter section:   An index number identifying a section in tableView.
+     
+     - returns: The number of rows in section.
+     */
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.collectionDataSource.count
     }
     
-    /**
-    Asks the data source for a cell to insert in a particular location of the table view. (required)
-    
-    - parameter tableView: A table-view object requesting the cell.
-    - parameter indexPath: An index path locating a row in tableView.
-    
-    - returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
-    */
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as? FeaturedListBusinessTableViewCell ?? FeaturedListBusinessTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: CellIdentifier)
+    public func tableView(tableView: ASTableView, nodeForRowAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
+        let cell = FeaturedListCellNode(viewmodel: viewmodel.collectionDataSource.array[indexPath.row])
         
-        cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
         return cell
+    }
+    
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
     }
 }
 
 extension FeaturedListViewController {
     
     /**
-    Tells the delegate when the user finishes scrolling the content.
-    
-    - parameter scrollView:          The scroll-view object where the user ended the touch..
-    - parameter velocity:            The velocity of the scroll view (in points) at the moment the touch was released.
-    - parameter targetContentOffset: The expected offset when the scrolling action decelerates to a stop.
-    */
+     Tells the delegate when the user finishes scrolling the content.
+     
+     - parameter scrollView:          The scroll-view object where the user ended the touch..
+     - parameter velocity:            The velocity of the scroll view (in points) at the moment the touch was released.
+     - parameter targetContentOffset: The expected offset when the scrolling action decelerates to a stop.
+     */
     public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         // make sure the scrollView instance is the same instance as tha tableView in this class.
         if tableView === scrollView {
@@ -205,10 +190,196 @@ extension FeaturedListViewController {
 extension FeaturedListViewController : ScrollingNavigationControllerDelegate {
     
     /**
-    When the user taps the status bar, by default a scrollable view scrolls to the top of its content. If you want to also show the navigation bar, make sure to include this in your controller
-    */
+     When the user taps the status bar, by default a scrollable view scrolls to the top of its content. If you want to also show the navigation bar, make sure to include this in your controller
+     */
     public override func scrollViewShouldScrollToTop(scrollView: UIScrollView) -> Bool {
         (self.navigationController as? ScrollingNavigationController)?.showNavbar(animated: true)
         return true
     }
 }
+
+
+//public final class FeaturedListViewController: XScrollingNavigationViewController {
+//
+//    // MARK: - UI Controls
+//    private lazy var tableView: UITableView = {
+//        let tableView = UITableView()
+//        
+//        // makes the gap between table view and navigation bar go away
+//        tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
+//        // makes the gap at the bottom of the table view go away
+//        tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
+//        
+//        tableView.separatorStyle = .None
+//        tableView.dataSource = self
+//        
+//        // set cell height based on devices
+//        tableView.rowHeight = round(UIScreen.mainScreen().bounds.width * CGFloat(CellHeightToScreenWidthRatio))
+//        
+//        return tableView
+//        
+//    }()
+//    
+//    private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, FeaturedListViewModel>!
+//    
+//    // MARK: - Properties
+//    private var viewmodel: IFeaturedListViewModel!
+//    private let compositeDisposable = CompositeDisposable()
+//    
+//    // MARK: - Setups
+//    public override func viewDidLoad() {
+//        super.viewDidLoad()
+//        
+//        title = "推荐"
+//        navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+//        navigationController?.navigationBar.barTintColor = UIColor.x_PrimaryColor()
+//        navigationController?.navigationBar.barStyle = UIBarStyle.Black
+//        
+//        view.opaque = true
+//        view.backgroundColor = UIColor.x_FeaturedTableBG()
+//        
+//        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! FeaturedListViewModel)
+//        
+//        view.addSubview(tableView)
+//        
+//        constrain(tableView) { view in
+//            view.leading == view.superview!.leading
+//            view.top == view.superview!.top
+//            view.trailing == view.superview!.trailing
+//            view.bottom == view.superview!.bottom
+//        }
+//    }
+//    
+//    public override func didReceiveMemoryWarning() {
+//        super.didReceiveMemoryWarning()
+//        // Dispose of any resources that can be recreated.
+//    }
+//    
+//    public override func viewWillAppear(animated: Bool) {
+//        super.viewWillAppear(animated)
+//        
+//        // Use followScrollView(_: delay:) to start following the scrolling of a scrollable view (e.g.: a UIScrollView or UITableView).
+//        let navigationController = self.navigationController as? ScrollingNavigationController
+//        navigationController?.followScrollView(tableView, delay: 50.0)
+//        
+//        // You can set a delegate to receive a call when the state of the navigation bar changes:
+//        navigationController?.scrollingNavbarDelegate = self
+//        
+//        
+//        viewmodel.fetchMoreData()
+//            .start()
+//        
+//        
+//        compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
+//            .takeUntilViewWillDisappear(self)
+//            .logLifeCycle(LogContext.Featured, signalName: "viewmodel.collectionDataSource.producer")
+//            .start()
+//        
+//        
+//        
+//        // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
+//        // when the specified row is now selected
+//        compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
+//            // forwards events from producer until the view controller is going to disappear
+//            .takeUntilViewWillDisappear(self)
+//            .map { ($0 as! RACTuple).second as! NSIndexPath }
+//            .logLifeCycle(LogContext.Featured, signalName: "tableView:didSelectRowAtIndexPath:")
+//            .startWithNext { [weak self] indexPath in
+//                self?.viewmodel.pushSocialBusinessModule(indexPath.row)
+//        }
+//        
+//        /**
+//        Assigning UITableView delegate has to happen after signals are established.
+//        
+//        - tableView.delegate is assigned to self somewhere in UITableViewController designated initializer
+//        
+//        - UITableView caches presence of optional delegate methods to avoid -respondsToSelector: calls
+//        
+//        - You use -rac_signalForSelector:fromProtocol: and RAC creates method implementation for you in runtime. But UITableView knows nothing about this implementation, it still thinks that there's no such method
+//        
+//        The solution is to reassign delegate after all your -rac_signalForSelector:fromProtocol: calls:
+//        */
+//        tableView.delegate = nil
+//        tableView.delegate = self
+//    }
+//    
+//    public override func viewWillDisappear(animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        
+//        (self.navigationController as? ScrollingNavigationController)?.showNavbar(animated: true)
+//    }
+//    
+//    public override func viewDidAppear(animated: Bool) {
+//        super.viewDidAppear(animated)
+//    }
+//    
+//    deinit {
+//        singleSectionInfiniteTableViewManager.cleanUp()
+//        compositeDisposable.dispose()
+//        FeaturedLogVerbose("Featured List View Controller deinitializes.")
+//    }
+//    
+//    // MARK: - Bindings
+//    
+//    public func bindToViewModel(viewmodel: IFeaturedListViewModel) {
+//        self.viewmodel = viewmodel
+//        
+//    }
+//}
+//
+//extension FeaturedListViewController : UITableViewDataSource, UITableViewDelegate {
+//    /**
+//    Tells the data source to return the number of rows in a given section of a table view. (required)
+//    
+//    - parameter tableView: The table-view object requesting this information.
+//    - parameter section:   An index number identifying a section in tableView.
+//    
+//    - returns: The number of rows in section.
+//    */
+//    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return viewmodel.collectionDataSource.count
+//    }
+//    
+//    /**
+//    Asks the data source for a cell to insert in a particular location of the table view. (required)
+//    
+//    - parameter tableView: A table-view object requesting the cell.
+//    - parameter indexPath: An index path locating a row in tableView.
+//    
+//    - returns: An object inheriting from UITableViewCell that the table view can use for the specified row. An assertion is raised if you return nil
+//    */
+//    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as? FeaturedListBusinessTableViewCell ?? FeaturedListBusinessTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: CellIdentifier)
+//        
+//        cell.bindViewModel(viewmodel.collectionDataSource.array[indexPath.row])
+//        return cell
+//    }
+//}
+//
+//extension FeaturedListViewController {
+//    
+//    /**
+//    Tells the delegate when the user finishes scrolling the content.
+//    
+//    - parameter scrollView:          The scroll-view object where the user ended the touch..
+//    - parameter velocity:            The velocity of the scroll view (in points) at the moment the touch was released.
+//    - parameter targetContentOffset: The expected offset when the scrolling action decelerates to a stop.
+//    */
+//    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//        // make sure the scrollView instance is the same instance as tha tableView in this class.
+//        if tableView === scrollView {
+//            predictiveScrolling(tableView, withVelocity: velocity, targetContentOffset: targetContentOffset, predictiveScrollable: viewmodel as! FeaturedListViewModel)
+//        }
+//    }
+//}
+//
+//extension FeaturedListViewController : ScrollingNavigationControllerDelegate {
+//    
+//    /**
+//    When the user taps the status bar, by default a scrollable view scrolls to the top of its content. If you want to also show the navigation bar, make sure to include this in your controller
+//    */
+//    public override func scrollViewShouldScrollToTop(scrollView: UIScrollView) -> Bool {
+//        (self.navigationController as? ScrollingNavigationController)?.showNavbar(animated: true)
+//        return true
+//    }
+//}
