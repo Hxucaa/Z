@@ -49,7 +49,7 @@ public final class ParticipationListCellViewModel : IParticipationListCellViewMo
     
     public func getCoverImage() -> SignalProducer<Void, NSError> {
         if let nsurl = NSURL(string: business.coverImage.url) {
-            return imageService.getImage(nsurl)
+            return imageService.getImageBy(nsurl)
                 .on(next: {
                     self._coverImage.value = $0
                 })

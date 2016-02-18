@@ -11,13 +11,14 @@ import UIKit
 import ReactiveCocoa
 import Dollar
 import Cartography
-
+import AsyncDisplayKit
 
 public final class ProfilePageViewController : UIPageViewController {
     
     // MARK: - UI Controls
     private lazy var pageDataSource: [UIViewController] = {
-        let array = [self.participationListViewController, self.photoManagerViewController]
+        let array = [self.participationListViewController]
+//        let array = [self.participationListViewController, self.photoManagerViewController]
         
         return array
     }()
@@ -28,17 +29,17 @@ public final class ProfilePageViewController : UIPageViewController {
         return vc
     }()
     
-    private lazy var photoManagerViewController: PhotoManagerViewController = {
-        let vc = PhotoManagerViewController()
-        
-        return vc
-    }()
+//    private lazy var photoManagerViewController: PhotoManagerViewController = {
+//        let vc = PhotoManagerViewController()
+//        
+//        return vc
+//    }()
     
     // MARK: - Properties
     private var viewmodel: IProfilePageViewModel! {
         didSet {
             participationListViewController.bindToViewModel(viewmodel.participationListViewModel)
-            photoManagerViewController.bindToViewModel(viewmodel.photoManagerViewModel)
+//            photoManagerViewController.bindToViewModel(viewmodel.photoManagerViewModel)
         }
     }
     
@@ -64,13 +65,13 @@ public final class ProfilePageViewController : UIPageViewController {
         super.viewWillAppear(animated)
         
 
-        photoManagerViewController.fullImageProxy
-            // forwards events from producer until the view controller is going to disappear
-            .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Profile, signalName: "photoManagerViewController.fullImageProxy")
-            .startWithNext { [weak self] in
-                self?._fullImageObserver.proxyNext(())
-            }
+//        photoManagerViewController.fullImageProxy
+//            // forwards events from producer until the view controller is going to disappear
+//            .takeUntilViewWillDisappear(self)
+//            .logLifeCycle(LogContext.Profile, signalName: "photoManagerViewController.fullImageProxy")
+//            .startWithNext { [weak self] in
+//                self?._fullImageObserver.proxyNext(())
+//            }
     }
     
     // MARK: - Bindings
@@ -85,7 +86,7 @@ public final class ProfilePageViewController : UIPageViewController {
         setViewControllers([participationListViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: animated, completion: completion)
     }
     
-    public func displayPhotosManagerPage(animated: Bool = false, completion: (Bool -> Void)? = nil) {
-        setViewControllers([photoManagerViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: animated, completion: completion)
-    }
+//    public func displayPhotosManagerPage(animated: Bool = false, completion: (Bool -> Void)? = nil) {
+//        setViewControllers([photoManagerViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: animated, completion: completion)
+//    }
 }

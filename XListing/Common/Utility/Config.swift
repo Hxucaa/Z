@@ -21,12 +21,18 @@ public final class Config {
     public class func config() {
         
         loadKeys()
-        configureLogger()
-        
+        configureCocoaLumberjack()
+        configureSDWebImage()
+        configureLeanCloud()
+    }
+    
+    private class func configureSDWebImage() {
         // FIXME: temporary until this is resolved: https://github.com/facebook/AsyncDisplayKit/issues/955
         SDImageCache.sharedImageCache().shouldDecompressImages = false
         SDWebImageDownloader.sharedDownloader().shouldDecompressImages = false
-        
+    }
+    
+    private class func configureLeanCloud() {
         
         AVOSCloud.setLastModifyEnabled(true)
         AVOSCloud.setVerbosePolicy(kAVVerboseAuto)
@@ -81,7 +87,7 @@ public final class Config {
     }
     
     
-    private class func configureLogger() {
+    private class func configureCocoaLumberjack() {
         let consoleFormatter = ConsoleFormatter()
         let aslFormatter = ASLFormatter()
         

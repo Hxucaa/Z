@@ -45,7 +45,7 @@ public final class SocialBusinessHeaderViewModel : ISocialBusinessHeaderViewMode
         location = ConstantProperty(city.regionNameC)
         
         if let nsurl = NSURL(string: coverImage.url) {
-            self.imageService.getImage(nsurl)
+            self.imageService.getImageBy(nsurl)
                 .start { event in
                     switch event {
                     case .Next(let value):

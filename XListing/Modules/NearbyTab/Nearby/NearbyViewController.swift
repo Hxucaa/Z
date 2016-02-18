@@ -161,7 +161,7 @@ public final class NearbyViewController: XUIViewController, MKMapViewDelegate {
     private func setupCurrentLocationButton() {
         
         // Set the button icon
-        currentLocationButton.setAttributedTitle(NSAttributedString(string: Icons.Location), forState: UIControlState.Normal)
+        currentLocationButton.setAttributedTitle(NSAttributedString(string: Icons.Location.rawValue), forState: UIControlState.Normal)
         
         // make the button a circle shape
         currentLocationButton.layer.cornerRadius = CGFloat(currentLocationButton.frame.width) / 2

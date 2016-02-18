@@ -1,9 +1,9 @@
 //
 //  BackButton.swift
-//  
+//  XListing
 //
-//  Created by Bruce Li on 2015-11-02.
-//
+//  Created by Lance Zhu on 2016-02-06.
+//  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import UIKit
@@ -21,7 +21,7 @@ public final class BackButton: UIButton {
     
     private func setup () {
         let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 17)!]
-        let attributedString = NSAttributedString(string: Icons.Chevron, attributes: attributes)
+        let attributedString = NSAttributedString(string: Icons.Chevron.rawValue, attributes: attributes)
         setAttributedTitle(attributedString, forState: UIControlState.Normal)
         
         titleLabel?.layer.masksToBounds = false

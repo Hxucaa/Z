@@ -18,7 +18,7 @@ public protocol IImageService : class {
     
     - returns: A signal producer that contains the `UIImage`.
     */
-    func getImage(url: NSURL) -> SignalProducer<UIImage, NSError>
+    func getImageBy(url: NSURL) -> SignalProducer<UIImage, NSError>
     
     /**
     Fetch the original size of the `ImageFile`

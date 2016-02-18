@@ -15,7 +15,7 @@ import ReactiveCocoa
 import XAssets
 import Spring
 
-private let LineView = (Height: CGFloat(3), MarginLeft: CGFloat(20), MarginRight: CGFloat(20))
+//private let LineView = (Height: CGFloat(3), MarginLeft: CGFloat(20), MarginRight: CGFloat(20))
 
 public final class ProfileSegmentControlView : ButtonPageControl {
     
@@ -28,42 +28,42 @@ public final class ProfileSegmentControlView : ButtonPageControl {
         view1.label.textColor = UIColor.x_PrimaryColor()
         view1.label.textColor = UIColor.x_PrimaryColor()
         
-        view1.tapGestureProxy
-            .startWithNext {[weak self] in
-                self?.animate(toIndex: 0, duration: 1)
-                self?._participationListObserver.proxyNext(())
-            }
+//        view1.tapGestureProxy
+//            .startWithNext {[weak self] in
+//                self?.animate(toIndex: 0, duration: 1)
+//                self?._participationListObserver.proxyNext(())
+//            }
         view1.backgroundColor = UIColor.x_ProfileTableBG()
         
-        let view2 = TabBarView(frame: CGRectMake(0, 0, 200, 40))
-        view2.label.text = "相册"
-        view2.label.font = UIFont.boldSystemFontOfSize(18)
-        view2.label.textColor = UIColor.x_PrimaryColor()
-        view2.label.textColor = UIColor.x_PrimaryColor()
+//        let view2 = TabBarView(frame: CGRectMake(0, 0, 200, 40))
+//        view2.label.text = "相册"
+//        view2.label.font = UIFont.boldSystemFontOfSize(18)
+//        view2.label.textColor = UIColor.x_PrimaryColor()
+//        view2.label.textColor = UIColor.x_PrimaryColor()
+//        
+//        view2.tapGestureProxy
+//            .startWithNext {[weak self] in
+//                self?.animate(toIndex: 1, duration: 1)
+//                self?._photosManagerObserver.proxyNext(())
+//            }
+//        view2.backgroundColor = UIColor.x_ProfileTableBG()
         
-        view2.tapGestureProxy
-            .startWithNext {[weak self] in
-                self?.animate(toIndex: 1, duration: 1)
-                self?._photosManagerObserver.proxyNext(())
-            }
-        view2.backgroundColor = UIColor.x_ProfileTableBG()
-        
-        return [view1, view2]
+        return [view1]
     }()
     
     private var participationView: TabBarView {
         return buttonViews[0]
     }
     
-    private var photoView: TabBarView {
-        return buttonViews[1]
-    }
+//    private var photoView: TabBarView {
+//        return buttonViews[1]
+//    }
     
-    private lazy var lineView: SpringView = {
-        let view = SpringView(frame: CGRectMake(LineView.MarginLeft, self.frame.height * 0.6, self.frame.width / CGFloat(self.buttonViews.count) - LineView.MarginLeft - LineView.MarginRight, LineView.Height))
-        view.backgroundColor = UIColor.x_PrimaryColor()
-        return view
-    }()
+//    private lazy var lineView: SpringView = {
+//        let view = SpringView(frame: CGRectMake(LineView.MarginLeft, self.frame.height * 0.6, self.frame.width / CGFloat(self.buttonViews.count) - LineView.MarginLeft - LineView.MarginRight, LineView.Height))
+//        view.backgroundColor = UIColor.x_PrimaryColor()
+//        return view
+//    }()
     
 
     // MARK: - Properties
@@ -97,24 +97,24 @@ public final class ProfileSegmentControlView : ButtonPageControl {
         
         slotWidth = frame.size.width / CGFloat(buttonViews.count)
         buttonContainer.addArrangedSubview(participationView)
-        buttonContainer.addArrangedSubview(photoView)
+//        buttonContainer.addArrangedSubview(photoView)
         buttonContainer.backgroundColor = UIColor.x_ProfileTableBG()
-        addSubview(lineView)
+//        addSubview(lineView)
     }
     
-    public func animate(toIndex index: Int, duration: CGFloat) {
-        if selected == index {
-            return
-        }
-        lineView.x = CGFloat(selected - index) * slotWidth
-        lineView.damping = 0.7
-        lineView.duration = duration
-        lineView.curve = "spring"
-        lineView.center = CGPointMake(CGFloat(index)*slotWidth + slotWidth/2, lineView.center.y)
-        lineView.animateNext({ [weak self] in
-            if let this = self {
-                this.selected = index
-            }
-        })
-    }
+//    public func animate(toIndex index: Int, duration: CGFloat) {
+//        if selected == index {
+//            return
+//        }
+//        lineView.x = CGFloat(selected - index) * slotWidth
+//        lineView.damping = 0.7
+//        lineView.duration = duration
+//        lineView.curve = "spring"
+//        lineView.center = CGPointMake(CGFloat(index)*slotWidth + slotWidth/2, lineView.center.y)
+//        lineView.animateNext({ [weak self] in
+//            if let this = self {
+//                this.selected = index
+//            }
+//        })
+//    }
 }

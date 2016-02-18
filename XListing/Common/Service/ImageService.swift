@@ -13,7 +13,7 @@ import AVOSCloud
 
 public final class ImageService : IImageService {
     
-    public func getImage(url: NSURL) -> SignalProducer<UIImage, NSError> {
+    public func getImageBy(url: NSURL) -> SignalProducer<UIImage, NSError> {
         return SignalProducer { observer, disposable in
             let imageManager = SDWebImageManager.sharedManager()
             imageManager.downloadImageWithURL(url, options: SDWebImageOptions.ContinueInBackground, progress: nil, completed: { image, error, cache, finished, url in

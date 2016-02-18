@@ -43,10 +43,10 @@ public class BasicUserInfoViewModel : IBasicUserInfoViewModel {
         switch user.gender {
         case .Female:
             ageGroupBackgroundColor = SignalProducer(value: .x_FemaleAgeGroupBG())
-            ageGroup = SignalProducer(value: Icons.Female + " " + user.ageGroup.description)
+            ageGroup = SignalProducer(value: Icons.Female.rawValue + " " + user.ageGroup.description)
         case .Male:
             ageGroupBackgroundColor = SignalProducer(value: .x_MaleAgeGroupBG())
-            ageGroup = SignalProducer(value: Icons.Male + " " + user.ageGroup.description)
+            ageGroup = SignalProducer(value: Icons.Male.rawValue + " " + user.ageGroup.description)
         }
         
         nickname = SignalProducer(value: user.nickname)
@@ -56,7 +56,7 @@ public class BasicUserInfoViewModel : IBasicUserInfoViewModel {
         
         
         if let url = user.coverPhoto?.url, nsurl = NSURL(string: url) {
-            self.imageService.getImage(nsurl)
+            self.imageService.getImageBy(nsurl)
                 .startWithNext {
                     self._coverPhoto.value = $0
                 }

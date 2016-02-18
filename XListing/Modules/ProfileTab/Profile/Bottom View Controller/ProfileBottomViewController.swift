@@ -31,10 +31,10 @@ public final class ProfileBottomViewController : UIViewController {
     }()
     
     // MARK: - Proxies
-    private let (_fullImageProxy, _fullImageObserver) = SimpleProxy.proxy()
-    public var fullImageProxy: SimpleProxy {
-        return _fullImageProxy
-    }
+//    private let (_fullImageProxy, _fullImageObserver) = SimpleProxy.proxy()
+//    public var fullImageProxy: SimpleProxy {
+//        return _fullImageProxy
+//    }
 
     
     // MARK: - Properties
@@ -85,22 +85,22 @@ public final class ProfileBottomViewController : UIViewController {
                 self?.pageViewController.displayParticipationListPage()
             }
         
-        pageControls.photosManagerProxy
-            .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Profile, signalName: "pageControls.photosManagerProxy")
-            .startWithNext { [weak self] in
-                self?.pageViewController.displayPhotosManagerPage()
-            }
+//        pageControls.photosManagerProxy
+//            .takeUntilViewWillDisappear(self)
+//            .logLifeCycle(LogContext.Profile, signalName: "pageControls.photosManagerProxy")
+//            .startWithNext { [weak self] in
+//                self?.pageViewController.displayPhotosManagerPage()
+//            }
         
-        pageViewController.fullImageProxy
-            // forwards events from producer until the view controller is going to disappear
-            .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Profile, signalName: "pageViewController.fullImageProxy")
-            .startWithNext { [weak self] in
-                if let this = self {
-                    this._fullImageObserver.proxyNext(())
-                }
-            }
+//        pageViewController.fullImageProxy
+//            // forwards events from producer until the view controller is going to disappear
+//            .takeUntilViewWillDisappear(self)
+//            .logLifeCycle(LogContext.Profile, signalName: "pageViewController.fullImageProxy")
+//            .startWithNext { [weak self] in
+//                if let this = self {
+//                    this._fullImageObserver.proxyNext(())
+//                }
+//            }
         
     }
     

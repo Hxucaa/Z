@@ -8,16 +8,45 @@
 
 import Foundation
 
-public struct Icons {
-    static let User = "\u{f007}"
-    static let Gender = "\u{f228}"
-    static let Birthday = "\u{f06b}"
-    static let Status = "\u{f0a1}"
-    static let Email = "\u{f003}"
-    static let Phone = "\u{f095}"
-    static let X = "\u{f00d}"   // swiftlint:disable:this variable_name_min_length
-    static let Chevron = "\u{f053}"
-    static let Location = "\u{f124}"
-    static let Female = "\u{f221}"
-    static let Male = "\u{f222}"
+public enum Icons : String {
+    case User = "\u{f007}"
+    case Gender = "\u{f228}"
+    case Birthday = "\u{f06b}"
+    case Status = "\u{f0a1}"
+    case Email = "\u{f003}"
+    case Phone = "\u{f095}"
+    case X = "\u{f00d}"   // swiftlint:disable:this variable_name_min_length
+    case Chevron = "\u{f053}"
+    case Location = "\u{f124}"
+    case Female = "\u{f221}"
+    case Male = "\u{f222}"
+    
+    public func getUIImage(iconSize: CGFloat, iconColour: UIColor = UIColor.blackColor(), imageSize: CGSize) -> UIImage? {
+        let style = NSMutableParagraphStyle()
+        style.alignment = NSTextAlignment.Left
+        style.baseWritingDirection = NSWritingDirection.LeftToRight
+        
+        UIGraphicsBeginImageContextWithOptions(imageSize, false, 0.0)
+        guard let font = UIFont(name: Fonts.FontAwesome, size: iconSize) else {
+            return nil
+        }
+        
+        let attString = NSMutableAttributedString(string: self.rawValue, attributes: [NSFontAttributeName: font])
+        attString.addAttributes([NSForegroundColorAttributeName: iconColour, NSParagraphStyleAttributeName: style], range: NSMakeRange(0, attString.length))
+        
+        // get the target bounding rect in order to center the icon within the UIImage:
+        let ctx = NSStringDrawingContext()
+        let boundingRect = attString.boundingRectWithSize(CGSizeMake(iconSize, iconSize), options: NSStringDrawingOptions.UsesDeviceMetrics, context: ctx)
+        
+        attString.drawInRect(CGRectMake((imageSize.width / 2.0) - boundingRect.size.width/2.0, (imageSize.height / 2.0) - boundingRect.size.height / 2.0, imageSize.width, imageSize.height))
+        
+        var iconImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        if(iconImage.respondsToSelector(Selector("imageWithRenderingMode:"))) {
+            iconImage = iconImage.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        }
+        
+        return iconImage
+    }
 }

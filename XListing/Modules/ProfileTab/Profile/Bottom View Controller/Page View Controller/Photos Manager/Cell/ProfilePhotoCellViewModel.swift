@@ -23,7 +23,7 @@ public final class ProfilePhotoCellViewModel {
         self.imageService = imageService
         
         if let url = image?.url, nsurl = NSURL(string: url) {
-            self.imageService.getImage(nsurl)
+            self.imageService.getImageBy(nsurl)
                 .startWithNext { image in
                     self._image.value = image
                 }

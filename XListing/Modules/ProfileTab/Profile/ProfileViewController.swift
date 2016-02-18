@@ -108,12 +108,12 @@ public final class ProfileViewController : XUIViewController {
                 self?.viewmodel.presentProfileEditModule(true, completion: nil)
             }
         
-        bottomViewController.fullImageProxy
-            .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Profile, signalName: "photoManager.fullImageProxy")
-            .startWithNext { [weak self] in
-                self?.viewmodel.presentFullScreenImageModule(true, completion: nil)
-            }
+//        bottomViewController.fullImageProxy
+//            .takeUntilViewWillDisappear(self)
+//            .logLifeCycle(LogContext.Profile, signalName: "photoManager.fullImageProxy")
+//            .startWithNext { [weak self] in
+//                self?.viewmodel.presentFullScreenImageModule(true, completion: nil)
+//            }
 
     }
     

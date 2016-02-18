@@ -2,7 +2,7 @@
 //  IProfileEditWireframe.swift
 //  XListing
 //
-//  Created by Bruce Li on 2015-08-04.
+//  Created by Lance Zhu on 2016-02-17.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
@@ -14,5 +14,5 @@ public protocol IProfileEditWireframe : class {
     
     init(meService: IMeService, imageService: IImageService)
     
-    func viewController() -> ProfileEditViewController
+    func viewController() -> UIViewController
 }

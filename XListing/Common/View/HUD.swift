@@ -78,7 +78,7 @@ public final class HUD {
 //
 //        }
 //    }
-
+    
      /**
      Dismiss HUD with failure message.
      

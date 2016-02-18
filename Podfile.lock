@@ -1,5 +1,5 @@
 PODS:
-  - ActionSheetPicker-3.0 (2.0.4)
+  - ActionSheetPicker-3.0 (2.0.5)
   - AMScrollingNavbar (2.0.10)
   - AsyncDisplayKit (1.9.6):
     - AsyncDisplayKit/ASDealloc2MainObject (= 1.9.6)
@@ -15,12 +15,13 @@ PODS:
     - CocoaLumberjack/Default
   - CocoaLumberjack/Swift (2.2.0):
     - CocoaLumberjack/Extensions
-  - Dollar (4.1.0)
+  - Dollar (5.0.0)
+  - Eureka (1.3.1)
   - FLEX (2.2.0)
   - INSPullToRefresh (1.1.4)
-  - Locksmith (2.0.6)
+  - Locksmith (2.0.8)
   - Nimble (3.1.0)
-  - Quick (0.9.0)
+  - Quick (0.9.1)
   - ReactiveArray (0.7.1):
     - ReactiveCocoa (~> 4.0.0)
   - ReactiveCocoa (4.0.0):
@@ -47,6 +48,7 @@ PODS:
   - WebASDKImageManager (1.0.1):
     - AsyncDisplayKit (~> 1.1)
     - SDWebImage/Core (~> 3.7)
+  - Whisper (2.0.2)
   - XAssets (0.6.1):
     - ReactiveCocoa (~> 4.0.0)
     - SDWebImage (~> 3.7.0)
@@ -59,7 +61,8 @@ DEPENDENCIES:
   - AVOSCloudDynamic (~> 3.1)
   - Cartography (~> 0.6.0)
   - CocoaLumberjack/Swift (~> 2.2.0)
-  - Dollar (~> 4.1.0)
+  - Dollar (~> 5.0.0)
+  - Eureka (~> 1.3.1)
   - FLEX (~> 2.0)
   - INSPullToRefresh (~> 1.1.0)
   - Locksmith (~> 2.0.2)
@@ -75,6 +78,7 @@ DEPENDENCIES:
   - TTTAttributedLabel (~> 1.13.4)
   - TZStackView (~> 1.1.2)
   - WebASDKImageManager (~> 1.0.1)
+  - Whisper (~> 2.0.2)
   - XAssets (from `ssh://git@dev.lai.io:2345/diffusion/IA/ios-assets.git`)
 
 EXTERNAL SOURCES:
@@ -103,19 +107,20 @@ CHECKOUT OPTIONS:
     :git: ssh://git@dev.lai.io:2345/diffusion/IA/ios-assets.git
 
 SPEC CHECKSUMS:
-  ActionSheetPicker-3.0: 860466cb4a66854e6acb590071ecee404b48f49d
+  ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
   AMScrollingNavbar: 7fa266bd11edaf53e3af19eeb867437663a5d53e
   AsyncDisplayKit: 56b2845c87345324cb3af3c43d3c3a4556a275be
   AVOSCloudCrashReportingDynamic: 8e230c3612b9054f7a3422d600b118085089117f
   AVOSCloudDynamic: 5b36f76b3db6faf60aa214e6eb3a8d8be3336b14
   Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
-  Dollar: 1ee47922ccdfda5b572c8a4956b08986f1b4c429
+  Dollar: 310893dd6b3799b9b155e3deb61a0492987e4d03
+  Eureka: 10df73e578ed8ec1f30c8fda5b4ffc8739786b74
   FLEX: bc8a4fb887ed5d3cdf7c2f3bd665f7bb1647cc58
   INSPullToRefresh: a27f7faf022f858f02a7680943e11a1f7ce3430a
-  Locksmith: 42ec3d535448e3c218f4342782b07a222b1acfd1
+  Locksmith: a8ed41ac4c06506ea8cb199d8ec8a8d3d108eb2a
   Nimble: 79d40f4d69d47314229bbabacaa02b8838c779b9
-  Quick: 332eb1da73125a2106dd637424c803f2ae97e4a9
+  Quick: a5221fc21788b6aeda934805e68b061839bc3165
   ReactiveArray: 9041fe905d617a317c4df67a8991c8c519ddd706
   ReactiveCocoa: 69be555be30674b07a86b60a91b855063841acc0
   Result: caef80340451e1f07492fa1e89117f83613bce24
@@ -127,6 +132,7 @@ SPEC CHECKSUMS:
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
   TZStackView: 19aeaa414fb653f4be9b80a73f4f0c66e33bf033
   WebASDKImageManager: 8e37e97c115c8e9092fc6111218a71ddec7a73d5
+  Whisper: 49abcba82d23dd20f0a9a025797cacd09c8aa3bb
   XAssets: aba08953190c0ea3c6652c49d2fefa8bd98c632c
 
 COCOAPODS: 0.39.0

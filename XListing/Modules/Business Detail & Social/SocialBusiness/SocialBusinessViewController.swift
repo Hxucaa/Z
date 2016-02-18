@@ -125,12 +125,12 @@ public final class SocialBusinessViewController : XScrollingNavigationViewContro
             .startWithNext {value in
                 if value.y > self.headerView.frame.height - 64 {
                     let attributes = [NSForegroundColorAttributeName: UIColor.blackColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 17)!]
-                    let attributedString = NSAttributedString(string: Icons.Chevron, attributes: attributes)
+                    let attributedString = NSAttributedString(string: Icons.Chevron.rawValue, attributes: attributes)
                     self.backButton.setAttributedTitle(attributedString, forState: UIControlState.Normal)
                 }
                 else {
                     let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 17)!]
-                    let attributedString = NSAttributedString(string: Icons.Chevron, attributes: attributes)
+                    let attributedString = NSAttributedString(string: Icons.Chevron.rawValue, attributes: attributes)
                     self.backButton.setAttributedTitle(attributedString, forState: UIControlState.Normal)
                 }
             }

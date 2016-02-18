@@ -2,15 +2,13 @@
 //  ProfileEditWireframe.swift
 //  XListing
 //
-//  Created by Bruce Li on 2015-08-04.
+//  Created by Lance Zhu on 2016-02-17.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-private let ProfileEditViewControllerIdentifier = "ProfileEditViewController"
-private let ProfileEditStoryboardName = "ProfileEdit"
 
 public final class ProfileEditWireframe : IProfileEditWireframe {
 
@@ -22,16 +20,18 @@ public final class ProfileEditWireframe : IProfileEditWireframe {
         self.imageService = imageService
     }
     
-    private func injectViewModelToViewController() -> ProfileEditViewController {
-        let viewController = UIStoryboard(name: ProfileEditStoryboardName, bundle: nil).instantiateViewControllerWithIdentifier(ProfileEditViewControllerIdentifier) as! ProfileEditViewController
+    private func injectViewModelToViewController() -> UIViewController {
+        let navController = UINavigationController()
+        let viewController = ProfileEditViewController()
         let viewmodel = ProfileEditViewModel(meService: meService, imageService: imageService)
         viewController.bindToViewModel(viewmodel)
         
-        return viewController
+        navController.pushViewController(viewController, animated: true)
+        return navController
     }
 
 
-    public func viewController() -> ProfileEditViewController {
+    public func viewController() -> UIViewController {
         return injectViewModelToViewController()
     }
 }

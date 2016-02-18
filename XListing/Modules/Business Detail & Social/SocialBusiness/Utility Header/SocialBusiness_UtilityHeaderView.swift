@@ -98,7 +98,7 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
 
 
         let xAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 18)!]
-        let xAttributedString = NSAttributedString(string: Icons.X, attributes: xAttributes)
+        let xAttributedString = NSAttributedString(string: Icons.X.rawValue, attributes: xAttributes)
         let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.boldSystemFontOfSize(18)]
         let attributedString = NSMutableAttributedString(string: "  详细信息 ", attributes: attributes)
         attributedString.appendAttributedString(xAttributedString)
