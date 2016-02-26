@@ -11,51 +11,55 @@ import ReactiveCocoa
 import AVOSCloud
 import Swiftz
 
+// TODO: Make a new abstraction "Form", which is responsible for registering fields and managing their state.
+
 public final class ProfileEditViewModel {
     
     // MARK: - Fields
-    private let _nicknameField = MutableProperty<FormField<String>?>(nil)
-    public var nicknameField: AnyProperty<FormField<String>?> {
+    private let _nicknameField = MutableProperty<RequiredFormField<String>?>(nil)
+    public var nicknameField: AnyProperty<RequiredFormField<String>?> {
         return AnyProperty(_nicknameField)
     }
-    private let _whatsUpField = MutableProperty<FormField<String>?>(nil)
-    public var whatsUpField: AnyProperty<FormField<String>?> {
+    private let _whatsUpField = MutableProperty<OptionalFormField<String>?>(nil)
+    public var whatsUpField: AnyProperty<OptionalFormField<String>?> {
         return AnyProperty(_whatsUpField)
     }
-    private let _profileImageField = MutableProperty<FormField<UIImage>?>(nil)
-    public var profileImageField: AnyProperty<FormField<UIImage>?> {
+    private let _profileImageField = MutableProperty<OptionalFormField<UIImage>?>(nil)
+    public var profileImageField: AnyProperty<OptionalFormField<UIImage>?> {
         return AnyProperty(_profileImageField)
     }
     
     // MARK: - Outputs
-    public var formValid: SignalProducer<Bool, NoError> {
+    public func isFormValid() -> SignalProducer<Bool, NoError> {
         return combineLatest(
-            nicknameField.producer
-                .ignoreNil()
-                .flatMap(FlattenStrategy.Concat) { $0.valid.producer },
-            whatsUpField.producer
-                .ignoreNil()
-                .flatMap(FlattenStrategy.Concat) { $0.valid.producer },
-            profileImageField.producer
-                .ignoreNil()
-                .flatMap(FlattenStrategy.Concat) { $0.valid.producer }
+                nicknameField.producer
+                    .ignoreNil()
+                    .flatMap(.Latest) { $0.valid.producer },
+                whatsUpField.producer
+                    .ignoreNil()
+                    .flatMap(.Latest) { $0.valid.producer },
+                profileImageField.producer
+                    .ignoreNil()
+                    .flatMap(.Latest) { $0.valid.producer }
             )
             .map { $0.0 && $0.1 && $0.2 }
     }
     
-    public var formFormattedErrors: SignalProducer<String, NoError> {
+    public func formFormattedErrors() -> SignalProducer<String?, NoError> {
         return combineLatest(
-            nicknameField.producer
-                .ignoreNil()
-                .flatMap(FlattenStrategy.Concat) { $0.formattedErrors() },
-            whatsUpField.producer
-                .ignoreNil()
-                .flatMap(FlattenStrategy.Concat) { $0.formattedErrors() },
-            profileImageField.producer
-                .ignoreNil()
-                .flatMap(FlattenStrategy.Concat) { $0.formattedErrors() }
-        )
-            .map { [$0.0, $0.1, $0.2].filter { $0 != nil }.reduce("") { "\($0)\n\($1)" } }
+                nicknameField.producer
+                    .ignoreNil()
+                    .map { $0.formattedErrors() },
+                whatsUpField.producer
+                    .ignoreNil()
+                    .map { $0.formattedErrors() },
+                profileImageField.producer
+                    .ignoreNil()
+                    .map { $0.formattedErrors() }
+            )
+            .map {
+                [$0.0, $0.1, $0.2].filter { $0 != nil }.map { $0! }.joinWithSeparator("\n")
+            }
     }
     
     // MARK: - Properties
@@ -76,73 +80,76 @@ public final class ProfileEditViewModel {
     public func getInitialValues() -> SignalProducer<Void, NSError> {
         
         return meService.currentLoggedInUser()
-            .on(next: { me in
-                print(me.nickname)
-                print(me.whatsUp)
-                print(me.coverPhoto)
-                self._nicknameField.value = FormField(name: "Nickname", initialValue: me.nickname) { value in
+            .flatMap(FlattenStrategy.Concat) { me in
+                SignalProducer<Me, NSError> { observer, disposable in
                     
-                    let base = ValidationNEL<String -> String, ValidationError>.Success({ a in value })
-                    let rule: ValidationNEL<String, ValidationError> = value.length >= 1 && value.length <= 20 ? .Success(value) : .Failure([ValidationError.Custom(message: "昵称长度必须为1-20字符")])
+                    self._nicknameField.value = RequiredFormField(name: "昵称", initialValue: me.nickname) { value in
+                        
+                        let base = ValidationNEL<String -> String, ValidationError>.Success({ a in value })
+                        let rule: ValidationNEL<String, ValidationError> = value.length >= 1 && value.length <= 20 ? .Success(value) : .Failure([ValidationError.Custom(message: "昵称长度必须为1-20字符")])
+                        
+                        return base <*> rule
+                    }
                     
-                    return base <*> rule
-                }
-                
-                self._whatsUpField.value = FormField(name: "What's Up", initialValue: me.whatsUp) { value in
+                    self._whatsUpField.value = OptionalFormField(name: "What's Up", initialValue: me.whatsUp) { value in
+                        
+                        let base = ValidationNEL<String -> String, ValidationError>.Success({ a in value })
+                        let rule: ValidationNEL<String, ValidationError> = value.length <= 30 ? .Success(value) : .Failure([ValidationError.Custom(message: "What's Up 长度必须少于30字符")])
+                        
+                        return base <*> rule
+                    }
                     
-                    let base = ValidationNEL<String -> String, ValidationError>.Success({ a in value })
-                    let rule: ValidationNEL<String, ValidationError> = value.length <= 30 ? .Success(value) : .Failure([ValidationError.Custom(message: "What's Up 长度必须少于30字符")])
-                    
-                    return base <*> rule
-                }
-            })
-            .flatMap(FlattenStrategy.Concat) { me -> SignalProducer<UIImage?, NSError> in
-                if let coverPhoto = me.coverPhoto {
-                    return self.imageService.getImage(coverPhoto)
-                        .map { Optional.Some($0) }
-                }
-                else {
-                    return SignalProducer<UIImage?, NSError>(value: nil)
+                    observer.sendNext(me)
+                    observer.sendCompleted()
                 }
             }
-            .on(next: { photo in
-                if let photo = photo {
-                    self._profileImageField.value = FormField(name: "Profile Image", initialValue: photo)
+            .flatMap(FlattenStrategy.Concat) { me -> SignalProducer<Void, NSError> in
+                guard let coverPhoto = me.coverPhoto else {
+                    return SignalProducer<Void, NSError>(value: ())
                 }
-                else {
-                    self._profileImageField.value = FormField(name: "Profile Image")
-                }
-            })
-            .map { _ in }
+                
+                return self.imageService.getImage(coverPhoto)
+                    .map { Optional.Some($0) }
+                    .flatMap(FlattenStrategy.Concat) { image in
+                        SignalProducer<Void, NSError> { observer, disposable in
+                            self._profileImageField.value = OptionalFormField(name: "头像", initialValue: image)
+                            
+                            observer.sendNext(())
+                            observer.sendCompleted()
+                        }
+                    }
+            }
     }
     
     public func updateProfile() -> SignalProducer<Bool, NSError> {
         return combineLatest(
-            nicknameField.producer
-                .ignoreNil()
-                .flatMap(FlattenStrategy.Concat) {
-                    $0.value.producer
-                },
-            whatsUpField.producer
-                .ignoreNil()
-                .flatMap(FlattenStrategy.Concat) {
-                    $0.value.producer
-                },
-            profileImageField.producer
-                .ignoreNil()
-                .flatMap(FlattenStrategy.Concat) {
-                    $0.value.producer
-                }
+                nicknameField.producer
+                    .ignoreNil()
+                    .flatMap(FlattenStrategy.Concat) {
+                        zip($0.dirty.producer, $0.value.producer)
+                    },
+                whatsUpField.producer
+                    .ignoreNil()
+                    .flatMap(FlattenStrategy.Concat) {
+                        zip($0.dirty.producer, $0.value.producer)
+                    },
+                profileImageField.producer
+                    .ignoreNil()
+                    .flatMap(FlattenStrategy.Concat) {
+                        zip($0.dirty.producer, $0.value.producer)
+                    }
             )
             .promoteErrors(NSError)
             .flatMap(FlattenStrategy.Merge) { nickname, whatsUp, image -> SignalProducer<Bool, NSError> in
                 
                 let me = self.meService.currentUser!
-                if let nickname = nickname {
-                    me.nickname = nickname
+                if let nicknameValue = nickname.1 where nickname.0 {
+                    me.nickname = nicknameValue
                 }
-                me.whatsUp = whatsUp
-                if let image = image, data = UIImagePNGRepresentation(image) {
+                if whatsUp.0 {
+                    me.whatsUp = whatsUp.1
+                }
+                if let imageValue = image.1, data = UIImagePNGRepresentation(imageValue) where image.0 {
                     me.setCoverPhoto("profile.png", data: data)
                 }
                 return self.meService.save(me)

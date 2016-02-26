@@ -3,7 +3,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'XListing' do
-  pod 'XAssets', :git => 'ssh://git@dev.lai.io:2345/diffusion/IA/ios-assets.git'
+  pod 'XAssets', :git => 'https://github.com/Hxucaa/xassets.git'
   pod 'FLEX', '~> 2.0', :configurations => ['DEBUG']
   pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift2'
   pod 'SVProgressHUD', :git => 'https://github.com/Hxucaa/SVProgressHUD.git'
@@ -18,7 +18,7 @@ target 'XListing' do
   pod 'Cartography', '~> 0.6.0'
   pod 'INSPullToRefresh', '~> 1.1.0'
   pod 'AMScrollingNavbar', '~> 2.0.1'
-  pod 'ReactiveArray', :git => 'ssh://git@dev.lai.io:2345/diffusion/RA/reactivearray.git'
+  pod 'ReactiveArray', :git => 'https://github.com/Hxucaa/Reactive-Array.git'
   pod 'TZStackView', '~> 1.1.2'
   pod 'TTTAttributedLabel', '~> 1.13.4'
   pod 'AsyncDisplayKit', '~> 1.9.6'

@@ -29,6 +29,7 @@ private struct AssociationKey {
     
     static var URL: UInt8 = 13
     static var attributedString: UInt8 = 14
+    static var UIBarItemEnabled: UInt8 = 15
 }
 
 // lazily creates a gettable associated property via the given factory
@@ -55,6 +56,12 @@ private func lazyMutableProperty<T>(host: AnyObject, key: UnsafePointer<Void>, s
 extension UIControl {
     public var rac_enabled: MutableProperty<Bool> {
         return lazyMutableProperty(self, key: &AssociationKey.enabled, setter: { self.enabled = $0 }, getter: { self.enabled })
+    }
+}
+
+extension UIBarItem {
+    public var rac_enabled: MutableProperty<Bool> {
+        return lazyMutableProperty(self, key: &AssociationKey.UIBarItemEnabled, setter: { self.enabled = $0 }, getter: { self.enabled })
     }
 }
 

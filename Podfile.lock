@@ -4,9 +4,9 @@ PODS:
   - AsyncDisplayKit (1.9.6):
     - AsyncDisplayKit/ASDealloc2MainObject (= 1.9.6)
   - AsyncDisplayKit/ASDealloc2MainObject (1.9.6)
-  - AVOSCloudCrashReportingDynamic (3.2.3):
+  - AVOSCloudCrashReportingDynamic (3.2.5):
     - AVOSCloudDynamic
-  - AVOSCloudDynamic (3.2.3)
+  - AVOSCloudDynamic (3.2.5)
   - Cartography (0.6.0)
   - CocoaLumberjack/Core (2.2.0)
   - CocoaLumberjack/Default (2.2.0):
@@ -22,7 +22,7 @@ PODS:
   - Locksmith (2.0.8)
   - Nimble (3.1.0)
   - Quick (0.9.1)
-  - ReactiveArray (0.7.1):
+  - ReactiveArray (0.7.2):
     - ReactiveCocoa (~> 4.0.0)
   - ReactiveCocoa (4.0.0):
     - ReactiveCocoa/UI (= 4.0.0)
@@ -35,8 +35,8 @@ PODS:
   - ReactiveCocoa/UI (4.0.0):
     - ReactiveCocoa/Core
     - Result (~> 1.0.1)
-  - Result (1.0.1)
-  - RongCloudIMKit (2.4.7)
+  - Result (1.0.2)
+  - RongCloudIMKit (2.4.8)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -68,7 +68,7 @@ DEPENDENCIES:
   - Locksmith (~> 2.0.2)
   - Nimble (~> 3.1.0)
   - Quick (~> 0.9.0)
-  - ReactiveArray (from `ssh://git@dev.lai.io:2345/diffusion/RA/reactivearray.git`)
+  - ReactiveArray (from `https://github.com/Hxucaa/Reactive-Array.git`)
   - ReactiveCocoa (= 4.0.0)
   - RongCloudIMKit (~> 2.4.6)
   - SDWebImage (~> 3.7.0)
@@ -79,23 +79,23 @@ DEPENDENCIES:
   - TZStackView (~> 1.1.2)
   - WebASDKImageManager (~> 1.0.1)
   - Whisper (~> 2.0.2)
-  - XAssets (from `ssh://git@dev.lai.io:2345/diffusion/IA/ios-assets.git`)
+  - XAssets (from `https://github.com/Hxucaa/xassets.git`)
 
 EXTERNAL SOURCES:
   ReactiveArray:
-    :git: ssh://git@dev.lai.io:2345/diffusion/RA/reactivearray.git
+    :git: https://github.com/Hxucaa/Reactive-Array.git
   Spring:
     :branch: swift2
     :git: https://github.com/MengTo/Spring.git
   SVProgressHUD:
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
-    :git: ssh://git@dev.lai.io:2345/diffusion/IA/ios-assets.git
+    :git: https://github.com/Hxucaa/xassets.git
 
 CHECKOUT OPTIONS:
   ReactiveArray:
-    :commit: 3bafecba578c695958f39b6f621f10401a6de6d6
-    :git: ssh://git@dev.lai.io:2345/diffusion/RA/reactivearray.git
+    :commit: 28fd6a4526c1b7da43cd4bd007207176b861c84c
+    :git: https://github.com/Hxucaa/Reactive-Array.git
   Spring:
     :commit: 18d5c7b74489de8044e34767f856d1e574f0820e
     :git: https://github.com/MengTo/Spring.git
@@ -104,14 +104,14 @@ CHECKOUT OPTIONS:
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
     :commit: 4c24354ba329bcd897aed5127082583231ff697d
-    :git: ssh://git@dev.lai.io:2345/diffusion/IA/ios-assets.git
+    :git: https://github.com/Hxucaa/xassets.git
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
   AMScrollingNavbar: 7fa266bd11edaf53e3af19eeb867437663a5d53e
   AsyncDisplayKit: 56b2845c87345324cb3af3c43d3c3a4556a275be
-  AVOSCloudCrashReportingDynamic: 8e230c3612b9054f7a3422d600b118085089117f
-  AVOSCloudDynamic: 5b36f76b3db6faf60aa214e6eb3a8d8be3336b14
+  AVOSCloudCrashReportingDynamic: 8d5be89605f45e45b62cb572a41b8992b06185e2
+  AVOSCloudDynamic: 0d6205b51114721e63a5e61c05e775e307252652
   Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   Dollar: 310893dd6b3799b9b155e3deb61a0492987e4d03
@@ -121,10 +121,10 @@ SPEC CHECKSUMS:
   Locksmith: a8ed41ac4c06506ea8cb199d8ec8a8d3d108eb2a
   Nimble: 79d40f4d69d47314229bbabacaa02b8838c779b9
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
-  ReactiveArray: 9041fe905d617a317c4df67a8991c8c519ddd706
+  ReactiveArray: 394d82d86674c2cca6a56bb8e9024ff15cab9cb0
   ReactiveCocoa: 69be555be30674b07a86b60a91b855063841acc0
-  Result: caef80340451e1f07492fa1e89117f83613bce24
-  RongCloudIMKit: d24685a8f2ea63e79aa2653a3275d7c64ea611ac
+  Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
+  RongCloudIMKit: 43f367cba48b58238f1ab3b268842e6951231a54
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1

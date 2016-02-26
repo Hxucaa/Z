@@ -16,16 +16,8 @@ public final class ProfileEditFormViewController : FormViewController, Component
     private let nickname: (old: String?, new: String? -> Void)
     private let profileImage: (old: UIImage?, new: UIImage? -> Void)
     private let whatsUp: (old: String?, new: String? -> Void)
-//    private let nickname: FormField<String>
-//    private let whatsUp: FormField<String>
-//    private let profileImage: FormField<UIImage>
     
     // MARK: - Initializers
-//    public init(nickname: FormField<String>, whatsUp: FormField<String>, profileImage: FormField<UIImage>) {
-//        self.nickname = nickname
-//        self.whatsUp = whatsUp
-//        
-//    }
     public init(nickname: (old: String?, new: String? -> Void), profileImage: (old: UIImage?, new: UIImage? -> Void), whatsUp: (old: String?, new: String? -> Void)) {
         self.nickname = nickname
         self.profileImage = profileImage

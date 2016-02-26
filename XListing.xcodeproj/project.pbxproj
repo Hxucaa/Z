@@ -679,7 +679,6 @@
 				7EB7ED021BDECD9F0086E1E3 /* Thumbnail.swift */,
 				7E75A2D91C64658400ACC3E6 /* Component.swift */,
 				7E75A2DB1C64659B00ACC3E6 /* Container.swift */,
-				7E75A2EA1C65EF6500ACC3E6 /* FormRow.swift */,
 			);
 			name = View;
 			path = Common/View;
@@ -755,6 +754,7 @@
 				7EEE68041C6C5BDB00EC46C3 /* ValidationNEL.swift */,
 				7EEE68061C6C5BF400EC46C3 /* ValidationError.swift */,
 				7EEE68081C6C5DE600EC46C3 /* FormField.swift */,
+				7E75A2EA1C65EF6500ACC3E6 /* FormRow.swift */,
 			);
 			path = Form;
 			sourceTree = "<group>";

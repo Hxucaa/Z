@@ -9,9 +9,61 @@
 import Foundation
 import ReactiveCocoa
 
-public class FormField<T> {
+public class RequiredFormField<T> : _BaseFormField<T> {
     
     public typealias ValidationRule = T -> ValidationNEL<T, ValidationError>
+    
+    public let validation: ValidationRule?
+    
+    public convenience init(name: String?) {
+        self.init(name: name, initialValue: nil)
+    }
+    
+    public convenience override init(name: String?, initialValue: T?) {
+        self.init(name: name, initialValue: initialValue, validation: nil)
+    }
+    
+    public init(name: String?, initialValue: T?, validation: ValidationRule?) {
+        self.validation = validation
+        super.init(name: name, initialValue: initialValue)
+        
+        _errors <~ _value.producer
+            .skip(1)
+            .map {
+                guard let v = $0 else {
+                    return [ValidationError.Required]
+                }
+                return validation?(v).failure
+            }
+    }
+}
+
+public class OptionalFormField<T> : _BaseFormField<T> {
+    
+    public typealias ValidationRule = T -> ValidationNEL<T, ValidationError>
+    
+    public let validation: ValidationRule?
+    
+    public convenience init(name: String?) {
+        self.init(name: name, initialValue: nil)
+    }
+    
+    public convenience override init(name: String?, initialValue: T?) {
+        self.init(name: name, initialValue: initialValue, validation: nil)
+    }
+    
+    public init(name: String?, initialValue: T?, validation: ValidationRule?) {
+        self.validation = validation
+        super.init(name: name, initialValue: initialValue)
+        
+        _errors <~ _value.producer
+            .skip(1)
+            .ignoreNil()
+            .map { validation?($0).failure }
+    }
+}
+
+public class _BaseFormField<T> {
     
     private let _active = MutableProperty<Bool>(false)
     public var active: AnyProperty<Bool> {
@@ -29,8 +81,8 @@ public class FormField<T> {
     
     public let initialValue: T?
     
-    private let _errors = MutableProperty<[ValidationError]>([ValidationError]())
-    public var errors: AnyProperty<[ValidationError]> {
+    public let _errors = MutableProperty<[ValidationError]?>(nil)
+    public var errors: AnyProperty<[ValidationError]?> {
         return AnyProperty(_errors)
     }
     
@@ -40,7 +92,7 @@ public class FormField<T> {
     }
     
     public var invalid: SignalProducer<Bool, NoError> {
-        return _valid.producer.map { !$0 }
+        return valid.producer.map { !$0 }
     }
     
     public let name: String?
@@ -60,36 +112,17 @@ public class FormField<T> {
         return AnyProperty(_visited)
     }
     
-    private let validation: ValidationRule?
-    
-    public convenience init() {
-        self.init(name: nil, initialValue: nil, validation: nil)
+    public convenience init(name: String?) {
+        self.init(name: name, initialValue: nil)
     }
     
-    public convenience init(name: String) {
-        self.init(name: name, initialValue: nil, validation: nil)
-    }
-    
-    public convenience init(name: String, initialValue: T) {
-        self.init(name: name, initialValue: initialValue, validation: nil)
-    }
-    
-    public init(name: String?, initialValue: T?, validation: ValidationRule?) {
+    public init(name: String?, initialValue: T?) {
         self.name = name
         self.initialValue = initialValue
-        self.validation = validation
         
         _valid <~ _errors.producer
-            .map { $0.count == 0 ? true : false }
-        
-        _errors <~ _value.producer
             .map {
-                if let value = $0, validation = validation, errors = validation(value).failure {
-                    return errors
-                }
-                else {
-                    return [ValidationError]()
-                }
+                $0 == nil ? true : false
             }
     }
     
@@ -116,13 +149,23 @@ public class FormField<T> {
      */
     public func onBlur() {
         _touched.modify { _ in true }
+        _active.modify { _ in false }
     }
 }
 
 
-public extension FormField {
-    public func formattedErrors(separator: String? = "\n") -> SignalProducer<String?, NoError> {
-        return _errors.producer
-            .map { $0.isEmpty ? nil : $0.map { $0.description }.reduce("") { "\($0)\(separator)\($1)" } }
+public extension _BaseFormField {
+    public func formattedErrors(separator: String = "\n") -> String? {
+        guard let e = _errors.value where !e.isEmpty else {
+            return nil
+        }
+        
+        let message = e.map { $0.description }.joinWithSeparator(separator)
+        
+        guard let name = name else {
+            return message
+        }
+        
+        return "\(name): \(message)"
     }
 }

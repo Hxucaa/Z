@@ -10,5 +10,5 @@ import Foundation
 
 public protocol IAccountWireframe : class, ITabRootWireframe {
     var finishedCallback: CompletionHandler? { get set }
-    init(userService: IUserService, userDefaultsService: IUserDefaultsService)
+    init(meService: IMeService, userDefaultsService: IUserDefaultsService)
 }

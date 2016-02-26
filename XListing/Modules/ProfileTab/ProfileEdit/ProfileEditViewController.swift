@@ -14,13 +14,11 @@ import Whisper
 public final class ProfileEditViewController: XUIViewController {
     
     // MARK: - UI Controls
-//    private let navBar = UINavigationBar()
     private var form: ProfileEditFormViewController! {
         didSet {
             addChildViewController(form)
             view.addSubview(form.view)
             form.didMoveToParentViewController(self)
-            
             
             constrain(form.view) {
                 $0.leading == $0.superview!.leading
@@ -34,38 +32,44 @@ public final class ProfileEditViewController: XUIViewController {
     // MARK: - Properties
     private var viewmodel: ProfileEditViewModel! {
         didSet {
-            let s = SignalProducer<Void, NSError> { observer, disposable in
+            SignalProducer<Void, NSError> { observer, disposable in
                 
+                // display hud and retrieve user info
                 disposable += HUD.show()
                     .promoteErrors(NSError)
                     .flatMap(FlattenStrategy.Concat) { _ in self.viewmodel.getInitialValues() }
-                    .flatMap(FlattenStrategy.Concat) { _ in
-                        return combineLatest(self.viewmodel.nicknameField.producer, self.viewmodel.whatsUpField.producer, self.viewmodel.profileImageField.producer)
-                            .promoteErrors(NSError)
+                    .start { event in
+                        switch event {
+                        case .Failed(let error):
+                            ProfileLogError(error.description)
+                            HUD.dismissWithFailedMessage()
+                            observer.sendFailed(error)
+                        case .Interrupted:
+                            observer.sendInterrupted()
+                        default: break
+                        }
                     }
+                
+                // once user info is retrieved
+                disposable += zip(
+                        self.viewmodel.nicknameField.producer.ignoreNil(),
+                        self.viewmodel.whatsUpField.producer.ignoreNil(),
+                        self.viewmodel.profileImageField.producer.ignoreNil()
+                    )
                     .map { nicknameField, whatsUpField, profileImageField in
                         ProfileEditFormViewController(
-                            nickname: (nicknameField?.initialValue, { nicknameField?.onChange($0) }),
-                            profileImage: (profileImageField?.initialValue, { profileImageField?.onChange($0) }),
-                            whatsUp: (whatsUpField?.initialValue, { whatsUpField?.onChange($0) })
+                            nickname: (nicknameField.initialValue, { nicknameField.onChange($0) }),
+                            profileImage: (profileImageField.initialValue, { profileImageField.onChange($0) }),
+                            whatsUp: (whatsUpField.initialValue, { whatsUpField.onChange($0) })
                         )
                     }
-                    // dismiss HUD based on the result of update profile signal
-                    .on(
-                        next: { _ in
-                            HUD.dismiss()
-                        },
-                        failed: { _ in
-                            HUD.dismissWithFailedMessage()
-                        }
-                    )
+                    .promoteErrors(NSError)
                     .start { event in
                         switch event {
                         case .Next(let form):
+                            // dismiss HUD based on the result of update profile signal
+                            HUD.dismiss()
                             self.form = form
-                        case .Failed(let error):
-                            ProfileLogError(error.description)
-                            observer.sendFailed(error)
                         case .Interrupted:
                             observer.sendInterrupted()
                         default: break
@@ -83,7 +87,7 @@ public final class ProfileEditViewController: XUIViewController {
                         observer.sendCompleted()
                     }
             }
-            s.start()
+            .start()
         }
     }
     
@@ -102,10 +106,10 @@ public final class ProfileEditViewController: XUIViewController {
         let dismissButton = UIBarButtonItem(barButtonSystemItem: .Stop, target: dismissAction.unsafeCocoaAction, action: CocoaAction.selector)
         
         
-        let submitAction = ReactiveCocoa.Action<UIBarButtonItem, Void, NSError>(
+        let submitAction = ReactiveCocoa.Action<UIBarButtonItem, Void, NSError> (
             enabledIf: AnyProperty(
                 initialValue: true,
-                producer: viewmodel.formValid
+                producer: viewmodel.isFormValid()
             )
         ) { [weak self] button in
             return SignalProducer { observer, disposable in
@@ -116,26 +120,20 @@ public final class ProfileEditViewController: XUIViewController {
                     disposable += HUD.show()
                         .promoteErrors(NSError)
                         .flatMap(FlattenStrategy.Concat) { _ in this.viewmodel.updateProfile() }
-                        // dismiss HUD based on the result of update profile signal
-                        .on(
-                            next: { _ in
-                                HUD.dismissWithNextMessage()
-                            },
-                            failed: { _ in
-                                HUD.dismissWithFailedMessage()
-                            }
-                        )
                         // does not `sendCompleted` because completion is handled when HUD is disappeared
                         .start { event in
                             switch event {
+                            case .Next(_):
+                                HUD.dismissWithNextMessage()
                             case .Failed(let error):
+                                HUD.dismissWithFailedMessage()
                                 ProfileLogError(error.description)
                                 observer.sendFailed(error)
                             case .Interrupted:
                                 observer.sendInterrupted()
                             default: break
                             }
-                    }
+                        }
                     
                     // Subscribe to disappear notification
                     disposable += HUD.didDissappearNotification()
@@ -147,7 +145,7 @@ public final class ProfileEditViewController: XUIViewController {
                             // completes the action
                             observer.sendNext(())
                             observer.sendCompleted()
-                    }
+                        }
                 }
             }
         }
@@ -155,39 +153,34 @@ public final class ProfileEditViewController: XUIViewController {
 
         let saveButton = UIBarButtonItem(title: "递交", style: .Done, target: submitAction.unsafeCocoaAction, action: CocoaAction.selector)
         
+        // disable button when submit action is disabled
+        saveButton.rac_enabled <~ submitAction.enabled
+        
+        // disable button when submission is in progress
+        saveButton.rac_enabled <~ submitAction.executing.producer
+            .map { !$0 }
+        
         let navBar = navigationController?.navigationBar
         navBar?.barTintColor = UIColor.x_PrimaryColor()
         navBar?.tintColor = UIColor.whiteColor()
-//        navBar.delegate = self
-//        navBar?.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-        
-//        let navigationItem = UINavigationItem()
 
         // Create two buttons for the navigation item
         navigationItem.leftBarButtonItem = dismissButton
         navigationItem.rightBarButtonItem = saveButton
-
-        // Assign the navigation item to the navigation bar
-//        navBar?.items = [navigationItem]
-//
-//        view.addSubview(navBar)
-//        
-//        constrain(navBar) {
-//            $0.leading == $0.superview!.leading
-//            $0.top == $0.superview!.top
-//            $0.trailing == $0.superview!.trailing
-//            $0.height == 64
-//        }
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        viewmodel.formValid
+        viewmodel.isFormValid()
             .filter { !$0 }
-            .flatMap(FlattenStrategy.Concat) { _ in self.viewmodel.formFormattedErrors }
+            .flatMap(FlattenStrategy.Latest) {
+                _ in self.viewmodel.formFormattedErrors()
+            }
+            .ignoreNil()
             .startWithNext {
-                Whisper(Message(title: "请修正以下错误\n\($0)", textColor: .whiteColor(), backgroundColor: .redColor()), to: self.navigationController!)
+                // TODO: Replace the current error message implementation with something better
+                Shout(Announcement(title: "请修正以下错误", subtitle: $0, image: nil, duration: 5.0, action: nil), to: self.form)
             }
     }
     
