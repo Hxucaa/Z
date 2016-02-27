@@ -24,8 +24,8 @@ public final class ProfileEditViewModel {
     public var whatsUpField: AnyProperty<OptionalFormField<String>?> {
         return AnyProperty(_whatsUpField)
     }
-    private let _profileImageField = MutableProperty<OptionalFormField<UIImage>?>(nil)
-    public var profileImageField: AnyProperty<OptionalFormField<UIImage>?> {
+    private let _profileImageField = MutableProperty<RequiredFormField<UIImage>?>(nil)
+    public var profileImageField: AnyProperty<RequiredFormField<UIImage>?> {
         return AnyProperty(_profileImageField)
     }
     
@@ -112,7 +112,7 @@ public final class ProfileEditViewModel {
                     .map { Optional.Some($0) }
                     .flatMap(FlattenStrategy.Concat) { image in
                         SignalProducer<Void, NSError> { observer, disposable in
-                            self._profileImageField.value = OptionalFormField(name: "头像", initialValue: image)
+                            self._profileImageField.value = RequiredFormField(name: "头像", initialValue: image)
                             
                             observer.sendNext(())
                             observer.sendCompleted()

@@ -45,15 +45,15 @@ public final class ProfileEditFormViewController : FormViewController, Component
         form
             +++ Section()
                 <<< ImageRow("头像") {
-                    $0.title = "头像"
-                    $0.value = self.profileImage.old
-                }
-                .cellSetup { (cell, row) in
-                    cell.height = { 80 }
-                }
-                .onChange { [weak self] row in
-                    self?.profileImage.new(row.value)
-                }
+                        $0.title = "头像"
+                        $0.value = self.profileImage.old
+                    }
+                    .cellSetup { (cell, row) in
+                        cell.height = { 80 }
+                    }
+                    .onChange { [weak self] row in
+                        self?.profileImage.new(row.value)
+                    }
             +++ Section()
                 <<< TextFloatLabelRow("昵称") {
                         $0.title = "昵称"
@@ -63,16 +63,16 @@ public final class ProfileEditFormViewController : FormViewController, Component
                         cell.textField.autocorrectionType = .No
                         cell.textField.autocapitalizationType = .None
                     }
-                .onChange { [weak self] row in
-                    self?.nickname.new(row.value)
-                }
+                    .onChange { [weak self] row in
+                        self?.nickname.new(row.value)
+                    }
                 <<< TextFloatLabelRow("What's Up") {
-                    $0.title = "What's Up"
-                    $0.value = self.whatsUp.old
-                }
-                .onChange { [weak self] row in
-                    self?.whatsUp.new(row.value)
-                }
+                        $0.title = "What's Up"
+                        $0.value = self.whatsUp.old
+                    }
+                    .onChange { [weak self] row in
+                        self?.whatsUp.new(row.value)
+                    }
     }
 
 }

@@ -23,7 +23,7 @@ target 'XListing' do
   pod 'TTTAttributedLabel', '~> 1.13.4'
   pod 'AsyncDisplayKit', '~> 1.9.6'
   pod 'WebASDKImageManager', '~> 1.0.1'
-  pod 'Eureka', '~> 1.3.1'
+  pod 'Eureka', '~> 1.4.1'
   pod 'Whisper', '~> 2.0.2'
 #  pod 'GPUImage', '~> 0.1.7'
 #  pod 'Fabric', '~> 1.5.1'
