@@ -30,66 +30,7 @@ public final class ProfileEditViewController: XUIViewController {
     }
     
     // MARK: - Properties
-    private var viewmodel: ProfileEditViewModel! {
-        didSet {
-            SignalProducer<Void, NSError> { observer, disposable in
-                
-                // display hud and retrieve user info
-                disposable += HUD.show()
-                    .promoteErrors(NSError)
-                    .flatMap(FlattenStrategy.Concat) { _ in self.viewmodel.getInitialValues() }
-                    .start { event in
-                        switch event {
-                        case .Failed(let error):
-                            ProfileLogError(error.description)
-                            HUD.dismissWithFailedMessage()
-                            observer.sendFailed(error)
-                        case .Interrupted:
-                            observer.sendInterrupted()
-                        default: break
-                        }
-                    }
-                
-                // once user info is retrieved
-                disposable += zip(
-                        self.viewmodel.nicknameField.producer.ignoreNil(),
-                        self.viewmodel.whatsUpField.producer.ignoreNil(),
-                        self.viewmodel.profileImageField.producer.ignoreNil()
-                    )
-                    .map { nicknameField, whatsUpField, profileImageField in
-                        ProfileEditFormViewController(
-                            nickname: (nicknameField.initialValue, { nicknameField.onChange($0) }),
-                            profileImage: (profileImageField.initialValue, { profileImageField.onChange($0) }),
-                            whatsUp: (whatsUpField.initialValue, { whatsUpField.onChange($0) })
-                        )
-                    }
-                    .promoteErrors(NSError)
-                    .start { event in
-                        switch event {
-                        case .Next(let form):
-                            // dismiss HUD based on the result of update profile signal
-                            HUD.dismiss()
-                            self.form = form
-                        case .Interrupted:
-                            observer.sendInterrupted()
-                        default: break
-                        }
-                    }
-                
-
-                // Subscribe to disappear notification
-                disposable += HUD.didDissappearNotification()
-                    .on(next: { _ in ProfileLogVerbose("HUD disappeared.") })
-                    .startWithNext { status in
-
-                        // completes the action
-                        observer.sendNext(())
-                        observer.sendCompleted()
-                    }
-            }
-            .start()
-        }
-    }
+    private var viewmodel: ProfileEditViewModel!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -182,6 +123,68 @@ public final class ProfileEditViewController: XUIViewController {
                 // TODO: Replace the current error message implementation with something better
                 Shout(Announcement(title: "请修正以下错误", subtitle: $0, image: nil, duration: 5.0, action: nil), to: self.form)
             }
+    }
+    
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // fetch user info
+        SignalProducer<Void, NSError> { observer, disposable in
+            
+            // display hud and retrieve user info
+            disposable += HUD.show()
+                .promoteErrors(NSError)
+                .flatMap(FlattenStrategy.Concat) { _ in self.viewmodel.getInitialValues() }
+                .start { event in
+                    switch event {
+                    case .Failed(let error):
+                        ProfileLogError(error.description)
+                        HUD.dismissWithFailedMessage()
+                        observer.sendFailed(error)
+                    case .Interrupted:
+                        observer.sendInterrupted()
+                    default: break
+                    }
+            }
+            
+            // once user info is retrieved
+            disposable += zip(
+                self.viewmodel.nicknameField.producer.ignoreNil(),
+                self.viewmodel.whatsUpField.producer.ignoreNil(),
+                self.viewmodel.profileImageField.producer.ignoreNil()
+                )
+                .map { nicknameField, whatsUpField, profileImageField in
+                    ProfileEditFormViewController(
+                        nickname: (nicknameField.initialValue, { nicknameField.onChange($0) }),
+                        profileImage: (profileImageField.initialValue, { profileImageField.onChange($0) }),
+                        whatsUp: (whatsUpField.initialValue, { whatsUpField.onChange($0) })
+                    )
+                }
+                .promoteErrors(NSError)
+                .start { event in
+                    switch event {
+                    case .Next(let form):
+                        // dismiss HUD based on the result of update profile signal
+                        HUD.dismiss()
+                        self.form = form
+                    case .Interrupted:
+                        observer.sendInterrupted()
+                    default: break
+                    }
+            }
+            
+            
+            // Subscribe to disappear notification
+            disposable += HUD.didDissappearNotification()
+                .on(next: { _ in ProfileLogVerbose("HUD disappeared.") })
+                .startWithNext { status in
+                    
+                    // completes the action
+                    observer.sendNext(())
+                    observer.sendCompleted()
+            }
+        }
+        .start()
     }
     
     public func bindToViewModel(viewmodel: ProfileEditViewModel) {
