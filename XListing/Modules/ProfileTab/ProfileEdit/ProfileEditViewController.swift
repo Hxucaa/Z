@@ -42,6 +42,8 @@ public final class ProfileEditViewController: XUIViewController {
             button in
             return SignalProducer { observer, disposable in
                 self?.dismissViewControllerAnimated(true, completion: nil)
+                observer.sendNext(())
+                observer.sendCompleted()
             }
         }
         let dismissButton = UIBarButtonItem(barButtonSystemItem: .Stop, target: dismissAction.unsafeCocoaAction, action: CocoaAction.selector)

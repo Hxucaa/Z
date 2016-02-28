@@ -10,9 +10,9 @@ import Foundation
 import AVOSCloud
 
 public enum ParticipationType : Int, CustomStringConvertible {
+    case ToGo = 3
     case AA = 2 // swiftlint:disable:this type_name
     case Treat = 1
-    case ToGo = 0
     
     public var description: String {
         switch self {
