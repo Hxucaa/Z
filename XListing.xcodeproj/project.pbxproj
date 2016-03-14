@@ -77,7 +77,7 @@
 		7EF371501AB8C1E8009AA3B9 /* Parse.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF371431AB8C1E8009AA3B9 /* Parse.plist */; };
 		7EF371571AB8C9B3009AA3B9 /* BusinessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371551AB8C9B3009AA3B9 /* BusinessSpec.swift */; };
 		7EF371581AB8C9B3009AA3B9 /* BusinessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */; };
-		7EF86F121C5A129700D33800 /* RongClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF86F111C5A129700D33800 /* RongClient.swift */; };
+		7EF54FAB1C83BADB0004A74D /* ChatTabContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF54FAA1C83BADB0004A74D /* ChatTabContent.swift */; };
 		B31285EF1B63F01200E48E5C /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */; };
 		B31285F01B63F01500E48E5C /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */; };
 		B31B50761B7E308100782341 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4F195801B2789A100B8C519 /* Account.storyboard */; };
@@ -356,7 +356,7 @@
 		7EF371521AB8C8FA009AA3B9 /* XListingTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XListingTests-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		7EF371551AB8C9B3009AA3B9 /* BusinessSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessSpec.swift; sourceTree = "<group>"; };
 		7EF371561AB8C9B3009AA3B9 /* BusinessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessTests.swift; sourceTree = "<group>"; };
-		7EF86F111C5A129700D33800 /* RongClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RongClient.swift; sourceTree = "<group>"; };
+		7EF54FAA1C83BADB0004A74D /* ChatTabContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTabContent.swift; sourceTree = "<group>"; };
 		B31285EB1B63E0DC00E48E5C /* NotoSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Bold.ttf"; sourceTree = "<group>"; };
 		B31285EC1B63E0DC00E48E5C /* NotoSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Regular.ttf"; sourceTree = "<group>"; };
 		B33C0E041B71653B005F8410 /* NicknameView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NicknameView.xib; path = XListing/Modules/Account/SignUp/Nickname/NicknameView.xib; sourceTree = SOURCE_ROOT; };
@@ -877,10 +877,17 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		7EF54FA91C83BA0F0004A74D /* ChatTab */ = {
+			isa = PBXGroup;
+			children = (
+				7EF54FAA1C83BADB0004A74D /* ChatTabContent.swift */,
+			);
+			path = ChatTab;
+			sourceTree = "<group>";
+		};
 		7EF86F101C5A121500D33800 /* RongCloud */ = {
 			isa = PBXGroup;
 			children = (
-				7EF86F111C5A129700D33800 /* RongClient.swift */,
 			);
 			path = RongCloud;
 			sourceTree = "<group>";
@@ -1203,6 +1210,7 @@
 		B4CC82601AC1650100E85CEA /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				7EF54FA91C83BA0F0004A74D /* ChatTab */,
 				264129161BCF49A000BEE87A /* FullScreenImage */,
 				B4CC82681AC1673100E85CEA /* RootTabBar */,
 				B4E7E5161B9502950034B093 /* ProfileTab */,
@@ -1755,6 +1763,7 @@
 				B4E7E51A1B9514880034B093 /* TabItem.swift in Sources */,
 				B4A3A6251B757D3B00E680E6 /* PhotoView.swift in Sources */,
 				B48C99121ADA56F70045BCA9 /* NearbyViewController.swift in Sources */,
+				7EF54FAB1C83BADB0004A74D /* ChatTabContent.swift in Sources */,
 				B4D733A41B9A45BA00B599B9 /* ISharedWireframe.swift in Sources */,
 				7E75A2E41C6583BA00ACC3E6 /* Config.swift in Sources */,
 				3D70CCED1B57A951004588EC /* UIImageView+extension.swift in Sources */,
@@ -1803,7 +1812,6 @@
 				B427B36D1BC5B7EF008A9F19 /* ProfileUpperViewModel.swift in Sources */,
 				264129141BCEF50200BEE87A /* AddPhotoCollectionViewCell.swift in Sources */,
 				B4104F601B84246F00D7E4BD /* IInfinityScrollDataSource.swift in Sources */,
-				7EF86F121C5A129700D33800 /* RongClient.swift in Sources */,
 				B427B3561BC44DAA008A9F19 /* BasicUserInfoViewModel.swift in Sources */,
 				2675C4BE1BB3AD1400F2683B /* DescriptionCellViewModel.swift in Sources */,
 				B47C0EA61AC0A21000F9FB31 /* AppDependencies.swift in Sources */,

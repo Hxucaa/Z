@@ -20,10 +20,10 @@ public final class Config {
     
     public class func config() {
         
-        loadKeys()
         configureCocoaLumberjack()
         configureSDWebImage()
         configureLeanCloud()
+        configureRongCloud()
     }
     
     private class func configureSDWebImage() {
@@ -33,7 +33,10 @@ public final class Config {
     }
     
     private class func configureLeanCloud() {
-        
+        let id = "id"
+        let key = "key"
+        let dict = loadKeys(id, key)
+        AVOSCloud.setApplicationId(dict[id], clientKey: dict[key])
         AVOSCloud.setLastModifyEnabled(true)
         AVOSCloud.setVerbosePolicy(kAVVerboseAuto)
         
@@ -52,38 +55,46 @@ public final class Config {
         Business.registerSubclass()
     }
     
-    private static func loadKeys() {
-        var id: String?
-        var key: String?
+    private class func configureRongCloud() {
+        let rongcloudKey = "rongcloudKey"
+        let dict = loadKeys(rongcloudKey)
+        RCIM.sharedRCIM().initWithAppKey(dict[rongcloudKey])
+//        RCIM.sharedRCIM().connectWithToken("YourTestUserToken",
+//            success: { (userId) -> Void in
+//                print("登陆成功。当前登录的用户ID：\(userId)")
+//            }, error: { (status) -> Void in
+//                print("登陆的错误码为:\(status.rawValue)")
+//            }, tokenIncorrect: {
+//                //token过期或者不正确。
+//                //如果设置了token有效期并且token过期，请重新请求您的服务器获取新的token
+//                //如果没有设置token有效期却提示token错误，请检查您客户端和服务器的appkey是否匹配，还有检查您获取token的流程。
+//                print("token错误")
+//        })
+    }
+    
+    private static func loadKeys(keys: String...) -> [String: String] {
+        var result = [String: String]()
         
         let env = NSProcessInfo.processInfo().environment
-        if let mode = env["exec_mode"] as String! {
-            LSLogInfo("We are in \(mode.uppercaseString) mode!")
-            
-            let path = NSBundle.mainBundle().pathForResource("Parse", ofType: "plist")
-            let dict: AnyObject = NSDictionary(contentsOfFile: path!)!
-            
-            if let modeDict: AnyObject = dict.objectForKey(mode) {
-                id = modeDict.objectForKey("id") as? String
-                key = modeDict.objectForKey("key") as? String
-            }
-            
-        } else {
-            
+        guard let mode = env["exec_mode"] as String! else {
+            fatalError("Missing execution mode! Please refer to instructions on how to setup the project.")
         }
         
-        let errorMessage = "Unable to find Parse id and key for initialization"
-        if let _id: String = id {
-            if let _key: String = key {
-                AVOSCloud.setApplicationId(_id, clientKey: _key)
-            }
-            else {
-                LSLogError(errorMessage)
-            }
+        LSLogInfo("We are in \(mode.uppercaseString) mode!")
+        
+        let path = NSBundle.mainBundle().pathForResource("Parse", ofType: "plist")
+        guard let dict = NSDictionary(contentsOfFile: path!) else {
+            fatalError("Missing `Parse.plist` file which hosts keys for initializing the app. Please refer to instructions on how to setup the project.")
         }
-        else {
-            LSLogError(errorMessage)
+        
+        for key in keys {
+            guard let modeDict: AnyObject = dict.objectForKey(mode), value = modeDict.objectForKey(key) as? String else {
+                fatalError("Cannot find the key: \(key)")
+            }
+            result[key] = value
         }
+        
+        return result
     }
     
     

@@ -1,15 +1,15 @@
 PODS:
   - ActionSheetPicker-3.0 (2.0.5)
-  - AMScrollingNavbar (2.0.11)
+  - AMScrollingNavbar (2.0.13)
   - AsyncDisplayKit (1.9.7):
     - AsyncDisplayKit/PINRemoteImage (= 1.9.7)
   - AsyncDisplayKit/ASDealloc2MainObject (1.9.7)
   - AsyncDisplayKit/PINRemoteImage (1.9.7):
     - AsyncDisplayKit/ASDealloc2MainObject
     - PINRemoteImage/iOS (>= 2)
-  - AVOSCloudCrashReportingDynamic (3.2.5.1):
+  - AVOSCloudCrashReportingDynamic (3.2.7):
     - AVOSCloudDynamic
-  - AVOSCloudDynamic (3.2.5.1)
+  - AVOSCloudDynamic (3.2.7)
   - Cartography (0.6.0)
   - CocoaLumberjack/Core (2.2.0)
   - CocoaLumberjack/Default (2.2.0):
@@ -20,14 +20,14 @@ PODS:
     - CocoaLumberjack/Extensions
   - Dollar (5.0.0)
   - Eureka (1.4.1)
-  - FLEX (2.2.0)
-  - INSPullToRefresh (1.1.4)
+  - FLEX (2.3.0)
+  - INSPullToRefresh (1.1.5)
   - Locksmith (2.0.8)
   - Nimble (3.1.0)
-  - PINCache (2.2.1)
-  - PINRemoteImage/Core (2.0.1):
+  - PINCache (2.2.2)
+  - PINRemoteImage/Core (2.1):
     - PINCache (>= 2.1)
-  - PINRemoteImage/iOS (2.0.1):
+  - PINRemoteImage/iOS (2.1):
     - PINRemoteImage/Core
   - Quick (0.9.1)
   - ReactiveArray (0.7.2):
@@ -44,7 +44,7 @@ PODS:
     - ReactiveCocoa/Core
     - Result (~> 1.0.1)
   - Result (1.0.2)
-  - RongCloudIMKit (2.4.8)
+  - RongCloudIMKit (2.4.9)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -116,25 +116,25 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
-  AMScrollingNavbar: a278fbd74870e9983bb6318ca3b64011f9571269
+  AMScrollingNavbar: 4445a6ce4b40c09ad56b28f2dd8d3516b350e089
   AsyncDisplayKit: eb762d3bfd3896b2901909ebc24b54c97f32d43c
-  AVOSCloudCrashReportingDynamic: 050e0b82445b99ad97104ce0cd14388f5c68e2e9
-  AVOSCloudDynamic: 1b381e62e973bbed1dc85491c7df932e341af64b
+  AVOSCloudCrashReportingDynamic: 603806f916a5e8f201e151ff84d8ad2a17c2b6f5
+  AVOSCloudDynamic: 1a64ed78c897be98d54d75fd4c8cff0a21e9eeb6
   Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   Dollar: 310893dd6b3799b9b155e3deb61a0492987e4d03
   Eureka: 2f1921d3162491921d2fef3b516bc4ef93a05122
-  FLEX: bc8a4fb887ed5d3cdf7c2f3bd665f7bb1647cc58
-  INSPullToRefresh: a27f7faf022f858f02a7680943e11a1f7ce3430a
+  FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
+  INSPullToRefresh: 112ae2c295d2b3a76daa9dff86e7ef40ed002c47
   Locksmith: a8ed41ac4c06506ea8cb199d8ec8a8d3d108eb2a
   Nimble: 79d40f4d69d47314229bbabacaa02b8838c779b9
-  PINCache: ed1f07a85cc6fbf488f8ecc1980b07b49b7b85b5
-  PINRemoteImage: 6feb6da5db9a6cc5e3b9006c8f7b749a7e61be49
+  PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
+  PINRemoteImage: e8367ac3f5c234712f1d8c274462ec834d649940
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
   ReactiveArray: 394d82d86674c2cca6a56bb8e9024ff15cab9cb0
   ReactiveCocoa: 69be555be30674b07a86b60a91b855063841acc0
   Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
-  RongCloudIMKit: 43f367cba48b58238f1ab3b268842e6951231a54
+  RongCloudIMKit: e670867836deef44c0157f05b4a88107f1f5f8e6
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
