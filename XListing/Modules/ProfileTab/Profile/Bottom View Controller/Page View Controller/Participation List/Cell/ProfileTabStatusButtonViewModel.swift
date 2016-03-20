@@ -22,7 +22,7 @@ public class ProfileTabStatusButtonViewModel: IProfileTabStatusButtonViewModel {
     // MARK: - Properties
     
     // MARK: - Initializers
-    public required init(type: ParticipationType?) {
+    public required init(type: EventType?) {
         if let type = type {
             _type = MutableProperty(type.description)
         }

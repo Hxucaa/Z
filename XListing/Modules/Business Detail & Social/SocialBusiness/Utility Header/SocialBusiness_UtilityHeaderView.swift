@@ -125,7 +125,7 @@ public final class SocialBusiness_UtilityHeaderView : UIView {
         detailInfoButton.hidden = true
     }
     
-    public func disableStartEventButton(choice: ParticipationType) {
+    public func disableStartEventButton(choice: EventType) {
         startEventButton.enabled = false
         startEventButton.backgroundColor = UIColor.x_PrimaryColor()
         let attributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.boldSystemFontOfSize(18)]

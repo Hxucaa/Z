@@ -11,8 +11,8 @@ import ReactiveCocoa
 import AVOSCloud
 
 public protocol IParticipationService : class {
-    func findBy(query: AVQuery) -> SignalProducer<[Participation], NSError>
-    func get(query: AVQuery) -> SignalProducer<Participation, NSError>
-    func create(participation: Participation) -> SignalProducer<Bool, NSError>
-    func delete(participation: Participation) -> SignalProducer<Bool, NSError>
+    func findBy(query: AVQuery) -> SignalProducer<[Event], NSError>
+    func get(query: AVQuery) -> SignalProducer<Event, NSError>
+    func create(participation: Event) -> SignalProducer<Bool, NSError>
+    func delete(participation: Event) -> SignalProducer<Bool, NSError>
 }

@@ -48,11 +48,11 @@ public final class Config {
         
         //        User.enableAutomaticUser()
         
-        User.registerSubclass()
-        Me.registerSubclass()
-        User_Business_Participation.registerSubclass()
-        Address.registerSubclass()
-        Business.registerSubclass()
+        UserDAO.registerSubclass()
+        EventDAO.registerSubclass()
+        EventParticipationDAO.registerSubclass()
+        AddressDAO.registerSubclass()
+        BusinessDAO.registerSubclass()
     }
     
     private class func configureRongCloud() {

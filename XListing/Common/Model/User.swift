@@ -1,118 +1,67 @@
 //
-//  UserDAO.swift
+//  User.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-04-17.
-//  Copyright (c) 2015 ZenChat. All rights reserved.
+//  Created by Lance Zhu on 2016-03-19.
+//  Copyright © 2016 ZenChat. All rights reserved.
 //
 
 import Foundation
-import AVOSCloud
 
-public class User: AVUser {
+public class _BaseUser : IModel {
+    public let objectId: String
+    public let updatedAt: NSDate
+    public let createdAt: NSDate
     
-    public struct Property {
-        static let type = "type"
-        static let status = "status"
-        static let isActive = "isActive"
-        static let nickName = "nickname"
-        static let gender = "gender"
-        static let ageGroup = "ageGroup"
-        static let horoscope = "horoscope"
-        static let address = "address"
-        static let coverPhoto = "coverPhoto"
-        static let whatsUp = "whatsUp"
-        static let latestLocation = "latestLocation"
-        static let aaCount = "aaCount"
-        static let treatCount = "treatCount"
-        static let toGoCount = "toGoCount"
+    public let status: UserStatus
+    public let nickname: String
+    public let gender: Gender
+    public let ageGroup: AgeGroup
+    public let horoscope: Horoscope
+    public let coverPhoto: ImageFile?
+    public let whatsUp: String?
+    public let latestLocation: Geolocation?
+    public let aaCount: Int
+    public let treatCount: Int
+    public let toGoCount: Int
+    
+    public init(objectId: String, updatedAt: NSDate, createdAt: NSDate, status: UserStatus, nickname: String, gender: Gender, ageGroup: AgeGroup, horoscope: Horoscope, coverPhoto: ImageFile?, whatsUp: String?, latestLocation: Geolocation?, aaCount: Int, treatCount: Int, toGoCount: Int) {
+        
+        self.objectId = objectId
+        self.updatedAt = updatedAt
+        self.createdAt = createdAt
+        
+        self.status = status
+        self.nickname = nickname
+        self.gender = gender
+        self.ageGroup = ageGroup
+        self.horoscope = horoscope
+        self.coverPhoto = coverPhoto
+        self.whatsUp = whatsUp
+        self.latestLocation = latestLocation
+        self.aaCount = aaCount
+        self.treatCount = treatCount
+        self.toGoCount = toGoCount
     }
+}
+
+public class User : _BaseUser {
     
-    public func toString() -> String {
-        var s = ""
-        s += "NickName: \(self[Property.nickName])"
-        s += "Gender: \(self[Property.gender])"
-        s += "AgeGroup: \(self[Property.ageGroup])"
-        s += "Horoscope: \(self[Property.horoscope])"
-        return s
+}
+
+public class BusinessUser : _BaseUser {
+    
+}
+
+public class Me : User {
+    public let address: Address?
+    public let birthday: NSDate
+    
+    public init(objectId: String, updatedAt: NSDate, createdAt: NSDate, birthday: NSDate, address: Address?, status: UserStatus, nickname: String, gender: Gender, ageGroup: AgeGroup, horoscope: Horoscope, coverPhoto: ImageFile?, whatsUp: String?, latestLocation: Geolocation?, aaCount: Int, treatCount: Int, toGoCount: Int) {
+        
+        self.address = address
+        self.birthday = birthday
+        
+        super.init(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, status: status, nickname: nickname, gender: gender, ageGroup: ageGroup, horoscope: horoscope, coverPhoto: coverPhoto, whatsUp: whatsUp, latestLocation: latestLocation, aaCount: aaCount, treatCount: treatCount, toGoCount: toGoCount)
     }
-    
-    // Class Name
-//    public class func parseClassName() -> String {
-//        return "_User"
-//    }
-    
-    // MARK: Constructors
-    public override class func registerSubclass() {
-        var onceToken: dispatch_once_t = 0
-        dispatch_once(&onceToken) {
-            super.registerSubclass()
-        }
-    }
-    
-    public var type: UserType {
-        get {
-            return UserType(rawValue: self[Property.type] as! Int)!
-        }
-    }
-    
-    public var status: UserStatus {
-        get {
-            return UserStatus(rawValue: self[Property.status] as! Int)!
-        }
-    }
-    
-    public var isActive: Activation {
-        get {
-            return Activation(self[Property.isActive] as! Bool)
-        }
-    }
-    
-    @NSManaged public var nickname: String
-    
-    public var gender: Gender {
-        get {
-            return Gender(rawValue: self[Property.gender] as! Int)!
-        }
-    }
-    
-    public var ageGroup: AgeGroup {
-        get {
-            return AgeGroup(rawValue: self[Property.ageGroup] as! Int)!
-        }
-    }
-    
-    public var horoscope: Horoscope {
-        get {
-            return Horoscope(rawValue: self[Property.horoscope] as! Int)!
-        }
-    }
-    
-    public var coverPhoto: ImageFile? {
-        get {
-            if let file = (self[Property.coverPhoto] as? AVFile) {
-                return ImageFile(name: file.name, url: file.url)
-            }
-            else {
-                return nil
-            }
-        }
-    }
-    
-    @NSManaged public var whatsUp: String?
-    
-    public var latestLocation: Geolocation? {
-        get {
-            guard let geopoint = self[Property.latestLocation] as? AVGeoPoint else {
-                return nil
-            }
-            return Geolocation(latitude: geopoint.latitude, longitude: geopoint.longitude)
-        }
-    }
-    
-    @NSManaged public var aaCount: Int
-    
-    @NSManaged public var treatCount: Int
-    
-    @NSManaged public var toGoCount: Int
 }

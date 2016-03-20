@@ -100,11 +100,11 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     }
     
     private func fetchParticipatingUsers(refresh: Bool = false) -> SignalProducer<[SocialBusiness_UserViewModel], NSError> {
-        let query = Participation.query()
+        let query = EventDAO.query()
         query.limit = Constants.PAGINATION_LIMIT
         query.skip = collectionDataSource.count
-        query.includeKey(User_Business_Participation.Property.User.rawValue)
-        query.whereKey(User_Business_Participation.Property.Business.rawValue, equalTo: business)
+        query.includeKey(EventDAO.Property.Iniator.rawValue)
+        query.whereKey(EventDAO.Property.Business.rawValue, equalTo: business)
 
         return participationService.findBy(query)
             .map { participations -> [SocialBusiness_UserViewModel] in
@@ -141,7 +141,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
 
      - returns: A signal producer
      */
-    public func participate(choice: ParticipationType) -> SignalProducer<Bool, NSError> {
+    public func participate(choice: EventType) -> SignalProducer<Bool, NSError> {
         return self.meService.currentLoggedInUser()
             .flatMap(FlattenStrategy.Concat) { user -> SignalProducer<Bool, NSError> in
                 let p = Participation()
