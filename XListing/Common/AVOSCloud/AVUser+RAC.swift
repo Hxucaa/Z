@@ -10,9 +10,9 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public extension AVUser {
+extension AVUser {
     
-    public func rx_signUp() -> SignalProducer<Bool, NSError> {
+    func rac_signUp() -> SignalProducer<Bool, NetworkError> {
         return SignalProducer { observer, disposable in
             self.signUpInBackgroundWithBlock { (success, error) -> Void in
                 if error == nil {
@@ -20,14 +20,14 @@ public extension AVUser {
                     observer.sendCompleted()
                 }
                 else {
-                    observer.sendFailed(error)
+                    observer.sendFailed(error.toNetworkError())
                 }
             }
         }
     }
     
     
-    public func rx_updatePassword(oldPassword: String, newPassword: String) -> SignalProducer<AVUser, NSError> {
+    func rac_updatePassword(oldPassword: String, newPassword: String) -> SignalProducer<AVUser, NetworkError> {
         return SignalProducer { observer, disposable in
             self.updatePassword(oldPassword, newPassword: newPassword) { (object, error) -> Void in
                 if error == nil {
@@ -35,13 +35,13 @@ public extension AVUser {
                     observer.sendCompleted()
                 }
                 else {
-                    observer.sendFailed(error)
+                    observer.sendFailed(error.toNetworkError())
                 }
             }
         }
     }
     
-    public class func rx_logInWithUsername(username: String, password: String) -> SignalProducer<AVUser, NSError> {
+    class func rac_logInWithUsername(username: String, password: String) -> SignalProducer<AVUser, NetworkError> {
         return SignalProducer { observer, disposable in
             AVUser.logInWithUsernameInBackground(username, password: password, block: { (user, error) -> Void in
                 if error == nil {
@@ -49,14 +49,14 @@ public extension AVUser {
                     observer.sendCompleted()
                 }
                 else {
-                    observer.sendFailed(error)
+                    observer.sendFailed(error.toNetworkError())
                 }
             })
         }
     }
     
     
-    public class func rx_logInWithPhoneNumber(phoneNumber: String, password: String) -> SignalProducer<AVUser, NSError> {
+    class func rac_logInWithPhoneNumber(phoneNumber: String, password: String) -> SignalProducer<AVUser, NetworkError> {
         return SignalProducer { observer, disposable in
             AVUser.logInWithMobilePhoneNumberInBackground(phoneNumber, password: password, block: { (user, error) -> Void in
                 if error == nil {
@@ -64,13 +64,13 @@ public extension AVUser {
                     observer.sendCompleted()
                 }
                 else {
-                    observer.sendFailed(error)
+                    observer.sendFailed(error.toNetworkError())
                 }
             })
         }
     }
     
-    public class func rx_logInWithPhoneNumber(phoneNumber: String, smsCode: String) -> SignalProducer<AVUser, NSError> {
+    class func rac_logInWithPhoneNumber(phoneNumber: String, smsCode: String) -> SignalProducer<AVUser, NetworkError> {
         return SignalProducer { observer, disposable in
             AVUser.logInWithMobilePhoneNumberInBackground(phoneNumber, smsCode: smsCode, block: { (user, error) -> Void in
                 if error == nil {
@@ -78,13 +78,13 @@ public extension AVUser {
                     observer.sendCompleted()
                 }
                 else {
-                    observer.sendFailed(error)
+                    observer.sendFailed(error.toNetworkError())
                 }
             })
         }
     }
     
-    public func rx_logOut() -> SignalProducer<Void, NSError> {
+    func rac_logOut() -> SignalProducer<Void, NetworkError> {
         return SignalProducer { observer, disposable in
             AVUser.logOut()
             

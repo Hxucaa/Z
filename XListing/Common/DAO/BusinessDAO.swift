@@ -9,9 +9,9 @@
 import Foundation
 import AVOSCloud
 
-final class BusinessDAO: AVObject, AVSubclassing {
+public final class BusinessDAO: AVObject, AVSubclassing {
     
-    internal struct Property {
+    struct Property {
         static let name = "name"
         static let phone = "phone"
         static let email = "email"
@@ -26,12 +26,12 @@ final class BusinessDAO: AVObject, AVSubclassing {
     }
     
     // Class Name
-    internal class func parseClassName() -> String {
+    public class func parseClassName() -> String {
         return "Business"
     }
     
     // MARK: Constructors
-    internal override class func registerSubclass() {
+    public override class func registerSubclass() {
         var onceToken: dispatch_once_t = 0
         dispatch_once(&onceToken) {
             super.registerSubclass()
@@ -39,31 +39,31 @@ final class BusinessDAO: AVObject, AVSubclassing {
     }
     
     // Simplified Chinese name of this business
-    @NSManaged internal var name: String
+    @NSManaged var name: String
     
     // Phone number for this business with international dialing code (e.g. +442079460000)
-    @NSManaged internal var phone: String
+    @NSManaged var phone: String
     
-    @NSManaged internal var email: String?
+    @NSManaged var email: String?
     
     // URL for business page
-    @NSManaged internal var websiteUrl: String?
+    @NSManaged var websiteUrl: String?
     
-    @NSManaged internal var address: AddressDAO
+    @NSManaged var address: AddressDAO
     
-    @NSManaged internal var coverImage: AVFile
-    //    internal var coverImage: ImageFile {
+    @NSManaged var coverImage: AVFile
+    //    var coverImage: ImageFile {
     //        get {
     //            let file = (self[Property.coverImage] as! AVFile)
     //            return ImageFile(name: file.name, url: file.url)
     //        }
     //    }
     
-    //    internal func setCoverImage(name: String, data: NSData) {
+    //    func setCoverImage(name: String, data: NSData) {
     //        self[Property.coverImage] = AVFile(name: name, data: data)
     //    }
     
-    internal var descript: String? {
+    var descript: String? {
         get {
             return self[Property.descript] as? String
         }
@@ -71,21 +71,14 @@ final class BusinessDAO: AVObject, AVSubclassing {
             self[Property.descript] = newValue
         }
     }
-    
-    //    internal var isActive: Bool
-    
-    @NSManaged internal var aaCount: Int
-    
-    @NSManaged internal var treatCount: Int
-    
-    @NSManaged internal var toGoCount: Int
+    @NSManaged var aaCount: Int
+    @NSManaged var treatCount: Int
+    @NSManaged var toGoCount: Int
     
 }
 
-//extension BusinessDAO {
-//
-//    internal func rx_refresh() -> Observable<BusinessDAO> {
-//        return super.rx_refresh()
-//            .map { $0 as! BusinessDAO }
-//    }
-//}
+extension BusinessDAO {
+    static var typedQuery: TypedAVQuery<BusinessDAO> {
+        return BusinessDAO.query() as! TypedAVQuery<BusinessDAO>
+    }
+}

@@ -10,8 +10,8 @@ import Foundation
 
 public enum UserStatus : Int {
     case NotRegistered = 0
-    case Registered = 1
-    case Locked = 2
-    case ForgotPassword = 3
-    case Disable = 4
+    case Registered
+    case Locked
+    case ForgotPassword
+    case Disable
 }

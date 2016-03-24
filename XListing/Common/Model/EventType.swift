@@ -10,8 +10,8 @@ import Foundation
 
 public enum EventType : Int, CustomStringConvertible {
     case Treat = 1
-    case Split = 2
-    case ToGo = 3
+    case Split
+    case ToGo
     
     public var description: String {
         switch self {

@@ -41,7 +41,9 @@ public final class Config {
         AVOSCloud.setVerbosePolicy(kAVVerboseAuto)
         
         AVAnalytics.setAnalyticsEnabled(true)
+        AVCloud.setProductionMode(true)
         #if DEBUG
+            AVCloud.setProductionMode(false)
             AVAnalytics.setLogEnabled(true)
         #endif
         

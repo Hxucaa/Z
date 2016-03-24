@@ -144,7 +144,7 @@ public final class SocialBusinessViewModel : ISocialBusinessViewModel, ICollecti
     public func participate(choice: EventType) -> SignalProducer<Bool, NSError> {
         return self.meService.currentLoggedInUser()
             .flatMap(FlattenStrategy.Concat) { user -> SignalProducer<Bool, NSError> in
-                let p = Participation()
+                let p = Event()
                 p.user = user
                 p.business = self.business
                 p.type = choice

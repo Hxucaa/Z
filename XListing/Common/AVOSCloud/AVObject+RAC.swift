@@ -10,14 +10,14 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public extension AVObject {
+extension AVObject {
     
     /**
      Saves the AVObject asynchronously.
      
      - returns: SignalProducer sequence of operation status.
      */
-    public func rx_save() -> SignalProducer<Bool, NSError> {
+    func rac_save() -> SignalProducer<Bool, NetworkError> {
         return SignalProducer { observer, disposable in
             self.saveInBackgroundWithBlock({ (success, error) -> Void in
                 if error == nil {
@@ -25,14 +25,13 @@ public extension AVObject {
                     observer.sendCompleted()
                 }
                 else {
-                    observer.sendFailed(error)
+                    observer.sendFailed(error.toNetworkError())
                 }
             })
         }
     }
     
-    public func rx_saveEventually() -> SignalProducer<Bool, NSError> {
-        let t = AVError()
+    func rac_saveEventually() -> SignalProducer<Bool, NetworkError> {
         return SignalProducer { observer, disposable in
             self.saveEventually { (success, error) -> Void in
                 if error == nil {
@@ -40,7 +39,7 @@ public extension AVObject {
                     observer.sendCompleted()
                 }
                 else {
-                    observer.sendFailed(error)
+                    observer.sendFailed(error.toNetworkError())
                 }
             }
         }
@@ -51,7 +50,7 @@ public extension AVObject {
      
      - returns: SignalProducer sequence of operation status.
      */
-    public func rx_delete() -> SignalProducer<Bool, NSError> {
+    func rac_delete() -> SignalProducer<Bool, NetworkError> {
         return SignalProducer { observer, disposable in
             self.deleteInBackgroundWithBlock({ (success, error) -> Void in
                 if error == nil {
@@ -59,13 +58,13 @@ public extension AVObject {
                     observer.sendCompleted()
                 }
                 else {
-                    observer.sendFailed(error)
+                    observer.sendFailed(error.toNetworkError())
                 }
             })
         }
     }
     
-    public func rx_deleteEventually() -> SignalProducer<AVObject, NSError> {
+    func rac_deleteEventually() -> SignalProducer<AVObject, NetworkError> {
         return SignalProducer { observer, disposable in
             self.deleteEventuallyWithBlock({ (result, error) -> Void in
                 if error == nil {
@@ -73,13 +72,13 @@ public extension AVObject {
                     observer.sendCompleted()
                 }
                 else {
-                    observer.sendFailed(error)
+                    observer.sendFailed(error.toNetworkError())
                 }
             })
         }
     }
     
-    public func rx_refresh() -> SignalProducer<AVObject, NSError> {
+    func rac_refresh() -> SignalProducer<AVObject, NetworkError> {
         return SignalProducer { observer, disposable in
             self.refreshInBackgroundWithBlock { (result, error) -> Void in
                 if error == nil {
@@ -87,7 +86,7 @@ public extension AVObject {
                     observer.sendCompleted()
                 }
                 else {
-                    observer.sendFailed(error)
+                    observer.sendFailed(error.toNetworkError())
                 }
             }
         }

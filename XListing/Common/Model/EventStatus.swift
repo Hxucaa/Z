@@ -10,5 +10,5 @@ import Foundation
 
 public enum EventStatus : Int {
     case Open = 1
-    case Started = 2
+    case Started
 }

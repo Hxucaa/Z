@@ -17,8 +17,12 @@ final class EventParticipationDAO: AVObject, AVSubclassing {
         case Status = "status"
     }
     
+    let status: IntAttribute
+    
     override init() {
         super.init()
+        
+        status = IntAttribute(propertyName: "status", dao: self)
     }
     
     // Class Name
@@ -38,6 +42,12 @@ final class EventParticipationDAO: AVObject, AVSubclassing {
     
     @NSManaged var participant: UserDAO
     
-    @NSManaged var status: Int
+//    @NSManaged var status: Int
     
+}
+
+extension EventParticipationDAO : TypedQueryable {
+    static var queryObject: AVQuery {
+        return EventParticipationDAO.query()
+    }
 }

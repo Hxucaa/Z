@@ -9,18 +9,9 @@
 import Foundation
 
 public enum Activation : BooleanType, Equatable {
-    case Active
-    case InActive
-    
-    init(_ value: BooleanType) {
-        if value.boolValue {
-            self = .Active
-        }
-        else {
-            self = .InActive
-        }
-    }
-    
+    case Active = true
+    case InActive = false
+        
     public var boolValue: Bool {
         switch self {
         case .Active: return true

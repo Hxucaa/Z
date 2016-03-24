@@ -16,9 +16,11 @@ public final class RootTabBarWireframe : IRootTabBarWireframe {
         return rootTabBarController
     }
 
-    public required init(inWindow: UIWindow, meService: IMeService, accountWireframe: IAccountWireframe, featuredListTabItem: TabItem<FeaturedTabContent>, nearbyTabItem: TabItem<NearbyTabContent>, profileTabItem: TabItem<ProfileTabContent>) {
+//    public required init(inWindow: UIWindow, meService: IMeService, accountWireframe: IAccountWireframe, featuredListTabItem: TabItem<FeaturedTabContent>, nearbyTabItem: TabItem<NearbyTabContent>, profileTabItem: TabItem<ProfileTabContent>) {
+    public required init(inWindow: UIWindow, meService: IMeService, accountWireframe: IAccountWireframe, featuredListTabItem: TabItem<FeaturedTabContent>, profileTabItem: TabItem<ProfileTabContent>) {
         
-        rootTabBarController.setViewControllers([featuredListTabItem.rootNavigationController, nearbyTabItem.rootNavigationController, profileTabItem.rootNavigationController], animated: false)
+        rootTabBarController.setViewControllers([featuredListTabItem.rootNavigationController, profileTabItem.rootNavigationController], animated: false)
+//        rootTabBarController.setViewControllers([featuredListTabItem.rootNavigationController, nearbyTabItem.rootNavigationController, profileTabItem.rootNavigationController], animated: false)
         rootTabBarController.meService = meService
         rootTabBarController.accountWireframe = accountWireframe
     }

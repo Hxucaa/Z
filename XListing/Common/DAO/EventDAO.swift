@@ -11,16 +11,22 @@ import AVOSCloud
 
 final class EventDAO: AVObject, AVSubclassing {
     
-    enum Property : String {
-        case Iniator = "initiator"
-        case Business = "business"
-        case FinalParticipant = "final_participant"
-        case EventType = "event_type"
-        case Status = "status"
-    }
+//    enum Property : String {
+//        case Iniator = "initiator"
+//        case Business = "business"
+//        case FinalParticipant = "final_participant"
+//        case EventType = "event_type"
+//        case Status = "status"
+//    }
+    
+    let type: IntAttribute
+    let status: IntAttribute
     
     override init() {
         super.init()
+        
+        type = IntAttribute(propertyName: "event_type", dao: self)
+        status = IntAttribute(propertyName: "status", dao: self)
     }
     
     // Class Name
@@ -42,8 +48,14 @@ final class EventDAO: AVObject, AVSubclassing {
     
     @NSManaged var final_participant: UserDAO
     
-    @NSManaged var event_type: Int
+//    @NSManaged var event_type: Int
+//    
+//    @NSManaged var status: Int
     
-    @NSManaged var status: Int
-    
+}
+
+extension EventDAO : TypedQueryable {
+    static var queryObject: AVQuery {
+        return EventDAO.query()
+    }
 }

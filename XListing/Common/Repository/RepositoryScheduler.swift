@@ -2,7 +2,7 @@
 //  RepositoryScheduler.swift
 //  XListing
 //
-//  Created by Hong Zhu on 2016-03-19.
+//  Created by Lance Zhu on 2016-03-19.
 //  Copyright © 2016 ZenChat. All rights reserved.
 //
 
