@@ -20,7 +20,7 @@ public class BasicBusinessInfoViewModel : IBasicBusinessInfoViewModel {
     public let name: ConstantProperty<String>
     public let phone: ConstantProperty<String>
     public let email: ConstantProperty<String?>
-    public let websiteUrl: ConstantProperty<String?>
+    public let websiteUrl: ConstantProperty<NSURL?>
     public let district: ConstantProperty<String?>
     public let city: ConstantProperty<String>
     public let province: ConstantProperty<String>
@@ -63,8 +63,8 @@ public class BasicBusinessInfoViewModel : IBasicBusinessInfoViewModel {
         district = ConstantProperty(business.address.district.regionNameC)
         city = ConstantProperty(business.address.city.regionNameC)
         province = ConstantProperty(business.address.province.regionNameC)
-        coverImageUrl = ConstantProperty(NSURL(string: business.coverImage.url))
-        description = ConstantProperty(business.descript)
+        coverImageUrl = ConstantProperty(business.coverImage.url)
+        description = ConstantProperty(business.descriptor)
         averagePrice = ConstantProperty("")
         aaCount = ConstantProperty(business.aaCount)
         treatCount = ConstantProperty(business.treatCount)

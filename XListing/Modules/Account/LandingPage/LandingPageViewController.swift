@@ -11,7 +11,9 @@ import ReactiveCocoa
 
 private let LandingPageViewNibName = "LandingPageView"
 
-public final class LandingPageViewController: XUIViewController {
+final class LandingPageViewController: XUIViewController, ViewModelBackedViewControllerType {
+    
+    typealias ViewModelType = ILandingPageViewModel
     
     // MARK: - UI Controls
     private var landingPageView: LandingPageView!
@@ -19,12 +21,10 @@ public final class LandingPageViewController: XUIViewController {
     // MARK: - Properties
     
     private var viewmodel: ILandingPageViewModel!
-    /// A disposable that will dispose of any number of other disposables.
-    private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Setups
     
-    public override func loadView() {
+    override func loadView() {
         super.loadView()
         
         landingPageView = UINib(nibName: LandingPageViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! LandingPageView
@@ -32,32 +32,34 @@ public final class LandingPageViewController: XUIViewController {
         
     }
     
-    public override func viewDidLoad() {
+    
+    
+    override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(self.view)
         navigationController?.setNavigationBarHidden(true, animated: false)
         
         // add landing page as the first subview
         landingPageView.bindToViewModel(viewmodel)
 
-        compositeDisposable += landingPageView.skipProxy
+        _compositeDisposable += landingPageView.skipProxy
             .logLifeCycle(LogContext.Account, signalName: "landingPageView.skipProxy")
             .startWithNext { [weak self] in
                 self?.viewmodel.skipAccountModule()
             }
     }
     
-    public override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        compositeDisposable += landingPageView.loginProxy
+        _compositeDisposable += landingPageView.loginProxy
             .takeUntilViewWillDisappear(self)
             .logLifeCycle(LogContext.Account, signalName: "landingPageView.loginProxy")
             .startWithNext { [weak self] in
                 self?.viewmodel.goToLogInComponent()
             }
         
-        compositeDisposable += landingPageView.signUpProxy
+        _compositeDisposable += landingPageView.signUpProxy
             .takeUntilViewWillDisappear(self)
             .logLifeCycle(LogContext.Account, signalName: "landingPageView.signUpProxy")
             .startWithNext { [weak self] in
@@ -67,15 +69,8 @@ public final class LandingPageViewController: XUIViewController {
 
     }
     
-    deinit {
-        compositeDisposable.dispose()
-        AccountLogVerbose("Landing Page View Controller deinitializes.")
-    }
-    
-    // MARK: - Bindings
-    
-    public func bindToViewModel(viewModel: ILandingPageViewModel) {
-        self.viewmodel = viewModel
+    func bindToViewModel(viewmodel: ILandingPageViewModel) {
+        self.viewmodel = viewmodel
     }
     
     // MARK: - Others

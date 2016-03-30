@@ -35,10 +35,10 @@ public final class PhotoView : SpringView {
     private let (_presentUIImagePickerProxy, _presentUIImagePickerObserver) = SignalProducer<UIImagePickerController, NoError>.proxy()
     
     /// Dismiss UIImage Picker Controller
-    public var dismissUIImagePickerProxy: SignalProducer<CompletionHandler?, NoError> {
+    public var dismissUIImagePickerProxy: SignalProducer<(() ->())?, NoError> {
         return _dismissUIImagePickerProxy
     }
-    private let (_dismissUIImagePickerProxy, _dismissUIImagePickerObserver) = SignalProducer<CompletionHandler?, NoError>.proxy()
+    private let (_dismissUIImagePickerProxy, _dismissUIImagePickerObserver) = SignalProducer<(() ->())?, NoError>.proxy()
     
     private let (_doneProxy, _doneObserver) = SimpleProxy.proxy()
     public var doneProxy: SimpleProxy {

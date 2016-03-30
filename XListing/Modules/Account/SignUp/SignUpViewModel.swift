@@ -10,29 +10,29 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public final class SignUpViewModel {
+final class SignUpViewModel : ISignUpViewModel {
     
     // MARK: - Inputs
     
     // MARK: - Outputs
     
     // MARK: - View Models
-    public let usernameAndPasswordViewModel = UsernameAndPasswordViewModel()
-    public let nicknameViewModel = NicknameViewModel()
-    public let genderPickerViewModel = GenderPickerViewModel()
-    public let birthdayPickerViewModel = BirthdayPickerViewModel()
-    public let photoViewModel = PhotoViewModel()
+    let usernameAndPasswordViewModel = UsernameAndPasswordViewModel()
+    let nicknameViewModel = NicknameViewModel()
+    let genderPickerViewModel = GenderPickerViewModel()
+    let birthdayPickerViewModel = BirthdayPickerViewModel()
+    let photoViewModel = PhotoViewModel()
     
     // MARK: - Properties
     
     // MARK: Services
-    private weak var accountNavigator: IAccountNavigator!
-    private let meService: IMeService
+    private weak var router: IRouter!
+    private let meRepository: IMeRepository
     
     // MARK: Initializers
-    public init(accountNavigator: IAccountNavigator, meService: IMeService) {
-        self.meService = meService
-        self.accountNavigator = accountNavigator
+    init(dep: (router: IRouter, meRepository: IMeRepository)) {
+        self.router = dep.router
+        self.meRepository = dep.meRepository
     }
     
     deinit {
@@ -43,7 +43,7 @@ public final class SignUpViewModel {
     // MARK: Setup
     
     // MARK: Others
-    public func signUp() -> SignalProducer<Bool, NSError> {
+    func signUp() -> SignalProducer<Bool, NetworkError> {
         return combineLatest(
             self.usernameAndPasswordViewModel.username.producer
                 .ignoreNil(),
@@ -58,9 +58,9 @@ public final class SignUpViewModel {
             self.photoViewModel.profileImage.producer
                 .ignoreNil()
             )
-            .promoteErrors(NSError)
+            .promoteErrors(NetworkError)
             .flatMap(FlattenStrategy.Concat) { username, password, nickname, gender, birthday, profileImage in
-                return self.meService.signUp(
+                return self.meRepository.signUp(
                     username,
                     password: password,
                     nickname: nickname,
@@ -71,8 +71,8 @@ public final class SignUpViewModel {
             }
     }
     
-    public func finishModule(callback: (CompletionHandler? -> ())? = nil) {
-        accountNavigator.finishModule { handler in
+    func finishModule(callback: (CompletionHandler? -> ())? = nil) {
+        router.finishModule { handler in
             callback?(handler)
         }
     }

@@ -11,7 +11,7 @@ import UIKit
 import ReactiveCocoa
 import AsyncDisplayKit
 
-public final class FeaturedListCellParticipateControl : ASControlNode, Component {
+public final class FeaturedListCellParticipateControl : ASControlNode {
     
     
     // MARK: - UI Controls

@@ -26,15 +26,18 @@ The challenge of implementation is to figure out an intuitive and easy to unders
 A custom `Transition` and `TransitionManager` are implemented to handle the above scenarios. Each `Transition` object contains 4 items: I) UIView, that is going to be transitioned into. II) Setup, the setup code that is going to be run before the transition starts to properly configure the UIView. III) After, code that runs right after the transition is done. IV) CleanUp, which cleans up the current transition as it goes away. The `TransitionManager` takes 4 items: I) the initial transition, II) the rest of the transitions, III) the behaviour of the initial transition, III) the behaviour of the rest of the transitions.
 */
 
-public final class SignUpViewController : XUIViewController {
+final class SignUpViewController : XUIViewController, ViewModelBackedViewControllerType {
+    
+    typealias ViewModelType = ISignUpViewModel
     
     // MARK: - UI Controls
     private var containerView: ContainerView!
+    var hud: HUD!
     
     // MARK: - Proxies
     
     // MARK: - Properties
-    public var viewmodel: SignUpViewModel!
+    private var viewmodel: ISignUpViewModel!
     
     /// A disposable that will dispose of any number of other disposables.
     private let compositeDisposable = CompositeDisposable()
@@ -82,7 +85,7 @@ public final class SignUpViewController : XUIViewController {
     
     // MARK: - Setups
     
-    public override func loadView() {
+    override func loadView() {
         super.loadView()
         
         // load container
@@ -90,7 +93,7 @@ public final class SignUpViewController : XUIViewController {
         view = containerView
     }
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         /**
         Setup view transition.
@@ -98,7 +101,7 @@ public final class SignUpViewController : XUIViewController {
         transitionManager.installInitial()
     }
     
-    public override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         compositeDisposable += containerView.goBackProxy
@@ -269,12 +272,12 @@ public final class SignUpViewController : XUIViewController {
                 
                 transitionDisposable += view.doneProxy
                     .logLifeCycle(LogContext.Account, signalName: "photoView.doneProxy")
-                    .promoteErrors(NSError)
+                    .promoteErrors(NetworkError)
                     .flatMap(FlattenStrategy.Concat) {
-                        SignalProducer<Void, NSError> { observer, disposable in
-                            disposable += HUD.show()
+                        SignalProducer<Void, NetworkError> { observer, disposable in
+                            disposable += this.hud.show()
                                 // map error to the same type as other signal
-                                .promoteErrors(NSError)
+                                .promoteErrors(NetworkError)
                                 .flatMap(.Concat) { _ in
                                     return this.viewmodel.signUp()
                                 }
@@ -282,11 +285,10 @@ public final class SignUpViewController : XUIViewController {
                                 .start { event in
                                     switch event {
                                     case .Next(_):
-                                        HUD.dismissWithNextMessage()
+                                        this.hud.dismissWithNextMessage()
                                     case .Failed(let error):
-                                        HUD.dismissWithFailedMessage()
+                                        this.hud.dismissWithFailedMessage()
                                         observer.sendFailed(error)
-                                        AccountLogError(error.description)
                                     case .Interrupted:
                                         observer.sendInterrupted()
                                     default: break
@@ -303,7 +305,7 @@ public final class SignUpViewController : XUIViewController {
 //                            }
                             
                             // Subscribe to disappear notification
-                            disposable += HUD.didDissappearNotification()
+                            disposable += this.hud.didDissappearNotification()
                                 .on(next: { _ in AccountLogVerbose("HUD disappeared.") })
                                 .startWithNext { status in
                                     // completes the action
@@ -342,7 +344,7 @@ public final class SignUpViewController : XUIViewController {
     
     // MARK: - Bindings
     
-    public func bindToViewModel(viewmodel: SignUpViewModel) {
+    func bindToViewModel(viewmodel: ISignUpViewModel) {
         self.viewmodel = viewmodel
     }
     

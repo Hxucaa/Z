@@ -11,9 +11,9 @@ import ReactiveCocoa
 
 public final class UserDefaultsService : IUserDefaultsService {
     
-    private enum Key : String {
-        case SkipAccount = "SkipAccount"
-        case FirstLaunch = "FirstLuanch"
+    private struct Key {
+        static let SkipAccount = "SkipAccount"
+        static let FirstLaunch = "FirstLuanch"
     }
     
     private let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -26,20 +26,20 @@ public final class UserDefaultsService : IUserDefaultsService {
     /// Logging out should
     public var accountModuleSkipped: Bool {
         get {
-            return userDefaults.boolForKey(Key.SkipAccount.rawValue)
+            return userDefaults.boolForKey(Key.SkipAccount)
         }
         set {
-            userDefaults.setBool(newValue, forKey: Key.SkipAccount.rawValue)
+            userDefaults.setBool(newValue, forKey: Key.SkipAccount)
         }
     }
     
     /// Key for whether this is the first time the app the launched.
     public var firstLaunch: Bool {
         get {
-            return userDefaults.boolForKey(Key.FirstLaunch.rawValue)
+            return userDefaults.boolForKey(Key.FirstLaunch)
         }
         set {
-            userDefaults.setBool(newValue, forKey: Key.FirstLaunch.rawValue)
+            userDefaults.setBool(newValue, forKey: Key.FirstLaunch)
         }
     }
 }

@@ -19,16 +19,8 @@ public class _BaseRepository<M: IModel, DAO: AVObject> {
         self.daoToModelMapper = daoToModelMapper
     }
     
-    //    func update(model: M) -> SignalProducer<Bool, NetworkError> {
-    //        return
-    //    }
-    
     func _create(dao: DAO) -> SignalProducer<Bool, NetworkError> {
         return dao.rac_save()
-    }
-    
-    public func find(findMoreTrigger: SignalProducer<Void, NoError>) -> SignalProducer<[M], NetworkError> {
-        fatalError("Must override this function.")
     }
     
     func findWithPagination(query: TypedAVQuery<DAO>, findMoreTrigger: SignalProducer<Void, NoError>) -> SignalProducer<[M], NetworkError> {

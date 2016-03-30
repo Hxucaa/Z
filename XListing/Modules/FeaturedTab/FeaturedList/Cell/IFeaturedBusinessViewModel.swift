@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
-import Foundation
-import ReactiveCocoa
-
-public protocol IFeaturedBusinessViewModel : class, IBasicBusinessInfoViewModel {
-    
-    // MARK: - Outputs
-    
-    // MARK: - Actions
-}
+//import Foundation
+//import ReactiveCocoa
+//
+//public protocol IFeaturedBusinessViewModel : class, IBasicBusinessInfoViewModel {
+//    
+//    // MARK: - Outputs
+//    
+//    // MARK: - Actions
+//}

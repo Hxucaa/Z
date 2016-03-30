@@ -14,7 +14,7 @@ public protocol IBasicUserInfoViewModel : class {
     
     // MARK: - Outputs
     var coverPhoto: AnyProperty<UIImage?> { get }
-    var coverPhotoUrl: SignalProducer<String?, NoError> { get }
+    var coverPhotoUrl: SignalProducer<NSURL?, NoError> { get }
     var nickname: SignalProducer<String, NoError> { get }
     var ageGroup: SignalProducer<String, NoError> { get }
     var horoscope: SignalProducer<String, NoError> { get }

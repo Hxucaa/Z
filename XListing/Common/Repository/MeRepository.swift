@@ -11,6 +11,8 @@ import ReactiveCocoa
 import AVOSCloud
 
 public protocol IMeRepository {
+    
+//    func findHoldingAndAttendingEvents() -> SignalProducer<[Event], NetworkError>
     /**
      Update my profile information.
      
@@ -29,10 +31,12 @@ public protocol IMeRepository {
      
      - returns: A SignalProducer of sequence of operation status.
      */
-    func updatePassword(newPassword: String) -> SignalProducer<Bool, NetworkError>
+//    func updatePassword(newPassword: String) -> SignalProducer<Bool, NetworkError>
     
     func signUp(username: String, password: String, nickname: String, birthday: NSDate, gender: Gender, profileImage: UIImage) -> SignalProducer<Bool, NetworkError>
+    
     func logIn(username: String, password: String) -> SignalProducer<Me, NetworkError>
+    
     func me() -> Me?
 }
 
@@ -52,34 +56,34 @@ public final class MeRepository : _BaseRepository<Me, UserDAO>, IMeRepository {
         let user = UserDAO()
         
         if let nickname = nickname {
-            user.nickname.value = nickname
+            user.nickname = nickname
         }
         
-        user.whatsUp.value = whatsUp
+        user.whatsUp = whatsUp
         
         if let coverPhoto = coverPhoto {
             let imageData = UIImagePNGRepresentation(coverPhoto)
-            user.coverPhoto.value = AVFile(name: "profile.png", data: imageData)
+            user.coverPhoto = AVFile(name: "profile.png", data: imageData)
         }
         
-        return user.rac_signUp()
+        return user.rac_save()
         
     }
     
-    public func updatePassword(newPassword: String) -> SignalProducer<Bool, NetworkError> {
-        UserDAO.currentUser()
-    }
+//    public func updatePassword(newPassword: String) -> SignalProducer<Bool, NetworkError> {
+//        
+//    }
     
     public func signUp(username: String, password: String, nickname: String, birthday: NSDate, gender: Gender, profileImage: UIImage) -> SignalProducer<Bool, NetworkError> {
         let user = UserDAO()
         
         user.username = username
         user.password = password
-        user.nickname.value = nickname
-        user.birthday.value = birthday
+        user.nickname = nickname
+        user.birthday = birthday
         let imageData = UIImagePNGRepresentation(profileImage)
-        user.coverPhoto.value = AVFile(name: "profile.png", data: imageData)
-        user.gender.value = gender.rawValue
+        user.coverPhoto = AVFile(name: "profile.png", data: imageData)
+        user.gender = gender.rawValue
         
         return user.rac_signUp()
     }
@@ -87,10 +91,11 @@ public final class MeRepository : _BaseRepository<Me, UserDAO>, IMeRepository {
     public func logIn(username: String, password: String) -> SignalProducer<Me, NetworkError> {
         
         return UserDAO.rac_logInWithUsername(username, password: password)
-            .mapToModel(daoToModelMapper)
+            .mapToMeModel()
     }
     
     public func me() -> Me? {
+        let t = UserDAO.currentUser()
         guard let currentUser = UserDAO.currentUser() where currentUser.isAuthenticated() else {
             return nil
         }
@@ -99,10 +104,5 @@ public final class MeRepository : _BaseRepository<Me, UserDAO>, IMeRepository {
     
     public func logOut() {
         UserDAO.logOut()
-    }
-    
-    public func openEvent(business: Business, eventType type: EventType) -> SignalProducer<Event, NetworkError> {
-        
-        return AVCloud.rac_callFunction("openEvent", withParameters: <#T##[NSObject : AnyObject]?#>)
     }
 }

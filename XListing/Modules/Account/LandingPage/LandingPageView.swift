@@ -21,7 +21,7 @@ private let StartUpButtonsViewNibName = "StartUpButtonsView"
 private let RePromptButtonsViewNibName = "RePromptButtonsView"
 private let BackButtonNibName = "BackButton"
 
-public final class LandingPageView : UIView {
+final class LandingPageView : UIView {
     
     // MARK: - UI Controls
     @IBOutlet private weak var skipButton: UIButton?
@@ -33,19 +33,19 @@ public final class LandingPageView : UIView {
     // MARK: - Proxies
     
     /// Skip Landing view.
-    public var skipProxy: SimpleProxy {
+    var skipProxy: SimpleProxy {
         return _skipProxy
     }
     private let (_skipProxy, _skipObserver) = SimpleProxy.proxy()
     
     /// Go to Log In view.
-    public var loginProxy: SimpleProxy {
+    var loginProxy: SimpleProxy {
         return _loginProxy
     }
     private let (_loginProxy, _loginObserver) = SimpleProxy.proxy()
     
     /// Go to Sign Up view.
-    public var signUpProxy: SimpleProxy {
+    var signUpProxy: SimpleProxy {
         return _signUpProxy
     }
     private let (_signUpProxy, _signUpObserver) = SimpleProxy.proxy()
@@ -69,7 +69,7 @@ public final class LandingPageView : UIView {
     
     // MARK: - Setups
     
-    public override func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
         
         compositeDisposable += viewmodel.producer
@@ -243,7 +243,7 @@ public final class LandingPageView : UIView {
     }
     
     // MARK: - Bindings
-    public func bindToViewModel(viewmodel: ILandingPageViewModel) {
+    func bindToViewModel(viewmodel: ILandingPageViewModel) {
         self.viewmodel.value = viewmodel
     }
     

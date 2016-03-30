@@ -18,7 +18,7 @@ public class BasicUserInfoViewModel : IBasicUserInfoViewModel {
     public var coverPhoto: AnyProperty<UIImage?> {
         return AnyProperty(_coverPhoto)
     }
-    public let coverPhotoUrl: SignalProducer<String?, NoError>
+    public let coverPhotoUrl: SignalProducer<NSURL?, NoError>
     public let nickname: SignalProducer<String, NoError>
     public let ageGroup: SignalProducer<String, NoError>
     public let horoscope: SignalProducer<String, NoError>
@@ -55,8 +55,8 @@ public class BasicUserInfoViewModel : IBasicUserInfoViewModel {
         gender = SignalProducer(value: user.gender.description)
         
         
-        if let url = user.coverPhoto?.url, nsurl = NSURL(string: url) {
-            self.imageService.getImageBy(nsurl)
+        if let url = user.coverPhoto?.url {
+            self.imageService.getImageBy(url)
                 .startWithNext {
                     self._coverPhoto.value = $0
                 }

@@ -8,15 +8,18 @@
 
 import UIKit
 import AMScrollingNavbar
+import ReactiveCocoa
 #if DEBUG
     import FLEX
 #endif
 
 private let MinimumPressDuration = 4.0
 
-public class XUIViewController: UIViewController {
+class XUIViewController: UIViewController {
     
-    public override func viewDidLoad() {
+    let _compositeDisposable = CompositeDisposable()
+    
+    override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
@@ -26,23 +29,27 @@ public class XUIViewController: UIViewController {
         self.view.addGestureRecognizer(gesture)
     }
     
-    public override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    internal func handleLongPress(recognizer: UILongPressGestureRecognizer) {
+    func handleLongPress(recognizer: UILongPressGestureRecognizer) {
         #if DEBUG
             if recognizer.state == UIGestureRecognizerState.Began {
                 FLEXManager.sharedManager().showExplorer()
             }
         #endif
     }
+    
+    deinit {
+        _compositeDisposable.dispose()
+    }
 }
 
-public class XScrollingNavigationViewController : ScrollingNavigationViewController {
+class XScrollingNavigationViewController : ScrollingNavigationViewController {
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
@@ -52,12 +59,12 @@ public class XScrollingNavigationViewController : ScrollingNavigationViewControl
         self.view.addGestureRecognizer(gesture)
     }
     
-    public override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    internal func handleLongPress(recognizer: UILongPressGestureRecognizer) {
+    func handleLongPress(recognizer: UILongPressGestureRecognizer) {
         #if DEBUG
             if recognizer.state == UIGestureRecognizerState.Began {
                 FLEXManager.sharedManager().showExplorer()

@@ -15,7 +15,9 @@ private let UsernameAndPasswordViewNibName = "UsernameAndPasswordView"
 private let LogInViewNibName = "LogInView"
 private let ContainerViewNibName = "ContainerView"
 
-public final class LogInViewController : XUIViewController {
+final class LogInViewController : XUIViewController, ViewModelBackedViewControllerType {
+    
+    typealias ViewModelType = ILogInViewModel
     
     // MARK: - UI Controls
     private lazy var containerView: ContainerView = {
@@ -24,21 +26,16 @@ public final class LogInViewController : XUIViewController {
     private lazy var usernameAndPasswordView: UsernameAndPasswordView = {
         return UINib(nibName: UsernameAndPasswordViewNibName, bundle: nil).instantiateWithOwner(self, options: nil).first as! UsernameAndPasswordView
     }()
+    var hud: HUD!
     
     // MARK: - Proxies
     
     // MARK: - Properties
-    private var viewmodel: LogInViewModel! {
-        didSet {
-            usernameAndPasswordView.bindToViewModel(viewmodel.usernameAndPasswordViewModel)
-        }
-    }
-    /// A disposable that will dispose of any number of other disposables.
-    private let compositeDisposable = CompositeDisposable()
+    private var viewmodel: ILogInViewModel!
     
     // MARK: - Setups
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         usernameAndPasswordView.setButtonTitle("登 入")
@@ -69,11 +66,11 @@ public final class LogInViewController : XUIViewController {
         }
     }
     
-    public override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         
-        compositeDisposable += containerView.goBackProxy
+        _compositeDisposable += containerView.goBackProxy
             .takeUntilViewWillDisappear(self)
             .logLifeCycle(LogContext.Account, signalName: "containerView.goBackProxy")
             .startWithNext { [weak self] in
@@ -81,12 +78,12 @@ public final class LogInViewController : XUIViewController {
                 self?.navigationController?.popViewControllerAnimated(false)
             }
         
-        compositeDisposable += usernameAndPasswordView.submitProxy
+        _compositeDisposable += usernameAndPasswordView.submitProxy
             .takeUntilViewWillDisappear(self)
             .logLifeCycle(LogContext.Account, signalName: "usernameAndPasswordView.submitProxy")
-            .promoteErrors(NSError)
+            .promoteErrors(NetworkError)
             .flatMap(FlattenStrategy.Concat) {
-                SignalProducer<Void, NSError> { observer, disposable in
+                SignalProducer<Void, NetworkError> { observer, disposable in
                     // display HUD to indicate work in progress
                     // check for the validity of inputs first
                     disposable += SignalProducer<Void, NoError>(value: ())
@@ -96,10 +93,10 @@ public final class LogInViewController : XUIViewController {
                         // return the signal to main/ui thread in order to run UI related code
                         .observeOn(UIScheduler())
                         .flatMap(.Concat) { _ in
-                            return HUD.show()
+                            return self.hud.show()
                         }
                         // map error to the same type as other signal
-                        .promoteErrors(NSError)
+                        .promoteErrors(NetworkError)
                         // submit network request
                         .flatMap(.Concat) { _ in
                             return self.viewmodel.logIn
@@ -108,10 +105,10 @@ public final class LogInViewController : XUIViewController {
                         .start { event in
                             switch event {
                             case .Next(_):
-                                HUD.dismissWithNextMessage()
+                                self.hud.dismissWithNextMessage()
                             case .Failed(let error):
-                                HUD.dismissWithFailedMessage()
-                                AccountLogError(error.description)
+                                self.hud.dismissWithFailedMessage()
+                                AccountLogError(error.message)
                                 observer.sendFailed(error)
                             case .Interrupted:
                                 observer.sendInterrupted()
@@ -133,7 +130,7 @@ public final class LogInViewController : XUIViewController {
                     
                     
                     // Subscribe to disappear notification
-                    disposable += HUD.didDissappearNotification()
+                    disposable += self.hud.didDissappearNotification()
                         .on(next: { _ in AccountLogVerbose("HUD disappeared.") })
                         .startWithNext { status in
                             // completes the action
@@ -151,14 +148,11 @@ public final class LogInViewController : XUIViewController {
             }
     }
     
-    deinit {
-        compositeDisposable.dispose()
-        AccountLogVerbose("LogInViewController deinitializes.")
-    }
     
     // MARK: - Bindings
-    public func bindToViewModel(viewmodel: LogInViewModel) {
+    func bindToViewModel(viewmodel: ILogInViewModel) {
         self.viewmodel = viewmodel
+        usernameAndPasswordView.bindToViewModel(viewmodel.usernameAndPasswordViewModel)
         
     }
     

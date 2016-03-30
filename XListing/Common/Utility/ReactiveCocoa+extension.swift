@@ -9,6 +9,35 @@
 import Foundation
 import ReactiveCocoa
 
+public extension SignalProducerType where Error : NSError {
+    
+    /**
+    Suppress error from `rac_signalForSelector`.
+    
+    - returns: A signal producer of sequence that emit no error.
+    */
+    public func noSelectorError() -> SignalProducer<Value, NoError> {
+        return self
+            .on(failed: { fatalError("A `RACSelectorSignalErrorDomain` error has occured. This is not supposed to happen.\n\($0.description)") })
+            .demoteError()
+    }
+
+}
+
+public extension SignalProducerType where Error : ErrorType {
+    
+    /**
+     Demote error emitted.
+     
+     - returns: A signal producer of sequence that emit no error.
+     */
+    public func demoteError() -> SignalProducer<Value, NoError> {
+        return self
+            .on(failed: { _ in fatalError("An error has been suppressed.") } )
+            .flatMapError { _ in .empty }
+    }
+}
+
 public extension SignalProducerType {
     /**
      Converts to a SignalProducer with `Void` value and `NoError`

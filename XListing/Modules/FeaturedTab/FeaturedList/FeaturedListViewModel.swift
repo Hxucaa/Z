@@ -13,133 +13,156 @@ import ReactiveArray
 
 private let 启动无限scrolling参数 = 0.4
 
-public protocol FeaturedListNavigator : class {
-    func pushSocialBusiness(business: Business)
-}
-
-public final class FeaturedListViewModel : IFeaturedListViewModel, ICollectionDataSource {
+final class FeaturedListViewModel : IFeaturedListViewModel {
     
-    public typealias Payload = FeaturedBusinessViewModel
+//    typealias Payload = BusinessInfo
     
     // MARK: - Inputs
     
     // MARK: - Outputs
-    public let collectionDataSource = ReactiveArray<FeaturedBusinessViewModel>()
+//    let collectionDataSource = ReactiveArray<BusinessInfo>()
+    let collectionDataSource = MutableProperty<[BusinessInfo]>([BusinessInfo]())
+    
+//    let businessList: SignalProducer<[Business], NetworkError>
     
     // MARK: - Properties
     // MARK: Services
-    private let businessService: IBusinessService
-    private let userService: IUserService
+    weak var router: IRouter!
+    private let businessRepository: IBusinessRepository
+    private let userRepository: IUserRepository
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
-    private let imageService: IImageService
-    private let participationService: IParticipationService
     
     // MARK: Variables
-    public weak var navigator: FeaturedListNavigator!
     private var numberOfBusinessesLoaded = 0
     
     // MARK: - Initializers
-    public init(businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService, participationService: IParticipationService) {
-        self.businessService = businessService
-        self.userService = userService
-        self.geoLocationService = geoLocationService
-        self.userDefaultsService = userDefaultsService
-        self.imageService = imageService
-        self.participationService = participationService
+    init(dep: (businessRepository: IBusinessRepository, userRepository: IUserRepository, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService), input: (didSelectRow: SignalProducer<NSIndexPath, NoError>, refreshTrigger: SignalProducer<Void, NoError>, fetchMoreTrigger: SignalProducer<Void, NoError>)) {
+        businessRepository = dep.businessRepository
+        userRepository = dep.userRepository
+        geoLocationService = dep.geoLocationService
+        userDefaultsService = dep.userDefaultsService
+        
+        collectionDataSource <~ businessRepository.findByCurrentLocation(input.fetchMoreTrigger)
+            // TODO: better error handling
+            .demoteError()
+            .map { $0.map { BusinessInfo(business: $0) } }
+        
+        input.didSelectRow
+            .map { $0.row }
+            .startWithNext { [unowned self] in
+                self.router.toSoclaBusiness(undefined())
+            }
+        
     }
     
     // MARK: - API
+    
+//    func didSelectRow(indexPath: NSIndexPath) -> SignalProducer<Void, NSError> {
+//        
+//    }
+    
     /**
     Retrieve featured business with pagination enabled.
     */
     
-    public func fetchMoreData() -> SignalProducer<Void, NSError> {
-        return fetchBusinesses(false)
-            .map { _ in }
-    }
+//    func fetchMoreData() -> SignalProducer<Void, NSError> {
+//        return fetchBusinesses(false)
+//            .map { _ in }
+//    }
     
-    public func refreshData() -> SignalProducer<Void, NSError> {
-        return fetchBusinesses(true)
-            .map { _ in }
-    }
+//    func refreshData() -> SignalProducer<Void, NSError> {
+//        return fetchBusinesses(true)
+//            .map { _ in }
+//    }
     
-    public func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
-        // if there are still plenty of data for display, don't fetch more businesses
-        if Double(targetContentIndex) < Double(collectionDataSource.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数) {
-            return SignalProducer<Void, NSError>.empty
-        }
-        // else fetch more data
-        else {
-            return fetchBusinesses(false)
-                .map { _ in }
-        }
-    }
+//    func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
+//        // if there are still plenty of data for display, don't fetch more businesses
+//        if Double(targetContentIndex) < Double(collectionDataSource.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数) {
+//            return SignalProducer<Void, NSError>.empty
+//        }
+//        // else fetch more data
+//        else {
+//            return fetchBusinesses(false)
+//                .map { _ in }
+//        }
+//    }
     
-    public func pushSocialBusinessModule(section: Int) {
-        navigator.pushSocialBusiness(collectionDataSource.array[section].business)
-    }
+//    func pushSocialBusinessModule(section: Int) {
+//        router.toSoclaBusiness(collectionDataSource.array[section].business, callback: nil)
+//    }
     
     // MARK: - Others
     
-    /**
-    Fetch featured businesses. If `refresh` is `true`, the function will replace the original list with new data, effectively refreshing the list. If `refresh` is `false`, the function will get data continuously like pagination.
+//    private func calculateEta(destination: CLLocation) -> SignalProducer<NSTimeInterval, NSError> {
+//        return geoLocationService.calculateETA(destination)
+//            .on(
+//                next: { interval in
+//                    let minute = Int(ceil(interval / 60))
+////                    self._eta.value = "\(minute)分钟"
+//                },
+//                failed: { FeaturedLogError($0.description) }
+//        )
+//    }
     
-    - parameter refresh: A `Boolean` value indicating whether the function should `refresh` or `get more like pagination`.
-    
-    - returns: A signal producer.
-    */
-    private func fetchBusinesses(refresh: Bool = false) -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
-        let query = Business.query()
-        // TODO: temporarily disabled until we have more featured businesses
-        //        query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
-        query.limit = Constants.PAGINATION_LIMIT
-        query.includeKey(Business.Property.address)
-        if refresh {
-            // don't skip any content if we are refresh the list
-            query.skip = 0
-        }
-        else {
-            query.skip = numberOfBusinessesLoaded
-        }
-        
-        return businessService.findBy(query)
-            .map { $.shuffle($0) }
-            .on(next: { businesses in
-                
-                if refresh {
-                    // set numberOfBusinessesLoaded to the number of businesses fetched
-                    self.numberOfBusinessesLoaded = businesses.count
-                }
-                else {
-                    // increment numberOfBusinessesLoaded
-                    self.numberOfBusinessesLoaded += businesses.count
-                }
-            })
-            .map { businesses -> [FeaturedBusinessViewModel] in
-                
-                // map the business models to viewmodels
-                return businesses.map { business in
-                    let cellViewModel = FeaturedBusinessViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, business: business)
-                    
-                    cellViewModel.calculateEta()
-                        .start()
-                    
-                    return cellViewModel
-                }
-            }
-            .on(
-                next: { viewmodels in
-                    if refresh && viewmodels.count > 0 {
-                        // ignore old data
-                        self.collectionDataSource.replaceAll(viewmodels)
-                    }
-                    else if !refresh && viewmodels.count > 0 {
-                        // save the new data with old ones
-                        self.collectionDataSource.appendContentsOf(viewmodels)
-                    }
-                },
-                failed: { FeaturedLogError($0.description) }
-            )
-    }
+//    /**
+//    Fetch featured businesses. If `refresh` is `true`, the function will replace the original list with new data, effectively refreshing the list. If `refresh` is `false`, the function will get data continuously like pagination.
+//    
+//    - parameter refresh: A `Boolean` value indicating whether the function should `refresh` or `get more like pagination`.
+//    
+//    - returns: A signal producer.
+//    */
+//    private func fetchBusinesses(refresh: Bool = false) -> SignalProducer<[FeaturedBusinessViewModel], NSError> {
+//        let query = Business.query()
+//        // TODO: temporarily disabled until we have more featured businesses
+//        //        query.whereKey(Business.Property.Featured.rawValue, equalTo: true)
+//        query.limit = Constants.PAGINATION_LIMIT
+//        query.includeKey(Business.Property.address)
+//        if refresh {
+//            // don't skip any content if we are refresh the list
+//            query.skip = 0
+//        }
+//        else {
+//            query.skip = numberOfBusinessesLoaded
+//        }
+//        
+//        return businessService.findBy(query)
+//            .map { $.shuffle($0) }
+//            .on(next: { businesses in
+//                
+//                if refresh {
+//                    // set numberOfBusinessesLoaded to the number of businesses fetched
+//                    self.numberOfBusinessesLoaded = businesses.count
+//                }
+//                else {
+//                    // increment numberOfBusinessesLoaded
+//                    self.numberOfBusinessesLoaded += businesses.count
+//                }
+//            })
+//            .map { businesses -> [FeaturedBusinessViewModel] in
+//                
+//                // map the business models to viewmodels
+//                return businesses.map { business in
+//                    let cellViewModel = FeaturedBusinessViewModel(userService: self.userService, geoLocationService: self.geoLocationService, imageService: self.imageService, participationService: self.participationService, business: business)
+//                    
+//                    cellViewModel.calculateEta()
+//                        .start()
+//                    
+//                    return cellViewModel
+//                }
+//            }
+//            .on(
+//                next: { viewmodels in
+//                    if refresh && viewmodels.count > 0 {
+//                        // ignore old data
+//                        self.collectionDataSource.replaceAll(viewmodels)
+//                    }
+//                    else if !refresh && viewmodels.count > 0 {
+//                        // save the new data with old ones
+//                        self.collectionDataSource.appendContentsOf(viewmodels)
+//                    }
+//                },
+//                failed: { FeaturedLogError($0.description) }
+//            )
+//    }
 }

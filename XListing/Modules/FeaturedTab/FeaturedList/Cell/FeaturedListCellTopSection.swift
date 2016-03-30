@@ -14,7 +14,7 @@ import WebASDKImageManager
 private let DETAIL_STACK_WIDTH_FRACTION = CGFloat(0.33)
 private let DETAIL_CONTENT_WIDTH_FRACTION = CGFloat(0.31)
 
-public final class FeaturedListCellTopSection : ASDisplayNode, Component {
+public final class FeaturedListCellTopSection : ASDisplayNode {
     
     // MARK: - UI Controls
     

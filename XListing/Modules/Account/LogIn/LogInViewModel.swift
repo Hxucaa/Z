@@ -10,7 +10,7 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public final class LogInViewModel {
+final class LogInViewModel : ILogInViewModel {
     
     // MARK: - Input
     
@@ -19,17 +19,17 @@ public final class LogInViewModel {
     // MARK: - Properties
     
     // MARK: - View Models
-    public let usernameAndPasswordViewModel = UsernameAndPasswordViewModel()
+    let usernameAndPasswordViewModel = UsernameAndPasswordViewModel()
     
     // MARK: - Services
-    private let meService: IMeService
-    private weak var accountNavigator: IAccountNavigator!
+    private weak var router: IRouter!
+    private let meRepository: IMeRepository
     
     // MARK: - Initializers
     
-    public init(accountNavigator: IAccountNavigator, meService: IMeService) {
-        self.accountNavigator = accountNavigator
-        self.meService = meService
+    init(dep: (router: IRouter, meRepository: IMeRepository)) {
+        self.router = dep.router
+        self.meRepository = dep.meRepository
     }
     
     deinit {
@@ -40,7 +40,7 @@ public final class LogInViewModel {
     // MARK: - Setups
     
     // MARK: - Others
-    public var logIn: SignalProducer<Bool, NSError> {
+    var logIn: SignalProducer<Bool, NetworkError> {
         
         return usernameAndPasswordViewModel.allInputsValid.producer
             // only allow TRUE value
@@ -50,18 +50,18 @@ public final class LogInViewModel {
                 zip(self.usernameAndPasswordViewModel.username.producer.ignoreNil(), self.usernameAndPasswordViewModel.password.producer.ignoreNil())
             }
             // promote to NSError
-            .promoteErrors(NSError)
+            .promoteErrors(NetworkError)
             // log in user
             .flatMap(FlattenStrategy.Merge) { username, password in
-                return self.meService.logIn(username, password: password)
+                return self.meRepository.logIn(username, password: password)
             }
             .map { _ in
                 return true
             }
     }
     
-    public func finishModule(callback: (CompletionHandler? -> ())? = nil) {
-        accountNavigator.finishModule { handler in
+    func finishModule(callback: (CompletionHandler? -> ())? = nil) {
+        router.finishModule { handler in
             callback?(handler)
         }
     }

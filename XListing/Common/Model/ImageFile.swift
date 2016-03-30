@@ -9,6 +9,6 @@
 import Foundation
 
 public struct ImageFile {
-    public var name: String
-    public var url: String
+    public let name: String
+    public let url: NSURL?
 }

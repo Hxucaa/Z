@@ -14,7 +14,7 @@ import AsyncDisplayKit
 private let CARD = (INSET: (X: CGFloat(7), Y: CGFloat(4)), PLACEHOLDER: 0)
 private let MAIN_CONTAINER = (INSET: CGFloat(4), PLACEHOLDER: 0)
 
-public final class FeaturedListCellNode : ASCellNode {
+final class FeaturedListCellNode : ASCellNode {
     
     // MARK: - UI Controls
     private let card = ASDisplayNode()
@@ -25,13 +25,13 @@ public final class FeaturedListCellNode : ASCellNode {
     
     
     // MARK: - Properties
-    private let viewmodel: IFeaturedBusinessViewModel
+    private let businessInfo: BusinessInfo
     
     // MARK: - Initializers
-    public init(viewmodel: IFeaturedBusinessViewModel) {
-        self.viewmodel = viewmodel
+    init(businessInfo: BusinessInfo) {
+        self.businessInfo = businessInfo
         
-        topSection = FeaturedListCellTopSection(coverImage: viewmodel.coverImageUrl.value, name: viewmodel.name.value, location: viewmodel.city.value)
+        topSection = FeaturedListCellTopSection(coverImage: businessInfo.coverImageUrl, name: businessInfo.name, location: businessInfo.city)
         bottomSection = FeaturedListCellBottomSection()
         
         super.init()
@@ -49,13 +49,13 @@ public final class FeaturedListCellNode : ASCellNode {
         divider.backgroundColor = UIColor(hex: "D5D5D5")
         addSubnode(divider)
         
-        viewmodel.eta.producer
-            .ignoreNil()
-            .startWithNext { [weak self] text in self?.topSection.setEtaText(text) }
+//        viewmodel.eta.producer
+//            .ignoreNil()
+//            .startWithNext { [weak self] text in self?.topSection.setEtaText(text) }
         
     }
     
-    public override func layoutSpecThatFits(constrainedSize: ASSizeRange) -> ASLayoutSpec {
+    override func layoutSpecThatFits(constrainedSize: ASSizeRange) -> ASLayoutSpec {
         
         topSection.flexBasis = ASRelativeDimensionMakeWithPercent(0.72)
         bottomSection.flexBasis = ASRelativeDimensionMakeWithPercent(0.23)
@@ -102,11 +102,11 @@ public final class FeaturedListCellNode : ASCellNode {
         
     }
     
-    public override func didLoad() {
+    override func didLoad() {
         super.didLoad()
     }
     
-    public override func layout() {
+    override func layout() {
         super.layout()
         
         card.frame = CGRect(
@@ -125,7 +125,7 @@ extension FeaturedListCellNode : ASTextNodeDelegate {
 
 extension FeaturedListCellNode : ASNetworkImageNodeDelegate {
     
-    public func imageNode(imageNode: ASNetworkImageNode, didLoadImage image: UIImage) {
+    func imageNode(imageNode: ASNetworkImageNode, didLoadImage image: UIImage) {
         setNeedsLayout()
     }
 }

@@ -13,9 +13,11 @@ import CocoaLumberjack
 
 public final class Config {
     
-    public static func trackAppOpenedWithLaunchOptions(launchOptions: [NSObject : AnyObject]) {
+    public static func trackAppOpenedWithLaunchOptions(launchOptions: [NSObject : AnyObject]?) {
         
-        AVAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+        if let launchOptions = launchOptions {
+            AVAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+        }
     }
     
     public class func config() {
@@ -23,7 +25,7 @@ public final class Config {
         configureCocoaLumberjack()
         configureSDWebImage()
         configureLeanCloud()
-        configureRongCloud()
+//        configureRongCloud()
     }
     
     private class func configureSDWebImage() {
@@ -36,7 +38,7 @@ public final class Config {
         let id = "id"
         let key = "key"
         let dict = loadKeys(id, key)
-        AVOSCloud.setApplicationId(dict[id], clientKey: dict[key])
+        
         AVOSCloud.setLastModifyEnabled(true)
         AVOSCloud.setVerbosePolicy(kAVVerboseAuto)
         
@@ -55,6 +57,9 @@ public final class Config {
         EventParticipationDAO.registerSubclass()
         AddressDAO.registerSubclass()
         BusinessDAO.registerSubclass()
+        
+        
+        AVOSCloud.setApplicationId(dict[id], clientKey: dict[key])
     }
     
     private class func configureRongCloud() {
@@ -76,11 +81,13 @@ public final class Config {
     
     private static func loadKeys(keys: String...) -> [String: String] {
         var result = [String: String]()
-        
-        let env = NSProcessInfo.processInfo().environment
-        guard let mode = env["exec_mode"] as String! else {
-            fatalError("Missing execution mode! Please refer to instructions on how to setup the project.")
-        }
+                
+        let mode: String
+        #if DEBUG
+            mode = "dev"
+        #else
+            mode = "prod"
+        #endif
         
         LSLogInfo("We are in \(mode.uppercaseString) mode!")
         

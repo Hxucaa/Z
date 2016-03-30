@@ -24,12 +24,6 @@ public final class UserRepository : _BaseRepository<User, UserDAO>, IUserReposit
         super.init(daoToModelMapper: { $0.toUser() })
     }
     
-    public override func find(findMoreTrigger: SignalProducer<Void, NoError>) -> SignalProducer<[User], NetworkError> {
-        let query = createQuery()
-        
-        return findWithPagination(query, findMoreTrigger: findMoreTrigger)
-    }
-    
     private func createQuery() -> TypedAVQuery<UserDAO> {
         let query = UserDAO.typedQuery
         query.includeKey(BusinessDAO.Property.address)

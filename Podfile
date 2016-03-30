@@ -9,6 +9,7 @@ target 'XListing' do
   pod 'SVProgressHUD', :git => 'https://github.com/Hxucaa/SVProgressHUD.git'
   pod 'CocoaLumberjack/Swift', '~> 2.2.0'
 #  pod 'pop', '~> 1.0'
+  pod 'Swinject', '= 1.1.0'
   pod 'Dollar', '~> 5.0.0'
   pod 'SDWebImage', '~> 3.7.0'
   pod 'Locksmith', '~> 2.0.2'

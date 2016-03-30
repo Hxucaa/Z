@@ -11,19 +11,19 @@ import UIKit
 import XAssets
 import AMScrollingNavbar
 
-public final class FeaturedTabNavigationController : ScrollingNavigationController {
+final class FeaturedTabNavigationController : ScrollingNavigationController {
     
-    public override init(rootViewController: UIViewController) {
+    override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
     }
     
-    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
         setup()
     }
     
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

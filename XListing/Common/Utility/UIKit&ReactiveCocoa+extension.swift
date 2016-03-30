@@ -30,6 +30,7 @@ private struct AssociationKey {
     static var URL: UInt8 = 13
     static var attributedString: UInt8 = 14
     static var UIBarItemEnabled: UInt8 = 15
+    static var selectedViewController: UInt8 = 16
 }
 
 // lazily creates a gettable associated property via the given factory
@@ -184,6 +185,12 @@ extension UIViewController {
             .map { ($0 as! RACTuple).first as! Bool }
     }
     
+}
+
+extension UITabBarController {
+    public var rac_selectedViewController: MutableProperty<UIViewController?> {
+        return lazyMutableProperty(self, key: &AssociationKey.selectedViewController, setter: { self.selectedViewController = $0 }, getter: { self.selectedViewController })
+    }
 }
 
 extension UIView {

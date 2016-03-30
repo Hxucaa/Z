@@ -1,22 +1,22 @@
+////
+////  IProfileUpperViewModel.swift
+////  XListing
+////
+////  Created by Lance Zhu on 2015-10-07.
+////  Copyright (c) 2015 ZenChat. All rights reserved.
+////
 //
-//  IProfileUpperViewModel.swift
-//  XListing
+//import Foundation
+//import ReactiveCocoa
 //
-//  Created by Lance Zhu on 2015-10-07.
-//  Copyright (c) 2015 ZenChat. All rights reserved.
+//public protocol IProfileUpperViewModel : class {
+//    
+//    // MARK: - Properties
+//    
+//    // MARK: ViewModels
+//    var profileHeaderViewModel: AnyProperty<IProfileHeaderViewModel?> { get }
+//    
+//    // MARK: - API
+//    func getUserInfo() -> SignalProducer<Void, NSError>
 //
-
-import Foundation
-import ReactiveCocoa
-
-public protocol IProfileUpperViewModel : class {
-    
-    // MARK: - Properties
-    
-    // MARK: ViewModels
-    var profileHeaderViewModel: AnyProperty<IProfileHeaderViewModel?> { get }
-    
-    // MARK: - API
-    func getUserInfo() -> SignalProducer<Void, NSError>
-
-}
+//}

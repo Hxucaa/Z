@@ -15,10 +15,18 @@ private let DefaultSuccessMessage = "成功了！"
 private let DefaultFailedMessage = "失败了..."
 private let DefaultInterruptMessage = "中断了..."
 
-public final class HUD {
+public class HUD {
     
     public enum DisappearStatus {
         case Normal, Interrupted
+    }
+    
+    public init() {
+        SVProgressHUD.setBackgroundColor(UIColor.x_HUDBackgroundColor())
+        SVProgressHUD.setForegroundColor(UIColor.x_HUDForegroundColor())
+        SVProgressHUD.setRingThickness(8.0)
+        SVProgressHUD.setDefaultMaskType(SVProgressHUDMaskType.Black)
+        SVProgressHUD.setFont(UIFont.boldSystemFontOfSize(17.0))
     }
     
      /**
@@ -26,7 +34,7 @@ public final class HUD {
      
      - returns: A signal producer
      */
-    public class func show() -> SignalProducer<Void, NoError> {
+    public func show() -> SignalProducer<Void, NoError> {
         return SignalProducer<Void, NoError> { observer, disposable in
             SVProgressHUD.show()
             observer.sendNext(())
@@ -41,7 +49,7 @@ public final class HUD {
     
     - returns: A SignalProducer which can be continued with the next function.
     */
-    public class func showWithStatusMessage<Value, Error>(message: String? = DefaultWIPMessage) -> SignalProducer<Value, Error> -> SignalProducer<Value, Error> {
+    public func showWithStatusMessage<Value, Error>(message: String? = DefaultWIPMessage) -> SignalProducer<Value, Error> -> SignalProducer<Value, Error> {
         return { producer in
             return producer
                 .on(
@@ -84,7 +92,7 @@ public final class HUD {
      
      - parameter failedMessage: Optional failure message.
      */
-    public class func dismissWithFailedMessage(failedMessage: String? = DefaultFailedMessage) {
+    public func dismissWithFailedMessage(failedMessage: String? = DefaultFailedMessage) {
         SVProgressHUD.showErrorWithStatus(failedMessage)
     }
     
@@ -93,7 +101,7 @@ public final class HUD {
      
      - parameter interruptedMessage: Optional interruption message.
      */
-    public class func dismissWithInterruptedMessage(interruptedMessage: String? = DefaultInterruptMessage) {
+    public func dismissWithInterruptedMessage(interruptedMessage: String? = DefaultInterruptMessage) {
         SVProgressHUD.showInfoWithStatus(interruptedMessage)
     }
     
@@ -102,7 +110,7 @@ public final class HUD {
      
      - parameter successMessage: Optional completion message.
      */
-    public class func dismissWithCompletedMessage(successMessage: String? = DefaultSuccessMessage) {
+    public func dismissWithCompletedMessage(successMessage: String? = DefaultSuccessMessage) {
         SVProgressHUD.showSuccessWithStatus(successMessage)
     }
     
@@ -111,27 +119,8 @@ public final class HUD {
      
      - parameter successMessage: Optional next message.
      */
-    public class func dismissWithNextMessage(successMessage: String? = DefaultSuccessMessage) {
+    public func dismissWithNextMessage(successMessage: String? = DefaultSuccessMessage) {
         SVProgressHUD.showSuccessWithStatus(successMessage)
-    }
-    
-    public class var sharedInstance : HUD {
-        struct Static {
-            static var onceToken : dispatch_once_t = 0
-            static var instance : HUD? = nil
-        }
-        dispatch_once(&Static.onceToken) {
-            Static.instance = HUD()
-        }
-        return Static.instance!
-    }
-    
-    public init() {
-        SVProgressHUD.setBackgroundColor(UIColor.x_HUDBackgroundColor())
-        SVProgressHUD.setForegroundColor(UIColor.x_HUDForegroundColor())
-        SVProgressHUD.setRingThickness(8.0)
-        SVProgressHUD.setDefaultMaskType(SVProgressHUDMaskType.Black)
-        SVProgressHUD.setFont(UIFont.boldSystemFontOfSize(17.0))
     }
     
     /**
@@ -140,7 +129,7 @@ public final class HUD {
     
     - returns: A SignalProducer containing the statu message displayed by the HUD.
     */
-    public class func didDissappearNotification() -> SignalProducer<DisappearStatus, NoError> {
+    public func didDissappearNotification() -> SignalProducer<DisappearStatus, NoError> {
         return notification(SVProgressHUDDidDisappearNotification)
             .map { notification -> DisappearStatus in
                 if let userInfo = notification.userInfo as? [String : String], _ = userInfo[SVProgressHUDStatusUserInfoKey] {
@@ -157,17 +146,17 @@ public final class HUD {
     
     - returns: A SignalProducer.
     */
-    public class func didTouchDownInsideNotification() -> SignalProducer<UIEvent, NoError> {
+    public func didTouchDownInsideNotification() -> SignalProducer<UIEvent, NoError> {
         return notification(SVProgressHUDDidTouchDownInsideNotification)
             .map { $0.object as! UIEvent }
     }
     
     /// Dismiss the HUD.
-    public class func dismiss() {
+    public func dismiss() {
         SVProgressHUD.dismiss()
     }
     
-    private class func notification(name: String) -> SignalProducer<NSNotification, NoError> {
+    private func notification(name: String) -> SignalProducer<NSNotification, NoError> {
         return NSNotificationCenter.defaultCenter().rac_notifications(name, object: nil)
     }
 }

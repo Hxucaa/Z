@@ -19,7 +19,7 @@ public protocol IBasicBusinessInfoViewModel : class {
     var name: ConstantProperty<String> { get }
     var phone: ConstantProperty<String> { get }
     var email: ConstantProperty<String?> { get }
-    var websiteUrl: ConstantProperty<String?> { get }
+    var websiteUrl: ConstantProperty<NSURL?> { get }
     var district: ConstantProperty<String?> { get }
     var city: ConstantProperty<String> { get }
     var province: ConstantProperty<String> { get }

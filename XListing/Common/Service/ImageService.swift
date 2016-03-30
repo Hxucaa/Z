@@ -33,12 +33,12 @@ public final class ImageService : IImageService {
         return SignalProducer { observer, disposable in
             
             let imageManager = SDWebImageManager.sharedManager()
-            guard let nsurl = NSURL(string: image.url) else {
+            guard let url = image.url else {
                 observer.sendFailed(NSError(domain: "XListing.ImageService", code: 999, userInfo: ["message" : "Invalid url"]))
                 return
             }
             
-            imageManager.downloadImageWithURL(nsurl, options: SDWebImageOptions.ContinueInBackground, progress: nil, completed: { image, error, cache, finished, url -> Void in
+            imageManager.downloadImageWithURL(url, options: SDWebImageOptions.ContinueInBackground, progress: nil, completed: { image, error, cache, finished, url -> Void in
                 if error == nil {
                     observer.sendNext(image)
                     observer.sendCompleted()
@@ -55,7 +55,7 @@ public final class ImageService : IImageService {
             
             let dimension = thumbnailSize.value
             
-            let image = AVFile(URL: image.url)
+            let image = AVFile(URL: image.url?.absoluteString)
             let url = image.getThumbnailURLWithScaleToFit(dimension.scaleToFit, width: dimension.width, height: dimension.height, quality: dimension.quality, format: dimension.format)
             
             guard let nsurl = NSURL(string: url) else {

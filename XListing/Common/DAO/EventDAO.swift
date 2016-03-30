@@ -19,8 +19,8 @@ final class EventDAO: AVObject, AVSubclassing {
 //        case Status = "status"
 //    }
     
-    let type: IntAttribute
-    let status: IntAttribute
+    private(set) var type: IntAttribute!
+    private(set) var status: IntAttribute!
     
     override init() {
         super.init()
@@ -54,8 +54,8 @@ final class EventDAO: AVObject, AVSubclassing {
     
 }
 
-extension EventDAO : TypedQueryable {
-    static var queryObject: AVQuery {
-        return EventDAO.query()
+extension EventDAO {
+    static var typedQuery: TypedAVQuery<EventDAO> {
+        return EventDAO.query() as! TypedAVQuery<EventDAO>
     }
 }

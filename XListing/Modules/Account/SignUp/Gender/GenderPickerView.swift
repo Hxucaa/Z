@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import ReactiveCocoa
 import Cartography
-import XAssets
 import Spring
 
 public final class GenderPickerView : SpringView {

@@ -10,13 +10,13 @@ import Foundation
 import ReactiveCocoa
 import ReactiveArray
 
-public protocol IFeaturedListViewModel : IInfinityScrollDataSource, IPullToRefreshDataSource, IPredictiveScrollDataSource {
+protocol IFeaturedListViewModel {
     
     // MARK: - Outputs
     
-    var collectionDataSource: ReactiveArray<FeaturedBusinessViewModel> { get }
+//    var collectionDataSource: ReactiveArray<BusinessInfo> { get }
     
-    init(businessService: IBusinessService, userService: IUserService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService,  participationService: IParticipationService)
+//    init(dep: (businessRepository: IBusinessRepository, userRepository: IUserRepository, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService), input: (didSelectRow: SignalProducer<NSIndexPath, NoError>, test: Int))
     
-    func pushSocialBusinessModule(section: Int)
+//    func pushSocialBusinessModule(section: Int)
 }

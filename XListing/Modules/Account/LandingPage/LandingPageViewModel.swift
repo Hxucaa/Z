@@ -10,15 +10,14 @@ import Foundation
 import ReactiveCocoa
 import AVOSCloud
 
-public final class LandingPageViewModel : ILandingPageViewModel {
+final class LandingPageViewModel : ILandingPageViewModel {
     
     // MARK: Services
-    private weak var accountNavigator: IAccountNavigator!
-    private let meService: IMeService
+    weak var router: IRouter!
+    private let meRepository: IMeRepository
     
-    public init(accountNavigator: IAccountNavigator, meService: IMeService) {
-        self.accountNavigator = accountNavigator
-        self.meService = meService
+    init(meRepository: IMeRepository) {
+        self.meRepository = meRepository
     }
     
     deinit {
@@ -26,19 +25,19 @@ public final class LandingPageViewModel : ILandingPageViewModel {
         AccountLogVerbose("LandingPage View Model deinitializes.")
     }
     
-    public func goToSignUpComponent() {
-        accountNavigator.goToSignUpComponent()
+    func goToSignUpComponent() {
+        router.toSignUp()
     }
     
-    public func goToLogInComponent() {
-        accountNavigator.goToLogInComponent()
+    func goToLogInComponent() {
+        router.toLogIn()
     }
     
-    public func skipAccountModule() {
-        accountNavigator.skipAccount()
+    func skipAccountModule() {
+        router.skipAccount()
     }
     
-    public var rePrompt: Bool {
+    var rePrompt: Bool {
         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate, rootViewController = appDelegate.window?.rootViewController where rootViewController is RootTabBarController {
             return true
         }

@@ -131,7 +131,7 @@ extension EventParticipationStatus {
 extension ImageFile {
     init(attribute: Attribute<AVFile>) {
         name = attribute.value.name
-        name = attribute.value.url
+        url = NSURL(string: attribute.value.url)
         
     }
 }
@@ -143,6 +143,28 @@ extension SignalProducer where Value : AVObject {
     
     func mapToDAO<DAO: AVObject>(type: DAO.Type) -> SignalProducer<DAO, Error> {
         return self.map { $0 as! DAO }
+    }
+}
+
+extension SignalProducer where Value : EventDAO {
+    func mapToEventModel() -> SignalProducer<Event, Error> {
+        return self.map { $0.toEvent() }
+    }
+}
+
+extension SignalProducer where Value : BusinessDAO {
+    func mapToBusinessModel() -> SignalProducer<Business, Error> {
+        return self.map { $0.toBusiness() }
+    }
+}
+
+extension SignalProducer where Value : UserDAO {
+    func mapToUserModel() -> SignalProducer<User, Error> {
+        return self.map { $0.toUser() }
+    }
+    
+    func mapToMeModel() -> SignalProducer<Me, Error> {
+        return self.map { $0.toMe() }
     }
 }
 
@@ -158,166 +180,67 @@ extension Array where Element : AVObject {
     }
 }
 
-//protocol DAOMappable {
-//    init
-//}
-
-//public protocol ModelMappable {
-//    func toModel() -> IModel
-//}
-//
-//extension UserDAO : ModelMappable {
-//    public func toModel() -> IModel {
-//        assert(UserType(attribute: self.type) == UserType.User, "The type of User does not match.")
-//        return User(
-//            objectId: self.objectId,
-//            updatedAt: self.updatedAt,
-//            createdAt: self.createdAt,
-//            status: UserStatus(attribute: self.status)!,
-//            nickname: self.nickname.value,
-//            gender: Gender(attribute: self.gender)!,
-//            ageGroup: AgeGroup(attribute: self.ageGroup)!,
-//            horoscope: Horoscope(attribute: self.horoscope)!,
-//            coverPhoto: self.coverPhoto.value?.toImageFile(),
-//            whatsUp: self.whatsUp.value,
-//            latestLocation: self.latestLocation.value?.toGeolocation(),
-//            aaCount: self.aaCount.value,
-//            treatCount: self.treatCount.value,
-//            toGoCount: self.toGoCount.value
-//        )
-//    }
-//}
-
-//extension UserDAO : DataAccessObject {
-//    
-//    public func toModel() -> IModel {
-//        assert(UserType(attribute: self.type) == UserType.User, "The type of User does not match.")
-//        return User(
-//            objectId: self.objectId,
-//            updatedAt: self.updatedAt,
-//            createdAt: self.createdAt,
-//            status: UserStatus(attribute: self.status)!,
-//            nickname: self.nickname.value,
-//            gender: Gender(attribute: self.gender)!,
-//            ageGroup: AgeGroup(attribute: self.ageGroup)!,
-//            horoscope: Horoscope(attribute: self.horoscope)!,
-//            coverPhoto: self.coverPhoto.value?.toImageFile(),
-//            whatsUp: self.whatsUp.value,
-//            latestLocation: self.latestLocation.value?.toGeolocation(),
-//            aaCount: self.aaCount.value,
-//            treatCount: self.treatCount.value,
-//            toGoCount: self.toGoCount.value
-//        )
-//    }
-//    
-//    public func test<U: User>(type: U.Type) -> IModel {
-//        if type === Me.self {
-//            return Me(
-//                objectId: self.objectId,
-//                updatedAt: self.updatedAt,
-//                createdAt: self.createdAt,
-//                birthday: self.birthday.value,
-//                address: self.address?.toAddress(),
-//                status: UserStatus(rawValue: self.status)!,
-//                nickname: self.nickname,
-//                gender: Gender(rawValue: self.gender)!,
-//                ageGroup: AgeGroup(rawValue: self.ageGroup)!,
-//                horoscope: Horoscope(rawValue: self.horoscope)!,
-//                coverPhoto: self.coverPhoto?.toImageFile(),
-//                whatsUp: self.whatsUp,
-//                latestLocation: self.latestLocation?.toGeolocation(),
-//                aaCount: self.aaCount,
-//                treatCount: self.treatCount,
-//                toGoCount: self.toGoCount
-//            )
-//        }
-//        else if type === User.self {
-//            return User(
-//                objectId: self.objectId,
-//                updatedAt: self.updatedAt,
-//                createdAt: self.createdAt,
-//                status: UserStatus(attribute: self.status)!,
-//                nickname: self.nickname.value,
-//                gender: Gender(attribute: self.gender)!,
-//                ageGroup: AgeGroup(attribute: self.ageGroup)!,
-//                horoscope: Horoscope(attribute: self.horoscope)!,
-//                coverPhoto: self.coverPhoto.value?.toImageFile(),
-//                whatsUp: self.whatsUp.value,
-//                latestLocation: self.latestLocation.value?.toGeolocation(),
-//                aaCount: self.aaCount.value,
-//                treatCount: self.treatCount.value,
-//                toGoCount: self.toGoCount.value
-//            )
-//        }
-//    }
-//    
-////    public static func fromModel() -> Self {
-////        let dao = UserDAO()
-////        dao.ob
-////    }
-//}
-
 extension UserDAO {
     
     func toUser() -> User {
-        assert(UserType(attribute: self.type) == UserType.User, "The type of User does not match.")
+        assert(UserType(rawValue: self.type) == UserType.User, "The type of User does not match.")
         return User(
             objectId: self.objectId,
             updatedAt: self.updatedAt,
             createdAt: self.createdAt,
-            status: UserStatus(attribute: self.status)!,
-            nickname: self.nickname.value,
-            gender: Gender(attribute: self.gender)!,
-            ageGroup: AgeGroup(attribute: self.ageGroup)!,
-            horoscope: Horoscope(attribute: self.horoscope)!,
-            coverPhoto: self.coverPhoto.value?.toImageFile(),
-            whatsUp: self.whatsUp.value,
-            latestLocation: self.latestLocation.value?.toGeolocation(),
-            aaCount: self.aaCount.value,
-            treatCount: self.treatCount.value,
-            toGoCount: self.toGoCount.value
+            status: UserStatus(rawValue: self.status)!,
+            nickname: self.nickname,
+            gender: Gender(rawValue: self.gender)!,
+            ageGroup: AgeGroup(rawValue: self.ageGroup)!,
+            horoscope: Horoscope(rawValue: self.horoscope)!,
+            coverPhoto: self.coverPhoto?.toImageFile(),
+            whatsUp: self.whatsUp,
+            latestLocation: self.latestLocation?.toGeolocation(),
+            aaCount: self.aaCount,
+            treatCount: self.treatCount,
+            toGoCount: self.toGoCount
         )
     }
     
     func toBusinessUser() -> BusinessUser {
-        assert(UserType(attribute: self.type) == UserType.Business, "The type of User does not match.")
+        assert(UserType(rawValue: self.type) == UserType.Business, "The type of User does not match.")
         return BusinessUser(
             objectId: self.objectId,
             updatedAt: self.updatedAt,
             createdAt: self.createdAt,
-            status: UserStatus(attribute: self.status)!,
-            nickname: self.nickname.value,
-            gender: Gender(attribute: self.gender)!,
-            ageGroup: AgeGroup(attribute: self.ageGroup)!,
-            horoscope: Horoscope(attribute: self.horoscope)!,
-            coverPhoto: self.coverPhoto.value?.toImageFile(),
-            whatsUp: self.whatsUp.value,
-            latestLocation: self.latestLocation.value?.toGeolocation(),
-            aaCount: self.aaCount.value,
-            treatCount: self.treatCount.value,
-            toGoCount: self.toGoCount.value
+            status: UserStatus(rawValue: self.status)!,
+            nickname: self.nickname,
+            gender: Gender(rawValue: self.gender)!,
+            ageGroup: AgeGroup(rawValue: self.ageGroup)!,
+            horoscope: Horoscope(rawValue: self.horoscope)!,
+            coverPhoto: self.coverPhoto?.toImageFile(),
+            whatsUp: self.whatsUp,
+            latestLocation: self.latestLocation?.toGeolocation(),
+            aaCount: self.aaCount,
+            treatCount: self.treatCount,
+            toGoCount: self.toGoCount
         )
     }
     
     func toMe() -> Me {
-        assert(UserType(attribute: self.type) == UserType.User, "The type of User does not match.")
+        assert(UserType(rawValue: self.type) == UserType.User, "The type of User does not match.")
         return Me(
             objectId: self.objectId,
             updatedAt: self.updatedAt,
             createdAt: self.createdAt,
-            birthday: self.birthday.value,
-            address: self.address.value?.toAddress(),
-            status: UserStatus(attribute: self.status)!,
-            nickname: self.nickname.value,
-            gender: Gender(attribute: self.gender)!,
-            ageGroup: AgeGroup(attribute: self.ageGroup)!,
-            horoscope: Horoscope(attribute: self.horoscope)!,
-            coverPhoto: self.coverPhoto.value?.toImageFile(),
-            whatsUp: self.whatsUp.value,
-            latestLocation: self.latestLocation.value?.toGeolocation(),
-            aaCount: self.aaCount.value,
-            treatCount: self.treatCount.value,
-            toGoCount: self.toGoCount.value
+            birthday: self.birthday,
+            address: self.address?.toAddress(),
+            status: UserStatus(rawValue: self.status)!,
+            nickname: self.nickname,
+            gender: Gender(rawValue: self.gender)!,
+            ageGroup: AgeGroup(rawValue: self.ageGroup)!,
+            horoscope: Horoscope(rawValue: self.horoscope)!,
+            coverPhoto: self.coverPhoto?.toImageFile(),
+            whatsUp: self.whatsUp,
+            latestLocation: self.latestLocation?.toGeolocation(),
+            aaCount: self.aaCount,
+            treatCount: self.treatCount,
+            toGoCount: self.toGoCount
         )
     }
     
@@ -353,7 +276,7 @@ extension BusinessDAO {
             email: self.email,
             websiteUrl: self.websiteUrl?.toNSURL(),
             address: self.address.toAddress(),
-            coverImage: ImageFile(name: self.coverImage.name, url: self.coverImage.url),
+            coverImage: ImageFile(name: self.coverImage.name, url: NSURL(string: self.coverImage.url)),
             descriptor: self.descript,
             aaCount: self.aaCount,
             treatCount: self.treatCount,
@@ -399,7 +322,7 @@ extension String {
 
 extension AVFile {
     func toImageFile() -> ImageFile {
-        return ImageFile(name: self.name, url: self.url)
+        return ImageFile(name: self.name, url: NSURL(string: self.url))
     }
 }
 

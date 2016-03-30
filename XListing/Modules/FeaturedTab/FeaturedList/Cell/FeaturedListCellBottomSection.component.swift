@@ -17,7 +17,7 @@ public enum ParticipationStatus {
     case None
 }
 
-public final class FeaturedListCellBottomSection : ASDisplayNode, Component {
+public final class FeaturedListCellBottomSection : ASDisplayNode {
     
     // MARK: - UI Controls
     private let participantPreview1 = ASNetworkImageNode(webImage: ())

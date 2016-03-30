@@ -8,6 +8,7 @@
 
 import Foundation
 import AVOSCloud
+import ReactiveCocoa
 
 public final class BusinessDAO: AVObject, AVSubclassing {
     
@@ -80,5 +81,13 @@ public final class BusinessDAO: AVObject, AVSubclassing {
 extension BusinessDAO {
     static var typedQuery: TypedAVQuery<BusinessDAO> {
         return BusinessDAO.query() as! TypedAVQuery<BusinessDAO>
+    }
+}
+
+extension BusinessDAO {
+    func openEvent(type: Int) -> SignalProducer<EventDAO, NetworkError> {
+        return AVCloud.rac_callFunction("openEvent", withParameters: ["businessId": self.objectId, "event_type": type])
+            .map { $0 as! EventDAO }
+        
     }
 }
