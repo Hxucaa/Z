@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import ReactiveCocoa
+import Result
 
 public protocol IBasicUserInfoViewModel : class {
     

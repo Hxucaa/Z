@@ -39,9 +39,6 @@ final class SignUpViewController : XUIViewController, ViewModelBackedViewControl
     // MARK: - Properties
     private var viewmodel: ISignUpViewModel!
     
-    /// A disposable that will dispose of any number of other disposables.
-    private let compositeDisposable = CompositeDisposable()
-    
     /// a TransitionManager which manages the transitions
     private lazy var transitionManager: TransitionManager = TransitionManager(
         initial: self.usernameAndPasswordTransition.transitionActor,
@@ -337,8 +334,6 @@ final class SignUpViewController : XUIViewController, ViewModelBackedViewControl
     
     
     deinit {
-        // Dispose signals before deinit.
-        compositeDisposable.dispose()
         AccountLogVerbose("SignUp View Controller deinitializes.")
     }
     

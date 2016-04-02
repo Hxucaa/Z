@@ -80,7 +80,7 @@ public final class BusinessDAO: AVObject, AVSubclassing {
 
 extension BusinessDAO {
     static var typedQuery: TypedAVQuery<BusinessDAO> {
-        return BusinessDAO.query() as! TypedAVQuery<BusinessDAO>
+        return TypedAVQuery<BusinessDAO>(query: BusinessDAO.query())
     }
 }
 

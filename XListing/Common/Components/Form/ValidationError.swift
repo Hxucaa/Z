@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Swiftz
 
 
 public enum ValidationError : ErrorType {

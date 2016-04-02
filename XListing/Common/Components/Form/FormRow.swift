@@ -2,12 +2,14 @@
 //  FormRow.swift
 //  XListing
 //
-//  Created by Hong Zhu on 2016-02-06.
+//  Created by Lance Zhu on 2016-02-06.
 //  Copyright © 2016 ZenChat. All rights reserved.
 //
 
 import Foundation
 import Eureka
+
+// swiftlint:disable file_length
 
 @IBDesignable public class FloatLabelTextField: UITextField {
     private let animationDuration = 0.3
@@ -185,7 +187,7 @@ import Eureka
         self.addSubview(title)
     }
     
-    private func maxTopInset()->CGFloat {
+    private func maxTopInset() -> CGFloat {
         return max(0, floor(bounds.size.height - (font?.lineHeight ?? 0) - 4.0))
     }
     
@@ -281,7 +283,7 @@ public class _FloatLabelCell<T where T: Equatable, T: InputTypeInitiable>: Cell<
         selectionStyle = .None
         contentView.addSubview(floatLabelTextField)
         floatLabelTextField.delegate = self
-        floatLabelTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+        floatLabelTextField.addTarget(self, action: #selector(_FloatLabelCell.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
         //        floatLabelTextField.
         contentView.addConstraints(layoutConstraints())
     }
@@ -374,32 +376,23 @@ public class TextFloatLabelCell : _FloatLabelCell<String>, CellType {
 
 
 
-public class FloatFieldRow<T: Any, Cell: CellType where Cell: BaseCell, Cell: TextFieldCell, Cell.Value == T>: Row<T, Cell> {
+public class FloatFieldRow<T: Any, Cell: CellType where Cell: BaseCell, Cell: TypedCellType, Cell: TextFieldCell, Cell.Value == T>: Row<T, Cell> {
     
     public var formatter: NSFormatter?
-    public var useFormatterDuringInput: Bool
+    public var useFormatterDuringInput = false
+    public var useFormatterOnDidBeginEditing: Bool?
     
     public required init(tag: String?) {
-        useFormatterDuringInput = false
         super.init(tag: tag)
         self.displayValueFor = { [unowned self] value in
-            guard let v = value else {
-                return nil
-            }
+            guard let v = value else { return nil }
             if let formatter = self.formatter {
-                if self.cell.textField.isFirstResponder() {
-                    if self.useFormatterDuringInput {
-                        return formatter.editingStringForObjectValue(v as! AnyObject)
-                    }
-                    else {
-                        return String(v)
-                    }
+                if self.cell.textField.isFirstResponder(){
+                    return self.useFormatterDuringInput ? formatter.editingStringForObjectValue(v as! AnyObject) : String(v)
                 }
                 return formatter.stringForObjectValue(v as! AnyObject)
             }
-            else{
-                return String(v)
-            }
+            return String(v)
         }
     }
 }

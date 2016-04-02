@@ -16,6 +16,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func startTabBarApplication() {
         router.startTabBarApplication()
     }
+    // swiftlint:disable variable_name_min_length
     let DI = DependencyInjector()
     private lazy var router: IRouter = self.DI.assembler.resolver.resolve(IRouter.self)!
     

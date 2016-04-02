@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import ReactiveCocoa
+import Result
 import Cartography
 
 private let UsernameAndPasswordViewNibName = "UsernameAndPasswordView"
@@ -70,7 +71,7 @@ final class LogInViewController : XUIViewController, ViewModelBackedViewControll
         super.viewWillAppear(animated)
         
         
-        _compositeDisposable += containerView.goBackProxy
+        compositeDisposable += containerView.goBackProxy
             .takeUntilViewWillDisappear(self)
             .logLifeCycle(LogContext.Account, signalName: "containerView.goBackProxy")
             .startWithNext { [weak self] in
@@ -78,7 +79,7 @@ final class LogInViewController : XUIViewController, ViewModelBackedViewControll
                 self?.navigationController?.popViewControllerAnimated(false)
             }
         
-        _compositeDisposable += usernameAndPasswordView.submitProxy
+        compositeDisposable += usernameAndPasswordView.submitProxy
             .takeUntilViewWillDisappear(self)
             .logLifeCycle(LogContext.Account, signalName: "usernameAndPasswordView.submitProxy")
             .promoteErrors(NetworkError)

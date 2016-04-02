@@ -8,6 +8,7 @@
 
 import Foundation
 import ReactiveCocoa
+import Result
 import Dollar
 import ReactiveArray
 
@@ -27,7 +28,7 @@ final class FeaturedListViewModel : IFeaturedListViewModel {
     
     // MARK: - Properties
     // MARK: Services
-    weak var router: IRouter!
+    private let router: IRouter
     private let businessRepository: IBusinessRepository
     private let userRepository: IUserRepository
     private let geoLocationService: IGeoLocationService
@@ -37,15 +38,16 @@ final class FeaturedListViewModel : IFeaturedListViewModel {
     private var numberOfBusinessesLoaded = 0
     
     // MARK: - Initializers
-    init(dep: (businessRepository: IBusinessRepository, userRepository: IUserRepository, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService), input: (didSelectRow: SignalProducer<NSIndexPath, NoError>, refreshTrigger: SignalProducer<Void, NoError>, fetchMoreTrigger: SignalProducer<Void, NoError>)) {
+    init(dep: (router: IRouter, businessRepository: IBusinessRepository, userRepository: IUserRepository, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService), input: (didSelectRow: SignalProducer<NSIndexPath, NoError>, refreshTrigger: SignalProducer<Void, NoError>, fetchMoreTrigger: SignalProducer<Void, NoError>)) {
+        
+        router = dep.router
         businessRepository = dep.businessRepository
         userRepository = dep.userRepository
         geoLocationService = dep.geoLocationService
         userDefaultsService = dep.userDefaultsService
         
-        collectionDataSource <~ businessRepository.findByCurrentLocation(input.fetchMoreTrigger)
-            // TODO: better error handling
-            .demoteError()
+        collectionDataSource <~ businessRepository.findByCurrentLocation(input.fetchMoreTrigger.on(next: { print($0) }))
+            .presentErrorView(router)
             .map { $0.map { BusinessInfo(business: $0) } }
         
         input.didSelectRow

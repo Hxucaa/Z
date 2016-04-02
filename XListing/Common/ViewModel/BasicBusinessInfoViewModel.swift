@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Swiftz
 import ReactiveCocoa
 import AVOSCloud
 

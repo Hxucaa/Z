@@ -9,6 +9,7 @@
 import Foundation
 import SVProgressHUD
 import ReactiveCocoa
+import Result
 
 private let DefaultWIPMessage = "努力跑..."
 private let DefaultSuccessMessage = "成功了！"

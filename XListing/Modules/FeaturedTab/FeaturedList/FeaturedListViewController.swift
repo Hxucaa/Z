@@ -8,6 +8,7 @@
 
 import UIKit
 import ReactiveCocoa
+import Result
 import Dollar
 import Cartography
 import AMScrollingNavbar
@@ -119,7 +120,6 @@ final class FeaturedListViewController: XScrollingNavigationViewController {
     // MARK: - Properties
     private var inputViewModel: InputViewModel!
     private var viewmodel: IFeaturedListViewModel!
-    private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Setups
     static let startLoadingOffset: CGFloat = 20.0
@@ -140,20 +140,29 @@ final class FeaturedListViewController: XScrollingNavigationViewController {
         view.addSubview(tableView)
         
 //        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! FeaturedListViewModel)
-        
-        let didSelectRow = rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
+        let didSelectRowAtIndexPath = #selector(UITableViewDelegate.tableView(_:didSelectRowAtIndexPath:))
+        let didSelectRow = rac_signalForSelector(didSelectRowAtIndexPath, fromProtocol: UITableViewDelegate.self).toSignalProducer()
             .noSelectorError()
             // forwards events from producer until the view controller is going to disappear
             .takeUntilViewWillDisappear(self)
             .map { ($0 as! RACTuple).second as! NSIndexPath }
-            .logLifeCycle(LogContext.Featured, signalName: "tableView:didSelectRowAtIndexPath:")
+            .logLifeCycle(LogContext.Featured, signalName: didSelectRowAtIndexPath.description)
         
-        let loadNextPageTrigger = DynamicProperty(object: tableView, keyPath: "contentOffset").producer
-            .map { $0 as! CGPoint }
+//        let loadNextPageTrigger = DynamicProperty(object: tableView, keyPath: "contentOffset").producer
+//            .ignoreNil()
+//            .debug()
+//            .map {
+//                let p = $0 as! NSValue
+//                return p.CGPointValue()
+////                CGPoint(x: $0.x, y: $0.y)
+//            }
+        let loadNextPageTrigger = SignalProducer<CGPoint, NoError>.empty
+            .debug()
             .flatMap(FlattenStrategy.Merge) { offset -> SignalProducer<Void, NoError> in
                 let startLoadingOffset: CGFloat = 20.0
                 if offset.y + self.tableView.frame.size.height + startLoadingOffset > self.tableView.contentSize.height {
-                    return SignalProducer<Void, NoError>(value: ())
+//                    return SignalProducer<Void, NoError>(value: ())
+                    return SignalProducer.empty
                 }
                 else {
                     
@@ -230,7 +239,6 @@ final class FeaturedListViewController: XScrollingNavigationViewController {
     
     deinit {
 //        singleSectionInfiniteTableViewManager.cleanUp()
-        compositeDisposable.dispose()
         FeaturedLogVerbose("Featured List View Controller deinitializes.")
     }
     
@@ -251,15 +259,13 @@ extension FeaturedListViewController : ASTableViewDataSource, ASTableViewDelegat
      - returns: The number of rows in section.
      */
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return viewmodel.collectionDataSource.count
-        return 10
+        return viewmodel.collectionDataSource.value.count
     }
     
     func tableView(tableView: ASTableView, nodeForRowAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
-//        let cell = FeaturedListCellNode(viewmodel: viewmodel.collectionDataSource.array[indexPath.row])
-//        
-//        return cell
-        return ASCellNode()
+        let cell = FeaturedListCellNode(businessInfo: viewmodel.collectionDataSource.value[indexPath.row])
+        
+        return cell
     }
     
 //    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

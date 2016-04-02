@@ -16,7 +16,7 @@ private let AllDomainErrors = [
 
 /// Specific errors with messages for AVOSCloud
 private let AVOSCloudErrors = [
-    
+    // swiftlint:disable comma
     kAVErrorInternalServer : "遇到错误啦,请重试 🙏",
     
     kAVErrorConnectionFailed: "网络不给力哦,连接超时啦! 😲",

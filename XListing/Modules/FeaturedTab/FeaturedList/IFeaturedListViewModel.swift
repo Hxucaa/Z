@@ -15,6 +15,7 @@ protocol IFeaturedListViewModel {
     // MARK: - Outputs
     
 //    var collectionDataSource: ReactiveArray<BusinessInfo> { get }
+    var collectionDataSource: MutableProperty<[BusinessInfo]> { get }
     
 //    init(dep: (businessRepository: IBusinessRepository, userRepository: IUserRepository, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService), input: (didSelectRow: SignalProducer<NSIndexPath, NoError>, test: Int))
     

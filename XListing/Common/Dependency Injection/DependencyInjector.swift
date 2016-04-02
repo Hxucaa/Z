@@ -8,7 +8,6 @@
 
 import Foundation
 import Swinject
-import Swiftz
 import ReactiveCocoa
 
 class DependencyInjector {
@@ -17,6 +16,7 @@ class DependencyInjector {
     
     
     init() {
+        // swiftlint:disable force_try
         assembler = try! Assembler(
             assemblies: [
                 RootAssembly(),
@@ -78,14 +78,20 @@ class MainAssembly : AssemblyType {
                 r.rootTabBar = $0.resolve(RootTabBarController.self)!
                 r.featuredTab = $0.resolve(FeaturedTabNavigationController.self)!
                 r.accountNavgationController = $0.resolve(AccountNavigationController.self)!
+                r.alert = $0.resolve(IAlert.self)!
             }
             .inObjectScope(ObjectScope.Hierarchy)
+        
         
         
         // Components
         container
             .register(HUD.self) { _ in HUD() }
             .inObjectScope(ObjectScope.Hierarchy)
+        
+        container
+            .register(IAlert.self) { _ in Alert() }
+            .inObjectScope(.Hierarchy)
     }
 }
 
@@ -132,10 +138,17 @@ class FeaturedAssembly : AssemblyType {
         container
             .register(FeaturedListViewController.InputViewModel.self) {
                 let initiazlier = curry(FeaturedListViewModel.init)
-                let inputVM = initiazlier((businessRepository: $0.resolve(IBusinessRepository.self)!, userRepository: $0.resolve(IUserRepository.self)!, geoLocationService: $0.resolve(IGeoLocationService.self)!, userDefaultsService: $0.resolve(IUserDefaultsService.self)!))
+                let inputVM = initiazlier((
+                    router: $0.resolve(IRouter.self)!,
+                    businessRepository: $0.resolve(IBusinessRepository.self)!,
+                    userRepository: $0.resolve(IUserRepository.self)!,
+                    geoLocationService: $0.resolve(IGeoLocationService.self)!,
+                    userDefaultsService: $0.resolve(IUserDefaultsService.self)!
+                ))
                 
                 return inputVM
             }
+            .inObjectScope(.Hierarchy)
     }
 }
 

@@ -31,6 +31,7 @@ private struct AssociationKey {
     static var attributedString: UInt8 = 14
     static var UIBarItemEnabled: UInt8 = 15
     static var selectedViewController: UInt8 = 16
+    static var contentOffset: UInt8 = 17
 }
 
 // lazily creates a gettable associated property via the given factory
@@ -51,6 +52,12 @@ private func lazyMutableProperty<T>(host: AnyObject, key: UnsafePointer<Void>, s
                 setter(newValue)
             }
         return property
+    }
+}
+
+extension UIScrollView {
+    public var rac_contentOffset: MutableProperty<CGPoint> {
+        return lazyMutableProperty(self, key: &AssociationKey.contentOffset, setter: { _ in }, getter: { self.contentOffset })
     }
 }
 
@@ -104,7 +111,7 @@ extension UIDatePicker {
     public var rac_date: MutableProperty<NSDate> {
         return lazyAssociatedProperty(self, key: &AssociationKey.date) {
             
-            self.addTarget(self, action: "changed", forControlEvents: UIControlEvents.ValueChanged)
+            self.addTarget(self, action: #selector(UIDatePicker.changed), forControlEvents: UIControlEvents.ValueChanged)
             
             let property = MutableProperty<NSDate>(self.date)
             property.producer
@@ -124,7 +131,7 @@ extension UITextField {
     public var rac_text: MutableProperty<String?> {
         return lazyAssociatedProperty(self, key: &AssociationKey.text) {
             
-            self.addTarget(self, action: "changed", forControlEvents: UIControlEvents.EditingChanged)
+            self.addTarget(self, action: #selector(UIDatePicker.changed), forControlEvents: UIControlEvents.EditingChanged)
             
             let property = MutableProperty<String?>(self.text)
             property.producer
@@ -150,7 +157,7 @@ extension UIImageView {
 
 extension UIViewController {
     public var rac_viewWillDisappear: RACSignal {
-        return rac_signalForSelector(Selector("viewWillDisappear:"))
+        return rac_signalForSelector(#selector(UIViewController.viewWillDisappear(_:)))
     }
     
     public var rac_viewWillDisappearProducer: SignalProducer<Bool, NSError> {
@@ -159,7 +166,7 @@ extension UIViewController {
     }
     
     public var rac_viewDidDisappear: RACSignal {
-        return rac_signalForSelector(Selector("viewDidDisappear:"))
+        return rac_signalForSelector(#selector(UIViewController.viewDidDisappear(_:)))
     }
     
     public var rac_viewDidDisappearProducer: SignalProducer<Bool, NSError> {
@@ -168,7 +175,7 @@ extension UIViewController {
     }
     
     public var rac_viewWillAppear: RACSignal {
-        return rac_signalForSelector(Selector("viewWillAppear:"))
+        return rac_signalForSelector(#selector(UIViewController.viewWillAppear(_:)))
     }
     
     public var rac_viewWillAppearProducer: SignalProducer<Bool, NSError> {
@@ -177,7 +184,7 @@ extension UIViewController {
     }
     
     public var rac_viewDidAppear: RACSignal {
-        return rac_signalForSelector(Selector("viewDidAppear:"))
+        return rac_signalForSelector(#selector(UIViewController.viewDidAppear(_:)))
     }
     
     public var rac_viewDidAppearProducer: SignalProducer<Bool, NSError> {
@@ -195,7 +202,7 @@ extension UITabBarController {
 
 extension UIView {
     public var rac_removeFromSuperview: RACSignal {
-        return rac_signalForSelector(Selector("removeFromSuperview"))
+        return rac_signalForSelector(#selector(UIView.removeFromSuperview))
     }
     
     public var rac_removeFromSuperviewProducer: SignalProducer<Void, NSError> {

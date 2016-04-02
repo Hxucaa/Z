@@ -8,6 +8,7 @@
 
 import Foundation
 import ReactiveCocoa
+import Result
 
 public extension SignalProducerType where Error : NSError {
     
@@ -15,7 +16,8 @@ public extension SignalProducerType where Error : NSError {
     Suppress error from `rac_signalForSelector`.
     
     - returns: A signal producer of sequence that emit no error.
-    */
+     */
+    @warn_unused_result(message="Did you forget to call `start` on the producer?")
     public func noSelectorError() -> SignalProducer<Value, NoError> {
         return self
             .on(failed: { fatalError("A `RACSelectorSignalErrorDomain` error has occured. This is not supposed to happen.\n\($0.description)") })
@@ -31,6 +33,7 @@ public extension SignalProducerType where Error : ErrorType {
      
      - returns: A signal producer of sequence that emit no error.
      */
+    @warn_unused_result(message="Did you forget to call `start` on the producer?")
     public func demoteError() -> SignalProducer<Value, NoError> {
         return self
             .on(failed: { _ in fatalError("An error has been suppressed.") } )
@@ -100,6 +103,7 @@ public extension SignalProducerType {
      
      - returns: A signal producer
      */
+    @warn_unused_result(message="Did you forget to call `start` on the producer?")
     public func takeUntilRemoveFromSuperview<U: UIView>(view: U) -> SignalProducer<Value, Error> {
         return self.takeUntil(view.rac_removeFromSuperview.toSignalProducer().toNihil())
     }
@@ -114,7 +118,7 @@ public extension SignalProducerType {
      :returns: Continue the signal.
      */
     @warn_unused_result(message="Did you forget to call `start` on the producer?")
-    public func logLifeCycle(context: LogContext, signalName: String, file: StaticString = __FILE__, function: StaticString = __FUNCTION__, line: UInt = __LINE__) -> SignalProducer<Value, Error> {
+    public func logLifeCycle(context: LogContext, signalName: String, file: StaticString = #file, function: StaticString = #function, line: UInt = #line) -> SignalProducer<Value, Error> {
         
         // use the appropriate method to log
         let log = { (context: LogContext, message: String) -> Void in
@@ -153,6 +157,47 @@ public extension SignalProducerType {
                     log(context, "`\(signalName)` signal disposed.")
                 }
             )
+    }
+}
+
+extension Signal {
+    public func debug(identifier: String) -> Signal<Value, Error> {
+        return self
+            .on(
+                terminated: {
+                    print("\(identifier) -> terminated")
+                },
+                disposed: {
+                    print("\(identifier) -> disposed")
+                }
+            )
+            .on(event: {
+                switch $0 {
+                case let .Next(v):
+                    //                    print("\(identifier) -> Event Next(\(v))")
+                    print("\(identifier) -> Event Next(data)")
+                case let .Failed(e):
+                    print("\(identifier) -> Event Failed(\(e))")
+                case .Completed:
+                    print("\(identifier) -> Event Completed")
+                case .Interrupted:
+                    print("\(identifier) -> Event Interrupted")
+                }
+            })
+    }
+    
+    public func debug(file: StaticString = #file, function: StaticString = #function, line: UInt = #line) -> Signal<Value, Error> {
+        return self.debug("\(file):\(line) (\(function))")
+    }
+}
+
+extension SignalProducer {
+    public func debug(identifier: String) -> SignalProducer<Value, Error> {
+        return lift { $0.debug(identifier) }
+    }
+    
+    public func debug(file: StaticString = #file, function: StaticString = #function, line: UInt = #line) -> SignalProducer<Value, Error> {
+        return lift { $0.debug(file, function: function, line: line) }
     }
 }
 

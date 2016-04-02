@@ -11,7 +11,11 @@ import AVOSCloud
 
 // TODO: Need better abstraction on Error handling 
 
-public enum NetworkError : Int, ErrorType {
+protocol INetworkError : ErrorType {
+    var message: String { get }
+}
+
+public enum NetworkError : Int, INetworkError {
     case InternalServer = 1
     case ConnectionFailed = 100
     case ObjectNotFound = 101
@@ -68,9 +72,11 @@ public enum NetworkError : Int, ErrorType {
     case LinkedIdMissing = 250
     case InvalidLinkedSession = 251
     
+    case Unauthorized = 401
+    
     public var message: String {
         get {
-            
+            // swiftlint:disable comma
             switch self {
             case InternalServer : return "遇到错误啦,请重试 🙏"
             case ConnectionFailed: return "网络不给力哦,连接超时啦! 😲"
@@ -127,6 +133,7 @@ public enum NetworkError : Int, ErrorType {
             case UserMobilePhoneNotVerified: return "手机号码未验证"
             case LinkedIdMissing: return "遇到错误啦,请重试 🙏"
             case InvalidLinkedSession: return "遇到错误啦,请重试 🙏"
+            case Unauthorized: return "无法确认身份认证"
             }
             
             return ""

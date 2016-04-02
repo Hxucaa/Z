@@ -43,7 +43,7 @@ public enum Icons : String {
         var iconImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        if(iconImage.respondsToSelector(Selector("imageWithRenderingMode:"))) {
+        if iconImage.respondsToSelector(#selector(UIImage.imageWithRenderingMode(_:))) {
             iconImage = iconImage.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         }
         

@@ -108,7 +108,7 @@ public final class UserDAO: AVUser {
 
 extension UserDAO {
     static var typedQuery: TypedAVQuery<UserDAO> {
-        return UserDAO.query() as! TypedAVQuery<UserDAO>
+        return TypedAVQuery<UserDAO>(query: UserDAO.query())
     }
 }
 

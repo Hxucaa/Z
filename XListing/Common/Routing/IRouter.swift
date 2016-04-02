@@ -40,4 +40,6 @@ protocol IRouter : class {
      - parameter animated: <#animated description#>
      */
     func pop(animated: Bool)
+    
+    func presentError(error: INetworkError)
 }

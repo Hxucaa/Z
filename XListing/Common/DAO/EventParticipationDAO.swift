@@ -48,6 +48,6 @@ final class EventParticipationDAO: AVObject, AVSubclassing {
 
 extension EventParticipationDAO {
     static var typedQuery: TypedAVQuery<EventParticipationDAO> {
-        return EventParticipationDAO.query() as! TypedAVQuery<EventParticipationDAO>
+        return TypedAVQuery<EventParticipationDAO>(query: EventParticipationDAO.query())
     }
 }

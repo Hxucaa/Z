@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import ReactiveCocoa
+import Result
 import AsyncDisplayKit
 
 public final class FeaturedListCellParticipateControl : ASControlNode {

@@ -8,6 +8,7 @@
 
 import Foundation
 import ReactiveCocoa
+import Result
 import AVOSCloud
 
 public class _BaseRepository<M: IModel, DAO: AVObject> {
@@ -48,11 +49,11 @@ public class _BaseRepository<M: IModel, DAO: AVObject> {
                 
                 
                 return SignalProducer<SignalProducer<[M], NetworkError>, NetworkError>(values: [
-                    SignalProducer<[M], NetworkError>(value: fetched),
-                    SignalProducer.never.takeUntil(findMoreTrigger),
-                    self.recursivelyFind(query, fetchedSoFar: fetched, findMoreTrigger: findMoreTrigger)
+                    SignalProducer<[M], NetworkError>(value: fetched).debug("33333"),
+                    SignalProducer.never.takeUntil(findMoreTrigger).debug("44444"),
+                    self.recursivelyFind(query, fetchedSoFar: fetched, findMoreTrigger: findMoreTrigger).debug("55555")
                     ]
-                    ).flatten(.Concat)
+                    ).flatten(.Concat).debug("666666")
         }
     }
 }

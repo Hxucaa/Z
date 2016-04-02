@@ -12,7 +12,7 @@ import ReactiveArray
 
 public protocol ICollectionDataSource {
     /// Associated Types
-    typealias Payload
+    associatedtype Payload
     
     var collectionDataSource: ReactiveArray<Payload> { get }
 }

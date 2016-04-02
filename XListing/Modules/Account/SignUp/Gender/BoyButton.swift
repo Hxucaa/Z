@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import XAssets
 import ReactiveCocoa
+import Result
 
 public final class BoyButton : UIButton {
     

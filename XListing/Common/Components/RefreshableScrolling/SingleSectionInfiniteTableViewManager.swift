@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import INSPullToRefresh
 import ReactiveCocoa
+import Result
 import ReactiveArray
 import Dollar
 
@@ -100,8 +101,8 @@ public class SingleSectionInfiniteTableViewManager<T: UITableView, U: protocol<I
                                         this.isFirstLoad = false
                                     }
                                     else {
-                                        var rows = this.tableView.numberOfRowsInSection(targetedSection)
-                                        this.tableView.insertRowsAtIndexPaths(values.map { viewmodel in NSIndexPath(forRow: rows++, inSection: targetedSection) }, withRowAnimation: UITableViewRowAnimation.None)
+                                        let rows = this.tableView.numberOfRowsInSection(targetedSection)
+                                        this.tableView.insertRowsAtIndexPaths(values.map { viewmodel in NSIndexPath(forRow: rows, inSection: targetedSection) }, withRowAnimation: UITableViewRowAnimation.None)
                                     }
                                 }
                             case let .Insert(value, index):

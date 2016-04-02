@@ -95,7 +95,6 @@ public final class MeRepository : _BaseRepository<Me, UserDAO>, IMeRepository {
     }
     
     public func me() -> Me? {
-        let t = UserDAO.currentUser()
         guard let currentUser = UserDAO.currentUser() where currentUser.isAuthenticated() else {
             return nil
         }

@@ -5,6 +5,9 @@
 ////  Created by Lance Zhu on 2016-01-25.
 ////  Copyright (c) 2015 ZenChat. All rights reserved.
 ////
+
+// swiftlint:disable file_length
+
 //
 ///**
 //IMPLEMENTATION DETAILS:

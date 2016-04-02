@@ -11,7 +11,7 @@ import Foundation
 typealias CompletionHandler = Void -> Void
 
 public func typeNameAndAddress<T: AnyObject>(object: T) -> String {
-    return "<\(_stdlib_getDemangledTypeName(object)): \(unsafeAddressOf(object))>"
+    return "<\(String(reflecting: object.dynamicType)): \(unsafeAddressOf(object))>"
 }
 
 /**
@@ -43,7 +43,7 @@ public func typeNameAndAddress<T: AnyObject>(object: T) -> String {
  
  - returns: Inferred calling type.
  */
-func undefined<T>(hint: String="", file: StaticString=__FILE__, line: UInt=__LINE__) -> T {
+func undefined<T>(hint: String="", file: StaticString=#file, line: UInt=#line) -> T {
     let message = hint == "" ? "" : ": \(hint)"
     fatalError("undefined \(T.self)\(message)", file:file, line:line)
 }

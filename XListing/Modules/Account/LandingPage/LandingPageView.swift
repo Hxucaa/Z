@@ -16,6 +16,7 @@ the `RePromptButtonsView` is loaded.
 import Foundation
 import UIKit
 import ReactiveCocoa
+import Result
 
 private let StartUpButtonsViewNibName = "StartUpButtonsView"
 private let RePromptButtonsViewNibName = "RePromptButtonsView"

@@ -8,6 +8,7 @@
 
 import Foundation
 import ReactiveCocoa
+import Result
 import AVOSCloud
 
 public protocol IBusinessRepository {
@@ -40,12 +41,16 @@ public final class BusinessRepository : _BaseRepository<Business, BusinessDAO>, 
                 return SignalProducer<CLLocation, NetworkError>(value: CLLocation(latitude: 49.27623, longitude: -123.12941))
             }
             // TODO: Extract constant number away
-            .flatMap(.Latest) { self.findByRadiusFromOrigin($0, radius: 1000 * 10, findMoreTrigger: findMoreTrigger) }
+            .flatMap(.Latest) {
+                self.findByRadiusFromOrigin($0, radius: 1000 * 10, findMoreTrigger: findMoreTrigger)
+        }
         
     }
     
     public func openEvent(business: Business, eventType type: EventType) -> SignalProducer<Event, NetworkError> {
-        return BusinessDAO(withoutDataWithObjectId: business.objectId).openEvent(type.rawValue)
+        let dao = BusinessDAO()
+        dao.objectId = business.objectId
+        return dao.openEvent(type.rawValue)
             .mapToEventModel()
     }
     

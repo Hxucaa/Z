@@ -8,24 +8,37 @@
 
 import Foundation
 import Swinject
+import ReactiveCocoa
+import Result
 
 class Router : IRouter {
     typealias RouteCallback = Void -> Void
     
     var rootTabBar: RootTabBarController! {
         didSet {
-            self.rootTabBar.selectedViewControllerCallback = { [unowned self] in self.activeNav = $0 as? UINavigationController }
+            self.rootTabBar.selectedViewControllerCallback = { [unowned self] in
+                self.activeNav = $0 as? UINavigationController
+            }
         }
     }
     var featuredTab: FeaturedTabNavigationController!
     var accountNavgationController: AccountNavigationController!
     //    private var profileTab: ProfileTabNavigationController
     
-    private weak var activeNav: UINavigationController?
+    private var activeNav: UINavigationController! {
+        didSet {
+            print("ssssssssssssssss")
+        }
+    }
     private weak var currentActiveViewController: UIViewController?
     
     var userDefaultsService: IUserDefaultsService!
     var meRepository: IMeRepository!
+    var alert: IAlert! {
+        didSet {
+            print("hsdfhsdfsdfsfdfsdf")
+        }
+    }
     
     private let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     private var diResolver: ResolverType {
@@ -50,10 +63,11 @@ class Router : IRouter {
     
     func startTabBarApplication() {
         window.rootViewController = rootTabBar
+        activeNav = featuredTab
     }
     
     func toSoclaBusiness(business: Business) {
-        activeNav?.pushViewController(UIViewController(), animated: false)
+        activeNav.pushViewController(UIViewController(), animated: false)
     }
     
     func toAccount(callback: RouteCallback?) {
@@ -96,5 +110,9 @@ class Router : IRouter {
     
     func pop(animated: Bool = false) {
         activeNav?.popViewControllerAnimated(animated)
+    }
+    
+    func presentError(error: INetworkError) {
+        alert.presentError(error.message, navigationController: activeNav)
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 protocol ViewModelBackedViewControllerType {
-    typealias ViewModelType
+    associatedtype ViewModelType
     
     func bindToViewModel(viewmodel: ViewModelType)
 }

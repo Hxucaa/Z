@@ -1,12 +1,9 @@
 PODS:
   - ActionSheetPicker-3.0 (2.0.5)
-  - AMScrollingNavbar (2.0.14)
-  - AsyncDisplayKit (1.9.7):
-    - AsyncDisplayKit/PINRemoteImage (= 1.9.7)
-  - AsyncDisplayKit/ASDealloc2MainObject (1.9.7)
-  - AsyncDisplayKit/PINRemoteImage (1.9.7):
-    - AsyncDisplayKit/ASDealloc2MainObject
-    - PINRemoteImage/iOS (>= 2)
+  - AMScrollingNavbar (2.1.1)
+  - AsyncDisplayKit (1.9.6):
+    - AsyncDisplayKit/ASDealloc2MainObject (= 1.9.6)
+  - AsyncDisplayKit/ASDealloc2MainObject (1.9.6)
   - AVOSCloudCrashReportingDynamic (3.2.7):
     - AVOSCloudDynamic
   - AVOSCloudDynamic (3.2.7)
@@ -19,135 +16,126 @@ PODS:
   - CocoaLumberjack/Swift (2.2.0):
     - CocoaLumberjack/Extensions
   - Dollar (5.0.0)
-  - Eureka (1.4.1)
+  - Eureka (1.5.0)
   - FLEX (2.3.0)
   - INSPullToRefresh (1.1.5)
   - Locksmith (2.0.8)
-  - Nimble (3.1.0)
-  - PINCache (2.2.2)
-  - PINRemoteImage/Core (2.1.1):
-    - PINCache (>= 2.1)
-  - PINRemoteImage/iOS (2.1.1):
-    - PINRemoteImage/Core
+  - Nimble (3.2.0)
   - Quick (0.9.1)
-  - ReactiveArray (0.7.2):
-    - ReactiveCocoa (~> 4.0.0)
-  - ReactiveCocoa (4.0.0):
-    - ReactiveCocoa/UI (= 4.0.0)
-    - Result (~> 1.0.1)
-  - ReactiveCocoa/Core (4.0.0):
+  - ReactiveArray (0.3.0):
+    - ReactiveCocoa (~> 4.1.0)
+  - ReactiveCocoa (4.1.0):
+    - ReactiveCocoa/UI (= 4.1.0)
+    - Result (~> 2.0)
+  - ReactiveCocoa/Core (4.1.0):
     - ReactiveCocoa/no-arc
-    - Result (~> 1.0.1)
-  - ReactiveCocoa/no-arc (4.0.0):
-    - Result (~> 1.0.1)
-  - ReactiveCocoa/UI (4.0.0):
+    - Result (~> 2.0)
+  - ReactiveCocoa/no-arc (4.1.0):
+    - Result (~> 2.0)
+  - ReactiveCocoa/UI (4.1.0):
     - ReactiveCocoa/Core
-    - Result (~> 1.0.1)
-  - Result (1.0.2)
-  - RongCloudIMKit (2.4.9)
+    - Result (~> 2.0)
+  - Result (2.0.0)
+  - RongCloudIMKit (2.4.10)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
   - Spring (1.0.3)
   - SVProgressHUD (1.1.3)
-  - Swiftz (0.4.0)
-  - Swinject (1.1.0)
+  - Swinject (1.1.1)
   - TTTAttributedLabel (1.13.4)
   - TZStackView (1.1.2)
-  - WebASDKImageManager (1.0.1):
-    - AsyncDisplayKit (~> 1.1)
+  - WebASDKImageManager (1.1.0):
+    - AsyncDisplayKit (~> 1.9)
     - SDWebImage/Core (~> 3.7)
-  - Whisper (2.0.2)
-  - XAssets (0.6.2):
-    - ReactiveCocoa (= 4.0.0)
+  - Whisper (2.1)
+  - XAssets (0.7.0):
+    - ReactiveCocoa (~> 4.1.0)
     - SDWebImage (~> 3.7.0)
 
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.0.3)
-  - AMScrollingNavbar (~> 2.0.1)
-  - AsyncDisplayKit (~> 1.9.6)
+  - AMScrollingNavbar (~> 2.1.1)
+  - AsyncDisplayKit (= 1.9.6)
   - AVOSCloudCrashReportingDynamic (~> 3.1)
   - AVOSCloudDynamic (~> 3.1)
   - Cartography (~> 0.6.0)
   - CocoaLumberjack/Swift (~> 2.2.0)
   - Dollar (~> 5.0.0)
-  - Eureka (~> 1.4.1)
+  - Eureka (~> 1.5.0)
   - FLEX (~> 2.0)
   - INSPullToRefresh (~> 1.1.0)
   - Locksmith (~> 2.0.2)
-  - Nimble (~> 3.1.0)
+  - Nimble (~> 3.2.0)
   - Quick (~> 0.9.0)
-  - ReactiveArray (from `https://github.com/Hxucaa/Reactive-Array.git`)
-  - ReactiveCocoa (= 4.0.0)
+  - ReactiveArray (from `https://github.com/Hxucaa/ReactiveArray.git`, tag `0.3.0`)
+  - ReactiveCocoa (~> 4.1.0)
   - RongCloudIMKit (~> 2.4.6)
   - SDWebImage (~> 3.7.0)
-  - Spring (from `https://github.com/MengTo/Spring.git`, branch `swift2`)
+  - Spring (from `https://github.com/MengTo/Spring.git`)
   - SVProgressHUD (from `https://github.com/Hxucaa/SVProgressHUD.git`)
-  - Swiftz (~> 0.4.0)
-  - Swinject (= 1.1.0)
+  - Swinject (~> 1.1.1)
   - TTTAttributedLabel (~> 1.13.4)
   - TZStackView (~> 1.1.2)
-  - WebASDKImageManager (~> 1.0.1)
-  - Whisper (~> 2.0.2)
-  - XAssets (from `https://github.com/Hxucaa/xassets.git`)
+  - WebASDKImageManager (~> 1.1.0)
+  - Whisper (~> 2.1.0)
+  - XAssets (from `https://github.com/Hxucaa/xassets.git`, tag `0.7.0`)
 
 EXTERNAL SOURCES:
   ReactiveArray:
-    :git: https://github.com/Hxucaa/Reactive-Array.git
+    :git: https://github.com/Hxucaa/ReactiveArray.git
+    :tag: 0.3.0
   Spring:
-    :branch: swift2
     :git: https://github.com/MengTo/Spring.git
   SVProgressHUD:
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
     :git: https://github.com/Hxucaa/xassets.git
+    :tag: 0.7.0
 
 CHECKOUT OPTIONS:
   ReactiveArray:
-    :commit: 28fd6a4526c1b7da43cd4bd007207176b861c84c
-    :git: https://github.com/Hxucaa/Reactive-Array.git
+    :git: https://github.com/Hxucaa/ReactiveArray.git
+    :tag: 0.3.0
   Spring:
-    :commit: 18d5c7b74489de8044e34767f856d1e574f0820e
+    :commit: 7bf7ef55e8e936d83b318a74650992898899a526
     :git: https://github.com/MengTo/Spring.git
   SVProgressHUD:
     :commit: 4cbf1de2f9becbdfe38257bf9129f2930a2668ab
     :git: https://github.com/Hxucaa/SVProgressHUD.git
   XAssets:
-    :commit: 704f98f2e97a1c2a146cf969de6bcdb967d08abd
     :git: https://github.com/Hxucaa/xassets.git
+    :tag: 0.7.0
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
-  AMScrollingNavbar: be1de69f46cea4667026400db6cb22e783f9533d
-  AsyncDisplayKit: eb762d3bfd3896b2901909ebc24b54c97f32d43c
+  AMScrollingNavbar: 22848c8c7e4893e239cf32c0b914f672cd334209
+  AsyncDisplayKit: 56b2845c87345324cb3af3c43d3c3a4556a275be
   AVOSCloudCrashReportingDynamic: 603806f916a5e8f201e151ff84d8ad2a17c2b6f5
   AVOSCloudDynamic: 1a64ed78c897be98d54d75fd4c8cff0a21e9eeb6
   Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   Dollar: 310893dd6b3799b9b155e3deb61a0492987e4d03
-  Eureka: 2f1921d3162491921d2fef3b516bc4ef93a05122
+  Eureka: 2fb37bb50569c62ee3284689d5b7aca694b040e0
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
   INSPullToRefresh: 112ae2c295d2b3a76daa9dff86e7ef40ed002c47
   Locksmith: a8ed41ac4c06506ea8cb199d8ec8a8d3d108eb2a
-  Nimble: 79d40f4d69d47314229bbabacaa02b8838c779b9
-  PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
-  PINRemoteImage: 0c620b392a2a41a0a14f143107bbb0596f73dd23
+  Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
-  ReactiveArray: 394d82d86674c2cca6a56bb8e9024ff15cab9cb0
-  ReactiveCocoa: 69be555be30674b07a86b60a91b855063841acc0
-  Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
-  RongCloudIMKit: e670867836deef44c0157f05b4a88107f1f5f8e6
+  ReactiveArray: 84306dc1c30dc95f3c9e846b2a51b8ae08a3f3de
+  ReactiveCocoa: d70004d7a366a7b8e87e60ce2347182c77701949
+  Result: 9e75e1111c774c6ac594e14907b15057053a7959
+  RongCloudIMKit: 916cb342e81639cfe9e1204e2b93a7fe71644e11
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
-  Swiftz: 6b7b8cbaa504439e3e736ba98fe12c7c16470ecd
-  Swinject: 514e56e46e3cd362f2cca07bb6ad1fdbed9abbfa
+  Swinject: 8c1b46e49c604f8c5c1f45f92ef314d3736bbef4
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
   TZStackView: 19aeaa414fb653f4be9b80a73f4f0c66e33bf033
-  WebASDKImageManager: 8e37e97c115c8e9092fc6111218a71ddec7a73d5
-  Whisper: 49abcba82d23dd20f0a9a025797cacd09c8aa3bb
-  XAssets: c82fe9137881050cb53980b0a736b020ea7db2f3
+  WebASDKImageManager: fb20a10f3a286887e807e96ba5d73a2e4d2b3822
+  Whisper: 18b574de21a089c0d664b115f26e0d9ccbbadbab
+  XAssets: 205ee4a8cb11f99918f031aa9cb27e27e42b783f
 
-PODFILE CHECKSUM: ac0d793dd40cd86a974216f2d469c830ce5ad436
+PODFILE CHECKSUM: e5195643120fc85c3c270a012f957c1d37536273
 
 COCOAPODS: 1.0.0.beta.6

@@ -93,6 +93,6 @@ internal final class AddressDAO: AVObject, AVSubclassing {
 
 extension AddressDAO {
     static var typedQuery: TypedAVQuery<AddressDAO> {
-        return AddressDAO.query() as! TypedAVQuery<AddressDAO>
+        return TypedAVQuery<AddressDAO>(query: AddressDAO.query())
     }
 }

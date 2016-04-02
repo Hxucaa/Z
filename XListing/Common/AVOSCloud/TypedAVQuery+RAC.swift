@@ -11,6 +11,11 @@ import ReactiveCocoa
 import AVOSCloud
 
 class TypedAVQuery<T: AVObject> : AVQuery {
+    
+    init(query: AVQuery) {
+        super.init(className: query.className)
+    }
+    
     func rac_findObjects() -> SignalProducer<[T], NetworkError> {
         
         return SignalProducer { observer, disposable in

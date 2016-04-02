@@ -17,14 +17,14 @@ private let MinimumPressDuration = 4.0
 
 class XUIViewController: UIViewController {
     
-    let _compositeDisposable = CompositeDisposable()
+    let compositeDisposable = CompositeDisposable()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         // Add gesture recognizer
-        let gesture = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(XUIViewController.handleLongPress(_:)))
         gesture.minimumPressDuration = MinimumPressDuration
         self.view.addGestureRecognizer(gesture)
     }
@@ -43,18 +43,20 @@ class XUIViewController: UIViewController {
     }
     
     deinit {
-        _compositeDisposable.dispose()
+        compositeDisposable.dispose()
     }
 }
 
 class XScrollingNavigationViewController : ScrollingNavigationViewController {
+    
+    let compositeDisposable = CompositeDisposable()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         // Add gesture recognizer
-        let gesture = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(XUIViewController.handleLongPress(_:)))
         gesture.minimumPressDuration = MinimumPressDuration
         self.view.addGestureRecognizer(gesture)
     }
@@ -70,5 +72,9 @@ class XScrollingNavigationViewController : ScrollingNavigationViewController {
                 FLEXManager.sharedManager().showExplorer()
             }
         #endif
+    }
+    
+    deinit {
+        compositeDisposable.dispose()
     }
 }
