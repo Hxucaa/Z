@@ -1,9 +1,12 @@
 PODS:
   - ActionSheetPicker-3.0 (2.0.5)
   - AMScrollingNavbar (2.1.1)
-  - AsyncDisplayKit (1.9.6):
-    - AsyncDisplayKit/ASDealloc2MainObject (= 1.9.6)
-  - AsyncDisplayKit/ASDealloc2MainObject (1.9.6)
+  - AsyncDisplayKit (1.9.7.1):
+    - AsyncDisplayKit/PINRemoteImage (= 1.9.7.1)
+  - AsyncDisplayKit/ASDealloc2MainObject (1.9.7.1)
+  - AsyncDisplayKit/PINRemoteImage (1.9.7.1):
+    - AsyncDisplayKit/ASDealloc2MainObject
+    - PINRemoteImage/iOS (>= 2.1.2)
   - AVOSCloudCrashReportingDynamic (3.2.7):
     - AVOSCloudDynamic
   - AVOSCloudDynamic (3.2.7)
@@ -21,6 +24,11 @@ PODS:
   - INSPullToRefresh (1.1.5)
   - Locksmith (2.0.8)
   - Nimble (3.2.0)
+  - PINCache (2.2.2)
+  - PINRemoteImage/Core (2.1.2):
+    - PINCache (>= 2.1)
+  - PINRemoteImage/iOS (2.1.2):
+    - PINRemoteImage/Core
   - Quick (0.9.1)
   - ReactiveArray (0.3.0):
     - ReactiveCocoa (~> 4.1.0)
@@ -37,6 +45,14 @@ PODS:
     - Result (~> 2.0)
   - Result (2.0.0)
   - RongCloudIMKit (2.4.10)
+  - RxBlocking (2.3.1):
+    - RxSwift (~> 2.3.1)
+  - RxCocoa (2.3.1):
+    - RxSwift (~> 2.3.1)
+  - RxDataSources (0.6.2):
+    - RxCocoa (~> 2.2)
+    - RxSwift (~> 2.2)
+  - RxSwift (2.3.1)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -56,7 +72,6 @@ PODS:
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.0.3)
   - AMScrollingNavbar (~> 2.1.1)
-  - AsyncDisplayKit (= 1.9.6)
   - AVOSCloudCrashReportingDynamic (~> 3.1)
   - AVOSCloudDynamic (~> 3.1)
   - Cartography (~> 0.6.0)
@@ -71,6 +86,10 @@ DEPENDENCIES:
   - ReactiveArray (from `https://github.com/Hxucaa/ReactiveArray.git`, tag `0.3.0`)
   - ReactiveCocoa (~> 4.1.0)
   - RongCloudIMKit (~> 2.4.6)
+  - RxBlocking (~> 2.3.1)
+  - RxCocoa (~> 2.3.1)
+  - RxDataSources (~> 0.6.2)
+  - RxSwift (~> 2.3.1)
   - SDWebImage (~> 3.7.0)
   - Spring (from `https://github.com/MengTo/Spring.git`)
   - SVProgressHUD (from `https://github.com/Hxucaa/SVProgressHUD.git`)
@@ -110,7 +129,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
   AMScrollingNavbar: 22848c8c7e4893e239cf32c0b914f672cd334209
-  AsyncDisplayKit: 56b2845c87345324cb3af3c43d3c3a4556a275be
+  AsyncDisplayKit: 2b52f841e384e7326d4f59323b1bf35d00696e17
   AVOSCloudCrashReportingDynamic: 603806f916a5e8f201e151ff84d8ad2a17c2b6f5
   AVOSCloudDynamic: 1a64ed78c897be98d54d75fd4c8cff0a21e9eeb6
   Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
@@ -121,11 +140,17 @@ SPEC CHECKSUMS:
   INSPullToRefresh: 112ae2c295d2b3a76daa9dff86e7ef40ed002c47
   Locksmith: a8ed41ac4c06506ea8cb199d8ec8a8d3d108eb2a
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
+  PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
+  PINRemoteImage: 2ce3f1fcc52f0360a3821f91f1a1bc653c5d2338
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
   ReactiveArray: 84306dc1c30dc95f3c9e846b2a51b8ae08a3f3de
   ReactiveCocoa: d70004d7a366a7b8e87e60ce2347182c77701949
   Result: 9e75e1111c774c6ac594e14907b15057053a7959
   RongCloudIMKit: 916cb342e81639cfe9e1204e2b93a7fe71644e11
+  RxBlocking: 84fd81865a641a3843b33bae7b8315e78ddbd383
+  RxCocoa: a2baaf3462b989559a51dce59d78fbebb8fe0afa
+  RxDataSources: 9ae26211019e6afb7391125940d719b4326e94a4
+  RxSwift: 829b2843e9eddc77a02cb3f5117f0d55f8f646f1
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
@@ -136,6 +161,6 @@ SPEC CHECKSUMS:
   Whisper: 18b574de21a089c0d664b115f26e0d9ccbbadbab
   XAssets: 205ee4a8cb11f99918f031aa9cb27e27e42b783f
 
-PODFILE CHECKSUM: e5195643120fc85c3c270a012f957c1d37536273
+PODFILE CHECKSUM: 5b90f68b6b6012a13ffd5d1b8ca1c85403c1410c
 
 COCOAPODS: 1.0.0.beta.6

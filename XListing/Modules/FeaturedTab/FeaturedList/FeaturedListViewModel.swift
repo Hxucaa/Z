@@ -7,28 +7,22 @@
 //
 
 import Foundation
-import ReactiveCocoa
-import Result
+import RxSwift
+import RxCocoa
 import Dollar
 import ReactiveArray
 
 private let 启动无限scrolling参数 = 0.4
 
-final class FeaturedListViewModel : IFeaturedListViewModel {
-    
-//    typealias Payload = BusinessInfo
+final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel {
     
     // MARK: - Inputs
     
     // MARK: - Outputs
-//    let collectionDataSource = ReactiveArray<BusinessInfo>()
-    let collectionDataSource = MutableProperty<[BusinessInfo]>([BusinessInfo]())
-    
-//    let businessList: SignalProducer<[Business], NetworkError>
+    let collectionDataSource: Observable<[BusinessInfo]>
     
     // MARK: - Properties
     // MARK: Services
-    private let router: IRouter
     private let businessRepository: IBusinessRepository
     private let userRepository: IUserRepository
     private let geoLocationService: IGeoLocationService
@@ -38,23 +32,29 @@ final class FeaturedListViewModel : IFeaturedListViewModel {
     private var numberOfBusinessesLoaded = 0
     
     // MARK: - Initializers
-    init(dep: (router: IRouter, businessRepository: IBusinessRepository, userRepository: IUserRepository, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService), input: (didSelectRow: SignalProducer<NSIndexPath, NoError>, refreshTrigger: SignalProducer<Void, NoError>, fetchMoreTrigger: SignalProducer<Void, NoError>)) {
+    init(dep: (router: IRouter, businessRepository: IBusinessRepository, userRepository: IUserRepository, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService), input: (modelSelected: ControlEvent<BusinessInfo>, refreshTrigger: Observable<Void>, fetchMoreTrigger: Observable<Void>)) {
         
-        router = dep.router
         businessRepository = dep.businessRepository
         userRepository = dep.userRepository
         geoLocationService = dep.geoLocationService
         userDefaultsService = dep.userDefaultsService
         
-        collectionDataSource <~ businessRepository.findByCurrentLocation(input.fetchMoreTrigger.on(next: { print($0) }))
-            .presentErrorView(router)
+        collectionDataSource = businessRepository.findByCurrentLocation(input.fetchMoreTrigger.debug("viewmodel"))
+            .observeOn(MainScheduler.instance)
+            .catchError {
+                dep.router.presentError($0 as! NetworkError)
+                return Observable.just([Business]())
+            }
             .map { $0.map { BusinessInfo(business: $0) } }
         
-        input.didSelectRow
-            .map { $0.row }
-            .startWithNext { [unowned self] in
-                self.router.toSoclaBusiness(undefined())
+        super.init(router: dep.router)
+        
+        input.modelSelected
+            .subscribeNext {
+                print($0)
+//                dep.router.toSoclaBusiness(undefined())
             }
+            .addDisposableTo(disposeBag)
         
     }
     

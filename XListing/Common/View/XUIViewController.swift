@@ -15,7 +15,7 @@ import ReactiveCocoa
 
 private let MinimumPressDuration = 4.0
 
-class XUIViewController: UIViewController {
+class XUIViewController: RxViewController {
     
     let compositeDisposable = CompositeDisposable()
     

@@ -8,6 +8,7 @@
 
 import Foundation
 import ReactiveCocoa
+import RxSwift
 import AVOSCloud
 import CoreLocation
 
@@ -40,6 +41,23 @@ public final class GeoLocationService : IGeoLocationService {
         }
     }
     
+    public func rx_getCurrentGeoPoint() -> Observable<CLLocation> {
+        return Observable.create { observer in
+            // get current location
+            AVGeoPoint.geoPointForCurrentLocationInBackground { (geopoint, error) -> Void in
+                if error == nil {
+                    observer.on(.Next(CLLocation(latitude: geopoint!.latitude, longitude: geopoint!.longitude)))
+                    observer.on(.Completed)
+                }
+                else {
+                    observer.on(.Error(error))
+                }
+            }
+            
+            return NopDisposable.instance
+        }
+    }
+    
     public func getCurrentGeoPoint() -> SignalProducer<AVGeoPoint, NSError> {
         return SignalProducer { observer, disposable in
             // get current location
@@ -60,9 +78,9 @@ public final class GeoLocationService : IGeoLocationService {
     
     - parameter destination: Destination location.
     
-    - returns: A SignalProducer containing time interval expressed in NSTimeInterval.
+    - returns: A observable sequence containing time interval expressed in NSTimeInterval.
     */
-    public func calculateETA(destination: CLLocation) -> SignalProducer<NSTimeInterval, NSError> {
+    public func calculateETA(destination: CLLocation) -> Observable<NSTimeInterval> {
         return calETA(destination, currentLocation: nil)
     }
     
@@ -72,17 +90,17 @@ public final class GeoLocationService : IGeoLocationService {
     - parameter destination:     Destination location.
     - parameter currentLocation: Current location provided by user.
     
-    - returns: A SignalProducer containing time interval expressed in NSTimeInterval.
+    - returns: A observable sequence containing time interval expressed in NSTimeInterval.
     */
-    public func calculateETA(destination: CLLocation, currentLocation: CLLocation) -> SignalProducer<NSTimeInterval, NSError> {
+    public func calculateETA(destination: CLLocation, currentLocation: CLLocation) -> Observable<NSTimeInterval> {
         return calETA(destination, currentLocation: currentLocation)
     }
     
-    private func calETA(destination: CLLocation, currentLocation: CLLocation? = nil) -> SignalProducer<NSTimeInterval, NSError> {
+    private func calETA(destination: CLLocation, currentLocation: CLLocation? = nil) -> Observable<NSTimeInterval> {
         
         requestWhenInUseAuthorization()
         
-        return SignalProducer<NSTimeInterval, NSError> { observer, disposable in
+        return Observable<NSTimeInterval>.create { observer in
             let request = MKDirectionsRequest()
             if let currentLocation = currentLocation {
                 request.source = MKMapItem(placemark: MKPlacemark(coordinate: currentLocation.coordinate, addressDictionary: nil))
@@ -97,13 +115,15 @@ public final class GeoLocationService : IGeoLocationService {
             let direction = MKDirections(request: request)
             direction.calculateETAWithCompletionHandler { (response, error) -> Void in
                 if error == nil {
-                    observer.sendNext(response!.expectedTravelTime)
-                    observer.sendCompleted()
+                    observer.onNext(response!.expectedTravelTime)
+                    observer.onCompleted()
                 }
                 else {
-                    observer.sendFailed(error!)
+                    observer.onError(error!)
                 }
             }
+            
+            return NopDisposable.instance
         }
     }
     

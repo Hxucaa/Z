@@ -180,6 +180,47 @@ extension Array where Element : AVObject {
     }
 }
 
+import RxSwift
+
+extension Observable where Element : SequenceType, Element.Generator.Element : AVObject {
+    func mapToModel<M: IModel>(transform: Element.Generator.Element -> M) -> Observable<[M]> {
+        return self.map { $0.map(transform) }
+    }
+}
+
+extension Observable where Element : UserDAO {
+    func mapToUserModel() -> Observable<User> {
+        return self.map { $0.toUser() }
+    }
+    
+    func mapToMeModel() -> Observable<Me> {
+        return self.map { $0.toMe() }
+    }
+}
+
+
+extension Observable where Element : AVObject {
+    func mapToModel<M: IModel>(transform: Element -> M) -> Observable<M> {
+        return self.map(transform)
+    }
+    
+    func mapToDAO<DAO: AVObject>(type: DAO.Type) -> Observable<DAO> {
+        return self.map { $0 as! DAO }
+    }
+}
+
+extension Observable where Element : EventDAO {
+    func mapToEventModel() -> Observable<Event> {
+        return self.map { $0.toEvent() }
+    }
+}
+
+extension Observable where Element : BusinessDAO {
+    func mapToBusinessModel() -> Observable<Business> {
+        return self.map { $0.toBusiness() }
+    }
+}
+
 extension UserDAO {
     
     func toUser() -> User {

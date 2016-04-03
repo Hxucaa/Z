@@ -55,6 +55,7 @@ struct BusinessInfo {
     let aaCount: Int
     let treatCount: Int
     let toGoCount: Int
+    let geolocation: CLLocation
     
     let business: Business
     
@@ -72,6 +73,7 @@ struct BusinessInfo {
         aaCount = business.aaCount
         treatCount = business.treatCount
         toGoCount = business.toGoCount
+        geolocation = business.address.geoLocation.cllocation
         
         self.business = business
     }

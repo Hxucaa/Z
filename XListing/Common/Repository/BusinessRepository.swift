@@ -7,17 +7,16 @@
 //
 
 import Foundation
-import ReactiveCocoa
-import Result
+import RxSwift
 import AVOSCloud
 
 public protocol IBusinessRepository {
-//    func startEvent(business: Business) -> SignalProducer
-//    func cancelEvent(business: Business) -> SignalProducer
-//    func completeEvent(business: Business) -> SignalProducer
-    func openEvent(business: Business, eventType type: EventType) -> SignalProducer<Event, NetworkError>
-    func findByCurrentLocation(findMoreTrigger: SignalProducer<Void, NoError>) -> SignalProducer<[Business], NetworkError>
-    func findByRadiusFromOrigin(origin: CLLocation, radius: Double, findMoreTrigger: SignalProducer<Void, NoError>) -> SignalProducer<[Business], NetworkError>
+//    func startEvent(business: Business) -> Observable
+//    func cancelEvent(business: Business) -> Observable
+//    func completeEvent(business: Business) -> Observable
+    func openEvent(business: Business, eventType type: EventType) -> Observable<Event>
+    func findByCurrentLocation(findMoreTrigger: Observable<Void>) -> Observable<[Business]>
+    func findByRadiusFromOrigin(origin: CLLocation, radius: Double, findMoreTrigger: Observable<Void>) -> Observable<[Business]>
 }
 
 public final class BusinessRepository : _BaseRepository<Business, BusinessDAO>, IBusinessRepository {
@@ -32,29 +31,27 @@ public final class BusinessRepository : _BaseRepository<Business, BusinessDAO>, 
     
     
     
-    public func findByCurrentLocation(findMoreTrigger: SignalProducer<Void, NoError>) -> SignalProducer<[Business], NetworkError> {
-        return geolocationService.getCurrentLocation()
-            .flatMapError { error -> SignalProducer<CLLocation, NetworkError> in
-                
-                // TODO: A more generic handling of default location when location service fails
-                // TODO: Some kind of prompt for when location service is disabled
-                return SignalProducer<CLLocation, NetworkError>(value: CLLocation(latitude: 49.27623, longitude: -123.12941))
-            }
+    public func findByCurrentLocation(findMoreTrigger: Observable<Void>) -> Observable<[Business]> {
+        
+        return geolocationService.rx_getCurrentGeoPoint()
+            // TODO: A more generic handling of default location when location service fails
+            // TODO: Some kind of prompt for when location service is disabled
+            .catchErrorJustReturn(CLLocation(latitude: 49.27623, longitude: -123.12941))
             // TODO: Extract constant number away
-            .flatMap(.Latest) {
+            .flatMapLatest {
                 self.findByRadiusFromOrigin($0, radius: 1000 * 10, findMoreTrigger: findMoreTrigger)
-        }
+            }
         
     }
     
-    public func openEvent(business: Business, eventType type: EventType) -> SignalProducer<Event, NetworkError> {
+    public func openEvent(business: Business, eventType type: EventType) -> Observable<Event> {
         let dao = BusinessDAO()
         dao.objectId = business.objectId
         return dao.openEvent(type.rawValue)
             .mapToEventModel()
     }
     
-    public func findByRadiusFromOrigin(origin: CLLocation, radius: Double, findMoreTrigger: SignalProducer<Void, NoError>) -> SignalProducer<[Business], NetworkError> {
+    public func findByRadiusFromOrigin(origin: CLLocation, radius: Double, findMoreTrigger: Observable<Void>) -> Observable<[Business]> {
         
         let addressQuery = AddressDAO.typedQuery
         let centreGeoPoint = AVGeoPoint(latitude: origin.coordinate.latitude, longitude: origin.coordinate.longitude)

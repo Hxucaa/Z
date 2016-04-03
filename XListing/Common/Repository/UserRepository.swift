@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import ReactiveCocoa
+import RxSwift
 import AVOSCloud
 
 public protocol IUserRepository {

@@ -9,13 +9,14 @@
 import Foundation
 import ReactiveCocoa
 import ReactiveArray
+import RxSwift
 
 protocol IFeaturedListViewModel {
     
     // MARK: - Outputs
-    
+    var collectionDataSource: Observable<[BusinessInfo]> { get }
 //    var collectionDataSource: ReactiveArray<BusinessInfo> { get }
-    var collectionDataSource: MutableProperty<[BusinessInfo]> { get }
+//    var collectionDataSource: MutableProperty<[BusinessInfo]> { get }
     
 //    init(dep: (businessRepository: IBusinessRepository, userRepository: IUserRepository, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService), input: (didSelectRow: SignalProducer<NSIndexPath, NoError>, test: Int))
     

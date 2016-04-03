@@ -9,6 +9,7 @@
 import Foundation
 import AVOSCloud
 import ReactiveCocoa
+import RxSwift
 
 public final class UserDAO: AVUser {
     
@@ -131,6 +132,29 @@ extension UserDAO {
     
     class func rac_logInWithPhoneNumber(phoneNumber: String, smsCode: String) -> SignalProducer<UserDAO, NetworkError> {
         return super.rac_logInWithPhoneNumber(phoneNumber, smsCode: smsCode)
+            .mapToDAO(UserDAO)
+    }
+}
+
+extension UserDAO {
+    
+    func rx_updatePassword(oldPassword: String, newPassword: String) -> Observable<UserDAO> {
+        return super.rx_updatePassword(oldPassword, newPassword: newPassword)
+            .mapToDAO(UserDAO)
+    }
+    
+    class func rx_logInWithUsername(username: String, password: String) -> Observable<UserDAO> {
+        return super.rx_logInWithUsername(username, password: password)
+            .mapToDAO(UserDAO)
+    }
+    
+    class func rx_logInWithPhoneNumber(phoneNumber: String, password: String) -> Observable<UserDAO> {
+        return super.rx_logInWithPhoneNumber(phoneNumber, password: password)
+            .mapToDAO(UserDAO)
+    }
+    
+    class func rx_logInWithPhoneNumber(phoneNumber: String, smsCode: String) -> Observable<UserDAO> {
+        return super.rx_logInWithPhoneNumber(phoneNumber, smsCode: smsCode)
             .mapToDAO(UserDAO)
     }
 }

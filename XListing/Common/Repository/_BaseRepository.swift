@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import ReactiveCocoa
-import Result
+import RxSwift
 import AVOSCloud
 
 public class _BaseRepository<M: IModel, DAO: AVObject> {
@@ -20,11 +19,11 @@ public class _BaseRepository<M: IModel, DAO: AVObject> {
         self.daoToModelMapper = daoToModelMapper
     }
     
-    func _create(dao: DAO) -> SignalProducer<Bool, NetworkError> {
-        return dao.rac_save()
+    func _create(dao: DAO) -> Observable<Bool> {
+        return dao.rx_save()
     }
     
-    func findWithPagination(query: TypedAVQuery<DAO>, findMoreTrigger: SignalProducer<Void, NoError>) -> SignalProducer<[M], NetworkError> {
+    func findWithPagination(query: TypedAVQuery<DAO>, findMoreTrigger: Observable<Void>) -> Observable<[M]> {
         
         // TODO: Inject a globally configurable value
         query.limit = 30
@@ -34,12 +33,12 @@ public class _BaseRepository<M: IModel, DAO: AVObject> {
         return recursivelyFind(query, fetchedSoFar: [], findMoreTrigger: findMoreTrigger)
     }
     
-    private func recursivelyFind(query: TypedAVQuery<DAO>, fetchedSoFar: [M], findMoreTrigger: SignalProducer<Void, NoError>) -> SignalProducer<[M], NetworkError> {
-        return query.rac_findObjects()
+    private func recursivelyFind(query: TypedAVQuery<DAO>, fetchedSoFar: [M], findMoreTrigger: Observable<Void>) -> Observable<[M]> {
+        return query.rx_findObjects()
             .retry(3)
-            .observeOn(Scheduler.repositoryBackgroundScheduler)
+//            .observeOn(Scheduler.repositoryBackgroundScheduler)
             .mapToModel(self.daoToModelMapper)
-            .flatMap(.Merge) { newModels -> SignalProducer<[M], NetworkError> in
+            .flatMap { newModels -> Observable<[M]> in
                 
                 
                 query.skip += newModels.count
@@ -48,12 +47,11 @@ public class _BaseRepository<M: IModel, DAO: AVObject> {
                 fetched.appendContentsOf(newModels)
                 
                 
-                return SignalProducer<SignalProducer<[M], NetworkError>, NetworkError>(values: [
-                    SignalProducer<[M], NetworkError>(value: fetched).debug("33333"),
-                    SignalProducer.never.takeUntil(findMoreTrigger).debug("44444"),
+                return [
+                    Observable.just(fetched).debug("33333"),
+                    Observable.never().takeUntil(findMoreTrigger).debug("44444"),
                     self.recursivelyFind(query, fetchedSoFar: fetched, findMoreTrigger: findMoreTrigger).debug("55555")
-                    ]
-                    ).flatten(.Concat).debug("666666")
+                ].concat().debug("666666")
         }
     }
 }

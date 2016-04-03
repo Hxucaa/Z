@@ -8,7 +8,7 @@
 
 import Foundation
 import AVOSCloud
-import ReactiveCocoa
+import RxSwift
 
 public final class BusinessDAO: AVObject, AVSubclassing {
     
@@ -85,8 +85,8 @@ extension BusinessDAO {
 }
 
 extension BusinessDAO {
-    func openEvent(type: Int) -> SignalProducer<EventDAO, NetworkError> {
-        return AVCloud.rac_callFunction("openEvent", withParameters: ["businessId": self.objectId, "event_type": type])
+    func openEvent(type: Int) -> Observable<EventDAO> {
+        return AVCloud.rx_callFunction("openEvent", withParameters: ["businessId": self.objectId, "event_type": type])
             .map { $0 as! EventDAO }
         
     }

@@ -8,12 +8,30 @@
 
 import Foundation
 import ReactiveCocoa
+import RxSwift
 import CoreLocation
 import AVOSCloud
 
 public protocol IGeoLocationService : class {
     func getCurrentLocation() -> SignalProducer<CLLocation, NSError>
+    func rx_getCurrentGeoPoint() -> Observable<CLLocation>
     func getCurrentGeoPoint() -> SignalProducer<AVGeoPoint, NSError>
-    func calculateETA(destination: CLLocation) -> SignalProducer<NSTimeInterval, NSError>
-    func calculateETA(destination: CLLocation, currentLocation: CLLocation) -> SignalProducer<NSTimeInterval, NSError>
+    /**
+     Calculate ETA from current location to destination location. Current location is automatically acquired.
+     
+     - parameter destination: Destination location.
+     
+     - returns: A observable sequence containing time interval expressed in NSTimeInterval.
+     */
+    func calculateETA(destination: CLLocation) -> Observable<NSTimeInterval>
+    
+    /**
+     Calculate ETA from current location to destination location. User has to provide current location.
+     
+     - parameter destination:     Destination location.
+     - parameter currentLocation: Current location provided by user.
+     
+     - returns: A observable sequence containing time interval expressed in NSTimeInterval.
+     */
+    func calculateETA(destination: CLLocation, currentLocation: CLLocation) -> Observable<NSTimeInterval>
 }

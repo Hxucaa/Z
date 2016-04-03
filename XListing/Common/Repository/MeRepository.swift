@@ -8,6 +8,7 @@
 
 import Foundation
 import ReactiveCocoa
+import RxSwift
 import AVOSCloud
 
 public protocol IMeRepository {
@@ -36,6 +37,12 @@ public protocol IMeRepository {
     func signUp(username: String, password: String, nickname: String, birthday: NSDate, gender: Gender, profileImage: UIImage) -> SignalProducer<Bool, NetworkError>
     
     func logIn(username: String, password: String) -> SignalProducer<Me, NetworkError>
+    
+    func rx_updateProfile(nickname: String?, whatsUp: String?, coverPhoto: UIImage?) -> Observable<Bool>
+    
+    func rx_signUp(username: String, password: String, nickname: String, birthday: NSDate, gender: Gender, profileImage: UIImage) -> Observable<Bool>
+    
+    func rx_logIn(username: String, password: String) -> Observable<Me>
     
     func me() -> Me?
 }
@@ -103,5 +110,47 @@ public final class MeRepository : _BaseRepository<Me, UserDAO>, IMeRepository {
     
     public func logOut() {
         UserDAO.logOut()
+    }
+    
+    public func rx_updateProfile(nickname: String? = nil, whatsUp: String? = nil, coverPhoto: UIImage? = nil) -> Observable<Bool> {
+        let user = UserDAO()
+        
+        if let nickname = nickname {
+            user.nickname = nickname
+        }
+        
+        user.whatsUp = whatsUp
+        
+        if let coverPhoto = coverPhoto {
+            let imageData = UIImagePNGRepresentation(coverPhoto)
+            user.coverPhoto = AVFile(name: "profile.png", data: imageData)
+        }
+        
+        return user.rx_save()
+        
+    }
+    
+    //    public func updatePassword(newPassword: String) -> Observable<Bool, NetworkError> {
+    //
+    //    }
+    
+    public func rx_signUp(username: String, password: String, nickname: String, birthday: NSDate, gender: Gender, profileImage: UIImage) -> Observable<Bool> {
+        let user = UserDAO()
+        
+        user.username = username
+        user.password = password
+        user.nickname = nickname
+        user.birthday = birthday
+        let imageData = UIImagePNGRepresentation(profileImage)
+        user.coverPhoto = AVFile(name: "profile.png", data: imageData)
+        user.gender = gender.rawValue
+        
+        return user.rx_signUp()
+    }
+    
+    public func rx_logIn(username: String, password: String) -> Observable<Me> {
+        
+        return UserDAO.rx_logInWithUsername(username, password: password)
+            .mapToMeModel()
     }
 }
