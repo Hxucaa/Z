@@ -9,7 +9,6 @@
 import Foundation
 import RxSwift
 import RxCocoa
-import Dollar
 import ReactiveArray
 
 final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, ViewModelInjectable {
@@ -47,7 +46,7 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
                 dep.router.presentError($0 as! NetworkError)
                 return Observable.just([Business]())
             }
-            .map { $0.map { BusinessInfo(business: $0) } |> $.shuffle }
+            .map { $0.map { BusinessInfo(business: $0) } }
         
         super.init(router: dep.router)
         

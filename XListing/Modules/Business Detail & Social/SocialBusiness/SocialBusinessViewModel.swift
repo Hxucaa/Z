@@ -80,6 +80,7 @@ final class SocialBusinessViewModel : _BaseViewModel, ISocialBusinessViewModel, 
         business = token
         
         collectionDataSource = userRepository.findByParticipatingBusiness(token.objectId, fetchMoreTrigger: input.fetchMoreTrigger)
+            .debug("??????")
             .observeOn(MainScheduler.instance)
             .catchError {
                 dep.router.presentError($0 as! NetworkError)

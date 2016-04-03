@@ -11,6 +11,7 @@ import UIKit
 import TZStackView
 import Cartography
 import TTTAttributedLabel
+import PINRemoteImage
 
 final class SocialBusiness_UserCell : UITableViewCell {
     
@@ -185,7 +186,8 @@ final class SocialBusiness_UserCell : UITableViewCell {
         statusLabel.text = cellData.whatsUp
         // FIXME: placeholder
         ageGroupLabel.backgroundColor = .redColor()
-        profileImageView.sd_setImageWithURL(cellData.coverPhoto?.url)
+        // TODO: make image round??
+        profileImageView.pin_setImageFromURL(cellData.coverPhotoURL)
         
     }
 }

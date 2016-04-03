@@ -64,7 +64,7 @@ class Router : IRouter {
     }
     
     func toSoclaBusiness(businessInfo: BusinessInfo) {
-        activeNav.pushViewController(di.resolve(.SocialBusiness(businessInfo)), animated: false)
+        activeNav.pushViewController(di.resolve(.SocialBusiness(businessInfo)), animated: true)
     }
     
     func toAccount(callback: RouteCallback?) {

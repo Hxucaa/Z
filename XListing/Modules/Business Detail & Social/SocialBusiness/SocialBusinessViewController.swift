@@ -35,7 +35,7 @@ final class SocialBusinessViewController : XUIViewController {
         tableView.showsHorizontalScrollIndicator = false
         tableView.opaque = true
         tableView.tableHeaderView = self.headerView
-        tableView.separatorInset = UIEdgeInsetsMake(0, 8, 0, 8)
+        tableView.separatorInset = UIEdgeInsetsMake(0, 8, 0, 0)
         tableView.backgroundColor = .whiteColor()
         tableView.rowHeight = CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
 
@@ -105,7 +105,7 @@ final class SocialBusinessViewController : XUIViewController {
             .debug("sdfsdfsdf")
             .flatMap { offset in
                 SocialBusinessViewController.isNearTheBottomEdge(offset, tableView)
-                    ? Observable.empty()
+                    ? Observable.just(())
                     : Observable.empty()
             }
             .startWith(())
@@ -128,6 +128,11 @@ final class SocialBusinessViewController : XUIViewController {
         
         title = viewmodel.businessName
         
+        viewmodel.collectionDataSource
+            .map { [SectionModel(model: "UserInfo", items: $0)] }
+            .bindTo(tableView.rx_itemsWithDataSource(dataSource))
+            .addDisposableTo(disposeBag)
+        
         // TODO: start event
         utilityHeaderView.startEvent
         
@@ -135,7 +140,7 @@ final class SocialBusinessViewController : XUIViewController {
         // change the color of the back button based on where the table view is scrolled
         //        DynamicProperty(object: tableView, keyPath: "contentOffset").producer
         tableView.rx_contentOffset
-            .subscribeNext {value in
+            .subscribeNext { value in
                 if value.y > self.headerView.frame.height - 64 {
                     let attributes = [NSForegroundColorAttributeName: UIColor.blackColor(), NSFontAttributeName: UIFont(name: Fonts.FontAwesome, size: 17)!]
                     let attributedString = NSAttributedString(string: Icons.Chevron.rawValue, attributes: attributes)

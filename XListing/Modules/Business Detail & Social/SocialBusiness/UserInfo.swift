@@ -14,7 +14,7 @@ struct UserInfo {
     let gender: Gender
     let ageGroup: AgeGroup
     let horoscope: Horoscope
-    let coverPhoto: ImageFile?
+    let coverPhotoURL: NSURL?
     let whatsUp: String?
     let aaCount: Int
     let treatCount: Int
@@ -25,7 +25,9 @@ struct UserInfo {
         gender = user.gender
         ageGroup = user.ageGroup
         horoscope = user.horoscope
-        coverPhoto = user.coverPhoto
+        // FIXME: placeholder
+//        coverPhotoURL = user.coverPhoto?.url
+        coverPhotoURL = NSURL(string: "http://i.imgur.com/hfgzBeW.jpg")
         whatsUp = user.whatsUp
         aaCount = user.aaCount
         treatCount = user.treatCount

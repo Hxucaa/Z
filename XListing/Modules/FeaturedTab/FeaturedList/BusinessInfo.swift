@@ -42,7 +42,9 @@ struct BusinessInfo {
         district = business.address.district.regionNameC
         city = business.address.city.regionNameC
         province = business.address.province.regionNameC
-        coverImageUrl = business.coverImage.url
+        // FIXME: placeholder
+//        coverImageUrl = business.coverImage.url
+        coverImageUrl = NSURL(string: "http://i.imgur.com/811P1Ii.png")
         description = business.descriptor
         averagePrice = "30"
         aaCount = business.aaCount

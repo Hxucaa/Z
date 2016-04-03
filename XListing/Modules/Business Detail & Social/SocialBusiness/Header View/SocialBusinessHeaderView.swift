@@ -13,7 +13,6 @@ import TTTAttributedLabel
 import RxSwift
 import RxCocoa
 
-
 private let CoverImageWidth = round(UIScreen.mainScreen().bounds.width * 0.20)
 private let CoverImageSize = CGSizeMake(CoverImageWidth, CoverImageWidth)
 
@@ -53,7 +52,7 @@ final class SocialBusinessHeaderView : UIView {
     
     private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(origin: CGPointMake(0, 0), size: CoverImageSize))
-        imageView.contentMode = UIViewContentMode.ScaleAspectFill
+        imageView.contentMode = UIViewContentMode.ScaleAspectFit
         
         return imageView
     }()
@@ -162,9 +161,6 @@ final class SocialBusinessHeaderView : UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        cuisineLabel.text = "川菜"
-        priceLabel.text = "$$"
-
         addSubview(backgroundImageView)
         backgroundImageView.addSubview(mainContainer)
         
@@ -207,16 +203,21 @@ final class SocialBusinessHeaderView : UIView {
     
     func bindToCellData(businessName: String, location: String, eta: Driver<String>, imageURL: NSURL?) {
         
+        // TODO: placeholder
+        cuisineLabel.text = "川菜"
+        priceLabel.text = "$$"
+        
         businessNameLabel.text = businessName
         locationLabel.text = location
         eta.drive(distanceLabel.rx_text)
             .addDisposableTo(disposeBag)
         
-        coverImageView.sd_setImageWithURL(imageURL)
-        // FIXME: make image round
-//            $0.maskWithRoundedRect(CoverImageSize, cornerRadius: max(CoverImageSize.width, CoverImageSize.height) / 2, borderWidth: 2, opaque: false)
+        coverImageView.pin_setImageFromURL(imageURL, processorKey: "rounded") { (result, cost) -> UIImage? in
+            return result.image?.maskWithRoundedRect(CoverImageSize, cornerRadius: max(CoverImageSize.width, CoverImageSize.height) / 2, borderWidth: 2, opaque: false)
+            }
+
         
-        backgroundImageView.sd_setImageWithURL(imageURL)
+        backgroundImageView.pin_setImageFromURL(imageURL)
         
     }
 }

@@ -10,7 +10,7 @@
 
 import UIKit
 import ReactiveCocoa
-import AsyncDisplayKit
+//import AsyncDisplayKit
 
 private struct AssociationKey {
     static var hidden: UInt8 = 1
@@ -211,14 +211,14 @@ extension UIView {
     }
 }
 
-extension ASNetworkImageNode {
-    public var rac_URL: MutableProperty<NSURL?> {
-        return lazyMutableProperty(self, key: &AssociationKey.URL, setter: { self.URL = $0 }, getter: { self.URL })
-    }
-}
-
-extension ASTextNode {
-    public var rac_attributedString: MutableProperty<NSAttributedString?> {
-        return lazyMutableProperty(self, key: &AssociationKey.attributedString, setter: { self.attributedString = $0 }, getter: { self.attributedString })
-    }
-}
+//extension ASNetworkImageNode {
+//    public var rac_URL: MutableProperty<NSURL?> {
+//        return lazyMutableProperty(self, key: &AssociationKey.URL, setter: { self.URL = $0 }, getter: { self.URL })
+//    }
+//}
+//
+//extension ASTextNode {
+//    public var rac_attributedString: MutableProperty<NSAttributedString?> {
+//        return lazyMutableProperty(self, key: &AssociationKey.attributedString, setter: { self.attributedString = $0 }, getter: { self.attributedString })
+//    }
+//}

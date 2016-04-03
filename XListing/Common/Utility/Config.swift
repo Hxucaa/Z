@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SDWebImage
 import AVOSCloud
 import CocoaLumberjack
 
@@ -23,15 +22,8 @@ public final class Config {
     public class func config() {
         
         configureCocoaLumberjack()
-        configureSDWebImage()
         configureLeanCloud()
 //        configureRongCloud()
-    }
-    
-    private class func configureSDWebImage() {
-        // FIXME: temporary until this is resolved: https://github.com/facebook/AsyncDisplayKit/issues/955
-        SDImageCache.sharedImageCache().shouldDecompressImages = false
-        SDWebImageDownloader.sharedDownloader().shouldDecompressImages = false
     }
     
     private class func configureLeanCloud() {

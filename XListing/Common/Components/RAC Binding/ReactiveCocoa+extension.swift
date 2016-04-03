@@ -10,37 +10,6 @@ import Foundation
 import ReactiveCocoa
 import Result
 
-public extension SignalProducerType where Error : NSError {
-    
-    /**
-    Suppress error from `rac_signalForSelector`.
-    
-    - returns: A signal producer of sequence that emit no error.
-     */
-    @warn_unused_result(message="Did you forget to call `start` on the producer?")
-    public func noSelectorError() -> SignalProducer<Value, NoError> {
-        return self
-            .on(failed: { fatalError("A `RACSelectorSignalErrorDomain` error has occured. This is not supposed to happen.\n\($0.description)") })
-            .demoteError()
-    }
-
-}
-
-public extension SignalProducerType where Error : ErrorType {
-    
-    /**
-     Demote error emitted.
-     
-     - returns: A signal producer of sequence that emit no error.
-     */
-    @warn_unused_result(message="Did you forget to call `start` on the producer?")
-    public func demoteError() -> SignalProducer<Value, NoError> {
-        return self
-            .on(failed: { _ in fatalError("An error has been suppressed.") } )
-            .flatMapError { _ in .empty }
-    }
-}
-
 public extension SignalProducerType {
     /**
      Converts to a SignalProducer with `Void` value and `NoError`
@@ -157,47 +126,6 @@ public extension SignalProducerType {
                     log(context, "`\(signalName)` signal disposed.")
                 }
             )
-    }
-}
-
-extension Signal {
-    public func debug(identifier: String) -> Signal<Value, Error> {
-        return self
-            .on(
-                terminated: {
-                    print("\(identifier) -> terminated")
-                },
-                disposed: {
-                    print("\(identifier) -> disposed")
-                }
-            )
-            .on(event: {
-                switch $0 {
-                case let .Next(v):
-                    //                    print("\(identifier) -> Event Next(\(v))")
-                    print("\(identifier) -> Event Next(data)")
-                case let .Failed(e):
-                    print("\(identifier) -> Event Failed(\(e))")
-                case .Completed:
-                    print("\(identifier) -> Event Completed")
-                case .Interrupted:
-                    print("\(identifier) -> Event Interrupted")
-                }
-            })
-    }
-    
-    public func debug(file: StaticString = #file, function: StaticString = #function, line: UInt = #line) -> Signal<Value, Error> {
-        return self.debug("\(file):\(line) (\(function))")
-    }
-}
-
-extension SignalProducer {
-    public func debug(identifier: String) -> SignalProducer<Value, Error> {
-        return lift { $0.debug(identifier) }
-    }
-    
-    public func debug(file: StaticString = #file, function: StaticString = #function, line: UInt = #line) -> SignalProducer<Value, Error> {
-        return lift { $0.debug(file, function: function, line: line) }
     }
 }
 

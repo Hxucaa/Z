@@ -158,7 +158,7 @@ final class FeaturedListViewController: XUIViewController, UITableViewDelegate {
             .debug("sdfsdfsdf")
             .flatMap { offset in
                 FeaturedListViewController.isNearTheBottomEdge(offset, tableView)
-                    ? Observable.empty()
+                    ? Observable.just(())
                     : Observable.empty()
             }
             .startWith(())

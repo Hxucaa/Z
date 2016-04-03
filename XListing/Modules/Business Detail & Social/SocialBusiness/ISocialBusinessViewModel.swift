@@ -15,10 +15,8 @@ protocol ISocialBusinessViewModel : class {
     // MARK: - Inputs
     
     // MARK: - Outputs
-//    var collectionDataSource: ReactiveArray<SocialBusiness_UserViewModel> { get }
-//    var businessCoverImage: UIImage? { get }
-//    var businessName: AnyProperty<String> { get }
-//    var headerViewModel: SocialBusinessHeaderViewModel { get }
+
+    var collectionDataSource: Observable<[UserInfo]> { get }
     var businessName: String { get }
     var businessImageURL: NSURL? { get }
     var city: String { get }
@@ -26,12 +24,5 @@ protocol ISocialBusinessViewModel : class {
     // MARK: - Initializers
     
     func calculateEta() -> Driver<String>
-    
-//    func pushUserProfile(index: Int, animated: Bool)
-//    func pushBusinessDetail(animated: Bool)
-//    func fetchMoreData() -> SignalProducer<Void, NSError>
-//    func refreshData() -> SignalProducer<Void, NSError>
-//    func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError>
-//    func participate(choice: ParticipationType) -> SignalProducer<Bool, NSError>
     
 }

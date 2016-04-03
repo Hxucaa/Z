@@ -127,15 +127,15 @@ final class SocialBusiness_UtilityHeaderView : UIView {
         addSubview(startEventButton)
         
         constrain(detailInfoButton) { view in
-            view.top == view.superview!.top+12
-            view.bottom == view.superview!.bottom-12
+            view.top == view.superview!.top + 12
+            view.bottom == view.superview!.bottom - 12
             view.leading == view.superview!.leadingMargin + 48
             view.width == 110
         }
         
         constrain(startEventButton) { view in
-            view.top == view.superview!.top+12
-            view.bottom == view.superview!.bottom-12
+            view.top == view.superview!.top + 12
+            view.bottom == view.superview!.bottom - 12
             view.trailing == view.superview!.trailingMargin - 16
             view.width == 90
         }

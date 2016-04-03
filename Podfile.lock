@@ -1,12 +1,6 @@
 PODS:
   - ActionSheetPicker-3.0 (2.0.5)
   - AMScrollingNavbar (2.1.1)
-  - AsyncDisplayKit (1.9.7.1):
-    - AsyncDisplayKit/PINRemoteImage (= 1.9.7.1)
-  - AsyncDisplayKit/ASDealloc2MainObject (1.9.7.1)
-  - AsyncDisplayKit/PINRemoteImage (1.9.7.1):
-    - AsyncDisplayKit/ASDealloc2MainObject
-    - PINRemoteImage/iOS (>= 2.1.2)
   - AVOSCloudCrashReportingDynamic (3.2.7):
     - AVOSCloudDynamic
   - AVOSCloudDynamic (3.2.7)
@@ -20,14 +14,18 @@ PODS:
     - CocoaLumberjack/Extensions
   - Dollar (5.0.0)
   - Eureka (1.5.0)
+  - FLAnimatedImage (1.0.12)
   - FLEX (2.3.0)
   - INSPullToRefresh (1.1.5)
   - Locksmith (2.0.8)
   - Nimble (3.2.0)
   - PINCache (2.2.2)
+  - PINRemoteImage (2.1.2):
+    - PINRemoteImage/FLAnimatedImage (= 2.1.2)
   - PINRemoteImage/Core (2.1.2):
     - PINCache (>= 2.1)
-  - PINRemoteImage/iOS (2.1.2):
+  - PINRemoteImage/FLAnimatedImage (2.1.2):
+    - FLAnimatedImage (>= 1.0)
     - PINRemoteImage/Core
   - Quick (0.9.1)
   - ReactiveArray (0.3.0):
@@ -61,13 +59,15 @@ PODS:
   - Swinject (1.1.1)
   - TTTAttributedLabel (1.13.4)
   - TZStackView (1.1.2)
-  - WebASDKImageManager (1.1.0):
-    - AsyncDisplayKit (~> 1.9)
-    - SDWebImage/Core (~> 3.7)
   - Whisper (2.1)
   - XAssets (0.7.0):
     - ReactiveCocoa (~> 4.1.0)
     - SDWebImage (~> 3.7.0)
+  - XLActionController (2.0.0):
+    - XLActionController/Core (= 2.0.0)
+  - XLActionController/Core (2.0.0)
+  - XLActionController/Tweetbot (2.0.0):
+    - XLActionController/Core
 
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.0.3)
@@ -82,6 +82,7 @@ DEPENDENCIES:
   - INSPullToRefresh (~> 1.1.0)
   - Locksmith (~> 2.0.2)
   - Nimble (~> 3.2.0)
+  - PINRemoteImage (~> 2.1.2)
   - Quick (~> 0.9.0)
   - ReactiveArray (from `https://github.com/Hxucaa/ReactiveArray.git`, tag `0.3.0`)
   - ReactiveCocoa (~> 4.1.0)
@@ -96,9 +97,10 @@ DEPENDENCIES:
   - Swinject (~> 1.1.1)
   - TTTAttributedLabel (~> 1.13.4)
   - TZStackView (~> 1.1.2)
-  - WebASDKImageManager (~> 1.1.0)
   - Whisper (~> 2.1.0)
   - XAssets (from `https://github.com/Hxucaa/xassets.git`, tag `0.7.0`)
+  - XLActionController (~> 2.0.0)
+  - XLActionController/Tweetbot
 
 EXTERNAL SOURCES:
   ReactiveArray:
@@ -129,13 +131,13 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
   AMScrollingNavbar: 22848c8c7e4893e239cf32c0b914f672cd334209
-  AsyncDisplayKit: 2b52f841e384e7326d4f59323b1bf35d00696e17
   AVOSCloudCrashReportingDynamic: 603806f916a5e8f201e151ff84d8ad2a17c2b6f5
   AVOSCloudDynamic: 1a64ed78c897be98d54d75fd4c8cff0a21e9eeb6
   Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   Dollar: 310893dd6b3799b9b155e3deb61a0492987e4d03
   Eureka: 2fb37bb50569c62ee3284689d5b7aca694b040e0
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
   INSPullToRefresh: 112ae2c295d2b3a76daa9dff86e7ef40ed002c47
   Locksmith: a8ed41ac4c06506ea8cb199d8ec8a8d3d108eb2a
@@ -157,10 +159,10 @@ SPEC CHECKSUMS:
   Swinject: 8c1b46e49c604f8c5c1f45f92ef314d3736bbef4
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
   TZStackView: 19aeaa414fb653f4be9b80a73f4f0c66e33bf033
-  WebASDKImageManager: fb20a10f3a286887e807e96ba5d73a2e4d2b3822
   Whisper: 18b574de21a089c0d664b115f26e0d9ccbbadbab
   XAssets: 205ee4a8cb11f99918f031aa9cb27e27e42b783f
+  XLActionController: 97ed31237413db4d9401c6a559270f4d2b4de136
 
-PODFILE CHECKSUM: 5b90f68b6b6012a13ffd5d1b8ca1c85403c1410c
+PODFILE CHECKSUM: d72abb213e561425ada4cded08c4a1427781d4ff
 
 COCOAPODS: 1.0.0.beta.6
