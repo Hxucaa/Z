@@ -11,13 +11,13 @@ import AVOSCloud
 
 final class EventDAO: AVObject, AVSubclassing {
     
-//    enum Property : String {
-//        case Iniator = "initiator"
-//        case Business = "business"
-//        case FinalParticipant = "final_participant"
-//        case EventType = "event_type"
-//        case Status = "status"
-//    }
+    struct Property {
+        static let Iniator = "initiator"
+        static let Business = "business"
+        static let FinalParticipant = "final_participant"
+        static let EventType = "event_type"
+        static let Status = "status"
+    }
     
     private(set) var type: IntAttribute!
     private(set) var status: IntAttribute!

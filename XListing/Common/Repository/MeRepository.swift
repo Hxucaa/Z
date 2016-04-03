@@ -47,7 +47,7 @@ public protocol IMeRepository {
     func me() -> Me?
 }
 
-public final class MeRepository : _BaseRepository<Me, UserDAO>, IMeRepository {
+public final class MeRepository : _BaseRepository, IMeRepository {
     
     private let daoToModelMapper: UserDAO -> Me = { $0.toMe() }
     
@@ -56,7 +56,7 @@ public final class MeRepository : _BaseRepository<Me, UserDAO>, IMeRepository {
     public init(geolocationService: IGeoLocationService) {
         self.geolocationService = geolocationService
         
-        super.init(daoToModelMapper: { $0.toMe() })
+        super.init()
     }
     
     public func updateProfile(nickname: String? = nil, whatsUp: String? = nil, coverPhoto: UIImage? = nil) -> SignalProducer<Bool, NetworkError> {

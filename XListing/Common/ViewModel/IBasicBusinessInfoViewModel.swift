@@ -35,6 +35,4 @@ public protocol IBasicBusinessInfoViewModel : class {
     // MARK: - Initializers
     
     // MARK: - Actions
-    func calculateEta() -> SignalProducer<NSTimeInterval, NSError>
-    func fetchCoverImage() -> SignalProducer<UIImage, NSError>
 }

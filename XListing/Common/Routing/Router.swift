@@ -11,6 +11,8 @@ import Swinject
 import ReactiveCocoa
 import Result
 
+// TODO: Clean up this message. Possibly use Enum in place of function calls. Also somehow tie router with dependency injection?? Should also look into libraries that handle routing.
+
 class Router : IRouter {
     typealias RouteCallback = Void -> Void
     
@@ -25,22 +27,17 @@ class Router : IRouter {
     var accountNavgationController: AccountNavigationController!
     //    private var profileTab: ProfileTabNavigationController
     
-    private var activeNav: UINavigationController! {
-        didSet {
-            print("ssssssssssssssss")
-        }
-    }
+    private var activeNav: UINavigationController!
     private weak var currentActiveViewController: UIViewController?
     
     var userDefaultsService: IUserDefaultsService!
     var meRepository: IMeRepository!
-    var alert: IAlert! {
-        didSet {
-            print("hsdfhsdfsdfsfdfsdf")
-        }
-    }
+    var alert: IAlert!
     
     private let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    private var di: DependencyInjector {
+        return appDelegate.DI
+    }
     private var diResolver: ResolverType {
         return appDelegate.DI.assembler.resolver
     }
@@ -66,8 +63,8 @@ class Router : IRouter {
         activeNav = featuredTab
     }
     
-    func toSoclaBusiness(business: Business) {
-        activeNav.pushViewController(UIViewController(), animated: false)
+    func toSoclaBusiness(businessInfo: BusinessInfo) {
+        activeNav.pushViewController(di.resolve(.SocialBusiness(businessInfo)), animated: false)
     }
     
     func toAccount(callback: RouteCallback?) {
@@ -114,5 +111,9 @@ class Router : IRouter {
     
     func presentError(error: INetworkError) {
         alert.presentError(error.message, navigationController: activeNav)
+    }
+    
+    func popViewController(animated: Bool = false) {
+        activeNav.popViewControllerAnimated(animated)
     }
 }

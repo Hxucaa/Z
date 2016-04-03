@@ -49,20 +49,8 @@ public final class BusinessDAO: AVObject, AVSubclassing {
     
     // URL for business page
     @NSManaged var websiteUrl: String?
-    
     @NSManaged var address: AddressDAO
-    
     @NSManaged var coverImage: AVFile
-    //    var coverImage: ImageFile {
-    //        get {
-    //            let file = (self[Property.coverImage] as! AVFile)
-    //            return ImageFile(name: file.name, url: file.url)
-    //        }
-    //    }
-    
-    //    func setCoverImage(name: String, data: NSData) {
-    //        self[Property.coverImage] = AVFile(name: name, data: data)
-    //    }
     
     var descript: String? {
         get {

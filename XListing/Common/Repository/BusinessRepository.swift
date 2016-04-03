@@ -19,14 +19,14 @@ public protocol IBusinessRepository {
     func findByRadiusFromOrigin(origin: CLLocation, radius: Double, findMoreTrigger: Observable<Void>) -> Observable<[Business]>
 }
 
-public final class BusinessRepository : _BaseRepository<Business, BusinessDAO>, IBusinessRepository {
+public final class BusinessRepository : _BaseRepository, IBusinessRepository {
     
     private let geolocationService: IGeoLocationService
     
     public init(geolocationService: IGeoLocationService) {
         self.geolocationService = geolocationService
         
-        super.init(daoToModelMapper: { $0.toBusiness() })
+        super.init()
     }
     
     
@@ -61,6 +61,7 @@ public final class BusinessRepository : _BaseRepository<Business, BusinessDAO>, 
         businessQuery.whereKey(BusinessDAO.Property.address, matchesQuery: addressQuery)
         
         return findWithPagination(businessQuery, findMoreTrigger: findMoreTrigger)
+            .map { $0.map { $0.toBusiness() } }
     }
     
     private func createQuery() -> TypedAVQuery<BusinessDAO> {

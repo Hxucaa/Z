@@ -12,42 +12,33 @@ import RxCocoa
 import AVOSCloud
 import Dollar
 
-private let 启动无限scrolling参数 = 0.4
-
-protocol SocialBusinessNavigator : class {
-    func pushUserProfile(user: User, animated: Bool)
-    func pushBusinessDetail(business: Business, animated: Bool)
+protocol ViewModelInjectable {
+    associatedtype Dependency
+    associatedtype Token
+    associatedtype Input
+    
+    static func inject(dep: Dependency) -> (Token) -> (Input) -> Self
+    
+    init(dep: Dependency, token: Token, input: Input)
 }
 
+extension ViewModelInjectable {
+    static func inject(dep: Dependency) -> (Token) -> (Input) -> Self {
+        return { token in
+            return { input in
+                return Self(dep: dep, token: token, input: input)
+            }
+        }
+    }
+}
 
-final class SocialBusinessViewModel : _BaseViewModel, ISocialBusinessViewModel {
-    
-//    typealias Payload = SocialBusiness_UserViewModel
+final class SocialBusinessViewModel : _BaseViewModel, ISocialBusinessViewModel, ViewModelInjectable {
     
     // MARK: - Inputs
     
     // MARK: - Outputs
-//    let collectionDataSource = ReactiveArray<SocialBusiness_UserViewModel>()
-//    var businessCoverImage: UIImage? {
-//        return headerViewModel.coverImage.value
-//    }
     
-//    private let _businessName: MutableProperty<String>
-//    var businessName: AnyProperty<String> {
-//        return AnyProperty(_businessName)
-//    }
-//    
-//    private let _isButtonEnabled: MutableProperty<Bool> = MutableProperty(true)
-//    var isButtonEnabled: AnyProperty<Bool> {
-//        return AnyProperty(_isButtonEnabled)
-//    }
-    
-    // MARK: - Properties
-    
-    // MARK: - View Models
-//    let headerViewModel: SocialBusinessHeaderViewModel
-    
-    // MARK: - Outputs
+    let collectionDataSource: Observable<[UserInfo]>
     
     var businessName: String {
         return business.name
@@ -61,28 +52,52 @@ final class SocialBusinessViewModel : _BaseViewModel, ISocialBusinessViewModel {
         return business.city
     }
     
+    // MARK: - Properties
+    
+    
     // MARK: Services
     private let meRepository: IMeRepository
     private let businessRepository: IBusinessRepository
+    private let userRepository: IUserRepository
     private let geoLocationService: IGeoLocationService
-    private let imageService: IImageService
     
     // MARK: Variables
     private let business: BusinessInfo
     
     // MARK: - Initializers
-    init(dep: (router: IRouter, meRepository: IMeRepository, businessRepository: IBusinessRepository, geoLocationService: IGeoLocationService, imageService: IImageService, business: BusinessInfo), input: (modelSelected: ControlEvent<BusinessInfo>, refreshTrigger: Observable<Void>, fetchMoreTrigger: Observable<Void>)) {
+    typealias Dependency = (router: IRouter, meRepository: IMeRepository, businessRepository: IBusinessRepository, userRepository: IUserRepository, geoLocationService: IGeoLocationService)
+    
+    typealias Token = (BusinessInfo)
+    
+    typealias Input = (navigateBack:  ControlEvent<Void>, navigateToDetailPage: Observable<Void>, userInfoSelected: ControlEvent<UserInfo>, refreshTrigger: Observable<Void>, fetchMoreTrigger: Observable<Void>)
+    
+    init(dep: Dependency, token: Token, input: Input) {
         
         meRepository = dep.meRepository
         businessRepository = dep.businessRepository
+        userRepository = dep.userRepository
         geoLocationService = dep.geoLocationService
-        imageService = dep.imageService
-        business = dep.business
+        business = token
+        
+        collectionDataSource = userRepository.findByParticipatingBusiness(token.objectId, fetchMoreTrigger: input.fetchMoreTrigger)
+            .observeOn(MainScheduler.instance)
+            .catchError {
+                dep.router.presentError($0 as! NetworkError)
+                return Observable.just([User]())
+            }
+            .map { $0.map { UserInfo(user: $0) } }
         
         super.init(router: dep.router)
-//        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: geoLocationService, imageService: imageService, coverImage: business.coverImage, name: business.name, city: business.address.city, geolocation: business.address.geoLocation)
         
+        input.navigateBack
+            .subscribeNext { dep.router.popViewController(false) }
+            .addDisposableTo(disposeBag)
         
+        input.navigateToDetailPage
+            .subscribeNext {
+                // TODO: Navigate to next page.
+            }
+            .addDisposableTo(disposeBag)
     }
     
     // MARK: - API
@@ -93,92 +108,30 @@ final class SocialBusinessViewModel : _BaseViewModel, ISocialBusinessViewModel {
             .asDriver(onErrorJustReturn: "")
     }
     
-//    func fetchMoreData() -> SignalProducer<Void, NSError> {
-//        return fetchParticipatingUsers(false)
-//            .map { _ in }
+//    /**
+//     Participate Button Action
+//
+//     - parameter choice: ParticipationChoice
+//
+//     - returns: A signal producer
+//     */
+//    func participate(choice: EventType) -> SignalProducer<Bool, NSError> {
+//        return self.meService.currentLoggedInUser()
+//            .flatMap(FlattenStrategy.Concat) { user -> SignalProducer<Bool, NSError> in
+//                let p = Event()
+//                p.user = user
+//                p.business = self.business
+//                p.type = choice
+//
+//                return self.participationService.create(p)
+//            }
+//            .on(next: { [weak self] success in
+//                // if operation is successful, change the participation button.
+//                if success {
+//                    self?._isButtonEnabled.value = false
+//                }
+//            })
 //    }
-//    
-//    func refreshData() -> SignalProducer<Void, NSError> {
-//        return fetchParticipatingUsers(true)
-//            .map { _ in }
-//    }
-//    
-//    func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
-//        // if there are still plenty of data for display, don't fetch more users
-//        if Double(targetContentIndex) < Double(collectionDataSource.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数) {
-//            return SignalProducer<Void, NSError>.empty
-//        }
-//            // else fetch more data
-//        else {
-//            return fetchParticipatingUsers(false)
-//                .map { _ in }
-//        }
-//    }
-    
-//    func pushUserProfile(index: Int, animated: Bool) {
-//        navigator.pushUserProfile(collectionDataSource.array[index].user, animated: true)
-//        
-//    }
-    
-    private func fetchParticipatingUsers(refresh: Bool = false) -> SignalProducer<[SocialBusiness_UserViewModel], NSError> {
-        let query = EventDAO.query()
-        query.limit = Constants.PAGINATION_LIMIT
-        query.skip = collectionDataSource.count
-        query.includeKey(EventDAO.Property.Iniator.rawValue)
-        query.whereKey(EventDAO.Property.Business.rawValue, equalTo: business)
-
-        return participationService.findBy(query)
-            .map { participations -> [SocialBusiness_UserViewModel] in
-
-                return participations.map {
-                    SocialBusiness_UserViewModel(participationService: self.participationService, imageService: self.imageService, user: $0.user, participationType: $0.type)
-                }
-
-            }
-            .on(
-                next: { viewmodels in
-                    if refresh && viewmodels.count > 0 {
-                        // ignore old data
-                        self.collectionDataSource.replaceAll(viewmodels)
-                    }
-                    else if !refresh && viewmodels.count > 0 {
-                        // save the new data with old ones
-                        self.collectionDataSource.appendContentsOf(viewmodels)
-                    }
-                },
-                failed: { DetailLogError($0.description) }
-            )
-    }
-    
-    func pushBusinessDetail(animated: Bool) {
-        navigator.pushBusinessDetail(business, animated: animated)
-    }
-    
-    
-    /**
-     Participate Button Action
-
-     - parameter choice: ParticipationChoice
-
-     - returns: A signal producer
-     */
-    func participate(choice: EventType) -> SignalProducer<Bool, NSError> {
-        return self.meService.currentLoggedInUser()
-            .flatMap(FlattenStrategy.Concat) { user -> SignalProducer<Bool, NSError> in
-                let p = Event()
-                p.user = user
-                p.business = self.business
-                p.type = choice
-
-                return self.participationService.create(p)
-            }
-            .on(next: { [weak self] success in
-                // if operation is successful, change the participation button.
-                if success {
-                    self?._isButtonEnabled.value = false
-                }
-            })
-    }
     
     
     // MARK: - Others

@@ -73,24 +73,5 @@ public class BasicBusinessInfoViewModel : IBasicBusinessInfoViewModel {
     }
 
     // MARK: - Actions
-
-    public func calculateEta() -> SignalProducer<NSTimeInterval, NSError> {
-        return geoLocationService.calculateETA(CLLocation(latitude: business.address.geoLocation.latitude, longitude: business.address.geoLocation.longitude))
-            .on(
-                next: { interval in
-                    let minute = Int(ceil(interval / 60))
-                    self._eta.value = "\(minute)分钟"
-                },
-                failed: { FeaturedLogError($0.description) }
-            )
-    }
-    
-    public func fetchCoverImage() -> SignalProducer<UIImage, NSError> {
-        return imageService.getImage(business.coverImage)
-            .on(
-                next: { self._coverImage.value = $0 },
-                failed: { FeaturedLogError($0.description) }
-            )
-    }
 }
 

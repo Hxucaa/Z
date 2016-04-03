@@ -24,7 +24,7 @@ private let WTGBarHeight = CGFloat(70)
 
 final class SocialBusinessViewController : XUIViewController {
     
-    typealias InputViewModel = (modelSelected: ControlEvent<UserInfo>, refreshTrigger: Observable<Void>, fetchMoreTrigger: Observable<Void>) -> ISocialBusinessViewModel
+    typealias InputViewModel = (navigateBack:  ControlEvent<Void>, navigateToDetailPage: Observable<Void>, userInfoSelected: ControlEvent<UserInfo>, refreshTrigger: Observable<Void>, fetchMoreTrigger: Observable<Void>) -> ISocialBusinessViewModel
 
     // MARK: - UI Controls
     private lazy var tableView: UITableView = {
@@ -44,20 +44,7 @@ final class SocialBusinessViewController : XUIViewController {
     
     private let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, UserInfo>>()
 
-    private lazy var backButton: BackButton = {
-        let button = BackButton()
-
-        let goBack = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { observer, disposable in
-                self?.navigationController?.popViewControllerAnimated(true)
-                observer.sendCompleted()
-            }
-        }
-
-        button.addTarget(goBack.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-
-        return button
-    }()
+    private let backButton = BackButton()
 
     private lazy var headerView: SocialBusinessHeaderView = {
         let view = SocialBusinessHeaderView(frame: CGRectMake(0, 0, ScreenWidth, CGFloat(ScreenWidth) * CGFloat(BusinessHeightRatio)))
@@ -69,18 +56,13 @@ final class SocialBusinessViewController : XUIViewController {
         let view = SocialBusiness_UtilityHeaderView()
         view.setDetailInfoButtonStyleRegular()
         view.addSubview(DividerView(frame: CGRect(x: 0, y: 59, width: ScreenWidth, height: 1)))
+        
         return view
     }()
 
     // MARK: - Properties
     private var inputViewModel: InputViewModel!
     private var viewmodel: ISocialBusinessViewModel!
-//        didSet {
-//            headerView.bindToViewModel(viewmodel.headerViewModel)
-//        }
-        
-//    private let compositeDisposable = CompositeDisposable()
-//    private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, SocialBusinessViewModel>!
     
     // MARK: - Life Cycle
     
@@ -93,7 +75,6 @@ final class SocialBusinessViewController : XUIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! SocialBusinessViewModel)
         
         let tableView = self.tableView
 
@@ -130,11 +111,25 @@ final class SocialBusinessViewController : XUIViewController {
             .startWith(())
         
         let modelSelected = tableView.rx_modelSelected(UserInfo)
+        let navigateBack = backButton.rx_tap
+        let navigateToDetailPageFromUtility = utilityHeaderView.navigateToDetailPage.asObservable()
         
-        viewmodel = inputViewModel(modelSelected: modelSelected, refreshTrigger: Observable.just(()), fetchMoreTrigger: loadNextPageTrigger)
+        let tapGesture = UITapGestureRecognizer()
+        headerView.addGestureRecognizer(tapGesture)
+        let navigateToDetailPageFromHeader = tapGesture.rx_event.asObservable()
+            .map { _ in () }
+        
+        let navigateToDetailPage = Observable.of(navigateToDetailPageFromUtility, navigateToDetailPageFromHeader)
+            .merge()
+        
+        
+        viewmodel = inputViewModel(navigateBack: navigateBack, navigateToDetailPage: navigateToDetailPage, userInfoSelected: modelSelected, refreshTrigger: Observable.just(()), fetchMoreTrigger: loadNextPageTrigger)
         headerView.bindToCellData(viewmodel.businessName, location: viewmodel.city, eta: viewmodel.calculateEta(), imageURL: viewmodel.businessImageURL)
+        
         title = viewmodel.businessName
         
+        // TODO: start event
+        utilityHeaderView.startEvent
         
         
         // change the color of the back button based on where the table view is scrolled
@@ -153,6 +148,7 @@ final class SocialBusinessViewController : XUIViewController {
                 }
             }
             .addDisposableTo(disposeBag)
+        
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -162,36 +158,9 @@ final class SocialBusinessViewController : XUIViewController {
         let navigationController = self.navigationController as? ScrollingNavigationController
         navigationController?.followScrollView(tableView, delay: 50.0)
 
-//        utilityHeaderView.setDetailInfoButtonStyleRegular()
+        utilityHeaderView.setDetailInfoButtonStyleRegular()
         
 
-//        compositeDisposable += viewmodel.fetchMoreData()
-//            .take(1)
-//            .start()
-//
-//        compositeDisposable += utilityHeaderView.detailInfoProxy
-//            .takeUntilViewWillDisappear(self)
-//            .logLifeCycle(LogContext.SocialBusiness, signalName: "utilityHeaderView.detailInfoProxy")
-//            .startWithNext { [weak self] in
-//                self?.viewmodel.pushBusinessDetail(true)
-//            }
-//
-//        compositeDisposable +=  utilityHeaderView.startEventProxy
-//            .takeUntilViewWillDisappear(self)
-//            .logLifeCycle(LogContext.SocialBusiness, signalName: "utilityHeaderView.startEventProxy")
-//            .promoteErrors(NSError)
-//            .startWithNext {
-//                self.showParticipationOptions()
-//            }
-//
-//        let tapGesture = UITapGestureRecognizer()
-//        headerView.addGestureRecognizer(tapGesture)
-//        compositeDisposable += tapGesture.rac_gestureSignal().toSignalProducer()
-//            .takeUntilViewWillDisappear(self)
-//            .logLifeCycle(LogContext.SocialBusiness, signalName: "SocialBusinessHeaderView tapGesture")
-//            .startWithNext { [weak self] _ in
-//                self?.viewmodel.pushBusinessDetail(true)
-//            }
 //
 //        // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
 //        // when the specified row is now selected
@@ -203,11 +172,6 @@ final class SocialBusinessViewController : XUIViewController {
 //            .startWithNext { [weak self] indexPath in
 //                self?.viewmodel.pushUserProfile(indexPath.row, animated: true)
 //            }
-//
-//        compositeDisposable += singleSectionInfiniteTableViewManager.reactToDataSource(targetedSection: 0)
-//            .takeUntilViewWillDisappear(self)
-//            .logLifeCycle(LogContext.SocialBusiness, signalName: "viewmodel.collectionDataSource.producer")
-//            .start()
 
     }
 
@@ -271,13 +235,13 @@ final class SocialBusinessViewController : XUIViewController {
 
 extension SocialBusinessViewController : UITableViewDelegate {
 
-//    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        return utilityHeaderView
-//    }
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return utilityHeaderView
+    }
 
-//    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 59
-//    }
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 59
+    }
 }
 
 //extension SocialBusinessViewController : UINavigationControllerDelegate {

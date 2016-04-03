@@ -24,7 +24,7 @@ protocol IRouter : class {
      
      - parameter business: <#business description#>
      */
-    func toSoclaBusiness(business: Business)
+    func toSoclaBusiness(businessInfo: BusinessInfo)
     
     func toSignUp()
     
@@ -42,4 +42,6 @@ protocol IRouter : class {
     func pop(animated: Bool)
     
     func presentError(error: INetworkError)
+    
+    func popViewController(animated: Bool)
 }

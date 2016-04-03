@@ -29,15 +29,6 @@ final class SocialBusiness_UtilityHeaderView : UIView {
         button.backgroundColor = .whiteColor()
         button.layer.cornerRadius = 5
         
-        let press = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { observer, disposable in
-                self?._detailInfoObserver.proxyNext(())
-                observer.sendCompleted()
-            }
-        }
-        
-        button.addTarget(press.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-        
         return button
     }()
     
@@ -55,28 +46,16 @@ final class SocialBusiness_UtilityHeaderView : UIView {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.x_PrimaryColor().CGColor
         
-        let press = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { observer, disposable in
-                self?._startEventObserver.proxyNext(())
-                observer.sendCompleted()
-                
-            }
-        }
-        
-        button.addTarget(press.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
-        
         return button
     }()
     
-    // MARK: - Proxies
-    private let (_detailInfoProxy, _detailInfoObserver) = SimpleProxy.proxy()
-    var detailInfoProxy: SimpleProxy {
-        return _detailInfoProxy
+    // MARK: - Outputs
+    var navigateToDetailPage: ControlEvent<Void> {
+        return detailInfoButton.rx_tap
     }
     
-    private let (_startEventProxy, _startEventObserver) = SimpleProxy.proxy()
-    var startEventProxy: SimpleProxy {
-        return _startEventProxy
+    var startEvent: ControlEvent<Void> {
+        return startEventButton.rx_tap
     }
     
     // MARK: - Properties

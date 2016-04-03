@@ -10,20 +10,13 @@ import Foundation
 import RxSwift
 import AVOSCloud
 
-public class _BaseRepository<M: IModel, DAO: AVObject> {
+public class _BaseRepository {
     
-    
-    private let daoToModelMapper: DAO -> M
-    
-    init(daoToModelMapper: DAO -> M) {
-        self.daoToModelMapper = daoToModelMapper
-    }
-    
-    func _create(dao: DAO) -> Observable<Bool> {
+    func _create<DAO: AVObject>(dao: DAO) -> Observable<Bool> {
         return dao.rx_save()
     }
     
-    func findWithPagination(query: TypedAVQuery<DAO>, findMoreTrigger: Observable<Void>) -> Observable<[M]> {
+    func findWithPagination<DAO: AVObject>(query: TypedAVQuery<DAO>, findMoreTrigger: Observable<Void>) -> Observable<[DAO]> {
         
         // TODO: Inject a globally configurable value
         query.limit = 30
@@ -33,12 +26,11 @@ public class _BaseRepository<M: IModel, DAO: AVObject> {
         return recursivelyFind(query, fetchedSoFar: [], findMoreTrigger: findMoreTrigger)
     }
     
-    private func recursivelyFind(query: TypedAVQuery<DAO>, fetchedSoFar: [M], findMoreTrigger: Observable<Void>) -> Observable<[M]> {
+    private func recursivelyFind<DAO: AVObject>(query: TypedAVQuery<DAO>, fetchedSoFar: [DAO], findMoreTrigger: Observable<Void>) -> Observable<[DAO]> {
         return query.rx_findObjects()
             .retry(3)
 //            .observeOn(Scheduler.repositoryBackgroundScheduler)
-            .mapToModel(self.daoToModelMapper)
-            .flatMap { newModels -> Observable<[M]> in
+            .flatMap { newModels -> Observable<[DAO]> in
                 
                 
                 query.skip += newModels.count

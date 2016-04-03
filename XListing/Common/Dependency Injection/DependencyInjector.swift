@@ -2,7 +2,7 @@
 //  DependencyInjector.swift
 //  XListing
 //
-//  Created by Hong Zhu on 2016-03-29.
+//  Created by Lance Zhu on 2016-03-29.
 //  Copyright © 2016 ZenChat. All rights reserved.
 //
 
@@ -10,9 +10,18 @@ import Foundation
 import Swinject
 import ReactiveCocoa
 
+enum ComponentDefinition {
+    case SocialBusiness(SocialBusinessViewModel.Token)
+    
+}
+
 class DependencyInjector {
     
     let assembler: Assembler
+    
+    private var resolver: ResolverType {
+        return assembler.resolver
+    }
     
     
     init() {
@@ -27,6 +36,16 @@ class DependencyInjector {
                 SocialBusinessAssembly()
             ]
         )
+    }
+    
+    func resolve(component: ComponentDefinition) -> UIViewController {
+        switch component {
+        case let .SocialBusiness(token):
+            let vc = resolver.resolve(SocialBusinessViewController.self)!
+            vc.bindToViewModel(resolver.resolve(SocialBusinessViewController.InputViewModel.self, argument: token)!)
+            return vc
+        }
+        
     }
 }
 
@@ -118,8 +137,6 @@ class FeaturedAssembly : AssemblyType {
             }
             .inObjectScope(.Hierarchy)
         
-        // root view controllers
-//        typealias FeaturedListViewModelInput = (didSelectRow: SignalProducer<NSIndexPath, NoError>, test: Int) -> FeaturedListViewModel
         container
             .register(FeaturedListViewController.self) { _ in FeaturedListViewController() }
             .initCompleted {
@@ -127,24 +144,17 @@ class FeaturedAssembly : AssemblyType {
             }
             .inObjectScope(ObjectScope.Hierarchy)
         
-//        container
-//            .register(IFeaturedListViewModel.self) {
-//                FeaturedListViewModel(dep: (businessRepository: $0.resolve(IBusinessRepository.self)!, userRepository: $0.resolve(IUserRepository.self)!, geoLocationService: $0.resolve(IGeoLocationService.self)!, userDefaultsService: $0.resolve(IUserDefaultsService.self)!), input: (didSelectRow: undefined(), test: 5))
-//            }
-//            .initCompleted {
-//                ($1 as! FeaturedListViewModel).router = $0.resolve(IRouter.self)!
-//        }
         
         container
             .register(FeaturedListViewController.InputViewModel.self) {
-                let initiazlier = curry(FeaturedListViewModel.init)
-                let inputVM = initiazlier((
+                
+                let inputVM = FeaturedListViewModel.inject((
                     router: $0.resolve(IRouter.self)!,
                     businessRepository: $0.resolve(IBusinessRepository.self)!,
                     userRepository: $0.resolve(IUserRepository.self)!,
                     geoLocationService: $0.resolve(IGeoLocationService.self)!,
                     userDefaultsService: $0.resolve(IUserDefaultsService.self)!
-                ))
+                ))(())
                 
                 return inputVM
             }
@@ -209,5 +219,25 @@ class AccountAssembly : AssemblyType {
 class SocialBusinessAssembly : AssemblyType {
     func assemble(container: Container) {
         
+        container
+            .register(SocialBusinessViewController.self) { _ in
+                SocialBusinessViewController()
+            }
+        
+        container
+            .register(SocialBusinessViewController.InputViewModel.self) { (resolver: ResolverType, token: BusinessInfo) in
+                let partial = SocialBusinessViewModel.inject((
+                    router: resolver.resolve(IRouter.self)!,
+                    meRepository: resolver.resolve(IMeRepository.self)!,
+                    businessRepository: resolver.resolve(IBusinessRepository.self)!,
+                    userRepository: resolver.resolve(IUserRepository.self)!,
+                    geoLocationService: resolver.resolve(IGeoLocationService.self)!
+                ))(token)
+                
+                
+                return partial
+        }
+        
+
     }
 }

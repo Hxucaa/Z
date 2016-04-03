@@ -39,55 +39,10 @@ internal final class AddressDAO: AVObject, AVSubclassing {
     }
     
     @NSManaged internal var street: String
-    
     @NSManaged internal var regionCode: String
-    
-    //    public var province: Province {
-    //        return Province(code: regionCode)
-    //    }
-    //
-    //    public var city: City {
-    //        return City(code: regionCode)
-    //    }
-    //
-    //    public var district: District {
-    //        return District(code: regionCode)
-    //    }
-    //
-    //    public var region: Region {
-    //        get {
-    //            return Region(code: regionCode)
-    //        }
-    //        set {
-    //            regionCode = newValue.code
-    //        }
-    //    }
-    
-    
-    
     @NSManaged internal var postalCode: String?
     @NSManaged internal var geoLocation: AVGeoPoint
-    
-    //    public var geoLocation: Geolocation {
-    //        get {
-    //            let geopoint = self[Property.geoLocation] as! AVGeoPoint
-    //            return Geolocation(latitude: geopoint.latitude, longitude: geopoint.longitude)
-    //        }
-    //        set {
-    //            self[Property.geoLocation] = AVGeoPoint(latitude: newValue.latitude, longitude: newValue.longitude)
-    //        }
-    //    }
-    
     @NSManaged internal var fullAddress: String
-    
-    //    public var isActive: Activation {
-    //        get {
-    //            return Activation(self[Property.isActive] as! Bool)
-    //        }
-    //        set {
-    //            self[Property.isActive] = newValue.boolValue
-    //        }
-    //    }
     
 }
 
