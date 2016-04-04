@@ -44,7 +44,8 @@ struct BusinessInfo {
         province = business.address.province.regionNameC
         // FIXME: placeholder
 //        coverImageUrl = business.coverImage.url
-        coverImageUrl = NSURL(string: "http://i.imgur.com/811P1Ii.png")
+        let images = ["http://i.imgur.com/811P1Ii.png", "http://i.imgur.com/3kWh8wvh.jpg", "http://i.imgur.com/KARJcfNg.jpg", "http://i.imgur.com/uaQBLrIg.jpg", "http://i.imgur.com/FkdHm1R.jpg", "http://i.imgur.com/F6XgTwyr.jpg"]
+        coverImageUrl = images[Int(arc4random_uniform(UInt32(images.count)))] |> { NSURL(string: $0) }
         description = business.descriptor
         averagePrice = "30"
         aaCount = business.aaCount

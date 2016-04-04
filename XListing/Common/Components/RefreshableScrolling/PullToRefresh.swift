@@ -9,18 +9,18 @@
 import Foundation
 import INSPullToRefresh
 
-public final class PullToRefresh : UIView {
+final class PullToRefresh : UIView {
     
     private let activityIndicator: UIActivityIndicatorView
     private let imageView: UIImageView
     
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         activityIndicator = UIActivityIndicatorView(frame: frame)
         activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         activityIndicator.hidden = true
         
         imageView = UIImageView(frame: frame)
-        imageView.image = UIImage(named: ImageAssets.pullToRefreshArrow)
+        imageView.image = UIImage(asset: .Pull_To_Refresh_Arrow)
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
         imageView.opaque = true
         imageView.hidden = false
@@ -31,11 +31,11 @@ public final class PullToRefresh : UIView {
         addSubview(imageView)
     }
     
-    public required init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         
         center = CGPointMake(CGRectGetMidX(superview!.bounds), CGRectGetMidY(superview!.bounds))
@@ -44,7 +44,7 @@ public final class PullToRefresh : UIView {
 
 extension PullToRefresh : INSPullToRefreshBackgroundViewDelegate {
     
-    public func pullToRefreshBackgroundView(pullToRefreshBackgroundView: INSPullToRefreshBackgroundView!, didChangeState state: INSPullToRefreshBackgroundViewState) {
+    func pullToRefreshBackgroundView(pullToRefreshBackgroundView: INSPullToRefreshBackgroundView!, didChangeState state: INSPullToRefreshBackgroundViewState) {
         if pullToRefreshBackgroundView.state == INSPullToRefreshBackgroundViewState.None {
             UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
                 self.activityIndicator.alpha = 0.0
@@ -59,7 +59,7 @@ extension PullToRefresh : INSPullToRefreshBackgroundViewDelegate {
         }
     }
     
-    public func pullToRefreshBackgroundView(pullToRefreshBackgroundView: INSPullToRefreshBackgroundView!, didChangeTriggerStateProgress progress: CGFloat) {
+    func pullToRefreshBackgroundView(pullToRefreshBackgroundView: INSPullToRefreshBackgroundView!, didChangeTriggerStateProgress progress: CGFloat) {
         if progress > 0 && pullToRefreshBackgroundView.state == INSPullToRefreshBackgroundViewState.None {
             imageView.alpha = 1.0
         }

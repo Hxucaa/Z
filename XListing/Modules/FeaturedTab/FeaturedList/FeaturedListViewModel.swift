@@ -16,7 +16,7 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
     // MARK: - Inputs
     
     // MARK: - Outputs
-    let collectionDataSource: Observable<[BusinessInfo]>
+    let collectionDataSource: Driver<[BusinessInfo]>
     
     // MARK: - Properties
     // MARK: Services
@@ -31,7 +31,7 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
     
     typealias Token = Void
     
-    typealias Input = (modelSelected: ControlEvent<BusinessInfo>, refreshTrigger: Observable<Void>, fetchMoreTrigger: Observable<Void>)
+    typealias Input = (modelSelected: Driver<BusinessInfo>, refreshTrigger: Driver<Void>, fetchMoreTrigger: Observable<Void>)
     
     init(dep: Dependency, token: Token, input: Input) {
         
@@ -40,38 +40,28 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
         geoLocationService = dep.geoLocationService
         userDefaultsService = dep.userDefaultsService
         
-        collectionDataSource = businessRepository.findByCurrentLocation(input.fetchMoreTrigger.debug("viewmodel"))
-            .observeOn(MainScheduler.instance)
-            .catchError {
-                dep.router.presentError($0 as! NetworkError)
-                return Observable.just([Business]())
+        collectionDataSource = input.refreshTrigger
+            .flatMapLatest { op -> Driver<[Business]> in
+                dep.businessRepository.findByCurrentLocation(input.fetchMoreTrigger)
+                    .asDriver {
+                        // FIXME: This is possibly a crash
+                        dep.router.presentError($0 as! NetworkError)
+                        return Driver.just([Business]())
+                    }
             }
             .map { $0.map { BusinessInfo(business: $0) } }
+        
         
         super.init(router: dep.router)
         
         input.modelSelected
-            .subscribeNext {
+            .driveNext {
                 dep.router.toSoclaBusiness($0)
             }
             .addDisposableTo(disposeBag)
-        
     }
     
     // MARK: - API
     
-//    func predictivelyFetchMoreData(targetContentIndex: Int) -> SignalProducer<Void, NSError> {
-//        // if there are still plenty of data for display, don't fetch more businesses
-//        if Double(targetContentIndex) < Double(collectionDataSource.count) - Double(Constants.PAGINATION_LIMIT) * Double(启动无限scrolling参数) {
-//            return SignalProducer<Void, NSError>.empty
-//        }
-//        // else fetch more data
-//        else {
-//            return fetchBusinesses(false)
-//                .map { _ in }
-//        }
-//    }
-    
-    // MARK: - Others
     
 }

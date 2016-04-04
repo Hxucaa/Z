@@ -19,7 +19,7 @@ public class _BaseRepository {
     func findWithPagination<DAO: AVObject>(query: TypedAVQuery<DAO>, findMoreTrigger: Observable<Void>) -> Observable<[DAO]> {
         
         // TODO: Inject a globally configurable value
-        query.limit = 30
+        query.limit = 10
         query.skip = 0
         
         
@@ -40,10 +40,10 @@ public class _BaseRepository {
                 
                 
                 return [
-                    Observable.just(fetched).debug("33333"),
-                    Observable.never().takeUntil(findMoreTrigger).debug("44444"),
-                    self.recursivelyFind(query, fetchedSoFar: fetched, findMoreTrigger: findMoreTrigger).debug("55555")
-                ].concat().debug("666666")
+                    Observable.just(fetched),
+                    Observable.never().takeUntil(findMoreTrigger),
+                    self.recursivelyFind(query, fetchedSoFar: fetched, findMoreTrigger: findMoreTrigger)
+                ].concat()
         }
     }
 }

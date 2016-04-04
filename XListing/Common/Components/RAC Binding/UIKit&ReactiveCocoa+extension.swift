@@ -10,7 +10,6 @@
 
 import UIKit
 import ReactiveCocoa
-//import AsyncDisplayKit
 
 private struct AssociationKey {
     static var hidden: UInt8 = 1
@@ -35,7 +34,7 @@ private struct AssociationKey {
 }
 
 // lazily creates a gettable associated property via the given factory
-private func lazyAssociatedProperty<T: AnyObject>(host: AnyObject, key: UnsafePointer<Void>, factory: () -> T) -> T {
+func lazyAssociatedProperty<T: AnyObject>(host: AnyObject, key: UnsafePointer<Void>, factory: () -> T) -> T {
     return objc_getAssociatedObject(host, key) as? T ?? {
         let associatedProperty = factory()
         objc_setAssociatedObject(host, key, associatedProperty, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)

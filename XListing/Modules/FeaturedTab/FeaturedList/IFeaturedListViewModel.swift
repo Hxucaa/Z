@@ -10,10 +10,10 @@ import Foundation
 import ReactiveCocoa
 import ReactiveArray
 import RxSwift
+import RxCocoa
 
 protocol IFeaturedListViewModel {
     
     // MARK: - Outputs
-    var collectionDataSource: Observable<[BusinessInfo]> { get }
-    
+    var collectionDataSource: Driver<[BusinessInfo]> { get }
 }

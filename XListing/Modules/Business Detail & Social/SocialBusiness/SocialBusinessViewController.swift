@@ -38,6 +38,7 @@ final class SocialBusinessViewController : XUIViewController {
         tableView.separatorInset = UIEdgeInsetsMake(0, 8, 0, 0)
         tableView.backgroundColor = .whiteColor()
         tableView.rowHeight = CGFloat(ScreenWidth) * CGFloat(UserHeightRatio)
+        tableView.delegate = self
 
         return tableView
     }()
@@ -128,13 +129,25 @@ final class SocialBusinessViewController : XUIViewController {
         
         title = viewmodel.businessName
         
+        // TODO: start event
+        utilityHeaderView.startEvent
+        
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // Use followScrollView(_: delay:) to start following the scrolling of a scrollable view (e.g.: a UIScrollView or UITableView).
+        let navigationController = self.navigationController as? ScrollingNavigationController
+        navigationController?.followScrollView(tableView, delay: 50.0)
+
+        utilityHeaderView.setDetailInfoButtonStyleRegular()
+        
+        
         viewmodel.collectionDataSource
             .map { [SectionModel(model: "UserInfo", items: $0)] }
             .bindTo(tableView.rx_itemsWithDataSource(dataSource))
             .addDisposableTo(disposeBag)
-        
-        // TODO: start event
-        utilityHeaderView.startEvent
         
         
         // change the color of the back button based on where the table view is scrolled
@@ -153,31 +166,6 @@ final class SocialBusinessViewController : XUIViewController {
                 }
             }
             .addDisposableTo(disposeBag)
-        
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        // Use followScrollView(_: delay:) to start following the scrolling of a scrollable view (e.g.: a UIScrollView or UITableView).
-        let navigationController = self.navigationController as? ScrollingNavigationController
-        navigationController?.followScrollView(tableView, delay: 50.0)
-
-        utilityHeaderView.setDetailInfoButtonStyleRegular()
-        
-
-//
-//        // create a signal associated with `tableView:didSelectRowAtIndexPath:` form delegate `UITableViewDelegate`
-//        // when the specified row is now selected
-//        compositeDisposable += rac_signalForSelector(Selector("tableView:didSelectRowAtIndexPath:"), fromProtocol: UITableViewDelegate.self).toSignalProducer()
-//            // forwards events from producer until the view controller is going to disappear
-//            .takeUntilViewWillDisappear(self)
-//            .map { ($0 as! RACTuple).second as! NSIndexPath }
-//            .logLifeCycle(LogContext.SocialBusiness, signalName: "tableView:didSelectRowAtIndexPath:")
-//            .startWithNext { [weak self] indexPath in
-//                self?.viewmodel.pushUserProfile(indexPath.row, animated: true)
-//            }
-
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -188,7 +176,7 @@ final class SocialBusinessViewController : XUIViewController {
         super.viewWillDisappear(animated)
         
         // Stop the behaviour when view will
-        (self.navigationController as? ScrollingNavigationController)?.showNavbar(animated: true)
+        (self.navigationController as? ScrollingNavigationController)?.stopFollowingScrollView()
     }
     
     override func viewDidDisappear(animated: Bool) {

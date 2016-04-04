@@ -12,7 +12,7 @@ import ReactiveCocoa
 public final class PhotoViewModel {
     
     // MARK: - Input
-    public let profileImage = MutableProperty<UIImage?>(UIImage(named: ImageAssets.profilepicture))
+    public let profileImage = MutableProperty<UIImage?>(UIImage(asset: .Profilepicture))
     
     // MARK: - Output
     public let isProfileImageValid = MutableProperty<Bool>(false)
