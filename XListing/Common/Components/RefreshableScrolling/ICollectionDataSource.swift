@@ -7,12 +7,12 @@
 //
 
 import Foundation
-import ReactiveCocoa
-import ReactiveArray
+import RxSwift
+import RxCocoa
 
 public protocol ICollectionDataSource {
     /// Associated Types
     associatedtype Payload
     
-    var collectionDataSource: ReactiveArray<Payload> { get }
+    var collectionDataSource: Driver<[Payload]> { get }
 }

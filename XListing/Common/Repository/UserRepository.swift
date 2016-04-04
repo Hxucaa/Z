@@ -18,10 +18,10 @@ public final class UserRepository : _BaseRepository, IUserRepository {
     
     private let geolocationService: IGeoLocationService
     
-    public init(geolocationService: IGeoLocationService) {
+    public init(geolocationService: IGeoLocationService, activityIndicator: ActivityIndicator, schedulers: IWorkSchedulers) {
         self.geolocationService = geolocationService
         
-        super.init()
+        super.init(activityIndicator: activityIndicator, schedulers: schedulers)
     }
     
     private func createQuery() -> TypedAVQuery<UserDAO> {

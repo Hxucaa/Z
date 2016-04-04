@@ -76,3 +76,9 @@ extension UITableView {
             .startWith(())
     }
 }
+
+extension UITableView {
+    public func test<V: ICollectionDataSource>(viewmodel: V) {
+        
+    }
+}

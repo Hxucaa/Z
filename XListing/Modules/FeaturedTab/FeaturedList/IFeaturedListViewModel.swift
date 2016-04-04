@@ -7,13 +7,12 @@
 //
 
 import Foundation
-import ReactiveCocoa
-import ReactiveArray
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 protocol IFeaturedListViewModel {
     
     // MARK: - Outputs
-    var collectionDataSource: Driver<[BusinessInfo]> { get }
+    var collectionDataSource: Driver<[SectionModel<String, BusinessInfo>]> { get }
 }

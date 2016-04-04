@@ -65,19 +65,40 @@ class ServiceAssembly : AssemblyType {
             .register(IUserDefaultsService.self) { _ in UserDefaultsService() }
             .inObjectScope(ObjectScope.Hierarchy)
         
+        
+        container
+            .register(ActivityIndicator.self) { _ in ActivityIndicator() }
+            .inObjectScope(.Hierarchy)
+        
+        container
+            .register(IWorkSchedulers.self) { _ in WorkSchedulers() }
+            .inObjectScope(ObjectScope.Hierarchy)
+        
         container
             .register(IBusinessRepository.self) {
-                BusinessRepository(geolocationService: $0.resolve(IGeoLocationService.self)!)
+                BusinessRepository(
+                    geolocationService: $0.resolve(IGeoLocationService.self)!,
+                    activityIndicator: $0.resolve(ActivityIndicator.self)!,
+                    schedulers: $0.resolve(IWorkSchedulers.self)!
+                )
             }
             .inObjectScope(ObjectScope.Hierarchy)
         container
             .register(IUserRepository.self) {
-                UserRepository(geolocationService: $0.resolve(IGeoLocationService.self)!)
+                UserRepository(
+                    geolocationService: $0.resolve(IGeoLocationService.self)!,
+                    activityIndicator: $0.resolve(ActivityIndicator.self)!,
+                    schedulers: $0.resolve(IWorkSchedulers.self)!
+                )
             }
             .inObjectScope(ObjectScope.Hierarchy)
         container
             .register(IMeRepository.self) {
-                MeRepository(geolocationService: $0.resolve(IGeoLocationService.self)!)
+                MeRepository(
+                    geolocationService: $0.resolve(IGeoLocationService.self)!,
+                    activityIndicator: $0.resolve(ActivityIndicator.self)!,
+                    schedulers: $0.resolve(IWorkSchedulers.self)!
+                )
             }
             .inObjectScope(ObjectScope.Hierarchy)
     }
@@ -100,8 +121,6 @@ class MainAssembly : AssemblyType {
                 r.alert = $0.resolve(IAlert.self)!
             }
             .inObjectScope(ObjectScope.Hierarchy)
-        
-        
         
         // Components
         container

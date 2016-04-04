@@ -9,14 +9,14 @@
 import Foundation
 import RxSwift
 import RxCocoa
-import ReactiveArray
+import RxDataSources
 
 final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, ViewModelInjectable {
     
     // MARK: - Inputs
     
     // MARK: - Outputs
-    let collectionDataSource: Driver<[BusinessInfo]>
+    let collectionDataSource: Driver<[SectionModel<String, BusinessInfo>]>
     
     // MARK: - Properties
     // MARK: Services
@@ -49,7 +49,11 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
                         return Driver.just([Business]())
                     }
             }
-            .map { $0.map { BusinessInfo(business: $0) } }
+            .map { data in
+                let tdata = data.map { BusinessInfo(business: $0) }
+                let sections = [SectionModel(model: "BusinessInfo", items: tdata)]
+                return sections
+            }
         
         
         super.init(router: dep.router)

@@ -12,6 +12,14 @@ import AVOSCloud
 
 public class _BaseRepository {
     
+    let activityIndicator: ActivityIndicator
+    let schedulers: IWorkSchedulers
+    
+    init(activityIndicator: ActivityIndicator, schedulers: IWorkSchedulers) {
+        self.activityIndicator = activityIndicator
+        self.schedulers = schedulers
+    }
+    
     func _create<DAO: AVObject>(dao: DAO) -> Observable<Bool> {
         return dao.rx_save()
     }
@@ -29,7 +37,8 @@ public class _BaseRepository {
     private func recursivelyFind<DAO: AVObject>(query: TypedAVQuery<DAO>, fetchedSoFar: [DAO], findMoreTrigger: Observable<Void>) -> Observable<[DAO]> {
         return query.rx_findObjects()
             .retry(3)
-//            .observeOn(Scheduler.repositoryBackgroundScheduler)
+            .trackActivity(activityIndicator)
+            .observeOn(schedulers.background)
             .flatMap { newModels -> Observable<[DAO]> in
                 
                 

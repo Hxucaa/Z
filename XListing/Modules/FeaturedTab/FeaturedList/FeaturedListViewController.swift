@@ -99,7 +99,6 @@ final class FeaturedListViewController: XUIViewController, UITableViewDelegate, 
         
         // bind collection data source to table view
         viewmodel.collectionDataSource
-            .map { [SectionModel(model: "BusinessInfo", items: $0)] }
             .drive(tableView.rx_itemsWithDataSource(dataSource))
             .addDisposableTo(disposeBag)
         

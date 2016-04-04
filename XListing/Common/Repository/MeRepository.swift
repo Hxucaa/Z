@@ -53,10 +53,10 @@ public final class MeRepository : _BaseRepository, IMeRepository {
     
     private let geolocationService: IGeoLocationService
     
-    public init(geolocationService: IGeoLocationService) {
+    public init(geolocationService: IGeoLocationService, activityIndicator: ActivityIndicator, schedulers: IWorkSchedulers) {
         self.geolocationService = geolocationService
         
-        super.init()
+        super.init(activityIndicator: activityIndicator, schedulers: schedulers)
     }
     
     public func updateProfile(nickname: String? = nil, whatsUp: String? = nil, coverPhoto: UIImage? = nil) -> SignalProducer<Bool, NetworkError> {
