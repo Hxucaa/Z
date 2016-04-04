@@ -133,13 +133,8 @@
 		B403B08E1BA2B5EF0085E0A3 /* SBtoBDAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B403B08D1BA2B5EF0085E0A3 /* SBtoBDAnimator.swift */; };
 		B40A0D8B1B22455700036986 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A0D8A1B22455700036986 /* Constants.swift */; };
 		B40EF67A1B804ABF0067AE9B /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40EF6791B804ABF0067AE9B /* PullToRefresh.swift */; };
-		B4104F5E1B84245200D7E4BD /* IPullToRefreshDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F5D1B84245200D7E4BD /* IPullToRefreshDataSource.swift */; };
-		B4104F601B84246F00D7E4BD /* IInfinityScrollDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F5F1B84246F00D7E4BD /* IInfinityScrollDataSource.swift */; };
-		B4104F621B843DC300D7E4BD /* IPredictiveScrollDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F611B843DC300D7E4BD /* IPredictiveScrollDataSource.swift */; };
 		B4104F651B846D7600D7E4BD /* UITableView+PullToRefresh+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F641B846D7600D7E4BD /* UITableView+PullToRefresh+Rx.swift */; };
-		B4104F671B846D9B00D7E4BD /* InfinityScrollConductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F661B846D9B00D7E4BD /* InfinityScrollConductor.swift */; };
-		B4104F691B85152F00D7E4BD /* PredictiveScrollConductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F681B85152F00D7E4BD /* PredictiveScrollConductor.swift */; };
-		B4104F6C1B85664D00D7E4BD /* ICollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F6B1B85664D00D7E4BD /* ICollectionDataSource.swift */; };
+		B4104F671B846D9B00D7E4BD /* UITableView+InfinityScroll+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4104F661B846D9B00D7E4BD /* UITableView+InfinityScroll+Rx.swift */; };
 		B4117CFC1B1F8F76001700C8 /* ConsoleFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */; };
 		B41334ED1B5F44B300B5F22D /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41334EC1B5F44B300B5F22D /* Keyboard.swift */; };
 		B41334EF1B60E46C00B5F22D /* Nearby.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B41334EE1B60E46C00B5F22D /* Nearby.storyboard */; };
@@ -410,13 +405,8 @@
 		B403B08D1BA2B5EF0085E0A3 /* SBtoBDAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SBtoBDAnimator.swift; sourceTree = "<group>"; };
 		B40A0D8A1B22455700036986 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B40EF6791B804ABF0067AE9B /* PullToRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
-		B4104F5D1B84245200D7E4BD /* IPullToRefreshDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPullToRefreshDataSource.swift; sourceTree = "<group>"; };
-		B4104F5F1B84246F00D7E4BD /* IInfinityScrollDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IInfinityScrollDataSource.swift; sourceTree = "<group>"; };
-		B4104F611B843DC300D7E4BD /* IPredictiveScrollDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPredictiveScrollDataSource.swift; sourceTree = "<group>"; };
 		B4104F641B846D7600D7E4BD /* UITableView+PullToRefresh+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+PullToRefresh+Rx.swift"; sourceTree = "<group>"; };
-		B4104F661B846D9B00D7E4BD /* InfinityScrollConductor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinityScrollConductor.swift; sourceTree = "<group>"; };
-		B4104F681B85152F00D7E4BD /* PredictiveScrollConductor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PredictiveScrollConductor.swift; sourceTree = "<group>"; };
-		B4104F6B1B85664D00D7E4BD /* ICollectionDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICollectionDataSource.swift; sourceTree = "<group>"; };
+		B4104F661B846D9B00D7E4BD /* UITableView+InfinityScroll+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+InfinityScroll+Rx.swift"; sourceTree = "<group>"; };
 		B4117CFB1B1F8F76001700C8 /* ConsoleFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleFormatter.swift; sourceTree = "<group>"; };
 		B41334EC1B5F44B300B5F22D /* Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		B41334EE1B60E46C00B5F22D /* Nearby.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Nearby.storyboard; sourceTree = "<group>"; };
@@ -1039,12 +1029,7 @@
 			children = (
 				B4104F641B846D7600D7E4BD /* UITableView+PullToRefresh+Rx.swift */,
 				B40EF6791B804ABF0067AE9B /* PullToRefresh.swift */,
-				B4104F5D1B84245200D7E4BD /* IPullToRefreshDataSource.swift */,
-				B4104F5F1B84246F00D7E4BD /* IInfinityScrollDataSource.swift */,
-				B4104F611B843DC300D7E4BD /* IPredictiveScrollDataSource.swift */,
-				B4104F661B846D9B00D7E4BD /* InfinityScrollConductor.swift */,
-				B4104F681B85152F00D7E4BD /* PredictiveScrollConductor.swift */,
-				B4104F6B1B85664D00D7E4BD /* ICollectionDataSource.swift */,
+				B4104F661B846D9B00D7E4BD /* UITableView+InfinityScroll+Rx.swift */,
 			);
 			path = RefreshableScrolling;
 			sourceTree = "<group>";
@@ -1745,7 +1730,6 @@
 			files = (
 				2690AF6C1BC46D2F000C3891 /* BDtoSBAnimator.swift in Sources */,
 				B403B0851BA0DA6B0085E0A3 /* IBusinessDetailViewModel.swift in Sources */,
-				B4104F6C1B85664D00D7E4BD /* ICollectionDataSource.swift in Sources */,
 				7E6864041C9E365A00EA434D /* User.swift in Sources */,
 				B4ECBE1E1B73E0ED00234217 /* NicknameView.swift in Sources */,
 				B427B3601BC500BF008A9F19 /* IProfileHeaderViewModel.swift in Sources */,
@@ -1760,7 +1744,6 @@
 				B427B36B1BC5B7E2008A9F19 /* IProfileUpperViewModel.swift in Sources */,
 				7E68641E1C9E449A00EA434D /* AVUser+RAC.swift in Sources */,
 				269163691B5C6C1E005D48FA /* (null) in Sources */,
-				B4104F5E1B84245200D7E4BD /* IPullToRefreshDataSource.swift in Sources */,
 				B4A3A6231B756BED00E680E6 /* SignUpViewController.swift in Sources */,
 				B403B0831BA0DA4C0085E0A3 /* BusinessDetailViewModel.swift in Sources */,
 				7E6864101C9E392000EA434D /* TypedAVQuery+RAC.swift in Sources */,
@@ -1811,7 +1794,6 @@
 				B4F1958B1B2938FC00B8C519 /* HUD.swift in Sources */,
 				B427B3701BC5C4CD008A9F19 /* ProfileBottomViewController.swift in Sources */,
 				B427B3741BC5C4EF008A9F19 /* ProfileBottomViewModel.swift in Sources */,
-				B4104F691B85152F00D7E4BD /* PredictiveScrollConductor.swift in Sources */,
 				7E68640D1C9E380700EA434D /* Business.swift in Sources */,
 				B427B38F1BC6468A008A9F19 /* ParticipationListCellViewModel.swift in Sources */,
 				D02A61711B655019007B48E9 /* ProfileHeaderViewModel.swift in Sources */,
@@ -1850,7 +1832,6 @@
 				B46B5D441C4CCB8E00C2947C /* UserStatus.swift in Sources */,
 				B427B36D1BC5B7EF008A9F19 /* ProfileUpperViewModel.swift in Sources */,
 				264129141BCEF50200BEE87A /* AddPhotoCollectionViewCell.swift in Sources */,
-				B4104F601B84246F00D7E4BD /* IInfinityScrollDataSource.swift in Sources */,
 				7E6864251C9E50B000EA434D /* RepositoryScheduler.swift in Sources */,
 				2675C4BE1BB3AD1400F2683B /* DescriptionCellViewModel.swift in Sources */,
 				B4FCC73A1AEAD5F5009B4DF6 /* INearbyWireframe.swift in Sources */,
@@ -1872,7 +1853,6 @@
 				B4694E2B1B72A045000E2006 /* UsernameAndPasswordView.swift in Sources */,
 				26DE3E891BBE41A7007D057B /* HeaderTableViewCell.swift in Sources */,
 				B4E7E5071B93F32C0034B093 /* SocialBusinessViewController.swift in Sources */,
-				B4104F621B843DC300D7E4BD /* IPredictiveScrollDataSource.swift in Sources */,
 				261687C31B71B8AF0094F315 /* IProfileEditWireframe.swift in Sources */,
 				B4F195AB1B2BA26700B8C519 /* DetailAddressAndMapViewModel.swift in Sources */,
 				B427B3621BC50309008A9F19 /* ProfileSegmentControlViewModel.swift in Sources */,
@@ -1961,7 +1941,7 @@
 				D024D96C1BDC0E0D00BDC312 /* ProfileTabInfoPanelViewModel.swift in Sources */,
 				B45581FC1B3689AB00C4D965 /* ASDK.FeaturedListCellNode.component.swift in Sources */,
 				B403B0811BA0DA110085E0A3 /* BusinessDetailViewController.swift in Sources */,
-				B4104F671B846D9B00D7E4BD /* InfinityScrollConductor.swift in Sources */,
+				B4104F671B846D9B00D7E4BD /* UITableView+InfinityScroll+Rx.swift in Sources */,
 				B46B5D461C4D827500C2947C /* Region.swift in Sources */,
 				B427B3661BC50469008A9F19 /* ButtonPageControl.swift in Sources */,
 				3D70CCEB1B562AFD004588EC /* IImageService.swift in Sources */,

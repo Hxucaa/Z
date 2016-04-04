@@ -36,12 +36,11 @@ final class FeaturedListViewController: XUIViewController, UITableViewDelegate, 
         return tableView
     }()
     
-    private let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, BusinessInfo>>()
+    private let dataSource = RxTableViewSectionedRefreshAndReloadDataSource<SectionModel<String, BusinessInfo>>()
     
     
     // MARK: - Properties
     private var inputViewModel: InputViewModel!
-//    private var viewmodel: IFeaturedListViewModel!
     private var scrollingNavControll: ScrollingNavigationController? {
         return navigationController as? ScrollingNavigationController
     }
@@ -77,34 +76,22 @@ final class FeaturedListViewController: XUIViewController, UITableViewDelegate, 
             return cell
         }
         
-        // trigger pagination only when table view is scrolled close to bottom
-        let loadNextPageTrigger = tableView.rx_contentOffset
-            .flatMap { offset in
-                FeaturedListViewController.isNearTheBottomEdge(offset, tableView)
-                    ? Observable.just(())
-                    : Observable.empty()
-            }
-        
         // enable pull to refresh on the table
         tableView.enablePullToRefresh()
         
-        // refresh the collection data
-        let refreshTrigger = tableView.rx_startWithRefresh
-        
-        // the model which backs the cell that is being tapped
-        let modelSelected = tableView.rx_modelSelected(BusinessInfo).asDriver()
         
         // initialize view model
-        let viewmodel = inputViewModel(modelSelected: modelSelected, refreshTrigger: refreshTrigger, fetchMoreTrigger: loadNextPageTrigger)
+        let viewmodel = inputViewModel(
+            // the model which backs the cell that is being tapped
+            modelSelected: tableView.rx_modelSelected(BusinessInfo).asDriver(),
+            // refresh the collection data
+            refreshTrigger: tableView.rx_startWithRefreshTrigger,
+            // trigger pagination only when table view is scrolled close to bottom
+            fetchMoreTrigger: tableView.rx_closeToLastContent())
         
         // bind collection data source to table view
         viewmodel.collectionDataSource
             .drive(tableView.rx_itemsWithDataSource(dataSource))
-            .addDisposableTo(disposeBag)
-        
-        viewmodel.collectionDataSource
-            .map { _ in }
-            .drive(tableView.rx_endRefresh)
             .addDisposableTo(disposeBag)
 
     }

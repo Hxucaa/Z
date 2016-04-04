@@ -31,7 +31,7 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
     
     typealias Token = Void
     
-    typealias Input = (modelSelected: Driver<BusinessInfo>, refreshTrigger: Driver<Void>, fetchMoreTrigger: Observable<Void>)
+    typealias Input = (modelSelected: Driver<BusinessInfo>, refreshTrigger: RefreshTrigger, fetchMoreTrigger: FetchMoreTrigger)
     
     init(dep: Dependency, token: Token, input: Input) {
         
