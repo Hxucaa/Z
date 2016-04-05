@@ -16,7 +16,7 @@ import INSPullToRefresh
 private let CellIdentifier = "FeaturedListBusinessTableViewCell"
 
 final class FeaturedListViewController: XUIViewController, UITableViewDelegate, ScrollingNavigationControllerDelegate {
-    typealias InputViewModel = (modelSelected: Driver<BusinessInfo>, refreshTrigger: Observable<Void>, fetchMoreTrigger: FetchMoreTrigger) -> IFeaturedListViewModel
+    typealias InputViewModel = (modelSelected: Driver<FeaturedListCellData>, refreshTrigger: Observable<Void>) -> IFeaturedListViewModel
     
     // MARK: - UI Controls
     private lazy var tableView: UITableView = {
@@ -77,11 +77,9 @@ final class FeaturedListViewController: XUIViewController, UITableViewDelegate, 
         // initialize view model
         viewmodel = inputViewModel(
             // the model which backs the cell that is being tapped
-            modelSelected: tableView.rx_modelSelected(BusinessInfo).asDriver(),
+            modelSelected: tableView.rx_modelSelected(FeaturedListCellData).asDriver(),
             // refresh the collection data
-            refreshTrigger: tableView.rx_startWithRefreshTrigger,
-            // trigger pagination only when table view is scrolled close to bottom
-            fetchMoreTrigger: tableView.rx_closeToLastContent())
+            refreshTrigger: tableView.rx_startWithRefreshTrigger)
         
         // bind collection data source to table view
         viewmodel.collectionDataSource
@@ -126,5 +124,29 @@ final class FeaturedListViewController: XUIViewController, UITableViewDelegate, 
 
     func bindToViewModel(inputViewModel: InputViewModel) {
         self.inputViewModel = inputViewModel
+    }
+    
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        // table view is being scrolled down, not up
+        guard velocity.y > 0.0 &&
+            /// Only fetch more data if both pull to refresh and infinity scroll are not already triggered. We don't want to trigger network request repeatedly.
+            tableView.ins_pullToRefreshBackgroundView.state != INSPullToRefreshBackgroundViewState.Triggered else {
+                return
+        }
+        
+        // targetContentOffset is the offset of the top-left point of the top of the cells that are being displayed
+        let contentHeight = targetContentOffset.memory.y
+        // height of the table
+        let tableHeight = tableView.bounds.size.height
+        // content inset
+        let contentInsetBottom = tableView.contentInset.bottom
+        // get the index path of the bottom cell that is being displayed on table view
+        let indexPath = tableView.indexPathForRowAtPoint(CGPoint(x: 0.0, y: contentHeight + tableHeight - contentInsetBottom))
+        
+        guard indexPath?.row != nil else {
+            return
+        }
+        
+        viewmodel.fetchMoreTrigger.onNext()
     }
 }

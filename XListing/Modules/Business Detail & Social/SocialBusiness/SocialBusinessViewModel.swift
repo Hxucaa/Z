@@ -9,8 +9,8 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxDataSources
 import AVOSCloud
-import Dollar
 
 protocol ViewModelInjectable {
     associatedtype Dependency
@@ -35,10 +35,13 @@ extension ViewModelInjectable {
 final class SocialBusinessViewModel : _BaseViewModel, ISocialBusinessViewModel, ViewModelInjectable {
     
     // MARK: - Inputs
+    let fetchMoreTrigger = PublishSubject<Void>()
     
     // MARK: - Outputs
-    
-    let collectionDataSource: Observable<[UserInfo]>
+    var collectionDataSource: Driver<[SectionModel<String, UserInfo>]> {
+        return _collectionDataSource
+    }
+    private var _collectionDataSource: Driver<[SectionModel<String, UserInfo>]>!
     
     var businessName: String {
         return business.name
@@ -69,7 +72,7 @@ final class SocialBusinessViewModel : _BaseViewModel, ISocialBusinessViewModel, 
     
     typealias Token = (BusinessInfo)
     
-    typealias Input = (navigateBack:  ControlEvent<Void>, navigateToDetailPage: Observable<Void>, userInfoSelected: ControlEvent<UserInfo>, refreshTrigger: Observable<Void>, fetchMoreTrigger: Observable<Void>)
+    typealias Input = (navigateBack:  Observable<Void>, navigateToDetailPage: Observable<Void>, userInfoSelected: ControlEvent<UserInfo>, refreshTrigger: RefreshTrigger, fetchMoreTrigger: FetchMoreTrigger)
     
     init(dep: Dependency, token: Token, input: Input) {
         
@@ -78,17 +81,24 @@ final class SocialBusinessViewModel : _BaseViewModel, ISocialBusinessViewModel, 
         userRepository = dep.userRepository
         geoLocationService = dep.geoLocationService
         business = token
-        
-        collectionDataSource = userRepository.findByParticipatingBusiness(token.objectId, fetchMoreTrigger: input.fetchMoreTrigger)
-            .debug("??????")
-            .observeOn(MainScheduler.instance)
-            .catchError {
-                dep.router.presentError($0 as! NetworkError)
-                return Observable.just([User]())
-            }
-            .map { $0.map { UserInfo(user: $0) } }
+
         
         super.init(router: dep.router)
+        
+        _collectionDataSource = input.refreshTrigger
+            .flatMapLatest { [unowned self] in
+                dep.userRepository.findByParticipatingBusiness(
+                    token.objectId,
+                    fetchMoreTrigger: self.fetchMoreTrigger.asObserver()
+                ).debug("business")
+            }
+            //            .catchError {
+            //                dep.router.presentError($0 as! NetworkError)
+            //                return Observable.just([User]())
+            //            }
+            .map { $0.map { UserInfo(user: $0) } }
+            .map { [SectionModel(model: "UserInfo", items: $0)] }
+            .asDriver(onErrorJustReturn: Array<SectionModel<String, UserInfo>>.empty)
         
         input.navigateBack
             .subscribeNext { dep.router.popViewController(false) }

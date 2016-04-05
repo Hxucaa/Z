@@ -50,6 +50,9 @@ PODS:
   - RxDataSources (0.6.2):
     - RxCocoa (~> 2.2)
     - RxSwift (~> 2.2)
+  - RxOptional (2.0.0):
+    - RxCocoa (~> 2.0)
+    - RxSwift (~> 2.0)
   - RxSwift (2.3.1)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
@@ -90,6 +93,7 @@ DEPENDENCIES:
   - RxBlocking (~> 2.3.1)
   - RxCocoa (~> 2.3.1)
   - RxDataSources (~> 0.6.2)
+  - RxOptional (~> 2.0.0)
   - RxSwift (~> 2.3.1)
   - SDWebImage (~> 3.7.0)
   - Spring (from `https://github.com/MengTo/Spring.git`)
@@ -152,6 +156,7 @@ SPEC CHECKSUMS:
   RxBlocking: 84fd81865a641a3843b33bae7b8315e78ddbd383
   RxCocoa: a2baaf3462b989559a51dce59d78fbebb8fe0afa
   RxDataSources: 9ae26211019e6afb7391125940d719b4326e94a4
+  RxOptional: b77fb47a0190213cf8a37c7a2b7fda28160b4563
   RxSwift: 829b2843e9eddc77a02cb3f5117f0d55f8f646f1
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
@@ -163,6 +168,6 @@ SPEC CHECKSUMS:
   XAssets: 205ee4a8cb11f99918f031aa9cb27e27e42b783f
   XLActionController: 97ed31237413db4d9401c6a559270f4d2b4de136
 
-PODFILE CHECKSUM: d72abb213e561425ada4cded08c4a1427781d4ff
+PODFILE CHECKSUM: b0e1bae547221633f0eb1f8cf42e354ee2e4ca9f
 
 COCOAPODS: 1.0.0.beta.6

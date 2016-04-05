@@ -24,7 +24,7 @@ private let WTGBarHeight = CGFloat(70)
 
 final class SocialBusinessViewController : XUIViewController {
     
-    typealias InputViewModel = (navigateBack:  ControlEvent<Void>, navigateToDetailPage: Observable<Void>, userInfoSelected: ControlEvent<UserInfo>, refreshTrigger: Observable<Void>, fetchMoreTrigger: Observable<Void>) -> ISocialBusinessViewModel
+    typealias InputViewModel = (navigateBack:  Observable<Void>, navigateToDetailPage: Observable<Void>, userInfoSelected: ControlEvent<UserInfo>, refreshTrigger: RefreshTrigger) -> ISocialBusinessViewModel
 
     // MARK: - UI Controls
     private lazy var tableView: UITableView = {
@@ -78,22 +78,7 @@ final class SocialBusinessViewController : XUIViewController {
 
         
         let tableView = self.tableView
-
-        view.addSubview(tableView)
-        view.addSubview(backButton)
-
-        constrain(tableView) { view in
-            view.top == view.superview!.top - 20
-            view.trailing == view.superview!.trailing
-            view.bottom == view.superview!.bottom
-            view.leading == view.superview!.leading
-        }
-
-        constrain(backButton) { view in
-            view.top == view.superview!.topMargin + 12
-            view.leading == view.superview!.leading
-        }
-
+        setupViews()
         
         dataSource.configureCell = { _, tv, ip, info in
             let cell = tv.dequeueReusableCellWithIdentifier(UserCellIdentifier) as! SocialBusiness_UserCell
@@ -102,29 +87,20 @@ final class SocialBusinessViewController : XUIViewController {
             return cell
         }
         
-        let loadNextPageTrigger = tableView.rx_contentOffset
-            .debug("sdfsdfsdf")
-            .flatMap { offset in
-                SocialBusinessViewController.isNearTheBottomEdge(offset, tableView)
-                    ? Observable.just(())
-                    : Observable.empty()
-            }
-            .startWith(())
+        let headerViewTapGesture = UITapGestureRecognizer()
+        headerView.addGestureRecognizer(headerViewTapGesture)
         
-        let modelSelected = tableView.rx_modelSelected(UserInfo)
-        let navigateBack = backButton.rx_tap
-        let navigateToDetailPageFromUtility = utilityHeaderView.navigateToDetailPage.asObservable()
+        viewmodel = inputViewModel(
+            navigateBack: backButton.rx_tap.asObservable(),
+            navigateToDetailPage: Observable.of(
+                utilityHeaderView.navigateToDetailPage.asObservable(),
+                headerViewTapGesture.rx_event.asObservable()
+                    .map { _ in () }
+                )
+                .merge(),
+            userInfoSelected: tableView.rx_modelSelected(UserInfo),
+            refreshTrigger: tableView.rx_startWithRefreshTrigger)
         
-        let tapGesture = UITapGestureRecognizer()
-        headerView.addGestureRecognizer(tapGesture)
-        let navigateToDetailPageFromHeader = tapGesture.rx_event.asObservable()
-            .map { _ in () }
-        
-        let navigateToDetailPage = Observable.of(navigateToDetailPageFromUtility, navigateToDetailPageFromHeader)
-            .merge()
-        
-        
-        viewmodel = inputViewModel(navigateBack: navigateBack, navigateToDetailPage: navigateToDetailPage, userInfoSelected: modelSelected, refreshTrigger: Observable.just(()), fetchMoreTrigger: loadNextPageTrigger)
         headerView.bindToCellData(viewmodel.businessName, location: viewmodel.city, eta: viewmodel.calculateEta(), imageURL: viewmodel.businessImageURL)
         
         title = viewmodel.businessName
@@ -132,6 +108,23 @@ final class SocialBusinessViewController : XUIViewController {
         // TODO: start event
         utilityHeaderView.startEvent
         
+    }
+    
+    private func setupViews() {
+        view.addSubview(tableView)
+        view.addSubview(backButton)
+        
+        constrain(tableView) { view in
+            view.top == view.superview!.top - 20
+            view.trailing == view.superview!.trailing
+            view.bottom == view.superview!.bottom
+            view.leading == view.superview!.leading
+        }
+        
+        constrain(backButton) { view in
+            view.top == view.superview!.topMargin + 12
+            view.leading == view.superview!.leading
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -145,8 +138,7 @@ final class SocialBusinessViewController : XUIViewController {
         
         
         viewmodel.collectionDataSource
-            .map { [SectionModel(model: "UserInfo", items: $0)] }
-            .bindTo(tableView.rx_itemsWithDataSource(dataSource))
+            .drive(tableView.rx_itemsWithDataSource(dataSource))
             .addDisposableTo(disposeBag)
         
         
@@ -234,6 +226,28 @@ extension SocialBusinessViewController : UITableViewDelegate {
 
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 59
+    }
+    
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        // table view is being scrolled down, not up
+        guard velocity.y > 0.0 else {
+            return
+        }
+        
+        // targetContentOffset is the offset of the top-left point of the top of the cells that are being displayed
+        let contentHeight = targetContentOffset.memory.y
+        // height of the table
+        let tableHeight = tableView.bounds.size.height
+        // content inset
+        let contentInsetBottom = tableView.contentInset.bottom
+        // get the index path of the bottom cell that is being displayed on table view
+        let indexPath = tableView.indexPathForRowAtPoint(CGPoint(x: 0.0, y: contentHeight + tableHeight - contentInsetBottom))
+        
+        guard indexPath?.row != nil else {
+            return
+        }
+        
+        viewmodel.fetchMoreTrigger.onNext()
     }
 }
 

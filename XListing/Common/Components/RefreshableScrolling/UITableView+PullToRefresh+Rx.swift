@@ -15,7 +15,7 @@ import RxDataSources
 
 private let PullToRefreshHeight: CGFloat = 60.0
 
-public typealias RefreshTrigger = Driver<Void>
+public typealias RefreshTrigger = Observable<Void>
 
 private struct AssociationKey {
     static var refreshTrigger: UInt8 = 18

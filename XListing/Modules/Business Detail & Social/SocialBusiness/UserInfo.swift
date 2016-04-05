@@ -27,7 +27,7 @@ struct UserInfo {
         horoscope = user.horoscope
         // FIXME: placeholder
 //        coverPhotoURL = user.coverPhoto?.url
-        coverPhotoURL = NSURL(string: "http://i.imgur.com/hfgzBeW.jpg")
+        coverPhotoURL = "http://i.imgur.com/hfgzBeW.jpg" |> NSURL.init
         whatsUp = user.whatsUp
         aaCount = user.aaCount
         treatCount = user.treatCount

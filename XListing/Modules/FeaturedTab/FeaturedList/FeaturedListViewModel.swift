@@ -18,7 +18,10 @@ struct FeaturedListCellData {
 }
 
 final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, ViewModelInjectable {
-        
+    
+    // MARK: - Inputs
+    let fetchMoreTrigger = PublishSubject<Void>()
+    
     // MARK: - Outputs
     var collectionDataSource: Driver<[SectionModel<String, FeaturedListCellData>]> {
         return _collectionDataSource
@@ -40,7 +43,7 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
     
     typealias Token = Void
     
-    typealias Input = (modelSelected: Driver<BusinessInfo>, refreshTrigger: Observable<Void>, fetchMoreTrigger: FetchMoreTrigger)
+    typealias Input = (modelSelected: Driver<FeaturedListCellData>, refreshTrigger: RefreshTrigger)
     
     init(dep: Dependency, token: Token, input: Input) {
         
@@ -53,7 +56,8 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
         
         _collectionDataSource = input.refreshTrigger
             .flatMapLatest { [unowned self] _ -> Observable<[Business]> in
-                dep.businessRepository.findByCurrentLocation(input.fetchMoreTrigger.skipUntil(self.collectionDataSource.asObservable()))
+                dep.businessRepository.findByCurrentLocation(self.fetchMoreTrigger.asObserver())
+                .debug("Featured")
             }
             .flatMap { result -> Observable<[BusinessWithParticipantsPreview]> in
                 result.map { bus in
@@ -69,14 +73,15 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
                     let businessInfo = BusinessInfo(business: business)
                     
                     
-                    
                     return FeaturedListCellData(
                         businessInfo: businessInfo,
                         participantsPreview: participantsInfo,
                         eta: dep.geoLocationService.calculateETA(business.address.geoLocation.cllocation)
                             .map { interval -> String in
-                                let minute = Int(ceil(interval / 60))
-                                return "\(minute)分钟"
+                                interval / 60
+                                    |> ceil
+                                    |> Int.init
+                                    |> { "\($0)分钟" }
                             }
                             .asDriver(onErrorJustReturn: "")
                     )
@@ -92,7 +97,8 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
         
         input.modelSelected
             .driveNext {
-                dep.router.toSoclaBusiness($0)
+                $0.businessInfo
+                    |> dep.router.toSoclaBusiness
             }
             .addDisposableTo(disposeBag)
         

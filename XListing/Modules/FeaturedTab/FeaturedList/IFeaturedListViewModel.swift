@@ -13,6 +13,9 @@ import RxDataSources
 
 protocol IFeaturedListViewModel {
     
+    // MARK: - Inputs
+    var fetchMoreTrigger: PublishSubject<Void> { get }
+    
     // MARK: - Outputs
     var collectionDataSource: Driver<[SectionModel<String, FeaturedListCellData>]> { get }
 }

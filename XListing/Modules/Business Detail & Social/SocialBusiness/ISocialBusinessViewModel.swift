@@ -9,14 +9,16 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 protocol ISocialBusinessViewModel : class {
     
     // MARK: - Inputs
+    var fetchMoreTrigger: PublishSubject<Void> { get }
     
     // MARK: - Outputs
 
-    var collectionDataSource: Observable<[UserInfo]> { get }
+    var collectionDataSource: Driver<[SectionModel<String, UserInfo>]> { get }
     var businessName: String { get }
     var businessImageURL: NSURL? { get }
     var city: String { get }

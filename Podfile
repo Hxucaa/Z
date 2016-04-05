@@ -18,6 +18,7 @@ target 'XListing' do
   pod 'RxCocoa', '~> 2.3.1'
   pod 'RxBlocking', '~> 2.3.1'
   pod 'RxDataSources', '~> 0.6.2'
+  pod 'RxOptional', '~> 2.0.0'
   pod 'ActionSheetPicker-3.0', '~> 2.0.3'
   pod 'XLActionController', '~> 2.0.0'
   pod 'XLActionController/Tweetbot'
