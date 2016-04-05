@@ -13,8 +13,6 @@ import RxDataSources
 
 final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, ViewModelInjectable {
     
-    // MARK: - Inputs
-    
     // MARK: - Outputs
     let collectionDataSource: Driver<[SectionModel<String, BusinessInfo>]>
     
@@ -65,7 +63,7 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
             .addDisposableTo(disposeBag)
     }
     
-    // MARK: - API
+    // MARK: - Helper
     
     
 }

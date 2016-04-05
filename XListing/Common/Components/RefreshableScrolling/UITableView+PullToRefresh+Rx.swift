@@ -28,6 +28,10 @@ private func lazyPublishSubject<T>(host: AnyObject, key: UnsafePointer<Void>) ->
     }
 }
 
+private func assertPullToRefreshEnabled(tableView: UITableView) {
+    assert(tableView.ins_pullToRefreshBackgroundView.delegate != nil, "You must enable Pull To Refresh on table view by calling `enablePullToRefresh`, before it is being reloaded.")
+}
+
 extension UITableView {
     public func enablePullToRefresh(height: CGFloat = PullToRefreshHeight) {
         ins_addPullToRefreshWithHeight(PullToRefreshHeight) { [unowned self] scrollView -> Void in
@@ -44,10 +48,12 @@ extension UITableView {
     }
     
     public func endRefresh() {
+        assertPullToRefreshEnabled(self)
         ins_endPullToRefresh()
     }
     
     public func removePullToRefresh() {
+        assertPullToRefreshEnabled(self)
         ins_removePullToRefresh()
     }
 }
@@ -63,6 +69,7 @@ extension UITableView {
     /// Inform pull to refresh to stop the animation.
     public var rx_endRefresh: AnyObserver<Void> {
         return UIBindingObserver(UIElement: self) {
+            assertPullToRefreshEnabled($0.0)
             $0.0.ins_endPullToRefresh()
         }.asObserver()
     }
@@ -87,7 +94,7 @@ public class RxTableViewSectionedRefreshAndReloadDataSource<S: SectionModelType>
     
     public override func tableView(tableView: UITableView, observedEvent: RxSwift.Event<Element>) {
         UIBindingObserver(UIElement: self) { dataSource, element in
-            assert(tableView.ins_pullToRefreshBackgroundView.delegate != nil, "You must enable Pull To Refresh on table view by calling `enablePullToRefresh`, before it is being reloaded.")
+            assertPullToRefreshEnabled(tableView)
             dataSource.setSections(element)
             tableView.reloadData()
             tableView.ins_endPullToRefresh()
