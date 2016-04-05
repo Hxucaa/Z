@@ -16,7 +16,7 @@ import INSPullToRefresh
 private let CellIdentifier = "FeaturedListBusinessTableViewCell"
 
 final class FeaturedListViewController: XUIViewController, UITableViewDelegate, ScrollingNavigationControllerDelegate {
-    typealias InputViewModel = (modelSelected: Driver<BusinessInfo>, refreshTrigger: Driver<Void>, fetchMoreTrigger: Observable<Void>) -> IFeaturedListViewModel
+    typealias InputViewModel = (modelSelected: Driver<BusinessInfo>, refreshTrigger: Observable<Void>, fetchMoreTrigger: FetchMoreTrigger) -> IFeaturedListViewModel
     
     // MARK: - UI Controls
     private lazy var tableView: UITableView = {
@@ -36,11 +36,11 @@ final class FeaturedListViewController: XUIViewController, UITableViewDelegate, 
         return tableView
     }()
     
-    private let dataSource = RxTableViewSectionedRefreshAndReloadDataSource<SectionModel<String, BusinessInfo>>()
-    
+    private let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, FeaturedListCellData>>()
     
     // MARK: - Properties
     private var inputViewModel: InputViewModel!
+    private var viewmodel: IFeaturedListViewModel!
     private var scrollingNavControll: ScrollingNavigationController? {
         return navigationController as? ScrollingNavigationController
     }
@@ -63,9 +63,9 @@ final class FeaturedListViewController: XUIViewController, UITableViewDelegate, 
         
         view.addSubview(tableView)
         
-        dataSource.configureCell = { (_, tv, ip, info) in
+        dataSource.configureCell = { (_, tv, ip, cellData) in
             let cell = tv.dequeueReusableCellWithIdentifier(CellIdentifier) as! FeaturedListBusinessTableViewCell
-            cell.bindToCellData(info)
+            cell.bindToCellData(cellData)
             
             return cell
         }
@@ -75,7 +75,7 @@ final class FeaturedListViewController: XUIViewController, UITableViewDelegate, 
         
         
         // initialize view model
-        let viewmodel = inputViewModel(
+        viewmodel = inputViewModel(
             // the model which backs the cell that is being tapped
             modelSelected: tableView.rx_modelSelected(BusinessInfo).asDriver(),
             // refresh the collection data

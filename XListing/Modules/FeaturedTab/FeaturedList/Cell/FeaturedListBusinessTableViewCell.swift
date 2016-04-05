@@ -194,8 +194,10 @@ final class FeaturedListBusinessTableViewCell : UITableViewCell {
     }
     
     // MARK: Bindings
-    func bindToCellData(businessInfo: BusinessInfo) {
-        businessImageView.pin_setImageFromURL(businessInfo.coverImageUrl)
-        
+    func bindToCellData(data: FeaturedListCellData) {
+        businessImageView.pin_setImageFromURL(data.businessInfo.coverImageUrl)
+        // TODO: placeholder
+        infoPanelView.bindToData(data.businessInfo.name, location: data.businessInfo.city, price: "$30", eta: data.eta)
+        participationView.bindToData(data.participantsPreview)
     }
 }

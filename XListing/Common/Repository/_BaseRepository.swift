@@ -28,6 +28,13 @@ public class _BaseRepository {
         return dao.rx_save()
     }
     
+    func find<DAO: AVObject>(query: TypedAVQuery<DAO>) -> Observable<[DAO]> {
+        return query.rx_findObjects()
+            .retry(3)
+            .trackActivity(activityIndicator)
+            .observeOn(schedulers.background)
+    }
+    
     func findWithPagination<DAO: AVObject>(query: TypedAVQuery<DAO>, findMoreTrigger: Observable<Void>) -> Observable<[DAO]> {
         
         // TODO: Inject a globally configurable value
@@ -54,7 +61,7 @@ public class _BaseRepository {
                 
                 return [
                     Observable.just(fetched),
-                    Observable.never().takeUntil(findMoreTrigger),
+                    Observable.never().takeUntil(findMoreTrigger.debug("find more in repo")).debug("stopper"),
                     self.recursivelyFind(query, fetchedSoFar: fetched, findMoreTrigger: findMoreTrigger)
                 ].concat()
         }

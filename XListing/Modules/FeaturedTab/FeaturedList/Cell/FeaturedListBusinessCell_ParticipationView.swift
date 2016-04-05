@@ -282,7 +282,7 @@ final class FeaturedListBusinessCell_ParticipationView : UIView {
     
     // MARK: - Bindings
     
-    func bindToCellData(businessInfo: BusinessInfo) {
+    func bindToData(userInfo: [UserInfo] ) {
         
 //        treatTapGesture.rac_enabled <~ viewmodel.isButtonEnabled
 //        wtgTapGesture.rac_enabled <~ viewmodel.isButtonEnabled

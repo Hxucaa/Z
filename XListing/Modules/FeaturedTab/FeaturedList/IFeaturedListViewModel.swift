@@ -14,5 +14,5 @@ import RxDataSources
 protocol IFeaturedListViewModel {
     
     // MARK: - Outputs
-    var collectionDataSource: Driver<[SectionModel<String, BusinessInfo>]> { get }
+    var collectionDataSource: Driver<[SectionModel<String, FeaturedListCellData>]> { get }
 }

@@ -47,3 +47,10 @@ func undefined<T>(hint: String="", file: StaticString=#file, line: UInt=#line) -
     let message = hint == "" ? "" : ": \(hint)"
     fatalError("undefined \(T.self)\(message)", file:file, line:line)
 }
+
+
+extension Array {
+    static var empty: Array<Element> {
+        return [Element]()
+    }
+}

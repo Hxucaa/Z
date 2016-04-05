@@ -11,10 +11,21 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
+struct FeaturedListCellData {
+    let businessInfo: BusinessInfo
+    let participantsPreview: [UserInfo]
+    let eta: Driver<String>
+}
+
 final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, ViewModelInjectable {
-    
+        
     // MARK: - Outputs
-    let collectionDataSource: Driver<[SectionModel<String, BusinessInfo>]>
+    var collectionDataSource: Driver<[SectionModel<String, FeaturedListCellData>]> {
+        return _collectionDataSource
+    }
+    private var _collectionDataSource: Driver<[SectionModel<String, FeaturedListCellData>]>!
+    typealias ParticipantsPreview = [User]
+    typealias BusinessWithParticipantsPreview = (Business, ParticipantsPreview)
     
     // MARK: - Properties
     // MARK: Services
@@ -29,7 +40,7 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
     
     typealias Token = Void
     
-    typealias Input = (modelSelected: Driver<BusinessInfo>, refreshTrigger: RefreshTrigger, fetchMoreTrigger: FetchMoreTrigger)
+    typealias Input = (modelSelected: Driver<BusinessInfo>, refreshTrigger: Observable<Void>, fetchMoreTrigger: FetchMoreTrigger)
     
     init(dep: Dependency, token: Token, input: Input) {
         
@@ -38,22 +49,46 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
         geoLocationService = dep.geoLocationService
         userDefaultsService = dep.userDefaultsService
         
-        collectionDataSource = input.refreshTrigger
-            .flatMapLatest { op -> Driver<[Business]> in
-                dep.businessRepository.findByCurrentLocation(input.fetchMoreTrigger)
-                    .asDriver {
-                        // FIXME: This is possibly a crash. maybe implement like ActivityIndicator???
-                        dep.router.presentError($0 as! NetworkError)
-                        return Driver.just([Business]())
-                    }
+        super.init(router: dep.router)
+        
+        _collectionDataSource = input.refreshTrigger
+            .flatMapLatest { [unowned self] _ -> Observable<[Business]> in
+                dep.businessRepository.findByCurrentLocation(input.fetchMoreTrigger.skipUntil(self.collectionDataSource.asObservable()))
             }
-            .map { data in
-                let tdata = data.map { BusinessInfo(business: $0) }
+            .flatMap { result -> Observable<[BusinessWithParticipantsPreview]> in
+                result.map { bus in
+                    dep.userRepository.findAPreviewOfParticipants(bus)
+                        .map { (bus, $0) }
+                    }
+                    .zip { $0 }
+            }
+            .map { data -> [SectionModel<String, FeaturedListCellData>] in
+                
+                let tdata = data.map { (business: Business, participantsPreview: [User]) -> FeaturedListCellData in
+                    let participantsInfo = participantsPreview.map { UserInfo(user: $0 ) }
+                    let businessInfo = BusinessInfo(business: business)
+                    
+                    
+                    
+                    return FeaturedListCellData(
+                        businessInfo: businessInfo,
+                        participantsPreview: participantsInfo,
+                        eta: dep.geoLocationService.calculateETA(business.address.geoLocation.cllocation)
+                            .map { interval -> String in
+                                let minute = Int(ceil(interval / 60))
+                                return "\(minute)分钟"
+                            }
+                            .asDriver(onErrorJustReturn: "")
+                    )
+                }
+                
                 let sections = [SectionModel(model: "BusinessInfo", items: tdata)]
+                
                 return sections
             }
-        
-        super.init(router: dep.router)
+            // FIXME: This is possibly a crash. maybe implement like ActivityIndicator???
+            //                dep.router.presentError($0 as! NetworkError)
+            .asDriver(onErrorJustReturn: Array<SectionModel<String, FeaturedListCellData>>.empty)
         
         input.modelSelected
             .driveNext {
@@ -62,7 +97,9 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
             .addDisposableTo(disposeBag)
         
         
-        dep.businessRepository.activityIndicator
+        [dep.businessRepository.activityIndicator, dep.userRepository.activityIndicator]
+            .combineLatest { $0.reduce(true) { $0 || $1 } }
+            .distinctUntilChanged()
             .drive(UIApplication.sharedApplication().rx_networkActivityIndicatorVisible)
             .addDisposableTo(disposeBag)
     }

@@ -79,9 +79,8 @@ extension UITableView {
     
     /// Prepends a notification to `startRefresh`.
     /// This is used to start an initial load as soon as the page is loaded.
-    public var rx_startWithRefreshTrigger: Driver<Void> {
+    public var rx_startWithRefreshTrigger: Observable<Void> {
         return rx_refreshTrigger
-            .asDriver(onErrorJustReturn: ())
             // initial load of data as view controller is being displayed
             .startWith(())
     }
