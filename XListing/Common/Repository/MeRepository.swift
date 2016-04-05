@@ -11,7 +11,7 @@ import ReactiveCocoa
 import RxSwift
 import AVOSCloud
 
-public protocol IMeRepository {
+public protocol IMeRepository : IBaseRepository {
     
 //    func findHoldingAndAttendingEvents() -> SignalProducer<[Event], NetworkError>
     /**

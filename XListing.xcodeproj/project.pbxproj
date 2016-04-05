@@ -56,6 +56,7 @@
 		7E5336CB1CACEECD003617FA /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5336CA1CACEECD003617FA /* Alert.swift */; };
 		7E5336CE1CAE39EA003617FA /* Alert+ReactiveCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5336CD1CAE39EA003617FA /* Alert+ReactiveCocoa.swift */; };
 		7E5663401CB3179900501F0C /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E56633F1CB3179900501F0C /* ActivityIndicator.swift */; };
+		7E5663461CB3434E00501F0C /* UIApplication+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5663451CB3434E00501F0C /* UIApplication+Rx.swift */; };
 		7E64E3F21CA0D7C900E36B50 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E64E3F11CA0D7C900E36B50 /* NetworkError.swift */; };
 		7E64E3F41CA11D7E00E36B50 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E64E3F31CA11D7E00E36B50 /* UserRepository.swift */; };
 		7E64E3F61CA11D8A00E36B50 /* MeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E64E3F51CA11D8A00E36B50 /* MeRepository.swift */; };
@@ -323,6 +324,7 @@
 		7E5336CA1CACEECD003617FA /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		7E5336CD1CAE39EA003617FA /* Alert+ReactiveCocoa.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alert+ReactiveCocoa.swift"; sourceTree = "<group>"; };
 		7E56633F1CB3179900501F0C /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		7E5663451CB3434E00501F0C /* UIApplication+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+Rx.swift"; sourceTree = "<group>"; };
 		7E64E3F11CA0D7C900E36B50 /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		7E64E3F31CA11D7E00E36B50 /* UserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		7E64E3F51CA11D8A00E36B50 /* MeRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeRepository.swift; sourceTree = "<group>"; };
@@ -728,6 +730,7 @@
 			isa = PBXGroup;
 			children = (
 				7E56633F1CB3179900501F0C /* ActivityIndicator.swift */,
+				7E5663451CB3434E00501F0C /* UIApplication+Rx.swift */,
 			);
 			path = ActivityIndicator;
 			sourceTree = "<group>";
@@ -1792,6 +1795,7 @@
 				B4ECBE241B7410A800234217 /* GenderPickerViewModel.swift in Sources */,
 				B4307F4B1B7BE47A00E3D41B /* LogInViewController.swift in Sources */,
 				B4F1958B1B2938FC00B8C519 /* HUD.swift in Sources */,
+				7E5663461CB3434E00501F0C /* UIApplication+Rx.swift in Sources */,
 				B427B3701BC5C4CD008A9F19 /* ProfileBottomViewController.swift in Sources */,
 				B427B3741BC5C4EF008A9F19 /* ProfileBottomViewModel.swift in Sources */,
 				7E68640D1C9E380700EA434D /* Business.swift in Sources */,

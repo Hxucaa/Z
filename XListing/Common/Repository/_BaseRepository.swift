@@ -10,9 +10,13 @@ import Foundation
 import RxSwift
 import AVOSCloud
 
+public protocol IBaseRepository {
+    var activityIndicator: ActivityIndicator { get }
+}
+
 public class _BaseRepository {
     
-    let activityIndicator: ActivityIndicator
+    public let activityIndicator: ActivityIndicator
     let schedulers: IWorkSchedulers
     
     init(activityIndicator: ActivityIndicator, schedulers: IWorkSchedulers) {

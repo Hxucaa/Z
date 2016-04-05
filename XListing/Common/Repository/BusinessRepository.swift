@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import AVOSCloud
 
-public protocol IBusinessRepository {
+public protocol IBusinessRepository : IBaseRepository {
 //    func startEvent(business: Business) -> Observable
 //    func cancelEvent(business: Business) -> Observable
 //    func completeEvent(business: Business) -> Observable

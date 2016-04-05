@@ -8,8 +8,6 @@
 
 import Foundation
 import Swinject
-import ReactiveCocoa
-import Result
 
 // TODO: Clean up this message. Possibly use Enum in place of function calls. Also somehow tie router with dependency injection?? Should also look into libraries that handle routing.
 

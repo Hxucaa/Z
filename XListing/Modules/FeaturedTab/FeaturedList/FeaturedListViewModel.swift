@@ -42,7 +42,7 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
             .flatMapLatest { op -> Driver<[Business]> in
                 dep.businessRepository.findByCurrentLocation(input.fetchMoreTrigger)
                     .asDriver {
-                        // FIXME: This is possibly a crash
+                        // FIXME: This is possibly a crash. maybe implement like ActivityIndicator???
                         dep.router.presentError($0 as! NetworkError)
                         return Driver.just([Business]())
                     }
@@ -53,13 +53,17 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
                 return sections
             }
         
-        
         super.init(router: dep.router)
         
         input.modelSelected
             .driveNext {
                 dep.router.toSoclaBusiness($0)
             }
+            .addDisposableTo(disposeBag)
+        
+        
+        dep.businessRepository.activityIndicator
+            .drive(UIApplication.sharedApplication().rx_networkActivityIndicatorVisible)
             .addDisposableTo(disposeBag)
     }
     

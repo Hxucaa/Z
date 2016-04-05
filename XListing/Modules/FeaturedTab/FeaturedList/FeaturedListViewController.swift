@@ -47,12 +47,6 @@ final class FeaturedListViewController: XUIViewController, UITableViewDelegate, 
     
     // MARK: - Life Cycle
     
-    private static let startLoadingOffset: CGFloat = 20.0
-    
-    private static func isNearTheBottomEdge(contentOffset: CGPoint, _ tableView: UITableView) -> Bool {
-        return contentOffset.y + tableView.frame.size.height + startLoadingOffset > tableView.contentSize.height
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

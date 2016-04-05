@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import AVOSCloud
 
-public protocol IUserRepository {
+public protocol IUserRepository : IBaseRepository {
     func findByParticipatingBusiness(businessId: String, fetchMoreTrigger: Observable<Void>) -> Observable<[User]>
 }
 
