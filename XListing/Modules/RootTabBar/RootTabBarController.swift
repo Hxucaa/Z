@@ -8,7 +8,9 @@
 
 import Foundation
 import UIKit
-import ReactiveCocoa
+//import ReactiveCocoa
+import RxSwift
+import RxOptional
 
 final class RootTabBarController : UITabBarController, UITabBarControllerDelegate {
     
@@ -17,7 +19,8 @@ final class RootTabBarController : UITabBarController, UITabBarControllerDelegat
     var meRepository: IMeRepository!
     weak var router: IRouter!
     
-    private weak var activeNavigationController: UINavigationController?
+    private let disposeBag = DisposeBag()
+//    private weak var activeNavigationController: UINavigationController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,18 +29,24 @@ final class RootTabBarController : UITabBarController, UITabBarControllerDelegat
         tabBar.translucent = false
         delegate = self
         
-        DynamicProperty(object: self, keyPath: "selectedViewController").producer
-            .ignoreNil()
-            .map { $0 as! UIViewController }
-            .startWithNext { [unowned self] in
-                if let f = self.selectedViewControllerCallback {
-                    f($0)
-                }
-            }
+        self.rx_observe(UIViewController.self, "selectedViewController").asObservable()
+            .filterNil()
+            .subscribeNext { self.selectedViewControllerCallback?($0) }
+            .addDisposableTo(disposeBag)
+//        DynamicProperty(object: self, keyPath: "selectedViewController").producer
+//            .ignoreNil()
+//            .map { $0 as! UIViewController }
+//            .startWithNext { [unowned self] in
+//                if let f = self.selectedViewControllerCallback {
+//                    f($0)
+//                }
+//            }
         
     }
     
     func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+        
+        // FIXME: enable the code below
 //        if viewController is ProfileTabNavigationController {
 //            // if user is logged in already, continue on
 //            if let me = meRepository.me() {
@@ -46,18 +55,18 @@ final class RootTabBarController : UITabBarController, UITabBarControllerDelegat
 //                // else make the user log in / sign up first
 //            else {
 //                router.accountFinishedCallback = { [weak self] in
-//                    if let me = meRepository.me() {
+//                    if let me = self?.meRepository.me() {
 //                        self?.selectedViewController = viewController
 //                    }
 //                }
-//                presentViewController(accountWireframe.rootViewController, animated: true, completion: nil)
+//                router.presentAccountOnTabView(nil)
 //                return false
 //            }
 //        }
-        if let nav = viewController as? FeaturedTabNavigationController {
-            activeNavigationController = nav
-            return true
-        }
+//        if let nav = viewController as? FeaturedTabNavigationController {
+//            activeNavigationController = nav
+//            return true
+//        }
         
         return true
     }

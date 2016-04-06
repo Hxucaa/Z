@@ -1,83 +1,87 @@
-////
-//// ProfileViewModel.swift
-//// XListing
-////
-//// Created by Lance Zhu on 15-05-06.
-//// Copyright (c) 2015 ZenChat. All rights reserved.
-////
 //
-//import Foundation
-//import ReactiveCocoa
-//import AVOSCloud
+// ProfileViewModel.swift
+// XListing
 //
-//public protocol ProfileNavigator : class {
-//    func pushSocialBusiness(business: Business, animated: Bool)
-//    func presentProfileEdit(animated: Bool, completion: CompletionHandler?)
-//    func presentFullScreenImage(animated: Bool, completion: CompletionHandler?)
-//}
+// Created by Lance Zhu on 15-05-06.
+// Copyright (c) 2015 ZenChat. All rights reserved.
 //
-//public final class ProfileViewModel : IProfileViewModel {
-//
-//    // MARK: - Inputs
-//
-//    // MARK: - Outputs
-//    
-//    // MARK: - Properties
-//    // MARK: Services
-//    private let businessService: IBusinessService
-//    private let participationService: IParticipationService
-//    private let meService: IMeService
-//    private let geoLocationService: IGeoLocationService
-//    private let userDefaultsService: IUserDefaultsService
-//    private let imageService: IImageService
-//    
-//    // MARK: ViewModels
-//    public let profileUpperViewModel: IProfileUpperViewModel
-//    public let profileBottomViewModel: IProfileBottomViewModel
-//
-//    // MARK: Variables
-//    public weak var navigator: ProfileNavigator? {
-//        didSet {
-//            profileBottomViewModel.navigator = navigator
-//        }
-//    }
-//    
-//    // MARK: - Initializers
-//    
-//    public init(participationService: IParticipationService, businessService: IBusinessService, meService: IMeService, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService, imageService: IImageService) {
-//        
-//        self.participationService = participationService
-//        self.businessService = businessService
-//        self.meService = meService
-//        self.geoLocationService = geoLocationService
-//        self.userDefaultsService = userDefaultsService
-//        self.imageService = imageService
-//        
-//        profileUpperViewModel = ProfileUpperViewModel(meService: meService, imageService: imageService)
+
+import Foundation
+import RxSwift
+import RxCocoa
+import RxOptional
+
+final class ProfileViewModel : _BaseViewModel, IProfileViewModel, ViewModelInjectable {
+
+    // MARK: - Inputs
+
+    // MARK: - Outputs
+    var nickname: String? {
+        return myInfo?.nickname
+    }
+    var horoscope: Horoscope? {
+        return myInfo?.horoscope
+    }
+    var ageGroup: AgeGroup? {
+        return myInfo?.ageGroup
+    }
+    var gender: Gender? {
+        return myInfo?.gender
+    }
+    var whatsUp: String? {
+        return myInfo?.whatsUp
+    }
+    var coverPhotoURL: NSURL? {
+        return myInfo?.coverPhotoURL
+    }
+    let myInfo: MyInfo?
+    
+    // MARK: - Properties
+    // MARK: Services
+    private let businessRepository: IBusinessRepository
+    private let meRepository: IMeRepository
+    private let geoLocationService: IGeoLocationService
+    private let userDefaultsService: IUserDefaultsService
+    
+//    let profileBottomViewModel: IProfileBottomViewModel
+
+    // MARK: Variables
+    
+    
+    // MARK: - Initializers
+    typealias Dependency = (router: IRouter, businessRepository: IBusinessRepository, meRepository: IMeRepository, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService)
+    typealias Token = Void
+    typealias Input = Void
+    
+    init(dep: Dependency, token: Token, input: Input) {
+        
+        self.businessRepository = dep.businessRepository
+        self.meRepository = dep.meRepository
+        self.geoLocationService = dep.geoLocationService
+        self.userDefaultsService = dep.userDefaultsService
+        
+        myInfo = dep.meRepository.me().map(MyInfo.init)
+        
+//        meRepository.
+        
+        super.init(router: dep.router)
+        
 //        profileBottomViewModel = ProfileBottomViewModel(participationService: participationService, businessService: businessService, meService: meService, geoLocationService: geoLocationService, imageService: imageService)
-//    }
-//
-//    // MARK: - API
-//
-//    public func pushSocialBusinessModule(business: Business, animated: Bool) {
+    }
+
+    // MARK: - API
+
+    func pushSocialBusinessModule() {
 //        if let nav = navigator {
 //            nav.pushSocialBusiness(business, animated: animated)
 //        }
-//    }
-//
-//    public func presentProfileEditModule(animated: Bool, completion: CompletionHandler? = nil) {
+    }
+
+    func presentProfileEditModule() {
 //        if meService.isLoggedInAlready() {
 //            if let nav = navigator {
 //                nav.presentProfileEdit(animated, completion: completion)
 //            }
 //        }
-//    }
-//    
-//    public func presentFullScreenImageModule(animated: Bool, completion: CompletionHandler? = nil) {
-//        if let nav = navigator {
-//            nav.presentFullScreenImage(animated, completion: completion)
-//        }
-//    }
-//
-//
-//}
+    }
+}

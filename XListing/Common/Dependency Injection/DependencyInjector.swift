@@ -8,7 +8,7 @@
 
 import Foundation
 import Swinject
-import ReactiveCocoa
+import Curry
 
 enum ComponentDefinition {
     case SocialBusiness(SocialBusinessViewModel.Token)
@@ -33,7 +33,8 @@ class DependencyInjector {
                 ServiceAssembly(),
                 AccountAssembly(),
                 FeaturedAssembly(),
-                SocialBusinessAssembly()
+                SocialBusinessAssembly(),
+                ProfileAssembly()
             ]
         )
     }
@@ -118,6 +119,7 @@ class MainAssembly : AssemblyType {
                 r.rootTabBar = $0.resolve(RootTabBarController.self)!
                 r.featuredTab = $0.resolve(FeaturedTabNavigationController.self)!
                 r.accountNavgationController = $0.resolve(AccountNavigationController.self)!
+                r.profileTab = $0.resolve(ProfileTabNavigationController.self)!
                 r.alert = $0.resolve(IAlert.self)!
             }
             .inObjectScope(ObjectScope.Hierarchy)
@@ -140,7 +142,9 @@ class RootAssembly : AssemblyType {
         container
             .register(RootTabBarController.self) { _ in RootTabBarController() }
             .initCompleted {
-                $1.setViewControllers([$0.resolve(FeaturedTabNavigationController.self)!], animated: false)
+                $1.setViewControllers([$0.resolve(FeaturedTabNavigationController.self)!, $0.resolve(ProfileTabNavigationController.self)!], animated: false)
+                $1.meRepository = $0.resolve(IMeRepository.self)!
+                $1.router = $0.resolve(IRouter.self)!
             }
             .inObjectScope(ObjectScope.Hierarchy)
     }
@@ -171,6 +175,41 @@ class FeaturedAssembly : AssemblyType {
                     router: $0.resolve(IRouter.self)!,
                     businessRepository: $0.resolve(IBusinessRepository.self)!,
                     userRepository: $0.resolve(IUserRepository.self)!,
+                    geoLocationService: $0.resolve(IGeoLocationService.self)!,
+                    userDefaultsService: $0.resolve(IUserDefaultsService.self)!
+                ))(())
+                
+                return inputVM
+            }
+            .inObjectScope(.Hierarchy)
+    }
+}
+
+class ProfileAssembly : AssemblyType {
+    func assemble(container: Container) {
+        
+        // navigation
+        container
+            .register(ProfileTabNavigationController.self) {
+                ProfileTabNavigationController(rootViewController: $0.resolve(ProfileViewController.self)!)
+            }
+            .inObjectScope(.Hierarchy)
+        
+        container
+            .register(ProfileViewController.self) { _ in ProfileViewController() }
+            .initCompleted {
+                $1.bindToViewModel($0.resolve(ProfileViewController.InputViewModel.self)!)
+            }
+            .inObjectScope(ObjectScope.Hierarchy)
+        
+        
+        container
+            .register(ProfileViewController.InputViewModel.self) {
+                
+                let inputVM = ProfileViewModel.inject((
+                    router: $0.resolve(IRouter.self)!,
+                    businessRepository: $0.resolve(IBusinessRepository.self)!,
+                    meRepository: $0.resolve(IMeRepository.self)!,
                     geoLocationService: $0.resolve(IGeoLocationService.self)!,
                     userDefaultsService: $0.resolve(IUserDefaultsService.self)!
                 ))(())

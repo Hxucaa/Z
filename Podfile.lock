@@ -12,6 +12,7 @@ PODS:
     - CocoaLumberjack/Default
   - CocoaLumberjack/Swift (2.2.0):
     - CocoaLumberjack/Extensions
+  - Curry (2.1.0)
   - Dollar (5.0.0)
   - Eureka (1.5.0)
   - FLAnimatedImage (1.0.12)
@@ -79,6 +80,7 @@ DEPENDENCIES:
   - AVOSCloudDynamic (~> 3.1)
   - Cartography (~> 0.6.0)
   - CocoaLumberjack/Swift (~> 2.2.0)
+  - Curry (from `https://github.com/thoughtbot/Curry.git`, tag `v2.1.0`)
   - Dollar (~> 5.0.0)
   - Eureka (~> 1.5.0)
   - FLEX (~> 2.0)
@@ -107,6 +109,9 @@ DEPENDENCIES:
   - XLActionController/Tweetbot
 
 EXTERNAL SOURCES:
+  Curry:
+    :git: https://github.com/thoughtbot/Curry.git
+    :tag: v2.1.0
   ReactiveArray:
     :git: https://github.com/Hxucaa/ReactiveArray.git
     :tag: 0.3.0
@@ -119,6 +124,9 @@ EXTERNAL SOURCES:
     :tag: 0.7.0
 
 CHECKOUT OPTIONS:
+  Curry:
+    :git: https://github.com/thoughtbot/Curry.git
+    :tag: v2.1.0
   ReactiveArray:
     :git: https://github.com/Hxucaa/ReactiveArray.git
     :tag: 0.3.0
@@ -139,6 +147,7 @@ SPEC CHECKSUMS:
   AVOSCloudDynamic: 1a64ed78c897be98d54d75fd4c8cff0a21e9eeb6
   Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
+  Curry: 33a0be263504a2bff75d0b3f7e9014ca28a39bbd
   Dollar: 310893dd6b3799b9b155e3deb61a0492987e4d03
   Eureka: 2fb37bb50569c62ee3284689d5b7aca694b040e0
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
@@ -168,6 +177,6 @@ SPEC CHECKSUMS:
   XAssets: 205ee4a8cb11f99918f031aa9cb27e27e42b783f
   XLActionController: 97ed31237413db4d9401c6a559270f4d2b4de136
 
-PODFILE CHECKSUM: b0e1bae547221633f0eb1f8cf42e354ee2e4ca9f
+PODFILE CHECKSUM: c184cab91a7c1108fb3d3c71f23f8b886ae3378d
 
 COCOAPODS: 1.0.0.beta.6

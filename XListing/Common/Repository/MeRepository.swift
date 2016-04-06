@@ -153,4 +153,5 @@ public final class MeRepository : _BaseRepository, IMeRepository {
         return UserDAO.rx_logInWithUsername(username, password: password)
             .mapToMeModel()
     }
+    
 }

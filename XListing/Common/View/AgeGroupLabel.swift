@@ -36,4 +36,13 @@ public final class AgeGroupLabel : TTTAttributedLabel {
         super.init(coder: aDecoder)
     }
     
+    public func bindToData(ageGroup: AgeGroup, gender: Gender) {
+        text = ageGroup.description
+        switch gender {
+        case .Male:
+            backgroundColor = .blueColor()
+        case .Female:
+            backgroundColor = .redColor()
+        }
+    }
 }

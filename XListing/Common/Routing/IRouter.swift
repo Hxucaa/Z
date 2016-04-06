@@ -32,6 +32,9 @@ protocol IRouter : class {
     
     func skipAccount()
     
+    func presentAccountOnTabView(completion: (() -> ())?)
+    
+    var accountFinishedCallback: (() -> ())? { get set }
     func finishModule(callback: (CompletionHandler? -> ())?)
     
     /**

@@ -23,7 +23,7 @@ class Router : IRouter {
     }
     var featuredTab: FeaturedTabNavigationController!
     var accountNavgationController: AccountNavigationController!
-    //    private var profileTab: ProfileTabNavigationController
+    var profileTab: ProfileTabNavigationController!
     
     private var activeNav: UINavigationController!
     private weak var currentActiveViewController: UIViewController?
@@ -89,6 +89,10 @@ class Router : IRouter {
         else {
             startTabBarApplication()
         }
+    }
+    
+    func presentAccountOnTabView(completion: (() -> ())?) {
+        rootTabBar.presentViewController(accountNavgationController, animated: true, completion: completion)
     }
     
     var accountFinishedCallback: (() -> ())?

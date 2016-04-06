@@ -108,35 +108,6 @@ final class SocialBusinessViewController : XUIViewController {
         // TODO: start event
         utilityHeaderView.startEvent
         
-    }
-    
-    private func setupViews() {
-        view.addSubview(tableView)
-        view.addSubview(backButton)
-        
-        constrain(tableView) { view in
-            view.top == view.superview!.top - 20
-            view.trailing == view.superview!.trailing
-            view.bottom == view.superview!.bottom
-            view.leading == view.superview!.leading
-        }
-        
-        constrain(backButton) { view in
-            view.top == view.superview!.topMargin + 12
-            view.leading == view.superview!.leading
-        }
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        // Use followScrollView(_: delay:) to start following the scrolling of a scrollable view (e.g.: a UIScrollView or UITableView).
-        let navigationController = self.navigationController as? ScrollingNavigationController
-        navigationController?.followScrollView(tableView, delay: 50.0)
-
-        utilityHeaderView.setDetailInfoButtonStyleRegular()
-        
-        
         viewmodel.collectionDataSource
             .drive(tableView.rx_itemsWithDataSource(dataSource))
             .addDisposableTo(disposeBag)
@@ -158,6 +129,34 @@ final class SocialBusinessViewController : XUIViewController {
                 }
             }
             .addDisposableTo(disposeBag)
+    }
+    
+    private func setupViews() {
+        view.addSubview(tableView)
+        view.addSubview(backButton)
+        
+        utilityHeaderView.setDetailInfoButtonStyleRegular()
+        
+        constrain(tableView) { view in
+            view.top == view.superview!.top - 20
+            view.trailing == view.superview!.trailing
+            view.bottom == view.superview!.bottom
+            view.leading == view.superview!.leading
+        }
+        
+        constrain(backButton) { view in
+            view.top == view.superview!.topMargin + 12
+            view.leading == view.superview!.leading
+        }
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // Use followScrollView(_: delay:) to start following the scrolling of a scrollable view (e.g.: a UIScrollView or UITableView).
+        let navigationController = self.navigationController as? ScrollingNavigationController
+        navigationController?.followScrollView(tableView, delay: 50.0)
+
     }
 
     override func viewDidAppear(animated: Bool) {
