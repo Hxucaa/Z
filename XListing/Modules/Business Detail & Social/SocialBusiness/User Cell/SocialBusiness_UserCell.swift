@@ -180,7 +180,7 @@ final class SocialBusiness_UserCell : UITableViewCell {
         
         nicknameLabel.text = cellData.nickname
         // FIXME: placeholder
-        participationTypeLabel.text = "wtf"
+        participationTypeLabel.text = "hi hi hi"
         ageGroupLabel.text = cellData.ageGroup.description
         horoscopeLabel.text = cellData.horoscope.description
         statusLabel.text = cellData.whatsUp

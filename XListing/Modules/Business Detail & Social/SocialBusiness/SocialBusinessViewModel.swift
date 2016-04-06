@@ -72,7 +72,7 @@ final class SocialBusinessViewModel : _BaseViewModel, ISocialBusinessViewModel, 
     
     typealias Token = (BusinessInfo)
     
-    typealias Input = (navigateBack:  Observable<Void>, navigateToDetailPage: Observable<Void>, userInfoSelected: ControlEvent<UserInfo>, refreshTrigger: RefreshTrigger, fetchMoreTrigger: FetchMoreTrigger)
+    typealias Input = (navigateBack:  Observable<Void>, navigateToDetailPage: Observable<Void>, userInfoSelected: ControlEvent<UserInfo>, refreshTrigger: RefreshTrigger)
     
     init(dep: Dependency, token: Token, input: Input) {
         

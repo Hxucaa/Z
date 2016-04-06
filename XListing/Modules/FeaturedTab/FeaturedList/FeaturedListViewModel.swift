@@ -43,7 +43,7 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
     
     typealias Token = Void
     
-    typealias Input = (modelSelected: Driver<FeaturedListCellData>, refreshTrigger: RefreshTrigger)
+    typealias Input = (modelSelected: Driver<FeaturedListCellData>, refreshTrigger: Observable<Void>)
     
     init(dep: Dependency, token: Token, input: Input) {
         
@@ -57,7 +57,6 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
         _collectionDataSource = input.refreshTrigger
             .flatMapLatest { [unowned self] _ -> Observable<[Business]> in
                 dep.businessRepository.findByCurrentLocation(self.fetchMoreTrigger.asObserver())
-                .debug("Featured")
             }
             .flatMap { result -> Observable<[BusinessWithParticipantsPreview]> in
                 result.map { bus in
