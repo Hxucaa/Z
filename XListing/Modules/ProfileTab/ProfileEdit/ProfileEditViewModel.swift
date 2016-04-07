@@ -1,83 +1,89 @@
-////
-////  ProfileEditViewModel.swift
-////  XListing
-////
-////  Created by Lance Zhu on 2016-02-07.
-////  Copyright (c) 2015 ZenChat. All rights reserved.
-////
 //
-//import Foundation
-//import ReactiveCocoa
-//import AVOSCloud
-//import Swiftz
+//  ProfileEditViewModel.swift
+//  XListing
 //
-//// TODO: Make a new abstraction "Form", which is responsible for registering fields and managing their state.
+//  Created by Lance Zhu on 2016-02-07.
+//  Copyright (c) 2015 ZenChat. All rights reserved.
 //
-//public final class ProfileEditViewModel {
-//    
-//    // MARK: - Fields
-//    private let _nicknameField = MutableProperty<RequiredFormField<String>?>(nil)
-//    public var nicknameField: AnyProperty<RequiredFormField<String>?> {
-//        return AnyProperty(_nicknameField)
-//    }
-//    private let _whatsUpField = MutableProperty<OptionalFormField<String>?>(nil)
-//    public var whatsUpField: AnyProperty<OptionalFormField<String>?> {
-//        return AnyProperty(_whatsUpField)
-//    }
-//    private let _profileImageField = MutableProperty<RequiredFormField<UIImage>?>(nil)
-//    public var profileImageField: AnyProperty<RequiredFormField<UIImage>?> {
-//        return AnyProperty(_profileImageField)
-//    }
-//    
-//    // MARK: - Outputs
-//    public func isFormValid() -> SignalProducer<Bool, NoError> {
-//        return combineLatest(
-//                nicknameField.producer
-//                    .ignoreNil()
-//                    .flatMap(.Latest) { $0.valid.producer },
-//                whatsUpField.producer
-//                    .ignoreNil()
-//                    .flatMap(.Latest) { $0.valid.producer },
-//                profileImageField.producer
-//                    .ignoreNil()
-//                    .flatMap(.Latest) { $0.valid.producer }
-//            )
-//            .map { $0.0 && $0.1 && $0.2 }
-//    }
-//    
-//    public func formFormattedErrors() -> SignalProducer<String?, NoError> {
-//        return combineLatest(
-//                nicknameField.producer
-//                    .ignoreNil()
-//                    .map { $0.formattedErrors() },
-//                whatsUpField.producer
-//                    .ignoreNil()
-//                    .map { $0.formattedErrors() },
-//                profileImageField.producer
-//                    .ignoreNil()
-//                    .map { $0.formattedErrors() }
-//            )
-//            .map {
-//                [$0.0, $0.1, $0.2].filter { $0 != nil }.map { $0! }.joinWithSeparator("\n")
-//            }
-//    }
-//    
-//    // MARK: - Properties
-//    
-//    // MARK: - Services
-//    private let meService: IMeService
-//    private let imageService: IImageService
-//    
-//    // MARK: - Initializers
-//    
-//    public init(meService: IMeService, imageService: IImageService) {
-//        self.meService = meService
-//        self.imageService = imageService
-//    }
-//    
-//    // MARK: - Actions
-//    
-//    public func getInitialValues() -> SignalProducer<Void, NSError> {
+
+import Foundation
+import ReactiveCocoa
+import RxSwift
+import Result
+
+// TODO: Make a new abstraction "Form", which is responsible for registering fields and managing their state.
+
+final class ProfileEditViewModel : _BaseViewModel, IProfileEditViewModel, ViewModelInjectable {
+    
+    // MARK: - Fields
+    private let _nicknameField = MutableProperty<RequiredFormField<String>?>(nil)
+    var nicknameField: AnyProperty<RequiredFormField<String>?> {
+        return AnyProperty(_nicknameField)
+    }
+    private let _whatsUpField = MutableProperty<OptionalFormField<String>?>(nil)
+    var whatsUpField: AnyProperty<OptionalFormField<String>?> {
+        return AnyProperty(_whatsUpField)
+    }
+    private let _profileImageField = MutableProperty<RequiredFormField<UIImage>?>(nil)
+    var profileImageField: AnyProperty<RequiredFormField<UIImage>?> {
+        return AnyProperty(_profileImageField)
+    }
+    
+    // MARK: - Outputs
+    func isFormValid() -> SignalProducer<Bool, NoError> {
+        return combineLatest(
+                nicknameField.producer
+                    .ignoreNil()
+                    .flatMap(.Latest) { $0.valid.producer },
+                whatsUpField.producer
+                    .ignoreNil()
+                    .flatMap(.Latest) { $0.valid.producer },
+                profileImageField.producer
+                    .ignoreNil()
+                    .flatMap(.Latest) { $0.valid.producer }
+            )
+            .map { $0.0 && $0.1 && $0.2 }
+    }
+    
+    func formFormattedErrors() -> SignalProducer<String?, NoError> {
+        return combineLatest(
+                nicknameField.producer
+                    .ignoreNil()
+                    .map { $0.formattedErrors() },
+                whatsUpField.producer
+                    .ignoreNil()
+                    .map { $0.formattedErrors() },
+                profileImageField.producer
+                    .ignoreNil()
+                    .map { $0.formattedErrors() }
+            )
+            .map {
+                [$0.0, $0.1, $0.2].filter { $0 != nil }.map { $0! }.joinWithSeparator("\n")
+            }
+    }
+    
+    // MARK: - Properties
+    
+    // MARK: - Services
+    private let meRepository: IMeRepository
+    
+    // MARK: - Initializers
+    typealias Dependency = (router: IRouter, meRepository: IMeRepository)
+    
+    typealias Token = Void
+    
+    typealias Input = (navigateBack: Observable<Void>, dummy: Void)
+    
+    init(dep: Dependency, token: Token, input: Input) {
+        
+        meRepository = dep.meRepository
+        
+        super.init(router: dep.router)
+    }
+    
+    // MARK: - Actions
+    
+//    func getInitialValues() -> SignalProducer<Void, NSError> {
 //        
 //        return meService.currentLoggedInUser()
 //            .flatMap(FlattenStrategy.Concat) { me in
@@ -121,7 +127,7 @@
 //            }
 //    }
 //    
-//    public func updateProfile() -> SignalProducer<Bool, NSError> {
+//    func updateProfile() -> SignalProducer<Bool, NSError> {
 //        return combineLatest(
 //                nicknameField.producer
 //                    .ignoreNil()
@@ -155,4 +161,4 @@
 //                return self.meService.save(me)
 //            }
 //    }
-//}
+}

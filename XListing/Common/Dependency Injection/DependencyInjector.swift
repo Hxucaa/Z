@@ -195,10 +195,12 @@ class ProfileAssembly : AssemblyType {
             }
             .inObjectScope(.Hierarchy)
         
+        // profile
         container
             .register(ProfileViewController.self) { _ in ProfileViewController() }
             .initCompleted {
                 $1.bindToViewModel($0.resolve(ProfileViewController.InputViewModel.self)!)
+                $1.bottomViewController = $0.resolve(ProfileBottomViewController.self)!
             }
             .inObjectScope(ObjectScope.Hierarchy)
         
@@ -217,6 +219,42 @@ class ProfileAssembly : AssemblyType {
                 return inputVM
             }
             .inObjectScope(.Hierarchy)
+        
+        container
+            .register(ProfileBottomViewController.self) { _ in ProfileBottomViewController() }
+            .initCompleted {
+                $1.participationListViewController = $0.resolve(ParticipationListViewController.self)!
+                $1.photoManagerViewController = $0.resolve(PhotoManagerViewController.self)!
+            }
+            .inObjectScope(.Hierarchy)
+        
+        container
+            .register(ParticipationListViewController.self) { _ in ParticipationListViewController() }
+            .inObjectScope(.Hierarchy)
+        
+        container
+            .register(PhotoManagerViewController.self) { _ in PhotoManagerViewController() }
+            .inObjectScope(.Hierarchy)
+        
+        
+        // profile edit
+        container
+            .register(ProfileEditViewController.self) { _ in ProfileEditViewController() }
+            .initCompleted {
+                $1.bindToViewModel($0.resolve(ProfileEditViewController.InputViewModel.self)!)
+            }
+            .inObjectScope(ObjectScope.Hierarchy)
+        
+        container
+            .register(ProfileEditViewController.InputViewModel.self) {
+                let inputVM = ProfileEditViewModel.inject((
+                    router: $0.resolve(IRouter.self)!,
+                    meRepository: $0.resolve(IMeRepository.self)!
+                ))(())
+                
+                return inputVM
+            }
+            .inObjectScope(ObjectScope.Hierarchy)
     }
 }
 

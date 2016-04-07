@@ -1,23 +1,20 @@
-////
-////  ProfileBottomViewController.swift
-////  XListing
-////
-////  Created by Lance Zhu on 2015-10-07.
-////  Copyright (c) 2015 ZenChat. All rights reserved.
-////
 //
-//import Foundation
-//import UIKit
-//import ReactiveCocoa
-//import AVOSCloud
-//import Dollar
-//import Cartography
+//  ProfileBottomViewController.swift
+//  XListing
 //
-//private let PageControlHeightRatio = CGFloat(0.08)
+//  Created by Lance Zhu on 2015-10-07.
+//  Copyright (c) 2015 ZenChat. All rights reserved.
 //
-//public final class ProfileBottomViewController : UIViewController {
-//    
-//    // MARK: - UI Controls
+
+import Foundation
+import UIKit
+import Cartography
+import XLPagerTabStrip
+
+private let PageControlHeightRatio = CGFloat(0.08)
+
+final class ProfileBottomViewController : ButtonBarPagerTabStripViewController {
+    // MARK: - UI Controls
 //    private lazy var pageControls: ProfileSegmentControlView = {
 //        let view = ProfileSegmentControlView(frame: CGRect(origin: CGPointMake(0, 0), size: CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height * PageControlHeightRatio)))
 //        view.backgroundColor = .whiteColor()
@@ -29,30 +26,52 @@
 //        let vc = ProfilePageViewController(transitionStyle: UIPageViewControllerTransitionStyle.Scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, options: nil)
 //        return vc
 //    }()
-//    
-//    // MARK: - Proxies
-////    private let (_fullImageProxy, _fullImageObserver) = SimpleProxy.proxy()
-////    public var fullImageProxy: SimpleProxy {
-////        return _fullImageProxy
-////    }
-//
-//    
-//    // MARK: - Properties
+    var participationListViewController: ParticipationListViewController!
+    var photoManagerViewController: PhotoManagerViewController!
+    
+    // MARK: - Proxies
+//    private let (_fullImageProxy, _fullImageObserver) = SimpleProxy.proxy()
+//    var fullImageProxy: SimpleProxy {
+//        return _fullImageProxy
+//    }
+
+    
+    // MARK: - Properties
 //    private var viewmodel: IProfileBottomViewModel! {
 //        didSet {
 //            pageViewController.bindToViewModel(viewmodel.profilePageViewModel)
 //        }
 //    }
-//    
-//    // MARK: - Initializers
-//    
-//    // MARK: - Setups
-//    public override func viewDidLoad() {
-//        super.viewDidLoad()
-//        
-//        view.opaque = true
-//        view.backgroundColor = UIColor.grayColor()
-//        
+    
+    // MARK: - Initializers
+    
+    // MARK: - Setups
+    override func viewDidLoad() {
+        // change selected bar color
+        settings.style.buttonBarBackgroundColor = .whiteColor()
+        settings.style.buttonBarItemBackgroundColor = .whiteColor()
+        settings.style.selectedBarBackgroundColor = UIColor.x_PrimaryColor()
+        settings.style.buttonBarItemFont = .boldSystemFontOfSize(14)
+        settings.style.selectedBarHeight = 2.0
+        settings.style.buttonBarMinimumLineSpacing = 0
+        settings.style.buttonBarItemTitleColor = .blackColor()
+        settings.style.buttonBarItemsShouldFillAvailiableWidth = true
+        settings.style.buttonBarLeftContentInset = 0
+        settings.style.buttonBarRightContentInset = 0
+        
+        containerView.backgroundColor = .whiteColor()
+        
+        changeCurrentIndexProgressive = { (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in
+            guard changeCurrentIndex == true else { return }
+            oldCell?.label.textColor = .blackColor()
+            newCell?.label.textColor = UIColor.x_PrimaryColor()
+        }
+        
+        super.viewDidLoad()
+        
+        view.opaque = true
+        view.backgroundColor = .whiteColor()
+        
 //        view.addSubview(pageControls)
 //        
 //        addChildViewController(pageViewController)
@@ -72,12 +91,12 @@
 //            $1.trailing == $1.superview!.trailing
 //            $1.bottom == $1.superview!.bottom
 //        }
-//        
-//    }
-//    
-//    public override func viewWillAppear(animated: Bool) {
-//        super.viewWillAppear(animated)
-//                
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+                
 //        pageControls.participationListProxy
 //            .takeUntilViewWillDisappear(self)
 //            .logLifeCycle(LogContext.Profile, signalName: "pageControls.participationListProxy")
@@ -101,17 +120,21 @@
 ////                    this._fullImageObserver.proxyNext(())
 ////                }
 ////            }
-//        
-//    }
-//    
-//    // MARK: - Bindings
-//    
-//    public func bindToViewModel(viewmodel: IProfileBottomViewModel) {
+        
+    }
+    
+    // MARK: - Bindings
+    
+    func bindToViewModel() {
 //        self.viewmodel = viewmodel
+    }
+    
+    // MARK: - Others
+//    func animateSegmentControl(index: Int){
+//        pageControls.animate(toIndex: index, duration: 0.1);
 //    }
-//    
-//    // MARK: - Others
-////    public func animateSegmentControl(index: Int){
-////        pageControls.animate(toIndex: index, duration: 0.1);
-////    }
-//}
+    
+    override func viewControllersForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
+        return [participationListViewController, photoManagerViewController]
+    }
+}

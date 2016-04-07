@@ -47,4 +47,6 @@ protocol IRouter : class {
     func presentError(error: INetworkError)
     
     func popViewController(animated: Bool)
+    
+    func toProfileEdit()
 }

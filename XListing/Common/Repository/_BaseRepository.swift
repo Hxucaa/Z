@@ -61,7 +61,7 @@ public class _BaseRepository {
                 
                 return [
                     Observable.just(fetched),
-                    Observable.never().takeUntil(findMoreTrigger.debug("find more in repo")).debug("stopper"),
+                    Observable.never().takeUntil(findMoreTrigger),
                     self.recursivelyFind(query, fetchedSoFar: fetched, findMoreTrigger: findMoreTrigger)
                 ].concat()
         }

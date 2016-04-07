@@ -1,70 +1,71 @@
-////
-////  ParticipationListViewController.swift
-////  XListing
-////
-////  Created by Lance Zhu on 2015-10-07.
-////  Copyright (c) 2015 ZenChat. All rights reserved.
-////
 //
-//import Foundation
-//import UIKit
-//import ReactiveCocoa
-//import AVOSCloud
-//import Dollar
-//import Cartography
+//  ParticipationListViewController.swift
+//  XListing
 //
-//private let BusinessCellIdentifier = "BusinessCell"
-//private let CellRowHeight = round(UIScreen.mainScreen().bounds.width * 0.23)
+//  Created by Lance Zhu on 2015-10-07.
+//  Copyright (c) 2015 ZenChat. All rights reserved.
 //
-//
-//public final class ParticipationListViewController : UIViewController {
-//    
-//    
-//    // MARK: - UI Controls
-//    private lazy var tableView: UITableView = {
-//        let frameSize = self.view.frame.size
-//        let view = UITableView(frame: CGRectMake(0, 0, frameSize.width, frameSize.height))
-//        
-//        view.separatorStyle = .SingleLine
-//        view.separatorColor = UIColor.x_TableSeparatorColor()
-//        view.rowHeight = CellRowHeight
-//        view.dataSource = self
-//        view.backgroundColor = .x_ProfileTableBG()
-//        
-//        return view
-//    }()
-//    
-//    
-//    // MARK: - Properties
+
+import Foundation
+import UIKit
+import Cartography
+import XLPagerTabStrip
+import RxSwift
+import RxCocoa
+
+private let BusinessCellIdentifier = "BusinessCell"
+private let CellRowHeight = round(UIScreen.mainScreen().bounds.width * 0.23)
+
+
+final class ParticipationListViewController : UIViewController {
+    
+    
+    // MARK: - UI Controls
+    private lazy var tableView: UITableView = {
+        let frameSize = self.view.frame.size
+        let view = UITableView(frame: CGRectMake(0, 0, frameSize.width, frameSize.height))
+        
+        view.separatorStyle = .SingleLine
+        view.separatorColor = UIColor.x_TableSeparatorColor()
+        view.rowHeight = CellRowHeight
+        view.dataSource = self
+        view.backgroundColor = .x_ProfileTableBG()
+        
+        return view
+    }()
+    
+    private let indicatorInfo = IndicatorInfo(title: "参与")
+    
+    // MARK: - Properties
 //    private var viewmodel: IParticipationListViewModel!
 //    private var singleSectionInfiniteTableViewManager: SingleSectionInfiniteTableViewManager<UITableView, ParticipationListViewModel>!
-//    
-//    
-//    // MARK: - Initializers
-//    
-//    // MARK: - Setups
-//    
-//    public override func viewDidLoad() {
-//        super.viewDidLoad()
-//        
-//        view.backgroundColor = .x_ProfileTableBG()
-//        view.addSubview(tableView)
-//        
+    
+    
+    // MARK: - Initializers
+    
+    // MARK: - Setups
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = .x_ProfileTableBG()
+        view.addSubview(tableView)
+        
 //        singleSectionInfiniteTableViewManager = SingleSectionInfiniteTableViewManager(tableView: tableView, viewmodel: self.viewmodel as! ParticipationListViewModel)
-//        
-//        constrain(tableView) {
-//            $0.leading == $0.superview!.leading
-//            $0.top == $0.superview!.top
-//            $0.bottom == $0.superview!.bottom
-//            $0.trailing == $0.superview!.trailing
-//        }
-//    
-//    }
-//    
-//    
-//    public override func viewWillAppear(animated: Bool) {
-//        super.viewWillAppear(animated)
-//        
+        
+        constrain(tableView) {
+            $0.leading == $0.superview!.leading
+            $0.top == $0.superview!.top
+            $0.bottom == $0.superview!.bottom
+            $0.trailing == $0.superview!.trailing
+        }
+    
+    }
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
 //        viewmodel.refreshData()
 //            .start()
 //        
@@ -100,53 +101,60 @@
 //                    }
 //                }
 //            }
-//        
-//        tableView.delegate = nil
-//        tableView.delegate = self
-//
-//    }
-//    
-//    // MARK: - Bindings
-//    public func bindToViewModel(viewmodel: IParticipationListViewModel) {
+        
+        tableView.delegate = nil
+        tableView.delegate = self
+
+    }
+    
+    // MARK: - Bindings
+//    func bindToViewModel(viewmodel: IParticipationListViewModel) {
 //        self.viewmodel = viewmodel
 //    }
-//}
-//
-///**
-//*  UITableViewDataSource
-//*/
-//extension ParticipationListViewController : UITableViewDataSource {
-//    
-//    /**
-//    Tells the data source to return the number of rows in a given section of a table view. (required)
-//    
-//    - parameter tableView: The table-view object requesting this information.
-//    - parameter section:   An index number identifying a section in tableView.
-//    
-//    - returns: The number of rows in section.
-//    */
-//    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        
-//        //return numberOfChats
+}
+
+/**
+*  UITableViewDataSource
+*/
+extension ParticipationListViewController : UITableViewDataSource {
+    
+    /**
+    Tells the data source to return the number of rows in a given section of a table view. (required)
+    
+    - parameter tableView: The table-view object requesting this information.
+    - parameter section:   An index number identifying a section in tableView.
+    
+    - returns: The number of rows in section.
+    */
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        //return numberOfChats
 //        return viewmodel.collectionDataSource.count
-//    }
-//    
-//    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        return 10
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 //        let businessCell = tableView.dequeueReusableCellWithIdentifier(BusinessCellIdentifier) as? ParticipationListViewCell ?? ParticipationListViewCell(estimatedFrame: CGRectMake(0, 0, view.frame.size.width, CellRowHeight), style: UITableViewCellStyle.Default, reuseIdentifier: BusinessCellIdentifier)
 //        
 //        businessCell.bindToViewModel(viewmodel.collectionDataSource.array[indexPath.row])
 //        return businessCell
-//        
-//    }
-//}
-//
-///**
-//*  UITableViewDelegate
-//*/
-//extension ParticipationListViewController : UITableViewDelegate {
-//    
-//    public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-//        
-//        return true
-//    }
-//}
+        return UITableViewCell()
+    }
+}
+
+/**
+*  UITableViewDelegate
+*/
+extension ParticipationListViewController : UITableViewDelegate {
+    
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        
+        return true
+    }
+}
+
+extension ParticipationListViewController : IndicatorInfoProvider {
+    func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+        return indicatorInfo
+    }
+}

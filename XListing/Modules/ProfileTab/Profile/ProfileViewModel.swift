@@ -51,7 +51,7 @@ final class ProfileViewModel : _BaseViewModel, IProfileViewModel, ViewModelInjec
     // MARK: - Initializers
     typealias Dependency = (router: IRouter, businessRepository: IBusinessRepository, meRepository: IMeRepository, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService)
     typealias Token = Void
-    typealias Input = Void
+    typealias Input = (navigateToProfileEdit: ControlEvent<Void>, dummy: Void)
     
     init(dep: Dependency, token: Token, input: Input) {
         
@@ -62,26 +62,15 @@ final class ProfileViewModel : _BaseViewModel, IProfileViewModel, ViewModelInjec
         
         myInfo = dep.meRepository.me().map(MyInfo.init)
         
-//        meRepository.
         
         super.init(router: dep.router)
         
 //        profileBottomViewModel = ProfileBottomViewModel(participationService: participationService, businessService: businessService, meService: meService, geoLocationService: geoLocationService, imageService: imageService)
+        
+        input.navigateToProfileEdit
+            .subscribeNext { dep.router.toProfileEdit() }
+            .addDisposableTo(disposeBag)
     }
 
     // MARK: - API
-
-    func pushSocialBusinessModule() {
-//        if let nav = navigator {
-//            nav.pushSocialBusiness(business, animated: animated)
-//        }
-    }
-
-    func presentProfileEditModule() {
-//        if meService.isLoggedInAlready() {
-//            if let nav = navigator {
-//                nav.presentProfileEdit(animated, completion: completion)
-//            }
-//        }
-    }
 }

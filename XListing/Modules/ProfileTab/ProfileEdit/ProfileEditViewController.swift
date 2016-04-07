@@ -1,43 +1,47 @@
-////
-////  ProfileEditViewController.swift
-////  XListing
-////
-////  Created by Lance Zhu on 2016-02-05.
-////  Copyright (c) 2015 ZenChat. All rights reserved.
-////
 //
-//import UIKit
-//import ReactiveCocoa
-//import Cartography
-//import Whisper
+//  ProfileEditViewController.swift
+//  XListing
 //
-//public final class ProfileEditViewController: XUIViewController {
-//    
-//    // MARK: - UI Controls
-//    private var form: ProfileEditFormViewController! {
-//        didSet {
-//            addChildViewController(form)
-//            view.addSubview(form.view)
-//            form.didMoveToParentViewController(self)
-//            
-//            constrain(form.view) {
-//                $0.leading == $0.superview!.leading
-//                $0.top == $0.superview!.top + 44
-//                $0.trailing == $0.superview!.trailing
-//                $0.bottom == $0.superview!.bottom
-//            }
-//        }
-//    }
-//    
-//    // MARK: - Properties
-//    private var viewmodel: ProfileEditViewModel!
-//    
-//    public override func viewDidLoad() {
-//        super.viewDidLoad()
-//        
-//        title = "编辑"
-//        view.backgroundColor = UIColor(red: 0.937, green: 0.937, blue: 0.957, alpha: 1)
-//        
+//  Created by Lance Zhu on 2016-02-05.
+//  Copyright (c) 2015 ZenChat. All rights reserved.
+//
+
+import UIKit
+import RxSwift
+import RxCocoa
+import Cartography
+import Whisper
+
+final class ProfileEditViewController: XUIViewController {
+    
+    typealias InputViewModel = (navigateBack: Observable<Void>, dummy: Void) -> IProfileEditViewModel
+    
+    // MARK: - UI Controls
+    private var form: ProfileEditFormViewController! {
+        didSet {
+            addChildViewController(form)
+            view.addSubview(form.view)
+            form.didMoveToParentViewController(self)
+            
+            constrain(form.view) {
+                $0.leading == $0.superview!.leading
+                $0.top == $0.superview!.top + 44
+                $0.trailing == $0.superview!.trailing
+                $0.bottom == $0.superview!.bottom
+            }
+        }
+    }
+    
+    // MARK: - Properties
+    private var viewmodel: IProfileEditViewModel!
+    private var inputViewModel: InputViewModel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        title = "编辑"
+        view.backgroundColor = UIColor(red: 0.937, green: 0.937, blue: 0.957, alpha: 1)
+        
 //        let dismissAction = ReactiveCocoa.Action<UIBarButtonItem, Void, NoError> { [weak self]
 //            button in
 //            return SignalProducer { observer, disposable in
@@ -92,8 +96,8 @@
 //                }
 //            }
 //        }
-//        
-//
+        
+
 //        let saveButton = UIBarButtonItem(title: "递交", style: .Done, target: submitAction.unsafeCocoaAction, action: CocoaAction.selector)
 //        
 //        // disable button when submit action is disabled
@@ -110,11 +114,11 @@
 //        // Create two buttons for the navigation item
 //        navigationItem.leftBarButtonItem = dismissButton
 //        navigationItem.rightBarButtonItem = saveButton
-//    }
-//    
-//    public override func viewWillAppear(animated: Bool) {
-//        super.viewWillAppear(animated)
-//        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
 //        viewmodel.isFormValid()
 //            .filter { !$0 }
 //            .flatMap(FlattenStrategy.Latest) {
@@ -125,12 +129,12 @@
 //                // TODO: Replace the current error message implementation with something better
 //                Shout(Announcement(title: "请修正以下错误", subtitle: $0, image: nil, duration: 5.0, action: nil), to: self.form)
 //            }
-//    }
-//    
-//    public override func viewDidAppear(animated: Bool) {
-//        super.viewDidAppear(animated)
-//        
-//        // fetch user info
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // fetch user info
 //        SignalProducer<Void, NSError> { observer, disposable in
 //            
 //            // display hud and retrieve user info
@@ -187,9 +191,9 @@
 //            }
 //        }
 //        .start()
-//    }
-//    
-//    public func bindToViewModel(viewmodel: ProfileEditViewModel) {
-//        self.viewmodel = viewmodel
-//    }
-//}
+    }
+    
+    func bindToViewModel(inputViewModel: InputViewModel) {
+        self.inputViewModel = inputViewModel
+    }
+}

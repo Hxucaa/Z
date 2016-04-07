@@ -23,6 +23,7 @@ target 'XListing' do
   pod 'ActionSheetPicker-3.0', '~> 2.0.3'
   pod 'XLActionController', '~> 2.0.0'
   pod 'XLActionController/Tweetbot'
+  pod 'XLPagerTabStrip', '~> 5.0.0'
   pod 'PINRemoteImage', '~> 2.1.2'
   pod 'Cartography', '~> 0.6.0'
   pod 'INSPullToRefresh', '~> 1.1.0'
@@ -42,6 +43,6 @@ target 'XListingTests' do
   pod 'AVOSCloudDynamic', '~> 3.1'
   pod 'ReactiveCocoa', '~> 4.1.0'
   pod 'Quick', '~> 0.9.0'
-  pod 'Nimble', '~> 3.2.0'
+  pod 'Nimble', '~> 4.0.0'
 end
 

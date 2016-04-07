@@ -5,36 +5,25 @@
 
 import Foundation
 import UIKit
-import ReactiveCocoa
-import AVOSCloud
-import Dollar
+import RxSwift
+import RxCocoa
 import Cartography
 
 private let HeaderViewHeightRatio = CGFloat(0.30)
 
 final class ProfileViewController : XUIViewController {
     
-    typealias InputViewModel = Void -> IProfileViewModel
+    typealias InputViewModel = (navigateToProfileEdit: ControlEvent<Void>, dummy: Void) -> IProfileViewModel
 
     // MARK: - UI Controls
     private let headerView = ProfileHeaderView()
-//    private let upperViewController = ProfileUpperViewController()
-//    private let bottomViewController = ProfileBottomViewController()
+    var bottomViewController: ProfileBottomViewController!
     
     private lazy var editButton: UIButton = {
         let button = UIButton(frame: CGRectMake(345, 27, 26, 30))
         button.userInteractionEnabled = true
         button.contentEdgeInsets = UIEdgeInsets(top: 3, left: 2, bottom: 3, right: 2)
         button.setImage(UIImage(asset: .Edit_Button), forState: .Normal)
-        
-//        let editAction = Action<UIButton, Void, NoError> { [weak self] button in
-//            return SignalProducer { observer, disposable in
-//                self?.viewmodel.presentProfileEditModule(true, completion: nil)
-//                observer.sendCompleted()
-//            }
-//        }
-//        
-//        button.addTarget(editAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
         
         return button
     }()
@@ -51,7 +40,8 @@ final class ProfileViewController : XUIViewController {
         
         setupViews()
         
-        viewmodel = inputViewModel()
+        viewmodel = inputViewModel(navigateToProfileEdit: editButton.rx_tap, dummy: ())
+        
         if let nickname = viewmodel.nickname,
             horoscope = viewmodel.horoscope,
             ageGroup = viewmodel.ageGroup,
@@ -62,23 +52,17 @@ final class ProfileViewController : XUIViewController {
     }
     
     private func setupViews() {
-//        let selfFrame = self.view.frame
-//        let viewHeight = round(selfFrame.size.height * 0.30)
-        
-        
-        //        bottomViewController.view.frame = CGRect(origin: CGPointMake(selfFrame.origin.x, viewHeight), size: CGSizeMake(selfFrame.size.width, selfFrame.size.height - viewHeight))
-        
         view.userInteractionEnabled = true
         view.opaque = true
-        view.backgroundColor = UIColor.grayColor()
+        view.backgroundColor = UIColor.whiteColor()
         
-        //        addChildViewController(bottomViewController)
-        
-        //        view.addSubview(bottomViewController.view)
+        addChildViewController(bottomViewController)
+
+        view.addSubview(bottomViewController.view)
         view.addSubview(headerView)
         view.addSubview(editButton)
         
-        //        bottomViewController.didMoveToParentViewController(self)
+        bottomViewController.didMoveToParentViewController(self)
         
         constrain(headerView) {
             $0.leading == $0.superview!.leading
@@ -87,12 +71,12 @@ final class ProfileViewController : XUIViewController {
             $0.height == $0.superview!.height * 0.30
         }
         
-        //        constrain(upperViewController.view, bottomViewController.view) {
-        //            $1.leading == $1.superview!.leading
-        //            $1.top == $0.bottom
-        //            $1.trailing == $1.superview!.trailing
-        //            $1.bottom == $1.superview!.bottom
-        //        }
+        constrain(headerView, bottomViewController.view) {
+            $1.leading == $1.superview!.leading
+            $1.top == $0.bottom
+            $1.trailing == $1.superview!.trailing
+            $1.bottom == $1.superview!.bottom
+        }
         
         constrain(editButton) {
             $0.width == 26

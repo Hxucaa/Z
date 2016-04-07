@@ -118,4 +118,9 @@ class Router : IRouter {
     func popViewController(animated: Bool = false) {
         activeNav.popViewControllerAnimated(animated)
     }
+    
+    func toProfileEdit() {
+        let vc = diResolver.resolve(ProfileEditViewController.self)!
+        activeNav.pushViewController(vc, animated: true)
+    }
 }

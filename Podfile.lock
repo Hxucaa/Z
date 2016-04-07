@@ -19,7 +19,7 @@ PODS:
   - FLEX (2.3.0)
   - INSPullToRefresh (1.1.5)
   - Locksmith (2.0.8)
-  - Nimble (3.2.0)
+  - Nimble (4.0.0)
   - PINCache (2.2.2)
   - PINRemoteImage (2.1.2):
     - PINRemoteImage/FLAnimatedImage (= 2.1.2)
@@ -43,7 +43,7 @@ PODS:
     - ReactiveCocoa/Core
     - Result (~> 2.0)
   - Result (2.0.0)
-  - RongCloudIMKit (2.4.10)
+  - RongCloudIMKit (2.4.11)
   - RxBlocking (2.3.1):
     - RxSwift (~> 2.3.1)
   - RxCocoa (2.3.1):
@@ -72,6 +72,7 @@ PODS:
   - XLActionController/Core (2.0.0)
   - XLActionController/Tweetbot (2.0.0):
     - XLActionController/Core
+  - XLPagerTabStrip (5.0.0)
 
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.0.3)
@@ -86,7 +87,7 @@ DEPENDENCIES:
   - FLEX (~> 2.0)
   - INSPullToRefresh (~> 1.1.0)
   - Locksmith (~> 2.0.2)
-  - Nimble (~> 3.2.0)
+  - Nimble (~> 4.0.0)
   - PINRemoteImage (~> 2.1.2)
   - Quick (~> 0.9.0)
   - ReactiveArray (from `https://github.com/Hxucaa/ReactiveArray.git`, tag `0.3.0`)
@@ -107,6 +108,7 @@ DEPENDENCIES:
   - XAssets (from `https://github.com/Hxucaa/xassets.git`, tag `0.7.0`)
   - XLActionController (~> 2.0.0)
   - XLActionController/Tweetbot
+  - XLPagerTabStrip (~> 5.0.0)
 
 EXTERNAL SOURCES:
   Curry:
@@ -154,14 +156,14 @@ SPEC CHECKSUMS:
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
   INSPullToRefresh: 112ae2c295d2b3a76daa9dff86e7ef40ed002c47
   Locksmith: a8ed41ac4c06506ea8cb199d8ec8a8d3d108eb2a
-  Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
+  Nimble: 72bcc3e2f02242e6bfaaf8d9412ca7bfe3d8b417
   PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
   PINRemoteImage: 2ce3f1fcc52f0360a3821f91f1a1bc653c5d2338
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
   ReactiveArray: 84306dc1c30dc95f3c9e846b2a51b8ae08a3f3de
   ReactiveCocoa: d70004d7a366a7b8e87e60ce2347182c77701949
   Result: 9e75e1111c774c6ac594e14907b15057053a7959
-  RongCloudIMKit: 916cb342e81639cfe9e1204e2b93a7fe71644e11
+  RongCloudIMKit: 40fefc63541927aad728e06c731d12d34de1c5fa
   RxBlocking: 84fd81865a641a3843b33bae7b8315e78ddbd383
   RxCocoa: a2baaf3462b989559a51dce59d78fbebb8fe0afa
   RxDataSources: 9ae26211019e6afb7391125940d719b4326e94a4
@@ -176,7 +178,8 @@ SPEC CHECKSUMS:
   Whisper: 18b574de21a089c0d664b115f26e0d9ccbbadbab
   XAssets: 205ee4a8cb11f99918f031aa9cb27e27e42b783f
   XLActionController: 97ed31237413db4d9401c6a559270f4d2b4de136
+  XLPagerTabStrip: 87b8b705f9a7178e76a063ffaa2d70045944a965
 
-PODFILE CHECKSUM: c184cab91a7c1108fb3d3c71f23f8b886ae3378d
+PODFILE CHECKSUM: 582ed7c443399ade7e3619c481fc1a3df0e364b3
 
-COCOAPODS: 1.0.0.beta.6
+COCOAPODS: 1.0.0.beta.5
