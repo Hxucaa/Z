@@ -12,7 +12,7 @@ import Curry
 
 enum ComponentDefinition {
     case SocialBusiness(SocialBusinessViewModel.Token)
-    
+    case BusinessDetail(BusinessDetailViewModel.Token)
 }
 
 class DependencyInjector {
@@ -44,6 +44,10 @@ class DependencyInjector {
         case let .SocialBusiness(token):
             let vc = resolver.resolve(SocialBusinessViewController.self)!
             vc.bindToViewModel(resolver.resolve(SocialBusinessViewController.InputViewModel.self, argument: token)!)
+            return vc
+        case let .BusinessDetail(token):
+            let vc = resolver.resolve(BusinessDetailViewController.self)!
+            vc.bindToViewModel(resolver.resolve(BusinessDetailViewController.InputViewModel.self, argument: token)!)
             return vc
         }
         
@@ -174,6 +178,7 @@ class FeaturedAssembly : AssemblyType {
                 let inputVM = FeaturedListViewModel.inject((
                     router: $0.resolve(IRouter.self)!,
                     businessRepository: $0.resolve(IBusinessRepository.self)!,
+                    meRepository: $0.resolve(IMeRepository.self)!,
                     userRepository: $0.resolve(IUserRepository.self)!,
                     geoLocationService: $0.resolve(IGeoLocationService.self)!,
                     userDefaultsService: $0.resolve(IUserDefaultsService.self)!
@@ -187,6 +192,7 @@ class FeaturedAssembly : AssemblyType {
 
 class ProfileAssembly : AssemblyType {
     func assemble(container: Container) {
+        let storyboard = UIStoryboard()
         
         // navigation
         container
@@ -221,6 +227,8 @@ class ProfileAssembly : AssemblyType {
             .inObjectScope(.Hierarchy)
         
         container
+            // TODO: the guideline of XLPager suggests to use storyboard for the view controller, however, it generates some error message.
+//            .register(ProfileBottomViewController.self) { _ in storyboard.profileBottomViewController }
             .register(ProfileBottomViewController.self) { _ in ProfileBottomViewController() }
             .initCompleted {
                 $1.participationListViewController = $0.resolve(ParticipationListViewController.self)!
@@ -242,6 +250,7 @@ class ProfileAssembly : AssemblyType {
             .register(ProfileEditViewController.self) { _ in ProfileEditViewController() }
             .initCompleted {
                 $1.bindToViewModel($0.resolve(ProfileEditViewController.InputViewModel.self)!)
+                $1.hud = $0.resolve(HUD.self)!
             }
             .inObjectScope(ObjectScope.Hierarchy)
         
@@ -249,7 +258,8 @@ class ProfileAssembly : AssemblyType {
             .register(ProfileEditViewController.InputViewModel.self) {
                 let inputVM = ProfileEditViewModel.inject((
                     router: $0.resolve(IRouter.self)!,
-                    meRepository: $0.resolve(IMeRepository.self)!
+                    meRepository: $0.resolve(IMeRepository.self)!,
+                    imageService: ImageService()
                 ))(())
                 
                 return inputVM
@@ -334,6 +344,19 @@ class SocialBusinessAssembly : AssemblyType {
                 return partial
         }
         
-
+        container
+            .register(BusinessDetailViewController.self) { _ in BusinessDetailViewController() }
+        
+        container
+            .register(BusinessDetailViewController.InputViewModel.self) { (resolver: ResolverType, token: BusinessInfo) in
+                let partial = BusinessDetailViewModel.inject((
+                    router: resolver.resolve(IRouter.self)!,
+                    meRepository: resolver.resolve(IMeRepository.self)!,
+                    businessRepository: resolver.resolve(IBusinessRepository.self)!,
+                    geoLocationService: resolver.resolve(IGeoLocationService.self)!
+                ))(token)
+                
+                return partial
+            }
     }
 }

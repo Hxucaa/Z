@@ -28,12 +28,6 @@ final class ProfileBottomViewController : ButtonBarPagerTabStripViewController {
 //    }()
     var participationListViewController: ParticipationListViewController!
     var photoManagerViewController: PhotoManagerViewController!
-    
-    // MARK: - Proxies
-//    private let (_fullImageProxy, _fullImageObserver) = SimpleProxy.proxy()
-//    var fullImageProxy: SimpleProxy {
-//        return _fullImageProxy
-//    }
 
     
     // MARK: - Properties

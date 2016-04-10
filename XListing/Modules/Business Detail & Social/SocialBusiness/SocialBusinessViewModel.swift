@@ -106,7 +106,7 @@ final class SocialBusinessViewModel : _BaseViewModel, ISocialBusinessViewModel, 
         
         input.navigateToDetailPage
             .subscribeNext {
-                // TODO: Navigate to next page.
+                dep.router.toBusinessDetail(token)
             }
             .addDisposableTo(disposeBag)
     }

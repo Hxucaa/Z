@@ -227,8 +227,6 @@ extension UserDAO {
         assert(UserType(rawValue: self.type) == UserType.User, "The type of User does not match.")
         return User(
             objectId: self.objectId,
-            updatedAt: self.updatedAt,
-            createdAt: self.createdAt,
             status: UserStatus(rawValue: self.status)!,
             nickname: self.nickname,
             gender: Gender(rawValue: self.gender)!,
@@ -247,8 +245,6 @@ extension UserDAO {
         assert(UserType(rawValue: self.type) == UserType.Business, "The type of User does not match.")
         return BusinessUser(
             objectId: self.objectId,
-            updatedAt: self.updatedAt,
-            createdAt: self.createdAt,
             status: UserStatus(rawValue: self.status)!,
             nickname: self.nickname,
             gender: Gender(rawValue: self.gender)!,
@@ -375,7 +371,7 @@ extension AVGeoPoint {
 
 extension NSError {
     func toNetworkError() -> NetworkError {
-        precondition(self.domain == "AVOS Cloud Error Domain", "You can only convert NSError objects constructed by AVOSCloud to NetworkError.\n \(self)")
+//        precondition(self.domain == "AVOS Cloud Error Domain", "You can only convert NSError objects constructed by AVOSCloud to NetworkError.\n \(self)")
         let error = NetworkError(rawValue: self.code)
         assert(error != nil, "All cases of error produced by AVOSCloud must be covered.")
         return error!

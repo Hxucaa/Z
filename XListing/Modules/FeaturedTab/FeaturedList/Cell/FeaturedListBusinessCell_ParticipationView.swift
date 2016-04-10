@@ -23,6 +23,88 @@ private let wtgIconSize = round(UIScreen.mainScreen().bounds.width * 0.0453)
 private let treatIconSize = round(UIScreen.mainScreen().bounds.width * 0.0533)
 private let labelSize = round(UIScreen.mainScreen().bounds.width * 0.04)
 
+
+private enum State {
+    case NotDetermined
+    case Participating
+    case NotParticipating
+}
+
+@IBDesignable
+class ParticipationButton : UIButton {
+    
+    // MARK: - Inputs
+    
+    // MARK: - Outputs
+    
+    // MARK: - Properties
+    private let disposeBag = DisposeBag()
+    private static let participatingImage = UIImage(asset: .Wtg_Filled)
+    private static let notParticipatingImage = UIImage(asset: .Wtg)
+    
+    // MARK: - Initializers
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        setup()
+    }
+    
+    private func setup() {
+        hidden = true
+    }
+    
+    // MARK: - Binding
+    func bindToData(myParticipationStatus: Driver<FeaturedListCellData.BusinessParticipation>, participate: Driver<Bool>) { // , unparticipate: Driver<Bool>
+        // TODO: implement unparticipate
+        myParticipationStatus
+            .driveNext { [weak self] in
+                switch $0 {
+                case .Participating:
+                    self?.setParticipatingState()
+                case .NotParticipating:
+                    self?.setNotParticipatingState()
+                }
+            }
+            .addDisposableTo(disposeBag)
+        
+        let tapDriver = rx_tap.asDriver(onErrorJustReturn: ())
+        tapDriver
+            .flatMap { participate }
+            .filter { $0 }
+            .driveNext { [weak self] _ in
+                self?.setParticipatingState()
+            }
+            .addDisposableTo(disposeBag)
+        
+//        tapDriver
+//            .flatMap { unparticipate }
+//            .filter { $0 }
+//            .driveNext { [weak self] _ in self?.setNotParticipatingState() }
+//            .addDisposableTo(disposeBag)
+    }
+    
+    // MARK: - Others
+    
+    
+    private func setNotParticipatingState() {
+        hidden = false
+        self.pin_updateUIWithImage(ParticipationButton.notParticipatingImage, animatedImage: nil)
+//        setImage(UIImage(asset: .Wtg), forState: UIControlState.Normal)
+    }
+    
+    private func setParticipatingState() {
+        hidden = false
+        self.pin_updateUIWithImage(ParticipationButton.participatingImage, animatedImage: nil)
+//        setImage(UIImage(asset: .Wtg_Filled), forState: UIControlState.Normal)
+    }
+}
+
 final class FeaturedListBusinessCell_ParticipationView : UIView {
     
     // MARK: - UI Controls
@@ -39,7 +121,7 @@ final class FeaturedListBusinessCell_ParticipationView : UIView {
         view.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, round(self.frame.width * 0.70),  self.frame.height)
         
         constrain(arrangedSubviews) { views in
-            views.enumerate().forEach({ (index, view) in
+            views.forEach({ view in
                 view.height == view.width * 1.05
             })
         }
@@ -71,10 +153,11 @@ final class FeaturedListBusinessCell_ParticipationView : UIView {
 //        return view
 //    }()
     
-    private lazy var participateButton: DOFavoriteButton = {
-        let button = DOFavoriteButton(frame: CGRectMake(wtgIconSize, 2, labelSize, labelSize), image: UIImage(asset: .Wtg), config: .CircleToShape)
-        button.imageSelected = UIImage(asset: .Wtg_Filled)
-        button.circleColor = UIColor.redColor()
+    private lazy var participateButton: ParticipationButton = {
+        let button = ParticipationButton(frame: CGRectMake(60, 60, 60, 60))
+        
+//        button.imageSelected = UIImage(asset: .Wtg_Filled)
+//        button.circleColor = UIColor.redColor()
         
         return button
     }()
@@ -203,14 +286,17 @@ final class FeaturedListBusinessCell_ParticipationView : UIView {
             container.width == container.superview!.width * 0.655
             container.bottom == container.superview!.bottom
             
-            button.leading == container.trailing
-            (button.top == button.superview!.topMargin).identifier = "joinButtonContainer top"
-            (button.trailing == button.superview!.trailingMargin - 8).identifier = "joinButtonContainer trailing"
-            (button.bottom == button.superview!.bottomMargin).identifier = "joinButtonContainer bottom"
+            button.width == button.superview!.height * 0.45
+            button.height == button.superview!.height * 0.4
+            button.centerY == button.superview!.centerY
+            button.leading == container.trailing + 40
+//            (button.top == button.superview!.topMargin).identifier = "joinButtonContainer top"
+//            (button.trailing == button.superview!.trailingMargin - 8).identifier = "joinButtonContainer trailing"
+//            (button.bottom == button.superview!.bottomMargin).identifier = "joinButtonContainer bottom"
         }
         
         // TODO: hook up tap
-        participateButton.rx_tap
+//        participateButton.rx_tap.subscribeNext { print($0)}
         
 //        wtgView.addSubview(wtgImageView)
 //        wtgView.addSubview(wtgLabel)
@@ -282,76 +368,19 @@ final class FeaturedListBusinessCell_ParticipationView : UIView {
     
     // MARK: - Bindings
     
-    func bindToData(userInfo: [UserInfo] ) {
+    func bindToData(userInfo: [UserInfo], myParticipationStatus: Driver<FeaturedListCellData.BusinessParticipation>, participate: Driver<Bool>) {
+        assert(userInfo.count <= 5, "You cannot possibly have more than 5 previews")
         
-//        treatTapGesture.rac_enabled <~ viewmodel.isButtonEnabled
-//        wtgTapGesture.rac_enabled <~ viewmodel.isButtonEnabled
+        userInfo.prefix(5).enumerate().forEach { (index, element) in
+//            guard let imageViews = self?.previewImageViews else
+            let imageView = self.previewImageViews[index]
+            
+            imageView.pin_setImageFromURL(element.coverPhotoURL, processorKey: "Featured List Preview", processor: { (result, cost) -> UIImage? in
+                return result.image?.maskWithRoundedRect(imageView.frame.size, cornerRadius: imageView.frame.size.width, backgroundColor: .x_FeaturedCardBG())
+            })
+        }
         
-//        viewmodel.isTreatEnabled.producer
-//            .startWithNext { [weak self] success in
-//                if let this = self {
-//                    
-//                    this.treatImageView.rac_image <~ AssetFactory.getImage(Asset.TreatIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: this.viewmodel.isTreatEnabled.value, shadow: false))
-//                        .take(1)
-//                        .map { Optional<UIImage>($0) }
-//                }
-//        }
-//        
-//        viewmodel.isWTGEnabled.producer
-//            .startWithNext { [weak self] success in
-//                if let this = self {
-//                    
-//                    this.wtgImageView.rac_image <~ AssetFactory.getImage(Asset.WTGIcon(size: CGSizeMake(20, 20), backgroundColor: .x_FeaturedCardBG(), opaque: nil, imageContextScale: nil, pressed: this.viewmodel.isWTGEnabled.value, shadow: false))
-//                        .take(1)
-//                        .map { Optional<UIImage>($0) }
-//                }
-//        }
-        
-        
-//        compositeDisposable += self.viewmodel.getParticipantPreview()
-//            .start()
-//        
-//        compositeDisposable += self.viewmodel.getUserParticipation()
-//            .start()
-//        
-//        compositeDisposable += self.viewmodel.getWTGCount()
-//            .start({[weak self] _ in
-//                if let this = self {
-//                    this.wtgLabel.rac_text <~ this.viewmodel.wtgCount
-//                }
-//                })
-//        
-//        compositeDisposable += self.viewmodel.getTreatCount()
-//            .start({[weak self] _ in
-//                if let this = self {
-//                    this.treatLabel.rac_text <~ this.viewmodel.treatCount
-//                }
-//                })
-//        
-//        compositeDisposable += self.viewmodel.participantViewModelArr.producer
-//            .filter { $0.count > 0 }
-//            .start { [weak self] event in
-//                switch event {
-//                case .Next(let participants):
-//                    if let this = self {
-//                        
-//                        // iterate through previewImageViews
-//                        $.each(this.previewImageViews) { index, view in
-//                            if index < participants.count {
-//                                
-//                                // place the image into image view
-//                                participants[index].avatar.producer
-//                                    .ignoreNil()
-//                                    .map { $0.maskWithRoundedRect(view.frame.size, cornerRadius: view.frame.size.width, backgroundColor: .x_FeaturedCardBG()) }
-//                                    .startWithNext { image in
-//                                        view.image = image
-//                                }
-//                            }
-//                        }
-//                    }
-//                default: break
-//                }
-//        }
+        participateButton.bindToData(myParticipationStatus, participate: participate)
     }
     
     // MARK: - Others

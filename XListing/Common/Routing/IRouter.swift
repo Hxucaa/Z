@@ -26,6 +26,8 @@ protocol IRouter : class {
      */
     func toSoclaBusiness(businessInfo: BusinessInfo)
     
+    func toBusinessDetail(businessInfo: BusinessInfo)
+    
     func toSignUp()
     
     func toLogIn()

@@ -11,11 +11,11 @@ import AVOSCloud
 import RxSwift
 
 extension AVCloud {
-    class func rx_callFunction(function: String, withParameters parameters: [NSObject : AnyObject]?) -> Observable<AnyObject> {
+    class func rx_callFunction(function: String, withParameters parameters: [NSObject : AnyObject]?) -> Observable<[NSObject: AnyObject]> {
         return Observable.create { observer in
             AVCloud.callFunctionInBackground(function, withParameters: parameters) { (object, error) -> Void in
                 if error == nil {
-                    observer.on(.Next(object))
+                    observer.on(.Next(object as! [NSObject: AnyObject]))
                     observer.on(.Completed)
                 }
                 else {

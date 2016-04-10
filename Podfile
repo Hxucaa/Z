@@ -12,6 +12,8 @@ target 'XListing' do
   pod 'Swinject', '~> 1.1.1'
   pod 'Curry', :git => 'https://github.com/thoughtbot/Curry.git', :tag => 'v2.1.0'
   pod 'Dollar', '~> 5.0.0'
+  pod 'Swiftz'
+  pod 'Argo', '~> 3.0.0'
   pod 'SDWebImage', '~> 3.7.0'
   pod 'Locksmith', '~> 2.0.2'
   pod 'ReactiveCocoa', '~> 4.1.0'

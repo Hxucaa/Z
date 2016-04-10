@@ -16,6 +16,10 @@ extension UIStoryboard {
     static var nearby: UIStoryboard {
         return UIStoryboard(name: "Nearby", bundle: nil)
     }
+    
+    static var profile: UIStoryboard {
+        return UIStoryboard(name: "Profile", bundle: nil)
+    }
 }
 
 extension UIStoryboard {
@@ -47,4 +51,11 @@ extension UIStoryboard {
 //        return vc
 //        
 //    }
+    
+    var profileBottomViewController: ProfileBottomViewController {
+        guard let vc = UIStoryboard.profile.instantiateViewControllerWithIdentifier("ProfileBottomViewController") as? ProfileBottomViewController else {
+            fatalError("ProfileBottomViewController couldn't be found in Storyboard file")
+        }
+        return vc
+    }
 }

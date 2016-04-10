@@ -9,18 +9,18 @@
 import Foundation
 
 public enum AgeGroup : Int, Equatable, CustomStringConvertible {
-    case Group10 = 1
-    case Group20
-    case Group30
-    case Group40
-    case Group50
-    case Group60
-    case Group70
-    case Group80
-    case Group90
-    case Group100
-    case Group110
-    case Group120
+    case Group10 = 10
+    case Group20 = 20
+    case Group30 = 30
+    case Group40 = 40
+    case Group50 = 50
+    case Group60 = 60
+    case Group70 = 70
+    case Group80 = 80
+    case Group90 = 90
+    case Group100 = 100
+    case Group110 = 110
+    case Group120 = 120
     
     public var description: String {
         switch self {

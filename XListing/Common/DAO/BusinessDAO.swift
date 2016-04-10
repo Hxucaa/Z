@@ -75,7 +75,10 @@ extension BusinessDAO {
 extension BusinessDAO {
     func openEvent(type: Int) -> Observable<EventDAO> {
         return AVCloud.rx_callFunction("openEvent", withParameters: ["businessId": self.objectId, "event_type": type])
-            .map { $0 as! EventDAO }
+            .map { data in
+                let dao = AVObject(dictionary: data) as! EventDAO
+                return dao
+        }
         
     }
 }

@@ -29,7 +29,7 @@ final class FeaturedListViewController: XUIViewController, UITableViewDelegate, 
         // makes the gap at the bottom of the table view go away
         tableView.tableFooterView = UITableViewHeaderFooterView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.size.width, height: CGFloat.min))
 
-        tableView.rowHeight = round(UIScreen.mainScreen().bounds.width * CGFloat(0.62))
+        tableView.rowHeight = round(UIScreen.mainScreen().bounds.width * CGFloat(0.60))
         tableView.separatorStyle = .None
         tableView.delegate = self
 

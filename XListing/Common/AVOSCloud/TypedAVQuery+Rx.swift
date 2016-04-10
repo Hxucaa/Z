@@ -40,11 +40,12 @@ class TypedAVQuery<T: AVObject> : AVQuery {
      
      - returns: Observable sequence of the object.
      */
-    func rx_getFirstObject() -> Observable<T> {
+    func rx_getFirstObject() -> Observable<T?> {
         return Observable.create { observer in
             self.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
                 if error == nil {
-                    observer.on(.Next(object as! T))
+                    precondition(object is T, "Object is not \(T.self)")
+                    observer.on(.Next(object as? T))
                     observer.on(.Completed)
                 }
                 else {

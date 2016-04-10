@@ -17,6 +17,7 @@ struct BusinessInfo {
     let phone: String
     let email: String?
     let websiteUrl: NSURL?
+    let street: String
     let district: String
     let city: String
     let province: String
@@ -39,6 +40,7 @@ struct BusinessInfo {
         phone = business.phone
         email = business.email
         websiteUrl = business.websiteUrl
+        street = business.address.street
         district = business.address.district.regionNameC
         city = business.address.city.regionNameC
         province = business.address.province.regionNameC

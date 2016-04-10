@@ -12,9 +12,19 @@ import RxCocoa
 import RxDataSources
 
 struct FeaturedListCellData {
+    
+    enum BusinessParticipation {
+        case Participating
+        case NotParticipating
+    }
+    
+    // MARK: - Outputs
+    
     let businessInfo: BusinessInfo
     let participantsPreview: [UserInfo]
     let eta: Driver<String>
+    let myParticipationStatus: Driver<BusinessParticipation>
+    let participate: Driver<Bool>
 }
 
 final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, ViewModelInjectable {
@@ -33,13 +43,14 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
     // MARK: - Properties
     // MARK: Services
     private let businessRepository: IBusinessRepository
+    private let meRepository: IMeRepository
     private let userRepository: IUserRepository
     private let geoLocationService: IGeoLocationService
     private let userDefaultsService: IUserDefaultsService
     
     
     // MARK: - Initializers
-    typealias Dependency = (router: IRouter, businessRepository: IBusinessRepository, userRepository: IUserRepository, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService)
+    typealias Dependency = (router: IRouter, businessRepository: IBusinessRepository, meRepository: IMeRepository, userRepository: IUserRepository, geoLocationService: IGeoLocationService, userDefaultsService: IUserDefaultsService)
     
     typealias Token = Void
     
@@ -48,6 +59,7 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
     init(dep: Dependency, token: Token, input: Input) {
         
         businessRepository = dep.businessRepository
+        meRepository = dep.meRepository
         userRepository = dep.userRepository
         geoLocationService = dep.geoLocationService
         userDefaultsService = dep.userDefaultsService
@@ -71,6 +83,7 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
                     let participantsInfo = participantsPreview.map { UserInfo(user: $0 ) }
                     let businessInfo = BusinessInfo(business: business)
                     
+                    print(businessInfo)
                     
                     return FeaturedListCellData(
                         businessInfo: businessInfo,
@@ -82,11 +95,17 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
                                     |> Int.init
                                     |> { "\($0)分钟" }
                             }
-                            .asDriver(onErrorJustReturn: "")
+                            .asDriver(onErrorJustReturn: ""),
+                        myParticipationStatus: dep.meRepository.isParticipatingBusiness(business)
+                            .map { $0 ? FeaturedListCellData.BusinessParticipation.Participating : .NotParticipating }
+                            .asDriver(onErrorJustReturn: .NotParticipating),
+                        participate: dep.businessRepository.openEvent(business, eventType: EventType.ToGo)
+                            .map { _ in true }
+                            .asDriver(onErrorJustReturn: false)
                     )
                 }
                 
-                let sections = [SectionModel(model: "BusinessInfo", items: tdata)]
+                let sections = [SectionModel(model: "Featured Business", items: tdata)]
                 
                 return sections
             }
@@ -96,8 +115,7 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
         
         input.modelSelected
             .driveNext {
-                $0.businessInfo
-                    |> dep.router.toSoclaBusiness
+                dep.router.toSoclaBusiness($0.businessInfo)
             }
             .addDisposableTo(disposeBag)
         

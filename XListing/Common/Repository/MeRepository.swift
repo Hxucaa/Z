@@ -45,6 +45,8 @@ public protocol IMeRepository : IBaseRepository {
     func rx_logIn(username: String, password: String) -> Observable<Me>
     
     func me() -> Me?
+    
+    func isParticipatingBusiness(business: Business) -> Observable<Bool>
 }
 
 public final class MeRepository : _BaseRepository, IMeRepository {
@@ -154,4 +156,14 @@ public final class MeRepository : _BaseRepository, IMeRepository {
             .mapToMeModel()
     }
     
+    public func isParticipatingBusiness(business: Business) -> Observable<Bool> {
+        let event = EventDAO.typedQuery
+        
+        event.whereKey(EventDAO.Property.Iniator, equalTo: UserDAO.currentUser())
+        event.whereKey(EventDAO.Property.Business, equalTo: BusinessDAO(outDataWithObjectId: business.objectId))
+        
+        return event.rx_getFirstObject()
+            .map { $0 != nil }
+        
+    }
 }

@@ -187,7 +187,13 @@ final class SocialBusiness_UserCell : UITableViewCell {
         // FIXME: placeholder
         ageGroupLabel.backgroundColor = .redColor()
         // TODO: make image round??
-        profileImageView.pin_setImageFromURL(cellData.coverPhotoURL)
+        profileImageView.pin_setImageFromURL(cellData.coverPhotoURL, processorKey: "Preview") { result, cost in
+            result.image?.maskWithRoundedRect(
+                self.profileImageView.frame.size,
+                cornerRadius: self.profileImageView.frame.size.width,
+                backgroundColor: .x_FeaturedCardBG()
+            )
+        }
         
     }
 }

@@ -8,7 +8,7 @@
         <!--Profile Bottom View Controller-->
         <scene sceneID="iv3-4Y-1Hf">
             <objects>
-                <viewController id="cwM-nG-NOY" customClass="ProfileBottomViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileBottomViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cwM-nG-NOY" customClass="ProfileBottomViewController" customModule="XListing" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6GA-hG-g6f"/>
                         <viewControllerLayoutGuide type="bottom" id="VCp-j6-hre"/>
@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="IPG-07-zzb" userLabel="Button Bar View" customClass="ButtonBarView">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="IPG-07-zzb" userLabel="Button Bar View" customClass="ButtonBarView" customModule="XLPagerTabStrip">
                                 <rect key="frame" x="0.0" y="20" width="600" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="HV5-H8-mHg"/>
@@ -45,6 +45,9 @@
                             <constraint firstItem="IPG-07-zzb" firstAttribute="leading" secondItem="Hnh-1S-N61" secondAttribute="leading" id="biq-63-ysA"/>
                         </constraints>
                     </view>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="swinjectRegistrationName" value="ProfileBottomViewController"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="buttonBarView" destination="IPG-07-zzb" id="XrQ-A8-9yF"/>
                         <outlet property="containerView" destination="56c-uO-YPQ" id="0Bl-ZW-w1j"/>

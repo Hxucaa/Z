@@ -8,8 +8,24 @@
 
 import Foundation
 import AVOSCloud
+import Swiftz
 
 // TODO: Need better abstraction on Error handling 
+
+let r = Either<ResponseError, ResponseA>.Right(ResponseA())
+
+public struct ResponseA {}
+
+public enum Response<T> {
+    case Succcess(T)
+    case Failure(ResponseError)
+}
+
+public enum ResponseError : ErrorType {
+    case NotAuthenticated
+    case Parser
+    case Other
+}
 
 protocol INetworkError : ErrorType {
     var message: String { get }
@@ -140,3 +156,5 @@ public enum NetworkError : Int, INetworkError {
         }
     }
 }
+
+

@@ -34,7 +34,7 @@ final class FeaturedListBusinessTableViewCell : UITableViewCell {
         let container = TZStackView(arrangedSubviews: [self.topSectionContainer, self.dividerView, self.participationView])
         container.distribution = TZStackViewDistribution.EqualSpacing
         container.axis = .Vertical
-        container.spacing = 9
+        container.spacing = 6
         container.alignment = TZStackViewAlignment.Leading
         container.frame = CGRectMake(0, 0, self.frame.width, self.frame.height - 5)
         
@@ -198,6 +198,6 @@ final class FeaturedListBusinessTableViewCell : UITableViewCell {
         businessImageView.pin_setImageFromURL(data.businessInfo.coverImageUrl)
         // TODO: placeholder
         infoPanelView.bindToData(data.businessInfo.name, location: data.businessInfo.city, price: "$30", eta: data.eta)
-        participationView.bindToData(data.participantsPreview)
+        participationView.bindToData(data.participantsPreview, myParticipationStatus: data.myParticipationStatus, participate: data.participate)
     }
 }

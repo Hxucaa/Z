@@ -47,22 +47,22 @@ final class RootTabBarController : UITabBarController, UITabBarControllerDelegat
     func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
         
         // FIXME: enable the code below
-//        if viewController is ProfileTabNavigationController {
-//            // if user is logged in already, continue on
-//            if let me = meRepository.me() {
-//                return true
-//            }
-//                // else make the user log in / sign up first
-//            else {
-//                router.accountFinishedCallback = { [weak self] in
-//                    if let me = self?.meRepository.me() {
-//                        self?.selectedViewController = viewController
-//                    }
-//                }
-//                router.presentAccountOnTabView(nil)
-//                return false
-//            }
-//        }
+        if viewController is ProfileTabNavigationController {
+            // if user is logged in already, continue on
+            if meRepository.me() != nil {
+                return true
+            }
+                // else make the user log in / sign up first
+            else {
+                router.accountFinishedCallback = { [weak self] in
+                    if self?.meRepository.me() != nil {
+                        self?.selectedViewController = viewController
+                    }
+                }
+                router.presentAccountOnTabView(nil)
+                return false
+            }
+        }
 //        if let nav = viewController as? FeaturedTabNavigationController {
 //            activeNavigationController = nav
 //            return true

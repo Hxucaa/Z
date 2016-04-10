@@ -65,6 +65,10 @@ class Router : IRouter {
         activeNav.pushViewController(di.resolve(.SocialBusiness(businessInfo)), animated: true)
     }
     
+    func toBusinessDetail(businessInfo: BusinessInfo) {
+        activeNav.pushViewController(di.resolve(.BusinessDetail(businessInfo)), animated: true)
+    }
+    
     func toAccount(callback: RouteCallback?) {
         currentActiveViewController?.presentViewController(accountNavgationController, animated: false, completion: callback)
     }
