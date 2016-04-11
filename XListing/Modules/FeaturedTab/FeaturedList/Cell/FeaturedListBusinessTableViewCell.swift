@@ -198,6 +198,6 @@ final class FeaturedListBusinessTableViewCell : UITableViewCell {
         businessImageView.pin_setImageFromURL(data.businessInfo.coverImageUrl)
         // TODO: placeholder
         infoPanelView.bindToData(data.businessInfo.name, location: data.businessInfo.city, price: "$30", eta: data.eta)
-        participationView.bindToData(data.participantsPreview, myParticipationStatus: data.myParticipationStatus, participate: data.participate)
+        participationView.bindToData(data.participantsPreview)
     }
 }

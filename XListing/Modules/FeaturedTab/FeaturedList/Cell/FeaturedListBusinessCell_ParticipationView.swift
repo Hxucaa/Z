@@ -23,88 +23,6 @@ private let wtgIconSize = round(UIScreen.mainScreen().bounds.width * 0.0453)
 private let treatIconSize = round(UIScreen.mainScreen().bounds.width * 0.0533)
 private let labelSize = round(UIScreen.mainScreen().bounds.width * 0.04)
 
-
-private enum State {
-    case NotDetermined
-    case Participating
-    case NotParticipating
-}
-
-@IBDesignable
-class ParticipationButton : UIButton {
-    
-    // MARK: - Inputs
-    
-    // MARK: - Outputs
-    
-    // MARK: - Properties
-    private let disposeBag = DisposeBag()
-    private static let participatingImage = UIImage(asset: .Wtg_Filled)
-    private static let notParticipatingImage = UIImage(asset: .Wtg)
-    
-    // MARK: - Initializers
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setup()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-        setup()
-    }
-    
-    private func setup() {
-        hidden = true
-    }
-    
-    // MARK: - Binding
-    func bindToData(myParticipationStatus: Driver<FeaturedListCellData.BusinessParticipation>, participate: Driver<Bool>) { // , unparticipate: Driver<Bool>
-        // TODO: implement unparticipate
-        myParticipationStatus
-            .driveNext { [weak self] in
-                switch $0 {
-                case .Participating:
-                    self?.setParticipatingState()
-                case .NotParticipating:
-                    self?.setNotParticipatingState()
-                }
-            }
-            .addDisposableTo(disposeBag)
-        
-        let tapDriver = rx_tap.asDriver(onErrorJustReturn: ())
-        tapDriver
-            .flatMap { participate }
-            .filter { $0 }
-            .driveNext { [weak self] _ in
-                self?.setParticipatingState()
-            }
-            .addDisposableTo(disposeBag)
-        
-//        tapDriver
-//            .flatMap { unparticipate }
-//            .filter { $0 }
-//            .driveNext { [weak self] _ in self?.setNotParticipatingState() }
-//            .addDisposableTo(disposeBag)
-    }
-    
-    // MARK: - Others
-    
-    
-    private func setNotParticipatingState() {
-        hidden = false
-        self.pin_updateUIWithImage(ParticipationButton.notParticipatingImage, animatedImage: nil)
-//        setImage(UIImage(asset: .Wtg), forState: UIControlState.Normal)
-    }
-    
-    private func setParticipatingState() {
-        hidden = false
-        self.pin_updateUIWithImage(ParticipationButton.participatingImage, animatedImage: nil)
-//        setImage(UIImage(asset: .Wtg_Filled), forState: UIControlState.Normal)
-    }
-}
-
 final class FeaturedListBusinessCell_ParticipationView : UIView {
     
     // MARK: - UI Controls
@@ -153,14 +71,14 @@ final class FeaturedListBusinessCell_ParticipationView : UIView {
 //        return view
 //    }()
     
-    private lazy var participateButton: ParticipationButton = {
-        let button = ParticipationButton(frame: CGRectMake(60, 60, 60, 60))
-        
-//        button.imageSelected = UIImage(asset: .Wtg_Filled)
-//        button.circleColor = UIColor.redColor()
-        
-        return button
-    }()
+//    private lazy var participateButton: ParticipationButton = {
+//        let button = ParticipationButton(frame: CGRectMake(60, 60, 60, 60))
+//        
+////        button.imageSelected = UIImage(asset: .Wtg_Filled)
+////        button.circleColor = UIColor.redColor()
+//        
+//        return button
+//    }()
     
 //    private lazy var dotLabel: UILabel = {
 //        let dot = UILabel(frame: CGRectMake(0, 0, 2, 2))
@@ -277,22 +195,19 @@ final class FeaturedListBusinessCell_ParticipationView : UIView {
         backgroundColor = UIColor.x_FeaturedCardBG()
         
         addSubview(participantsPreviewView)
-        addSubview(participateButton)
+//        addSubview(participateButton)
 //        addSubview(joinButtonContainer)
         
-        constrain(participantsPreviewView, participateButton) { container, button in
+        constrain(participantsPreviewView) { container in
             container.leading == container.superview!.leadingMargin
             container.top == container.superview!.top
             container.width == container.superview!.width * 0.655
             container.bottom == container.superview!.bottom
             
-            button.width == button.superview!.height * 0.45
-            button.height == button.superview!.height * 0.4
-            button.centerY == button.superview!.centerY
-            button.leading == container.trailing + 40
-//            (button.top == button.superview!.topMargin).identifier = "joinButtonContainer top"
-//            (button.trailing == button.superview!.trailingMargin - 8).identifier = "joinButtonContainer trailing"
-//            (button.bottom == button.superview!.bottomMargin).identifier = "joinButtonContainer bottom"
+//            button.width == button.superview!.height * 0.45
+//            button.height == button.superview!.height * 0.4
+//            button.centerY == button.superview!.centerY
+//            button.leading == container.trailing + 40
         }
         
         // TODO: hook up tap
@@ -368,7 +283,7 @@ final class FeaturedListBusinessCell_ParticipationView : UIView {
     
     // MARK: - Bindings
     
-    func bindToData(userInfo: [UserInfo], myParticipationStatus: Driver<FeaturedListCellData.BusinessParticipation>, participate: Driver<Bool>) {
+    func bindToData(userInfo: [UserInfo]) {
         assert(userInfo.count <= 5, "You cannot possibly have more than 5 previews")
         
         userInfo.prefix(5).enumerate().forEach { (index, element) in
@@ -380,7 +295,7 @@ final class FeaturedListBusinessCell_ParticipationView : UIView {
             })
         }
         
-        participateButton.bindToData(myParticipationStatus, participate: participate)
+//        participateButton.bindToData(myParticipationStatus, participate: participate)
     }
     
     // MARK: - Others

@@ -13,18 +13,22 @@ import RxDataSources
 
 struct FeaturedListCellData {
     
-    enum BusinessParticipation {
-        case Participating
-        case NotParticipating
-    }
+    // MARK: - Inputs
     
     // MARK: - Outputs
     
     let businessInfo: BusinessInfo
     let participantsPreview: [UserInfo]
     let eta: Driver<String>
-    let myParticipationStatus: Driver<BusinessParticipation>
-    let participate: Driver<Bool>
+    
+//    let pStatus = PublishSubject<Bool>()
+    
+    init(businessInfo: BusinessInfo, participantsPreview: [UserInfo], eta: Driver<String>) {
+        self.businessInfo = businessInfo
+        self.participantsPreview = participantsPreview
+        self.eta = eta
+        
+    }
 }
 
 final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, ViewModelInjectable {
@@ -83,7 +87,6 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
                     let participantsInfo = participantsPreview.map { UserInfo(user: $0 ) }
                     let businessInfo = BusinessInfo(business: business)
                     
-                    print(businessInfo)
                     
                     return FeaturedListCellData(
                         businessInfo: businessInfo,
@@ -95,13 +98,13 @@ final class FeaturedListViewModel : _BaseViewModel, IFeaturedListViewModel, View
                                     |> Int.init
                                     |> { "\($0)分钟" }
                             }
-                            .asDriver(onErrorJustReturn: ""),
-                        myParticipationStatus: dep.meRepository.isParticipatingBusiness(business)
-                            .map { $0 ? FeaturedListCellData.BusinessParticipation.Participating : .NotParticipating }
-                            .asDriver(onErrorJustReturn: .NotParticipating),
-                        participate: dep.businessRepository.openEvent(business, eventType: EventType.ToGo)
-                            .map { _ in true }
-                            .asDriver(onErrorJustReturn: false)
+                            .asDriver(onErrorJustReturn: "")
+//                        myParticipationStatus: dep.meRepository.isParticipatingBusiness(business)
+//                            .map { $0 ? FeaturedListCellData.BusinessParticipation.Participating : .NotParticipating }
+//                            .asDriver(onErrorJustReturn: .NotParticipating),
+//                        participate: dep.businessRepository.openEvent(business, eventType: EventType.ToGo)
+//                            .map { _ in true }
+//                            .asDriver(onErrorJustReturn: false)
                     )
                 }
                 

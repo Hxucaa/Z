@@ -55,7 +55,6 @@ final class SocialBusinessViewController : XUIViewController {
 
     private lazy var utilityHeaderView: SocialBusiness_UtilityHeaderView = {
         let view = SocialBusiness_UtilityHeaderView()
-        view.setDetailInfoButtonStyleRegular()
         view.addSubview(DividerView(frame: CGRect(x: 0, y: 59, width: ScreenWidth, height: 1)))
         
         return view
@@ -134,8 +133,6 @@ final class SocialBusinessViewController : XUIViewController {
     private func setupViews() {
         view.addSubview(tableView)
         view.addSubview(backButton)
-        
-        utilityHeaderView.setDetailInfoButtonStyleRegular()
         
         constrain(tableView) { view in
             view.top == view.superview!.top - 20
