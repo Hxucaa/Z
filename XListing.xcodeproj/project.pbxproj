@@ -54,6 +54,7 @@
 		7E56634B1CB63B4F00501F0C /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E56634A1CB63B4F00501F0C /* Profile.storyboard */; };
 		7E56634D1CB6E4EC00501F0C /* IProfileEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E56634C1CB6E4EC00501F0C /* IProfileEditViewModel.swift */; };
 		7E56634F1CB79A6100501F0C /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E56634E1CB79A6100501F0C /* JSONParser.swift */; };
+		7E5663511CB9ED0900501F0C /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E5663501CB9ED0900501F0C /* Storyboard.storyboard */; };
 		7E64E3F21CA0D7C900E36B50 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E64E3F11CA0D7C900E36B50 /* NetworkError.swift */; };
 		7E64E3F41CA11D7E00E36B50 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E64E3F31CA11D7E00E36B50 /* UserRepository.swift */; };
 		7E64E3F61CA11D8A00E36B50 /* MeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E64E3F51CA11D8A00E36B50 /* MeRepository.swift */; };
@@ -306,6 +307,7 @@
 		7E56634A1CB63B4F00501F0C /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		7E56634C1CB6E4EC00501F0C /* IProfileEditViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IProfileEditViewModel.swift; sourceTree = "<group>"; };
 		7E56634E1CB79A6100501F0C /* JSONParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
+		7E5663501CB9ED0900501F0C /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Storyboard.storyboard; path = "Business Detail & Social/PublicProfile/Storyboard.storyboard"; sourceTree = "<group>"; };
 		7E64E3F11CA0D7C900E36B50 /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		7E64E3F31CA11D7E00E36B50 /* UserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		7E64E3F51CA11D8A00E36B50 /* MeRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeRepository.swift; sourceTree = "<group>"; };
@@ -554,6 +556,7 @@
 				264A03CE1BDF23D9008563D0 /* PublicProfileViewController.swift */,
 				264A03D01BDF2406008563D0 /* PublicProfileViewModel.swift */,
 				264A03D21BDF2422008563D0 /* IPublicProfileViewModel.swift */,
+				7E5663501CB9ED0900501F0C /* Storyboard.storyboard */,
 			);
 			name = PublicProfile;
 			sourceTree = "<group>";
@@ -1509,6 +1512,7 @@
 				B4FA1FBC1B719C08003BD3BC /* UsernameAndPasswordView.xib in Resources */,
 				B31B50781B7E308100782341 /* (null) in Resources */,
 				B31B50771B7E308100782341 /* ContainerView.xib in Resources */,
+				7E5663511CB9ED0900501F0C /* Storyboard.storyboard in Resources */,
 				B31B50761B7E308100782341 /* Account.storyboard in Resources */,
 				B3F5E2401B65A605007762B4 /* StartUpButtonsView.xib in Resources */,
 				B4E7C18E1B5387880038260E /* LandingPageView.xib in Resources */,

@@ -78,7 +78,7 @@ extension BusinessDAO {
             .map { data in
                 let dao = AVObject(dictionary: data) as! EventDAO
                 return dao
-        }
+            }
         
     }
 }

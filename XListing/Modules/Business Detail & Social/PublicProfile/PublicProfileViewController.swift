@@ -15,7 +15,8 @@
 //private let CellSize = round(UIScreen.mainScreen().bounds.width * 0.325)
 //private let SectionInsets = UIEdgeInsets(top: 0.0, left: 2.0, bottom: 2.0, right: 2.0)
 //private let UtilHeaderHeight = CGFloat(59)
-//public final class PublicProfileViewController : XUIViewController {
+//
+//final class PublicProfileViewController : XUIViewController {
 //
 //    
 //    // MARK: - UI Controls
@@ -67,7 +68,7 @@
 //
 //    // MARK: - Setups
 //    
-//    public override func viewDidLoad() {
+//    override func viewDidLoad() {
 //        super.viewDidLoad()
 //        
 //        view.userInteractionEnabled = true
@@ -115,7 +116,7 @@
 //        }
 //    }
 //    
-//    public override func viewWillAppear(animated: Bool) {
+//    override func viewWillAppear(animated: Bool) {
 //        super.viewWillAppear(animated)
 //        
 //        navigationController?.setNavigationBarHidden(true, animated: false)
@@ -136,13 +137,13 @@
 //        collectionView.delegate = self
 //    }
 //    
-//    public override func viewWillDisappear(animated: Bool) {
+//    override func viewWillDisappear(animated: Bool) {
 //        super.viewWillDisappear(animated)
 //        
 //        navigationController?.setNavigationBarHidden(true, animated: false)
 //    }
 //    
-//    public override func didReceiveMemoryWarning() {
+//    override func didReceiveMemoryWarning() {
 //        super.didReceiveMemoryWarning()
 //        // Dispose of any resources that can be recreated.
 //    }
@@ -150,7 +151,7 @@
 //    
 //    // MARK: - Bindings
 //    
-//    public func bindToViewModel(viewmodel: IPublicProfileViewModel) {
+//    func bindToViewModel(viewmodel: IPublicProfileViewModel) {
 //        self.viewmodel = viewmodel
 //    }
 //    
@@ -160,17 +161,17 @@
 //
 //extension PublicProfileViewController : UICollectionViewDelegate, UICollectionViewDataSource {
 //    
-//    public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+//    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
 //        return 1
 //    }
 //    
 //    
-//    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        return 9
 //    }
 //    
 //    
-//    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+//    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 //        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(PhotoCellIdentifier, forIndexPath: indexPath) as! ProfilePhotoCollectionViewCell
 //        cell.bindToViewModel(viewmodel.profilePhotoCellViewModel)
 //        return cell
@@ -180,25 +181,25 @@
 //
 //extension PublicProfileViewController : UICollectionViewDelegateFlowLayout {
 //    
-//    public func collectionView(collectionView: UICollectionView,
+//    func collectionView(collectionView: UICollectionView,
 //        layout collectionViewLayout: UICollectionViewLayout,
 //        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
 //            
 //            return CGSize(width: CellSize, height: CellSize)
 //    }
 //    
-//    public func collectionView(collectionView: UICollectionView,
+//    func collectionView(collectionView: UICollectionView,
 //        layout collectionViewLayout: UICollectionViewLayout,
 //        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
 //            
 //            return SectionInsets
 //    }
 //    
-//    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
 //        return 2.0
 //    }
 //    
-//    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
 //        return 2.0
 //    }
 //    

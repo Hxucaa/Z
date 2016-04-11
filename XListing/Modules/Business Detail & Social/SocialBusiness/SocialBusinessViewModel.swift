@@ -109,6 +109,13 @@ final class SocialBusinessViewModel : _BaseViewModel, ISocialBusinessViewModel, 
                 dep.router.toBusinessDetail(token)
             }
             .addDisposableTo(disposeBag)
+        
+        input.userInfoSelected
+            .subscribeNext { _ in
+                // TODO: fix route
+//                dep.router.to
+            }
+            .addDisposableTo(disposeBag)
     }
     
     // MARK: - API
