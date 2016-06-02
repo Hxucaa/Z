@@ -2,14 +2,14 @@
 //  DetailNavigationViewController.swift
 //  XListing
 //
-//  Created by Bruce Li on 2015-06-02.
+//  Created by Lance Zhu on 2016-04-29.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import UIKit
 import MapKit
-import ReactiveCocoa
-import Result
+import RxSwift
+import RxCocoa
 import Cartography
 
 final class DetailNavigationMapViewController: XUIViewController {
@@ -36,15 +36,15 @@ final class DetailNavigationMapViewController: XUIViewController {
         var attributedString = NSAttributedString(string: Icons.Chevron.rawValue + " 返回", attributes: attributes)
         button.setAttributedTitle(attributedString, forState: UIControlState.Normal)
         
-        let goBack = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { observer, disposable in
-                self?._goBackObserver.sendNext(nil)
-                
-                observer.sendCompleted()
-            }
-        }
-        
-        button.addTarget(goBack.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+//        let goBack = Action<UIButton, Void, NoError> { [weak self] button in
+//            return SignalProducer { observer, disposable in
+//                self?._goBackObserver.sendNext(nil)
+//                
+//                observer.sendCompleted()
+//            }
+//        }
+//        
+//        button.addTarget(goBack.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         
         return button
     }()
@@ -55,27 +55,27 @@ final class DetailNavigationMapViewController: XUIViewController {
         let attributedString = NSAttributedString(string: "导航", attributes: attributes)
         button.setAttributedTitle(attributedString, forState: UIControlState.Normal)
         
-        let openMaps = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { observer, disposable in
-                if let this = self {
-                    disposable += combineLatest(
-                        this.viewmodel.annotation.producer,
-                        this.viewmodel.region.producer.ignoreNil()
-                        )
-                        .startWithNext { annotation, region in
-                            let placemark = MKPlacemark(coordinate: region.center, addressDictionary: nil)
-                            let mapItem = MKMapItem(placemark: placemark)
-                            mapItem.name = annotation.title
-                            
-                            MKMapItem.openMapsWithItems([MKMapItem.mapItemForCurrentLocation(), mapItem], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
-                            
-                            observer.sendCompleted()
-                        }
-                }
-            }
-        }
-        
-        button.addTarget(openMaps.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
+//        let openMaps = Action<UIButton, Void, NoError> { [weak self] button in
+//            return SignalProducer { observer, disposable in
+//                if let this = self {
+//                    disposable += combineLatest(
+//                        this.viewmodel.annotation.producer,
+//                        this.viewmodel.region.producer.ignoreNil()
+//                        )
+//                        .startWithNext { annotation, region in
+//                            let placemark = MKPlacemark(coordinate: region.center, addressDictionary: nil)
+//                            let mapItem = MKMapItem(placemark: placemark)
+//                            mapItem.name = annotation.title
+//                            
+//                            MKMapItem.openMapsWithItems([MKMapItem.mapItemForCurrentLocation(), mapItem], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+//                            
+//                            observer.sendCompleted()
+//                        }
+//                }
+//            }
+//        }
+//        
+//        button.addTarget(openMaps.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
         
         return button
     }()
@@ -85,16 +85,23 @@ final class DetailNavigationMapViewController: XUIViewController {
         mapView.delegate = self
         return mapView
     }()
-
-    // MARK: - Proxies
-    private let (_goBackProxy, _goBackObserver) = SignalProducer<CompletionHandler?, NoError>.buffer(1)
-    var goBackProxy: SignalProducer<CompletionHandler?, NoError> {
-        return _goBackProxy
+    
+    // MARK: - Outputs
+    private var navigateBack: ControlEvent<Void> {
+        return backButton.rx_tap
+    }
+    var output: (navigateBack: ControlEvent<Void>, dummy: Void) {
+        return (navigateBack, ())
     }
     
     // MARK: - Properties
-    
-    private var viewmodel: DetailNavigationMapViewModel!
+//    private var annotation: MKPointAnnotation!
+
+    // MARK: - Proxies
+//    private let (_goBackProxy, _goBackObserver) = SignalProducer<CompletionHandler?, NoError>.buffer(1)
+//    var goBackProxy: SignalProducer<CompletionHandler?, NoError> {
+//        return _goBackProxy
+//    }
 
     // MARK: - Setups
     override func viewDidLoad() {
@@ -131,28 +138,29 @@ final class DetailNavigationMapViewController: XUIViewController {
         }
     }
     
-    deinit {
-        compositeDisposable.dispose()
-    }
-    
     // MARK: - Bindings
     
-    func bindToViewModel(viewmodel: DetailNavigationMapViewModel) {
-        self.viewmodel = viewmodel
+    func bindToData(annotation: MKPointAnnotation, region: Driver<MKCoordinateRegion>) {
+        mapView.addAnnotation(annotation)
         
-//        compositeDisposable += self.viewmodel.annotation.producer
-//            .takeUntilViewWillDisappear(self)
-//            .ignoreNil()
-//            .startWithNext { [weak self] annotation in
-//                self?.mapView.addAnnotation(annotation)
-//            }
-//        
-//        compositeDisposable += self.viewmodel.region.producer
-//            .takeUntilViewWillDisappear(self)
-//            .ignoreNil()
-//            .startWithNext { [weak self] region in
-//                self?.mapView.setRegion(region, animated: false)
-//            }
+        region
+            .driveNext { [weak self] in
+                self?.mapView.setRegion($0, animated: false)
+            }
+            .addDisposableTo(disposeBag)
+        
+        navigateButton.rx_tap
+            .asDriver(onErrorJustReturn: ())
+            .flatMap { region }
+            .map { (annotation, $0) }
+            .driveNext { annotation, region in
+                let placemark = MKPlacemark(coordinate: region.center, addressDictionary: nil)
+                let mapItem = MKMapItem(placemark: placemark)
+                mapItem.name = annotation.title
+
+                MKMapItem.openMapsWithItems([MKMapItem.mapItemForCurrentLocation(), mapItem], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+            }
+            .addDisposableTo(disposeBag)
     }
 }
 

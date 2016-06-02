@@ -11,13 +11,26 @@ import ReactiveCocoa
 import Result
 import RxSwift
 import RxCocoa
+import RxOptional
 import MapKit
 
-final class BusinessDetailViewModel : IBusinessDetailViewModel, ViewModelInjectable {
+final class BusinessDetailViewModel : _BaseViewModel, IBusinessDetailViewModel, ViewModelInjectable {
     
-    // MARK: - Public
+    // MARK: - Inputs
     
     // MARK: - Outputs
+    
+    var businessName: String {
+        return business.name
+    }
+    
+    var phoneDisplay: String {
+        return business.phone
+    }
+    
+    var websiteDisplay: String {
+        return business.websiteUrl != nil ? "访问网站" : "没有网站"
+    }
     
     var businessImageURL: NSURL? {
         return business.coverImageUrl
@@ -27,14 +40,46 @@ final class BusinessDetailViewModel : IBusinessDetailViewModel, ViewModelInjecta
         return business.city
     }
     
-    let businessName: ConstantProperty<String>
-    let webSiteURL: ConstantProperty<NSURL?>
+    var descriptor: String {
+        return business.description ?? "这个地点还没有详细信息"
+    }
+    
+    var fullAddress: String {
+        return "\(business.street), \(business.city), \(business.province)"
+    }
+    
+    var annotation: MKPointAnnotation {
+        let location = business.geolocation.coordinate
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = location
+        annotation.title = businessName
+        return annotation
+    }
+    
+    var cellMapRegion: MKCoordinateRegion {
+        let location = business.geolocation.coordinate
+
+        
+        let span = MKCoordinateSpanMake(0.01, 0.01)
+        let region = MKCoordinateRegion(center: location, span: span)
+        
+        return region
+    }
+    
+    var webSiteURL: NSURL? {
+        return business.websiteUrl
+    }
     
     func calculateEta() -> Driver<String> {
         return geoLocationService.calculateETA(business.geolocation)
             .map { "\($0)分钟" }
             .asDriver(onErrorJustReturn: "")
     }
+    
+    let meAndBusinessRegion: Driver<MKCoordinateRegion>
+    
+    let callStatus: Observable<Bool>
     
     // MARK: - Variables
     private let business: BusinessInfo
@@ -45,10 +90,10 @@ final class BusinessDetailViewModel : IBusinessDetailViewModel, ViewModelInjecta
     
     // MARK: ViewModels
 //    let headerViewModel: SocialBusinessHeaderViewModel
-    let descriptionViewModel: DescriptionCellViewModel
-    let detailAddressAndMapViewModel: DetailAddressAndMapViewModel
-    let detailPhoneWebViewModel: DetailPhoneWebViewModel
-    let detailNavigationMapViewModel: DetailNavigationMapViewModel
+//    let descriptionViewModel: DescriptionCellViewModel
+//    let detailAddressAndMapViewModel: DetailAddressAndMapViewModel
+//    let detailPhoneWebViewModel: DetailPhoneWebViewModel
+//    let detailNavigationMapViewModel: DetailNavigationMapViewModel
     let businessHourViewModel: BusinessHourCellViewModel
     
     // MARK: Actions
@@ -66,7 +111,7 @@ final class BusinessDetailViewModel : IBusinessDetailViewModel, ViewModelInjecta
     
     typealias Token = (BusinessInfo)
     
-    typealias Input = Void
+    typealias Input = (makeACall: Observable<Void>, dummy: Void)
     
     init(dep: Dependency, token: Token, input: Input) {
         self.meRepository = dep.meRepository
@@ -75,15 +120,33 @@ final class BusinessDetailViewModel : IBusinessDetailViewModel, ViewModelInjecta
         
 //        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: geoLocationService, imageService: imageService, coverImage: business.coverImage, name: business.name, city: business.address.city, geolocation: business.address.geoLocation)
         
-        descriptionViewModel = DescriptionCellViewModel(description: token.description)
-        
-        detailAddressAndMapViewModel = DetailAddressAndMapViewModel(geoLocationService: geoLocationService, name: token.name, street: token.street, city: token.city, province: token.province, geolocation: token.geolocation)
-        detailPhoneWebViewModel = DetailPhoneWebViewModel(name: token.name, phone: token.phone, website: token.websiteUrl)
-        detailNavigationMapViewModel = DetailNavigationMapViewModel(geoLocationService: geoLocationService, name: token.name, geolocation: token.geolocation)
+//        descriptionViewModel = DescriptionCellViewModel(description: token.description)
+//        
+//        detailAddressAndMapViewModel = DetailAddressAndMapViewModel(geoLocationService: geoLocationService, name: token.name, street: token.street, city: token.city, province: token.province, geolocation: token.geolocation)
+//        detailPhoneWebViewModel = DetailPhoneWebViewModel(name: token.name, phone: token.phone, website: token.websiteUrl)
+//        detailNavigationMapViewModel = DetailNavigationMapViewModel(geoLocationService: geoLocationService, name: token.name, geolocation: token.geolocation)
         businessHourViewModel = BusinessHourCellViewModel()
         
-        businessName = ConstantProperty(token.name)
-        webSiteURL = ConstantProperty(token.coverImageUrl)
+        meAndBusinessRegion = dep.geoLocationService.rx_getCurrentGeoPoint()
+            .map { current -> MKCoordinateRegion in
+                let distance = token.geolocation.distanceFromLocation(current)
+                let spanFactor = distance / 45000.00
+                let span = MKCoordinateSpanMake(spanFactor, spanFactor)
+                let region = MKCoordinateRegion(center: token.geolocation.coordinate, span: span)
+                return region
+            }
+            .asDriver { _ in Driver.empty() }
+        
+        callStatus = input.makeACall
+            .map { NSURL(string: "telprompt://\(token.phone)") }
+            .filterNil()
+            .flatMap {
+                Observable.just(UIApplication.sharedApplication().openURL($0))
+            }
+        
+        
+        
+        super.init(router: dep.router)
     }
     
 }

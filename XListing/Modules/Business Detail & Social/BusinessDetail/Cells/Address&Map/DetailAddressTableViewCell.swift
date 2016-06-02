@@ -11,7 +11,7 @@ import ReactiveCocoa
 import Cartography
 import TTTAttributedLabel
 
-public final class DetailAddressTableViewCell: UITableViewCell {
+final class DetailAddressTableViewCell: UITableViewCell {
 
     // MARK: - UI Controls
     private lazy var iconLabel: TTTAttributedLabel = {
@@ -41,14 +41,11 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         return label
     }()
     
-    // MARK: - Proxies
-    
     // MARK: - Properties
-    private var viewmodel: DetailAddressAndMapViewModel!
     
-    // MARK: - Setups
+    // MARK: - Initializers
     
-    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         // Initialization code
         
@@ -73,16 +70,14 @@ public final class DetailAddressTableViewCell: UITableViewCell {
         }
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Bindings
     
-    public func bindToViewModel(viewmodel: DetailAddressAndMapViewModel) {
-        self.viewmodel = viewmodel
+    func bindToData(fullAddress: String) {
         
-        addressLabel.rac_text <~ self.viewmodel.fullAddress.producer
-            .takeUntilPrepareForReuse(self)
+        addressLabel.text = fullAddress
     }
 }

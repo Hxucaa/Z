@@ -8,9 +8,8 @@
 import Foundation
 import UIKit
 import Cartography
-import ReactiveCocoa
 
-public final class DescriptionTableViewCell: UITableViewCell {
+final class DescriptionTableViewCell: UITableViewCell {
     
     // MARK: - UI Controls
     
@@ -26,13 +25,9 @@ public final class DescriptionTableViewCell: UITableViewCell {
         return label
     }()
     
-    // MARK: - Properties
-    
-    private var viewmodel: DescriptionCellViewModel!
-    
     // MARK: - Initializers
     
-    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = UITableViewCellSelectionStyle.None
@@ -49,17 +44,15 @@ public final class DescriptionTableViewCell: UITableViewCell {
     }
     
     
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Bindings
     
-    public func bindToViewModel(viewmodel: DescriptionCellViewModel) {
-        self.viewmodel = viewmodel
+    func bindToData(descriptor: String) {
         
-        descriptionLabel.rac_text <~ viewmodel.description.producer
-            .takeUntilPrepareForReuse(self)
+        descriptionLabel.text = descriptor
     }
 
 }

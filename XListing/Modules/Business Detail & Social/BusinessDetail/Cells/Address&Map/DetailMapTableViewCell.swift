@@ -2,18 +2,17 @@
 //  DetailMapTableViewCell.swift
 //  XListing
 //
-//  Created by Bruce Li on 2015-06-01.
+//  Created by Lance Zhu on 2015-06-01.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import UIKit
-import ReactiveCocoa
 import MapKit
 import Cartography
 
 private let MapHeight = CGFloat(200)
 
-public final class DetailMapTableViewCell: UITableViewCell {
+final class DetailMapTableViewCell: UITableViewCell {
     
     // MARK: - UI Controls
     private lazy var mapView: MKMapView = {
@@ -23,24 +22,14 @@ public final class DetailMapTableViewCell: UITableViewCell {
         mapView.rotateEnabled = false
         mapView.userInteractionEnabled = false
         
-        mapView.delegate = self
-        
         return mapView
     }()
     
-    // MARK: - Proxies
-    
     // MARK: - Properties
-    private var viewmodel: DetailAddressAndMapViewModel!
-    private let compositeDisposable = CompositeDisposable()
     
-    // MARK: - Setups
+    // MARK: - Initializers
     
-    deinit {
-        compositeDisposable.dispose()
-    }
-    
-    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         layoutMargins = UIEdgeInsetsZero
@@ -60,41 +49,15 @@ public final class DetailMapTableViewCell: UITableViewCell {
         }
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Bindings
-    public func bindToViewModel(viewmodel: DetailAddressAndMapViewModel) {
-        self.viewmodel = viewmodel
+    func bindToData(annotation: MKPointAnnotation, cellMapRegion: MKCoordinateRegion, mapViewDelegate: MKMapViewDelegate) {
+        mapView.addAnnotation(annotation)
+        mapView.setRegion(cellMapRegion, animated: false)
         
-        compositeDisposable += self.viewmodel.annotation.producer
-            .takeUntilPrepareForReuse(self)
-            .startWithNext { [weak self] annotation in
-                self?.mapView.addAnnotation(annotation)
-            }
-        
-        compositeDisposable += self.viewmodel.cellMapRegion.producer
-            .takeUntilPrepareForReuse(self)
-            .startWithNext { [weak self] region in
-                self?.mapView.setRegion(region, animated: false)
-            }
-    }
-}
-
-extension DetailMapTableViewCell : MKMapViewDelegate {
-    public func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        if annotation is MKUserLocation {
-            //if annotation is not an MKPointAnnotation (eg. MKUserLocation),
-            //return nil so map draws default view for it (eg. blue dot)...
-            return nil
-        }
-        
-        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: nil)
-        annotationView.image = UIImage(asset: UIImage.Asset.MapPin)
-        annotationView.canShowCallout = true
-        annotationView.annotation = annotation
-        
-        return annotationView
+        mapView.delegate = mapViewDelegate
     }
 }

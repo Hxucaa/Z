@@ -2,17 +2,18 @@
 //  DetailPhoneWebTableViewCell.swift
 //  XListing
 //
-//  Created by Bruce Li on 2015-06-01.
+//  Created by Lance Zhu on 2015-06-01.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import UIKit
-import ReactiveCocoa
 import Cartography
 import TZStackView
 import TTTAttributedLabel
+import RxSwift
+import RxCocoa
 
-public final class DetailPhoneWebTableViewCell: UITableViewCell {
+final class DetailPhoneWebTableViewCell: UITableViewCell {
 
     // MARK: - UI Controls
     private lazy var phoneIconLabel: TTTAttributedLabel = {
@@ -47,14 +48,6 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         
         stack.addSubview(self.phoneIconLabel)
         stack.addSubview(self.phoneLabel)
-        
-        let tapGesture = UITapGestureRecognizer()
-        stack.addGestureRecognizer(tapGesture)
-        
-        tapGesture.rac_gestureSignal().toSignalProducer()
-            .startWithNext { [weak self] _ in
-                self?._makeACallObserver.proxyNext(())
-            }
         
         return stack
     }()
@@ -93,35 +86,30 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         stack.addSubview(self.websiteLabel)
         stack.userInteractionEnabled = true
         
-        let tapGesture = UITapGestureRecognizer()
-        stack.addGestureRecognizer(tapGesture)
-        
-        tapGesture.rac_gestureSignal().toSignalProducer()
-            .startWithNext { [weak self] _ in
-                self?._presentWebViewObserver.proxyNext(())
-            }
-        
         return stack
     }()
     
-    // MARK: - Proxies
-    private let (_presentWebViewProxy, _presentWebViewObserver) = SimpleProxy.proxy()
-    public var presentWebViewProxy: SimpleProxy {
-        return _presentWebViewProxy
+    // MARK: - Outputs
+    private var presentWebView: Observable<Void>!
+    private var makeACall: Observable<Void>!
+    var output: (presentWebView: Observable<Void>, makeACall: Observable<Void>) {
+        return (presentWebView, makeACall)
     }
-    
-    private let (_makeACallProxy, _makeACallObserver) = SimpleProxy.proxy()
-    public var makeACallProxy: SimpleProxy {
-        return _makeACallProxy
-    }
+//    private let (_presentWebViewProxy, _presentWebViewObserver) = SimpleProxy.proxy()
+//    var presentWebViewProxy: SimpleProxy {
+//        return _presentWebViewProxy
+//    }
+//    
+//    private let (_makeACallProxy, _makeACallObserver) = SimpleProxy.proxy()
+//    var makeACallProxy: SimpleProxy {
+//        return _makeACallProxy
+//    }
     
     // MARK: - Properties
-    private var viewmodel: DetailPhoneWebViewModel!
-    private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Setups
     
-    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 //        backgroundView = UIImageView(image: UIImage(named: ImageAssets.divider))
         
@@ -167,21 +155,32 @@ public final class DetailPhoneWebTableViewCell: UITableViewCell {
         
         constrainIconAndText(phoneIconLabel, text: phoneLabel)
         constrainIconAndText(websiteIconLabel, text: websiteLabel)
+        
+        
+        let visitWebsite = UITapGestureRecognizer()
+        websiteStack.addGestureRecognizer(visitWebsite)
+        
+        presentWebView = visitWebsite.rx_event.asObservable()
+            .map { _ in }
+        
+        
+        let makeACallTap = UITapGestureRecognizer()
+        phoneStack.addGestureRecognizer(makeACallTap)
+        
+        makeACall = makeACallTap.rx_event.asObservable()
+            .map { _ in }
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Bindings
     
-    public func bindToViewModel(viewmodel: DetailPhoneWebViewModel) {
-        self.viewmodel = viewmodel
+    func bindToData(phoneDisplay: String, websiteDisplay: String) {
         
-        phoneLabel.rac_text <~ self.viewmodel.phoneDisplay.producer
-            .takeUntilPrepareForReuse(self)
+        phoneLabel.text = phoneDisplay
         
-        websiteLabel.rac_text <~ self.viewmodel.webSiteDisplay.producer
-            .takeUntilPrepareForReuse(self)
+        websiteLabel.text = websiteDisplay
     }
 }

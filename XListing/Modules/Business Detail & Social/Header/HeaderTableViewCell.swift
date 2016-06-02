@@ -9,7 +9,7 @@
 import UIKit
 import Cartography
 
-public final class HeaderTableViewCell: UITableViewCell {
+final class HeaderTableViewCell: UITableViewCell {
     
     // MARK: - UI Controls
     private lazy var headerLabel: UILabel = {
@@ -28,7 +28,7 @@ public final class HeaderTableViewCell: UITableViewCell {
 
     // MARK: - Initializers
     
-    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = UITableViewCellSelectionStyle.None
@@ -46,7 +46,7 @@ public final class HeaderTableViewCell: UITableViewCell {
         }
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -54,7 +54,7 @@ public final class HeaderTableViewCell: UITableViewCell {
     
     // MARK: - Others
     
-    public func setLabelText(text: String) {
+    func bindToData(text: String) {
         headerLabel.text = text
     }
 }

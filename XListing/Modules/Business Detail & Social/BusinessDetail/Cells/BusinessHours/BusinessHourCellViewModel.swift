@@ -2,59 +2,62 @@
 //  BusinessHourCellViewModel.swift
 //  XListing
 //
-//  Created by Bruce Li on 2015-09-27.
+//  Created by Lance Zhu on 2016-04-30.
 //  Copyright (c) 2015 ZenChat. All rights reserved.
 //
 
 import Foundation
 import ReactiveCocoa
 
-public final class BusinessHourCellViewModel {
+final class BusinessHourCellViewModel {
     
     // MARK: - Outputs
     
-    public var monHidden: AnyProperty<Bool> {
+    var monHidden: AnyProperty<Bool> {
         return AnyProperty(_monHidden)
     }
-    public var tuesHidden: AnyProperty<Bool> {
+    var tuesHidden: AnyProperty<Bool> {
         return AnyProperty(_tuesHidden)
     }
-    public var wedsHidden: AnyProperty<Bool> {
+    var wedsHidden: AnyProperty<Bool> {
         return AnyProperty(_wedsHidden)
     }
-    public var thursHidden: AnyProperty<Bool> {
+    var thursHidden: AnyProperty<Bool> {
         return AnyProperty(_thursHidden)
     }
-    public var friHidden: AnyProperty<Bool> {
+    var friHidden: AnyProperty<Bool> {
         return AnyProperty(_friHidden)
     }
-    public var satHidden: AnyProperty<Bool> {
+    var satHidden: AnyProperty<Bool> {
         return AnyProperty(_satHidden)
     }
-    public var sunHidden: AnyProperty<Bool> {
+    var sunHidden: AnyProperty<Bool> {
         return AnyProperty(_sunHidden)
     }
     
+    typealias DayStatus = (hidden: Bool, )
+    let monday: ()
+    
     // MARK: - Private
     
-    public let monHours: ConstantProperty<String>
+    let monHours: ConstantProperty<String>
     private let _monHidden: MutableProperty<Bool>
-    public let tuesHours: ConstantProperty<String>
+    let tuesHours: ConstantProperty<String>
     private let _tuesHidden: MutableProperty<Bool>
-    public let wedsHours: ConstantProperty<String>
+    let wedsHours: ConstantProperty<String>
     private let _wedsHidden: MutableProperty<Bool>
-    public let thursHours: ConstantProperty<String>
+    let thursHours: ConstantProperty<String>
     private let _thursHidden: MutableProperty<Bool>
-    public let friHours: ConstantProperty<String>
+    let friHours: ConstantProperty<String>
     private let _friHidden: MutableProperty<Bool>
-    public let satHours: ConstantProperty<String>
+    let satHours: ConstantProperty<String>
     private let _satHidden: MutableProperty<Bool>
-    public let sunHours: ConstantProperty<String>
+    let sunHours: ConstantProperty<String>
     private let _sunHidden: MutableProperty<Bool>
 
     // MARK: - Initializer
     
-    public init() {
+    init() {
         
         //get current day of the Week
         let weekday = NSCalendar.currentCalendar().components(.Weekday, fromDate: NSDate()).weekday
@@ -80,7 +83,7 @@ public final class BusinessHourCellViewModel {
             default: SBLogError("error getting current weekday")
         }
         
-        //TODO: replace with data from lean cloud
+        // TODO: replace with data from lean cloud
         monHours = ConstantProperty("星期一：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
         tuesHours = ConstantProperty("星期二：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
         wedsHours = ConstantProperty("星期三：10:30AM - 3:00PM  &  5:00PM - 11:00PM")
@@ -94,7 +97,7 @@ public final class BusinessHourCellViewModel {
     // MARK: - Other functions
     
     //flip the hidden state
-    public func switchLabelState() {
+    func switchLabelState() {
         _sunHidden.value = !_sunHidden.value
         _monHidden.value = !_monHidden.value
         _tuesHidden.value = !_tuesHidden.value
