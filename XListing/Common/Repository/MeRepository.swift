@@ -160,7 +160,7 @@ public final class MeRepository : _BaseRepository, IMeRepository {
         let event = EventDAO.typedQuery
         
         event.whereKey(EventDAO.Property.Iniator, equalTo: UserDAO.currentUser())
-        event.whereKey(EventDAO.Property.Business, equalTo: BusinessDAO(outDataWithObjectId: business.objectId))
+        event.whereKey(EventDAO.Property.Business, equalTo: BusinessDAO(objectId: business.objectId))
         
         return event.rx_getFirstObject()
             .map { $0 != nil }

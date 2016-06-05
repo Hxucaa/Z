@@ -41,7 +41,7 @@ public final class UserRepository : _BaseRepository, IUserRepository {
     public func findAPreviewOfParticipants(business: Business, limit: Int) -> Observable<[User]> {
         let query = EventDAO.typedQuery
         query.includeKey(EventDAO.Property.Iniator)
-        query.whereKey(EventDAO.Property.Business, equalTo: BusinessDAO(outDataWithObjectId: business.objectId))
+        query.whereKey(EventDAO.Property.Business, equalTo: BusinessDAO(objectId: business.objectId))
         query.limit = limit
         
         return find(query)
@@ -51,7 +51,7 @@ public final class UserRepository : _BaseRepository, IUserRepository {
     public func findByParticipatingBusiness(businessId: String, fetchMoreTrigger: Observable<Void>) -> Observable<[User]> {
         let query = EventDAO.typedQuery
         query.includeKey(EventDAO.Property.Iniator)
-        query.whereKey(EventDAO.Property.Business, equalTo: BusinessDAO(outDataWithObjectId: businessId))
+        query.whereKey(EventDAO.Property.Business, equalTo: BusinessDAO(objectId: businessId))
         
         return findWithPagination(query, findMoreTrigger: fetchMoreTrigger)
             .map { $0.map { $0.initiator.toUser() } }

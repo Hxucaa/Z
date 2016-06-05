@@ -125,7 +125,6 @@ public final class PhotoView : SpringView {
     
     deinit {
         compositeDisposable.dispose()
-        AccountLogVerbose("PhotoView deinitializes.")
     }
     
     // MARK: - Bindings

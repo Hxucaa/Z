@@ -73,7 +73,6 @@ final class LogInViewController : XUIViewController, ViewModelBackedViewControll
         
         compositeDisposable += containerView.goBackProxy
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Account, signalName: "containerView.goBackProxy")
             .startWithNext { [weak self] in
                 // transition to landing page view
                 self?.navigationController?.popViewControllerAnimated(false)
@@ -81,7 +80,6 @@ final class LogInViewController : XUIViewController, ViewModelBackedViewControll
         
         compositeDisposable += usernameAndPasswordView.submitProxy
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Account, signalName: "usernameAndPasswordView.submitProxy")
             .promoteErrors(NetworkError)
             .flatMap(FlattenStrategy.Concat) {
                 SignalProducer<Void, NetworkError> { observer, disposable in
@@ -109,7 +107,6 @@ final class LogInViewController : XUIViewController, ViewModelBackedViewControll
                                 self.hud.dismissWithNextMessage()
                             case .Failed(let error):
                                 self.hud.dismissWithFailedMessage()
-                                AccountLogError(error.message)
                                 observer.sendFailed(error)
                             case .Interrupted:
                                 observer.sendInterrupted()
@@ -132,7 +129,6 @@ final class LogInViewController : XUIViewController, ViewModelBackedViewControll
                     
                     // Subscribe to disappear notification
                     disposable += self.hud.didDissappearNotification()
-                        .on(next: { _ in AccountLogVerbose("HUD disappeared.") })
                         .startWithNext { status in
                             // completes the action
                             observer.sendNext(())

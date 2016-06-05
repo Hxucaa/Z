@@ -47,7 +47,6 @@ public final class GenderPickerView : SpringView {
                 self?._continueSink.proxyNext(())
                 observer.sendCompleted()
             }
-            .logLifeCycle(LogContext.Account, signalName: "continueButton Continue Action")
         }
         
         continueButton.addTarget(continueAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
@@ -92,7 +91,6 @@ public final class GenderPickerView : SpringView {
     
     deinit {
         compositeDisposable.dispose()
-        AccountLogVerbose("GenderPickerView deinitializes.")
     }
     
     // MARK: - Bindings

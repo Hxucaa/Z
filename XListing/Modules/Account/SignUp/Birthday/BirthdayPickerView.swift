@@ -47,7 +47,6 @@ public final class BirthdayPickerView : SpringView {
                 self?._continueObserver.proxyNext(())
                 observer.sendCompleted()
             }
-            .logLifeCycle(LogContext.Account, signalName: "continueButton Continue Action")
         }
         
         continueButton.addTarget(continueAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
@@ -64,7 +63,6 @@ public final class BirthdayPickerView : SpringView {
     
     deinit {
         compositeDisposable.dispose()
-        AccountLogVerbose("NicknameView deinitializes.")
     }
     
     // MARK: - Bindings

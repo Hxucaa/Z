@@ -42,7 +42,6 @@ public class TransitionManager {
     
     deinit {
         compositeDisposable.dispose()
-        DDLogVerbose("TransitionManager deinitializes.")
     }
     
     public func transitionNext() {

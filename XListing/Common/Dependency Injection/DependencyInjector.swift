@@ -192,7 +192,6 @@ class FeaturedAssembly : AssemblyType {
 
 class ProfileAssembly : AssemblyType {
     func assemble(container: Container) {
-        let storyboard = UIStoryboard()
         
         // navigation
         container

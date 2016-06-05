@@ -76,57 +76,6 @@ public extension SignalProducerType {
     public func takeUntilRemoveFromSuperview<U: UIView>(view: U) -> SignalProducer<Value, Error> {
         return self.takeUntil(view.rac_removeFromSuperview.toSignalProducer().toNihil())
     }
-    
-    
-    /**
-     Log the life cycle of a signal, including `started`, `completed`, `interrupted`, `terminated`, and `disposed`.
-     
-     :param: module     The module which the signal is located at.
-     :param: signalName Provide the name of the signal.
-     
-     :returns: Continue the signal.
-     */
-    @warn_unused_result(message="Did you forget to call `start` on the producer?")
-    public func logLifeCycle(context: LogContext, signalName: String, file: StaticString = #file, function: StaticString = #function, line: UInt = #line) -> SignalProducer<Value, Error> {
-        
-        // use the appropriate method to log
-        let log = { (context: LogContext, message: String) -> Void in
-            switch context {
-            case .LeanCloud: LSLogVerbose(message, file: file, function: function, line: line)
-            case .Misc: MiscLogVerbose(message, file: file, function: function, line: line)
-            case .Root: RootLogVerbose(message, file: file, function: function, line: line)
-            case .BackgroundOp: BOLogVerbose(message, file: file, function: function, line: line)
-            case .Account: AccountLogVerbose(message, file: file, function: function, line: line)
-            case .Detail: DetailLogVerbose(message, file: file, function: function, line: line)
-            case .Nearby: NearbyLogVerbose(message, file: file, function: function, line: line)
-            case .Featured: FeaturedLogVerbose(message, file: file, function: function, line: line)
-            case .Profile: ProfileLogVerbose(message, file: file, function: function, line: line)
-            case .SocialBusiness: SBLogVerbose(message, file: file, function: function, line: line)
-            case .UserProfile: UPLogVerbose(message, file: file, function: function, line: line)
-            case .FullScreenImage: FSILogVerbose(message, file: file, function: function, line: line)
-            case .Other: DDLogVerbose(message, file: file, function: function, line: line)
-            }
-        }
-        
-        return self
-            .on(
-                started: {
-                    log(context, "`\(signalName)` signal started.")
-                },
-                completed: {
-                    log(context, "`\(signalName)` signal completed.")
-                },
-                interrupted: {
-                    log(context, "`\(signalName)` signal interrupted.")
-                },
-                terminated: {
-                    log(context, "`\(signalName)` signal terminated.")
-                },
-                disposed: {
-                    log(context, "`\(signalName)` signal disposed.")
-                }
-            )
-    }
 }
 
 public extension Observer {

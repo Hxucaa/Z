@@ -48,7 +48,6 @@ public final class NicknameView : SpringView {
                 }
                 observer.sendCompleted()
             }
-            .logLifeCycle(LogContext.Account, signalName: "continueButton Continue Action")
         }
         
         continueButton.addTarget(continueAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
@@ -77,7 +76,6 @@ public final class NicknameView : SpringView {
     
     deinit {
         compositeDisposable.dispose()
-        AccountLogVerbose("NicknameView deinitializes.")
     }
     
     // MARK: - Bindings

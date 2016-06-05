@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public enum DeviceWidthTypeInPortrait : CGFloat {
     case Small = 375

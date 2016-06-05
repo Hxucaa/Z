@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public enum Icons : String {
     case User = "\u{f007}"

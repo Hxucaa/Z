@@ -69,7 +69,6 @@ public final class UsernameAndPasswordView : SpringView {
     
     deinit {
         compositeDisposable.dispose()
-        AccountLogVerbose("UsernameAndPasswordView deinitializes.")
     }
     
     // MARK: Bindings

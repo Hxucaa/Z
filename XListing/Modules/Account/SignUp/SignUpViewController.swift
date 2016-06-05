@@ -103,7 +103,6 @@ final class SignUpViewController : XUIViewController, ViewModelBackedViewControl
         
         compositeDisposable += containerView.goBackProxy
             .takeUntilViewWillDisappear(self)
-            .logLifeCycle(LogContext.Account, signalName: "containerView.goBackProxy")
             .startWithNext { [weak self] in
                 // transition to landing page view
                 self?.navigationController?.popViewControllerAnimated(false)
@@ -127,7 +126,6 @@ final class SignUpViewController : XUIViewController, ViewModelBackedViewControl
                     view.bindToViewModel(this.viewmodel.usernameAndPasswordViewModel)
                     
                     transitionDisposable += view.submitProxy
-                        .logLifeCycle(LogContext.Account, signalName: "usernameAndPasswordView.submitProxy")
                         .startWithNext { [weak self] in
                             self?.transitionManager.transitionNext()
                         }
@@ -158,7 +156,6 @@ final class SignUpViewController : XUIViewController, ViewModelBackedViewControl
                     view.bindToViewModel(this.viewmodel.nicknameViewModel)
                     
                     transitionDisposable += view.continueProxy
-                        .logLifeCycle(LogContext.Account, signalName: "usernameAndPasswordView.continueProxy")
                         .startWithNext {
                             this.transitionManager.transitionNext()
                         }
@@ -189,7 +186,6 @@ final class SignUpViewController : XUIViewController, ViewModelBackedViewControl
                     view.bindToViewModel(this.viewmodel.genderPickerViewModel)
                     
                     transitionDisposable += view.continueProxy
-                        .logLifeCycle(LogContext.Account, signalName: "genderPickerView.continueProxy")
                         .startWithNext {
                             this.transitionManager.transitionNext()
                         }
@@ -220,7 +216,6 @@ final class SignUpViewController : XUIViewController, ViewModelBackedViewControl
                     view.bindToViewModel(this.viewmodel.birthdayPickerViewModel)
                     
                     transitionDisposable += view.continueProxy
-                        .logLifeCycle(LogContext.Account, signalName: "birthdayPickerView.continueProxy")
                         .startWithNext {
                             this.transitionManager.transitionNext()
                         }
@@ -254,21 +249,18 @@ final class SignUpViewController : XUIViewController, ViewModelBackedViewControl
                 view.bindToViewModel(this.viewmodel.photoViewModel)
                 
                 transitionDisposable += view.presentUIImagePickerProxy
-                    .logLifeCycle(LogContext.Account, signalName: "photoView.presentUIImagePickerProxy")
                     .startWithNext { imagePicker in
                         // present image picker
                         self?.presentViewController(imagePicker, animated: true, completion: nil)
                     }
                 
                 transitionDisposable += view.dismissUIImagePickerProxy
-                    .logLifeCycle(LogContext.Account, signalName: "photoView.dismissUIImagePickerProxy")
                     .startWithNext { handler in
                         // dismiss image picker
                         self?.dismissViewControllerAnimated(true, completion: handler)
                     }
                 
                 transitionDisposable += view.doneProxy
-                    .logLifeCycle(LogContext.Account, signalName: "photoView.doneProxy")
                     .promoteErrors(NetworkError)
                     .flatMap(FlattenStrategy.Concat) {
                         SignalProducer<Void, NetworkError> { observer, disposable in
@@ -303,18 +295,11 @@ final class SignUpViewController : XUIViewController, ViewModelBackedViewControl
                             
                             // Subscribe to disappear notification
                             disposable += this.hud.didDissappearNotification()
-                                .on(next: { _ in AccountLogVerbose("HUD disappeared.") })
                                 .startWithNext { status in
                                     // completes the action
                                     observer.sendNext(())
                                     observer.sendCompleted()
                                 }
-                            
-                            // Add the signals to CompositeDisposable for automatic memory management
-                            disposable.addDisposable {
-                                AccountLogVerbose("Update profile action is disposed.")
-                            }
-
                         }
                     }
                     .startWithNext {
@@ -331,11 +316,6 @@ final class SignUpViewController : XUIViewController, ViewModelBackedViewControl
             }
         )
     }()
-    
-    
-    deinit {
-        AccountLogVerbose("SignUp View Controller deinitializes.")
-    }
     
     // MARK: - Bindings
     

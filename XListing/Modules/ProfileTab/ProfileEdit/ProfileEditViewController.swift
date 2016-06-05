@@ -85,7 +85,6 @@ final class ProfileEditViewController: XUIViewController {
 
                 // Subscribe to disappear notification
                 disposable += self.hud.didDissappearNotification()
-                    .on(next: { _ in ProfileLogVerbose("HUD disappeared.") })
                     .startWithNext { status in
 
                         self.dismissViewControllerAnimated(true, completion: nil)
@@ -144,7 +143,6 @@ final class ProfileEditViewController: XUIViewController {
                 .start { event in
                     switch event {
                     case .Failed(let error):
-                        ProfileLogError(error.description)
                         self.hud.dismissWithFailedMessage()
                         observer.sendFailed(error)
                     case .Interrupted:
@@ -182,7 +180,6 @@ final class ProfileEditViewController: XUIViewController {
 
             // Subscribe to disappear notification
             disposable += self.hud.didDissappearNotification()
-                .on(next: { _ in ProfileLogVerbose("HUD disappeared.") })
                 .startWithNext { status in
 
                     // completes the action

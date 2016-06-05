@@ -32,11 +32,6 @@ final class LogInViewModel : ILogInViewModel {
         self.meRepository = dep.meRepository
     }
     
-    deinit {
-        // Dispose signals before deinit.
-        AccountLogVerbose("Log In View Model deinitializes.")
-    }
-    
     // MARK: - Setups
     
     // MARK: - Others

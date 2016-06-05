@@ -20,11 +20,6 @@ final class LandingPageViewModel : ILandingPageViewModel {
         self.meRepository = meRepository
     }
     
-    deinit {
-        // Dispose signals before deinit.
-        AccountLogVerbose("LandingPage View Model deinitializes.")
-    }
-    
     func goToSignUpComponent() {
         router.toSignUp()
     }

@@ -35,11 +35,6 @@ final class SignUpViewModel : ISignUpViewModel {
         self.meRepository = dep.meRepository
     }
     
-    deinit {
-        // Dispose signals before deinit.
-        AccountLogVerbose("Sign Up View Model deinitializes.")
-    }
-    
     // MARK: Setup
     
     // MARK: Others

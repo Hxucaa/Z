@@ -135,7 +135,7 @@ extension NSError {
             return message
         }
         else {
-            DDLogWarn("Domain specific error has not been implemented yet... [\(self.description)]")
+            print("Domain specific error has not been implemented yet... [\(self.description)]")
             return self.localizedDescription
         }
     }

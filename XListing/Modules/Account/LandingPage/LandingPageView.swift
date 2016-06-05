@@ -240,7 +240,6 @@ final class LandingPageView : UIView {
     
     deinit {
         compositeDisposable.dispose()
-        AccountLogVerbose("Landing Page View deinitializes.")
     }
     
     // MARK: - Bindings

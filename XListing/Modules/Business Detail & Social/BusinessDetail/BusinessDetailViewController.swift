@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MapKit
 import RxSwift
 import RxCocoa
 import Dollar

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MapKit
 
 struct BusinessInfo {
     let objectId: String
@@ -47,6 +48,7 @@ struct BusinessInfo {
         // FIXME: placeholder
 //        coverImageUrl = business.coverImage.url
         let images = ["http://i.imgur.com/811P1Ii.png", "http://i.imgur.com/3kWh8wvh.jpg", "http://i.imgur.com/KARJcfNg.jpg", "http://i.imgur.com/uaQBLrIg.jpg", "http://i.imgur.com/FkdHm1R.jpg", "http://i.imgur.com/F6XgTwyr.jpg"]
+        
         coverImageUrl = images[Int(arc4random_uniform(UInt32(images.count)))] |> { NSURL(string: $0) }
         description = business.descriptor
         averagePrice = "30"
