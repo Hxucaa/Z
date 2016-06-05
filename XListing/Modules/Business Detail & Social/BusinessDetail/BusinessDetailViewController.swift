@@ -99,7 +99,6 @@ final class BusinessDetailViewController : XUIViewController {
     // MARK: - Properties
     private var inputViewModel: InputViewModel!
     private var viewmodel: IBusinessDetailViewModel!
-//    private let expandHours = MutableProperty<Bool>(false)
     
     private enum Section : Int {
         case Description, BusinessHours, Map
@@ -162,13 +161,7 @@ final class BusinessDetailViewController : XUIViewController {
         descriptionTableViewCell.bindToData(viewmodel.descriptor)
         
         businessHourHeaderTableViewCell.bindToData("营业时间")
-        businessHourCell.bindViewModel(viewmodel.businessHourViewModel)
-//        compositeDisposable += cell.expandBusinessHoursProxy
-//            .takeUntilPrepareForReuse(cell)
-//            .startWithNext { [weak self] vc in
-//                self?.tableView.beginUpdates()
-//                self?.tableView.endUpdates()
-//            }
+        businessHourCell.bindToData(viewmodel.businessHour)
         
         mapHeaderTableViewCell.bindToData("地址和信息")
         addressTableViewCell.bindToData(viewmodel.fullAddress)

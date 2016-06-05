@@ -12,7 +12,7 @@ import Result
 import RxSwift
 import RxCocoa
 
-public protocol IBusinessDetailViewModel : class {
+protocol IBusinessDetailViewModel : class {
     
     // MARK: - Outputs
     var businessName: String { get }
@@ -26,6 +26,7 @@ public protocol IBusinessDetailViewModel : class {
     var businessImageURL: NSURL? { get }
     var city: String { get }
     var meAndBusinessRegion: Driver<MKCoordinateRegion> { get }
+    var businessHour: String { get }
     var callStatus: Observable<Bool> { get }
     func calculateEta() -> Driver<String>
 
@@ -35,7 +36,7 @@ public protocol IBusinessDetailViewModel : class {
 //    var detailAddressAndMapViewModel: DetailAddressAndMapViewModel { get }
 //    var detailPhoneWebViewModel: DetailPhoneWebViewModel { get }
 //    var detailNavigationMapViewModel: DetailNavigationMapViewModel { get }
-    var businessHourViewModel: BusinessHourCellViewModel { get }
+//    var businessHourViewModel: BusinessHourCellViewModel { get }
     
     
     // MARK: Actions

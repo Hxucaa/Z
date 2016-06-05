@@ -71,6 +71,8 @@ final class BusinessDetailViewModel : _BaseViewModel, IBusinessDetailViewModel, 
         return business.websiteUrl
     }
     
+    let businessHour: String
+    
     func calculateEta() -> Driver<String> {
         return geoLocationService.calculateETA(business.geolocation)
             .map { "\($0)分钟" }
@@ -88,13 +90,6 @@ final class BusinessDetailViewModel : _BaseViewModel, IBusinessDetailViewModel, 
     private let meRepository: IMeRepository
     private let geoLocationService: IGeoLocationService
     
-    // MARK: ViewModels
-//    let headerViewModel: SocialBusinessHeaderViewModel
-//    let descriptionViewModel: DescriptionCellViewModel
-//    let detailAddressAndMapViewModel: DetailAddressAndMapViewModel
-//    let detailPhoneWebViewModel: DetailPhoneWebViewModel
-//    let detailNavigationMapViewModel: DetailNavigationMapViewModel
-    let businessHourViewModel: BusinessHourCellViewModel
     
     // MARK: Actions
     
@@ -118,15 +113,6 @@ final class BusinessDetailViewModel : _BaseViewModel, IBusinessDetailViewModel, 
         self.geoLocationService = dep.geoLocationService
         self.business = token
         
-//        headerViewModel = SocialBusinessHeaderViewModel(geoLocationService: geoLocationService, imageService: imageService, coverImage: business.coverImage, name: business.name, city: business.address.city, geolocation: business.address.geoLocation)
-        
-//        descriptionViewModel = DescriptionCellViewModel(description: token.description)
-//        
-//        detailAddressAndMapViewModel = DetailAddressAndMapViewModel(geoLocationService: geoLocationService, name: token.name, street: token.street, city: token.city, province: token.province, geolocation: token.geolocation)
-//        detailPhoneWebViewModel = DetailPhoneWebViewModel(name: token.name, phone: token.phone, website: token.websiteUrl)
-//        detailNavigationMapViewModel = DetailNavigationMapViewModel(geoLocationService: geoLocationService, name: token.name, geolocation: token.geolocation)
-        businessHourViewModel = BusinessHourCellViewModel()
-        
         meAndBusinessRegion = dep.geoLocationService.rx_getCurrentGeoPoint()
             .map { current -> MKCoordinateRegion in
                 let distance = token.geolocation.distanceFromLocation(current)
@@ -145,8 +131,8 @@ final class BusinessDetailViewModel : _BaseViewModel, IBusinessDetailViewModel, 
             }
         
         
+        businessHour = "今天：10:30AM - 3:00PM  &  5:00PM - 11:00PM"
         
         super.init(router: dep.router)
     }
-    
 }
