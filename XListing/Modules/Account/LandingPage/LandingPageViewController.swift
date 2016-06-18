@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import ReactiveCocoa
+import RxSwift
+import RxCocoa
 
 private let LandingPageViewNibName = "LandingPageView"
 
@@ -36,33 +37,33 @@ final class LandingPageViewController: XUIViewController, ViewModelBackedViewCon
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(self.view)
+        
         navigationController?.setNavigationBarHidden(true, animated: false)
         
         // add landing page as the first subview
         landingPageView.bindToViewModel(viewmodel)
 
-        compositeDisposable += landingPageView.skipProxy
-            .startWithNext { [weak self] in
-                self?.viewmodel.skipAccountModule()
-            }
+//        compositeDisposable += landingPageView.skipProxy
+//            .startWithNext { [weak self] in
+//                self?.viewmodel.skipAccountModule()
+//            }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        compositeDisposable += landingPageView.loginProxy
-            .takeUntilViewWillDisappear(self)
-            .startWithNext { [weak self] in
-                self?.viewmodel.goToLogInComponent()
-            }
+//        compositeDisposable += landingPageView.loginProxy
+//            .takeUntilViewWillDisappear(self)
+//            .startWithNext { [weak self] in
+//                self?.viewmodel.goToLogInComponent()
+//            }
         
-        compositeDisposable += landingPageView.signUpProxy
-            .takeUntilViewWillDisappear(self)
-            .startWithNext { [weak self] in
-                // transition to sign up view
-                self?.viewmodel.goToSignUpComponent()
-            }
+//        compositeDisposable += landingPageView.signUpProxy
+//            .takeUntilViewWillDisappear(self)
+//            .startWithNext { [weak self] in
+//                // transition to sign up view
+//                self?.viewmodel.goToSignUpComponent()
+//            }
 
     }
     

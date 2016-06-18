@@ -7,14 +7,14 @@
 //
 
 import UIKit
-import ReactiveCocoa
-import Result
+import RxSwift
+import RxCocoa
 import Cartography
 import Whisper
 
 final class ProfileEditViewController: XUIViewController {
 
-    typealias InputViewModel = Void -> ProfileEditViewModel
+    typealias InputViewModel = (loadFormData: Observable<Void>, submit: ControlEvent<Void>) -> ProfileEditViewModel
     // MARK: - UI Controls
     private var form: ProfileEditFormViewController! {
         didSet {
@@ -41,70 +41,176 @@ final class ProfileEditViewController: XUIViewController {
 
         title = "编辑"
         view.backgroundColor = UIColor(red: 0.937, green: 0.937, blue: 0.957, alpha: 1)
-
-        viewmodel = inputViewModel()
         
-        let dismissAction = ReactiveCocoa.Action<UIBarButtonItem, Void, NoError> { [weak self]
-            button in
-            return SignalProducer { observer, disposable in
-                self?.dismissViewControllerAnimated(true, completion: nil)
-                observer.sendNext(())
-                observer.sendCompleted()
+        let dismissButton = UIBarButtonItem(barButtonSystemItem: .Stop, target: nil, action: nil)
+        
+        dismissButton.rx_tap
+            .subscribeNext { [weak self] in self?.dismissViewControllerAnimated(true, completion: nil) }
+            .addDisposableTo(disposeBag)
+        
+        let saveButton = UIBarButtonItem(title: "递交", style: .Done, target: nil, action: nil)
+        
+        viewmodel = inputViewModel(
+            loadFormData: rx_sentMessage(#selector(self.viewWillAppear(_:)))
+                .map { _ in },
+            submit: saveButton.rx_tap
+        )
+//        let t = Observable.zip(
+//            self.viewmodel.nicknameField,
+//            self.viewmodel.whatsUpField,
+//            self.viewmodel.profileImageField
+//        ) { ($0, $1, $2) }
+//            .asD
+        let sharedFormStatus = viewmodel.formStatus
+            .shareReplay(1)
+        
+        sharedFormStatus
+            .filter { $0 == FormStatus.Awaiting }
+            .flatMap { _ in
+                Observable.zip(
+                    self.viewmodel.nicknameField,
+                    self.viewmodel.whatsUpField,
+                    self.viewmodel.profileImageField
+                ) { ($0, $1, $2) }
             }
-        }
-        let dismissButton = UIBarButtonItem(barButtonSystemItem: .Stop, target: dismissAction.unsafeCocoaAction, action: CocoaAction.selector)
-
-
-        let submitAction = ReactiveCocoa.Action<UIBarButtonItem, Void, NSError> (
-            enabledIf: AnyProperty(
-                initialValue: true,
-                producer: viewmodel.isFormValid()
-            )
-        ) { button in
-            return SignalProducer { observer, disposable in
-
-//                // display HUD to indicate work in progress
-//                // check for the validity of inputs first
-//                disposable += self.hud.show()
-//                    .promoteErrors(NSError)
-//                    .flatMap(FlattenStrategy.Concat) { _ in this.viewmodel.updateProfile() }
-//                    // does not `sendCompleted` because completion is handled when HUD is disappeared
-//                    .start { event in
-//                        switch event {
-//                        case .Next(_):
-//                            HUD.dismissWithNextMessage()
-//                        case .Failed(let error):
-//                            HUD.dismissWithFailedMessage()
-//                            ProfileLogError(error.description)
-//                            observer.sendFailed(error)
-//                        case .Interrupted:
-//                            observer.sendInterrupted()
-//                        default: break
-//                        }
+            .subscribeNext { [weak self] (nicknameField, whatsUpField, profileImageField) in
+                self?.form = ProfileEditFormViewController(nickname: nicknameField.value.value, profileImage: profileImageField.value.value, whatsUp: whatsUpField.value.value)
+            }
+            .addDisposableTo(disposeBag)
+        
+        sharedFormStatus
+            .filter { $0 == FormStatus.Error }
+            .subscribeNext { _ in
+                // TODO: Replace the current error message implementation with something better
+                Shout(Announcement(title: "请修正以下错误", subtitle: "Placeholder", image: nil, duration: 5.0, action: nil), to: self.form)
+            }
+            .addDisposableTo(disposeBag)
+        
+        sharedFormStatus
+            .filter { $0 == FormStatus.Submitting }
+            .flatMap { _ in self.hud.show() }
+        
+//            .flatMap { formStatus -> Observable<(FormField<String>, FormField<String>, FormField<UIImage>)> in
+//                switch formStatus {
+//                case .Loading:
+//                    return undefined()
+//                case .Awaiting:
+//                    
+//                }
+//                let t = Observable.zip(
+//                    self.viewmodel.nicknameField,
+//                    self.viewmodel.whatsUpField,
+//                    self.viewmodel.profileImageField
+//                ) { ($0, $1, $2) }
+//                
+//                return t
+////                switch $0 {
+////                case .Loading:
+////                    return Observable.empty()
+////                case .Awaiting:
+////                    return Observable.zip(
+////                        self.viewmodel.nicknameField,
+////                        self.viewmodel.whatsUpField,
+////                        self.viewmodel.profileImageField
+////                    ) { ($0, $1, $2) }
+////                default:
+////                    return Observable.empty()
+////                
+////                }
+//            }
+//            .subscribeNext { (formStatus) in
+//                
+//                switch formStatus {
+//                case .Loading:
+//                    break
+//                case .Awaiting:
+//                    
+//                    
+//                }
+//                let t = Observable.zip(
+//                    self.viewmodel.nicknameField,
+//                    self.viewmodel.whatsUpField,
+//                    self.viewmodel.profileImageField
+//                ) { ($0, $1, $2) }
+//                
+//        }
+//            .subscribeNext { [weak self] _ in
+////                switch $0 {
+////                case .Loading:
+////                    break
+////                case .Awaiting:
+////                    self?.form = ProfileEditFormViewController(
+////                        nickname: ,
+////                        profileImage: ,
+////                        whatsUp: )
+////                }
+//                
+//            }
+//            .addDisposableTo(disposeBag)
+        
+//        let dismissAction = ReactiveCocoa.Action<UIBarButtonItem, Void, NoError> { [weak self]
+//            button in
+//            return SignalProducer { observer, disposable in
+//                self?.dismissViewControllerAnimated(true, completion: nil)
+//                observer.sendNext(())
+//                observer.sendCompleted()
+//            }
+//        }
+//        let dismissButton = UIBarButtonItem(barButtonSystemItem: .Stop, target: dismissAction.unsafeCocoaAction, action: CocoaAction.selector)
+//
+//
+//        let submitAction = ReactiveCocoa.Action<UIBarButtonItem, Void, NSError> (
+//            enabledIf: AnyProperty(
+//                initialValue: true,
+//                producer: viewmodel.isFormValid()
+//            )
+//        ) { button in
+//            return SignalProducer { observer, disposable in
+//
+////                // display HUD to indicate work in progress
+////                // check for the validity of inputs first
+////                disposable += self.hud.show()
+////                    .promoteErrors(NSError)
+////                    .flatMap(FlattenStrategy.Concat) { _ in this.viewmodel.updateProfile() }
+////                    // does not `sendCompleted` because completion is handled when HUD is disappeared
+////                    .start { event in
+////                        switch event {
+////                        case .Next(_):
+////                            HUD.dismissWithNextMessage()
+////                        case .Failed(let error):
+////                            HUD.dismissWithFailedMessage()
+////                            ProfileLogError(error.description)
+////                            observer.sendFailed(error)
+////                        case .Interrupted:
+////                            observer.sendInterrupted()
+////                        default: break
+////                        }
+////                    }
+//
+//                // Subscribe to disappear notification
+//                disposable += self.hud.didDissappearNotification()
+//                    .startWithNext { status in
+//
+//                        self.dismissViewControllerAnimated(true, completion: nil)
+//
+//                        // completes the action
+//                        observer.sendNext(())
+//                        observer.sendCompleted()
 //                    }
+//            }
+//        }
 
-                // Subscribe to disappear notification
-                disposable += self.hud.didDissappearNotification()
-                    .startWithNext { status in
+        
+//        viewmodel.submit
+//            .drive(saveButton.rx_enabled)
+//            .
 
-                        self.dismissViewControllerAnimated(true, completion: nil)
-
-                        // completes the action
-                        observer.sendNext(())
-                        observer.sendCompleted()
-                    }
-            }
-        }
-
-
-        let saveButton = UIBarButtonItem(title: "递交", style: .Done, target: submitAction.unsafeCocoaAction, action: CocoaAction.selector)
-
-        // disable button when submit action is disabled
-        saveButton.rac_enabled <~ submitAction.enabled
-
-        // disable button when submission is in progress
-        saveButton.rac_enabled <~ submitAction.executing.producer
-            .map { !$0 }
+//        // disable button when submit action is disabled
+//        saveButton.rac_enabled <~ submitAction.enabled
+//
+//        // disable button when submission is in progress
+//        saveButton.rac_enabled <~ submitAction.executing.producer
+//            .map { !$0 }
 
         let navBar = navigationController?.navigationBar
         navBar?.barTintColor = UIColor.x_PrimaryColor()
@@ -113,84 +219,106 @@ final class ProfileEditViewController: XUIViewController {
         // Create two buttons for the navigation item
         navigationItem.leftBarButtonItem = dismissButton
         navigationItem.rightBarButtonItem = saveButton
+        
+//        viewmodel.
+        
+//        viewmodel.submit
+//            .driveNext {
+//                if $0 {
+//                    
+//                }
+//                else {
+//                    // TODO: Replace the current error message implementation with something better
+//                    Shout(Announcement(title: "请修正以下错误", subtitle: "Placeholder", image: nil, duration: 5.0, action: nil), to: self.form)
+//                }
+//            }
+//            .addDisposableTo(disposeBag)
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        viewmodel.isFormValid()
-            .filter { !$0 }
-            .flatMap(FlattenStrategy.Latest) {
-                _ in self.viewmodel.formFormattedErrors()
-            }
-            .ignoreNil()
-            .startWithNext {
-                // TODO: Replace the current error message implementation with something better
-                Shout(Announcement(title: "请修正以下错误", subtitle: $0, image: nil, duration: 5.0, action: nil), to: self.form)
-            }
+//        viewmodel.isFormValid()
+//            .filter { !$0 }
+//            .flatMap(FlattenStrategy.Latest) {
+//                _ in self.viewmodel.formFormattedErrors()
+//            }
+//            .ignoreNil()
+//            .startWithNext {
+//                // TODO: Replace the current error message implementation with something better
+//                Shout(Announcement(title: "请修正以下错误", subtitle: $0, image: nil, duration: 5.0, action: nil), to: self.form)
+//            }
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        // fetch user info
-        SignalProducer<Void, NSError> { observer, disposable in
-
-            // display hud and retrieve user info
-            disposable += self.hud.show()
-                .promoteErrors(NSError)
-                .flatMap(FlattenStrategy.Concat) { _ in self.viewmodel.getInitialValues() }
-                .start { event in
-                    switch event {
-                    case .Failed(let error):
-                        self.hud.dismissWithFailedMessage()
-                        observer.sendFailed(error)
-                    case .Interrupted:
-                        observer.sendInterrupted()
-                    default: break
-                    }
-            }
-
-            // once user info is retrieved
-            disposable += zip(
-                self.viewmodel.nicknameField.producer.ignoreNil(),
-                self.viewmodel.whatsUpField.producer.ignoreNil(),
-                self.viewmodel.profileImageField.producer.ignoreNil()
-                )
-                .map { nicknameField, whatsUpField, profileImageField in
-                    ProfileEditFormViewController(
-                        nickname: (nicknameField.initialValue, { nicknameField.onChange($0) }),
-                        profileImage: (profileImageField.initialValue, { profileImageField.onChange($0) }),
-                        whatsUp: (whatsUpField.initialValue, { whatsUpField.onChange($0) })
-                    )
-                }
-                .promoteErrors(NSError)
-                .start { event in
-                    switch event {
-                    case .Next(let form):
-                        // dismiss HUD based on the result of update profile signal
-                        self.hud.dismiss()
-                        self.form = form
-                    case .Interrupted:
-                        observer.sendInterrupted()
-                    default: break
-                    }
-            }
-
-
-            // Subscribe to disappear notification
-            disposable += self.hud.didDissappearNotification()
-                .startWithNext { status in
-
-                    // completes the action
-                    observer.sendNext(())
-                    observer.sendCompleted()
-            }
-        }
-        .start()
+//        // fetch user info
+//        SignalProducer<Void, NSError> { observer, disposable in
+//
+//            // display hud and retrieve user info
+//            disposable += self.hud.show()
+//                .promoteErrors(NSError)
+//                .flatMap(FlattenStrategy.Concat) { _ in self.viewmodel.getInitialValues() }
+//                .start { event in
+//                    switch event {
+//                    case .Failed(let error):
+//                        self.hud.dismissWithFailedMessage()
+//                        observer.sendFailed(error)
+//                    case .Interrupted:
+//                        observer.sendInterrupted()
+//                    default: break
+//                    }
+//            }
+//
+//            // once user info is retrieved
+//            disposable += zip(
+//                self.viewmodel.nicknameField.producer.ignoreNil(),
+//                self.viewmodel.whatsUpField.producer.ignoreNil(),
+//                self.viewmodel.profileImageField.producer.ignoreNil()
+//                )
+//                .map { nicknameField, whatsUpField, profileImageField in
+//                    ProfileEditFormViewController(
+//                        nickname: (nicknameField.initialValue, { nicknameField.onChange($0) }),
+//                        profileImage: (profileImageField.initialValue, { profileImageField.onChange($0) }),
+//                        whatsUp: (whatsUpField.initialValue, { whatsUpField.onChange($0) })
+//                    )
+//                }
+//                .promoteErrors(NSError)
+//                .start { event in
+//                    switch event {
+//                    case .Next(let form):
+//                        // dismiss HUD based on the result of update profile signal
+//                        self.hud.dismiss()
+//                        self.form = form
+//                    case .Interrupted:
+//                        observer.sendInterrupted()
+//                    default: break
+//                    }
+//            }
+//
+//
+//            // Subscribe to disappear notification
+//            disposable += self.hud.didDissappearNotification()
+//                .startWithNext { status in
+//
+//                    // completes the action
+//                    observer.sendNext(())
+//                    observer.sendCompleted()
+//            }
+//        }
+//        .start()
     }
 
     func bindToViewModel(inputViewModel: InputViewModel) {
         self.inputViewModel = inputViewModel
+    }
+    
+    func dismissAction() {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func saveAction() {
+        
     }
 }

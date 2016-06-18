@@ -44,6 +44,8 @@ public protocol IMeRepository : IBaseRepository {
     
     func rx_logIn(username: String, password: String) -> Observable<Me>
     
+    func rx_me() -> Observable<Me?>
+    
     func me() -> Me?
     
     func isParticipatingBusiness(business: Business) -> Observable<Bool>
@@ -101,6 +103,10 @@ public final class MeRepository : _BaseRepository, IMeRepository {
         
         return UserDAO.rac_logInWithUsername(username, password: password)
             .mapToMeModel()
+    }
+    
+    public func rx_me() -> Observable<Me?> {
+        return Observable.just(me())
     }
     
     public func me() -> Me? {

@@ -15,6 +15,8 @@ the `RePromptButtonsView` is loaded.
 
 import Foundation
 import UIKit
+import RxSwift
+import RxCocoa
 import ReactiveCocoa
 import Result
 
@@ -31,19 +33,27 @@ final class LandingPageView : UIView {
     @IBOutlet private weak var dividerLabel: UILabel?
     @IBOutlet private weak var backButton: UIButton?
     
+    var skipEvent: ControlEvent<Void>? {
+        return skipButton?.rx_tap
+    }
+    
+    var loginEvent: ControlEvent<Void>? {
+        return loginButton.rx_tap
+    }
+    
     // MARK: - Proxies
     
     /// Skip Landing view.
-    var skipProxy: SimpleProxy {
-        return _skipProxy
-    }
-    private let (_skipProxy, _skipObserver) = SimpleProxy.proxy()
-    
-    /// Go to Log In view.
-    var loginProxy: SimpleProxy {
-        return _loginProxy
-    }
-    private let (_loginProxy, _loginObserver) = SimpleProxy.proxy()
+//    var skipProxy: SimpleProxy {
+//        return _skipProxy
+//    }
+//    private let (_skipProxy, _skipObserver) = SimpleProxy.proxy()
+//    
+//    /// Go to Log In view.
+//    var loginProxy: SimpleProxy {
+//        return _loginProxy
+//    }
+//    private let (_loginProxy, _loginObserver) = SimpleProxy.proxy()
     
     /// Go to Sign Up view.
     var signUpProxy: SimpleProxy {
@@ -54,26 +64,25 @@ final class LandingPageView : UIView {
     
     // MARK: - Properties
     private let viewmodel = MutableProperty<ILandingPageViewModel?>(nil)
-    private let compositeDisposable = CompositeDisposable()
     
     // MARK: - Actions
     /// Skip this view
-    private lazy var skipAction: Action<UIButton, Void, NoError> = Action<UIButton, Void, NoError> { [weak self] button in
-        return SignalProducer { observer, disposable in
-            // send event to skip proxy
-            self?._skipObserver.sendNext(())
-            
-            // completes this action
-            observer.sendCompleted()
-        }
-    }
+//    private lazy var skipAction: Action<UIButton, Void, NoError> = Action<UIButton, Void, NoError> { [weak self] button in
+//        return SignalProducer { observer, disposable in
+//            // send event to skip proxy
+//            self?._skipObserver.sendNext(())
+//            
+//            // completes this action
+//            observer.sendCompleted()
+//        }
+//    }
     
     // MARK: - Setups
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        compositeDisposable += viewmodel.producer
+        viewmodel.producer
             .ignoreNil()
             .startWithNext { [weak self] viewmodel in
                 // conditionally load subviews
@@ -153,15 +162,15 @@ final class LandingPageView : UIView {
     }
     
     private func setupLoginButton() {
-        let gotoLogin = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { observer, disposable in
-                self?._loginObserver.sendNext(())
-                
-                observer.sendCompleted()
-            }
-        }
-        
-        loginButton.addTarget(gotoLogin.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+//        let gotoLogin = Action<UIButton, Void, NoError> { [weak self] button in
+//            return SignalProducer { observer, disposable in
+//                self?._loginObserver.sendNext(())
+//                
+//                observer.sendCompleted()
+//            }
+//        }
+//        
+//        loginButton.addTarget(gotoLogin.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
     
     private func setupSignUpButton() {
@@ -182,7 +191,7 @@ final class LandingPageView : UIView {
         skipButton?.layer.masksToBounds = true
         skipButton?.layer.cornerRadius = 8
         
-        skipButton?.addTarget(skipAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
+//        skipButton?.addTarget(skipAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
     
     private func setupDividerLabel() {
@@ -235,11 +244,7 @@ final class LandingPageView : UIView {
             ]
         )
         
-        backButton?.addTarget(skipAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-    }
-    
-    deinit {
-        compositeDisposable.dispose()
+//        backButton?.addTarget(skipAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
     
     // MARK: - Bindings

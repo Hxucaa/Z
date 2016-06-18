@@ -10,6 +10,7 @@ import Foundation
 import SVProgressHUD
 import ReactiveCocoa
 import Result
+import RxSwift
 
 private let DefaultWIPMessage = "努力跑..."
 private let DefaultSuccessMessage = "成功了！"
@@ -28,6 +29,7 @@ public class HUD {
         SVProgressHUD.setRingThickness(8.0)
         SVProgressHUD.setDefaultMaskType(SVProgressHUDMaskType.Black)
         SVProgressHUD.setFont(UIFont.boldSystemFontOfSize(17.0))
+//        SVProgressHUD.setMinimumDismissTimeInterval(NSTimeInterval(2))
     }
     
      /**
@@ -42,6 +44,14 @@ public class HUD {
             observer.sendCompleted()
         }
     }
+    
+//    public func rx_show() -> Observable<Void> {
+//        return Observable.create { observer in
+//            SVProgressHUD.show()
+//            observer.sendNext(())
+//            observer.sendCompleted()
+//        }
+//    }
     
     /**
     Inject display of HUD as side effects.

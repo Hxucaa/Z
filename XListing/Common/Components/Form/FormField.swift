@@ -7,157 +7,140 @@
 //
 
 import Foundation
-import ReactiveCocoa
-import Result
+import UIKit
 
-public class RequiredFormField<T> : _BaseFormField<T> {
+public struct FormField<T: Equatable> {
     
-    public typealias ValidationRule = T -> ValidationNEL<T, ValidationError>
-    
-    public let validation: ValidationRule?
-    
-    public convenience init(name: String?) {
-        self.init(name: name, initialValue: nil)
-    }
-    
-    public convenience override init(name: String?, initialValue: T?) {
-        self.init(name: name, initialValue: initialValue, validation: nil)
-    }
-    
-    public init(name: String?, initialValue: T?, validation: ValidationRule?) {
-        self.validation = validation
-        super.init(name: name, initialValue: initialValue)
-        
-        _errors <~ _value.producer
-            .skip(1)
-            .map {
-                guard let v = $0 else {
-                    return [ValidationError.Required]
-                }
-                return validation?(v).failure
-            }
-    }
-}
-
-public class OptionalFormField<T> : _BaseFormField<T> {
-    
-    public typealias ValidationRule = T -> ValidationNEL<T, ValidationError>
-    
-    public let validation: ValidationRule?
-    
-    public convenience init(name: String?) {
-        self.init(name: name, initialValue: nil)
-    }
-    
-    public convenience override init(name: String?, initialValue: T?) {
-        self.init(name: name, initialValue: initialValue, validation: nil)
-    }
-    
-    public init(name: String?, initialValue: T?, validation: ValidationRule?) {
-        self.validation = validation
-        super.init(name: name, initialValue: initialValue)
-        
-        _errors <~ _value.producer
-            .skip(1)
-            .ignoreNil()
-            .map { validation?($0).failure }
-    }
-}
-
-public class _BaseFormField<T> {
-    
-    private let _active = MutableProperty<Bool>(false)
-    public var active: AnyProperty<Bool> {
-        return AnyProperty(_active)
-    }
-    
-    private let _dirty = MutableProperty<Bool>(false)
-    public var dirty: AnyProperty<Bool> {
-        return AnyProperty(_dirty)
-    }
-    
-    public var pristine: SignalProducer<Bool, NoError> {
-        return _dirty.producer.map { !$0 }
-    }
-    
-    public let initialValue: T?
-    
-    public let _errors = MutableProperty<[ValidationError]?>(nil)
-    public var errors: AnyProperty<[ValidationError]?> {
-        return AnyProperty(_errors)
-    }
-    
-    private let _valid = MutableProperty<Bool>(true)
-    public var valid: AnyProperty<Bool> {
-        return AnyProperty(_valid)
-    }
-    
-    public var invalid: SignalProducer<Bool, NoError> {
-        return valid.producer.map { !$0 }
-    }
+    public typealias ValidationRule = T? -> ValidationNEL<T, ValidationError>
     
     public let name: String?
+    public let value: FieldValue<T>
+    public let validation: ValidationRule?
+    public let errors: [ValidationError]?
+    public let visited: Bool
+    public let touched: Bool
     
-    private let _touched = MutableProperty<Bool>(false)
-    public var touched: AnyProperty<Bool> {
-        return AnyProperty(_touched)
+    public var valid: Bool {
+        return errors == nil ? true : false
     }
     
-    private let _value = MutableProperty<T?>(nil)
-    public var value: AnyProperty<T?> {
-        return AnyProperty(_value)
+    public var invalid: Bool {
+        return !valid
     }
     
-    private let _visited = MutableProperty<Bool>(false)
-    public var visited: AnyProperty<Bool> {
-        return AnyProperty(_visited)
+    public var dirty: Bool {
+        switch value {
+        case .Initial(_):
+            return true
+        case .Input(_):
+            return false
+        }
     }
     
-    public convenience init(name: String?) {
-        self.init(name: name, initialValue: nil)
+    public var pristine: Bool {
+        return !dirty
+    }
+    
+    public var validDirtyValue: T? {
+        if valid && dirty {
+            return value.value
+        }
+        else {
+            return nil
+        }
+    }
+    
+    public var isInitialValue: Bool {
+        if case .Initial(_) = value {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    public var isUserInput: Bool {
+        return !isInitialValue
     }
     
     public init(name: String?, initialValue: T?) {
+        self.init(name: name, initialValue: initialValue, validation: nil)
+    }
+    
+    public init(name: String?, initialValue: T?, validation: ValidationRule?) {
         self.name = name
-        self.initialValue = initialValue
+        value = .Initial(initialValue)
+        self.validation = validation
+        if let value = value.value, validation = validation {
+            self.errors = validation(value).failure
+        }
+        else {
+            self.errors = nil
+        }
         
-        _valid <~ _errors.producer
-            .map {
-                $0 == nil ? true : false
-            }
+        visited = false
+        touched = false
     }
     
-    /**
-     A function to call when the form field is changed.
-     
-     - parameter newValue: A new value
-     */
-    public func onChange(newValue: T?) {
-        _value.modify { _ in newValue }
-        _dirty.modify { _ in true }
+    private init(name: String?, value: FieldValue<T>, validation: ValidationRule?, visited: Bool, touched: Bool) {
+        self.name = name
+        self.value = value
+        self.validation = validation
+        if let value = value.value, validation = validation {
+            self.errors = validation(value).failure
+        }
+        else {
+            self.errors = nil
+        }
+        
+        self.visited = visited
+        self.touched = touched
     }
     
-    /**
-     A function to call when the form field receives focus.
-     */
-    public func onFocus() {
-        _visited.modify { _ in true }
-        _active.modify { _ in true }
+    public func onChange(value: T?) -> FormField<T> {
+        return FormField<T>(
+            name: name,
+            value: self.value.onChange(value),
+            validation: self.validation,
+            visited: self.visited,
+            touched: self.touched
+        )
     }
     
-    /**
-     A function to call when the form field loses focus.
-     */
-    public func onBlur() {
-        _touched.modify { _ in true }
-        _active.modify { _ in false }
+    public func onFocus() -> FormField<T> {
+        if visited {
+            return self
+        }
+        else {
+            return FormField<T>(
+                name: name,
+                value: value,
+                validation: self.validation,
+                visited: true,
+                touched: self.touched
+            )
+        }
+    }
+    
+    public func onBlur() -> FormField<T> {
+        if touched {
+            return self
+        }
+        else {
+            return FormField<T>(
+                name: name,
+                value: value,
+                validation: self.validation,
+                visited: self.visited,
+                touched: true
+            )
+        }
     }
 }
 
-
-public extension _BaseFormField {
+public extension FormField {
     public func formattedErrors(separator: String = "\n") -> String? {
-        guard let e = _errors.value where !e.isEmpty else {
+        guard let e = errors where !e.isEmpty else {
             return nil
         }
         
@@ -168,5 +151,30 @@ public extension _BaseFormField {
         }
         
         return "\(name): \(message)"
+    }
+}
+
+public enum FieldValue<T: Equatable> {
+    case Initial(T?)
+    case Input(T?)
+    
+    public func onChange(value: T?) -> FieldValue<T> {
+        switch self {
+        case let .Initial(v) where v == value:
+            return self
+        case let .Input(v) where v == value:
+            return .Initial(v)
+        default:
+            return .Input(value)
+        }
+    }
+    
+    public var value: T? {
+        switch self {
+        case let .Initial(v):
+            return v
+        case let .Input(v):
+            return v
+        }
     }
 }

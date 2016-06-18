@@ -9,16 +9,21 @@
 import UIKit
 import Foundation
 import Eureka
+import RxSwift
 
 final class ProfileEditFormViewController : FormViewController {
     
     // MARK: - Properties
-    private let nickname: (old: String?, new: String? -> Void)
-    private let profileImage: (old: UIImage?, new: UIImage? -> Void)
-    private let whatsUp: (old: String?, new: String? -> Void)
+    private let nickname: String?
+    private let profileImage: UIImage?
+    private let whatsUp: String?
+    
+    let nicknameInput = PublishSubject<String?>()
+    let whatsUpInput = PublishSubject<String?>()
+    let profileImageInput = PublishSubject<UIImage?>()
     
     // MARK: - Initializers
-    init(nickname: (old: String?, new: String? -> Void), profileImage: (old: UIImage?, new: UIImage? -> Void), whatsUp: (old: String?, new: String? -> Void)) {
+    init(nickname: String?, profileImage: UIImage?, whatsUp: String?) {
         self.nickname = nickname
         self.profileImage = profileImage
         self.whatsUp = whatsUp
@@ -46,32 +51,32 @@ final class ProfileEditFormViewController : FormViewController {
             +++ Section()
                 <<< ImageRow("头像") {
                         $0.title = "头像"
-                        $0.value = self.profileImage.old
+                        $0.value = self.profileImage
                     }
                     .cellSetup { (cell, row) in
                         cell.height = { 80 }
                     }
                     .onChange { [weak self] row in
-                        self?.profileImage.new(row.value)
+                        self?.profileImageInput.onNext(row.value)
                     }
             +++ Section()
                 <<< TextFloatLabelRow("昵称") {
                         $0.title = "昵称"
-                        $0.value = self.nickname.old
+                        $0.value = self.nickname
                     }
                     .cellSetup { (cell, row) -> () in
                         cell.textField.autocorrectionType = .No
                         cell.textField.autocapitalizationType = .None
                     }
                     .onChange { [weak self] row in
-                        self?.nickname.new(row.value)
+                        self?.nicknameInput.onNext(row.value)
                     }
                 <<< TextFloatLabelRow("What's Up") {
                         $0.title = "What's Up"
-                        $0.value = self.whatsUp.old
+                        $0.value = self.whatsUp
                     }
                     .onChange { [weak self] row in
-                        self?.whatsUp.new(row.value)
+                        self?.whatsUpInput.onNext(row.value)
                     }
     }
 
