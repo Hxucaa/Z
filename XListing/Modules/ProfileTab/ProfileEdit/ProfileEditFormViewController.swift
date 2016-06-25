@@ -46,38 +46,41 @@ final class ProfileEditFormViewController : FormViewController {
             cell.accessoryView?.layer.cornerRadius = 32.5
             cell.accessoryView?.frame = CGRectMake(0, 0, 65, 65)
         }
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
         form
             +++ Section()
-                <<< ImageRow("头像") {
-                        $0.title = "头像"
-                        $0.value = self.profileImage
-                    }
-                    .cellSetup { (cell, row) in
-                        cell.height = { 80 }
-                    }
-                    .onChange { [weak self] row in
-                        self?.profileImageInput.onNext(row.value)
-                    }
+            <<< ImageRow("头像") {
+                $0.title = "头像"
+                $0.value = self.profileImage
+                }
+                .cellSetup { (cell, row) in
+                    cell.height = { 80 }
+                }
+                .onChange { [weak self] row in
+                    self?.profileImageInput.onNext(row.value)
+                }
             +++ Section()
-                <<< TextFloatLabelRow("昵称") {
-                        $0.title = "昵称"
-                        $0.value = self.nickname
-                    }
-                    .cellSetup { (cell, row) -> () in
-                        cell.textField.autocorrectionType = .No
-                        cell.textField.autocapitalizationType = .None
-                    }
-                    .onChange { [weak self] row in
-                        self?.nicknameInput.onNext(row.value)
-                    }
-                <<< TextFloatLabelRow("What's Up") {
-                        $0.title = "What's Up"
-                        $0.value = self.whatsUp
-                    }
-                    .onChange { [weak self] row in
-                        self?.whatsUpInput.onNext(row.value)
-                    }
+            <<< TextFloatLabelRow("昵称") {
+                $0.title = "昵称"
+                $0.value = self.nickname
+                }
+                .cellSetup { (cell, row) -> () in
+                    cell.textField.autocorrectionType = .No
+                    cell.textField.autocapitalizationType = .None
+                }
+                .onChange { [weak self] row in
+                    self?.nicknameInput.onNext(row.value)
+                }
+            <<< TextFloatLabelRow("What's Up") {
+                $0.title = "What's Up"
+                $0.value = self.whatsUp
+                }
+                .onChange { [weak self] row in
+                    self?.whatsUpInput.onNext(row.value)
+                }
     }
-
 }

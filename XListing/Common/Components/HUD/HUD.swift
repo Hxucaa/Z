@@ -29,7 +29,7 @@ public class HUD {
         SVProgressHUD.setRingThickness(8.0)
         SVProgressHUD.setDefaultMaskType(SVProgressHUDMaskType.Black)
         SVProgressHUD.setFont(UIFont.boldSystemFontOfSize(17.0))
-//        SVProgressHUD.setMinimumDismissTimeInterval(NSTimeInterval(2))
+        SVProgressHUD.setMinimumDismissTimeInterval(NSTimeInterval(2))
     }
     
      /**
@@ -37,6 +37,11 @@ public class HUD {
      
      - returns: A signal producer
      */
+    
+    public func x_show() {
+        SVProgressHUD.show()
+    }
+    
     public func show() -> SignalProducer<Void, NoError> {
         return SignalProducer<Void, NoError> { observer, disposable in
             SVProgressHUD.show()
@@ -52,6 +57,10 @@ public class HUD {
 //            observer.sendCompleted()
 //        }
 //    }
+    
+    public func x_showWithStatusMessage(message: String = DefaultWIPMessage) {
+        SVProgressHUD.showWithStatus(message)
+    }
     
     /**
     Inject display of HUD as side effects.
