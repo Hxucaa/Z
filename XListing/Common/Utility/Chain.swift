@@ -2,8 +2,8 @@
 //  Chain.swift
 //  XListing
 //
-//  Created by Lance on 2015-09-12.
-//  Copyright (c) 2015 ZenChat. All rights reserved.
+//  Created by Lance Zhu 2015-09-12.
+//  Copyright (c) 2016 Lance Zhu. All rights reserved.
 //
 
 import Foundation

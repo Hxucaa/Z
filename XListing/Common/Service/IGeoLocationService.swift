@@ -3,7 +3,7 @@
 //  XListing
 //
 //  Created by Lance Zhu on 2015-05-05.
-//  Copyright (c) 2015 ZenChat. All rights reserved.
+//  Copyright (c) 2016 Lance Zhu. All rights reserved.
 //
 
 import Foundation

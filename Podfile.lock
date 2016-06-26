@@ -13,7 +13,7 @@ PODS:
   - FLEX (2.3.0)
   - INSPullToRefresh (1.1.5)
   - Locksmith (2.0.8)
-  - Nimble (4.0.1)
+  - Nimble (4.1.0)
   - PINCache (2.2.2)
   - PINRemoteImage (2.1.4):
     - PINRemoteImage/FLAnimatedImage (= 2.1.4)
@@ -36,7 +36,7 @@ PODS:
   - ReactiveCocoa/UI (4.1.0):
     - ReactiveCocoa/Core
     - Result (~> 2.0)
-  - Result (2.0.0)
+  - Result (2.1.1)
   - RxBlocking (2.5.0):
     - RxSwift (~> 2.5)
   - RxCocoa (2.5.0):
@@ -48,9 +48,9 @@ PODS:
     - RxCocoa (~> 2.0)
     - RxSwift (~> 2.0)
   - RxSwift (2.5.0)
-  - SDWebImage (3.7.6):
-    - SDWebImage/Core (= 3.7.6)
-  - SDWebImage/Core (3.7.6)
+  - SDWebImage (3.8.1):
+    - SDWebImage/Core (= 3.8.1)
+  - SDWebImage/Core (3.8.1)
   - Spring (1.0.3)
   - SVProgressHUD (2.0.3)
   - Swiftz (0.5.0)
@@ -58,9 +58,7 @@ PODS:
   - TTTAttributedLabel (2.0.0)
   - TZStackView (1.2.0)
   - Whisper (3.0.0)
-  - XAssets (0.7.0):
-    - ReactiveCocoa (~> 4.1.0)
-    - SDWebImage (~> 3.7.0)
+  - XAssets (0.7.1)
   - XLActionController (2.0.0):
     - XLActionController/Core (= 2.0.0)
   - XLActionController/Core (2.0.0)
@@ -81,7 +79,7 @@ DEPENDENCIES:
   - FLEX (~> 2.0)
   - INSPullToRefresh (~> 1.1.0)
   - Locksmith (~> 2.0.2)
-  - Nimble (~> 4.0.0)
+  - Nimble (~> 4.1.0)
   - PINRemoteImage (~> 2.1.2)
   - Quick (~> 0.9.0)
   - ReactiveArray (from `https://github.com/Hxucaa/ReactiveArray.git`, tag `0.3.0`)
@@ -91,7 +89,7 @@ DEPENDENCIES:
   - RxDataSources (~> 0.8.1)
   - RxOptional (~> 2.0.0)
   - RxSwift (~> 2.5.0)
-  - SDWebImage (~> 3.7.6)
+  - SDWebImage (~> 3.8.1)
   - Spring (from `https://github.com/MengTo/Spring.git`)
   - SVProgressHUD (~> 2.0.3)
   - Swiftz
@@ -99,7 +97,7 @@ DEPENDENCIES:
   - TTTAttributedLabel (~> 2.0.0)
   - TZStackView (~> 1.2.0)
   - Whisper (~> 3.0.0)
-  - XAssets (from `https://github.com/Hxucaa/xassets.git`, tag `0.7.0`)
+  - XAssets (from `https://github.com/Hxucaa/xassets.git`, tag `0.7.1`)
   - XLActionController (~> 2.0.0)
   - XLActionController/Tweetbot
   - XLPagerTabStrip (~> 5.0.0)
@@ -112,7 +110,7 @@ EXTERNAL SOURCES:
     :git: https://github.com/MengTo/Spring.git
   XAssets:
     :git: https://github.com/Hxucaa/xassets.git
-    :tag: 0.7.0
+    :tag: 0.7.1
 
 CHECKOUT OPTIONS:
   ReactiveArray:
@@ -123,7 +121,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/MengTo/Spring.git
   XAssets:
     :git: https://github.com/Hxucaa/xassets.git
-    :tag: 0.7.0
+    :tag: 0.7.1
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: db66605feb85689279d328206c61f0e4f398df92
@@ -139,19 +137,19 @@ SPEC CHECKSUMS:
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
   INSPullToRefresh: 112ae2c295d2b3a76daa9dff86e7ef40ed002c47
   Locksmith: a8ed41ac4c06506ea8cb199d8ec8a8d3d108eb2a
-  Nimble: 0f3c8b8b084cda391209c3c5efbb48bedeeb920a
+  Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
   PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
   PINRemoteImage: 4ac4011c5caefd6befd99758e09becede05d3226
   Quick: 18d057bc66451eedd5d1c8dc99ba2a5db6e60226
   ReactiveArray: 84306dc1c30dc95f3c9e846b2a51b8ae08a3f3de
   ReactiveCocoa: d70004d7a366a7b8e87e60ce2347182c77701949
-  Result: 9e75e1111c774c6ac594e14907b15057053a7959
+  Result: 822c879f145943320cc80a9a8372378e3d699fe4
   RxBlocking: 595d9ab56dde6b00beaa5aba40e95b150d2135f1
   RxCocoa: e1b1562e57a554d0fb2aabf9d71b637f177257c7
   RxDataSources: 4a87345847d66ef84ecc10bdfa189190f3cd6b12
   RxOptional: b77fb47a0190213cf8a37c7a2b7fda28160b4563
   RxSwift: 402b41a50e922a0368fc14cb3bc9f4427920e8ae
-  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+  SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   Swiftz: 6f790a0ed513003158d6c73bbda8aec68b6ce657
@@ -159,10 +157,10 @@ SPEC CHECKSUMS:
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   TZStackView: 4b82373b4aabe4d99adf739a34e1bc6755149272
   Whisper: 42a3ee7c2936f861b23d41bd6cd7dfd22f102405
-  XAssets: 205ee4a8cb11f99918f031aa9cb27e27e42b783f
+  XAssets: 3a42851401b743d94948de4092285aa2820803f7
   XLActionController: 97ed31237413db4d9401c6a559270f4d2b4de136
   XLPagerTabStrip: 87b8b705f9a7178e76a063ffaa2d70045944a965
 
-PODFILE CHECKSUM: 8729ed013f30d1d6fa9ba5b6b82d7b4ae96dec5d
+PODFILE CHECKSUM: 38aff190a3292dfd1c4ab9dd56bb3f53e766486a
 
 COCOAPODS: 1.0.1

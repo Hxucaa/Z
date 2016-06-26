@@ -2,8 +2,8 @@
 //  Thumbnail.swift
 //  XListing
 //
-//  Created by Lance on 2015-10-15.
-//  Copyright (c) 2015 ZenChat. All rights reserved.
+//  Created by Lance Zhu 2015-10-15.
+//  Copyright (c) 2016 Lance Zhu. All rights reserved.
 //
 
 import Foundation

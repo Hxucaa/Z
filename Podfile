@@ -3,7 +3,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'XListing' do
-  pod 'XAssets', :git => 'https://github.com/Hxucaa/xassets.git', :tag => '0.7.0'
+  pod 'XAssets', :git => 'https://github.com/Hxucaa/xassets.git', :tag => '0.7.1'
   pod 'FLEX', '~> 2.0', :configurations => ['DEBUG']
   pod 'Spring', :git => 'https://github.com/MengTo/Spring.git'
   pod 'SVProgressHUD', '~> 2.0.3'
@@ -14,7 +14,7 @@ target 'XListing' do
   pod 'Dollar', '~> 5.1.0'
   pod 'Swiftz'
   pod 'Argo', '~> 3.0.0'
-  pod 'SDWebImage', '~> 3.7.6'
+  pod 'SDWebImage', '~> 3.8.1'
   pod 'Locksmith', '~> 2.0.2'
   pod 'ReactiveCocoa', '~> 4.1.0'
   pod 'RxSwift', '~> 2.5.0'
@@ -39,12 +39,11 @@ target 'XListing' do
   pod 'AVOSCloudCrashReportingDynamic', '~> 3.3'
 #  pod 'AVOSCloudIMDynamic', '~> 3.1'
 #  pod 'RongCloudIMKit', '~> 2.4.6'
-end
 
-target 'XListingTests' do
-  pod 'AVOSCloudDynamic', '~> 3.3'
-  pod 'ReactiveCocoa', '~> 4.1.0'
-  pod 'Quick', '~> 0.9.0'
-  pod 'Nimble', '~> 4.0.0'
+  target 'XListingTests' do
+    inherit! :search_paths
+    
+    pod 'Quick', '~> 0.9.0'
+    pod 'Nimble', '~> 4.1.0'
+  end
 end
-
