@@ -10,6 +10,7 @@ import Foundation
 import SDWebImage
 import ReactiveCocoa
 import AVOSCloud
+import RxSwift
 
 public final class ImageService : IImageService {
     
@@ -73,6 +74,50 @@ public final class ImageService : IImageService {
                     observer.sendFailed(error)
                 }
             })
+        }
+    }
+    
+    public func rx_getImage(image: ImageFile) -> Observable<UIImage> {
+        return Observable.create { observer in
+            
+            let imageManager = SDWebImageManager.sharedManager()
+            guard let url = image.url else {
+                observer.onError(NSError(domain: "XListing.ImageService", code: 999, userInfo: ["message" : "Invalid url"]))
+                return NopDisposable.instance
+            }
+            
+            let download = imageManager.downloadImageWithURL(url, options: SDWebImageOptions.ContinueInBackground, progress: nil, completed: { image, error, cache, finished, url -> Void in
+                if error == nil {
+                    observer.onNext(image)
+                    observer.onCompleted()
+                }
+                else {
+                    observer.onError(error)
+                }
+            })
+            
+            return AnonymousDisposable {
+                download.cancel()
+            }
+        }
+    }
+    
+    public func rx_getImage(url: NSURL) -> Observable<UIImage> {
+        return Observable.create { observer in
+            let imageManager = SDWebImageManager.sharedManager()
+            let download = imageManager.downloadImageWithURL(url, options: SDWebImageOptions.ContinueInBackground, progress: nil, completed: { image, error, cache, finished, url in
+                if error == nil {
+                    observer.onNext(image)
+                    observer.onCompleted()
+                }
+                else {
+                    observer.onError(error)
+                }
+            })
+            
+            return AnonymousDisposable {
+                download.cancel()
+            }
         }
     }
 }

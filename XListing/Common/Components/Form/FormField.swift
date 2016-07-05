@@ -69,13 +69,9 @@ enum FormStatus {
 
 public struct Form {
     
-//    let fields = [FormFieldName : AnyObject]()
     let fields: [String : Observable<FormFieldType>]
-//    private let fieldsObservable: Observable<Observable<FormFieldType>>
-    
-//    private let submissionEnabledTrigger: Observable<Bool>
-    let status: Driver<FormStatus>
-    let submissionEnabled: Driver<Bool>
+    let status: Observable<FormStatus>
+    let submissionEnabled: Observable<Bool>
     
     init(initialLoadTrigger: Observable<Void>, submitTrigger: Observable<Void>, submitHandler: [String : FormFieldType] -> Observable<FormStatus>, formField: FormFieldFactoryType...) {
         self.init(initialLoadTrigger: initialLoadTrigger, submitTrigger: submitTrigger, submitHandler: submitHandler, formField: formField)
@@ -89,7 +85,6 @@ public struct Form {
                 fatalError("Cannot have fields with the same name")
             }
             dict[$0.name] = $0.contraOutput
-                .shareReplay(1)
         }
         fields = dict
         
@@ -120,7 +115,8 @@ public struct Form {
                 }
             )
             .startWith(.Loading)
-            .asDriver(onErrorJustReturn: .Fatal)
+            .shareReplay(1)
+            .observeOn(MainScheduler.instance)
         
         submissionEnabled = [
             status
@@ -136,7 +132,6 @@ public struct Form {
                 .combineLatest {
                     $0.map { $0.valid }.and && $0.map { $0.dirty }.or
                 }
-                .asDriver(onErrorJustReturn: false)
             ]
             .combineLatest {
                 $0.and

@@ -8,6 +8,7 @@
 
 import Foundation
 import ReactiveCocoa
+import RxSwift
 
 public protocol IImageService : class {
     
@@ -38,4 +39,7 @@ public protocol IImageService : class {
     - returns: A signal producer that contains the thumbnail.
     */
     func getThumbnail(image: ImageFile, thumbnailSize: Thumbnail.Dimension) -> SignalProducer<Thumbnail, NSError>
+    
+    func rx_getImage(image: ImageFile) -> Observable<UIImage>
+    func rx_getImage(url: NSURL) -> Observable<UIImage>
 }

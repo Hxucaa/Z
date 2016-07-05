@@ -71,7 +71,7 @@ final class ProfileEditViewController: XUIViewController {
         
         formStatus
             .filter { $0 == FormStatus.Loading }
-            .driveNext { [weak self] _ in
+            .subscribeNext { [weak self] _ in
                 self?.hud.x_showWithStatusMessage("读取中...")
             }
             .addDisposableTo(disposeBag)
@@ -97,25 +97,26 @@ final class ProfileEditViewController: XUIViewController {
         
         formStatus
             .filter { $0 == FormStatus.Error }
-            .driveNext { _ in
+            .subscribeNext { _ in
                 // TODO: Replace the current error message implementation with something better
                 Shout(Announcement(title: "请修正以下错误", subtitle: "Placeholder", image: nil, duration: 5.0, action: nil), to: self.form)
             }
             .addDisposableTo(disposeBag)
         
-        let submittingForm = formStatus
+        formStatus
             .filter { $0 == FormStatus.Submitting }
-        
-        submittingForm
-            .driveNext { [weak self] _ in
+            .subscribeNext { [weak self] _ in
                 self?.hud.x_show()
             }
             .addDisposableTo(disposeBag)
         
-//        viewmodel
+        formStatus
+            // TODO: better error handling for when form loading fails
+            .subscribeError { print($0) }
+            .addDisposableTo(disposeBag)
         
         viewmodel.submissionEnabled
-            .drive(saveButton.rx_enabled)
+            .bindTo(saveButton.rx_enabled)
             .addDisposableTo(disposeBag)
         
         form.nicknameInput.asObserver()
