@@ -16,20 +16,12 @@ final class ProfileEditViewController: XUIViewController {
 
     typealias InputViewModel = (loadFormData: Observable<Void>, submit: ControlEvent<Void>) -> ProfileEditViewModel
     // MARK: - UI Controls
-    private var form: ProfileEditFormViewController! {
-        didSet {
-            addChildViewController(form)
-            view.addSubview(form.view)
-            form.didMoveToParentViewController(self)
+    private lazy var form: ProfileEditFormViewController = {
 
-            constrain(form.view) {
-                $0.leading == $0.superview!.leading
-                $0.top == $0.superview!.top + 44
-                $0.trailing == $0.superview!.trailing
-                $0.bottom == $0.superview!.bottom
-            }
-        }
-    }
+        let vc = ProfileEditFormViewController()
+
+        return vc
+    }()
 
     // MARK: - Properties
     var hud: HUD!
@@ -54,6 +46,15 @@ final class ProfileEditViewController: XUIViewController {
         navigationItem.rightBarButtonItem = saveButton
         navigationController?.setNavigationBarHidden(false, animated: false)
         
+        view.frame = CGRect(
+            x: view.bounds.origin.x,
+            y: view.bounds.origin.y + 44,
+            width: view.bounds.size.width,
+            height: view.bounds.size.height - 44
+        )
+        addChildViewController(form)
+        view.addSubview(form.view)
+        form.didMoveToParentViewController(self)
         
         dismissButton.rx_tap
             .subscribeNext { [weak self] in
@@ -77,6 +78,7 @@ final class ProfileEditViewController: XUIViewController {
         
         formStatus.asObservable()
             .filter { $0 == FormStatus.Awaiting }
+            .debug()
             .flatMap { _ in
                 Observable.zip(
                     self.viewmodel.nicknameField,
@@ -85,9 +87,11 @@ final class ProfileEditViewController: XUIViewController {
                 ) { ($0, $1, $2) }
             }
             .take(1)    // FIXME: takeUntil form dirty may be better?
+            .observeOn(MainScheduler.instance)
             .subscribeNext { [weak self] (nicknameField, whatsUpField, profileImageField) in
+                self?.form.bindToData(nicknameField.initialValue, profileImage: profileImageField.initialValue, whatsUp: whatsUpField.initialValue)
+                
                 self?.hud.dismiss()
-                self?.form = ProfileEditFormViewController(nickname: nicknameField.initialValue, profileImage: profileImageField.initialValue, whatsUp: whatsUpField.initialValue)
             }
             .addDisposableTo(disposeBag)
         

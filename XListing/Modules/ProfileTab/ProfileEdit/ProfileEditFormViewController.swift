@@ -14,27 +14,15 @@ import RxSwift
 final class ProfileEditFormViewController : FormViewController {
     
     // MARK: - Properties
-    private let nickname: String?
-    private let profileImage: UIImage?
-    private let whatsUp: String?
+    private var nickname: String?
+    private var profileImage: UIImage?
+    private var whatsUp: String?
     
+    // MARK: - Outputs
     let nicknameInput = PublishSubject<String?>()
     let whatsUpInput = PublishSubject<String?>()
     let profileImageInput = PublishSubject<UIImage?>()
     
-    // MARK: - Initializers
-    init(nickname: String?, profileImage: UIImage?, whatsUp: String?) {
-        self.nickname = nickname
-        self.profileImage = profileImage
-        self.whatsUp = whatsUp
-        
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     // MARK: - Setups
     
@@ -50,6 +38,14 @@ final class ProfileEditFormViewController : FormViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+    }
+
+    func bindToData(nickname: String?, profileImage: UIImage?, whatsUp: String?) {
+        self.nickname = nickname
+        self.profileImage = profileImage
+        self.whatsUp = whatsUp
+        
+        
         
         form
             +++ Section()
@@ -62,7 +58,7 @@ final class ProfileEditFormViewController : FormViewController {
                 }
                 .onChange { [weak self] row in
                     self?.profileImageInput.onNext(row.value)
-                }
+            }
             +++ Section()
             <<< TextFloatLabelRow("昵称") {
                 $0.title = "昵称"
@@ -74,13 +70,13 @@ final class ProfileEditFormViewController : FormViewController {
                 }
                 .onChange { [weak self] row in
                     self?.nicknameInput.onNext(row.value)
-                }
+            }
             <<< TextFloatLabelRow("What's Up") {
                 $0.title = "What's Up"
                 $0.value = self.whatsUp
                 }
                 .onChange { [weak self] row in
                     self?.whatsUpInput.onNext(row.value)
-                }
+        }
     }
 }

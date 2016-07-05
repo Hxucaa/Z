@@ -2,115 +2,44 @@
 //  FormField.swift
 //  XListing
 //
-//  Created by Hong Zhu on 2016-02-10.
+//  Created by Lance Zhu on 2016-02-10.
 //  Copyright © 2016 Lance Zhu. All rights reserved.
 //
 
 import Foundation
 import UIKit
-
 import RxSwift
 import RxOptional
 import RxCocoa
 
-protocol FormFieldName : Hashable {}
-
-//public struct FormFieldFactory<T: Equatable> {
-//    public typealias ValidationRule = T? -> ValidationNEL<T, ValidationError>
-//    
-//    let name: String
-//    let initialValue: T?
-//    let validationRule: ValidationRule?
-//    let input: Observable<T>
-//    
-////    var produce: Observable<FormField<T>> {
-////        return input
-////            .map {
-////                FormField(name: name, initialValue: initialValue, validation: validationRule)
-////            }
-////    }
-//}
-
-//public protocol FormFieldKey {
-//    var name: String { get }
-//    var type:
-//}
-//public enum Test {
-//    case Nickname(")
-//}
-
-public struct FieldIdentifier<T: Equatable> : ITest {
-    public typealias Type = T
-    
-    public let name: String
-    public let type: T.Type
-    
-    init(name: String, type: T.Type) {
-        self.name = name
-        self.type = type
-    }
-}
-
-extension FieldIdentifier : Hashable {
-    public var hashValue: Int {
-        return name.hashValue
-    }
-}
-
-public func ==<T: Equatable>(lhs: FieldIdentifier<T>, rhs: FieldIdentifier<T>) -> Bool {
-    return lhs.hashValue == rhs.hashValue
-}
-
-public enum Test<T: Equatable> : ITest {
-    case Nickname(String, T.Type)
-    
-    public var name: String {
-        switch self {
-        case let .Nickname(name, _): return name
-        }
-    }
-    
-    public var type: T.Type {
-        switch self {
-        case let .Nickname(_, type): return type
-        }
-    }
-    
-    public var hashValue: Int {
-        return name.hashValue
-    }
-}
-
-public func ==<T: Equatable>(lhs: Test<T>, rhs: Test<T>) -> Bool {
-    return lhs.hashValue == rhs.hashValue
-}
-
-public protocol ITest : Hashable {
-    associatedtype Type : Equatable
-    
+public protocol FormFieldFactoryType {
     var name: String { get }
-    var type: Type.Type { get }
+    var contraOutput: Observable<FormFieldType> { get }
 }
 
-public struct FormFieldFactory<T: Equatable> {
+public struct FormFieldFactory<T: Equatable> : FormFieldFactoryType {
     
     public typealias ValidationRule = T? -> ValidationNEL<T, ValidationError>
     
-//    public let formField: FormField<T>
-//    public let initial: Observable<T?>
-//    public let input: Observable<T?>
     public let name: String
     public let output: Observable<FormField<T>>
+    public var contraOutput: Observable<FormFieldType> {
+        return output.map { $0 as FormFieldType }
+    }
     
-//    public init(name: String, initialValue: Observable<T> = Observable.empty()) {
-//        self.init(name: name, initialValue: initialValue, input: validation: nil)
-//    }
+    public init<S: RawRepresentable where S.RawValue == String>(name: S, initialValue: T? = nil, input: Observable<T?>, validation: ValidationRule? = nil) {
+        self.init(name: name.rawValue, initial: Observable.just(initialValue), input: input, validation: validation)
+    }
     
-    public init(name: String, initialValue: T? = nil, input: Observable<T?>, validation: ValidationRule?) {
+    public init(name: String, initialValue: T? = nil, input: Observable<T?>, validation: ValidationRule? = nil) {
         self.init(name: name, initial: Observable.just(initialValue), input: input, validation: validation)
     }
     
-    public init(name: String, initial: Observable<T?> = Observable.just(nil), input: Observable<T?>, validation: ValidationRule?) {
+    public init<S: RawRepresentable where S.RawValue == String>(name: S, initial: Observable<T?> = Observable.just(nil), input: Observable<T?>, validation: ValidationRule? = nil) {
+        self.init(name: name.rawValue, initial: initial, input: input, validation: validation)
+    }
+    
+    public init(name: String, initial: Observable<T?> = Observable.just(nil), input: Observable<T?>, validation: ValidationRule? = nil) {
         
         self.name = name
         
@@ -124,6 +53,7 @@ public struct FormFieldFactory<T: Equatable> {
                 return acc.onChange(current)
             }
             .filterNil()
+            .shareReplay(1)
     }
     
 }
@@ -147,34 +77,49 @@ public struct Form {
     let status: Driver<FormStatus>
     let submissionEnabled: Driver<Bool>
     
-    init(initialLoadTrigger: Observable<Void>, submitTrigger: Observable<Void>, submitHandler: [FormFieldType] -> Observable<FormStatus>, formField: (String, Observable<FormFieldType>)...) {
+    init(initialLoadTrigger: Observable<Void>, submitTrigger: Observable<Void>, submitHandler: [String : FormFieldType] -> Observable<FormStatus>, formField: FormFieldFactoryType...) {
+        self.init(initialLoadTrigger: initialLoadTrigger, submitTrigger: submitTrigger, submitHandler: submitHandler, formField: formField)
+    }
+
+    init(initialLoadTrigger: Observable<Void>, submitTrigger: Observable<Void>, submitHandler: [String : FormFieldType] -> Observable<FormStatus>, formField: [FormFieldFactoryType]) {
         
         var dict = [String : Observable<FormFieldType>]()
         formField.forEach {
-            guard dict[$0.0] == nil else {
+            guard dict[$0.name] == nil else {
                 fatalError("Cannot have fields with the same name")
             }
-            dict[$0.0] = $0.1
+            dict[$0.name] = $0.contraOutput
                 .shareReplay(1)
         }
         fields = dict
         
-//        fieldsObservable = fields.values.toObservable()
         
-//        submissionEnabledTrigger = [
-//            
-//        ]
-        status = Observable.of(
-            initialLoadTrigger
-                .map { _ in .Loading },
-            submitTrigger
+        status = initialLoadTrigger
+            .map { _ in .Awaiting }
+            .concat(submitTrigger
                 .flatMap {
-                    dict.values
-                        .combineLatest { $0 }
-                        .flatMap(submitHandler)
+                    formField
+                        .map { $0.contraOutput }
+                        .combineLatest {
+                            $0.filter { $0.isUserInput }
+                        }
+                        .flatMap { fields -> Observable<FormStatus> in
+                            guard (fields.map { $0.valid }.and) else {
+                                return Observable.just(.Error)
+                            }
+                            guard (fields.map { $0.dirty }.or) else {
+                                return Observable.just(.Awaiting)
+                            }
+                            
+                            var dictionary = [String : FormFieldType]()
+                            fields.forEach { dictionary[$0.name] = $0 }
+                            
+                            return submitHandler(dictionary)
+                                .startWith(.Submitting)
+                        }
                 }
             )
-            .merge()
+            .startWith(.Loading)
             .asDriver(onErrorJustReturn: .Fatal)
         
         submissionEnabled = [
@@ -234,7 +179,6 @@ public protocol FieldValueConcreteType : Equatable {}
 public protocol FormFieldType {
     var name: String { get }
     
-//    var validation: ValidationRule? { get }
     var errors: [ValidationError]? { get }
     var visited: Bool { get }
     var touched: Bool { get }
@@ -242,7 +186,6 @@ public protocol FormFieldType {
     var invalid: Bool { get }
     var dirty: Bool { get }
     var pristine: Bool { get }
-    
     var isInitialValue: Bool { get }
     var isUserInput: Bool { get }
 }
