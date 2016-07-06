@@ -2,42 +2,46 @@
 //  LandingPageViewModel.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-04-23.
+//  Created by Lance Zhu on 2016-07-05.
 //  Copyright (c) 2016 Lance Zhu. All rights reserved.
 //
 
 import Foundation
-import ReactiveCocoa
-import AVOSCloud
+import RxSwift
+import RxCocoa
 
-final class LandingPageViewModel : ILandingPageViewModel {
+final class LandingPageViewModel : _BaseViewModel, ILandingPageViewModel, ViewModelInjectable {
     
+    // MARK: - Outputs
+    
+    // MARK: - Properties
     // MARK: Services
-    weak var router: IRouter!
     private let meRepository: IMeRepository
     
-    init(meRepository: IMeRepository) {
-        self.meRepository = meRepository
-    }
+    // MARK: - Initializers
+    typealias Dependency = (router: IRouter, meRepository: IMeRepository)
     
-    func goToSignUpComponent() {
-        router.toSignUp()
-    }
+    typealias Token = Void
     
-    func goToLogInComponent() {
-        router.toLogIn()
-    }
+    typealias Input = (signUpTrigger: ControlEvent<Void>, logInTrigger: ControlEvent<Void>, skipAccountTrigger: ControlEvent<Void>?)
     
-    func skipAccountModule() {
-        router.skipAccount()
-    }
-    
-    var rePrompt: Bool {
-        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate, rootViewController = appDelegate.window?.rootViewController where rootViewController is RootTabBarController {
-            return true
-        }
-        else {
-            return false
+    init(dep: Dependency, token: Token, input: Input) {
+        meRepository = dep.meRepository
+        
+        super.init(router: dep.router)
+        
+        input.signUpTrigger.asObservable()
+            .subscribeNext { dep.router.toSignUp() }
+            .addDisposableTo(disposeBag)
+        
+        input.logInTrigger.asObservable()
+            .subscribeNext { dep.router.toLogIn() }
+            .addDisposableTo(disposeBag)
+        
+        if let skipAccountTrigger = input.skipAccountTrigger {
+            skipAccountTrigger.asObservable()
+                .subscribeNext { dep.router.skipAccount() }
+                .addDisposableTo(disposeBag)
         }
     }
 }

@@ -73,11 +73,11 @@ public struct Form {
     let status: Observable<FormStatus>
     let submissionEnabled: Observable<Bool>
     
-    init(initialLoadTrigger: Observable<Void>, submitTrigger: Observable<Void>, submitHandler: [String : FormFieldType] -> Observable<FormStatus>, formField: FormFieldFactoryType...) {
+    init(initialLoadTrigger: Observable<Void> = Observable.just(()), submitTrigger: Observable<Void>, submitHandler: [String : FormFieldType] -> Observable<FormStatus>, formField: FormFieldFactoryType...) {
         self.init(initialLoadTrigger: initialLoadTrigger, submitTrigger: submitTrigger, submitHandler: submitHandler, formField: formField)
     }
 
-    init(initialLoadTrigger: Observable<Void>, submitTrigger: Observable<Void>, submitHandler: [String : FormFieldType] -> Observable<FormStatus>, formField: [FormFieldFactoryType]) {
+    init(initialLoadTrigger: Observable<Void> = Observable.just(()), submitTrigger: Observable<Void>, submitHandler: [String : FormFieldType] -> Observable<FormStatus>, formField: [FormFieldFactoryType]) {
         
         var dict = [String : Observable<FormFieldType>]()
         formField.forEach {

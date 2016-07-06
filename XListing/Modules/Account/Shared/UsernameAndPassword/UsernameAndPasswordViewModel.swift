@@ -7,48 +7,72 @@
 //
 
 import Foundation
-import ReactiveCocoa
+import Swiftz
+import RxSwift
+import RxCocoa
 
-public final class UsernameAndPasswordViewModel {
+struct UsernameAndPasswordValidator {
     
     // MARK: - Input
-    public let username = MutableProperty<String?>(nil)
-    public let password = MutableProperty<String?>(nil)
     
     // MARK: - Output
-    public let isUsernameValid = MutableProperty<Bool>(false)
-    public let isPasswordValid = MutableProperty<Bool>(false)
-    public let allInputsValid = MutableProperty<Bool>(false)
+//    let isUsernameValid: Observable<Bool>
+//    let isPasswordValid: Observable<Bool>
+//    let allInputsValid: Observable<Bool>
+//    let username: ControlProperty<String>
+//    let password: ControlProperty<String>
+    func validateUsername(value: String?) -> ValidationNEL<String, ValidationError> {
+        guard let value = value else {
+            return ValidationNEL<String, ValidationError>.Failure([ValidationError.Required])
+        }
+        let base = ValidationNEL<String -> String -> String, ValidationError>.Success({ a in { b in  value } })
+        let rule1: ValidationNEL<String, ValidationError> = value.length >= 6 && value.length <= 30 ?
+            .Success(value) :
+            .Failure([ValidationError.Custom(message: "用户名长度为6-30字符")])
+        let rule2: ValidationNEL<String, ValidationError> = testRegex(value, pattern: "[\\d[a-zA-Z]]+") ?
+            .Success(value) :
+            .Failure([ValidationError.Custom(message: "用户名尽可含数字和大小写字母")])
+        
+        return base <*> rule1 <*> rule2
+    }
+    
+    func validatePassword(value: String?) -> ValidationNEL<String, ValidationError> {
+        guard let value = value else {
+            return ValidationNEL<String, ValidationError>.Failure([ValidationError.Required])
+        }
+        let base = ValidationNEL<String -> String, ValidationError>.Success({ a in value })
+        let rule1: ValidationNEL<String, ValidationError> = value.length >= 8 ?
+            .Success(value) :
+            .Failure([ValidationError.Custom(message: "密码长度必须大于8个字符")])
+        
+        return base <*> rule1
+    }
     
     // MARK: - Properties
     
     // MARK: - Initializers
-    public init() {
+    init() {
         
-        isUsernameValid <~ username.producer
-            .ignoreNil()
-            .filter { self.testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
-            .map { _ in true }
+
+        
+//        isUsernameValid = username.asObservable()
+//            .map { testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
+//
+//        isPasswordValid = password.asObservable()
+//            .map { testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
+//        
+//        allInputsValid = [isUsernameValid, isPasswordValid]
+//            .combineLatest { $0.and }
+        
+//        self.username = username
+//        self.password = password
         
         
-        isPasswordValid <~ password.producer
-            .ignoreNil()
-            .filter { $0.characters.count > 0 }
-        //            .filter { self.testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
-            .map { _ in true }
         
         
-        
-        allInputsValid <~ combineLatest(isUsernameValid.producer, isPasswordValid.producer)
-            .map { $0.0 && $0.1 }
+
     }
     
-    // MARK: - Setups
-    
-    
-    // MARK: - API
-    
-    // MARK: - Others
     private func testRegex(input: String, pattern: String) -> Bool {
         if let regex = try? NSRegularExpression(pattern: pattern, options: []) {
             

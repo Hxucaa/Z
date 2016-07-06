@@ -2,7 +2,7 @@
 //  LandingPageView.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-07-12.
+//  Created by Lance Zhu on 2016-07-05.
 //  Copyright (c) 2016 Lance Zhu. All rights reserved.
 //
 
@@ -17,8 +17,6 @@ import Foundation
 import UIKit
 import RxSwift
 import RxCocoa
-import ReactiveCocoa
-import Result
 
 private let StartUpButtonsViewNibName = "StartUpButtonsView"
 private let RePromptButtonsViewNibName = "RePromptButtonsView"
@@ -37,70 +35,19 @@ final class LandingPageView : UIView {
         return skipButton?.rx_tap
     }
     
-    var loginEvent: ControlEvent<Void>? {
+    var loginEvent: ControlEvent<Void> {
         return loginButton.rx_tap
     }
     
-    // MARK: - Proxies
-    
-    /// Skip Landing view.
-//    var skipProxy: SimpleProxy {
-//        return _skipProxy
-//    }
-//    private let (_skipProxy, _skipObserver) = SimpleProxy.proxy()
-//    
-//    /// Go to Log In view.
-//    var loginProxy: SimpleProxy {
-//        return _loginProxy
-//    }
-//    private let (_loginProxy, _loginObserver) = SimpleProxy.proxy()
-    
-    /// Go to Sign Up view.
-    var signUpProxy: SimpleProxy {
-        return _signUpProxy
+    var signUpEvent: ControlEvent<Void> {
+        return signUpButton.rx_tap
     }
-    private let (_signUpProxy, _signUpObserver) = SimpleProxy.proxy()
-    
-    
-    // MARK: - Properties
-    private let viewmodel = MutableProperty<ILandingPageViewModel?>(nil)
-    
-    // MARK: - Actions
-    /// Skip this view
-//    private lazy var skipAction: Action<UIButton, Void, NoError> = Action<UIButton, Void, NoError> { [weak self] button in
-//        return SignalProducer { observer, disposable in
-//            // send event to skip proxy
-//            self?._skipObserver.sendNext(())
-//            
-//            // completes this action
-//            observer.sendCompleted()
-//        }
-//    }
     
     // MARK: - Setups
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        viewmodel.producer
-            .ignoreNil()
-            .startWithNext { [weak self] viewmodel in
-                // conditionally load subviews
-                if viewmodel.rePrompt {
-                    self?.setupButtonsView(RePromptButtonsViewNibName)
-                    self?.setupBackButton()
-                }
-                else {
-                    self?.setupButtonsView(StartUpButtonsViewNibName)
-                }
-                
-                // setup other UI elements
-                self?.setupLoginButton()
-                self?.setupSignUpButton()
-                self?.setupSkipButton()
-                self?.setupDividerLabel()
-                
-            }
         
     }
     
@@ -161,47 +108,6 @@ final class LandingPageView : UIView {
         )
     }
     
-    private func setupLoginButton() {
-//        let gotoLogin = Action<UIButton, Void, NoError> { [weak self] button in
-//            return SignalProducer { observer, disposable in
-//                self?._loginObserver.sendNext(())
-//                
-//                observer.sendCompleted()
-//            }
-//        }
-//        
-//        loginButton.addTarget(gotoLogin.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-    }
-    
-    private func setupSignUpButton() {
-        signUpButton.layer.masksToBounds = true
-        signUpButton.layer.cornerRadius = 8
-        let gotoSignup = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { observer, disposable in
-                self?._signUpObserver.sendNext(())
-                
-                observer.sendCompleted()
-            }
-        }
-        
-        signUpButton.addTarget(gotoSignup.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-    }
-    
-    private func setupSkipButton() {
-        skipButton?.layer.masksToBounds = true
-        skipButton?.layer.cornerRadius = 8
-        
-//        skipButton?.addTarget(skipAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
-    }
-    
-    private func setupDividerLabel() {
-        dividerLabel?.layer.masksToBounds = false
-        dividerLabel?.layer.shadowRadius = 3.0
-        dividerLabel?.layer.shadowOpacity = 0.5
-        dividerLabel?.layer.shadowOffset = CGSize.zero
-        
-    }
-    
     private func setupBackButton() {
         
         // load back button
@@ -243,13 +149,30 @@ final class LandingPageView : UIView {
                 backButtonTop
             ]
         )
-        
-//        backButton?.addTarget(skipAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: .TouchUpInside)
     }
     
     // MARK: - Bindings
-    func bindToViewModel(viewmodel: ILandingPageViewModel) {
-        self.viewmodel.value = viewmodel
+    func bindToData(isRePrompt: Bool) {
+        
+        // conditionally load subviews
+        if isRePrompt {
+            setupButtonsView(RePromptButtonsViewNibName)
+            setupBackButton()
+        }
+        else {
+            setupButtonsView(StartUpButtonsViewNibName)
+        }
+        
+        signUpButton.layer.masksToBounds = true
+        signUpButton.layer.cornerRadius = 8
+        
+        skipButton?.layer.masksToBounds = true
+        skipButton?.layer.cornerRadius = 8
+        
+        dividerLabel?.layer.masksToBounds = false
+        dividerLabel?.layer.shadowRadius = 3.0
+        dividerLabel?.layer.shadowOpacity = 0.5
+        dividerLabel?.layer.shadowOffset = CGSize.zero
     }
     
     // MARK: - Others

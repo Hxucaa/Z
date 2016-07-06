@@ -111,6 +111,13 @@ final class ProfileEditViewController: XUIViewController {
             .addDisposableTo(disposeBag)
         
         formStatus
+            .filter { $0 == FormStatus.Submitted }
+            .subscribeNext { [weak self] _ in
+                self?.hud.dismissWithCompletedMessage()
+            }
+            .addDisposableTo(disposeBag)
+        
+        formStatus
             // TODO: better error handling for when form loading fails
             .subscribeError { print($0) }
             .addDisposableTo(disposeBag)

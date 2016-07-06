@@ -8,8 +8,8 @@
 
 import Foundation
 import UIKit
-import ReactiveCocoa
-import Result
+import RxSwift
+import RxCocoa
 import Cartography
 import Spring
 
@@ -23,68 +23,52 @@ view controllers.
 
 */
 
-public final class ContainerView : UIView {
+final class ContainerView : UIView {
     
     // MARK: - UI Controls
     
     // MARK: Top Stack
     @IBOutlet private weak var _topStack: UIView!
-    public var topStack: UIView {
+    var topStack: UIView {
         return _topStack
     }
     @IBOutlet private weak var _backButton: UIButton!
-    public var backButton: UIButton {
+    var backButton: UIButton {
         return _backButton
     }
     @IBOutlet private weak var _primaryLabel: UILabel!
-    public var primaryLabel: UILabel {
+    var primaryLabel: UILabel {
         return _primaryLabel
     }
     @IBOutlet private weak var _secondaryLabel: UILabel!
-    public var secondaryLabel: UILabel {
+    var secondaryLabel: UILabel {
         return _secondaryLabel
+    }
+    
+    var backButtonTap: ControlEvent<Void> {
+        return _backButton.rx_tap
     }
     
     // MARK: Mid Stack
     @IBOutlet private weak var _midStack: UIView!
-    public var midStack: UIView {
+    var midStack: UIView {
         return _midStack
     }
     
     // MARK: Bottom Stack
     @IBOutlet private weak var _bottomStack: UIView!
-    public var bottomStack: UIView {
+    var bottomStack: UIView {
         return _bottomStack
     }
     
-    // MARK: - Proxies
-    
-    /// Go back to previous page.
-    private let (_goBackProxy, _goBackObserver) = SimpleProxy.proxy()
-    public var goBackProxy: SimpleProxy {
-        return _goBackProxy
-    }
-    
     // MARK: - Setups
-    public override func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
         
-        setupBackButton()
-        
-    }
-    
-    private func setupBackButton () {
-        let goBackAction = Action<UIButton, Void, NoError> { [weak self] button in
-            return SignalProducer { [weak self] observer, disposable in
+        backButtonTap
+            .subscribeNext { [weak self] in
                 self?.endEditing(true)
-                
-                self?._goBackObserver.sendNext(())
-                
-                observer.sendCompleted()
-                
-            }
         }
         
-        backButton.addTarget(goBackAction.unsafeCocoaAction, action: CocoaAction.selector, forControlEvents: UIControlEvents.TouchUpInside)
     }
 }

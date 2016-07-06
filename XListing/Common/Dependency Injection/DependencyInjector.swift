@@ -284,13 +284,19 @@ class AccountAssembly : AssemblyType {
                 storyboard.landingPageViewController
             }
             .initCompleted {
-                $1.bindToViewModel($0.resolve(ILandingPageViewModel.self)!)
+                $1.bindToViewModel($0.resolve(LandingPageViewController.InputViewModel.self)!)
             }
             .inObjectScope(ObjectScope.Hierarchy)
         
         container
-            .register(ILandingPageViewModel.self) { LandingPageViewModel(meRepository: $0.resolve(IMeRepository.self)!) }
-            .initCompleted { ($1 as! LandingPageViewModel).router = $0.resolve(IRouter.self)! }
+            .register(LandingPageViewController.InputViewModel.self) {
+                let inputVM = LandingPageViewModel.inject((
+                    router: $0.resolve(IRouter)!,
+                    meRepository: $0.resolve(IMeRepository.self)!
+                ))(())
+                
+                return inputVM
+            }
             .inObjectScope(.Hierarchy)
         
         // log in
@@ -299,12 +305,21 @@ class AccountAssembly : AssemblyType {
                 storyboard.logInViewController
             }
             .initCompleted {
-                $1.bindToViewModel($0.resolve(ILogInViewModel.self)!)
+                $1.bindToViewModel($0.resolve(LogInViewController.InputViewModel.self)!)
                 $1.hud = $0.resolve(HUD.self)!
-        }
+            }
+            .inObjectScope(ObjectScope.Hierarchy)
         
         container
-            .register(ILogInViewModel.self) { LogInViewModel(dep: ($0.resolve(IRouter.self)!, $0.resolve(IMeRepository.self)!)) }
+            .register(LogInViewController.InputViewModel.self) {
+                let inputVM = LogInViewModel.inject((
+                    router: $0.resolve(IRouter)!,
+                    meRepository: $0.resolve(IMeRepository.self)!
+                ))(())
+                
+                return inputVM
+            }
+            .inObjectScope(.Hierarchy)
         
         // sign up
         container

@@ -2,7 +2,7 @@
 //  LandingPageViewController.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-07-12.
+//  Created by Lance Zhu on 2016-07-05.
 //  Copyright (c) 2016 Lance Zhu. All rights reserved.
 //
 
@@ -14,15 +14,22 @@ private let LandingPageViewNibName = "LandingPageView"
 
 final class LandingPageViewController: XUIViewController, ViewModelBackedViewControllerType {
     
-    typealias ViewModelType = ILandingPageViewModel
+    typealias InputViewModel = (signUpTrigger: ControlEvent<Void>, logInTrigger: ControlEvent<Void>, skipAccountTrigger: ControlEvent<Void>?) -> ILandingPageViewModel
     
     // MARK: - UI Controls
     private var landingPageView: LandingPageView!
     
     // MARK: - Properties
-    
+    private var inputViewModel: InputViewModel!
     private var viewmodel: ILandingPageViewModel!
-    
+    private var isRePrompt: Bool {
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate, rootViewController = appDelegate.window?.rootViewController where rootViewController is RootTabBarController {
+            return true
+        }
+        else {
+            return false
+        }
+    }
     // MARK: - Setups
     
     override func loadView() {
@@ -33,42 +40,26 @@ final class LandingPageViewController: XUIViewController, ViewModelBackedViewCon
         
     }
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.setNavigationBarHidden(true, animated: false)
-        
         // add landing page as the first subview
-        landingPageView.bindToViewModel(viewmodel)
-
-//        compositeDisposable += landingPageView.skipProxy
-//            .startWithNext { [weak self] in
-//                self?.viewmodel.skipAccountModule()
-//            }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-//        compositeDisposable += landingPageView.loginProxy
-//            .takeUntilViewWillDisappear(self)
-//            .startWithNext { [weak self] in
-//                self?.viewmodel.goToLogInComponent()
-//            }
+        landingPageView.bindToData(isRePrompt)
         
-//        compositeDisposable += landingPageView.signUpProxy
-//            .takeUntilViewWillDisappear(self)
-//            .startWithNext { [weak self] in
-//                // transition to sign up view
-//                self?.viewmodel.goToSignUpComponent()
-//            }
+        viewmodel = inputViewModel(
+            signUpTrigger: landingPageView.signUpEvent,
+            logInTrigger: landingPageView.loginEvent,
+            skipAccountTrigger: landingPageView.skipEvent
+        )
+        
 
     }
     
-    func bindToViewModel(viewmodel: ILandingPageViewModel) {
-        self.viewmodel = viewmodel
+    // MARK: - Bindings
+    
+    func bindToViewModel(inputViewModel: InputViewModel) {
+        self.inputViewModel = inputViewModel
     }
     
     // MARK: - Others

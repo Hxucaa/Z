@@ -101,12 +101,12 @@ final class SignUpViewController : XUIViewController, ViewModelBackedViewControl
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        compositeDisposable += containerView.goBackProxy
-            .takeUntilViewWillDisappear(self)
-            .startWithNext { [weak self] in
-                // transition to landing page view
-                self?.navigationController?.popViewControllerAnimated(false)
-            }
+//        compositeDisposable += containerView.goBackProxy
+//            .takeUntilViewWillDisappear(self)
+//            .startWithNext { [weak self] in
+//                // transition to landing page view
+//                self?.navigationController?.popViewControllerAnimated(false)
+//            }
     }
     
     // username and password
@@ -123,12 +123,12 @@ final class SignUpViewController : XUIViewController, ViewModelBackedViewControl
                     
                     this.installSubviewButton(view.signUpButton)
                     
-                    view.bindToViewModel(this.viewmodel.usernameAndPasswordViewModel)
+//                    view.bindToViewModel(this.viewmodel.usernameAndPasswordViewModel)
                     
-                    transitionDisposable += view.submitProxy
-                        .startWithNext { [weak self] in
-                            self?.transitionManager.transitionNext()
-                        }
+//                    transitionDisposable += view.submitProxy
+//                        .startWithNext { [weak self] in
+//                            self?.transitionManager.transitionNext()
+//                        }
                     
                 }
             },
@@ -260,55 +260,55 @@ final class SignUpViewController : XUIViewController, ViewModelBackedViewControl
                         self?.dismissViewControllerAnimated(true, completion: handler)
                     }
                 
-                transitionDisposable += view.doneProxy
-                    .promoteErrors(NetworkError)
-                    .flatMap(FlattenStrategy.Concat) {
-                        SignalProducer<Void, NetworkError> { observer, disposable in
-                            disposable += this.hud.show()
-                                // map error to the same type as other signal
-                                .promoteErrors(NetworkError)
-                                .flatMap(.Concat) { _ in
-                                    return this.viewmodel.signUp()
-                                }
-                                // does not `sendCompleted` because completion is handled when HUD is disappeared
-                                .start { event in
-                                    switch event {
-                                    case .Next(_):
-                                        this.hud.dismissWithNextMessage()
-                                    case .Failed(let error):
-                                        this.hud.dismissWithFailedMessage()
-                                        observer.sendFailed(error)
-                                    case .Interrupted:
-                                        observer.sendInterrupted()
-                                    default: break
-                                    }
-                            }
-                            
-                            // TODO: Disallow user to cancel network request
-//                            // Subscribe to touch down inside event
-//                            disposable += HUD.didTouchDownInsideNotification()
-//                                .on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
-//                                .startWithNext { _ in
-//                                    // dismiss HUD
-//                                    HUD.dismiss()
+//                transitionDisposable += view.doneProxy
+//                    .promoteErrors(NetworkError)
+//                    .flatMap(FlattenStrategy.Concat) {
+//                        SignalProducer<Void, NetworkError> { observer, disposable in
+//                            disposable += this.hud.show()
+//                                // map error to the same type as other signal
+//                                .promoteErrors(NetworkError)
+//                                .flatMap(.Concat) { _ in
+//                                    return this.viewmodel.signUp()
+//                                }
+//                                // does not `sendCompleted` because completion is handled when HUD is disappeared
+//                                .start { event in
+//                                    switch event {
+//                                    case .Next(_):
+//                                        this.hud.dismissWithNextMessage()
+//                                    case .Failed(let error):
+//                                        this.hud.dismissWithFailedMessage()
+//                                        observer.sendFailed(error)
+//                                    case .Interrupted:
+//                                        observer.sendInterrupted()
+//                                    default: break
+//                                    }
 //                            }
-                            
-                            // Subscribe to disappear notification
-                            disposable += this.hud.didDissappearNotification()
-                                .startWithNext { status in
-                                    // completes the action
-                                    observer.sendNext(())
-                                    observer.sendCompleted()
-                                }
-                        }
-                    }
-                    .startWithNext {
-                        this.viewmodel.finishModule { handler in
-                            self?.dismissViewControllerAnimated(true, completion: handler)
-                        }
-                        
-                        self?.navigationController?.setNavigationBarHidden(false, animated: false)
-                    }
+//                            
+//                            // TODO: Disallow user to cancel network request
+////                            // Subscribe to touch down inside event
+////                            disposable += HUD.didTouchDownInsideNotification()
+////                                .on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
+////                                .startWithNext { _ in
+////                                    // dismiss HUD
+////                                    HUD.dismiss()
+////                            }
+//                            
+//                            // Subscribe to disappear notification
+//                            disposable += this.hud.didDissappearNotification()
+//                                .startWithNext { status in
+//                                    // completes the action
+//                                    observer.sendNext(())
+//                                    observer.sendCompleted()
+//                                }
+//                        }
+//                    }
+//                    .startWithNext {
+//                        this.viewmodel.finishModule { handler in
+//                            self?.dismissViewControllerAnimated(true, completion: handler)
+//                        }
+//                        
+//                        self?.navigationController?.setNavigationBarHidden(false, animated: false)
+//                    }
             },
             cleanUp: { [weak self] view in
                 view.doneButton.removeFromSuperview()

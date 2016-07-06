@@ -46,8 +46,7 @@ public final class BusinessRepository : _BaseRepository, IBusinessRepository {
     }
     
     public func openEvent(business: Business, eventType type: EventType) -> Observable<Event> {
-        let dao = BusinessDAO()
-        dao.objectId = business.objectId
+        let dao = BusinessDAO(objectId: business.objectId)
         return dao.openEvent(type.rawValue)
             .mapToEventModel()
     }

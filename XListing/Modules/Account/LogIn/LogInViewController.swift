@@ -2,14 +2,14 @@
 //  LogInViewController.swift
 //  XListing
 //
-//  Created by Lance Zhu on 2015-08-12.
+//  Created by Lance Zhu on 2016-07-05.
 //  Copyright (c) 2016 Lance Zhu. All rights reserved.
 //
 
 import Foundation
 import UIKit
-import ReactiveCocoa
-import Result
+import RxSwift
+import RxCocoa
 import Cartography
 
 private let UsernameAndPasswordViewNibName = "UsernameAndPasswordView"
@@ -18,7 +18,7 @@ private let ContainerViewNibName = "ContainerView"
 
 final class LogInViewController : XUIViewController, ViewModelBackedViewControllerType {
     
-    typealias ViewModelType = ILogInViewModel
+    typealias InputViewModel = (username: ControlProperty<String>, password: ControlProperty<String>, submitTrigger: ControlEvent<Void>) -> ILogInViewModel
     
     // MARK: - UI Controls
     private lazy var containerView: ContainerView = {
@@ -32,6 +32,7 @@ final class LogInViewController : XUIViewController, ViewModelBackedViewControll
     // MARK: - Proxies
     
     // MARK: - Properties
+    private var inputViewModel: InputViewModel!
     private var viewmodel: ILogInViewModel!
     
     // MARK: - Setups
@@ -65,91 +66,51 @@ final class LogInViewController : XUIViewController, ViewModelBackedViewControll
             button.topMargin == stack.topMargin
             button.centerX == stack.centerX
         }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         
+        viewmodel = inputViewModel(
+            username: usernameAndPasswordView.usernameFieldText,
+            password: usernameAndPasswordView.passwordFieldText,
+            submitTrigger: usernameAndPasswordView.submitTap
+        )
         
-        compositeDisposable += containerView.goBackProxy
-            .takeUntilViewWillDisappear(self)
-            .startWithNext { [weak self] in
-                // transition to landing page view
+        usernameAndPasswordView.bindToData(viewmodel.submissionEnabled)
+        
+        usernameAndPasswordView.submitTap
+            .subscribeNext { [weak self] in
+                self?.view.endEditing(true)
+            }
+            .addDisposableTo(disposeBag)
+        
+        containerView.backButtonTap
+            .subscribeNext { [weak self] in
                 self?.navigationController?.popViewControllerAnimated(false)
             }
+            .addDisposableTo(disposeBag)
         
-        compositeDisposable += usernameAndPasswordView.submitProxy
-            .takeUntilViewWillDisappear(self)
-            .promoteErrors(NetworkError)
-            .flatMap(FlattenStrategy.Concat) {
-                SignalProducer<Void, NetworkError> { observer, disposable in
-                    // display HUD to indicate work in progress
-                    // check for the validity of inputs first
-                    disposable += SignalProducer<Void, NoError>(value: ())
-                        // delay the signal due to the animation of retracting keyboard
-                        // this cannot be executed on main thread, otherwise UI will be blocked
-                        .delay(Constants.HUD_DELAY, onScheduler: QueueScheduler())
-                        // return the signal to main/ui thread in order to run UI related code
-                        .observeOn(UIScheduler())
-                        .flatMap(.Concat) { _ in
-                            return self.hud.show()
-                        }
-                        // map error to the same type as other signal
-                        .promoteErrors(NetworkError)
-                        // submit network request
-                        .flatMap(.Concat) { _ in
-                            return self.viewmodel.logIn
-                        }
-                        // does not `sendCompleted` because completion is handled when HUD is disappeared
-                        .start { event in
-                            switch event {
-                            case .Next(_):
-                                self.hud.dismissWithNextMessage()
-                            case .Failed(let error):
-                                self.hud.dismissWithFailedMessage()
-                                observer.sendFailed(error)
-                            case .Interrupted:
-                                observer.sendInterrupted()
-                            default: break
-                            }
+        viewmodel.formStatus
+            .subscribeNext { [weak self] in
+                switch $0 {
+                case .Error:
+                    self?.hud.dismissWithFailedMessage()
+                case .Submitting:
+                    self?.hud.x_showWithStatusMessage()
+                case .Submitted:
+                    self?.hud.dismissWithCompletedMessage()
+                    self?.viewmodel.finishModule { handler in
+                        self?.dismissViewControllerAnimated(true, completion: handler)
                     }
-                    
-                    // TODO: Disallow user to cancel network request
-//                    // Subscribe to touch down inside event
-//                    disposable += HUD.didTouchDownInsideNotification()
-//                        .on(next: { _ in AccountLogVerbose("HUD touch down inside.") })
-//                        .startWithNext { _ in
-//                            // dismiss HUD
-//                            HUD.dismiss()
-//                            
-//                            // interrupts the action
-//                            // sendInterrupted(observer)
-//                    }
-                    
-                    
-                    // Subscribe to disappear notification
-                    disposable += self.hud.didDissappearNotification()
-                        .startWithNext { status in
-                            // completes the action
-                            observer.sendNext(())
-                            observer.sendCompleted()
-                    }
+                    self?.navigationController?.setNavigationBarHidden(false, animated: false)
+                default:
+                    break
                 }
-
             }
-            .startWithNext { [weak self] in
-                self?.viewmodel.finishModule { handler in
-                    self?.dismissViewControllerAnimated(true, completion: handler)
-                }
-                self?.navigationController?.setNavigationBarHidden(false, animated: false)
-            }
+            .addDisposableTo(disposeBag)
+        
     }
     
-    
     // MARK: - Bindings
-    func bindToViewModel(viewmodel: ILogInViewModel) {
-        self.viewmodel = viewmodel
-        usernameAndPasswordView.bindToViewModel(viewmodel.usernameAndPasswordViewModel)
+    func bindToViewModel(inputViewModel: InputViewModel) {
+        self.inputViewModel = inputViewModel
         
     }
     

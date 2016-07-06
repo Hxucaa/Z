@@ -17,7 +17,7 @@ final class SignUpViewModel : ISignUpViewModel {
     // MARK: - Outputs
     
     // MARK: - View Models
-    let usernameAndPasswordViewModel = UsernameAndPasswordViewModel()
+//    let usernameAndPasswordViewModel = UsernameAndPasswordViewModel()
     let nicknameViewModel = NicknameViewModel()
     let genderPickerViewModel = GenderPickerViewModel()
     let birthdayPickerViewModel = BirthdayPickerViewModel()
@@ -38,33 +38,33 @@ final class SignUpViewModel : ISignUpViewModel {
     // MARK: Setup
     
     // MARK: Others
-    func signUp() -> SignalProducer<Bool, NetworkError> {
-        return combineLatest(
-            self.usernameAndPasswordViewModel.username.producer
-                .ignoreNil(),
-            self.usernameAndPasswordViewModel.password.producer
-                .ignoreNil(),
-            self.nicknameViewModel.nickname.producer
-                .ignoreNil(),
-            self.genderPickerViewModel.gender.producer
-                .ignoreNil(),
-            self.birthdayPickerViewModel.birthday.producer
-                .ignoreNil(),
-            self.photoViewModel.profileImage.producer
-                .ignoreNil()
-            )
-            .promoteErrors(NetworkError)
-            .flatMap(FlattenStrategy.Concat) { username, password, nickname, gender, birthday, profileImage in
-                return self.meRepository.signUp(
-                    username,
-                    password: password,
-                    nickname: nickname,
-                    birthday: birthday,
-                    gender: gender,
-                    profileImage: profileImage
-                )
-            }
-    }
+//    func signUp() -> SignalProducer<Bool, NetworkError> {
+//        return combineLatest(
+//            self.usernameAndPasswordViewModel.username.producer
+//                .ignoreNil(),
+//            self.usernameAndPasswordViewModel.password.producer
+//                .ignoreNil(),
+//            self.nicknameViewModel.nickname.producer
+//                .ignoreNil(),
+//            self.genderPickerViewModel.gender.producer
+//                .ignoreNil(),
+//            self.birthdayPickerViewModel.birthday.producer
+//                .ignoreNil(),
+//            self.photoViewModel.profileImage.producer
+//                .ignoreNil()
+//            )
+//            .promoteErrors(NetworkError)
+//            .flatMap(FlattenStrategy.Concat) { username, password, nickname, gender, birthday, profileImage in
+//                return self.meRepository.signUp(
+//                    username,
+//                    password: password,
+//                    nickname: nickname,
+//                    birthday: birthday,
+//                    gender: gender,
+//                    profileImage: profileImage
+//                )
+//            }
+//    }
     
     func finishModule(callback: (CompletionHandler? -> ())? = nil) {
         router.finishModule { handler in
