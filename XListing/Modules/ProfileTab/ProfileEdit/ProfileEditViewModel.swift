@@ -12,12 +12,6 @@ import RxCocoa
 import RxOptional
 import Swiftz
 
-enum FieldName : String {
-    case Nickname = "昵称"
-    case WhatsUp = "What's Up"
-    case ProfileImage = "头像"
-}
-
 final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
     
     // MARK: - Inputs
@@ -37,6 +31,13 @@ final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
     }
 
     // MARK: - Properties
+    
+    enum FieldName : String {
+        case Nickname = "昵称"
+        case WhatsUp = "What's Up"
+        case ProfileImage = "头像"
+    }
+    
     private let form: Form
 
     // MARK: - Services

@@ -11,8 +11,6 @@ import RxSwift
 import RxCocoa
 
 protocol ILogInViewModel {
-//    var usernameAndPasswordViewModel: UsernameAndPasswordViewModel { get }
-//    var logIn: SignalProducer<Bool, NetworkError> { get }
     var formStatus: Observable<FormStatus> { get }
     var submissionEnabled: Observable<Bool> { get }
     func finishModule(callback: (CompletionHandler? -> ())?)

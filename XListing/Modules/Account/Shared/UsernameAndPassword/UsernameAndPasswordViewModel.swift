@@ -16,11 +16,6 @@ struct UsernameAndPasswordValidator {
     // MARK: - Input
     
     // MARK: - Output
-//    let isUsernameValid: Observable<Bool>
-//    let isPasswordValid: Observable<Bool>
-//    let allInputsValid: Observable<Bool>
-//    let username: ControlProperty<String>
-//    let password: ControlProperty<String>
     func validateUsername(value: String?) -> ValidationNEL<String, ValidationError> {
         guard let value = value else {
             return ValidationNEL<String, ValidationError>.Failure([ValidationError.Required])
@@ -52,25 +47,6 @@ struct UsernameAndPasswordValidator {
     
     // MARK: - Initializers
     init() {
-        
-
-        
-//        isUsernameValid = username.asObservable()
-//            .map { testRegex($0, pattern: "^([a-zA-Z0-9]|[-._]){3,30}$") }
-//
-//        isPasswordValid = password.asObservable()
-//            .map { testRegex($0, pattern: "^(?=.*[a-z])((?=.*[A-Z])|(?=.*\\d)|(?=.*[~`!@#$%^&*()-_=+|?/:;]))[a-zA-Z\\d~`!@#$%^&*()-_=+|?/:;]{8,}$") }
-//        
-//        allInputsValid = [isUsernameValid, isPasswordValid]
-//            .combineLatest { $0.and }
-        
-//        self.username = username
-//        self.password = password
-        
-        
-        
-        
-
     }
     
     private func testRegex(input: String, pattern: String) -> Bool {

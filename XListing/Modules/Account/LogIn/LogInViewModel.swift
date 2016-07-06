@@ -84,28 +84,6 @@ final class LogInViewModel : _BaseViewModel, ILogInViewModel, ViewModelInjectabl
         super.init(router: dep.router)
     }
     
-    // MARK: - Setups
-    
-    // MARK: - Others
-//    var logIn: SignalProducer<Bool, NetworkError> {
-//        
-//        return usernameAndPasswordViewModel.allInputsValid.producer
-//            // only allow TRUE value
-//            .filter { $0 }
-//            // combine the username and password into one signal
-//            .flatMap(.Concat) { _ in
-//                zip(self.usernameAndPasswordViewModel.username.producer.ignoreNil(), self.usernameAndPasswordViewModel.password.producer.ignoreNil())
-//            }
-//            // promote to NSError
-//            .promoteErrors(NetworkError)
-//            // log in user
-//            .flatMap(FlattenStrategy.Merge) { username, password in
-//                return self.meRepository.logIn(username, password: password)
-//            }
-//            .map { _ in
-//                return true
-//            }
-//    }
     
     func finishModule(callback: (CompletionHandler? -> ())? = nil) {
         router.finishModule { handler in
