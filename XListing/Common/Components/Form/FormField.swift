@@ -132,19 +132,8 @@ public struct Form {
                 .map { $0.contraOutput }
                 .combineLatest { i -> Bool in
                     // all required fields have to be valid and dirty.
-                    let r = i
-                        .lazy
-                        .filter { $0.required }
-                        .map { $0.valid && $0.dirty }
-                        .and
-                    
                     // all optional fields also have to be valid.
-                    let o = i
-                        .lazy
-                        .filter { !$0.required }
-                        .map { $0.valid }
-                        .and
-                    return r && o
+                    return i.reduce(true) { $0 && $1.valid && ( $1.required ? $1.dirty : true) }
                 }
             ]
             .combineLatest {
