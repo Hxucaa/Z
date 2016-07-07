@@ -1,5 +1,5 @@
 //
-//  UsernameAndPasswordViewModel.swift
+//  UsernameAndPasswordValidator.swift
 //  XListing
 //
 //  Created by Lance Zhu on 2015-08-05.
@@ -21,7 +21,7 @@ struct UsernameAndPasswordValidator {
             return ValidationNEL<String, ValidationError>.Failure([ValidationError.Required])
         }
         let base = ValidationNEL<String -> String -> String, ValidationError>.Success({ a in { b in  value } })
-        let rule1: ValidationNEL<String, ValidationError> = value.length >= 6 && value.length <= 30 ?
+        let rule1: ValidationNEL<String, ValidationError> = value.characters.count >= 6 && value.characters.count <= 30 ?
             .Success(value) :
             .Failure([ValidationError.Custom(message: "用户名长度为6-30字符")])
         let rule2: ValidationNEL<String, ValidationError> = testRegex(value, pattern: "[\\d[a-zA-Z]]+") ?
@@ -36,7 +36,7 @@ struct UsernameAndPasswordValidator {
             return ValidationNEL<String, ValidationError>.Failure([ValidationError.Required])
         }
         let base = ValidationNEL<String -> String, ValidationError>.Success({ a in value })
-        let rule1: ValidationNEL<String, ValidationError> = value.length >= 8 ?
+        let rule1: ValidationNEL<String, ValidationError> = value.characters.count >= 8 ?
             .Success(value) :
             .Failure([ValidationError.Custom(message: "密码长度必须大于8个字符")])
         

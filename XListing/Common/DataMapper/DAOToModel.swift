@@ -8,7 +8,6 @@
 
 import Foundation
 import AVOSCloud
-import ReactiveCocoa
 
 extension Gender {
     init?(attribute: Attribute<Int>) {
@@ -133,44 +132,6 @@ extension ImageFile {
         name = attribute.value.name
         url = NSURL(string: attribute.value.url)
         
-    }
-}
-
-extension SignalProducer where Value : AVObject {
-    func mapToModel<M: IModel>(transform: Value -> M) -> SignalProducer<M, Error> {
-        return self.map(transform)
-    }
-    
-    func mapToDAO<DAO: AVObject>(type: DAO.Type) -> SignalProducer<DAO, Error> {
-        return self.map { $0 as! DAO }
-    }
-}
-
-extension SignalProducer where Value : EventDAO {
-    func mapToEventModel() -> SignalProducer<Event, Error> {
-        return self.map { $0.toEvent() }
-    }
-}
-
-extension SignalProducer where Value : BusinessDAO {
-    func mapToBusinessModel() -> SignalProducer<Business, Error> {
-        return self.map { $0.toBusiness() }
-    }
-}
-
-extension SignalProducer where Value : UserDAO {
-    func mapToUserModel() -> SignalProducer<User, Error> {
-        return self.map { $0.toUser() }
-    }
-    
-    func mapToMeModel() -> SignalProducer<Me, Error> {
-        return self.map { $0.toMe() }
-    }
-}
-
-extension SignalProducer where Value : SequenceType, Value.Generator.Element : AVObject {
-    func mapToModel<M: IModel>(transform: Value.Generator.Element -> M) -> SignalProducer<[M], Error> {
-        return self.map { $0.map(transform) }
     }
 }
 

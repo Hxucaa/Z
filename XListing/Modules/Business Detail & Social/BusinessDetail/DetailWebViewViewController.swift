@@ -8,16 +8,12 @@
 
 import UIKit
 import WebKit
-import ReactiveCocoa
-import Result
 
 final class DetailWebViewViewController : XUIViewController {
     
     private let urlRequest: NSURLRequest
     private let webView = WKWebView()
     private let businessName: String
-    
-    private var navRightBarButtonItemAction: CocoaAction!
     
     init(url: NSURL, businessName: String) {
         self.urlRequest = NSURLRequest(URL:url)
@@ -40,16 +36,7 @@ final class DetailWebViewViewController : XUIViewController {
         // Setup navigation bar
         self.navigationItem.title = businessName
         
-        let dismiss = Action<Void, Void, NoError> {
-            return SignalProducer { [weak self] observer, disposable in
-                self?.dismissViewControllerAnimated(true, completion: nil)
-                observer.sendCompleted()
-            }
-        }
-        
-        navRightBarButtonItemAction = CocoaAction(dismiss, input:())
-        
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: navRightBarButtonItemAction, action: CocoaAction.selector)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: #selector(dismiss))
     }
     
     override func viewDidLoad() {
@@ -60,6 +47,9 @@ final class DetailWebViewViewController : XUIViewController {
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        navRightBarButtonItemAction = nil
+    }
+    
+    func dismiss() {
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }

@@ -2,12 +2,11 @@
 //  DetailAddressTableViewCell.swift
 //  XListing
 //
-//  Created by Bruce Li on 2015-06-01.
+//  Created by Lance Zhu on 2016-07-06.
 //  Copyright (c) 2016 Lance Zhu. All rights reserved.
 //
 
 import UIKit
-import ReactiveCocoa
 import Cartography
 import TTTAttributedLabel
 

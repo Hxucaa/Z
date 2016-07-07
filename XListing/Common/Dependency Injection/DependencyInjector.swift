@@ -327,12 +327,20 @@ class AccountAssembly : AssemblyType {
                 storyboard.signUpViewController
             }
             .initCompleted {
-                $1.bindToViewModel($0.resolve(ISignUpViewModel.self)!)
+                $1.bindToViewModel($0.resolve(SignUpViewController.InputViewModel.self)!)
                 $1.hud = $0.resolve(HUD.self)!
         }
         
         container
-            .register(ISignUpViewModel.self) { SignUpViewModel(dep: ($0.resolve(IRouter.self)!, $0.resolve(IMeRepository.self)!)) }
+            .register(SignUpViewController.InputViewModel.self) {
+                let inputVM = SignUpViewModel.inject((
+                    router: $0.resolve(IRouter.self)!,
+                    $0.resolve(IMeRepository.self)!
+                ))(())
+                
+                return inputVM
+            }
+            .inObjectScope(.Hierarchy)
     }
 }
 

@@ -8,8 +8,6 @@
 
 import Foundation
 import UIKit
-import ReactiveCocoa
-import Dollar
 import TTTAttributedLabel
 
 public final class AgeGroupLabel : TTTAttributedLabel {

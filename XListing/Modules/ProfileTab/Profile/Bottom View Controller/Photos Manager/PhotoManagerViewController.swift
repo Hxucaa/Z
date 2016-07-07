@@ -39,13 +39,6 @@ final class PhotoManagerViewController : UIViewController {
     // MARK: - Properties
 //    private var viewmodel: IPhotoManagerViewModel!
     private let imagePicker = UIImagePickerController()
-//    private let compositeDisposable = CompositeDisposable()
-    
-    // MARK: - Proxies
-    private let (_fullImageProxy, _fullImageObserver) = SimpleProxy.proxy()
-    var fullImageProxy: SimpleProxy {
-        return _fullImageProxy
-    }
     
     // MARK: - Initializers
     

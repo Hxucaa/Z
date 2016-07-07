@@ -77,7 +77,7 @@ final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
             }
             
             let base = ValidationNEL<String -> String, ValidationError>.Success({ a in value })
-            let rule: ValidationNEL<String, ValidationError> = value.length >= 1 && value.length <= 20 ?
+            let rule: ValidationNEL<String, ValidationError> = value.characters.count >= 1 && value.characters.count <= 20 ?
                 .Success(value) :
                 .Failure([ValidationError.Custom(message: "昵称长度必须为1-20字符")])
             
@@ -95,7 +95,7 @@ final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
             }
             
             let base = ValidationNEL<String -> String, ValidationError>.Success({ a in value })
-            let rule: ValidationNEL<String, ValidationError> = value.length <= 30 ?
+            let rule: ValidationNEL<String, ValidationError> = value.characters.count <= 30 ?
                 .Success(value) :
                 .Failure([ValidationError.Custom(message: "What's Up 长度必须少于30字符")])
             
@@ -111,7 +111,7 @@ final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
                         return Observable.just(UIImage(asset: UIImage.Asset.Profilepicture))
                     }
                     // FIXME: placeholder
-                    return dep.imageService.rx_getImage(NSURL(string: "http://2.bp.blogspot.com/-pATX0YgNSFs/VP-82AQKcuI/AAAAAAAALSU/Vet9e7Qsjjw/s1600/Cat-hd-wallpapers.jpg")!)
+                    return dep.imageService.getImage(NSURL(string: "http://2.bp.blogspot.com/-pATX0YgNSFs/VP-82AQKcuI/AAAAAAAALSU/Vet9e7Qsjjw/s1600/Cat-hd-wallpapers.jpg")!)
                         .map { Optional.Some($0) }
                         .catchErrorJustReturn(nil)
             },
@@ -125,7 +125,7 @@ final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
                 let nickname = fields[FieldName.Nickname.rawValue] as! FormField<String>
                 let whatsUp = fields[FieldName.WhatsUp.rawValue] as! FormField<String>
                 let profileImage = fields[FieldName.ProfileImage.rawValue] as! FormField<UIImage>
-                return dep.meRepository.rx_updateProfile(nickname.inputValue, whatsUp: whatsUp.inputValue, coverPhoto: profileImage.inputValue)
+                return dep.meRepository.updateProfile(nickname.inputValue, whatsUp: whatsUp.inputValue, coverPhoto: profileImage.inputValue)
                     .map { $0 ? .Submitted : .Error }
             },
             formField: nicknameField, whatsUpField, profileImageField

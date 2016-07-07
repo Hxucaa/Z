@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ReactiveCocoa
 
 public final class UserDefaultsService : IUserDefaultsService {
     

@@ -8,8 +8,6 @@
 
 import Foundation
 import SVProgressHUD
-import ReactiveCocoa
-import Result
 import RxSwift
 
 private let DefaultWIPMessage = "努力跑..."
@@ -42,14 +40,6 @@ public class HUD {
         SVProgressHUD.show()
     }
     
-    public func show() -> SignalProducer<Void, NoError> {
-        return SignalProducer<Void, NoError> { observer, disposable in
-            SVProgressHUD.show()
-            observer.sendNext(())
-            observer.sendCompleted()
-        }
-    }
-    
 //    public func rx_show() -> Observable<Void> {
 //        return Observable.create { observer in
 //            SVProgressHUD.show()
@@ -69,16 +59,16 @@ public class HUD {
     
     - returns: A SignalProducer which can be continued with the next function.
     */
-    public func showWithStatusMessage<Value, Error>(message: String? = DefaultWIPMessage) -> SignalProducer<Value, Error> -> SignalProducer<Value, Error> {
-        return { producer in
-            return producer
-                .on(
-                    next: { value in
-                        SVProgressHUD.showWithStatus(message!)
-                    }
-                )
-        }
-    }
+//    public func showWithStatusMessage<Value, Error>(message: String? = DefaultWIPMessage) -> SignalProducer<Value, Error> -> SignalProducer<Value, Error> {
+//        return { producer in
+//            return producer
+//                .on(
+//                    next: { value in
+//                        SVProgressHUD.showWithStatus(message!)
+//                    }
+//                )
+//        }
+//    }
     
 
     /**
@@ -149,7 +139,7 @@ public class HUD {
     
     - returns: A SignalProducer containing the statu message displayed by the HUD.
     */
-    public func didDissappearNotification() -> SignalProducer<DisappearStatus, NoError> {
+    public func didDissappearNotification() -> Observable<DisappearStatus> {
         return notification(SVProgressHUDDidDisappearNotification)
             .map { notification -> DisappearStatus in
                 if let userInfo = notification.userInfo as? [String : String], _ = userInfo[SVProgressHUDStatusUserInfoKey] {
@@ -166,7 +156,7 @@ public class HUD {
     
     - returns: A SignalProducer.
     */
-    public func didTouchDownInsideNotification() -> SignalProducer<UIEvent, NoError> {
+    public func didTouchDownInsideNotification() -> Observable<UIEvent> {
         return notification(SVProgressHUDDidTouchDownInsideNotification)
             .map { $0.object as! UIEvent }
     }
@@ -176,7 +166,7 @@ public class HUD {
         SVProgressHUD.dismiss()
     }
     
-    private func notification(name: String) -> SignalProducer<NSNotification, NoError> {
-        return NSNotificationCenter.defaultCenter().rac_notifications(name, object: nil)
+    private func notification(name: String) -> Observable<NSNotification> {
+        return NSNotificationCenter.defaultCenter().rx_notification(name)
     }
 }

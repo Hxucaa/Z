@@ -28,8 +28,6 @@ final class LogInViewModel : _BaseViewModel, ILogInViewModel, ViewModelInjectabl
         case Password = "Password"
     }
     private let form: Form
-    
-    // MARK: - View Models
     private let usernameAndPasswordValidator: UsernameAndPasswordValidator
     
     // MARK: - Services
@@ -73,8 +71,7 @@ final class LogInViewModel : _BaseViewModel, ILogInViewModel, ViewModelInjectabl
                         return Observable.just(.Error)
                 }
                 
-                return dep.meRepository.rx_logIn(username, password: password)
-                    .debug()
+                return dep.meRepository.logIn(username, password: password)
                     .map { _ in .Submitted }
                     .catchErrorJustReturn(.Error)
             },

@@ -21,6 +21,16 @@ private struct AssociationKey {
     static var refreshTrigger: UInt8 = 18
 }
 
+// lazily creates a gettable associated property via the given factory
+func lazyAssociatedProperty<T: AnyObject>(host: AnyObject, key: UnsafePointer<Void>, factory: () -> T) -> T {
+    return objc_getAssociatedObject(host, key) as? T ?? {
+        let associatedProperty = factory()
+        objc_setAssociatedObject(host, key, associatedProperty, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+        return associatedProperty
+        }()
+}
+
+
 private func lazyPublishSubject<T>(host: AnyObject, key: UnsafePointer<Void>) -> PublishSubject<T> {
     return lazyAssociatedProperty(host, key: key) {
         let property = PublishSubject<T>()

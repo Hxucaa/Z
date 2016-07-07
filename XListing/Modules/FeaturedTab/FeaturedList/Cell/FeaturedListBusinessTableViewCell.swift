@@ -79,7 +79,7 @@ final class FeaturedListBusinessTableViewCell : UITableViewCell {
         
         view.userInteractionEnabled = false
         view.opaque = true
-        view.backgroundColor = UIColor(hex: "D5D5D5")
+        view.backgroundColor = UIColor(red: 213.0/255.0, green: 213.0/255.0, blue: 213.0/255.0, alpha: 1.0)
         
         return view
     }()

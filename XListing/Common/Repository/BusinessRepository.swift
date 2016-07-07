@@ -34,7 +34,7 @@ public final class BusinessRepository : _BaseRepository, IBusinessRepository {
     
     public func findByCurrentLocation(findMoreTrigger: Observable<Void>) -> Observable<[Business]> {
         
-        return geolocationService.rx_getCurrentGeoPoint()
+        return geolocationService.getCurrentGeoPoint()
             // TODO: A more generic handling of default location when location service fails
             // TODO: Some kind of prompt for when location service is disabled
             .catchErrorJustReturn(CLLocation(latitude: 49.27623, longitude: -123.12941))

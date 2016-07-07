@@ -7,15 +7,11 @@
 //
 
 import Foundation
-import ReactiveCocoa
 import RxSwift
 import CoreLocation
-import AVOSCloud
 
 public protocol IGeoLocationService : class {
-    func getCurrentLocation() -> SignalProducer<CLLocation, NSError>
-    func rx_getCurrentGeoPoint() -> Observable<CLLocation>
-    func getCurrentGeoPoint() -> SignalProducer<AVGeoPoint, NSError>
+    func getCurrentGeoPoint() -> Observable<CLLocation>
     /**
      Calculate ETA from current location to destination location. Current location is automatically acquired.
      

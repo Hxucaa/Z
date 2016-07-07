@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ReactiveCocoa
 
 public protocol IUserDefaultsService : class {
     var accountModuleSkipped: Bool { get set }

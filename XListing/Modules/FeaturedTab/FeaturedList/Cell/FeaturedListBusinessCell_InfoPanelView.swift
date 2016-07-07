@@ -81,7 +81,7 @@ public final class FeaturedListBusinessCell_InfoPanelView : UIView {
         let label = TTTAttributedLabel(frame: frame)
         label.opaque = true
         label.backgroundColor = .x_FeaturedCardBG()
-        label.textColor = UIColor(hex: "828282")
+        label.textColor = UIColor(red: 130.0/255.0, green: 130.0/255.0, blue: 130.0/255.0, alpha: 1.0)
         label.font = UIFont.systemFontOfSize(10)
         label.adjustsFontSizeToFitWidth = true
         label.layer.masksToBounds = true

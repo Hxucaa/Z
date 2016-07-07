@@ -112,10 +112,10 @@ final class ProfileHeaderView: UIView {
     // MARK: - Properties
     
     // MARK: - Proxies
-    var editProxy: SimpleProxy {
-        return _editProxy
-    }
-    private let (_editProxy, _editObserver) = SimpleProxy.proxy()
+//    var editProxy: SimpleProxy {
+//        return _editProxy
+//    }
+//    private let (_editProxy, _editObserver) = SimpleProxy.proxy()
     
     
     // MARK: - Initializers

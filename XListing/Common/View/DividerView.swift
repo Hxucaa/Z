@@ -15,7 +15,7 @@ public class DividerView : UIView {
         
         userInteractionEnabled = false
         opaque = true
-        backgroundColor = UIColor(hex: "D5D5D5")
+        backgroundColor = UIColor(red: 213.0/255.0, green: 213.0/255.0, blue: 213.0/255.0, alpha: 1.0)
     }
     
     public required init?(coder aDecoder: NSCoder) {

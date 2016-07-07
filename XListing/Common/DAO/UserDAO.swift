@@ -8,7 +8,6 @@
 
 import Foundation
 import AVOSCloud
-import ReactiveCocoa
 import RxSwift
 
 public final class UserDAO: AVUser {
@@ -110,29 +109,6 @@ public final class UserDAO: AVUser {
 extension UserDAO {
     static var typedQuery: TypedAVQuery<UserDAO> {
         return TypedAVQuery<UserDAO>(query: UserDAO.query())
-    }
-}
-
-extension UserDAO {
-    
-    func rac_updatePassword(oldPassword: String, newPassword: String) -> SignalProducer<UserDAO, NetworkError> {
-        return super.rac_updatePassword(oldPassword, newPassword: newPassword)
-            .mapToDAO(UserDAO)
-    }
-    
-    class func rac_logInWithUsername(username: String, password: String) -> SignalProducer<UserDAO, NetworkError> {
-        return super.rac_logInWithUsername(username, password: password)
-            .mapToDAO(UserDAO)
-    }
-    
-    class func rac_logInWithPhoneNumber(phoneNumber: String, password: String) -> SignalProducer<UserDAO, NetworkError> {
-        return super.rac_logInWithPhoneNumber(phoneNumber, password: password)
-            .mapToDAO(UserDAO)
-    }
-    
-    class func rac_logInWithPhoneNumber(phoneNumber: String, smsCode: String) -> SignalProducer<UserDAO, NetworkError> {
-        return super.rac_logInWithPhoneNumber(phoneNumber, smsCode: smsCode)
-            .mapToDAO(UserDAO)
     }
 }
 

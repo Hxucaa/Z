@@ -46,7 +46,7 @@ final class ProfileEditViewController: XUIViewController {
         navigationItem.rightBarButtonItem = saveButton
         navigationController?.setNavigationBarHidden(false, animated: false)
         
-        view.frame = CGRect(
+        form.view.frame = CGRect(
             x: view.bounds.origin.x,
             y: view.bounds.origin.y + 44,
             width: view.bounds.size.width,
@@ -78,7 +78,6 @@ final class ProfileEditViewController: XUIViewController {
         
         formStatus.asObservable()
             .filter { $0 == FormStatus.Awaiting }
-            .debug()
             .flatMap { _ in
                 Observable.zip(
                     self.viewmodel.nicknameField,

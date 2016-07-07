@@ -7,8 +7,6 @@
 //
 
 import Foundation
-import ReactiveCocoa
-import Result
 import RxSwift
 import RxCocoa
 import RxOptional
@@ -93,14 +91,6 @@ final class BusinessDetailViewModel : _BaseViewModel, IBusinessDetailViewModel, 
     
     // MARK: Actions
     
-    func callPhone() -> SignalProducer<Bool, NoError> {
-        return SignalProducer(value: NSURL(string: "telprompt://\(business.phone)"))
-            .ignoreNil()
-            .map {
-                UIApplication.sharedApplication().openURL($0)
-            }
-    }
-    
     // MARK: Initializers
     typealias Dependency = (router: IRouter, meRepository: IMeRepository, businessRepository: IBusinessRepository, geoLocationService: IGeoLocationService)
     
@@ -113,7 +103,7 @@ final class BusinessDetailViewModel : _BaseViewModel, IBusinessDetailViewModel, 
         self.geoLocationService = dep.geoLocationService
         self.business = token
         
-        meAndBusinessRegion = dep.geoLocationService.rx_getCurrentGeoPoint()
+        meAndBusinessRegion = dep.geoLocationService.getCurrentGeoPoint()
             .map { current -> MKCoordinateRegion in
                 let distance = token.geolocation.distanceFromLocation(current)
                 let spanFactor = distance / 45000.00

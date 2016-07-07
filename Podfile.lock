@@ -23,20 +23,6 @@ PODS:
     - FLAnimatedImage (>= 1.0)
     - PINRemoteImage/Core
   - Quick (0.9.2)
-  - ReactiveArray (0.3.0):
-    - ReactiveCocoa (~> 4.1.0)
-  - ReactiveCocoa (4.1.0):
-    - ReactiveCocoa/UI (= 4.1.0)
-    - Result (~> 2.0)
-  - ReactiveCocoa/Core (4.1.0):
-    - ReactiveCocoa/no-arc
-    - Result (~> 2.0)
-  - ReactiveCocoa/no-arc (4.1.0):
-    - Result (~> 2.0)
-  - ReactiveCocoa/UI (4.1.0):
-    - ReactiveCocoa/Core
-    - Result (~> 2.0)
-  - Result (2.1.2)
   - RxBlocking (2.6.0):
     - RxSwift (~> 2.5)
   - RxCocoa (2.6.0):
@@ -51,7 +37,6 @@ PODS:
   - SDWebImage (3.8.1):
     - SDWebImage/Core (= 3.8.1)
   - SDWebImage/Core (3.8.1)
-  - Spring (1.0.3)
   - SVProgressHUD (2.0.3)
   - Swiftz (0.5.0)
   - Swinject (1.1.2)
@@ -82,15 +67,12 @@ DEPENDENCIES:
   - Nimble (~> 4.1.0)
   - PINRemoteImage (~> 2.1.2)
   - Quick (~> 0.9.0)
-  - ReactiveArray (from `https://github.com/Hxucaa/ReactiveArray.git`, tag `0.3.0`)
-  - ReactiveCocoa (~> 4.1.0)
   - RxBlocking (~> 2.6.0)
   - RxCocoa (~> 2.6.0)
   - RxDataSources (~> 0.9.0)
   - RxOptional (~> 2.0.0)
   - RxSwift (~> 2.6.0)
   - SDWebImage (~> 3.8.1)
-  - Spring (from `https://github.com/MengTo/Spring.git`)
   - SVProgressHUD (~> 2.0.3)
   - Swiftz
   - Swinject (~> 1.1.1)
@@ -103,22 +85,11 @@ DEPENDENCIES:
   - XLPagerTabStrip (~> 5.0.0)
 
 EXTERNAL SOURCES:
-  ReactiveArray:
-    :git: https://github.com/Hxucaa/ReactiveArray.git
-    :tag: 0.3.0
-  Spring:
-    :git: https://github.com/MengTo/Spring.git
   XAssets:
     :git: https://github.com/Hxucaa/xassets.git
     :tag: 0.7.1
 
 CHECKOUT OPTIONS:
-  ReactiveArray:
-    :git: https://github.com/Hxucaa/ReactiveArray.git
-    :tag: 0.3.0
-  Spring:
-    :commit: 7bf7ef55e8e936d83b318a74650992898899a526
-    :git: https://github.com/MengTo/Spring.git
   XAssets:
     :git: https://github.com/Hxucaa/xassets.git
     :tag: 0.7.1
@@ -141,16 +112,12 @@ SPEC CHECKSUMS:
   PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
   PINRemoteImage: 4ac4011c5caefd6befd99758e09becede05d3226
   Quick: 18d057bc66451eedd5d1c8dc99ba2a5db6e60226
-  ReactiveArray: 84306dc1c30dc95f3c9e846b2a51b8ae08a3f3de
-  ReactiveCocoa: d70004d7a366a7b8e87e60ce2347182c77701949
-  Result: 6e722d4a66b1408680dbfcdf51c0b1c4b706316a
   RxBlocking: f2e0a7e74d5e9d3029d2b1118e2af01f583fbdd8
   RxCocoa: 89ab00d5753502520227940e3a0e0a0413683c6b
   RxDataSources: e169bba94a7be584df7c1e1487fa56edc8753ae6
   RxOptional: b77fb47a0190213cf8a37c7a2b7fda28160b4563
   RxSwift: 77f3a0b15324baa7a1c9bfa9f199648a82424e26
   SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
-  Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   Swiftz: 6f790a0ed513003158d6c73bbda8aec68b6ce657
   Swinject: 3debc5ac926dcd1be00947265a9db7a5f31b272a
@@ -161,6 +128,6 @@ SPEC CHECKSUMS:
   XLActionController: 97ed31237413db4d9401c6a559270f4d2b4de136
   XLPagerTabStrip: 87b8b705f9a7178e76a063ffaa2d70045944a965
 
-PODFILE CHECKSUM: 6d0f85a39a017e2b4c47ec2d3c0bc6cf760a9db8
+PODFILE CHECKSUM: 06a15bb8723559ba0b1b2d64f1a5b2665d5f9cba
 
 COCOAPODS: 1.0.1

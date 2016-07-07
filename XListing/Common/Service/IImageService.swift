@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ReactiveCocoa
 import RxSwift
 
 public protocol IImageService : class {
@@ -19,7 +18,7 @@ public protocol IImageService : class {
     
     - returns: A signal producer that contains the `UIImage`.
     */
-    func getImageBy(url: NSURL) -> SignalProducer<UIImage, NSError>
+    func getImage(url: NSURL) -> Observable<UIImage>
     
     /**
     Fetch the original size of the `ImageFile`
@@ -28,7 +27,7 @@ public protocol IImageService : class {
     
     - returns: A signal producer that contains the `UIImage`.
     */
-    func getImage(image: ImageFile) -> SignalProducer<UIImage, NSError>
+    func getImage(image: ImageFile) -> Observable<UIImage>
     
     /**
     Fetch a thumbnail of the `ImageFile`.
@@ -38,8 +37,5 @@ public protocol IImageService : class {
     
     - returns: A signal producer that contains the thumbnail.
     */
-    func getThumbnail(image: ImageFile, thumbnailSize: Thumbnail.Dimension) -> SignalProducer<Thumbnail, NSError>
-    
-    func rx_getImage(image: ImageFile) -> Observable<UIImage>
-    func rx_getImage(url: NSURL) -> Observable<UIImage>
+    func getThumbnail(image: ImageFile, thumbnailSize: Thumbnail.Dimension) -> Observable<Thumbnail>
 }

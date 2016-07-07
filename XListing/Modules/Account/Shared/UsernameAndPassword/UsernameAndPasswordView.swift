@@ -11,9 +11,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Cartography
-import Spring
 
-final class UsernameAndPasswordView : SpringView {
+final class UsernameAndPasswordView : UIView {
     
     // MARK: - UI Controls
     @IBOutlet private weak var usernameField: UITextField!

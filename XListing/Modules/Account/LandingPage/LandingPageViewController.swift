@@ -52,8 +52,12 @@ final class LandingPageViewController: XUIViewController, ViewModelBackedViewCon
             logInTrigger: landingPageView.loginEvent,
             skipAccountTrigger: landingPageView.skipEvent
         )
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
-
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     // MARK: - Bindings

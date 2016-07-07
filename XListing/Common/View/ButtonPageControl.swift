@@ -10,8 +10,6 @@ import Foundation
 import UIKit
 import TZStackView
 import Cartography
-import TTTAttributedLabel
-import ReactiveCocoa
 
 public class ButtonPageControl : UIView {
     

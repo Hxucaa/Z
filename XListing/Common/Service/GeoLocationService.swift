@@ -7,10 +7,10 @@
 //
 
 import Foundation
-import ReactiveCocoa
 import RxSwift
-import AVOSCloud
 import CoreLocation
+import MapKit
+import AVOSCloud
 
 public final class GeoLocationService : IGeoLocationService {
     
@@ -26,22 +26,7 @@ public final class GeoLocationService : IGeoLocationService {
     
     private let locationManager = LocationManager()
     
-    public func getCurrentLocation() -> SignalProducer<CLLocation, NSError> {
-        return SignalProducer<CLLocation, NSError> { observer, disposable in
-            // get current location
-            AVGeoPoint.geoPointForCurrentLocationInBackground { (geopoint, error) -> Void in
-                if error == nil {
-                    observer.sendNext(CLLocation(latitude: geopoint!.latitude, longitude: geopoint!.longitude))
-                    observer.sendCompleted()
-                }
-                else {
-                    observer.sendFailed(error)
-                }
-            }
-        }
-    }
-    
-    public func rx_getCurrentGeoPoint() -> Observable<CLLocation> {
+    public func getCurrentGeoPoint() -> Observable<CLLocation> {
         return Observable.create { observer in
             // get current location
             AVGeoPoint.geoPointForCurrentLocationInBackground { (geopoint, error) -> Void in
@@ -55,21 +40,6 @@ public final class GeoLocationService : IGeoLocationService {
             }
             
             return NopDisposable.instance
-        }
-    }
-    
-    public func getCurrentGeoPoint() -> SignalProducer<AVGeoPoint, NSError> {
-        return SignalProducer { observer, disposable in
-            // get current location
-            AVGeoPoint.geoPointForCurrentLocationInBackground { (geopoint, error) -> Void in
-                if error == nil {
-                    observer.sendNext(geopoint)
-                    observer.sendCompleted()
-                }
-                else {
-                    observer.sendFailed(error)
-                }
-            }
         }
     }
     

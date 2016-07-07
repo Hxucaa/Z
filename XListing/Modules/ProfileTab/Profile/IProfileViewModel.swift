@@ -3,7 +3,7 @@
 // Copyright (c) 2016 Lance Zhu. All rights reserved.
 //
 
-import ReactiveCocoa
+import Foundation
 
 protocol IProfileViewModel : class {
     
@@ -17,9 +17,6 @@ protocol IProfileViewModel : class {
     
     // MARK: - Properties
     
-    // MARK: ViewModels
     
-    // MARK: - Initializers
     
-    // MARK: - API
 }

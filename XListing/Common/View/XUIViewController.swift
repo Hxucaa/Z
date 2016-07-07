@@ -8,7 +8,6 @@
 
 import UIKit
 import AMScrollingNavbar
-import ReactiveCocoa
 #if DEBUG
     import FLEX
 #endif
@@ -17,8 +16,6 @@ private let MinimumPressDuration = 4.0
 
 class XUIViewController: RxViewController {
     
-    let compositeDisposable = CompositeDisposable()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -40,17 +37,11 @@ class XUIViewController: RxViewController {
                 FLEXManager.sharedManager().showExplorer()
             }
         #endif
-    }
-    
-    deinit {
-        compositeDisposable.dispose()
     }
 }
 
 class XScrollingNavigationViewController : ScrollingNavigationViewController {
     
-    let compositeDisposable = CompositeDisposable()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -72,9 +63,5 @@ class XScrollingNavigationViewController : ScrollingNavigationViewController {
                 FLEXManager.sharedManager().showExplorer()
             }
         #endif
-    }
-    
-    deinit {
-        compositeDisposable.dispose()
     }
 }

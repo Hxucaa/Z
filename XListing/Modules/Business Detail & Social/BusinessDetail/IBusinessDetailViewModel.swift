@@ -7,10 +7,9 @@
 //
 
 import Foundation
-import ReactiveCocoa
-import Result
 import RxSwift
 import RxCocoa
+import MapKit
 
 protocol IBusinessDetailViewModel : class {
     
@@ -29,16 +28,4 @@ protocol IBusinessDetailViewModel : class {
     var businessHour: String { get }
     var callStatus: Observable<Bool> { get }
     func calculateEta() -> Driver<String>
-
-    
-//    var headerViewModel: SocialBusinessHeaderViewModel { get }
-//    var descriptionViewModel: DescriptionCellViewModel { get }
-//    var detailAddressAndMapViewModel: DetailAddressAndMapViewModel { get }
-//    var detailPhoneWebViewModel: DetailPhoneWebViewModel { get }
-//    var detailNavigationMapViewModel: DetailNavigationMapViewModel { get }
-//    var businessHourViewModel: BusinessHourCellViewModel { get }
-    
-    
-    // MARK: Actions
-    func callPhone() -> SignalProducer<Bool, NoError>
 }
