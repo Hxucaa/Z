@@ -51,14 +51,14 @@ final class LogInViewModel : _BaseViewModel, ILogInViewModel, ViewModelInjectabl
         let usernameField = FormFieldFactory(
             name: FieldName.Username,
             initialValue: nil,
-            input: input.username.asObservable().map { Optional.Some($0) },
+            input: input.username.asObservable(),
             validation: upvm.validateUsername
         )
         
         let passwordField = FormFieldFactory(
             name: FieldName.Password,
             initialValue: nil,
-            input: input.password.asObservable().map { Optional.Some($0) },
+            input: input.password.asObservable(),
             validation: upvm.validatePassword
         )
         

@@ -12,12 +12,12 @@ import RxSwift
 protocol ISignUpViewModel {
     
     var inputs: (
-        username: PublishSubject<String?>,
-        password: PublishSubject<String?>,
-        nickname: PublishSubject<String?>,
-        birthday: PublishSubject<NSDate?>,
-        gender: PublishSubject<Gender?>,
-        profileImage: PublishSubject<UIImage?>
+        username: PublishSubject<String>,
+        password: PublishSubject<String>,
+        nickname: PublishSubject<String>,
+        birthday: PublishSubject<NSDate>,
+        gender: PublishSubject<Gender>,
+        profileImage: PublishSubject<UIImage>
     ) { get }
     
     // MARK: - Outputs

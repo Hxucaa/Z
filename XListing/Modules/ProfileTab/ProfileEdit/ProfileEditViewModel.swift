@@ -15,9 +15,9 @@ import Swiftz
 final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
     
     // MARK: - Inputs
-    let nicknameInput: PublishSubject<String?>
-    let whatsUpInput: PublishSubject<String?>
-    let profileImageInput: PublishSubject<UIImage?>
+    let nicknameInput: PublishSubject<String>
+    let whatsUpInput: PublishSubject<String>
+    let profileImageInput: PublishSubject<UIImage>
     
     // MARK: - Outputs
     let nicknameField: Observable<FormField<String>>
@@ -53,9 +53,9 @@ final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
         meRepository = dep.meRepository
         imageService = dep.imageService
         
-        let nicknameInput = PublishSubject<String?>()
-        let whatsUpInput = PublishSubject<String?>()
-        let profileImageInput = PublishSubject<UIImage?>()
+        let nicknameInput = PublishSubject<String>()
+        let whatsUpInput = PublishSubject<String>()
+        let profileImageInput = PublishSubject<UIImage>()
         
         self.nicknameInput = nicknameInput
         self.whatsUpInput = whatsUpInput
@@ -72,9 +72,6 @@ final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
                 .map { $0!.nickname },
             input: nicknameInput.asObservable()
         ) { value in
-            guard let value = value else {
-                return ValidationNEL<String, ValidationError>.Failure([ValidationError.Required])
-            }
             
             let base = ValidationNEL<String -> String, ValidationError>.Success({ a in value })
             let rule: ValidationNEL<String, ValidationError> = value.characters.count >= 1 && value.characters.count <= 20 ?
@@ -90,9 +87,6 @@ final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
                 .map { $0!.whatsUp },
             input: whatsUpInput.asObservable()
         ) { value in
-            guard let value = value else {
-                return ValidationNEL<String, ValidationError>.Success("")
-            }
             
             let base = ValidationNEL<String -> String, ValidationError>.Success({ a in value })
             let rule: ValidationNEL<String, ValidationError> = value.characters.count <= 30 ?

@@ -17,12 +17,12 @@ final class SignUpFormViewController : FormViewController {
     
     // MARK: - Outputs
     let outputs = (
-        username: PublishSubject<String?>(),
-        password: PublishSubject<String?>(),
-        nickname: PublishSubject<String?>(),
-        birthday: PublishSubject<NSDate?>(),
-        gender: PublishSubject<Gender?>(),
-        profileImage: PublishSubject<UIImage?>()
+        username: PublishSubject<String>(),
+        password: PublishSubject<String>(),
+        nickname: PublishSubject<String>(),
+        birthday: PublishSubject<NSDate>(),
+        gender: PublishSubject<Gender>(),
+        profileImage: PublishSubject<UIImage>()
     )
     
     // MARK: - Setups
@@ -44,13 +44,13 @@ final class SignUpFormViewController : FormViewController {
                 $0.title = "用户名"
                 }
                 .onChange { [weak self] row in
-                    self?.outputs.username.onNext(row.value)
+                    self?.outputs.username.onNext(row.value ?? "")
             }
             <<< PasswordRow("密码") {
                 $0.title = "密码"
                 }
                 .onChange { [weak self] row in
-                    self?.outputs.password.onNext(row.value)
+                    self?.outputs.password.onNext(row.value ?? "")
             }
             <<< ImageRow("头像") {
                 $0.title = "头像"
@@ -60,13 +60,13 @@ final class SignUpFormViewController : FormViewController {
                     cell.height = { 80 }
                 }
                 .onChange { [weak self] row in
-                    self?.outputs.profileImage.onNext(row.value)
+                    self?.outputs.profileImage.onNext(row.value ?? UIImage())
             }
             <<< NameRow("昵称") {
                 $0.title = "昵称"
                 }
                 .onChange { [weak self] row in
-                    self?.outputs.nickname.onNext(row.value)
+                    self?.outputs.nickname.onNext(row.value ?? "")
             }
             <<< DateInlineRow() {
                 $0.title = "生日"
@@ -75,7 +75,7 @@ final class SignUpFormViewController : FormViewController {
                 $0.maximumDate = maximumDate
                 }
                 .onChange { [weak self] row in
-                    self?.outputs.birthday.onNext(row.value)
+                    self?.outputs.birthday.onNext(row.value ?? NSDate())
             }
             <<< SegmentedRow<String>() {
                 $0.title = "性别"

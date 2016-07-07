@@ -19,7 +19,7 @@ public protocol FormFieldFactoryType {
 
 public struct FormFieldFactory<T: Equatable> : FormFieldFactoryType {
     
-    public typealias ValidationRule = T? -> ValidationNEL<T, ValidationError>
+    public typealias ValidationRule = T -> ValidationNEL<T, ValidationError>
     
     public let name: String
     public let output: Observable<FormField<T>>
@@ -27,23 +27,24 @@ public struct FormFieldFactory<T: Equatable> : FormFieldFactoryType {
         return output.map { $0 as FormFieldType }
     }
     
-    public init<S: RawRepresentable where S.RawValue == String>(name: S, required: Bool = false, initialValue: T? = nil, input: Observable<T?>, validation: ValidationRule? = nil) {
+    public init<S: RawRepresentable where S.RawValue == String>(name: S, required: Bool = false, initialValue: T? = nil, input: Observable<T>, validation: ValidationRule? = nil) {
         self.init(name: name.rawValue, required: required, initial: Observable.just(initialValue), input: input, validation: validation)
     }
     
-    public init(name: String, required: Bool = false, initialValue: T? = nil, input: Observable<T?>, validation: ValidationRule? = nil) {
+    public init(name: String, required: Bool = false, initialValue: T? = nil, input: Observable<T>, validation: ValidationRule? = nil) {
         self.init(name: name, required: required, initial: Observable.just(initialValue), input: input, validation: validation)
     }
     
-    public init<S: RawRepresentable where S.RawValue == String>(name: S, required: Bool = false, initial: Observable<T?> = Observable.just(nil), input: Observable<T?>, validation: ValidationRule? = nil) {
+    public init<S: RawRepresentable where S.RawValue == String>(name: S, required: Bool = false, initial: Observable<T?> = Observable.empty(), input: Observable<T>, validation: ValidationRule? = nil) {
         self.init(name: name.rawValue, required: required, initial: initial, input: input, validation: validation)
     }
     
-    public init(name: String, required: Bool = false, initial: Observable<T?> = Observable.just(nil), input: Observable<T?>, validation: ValidationRule? = nil) {
+    public init(name: String, required: Bool = false, initial: Observable<T?> = Observable.empty(), input: Observable<T>, validation: ValidationRule? = nil) {
         
         self.name = name
         
         output = initial
+            .filterNil()
             .concat(input)
             .scan(nil) { acc, current -> FormField<T>? in
                 guard let acc = acc else {
@@ -126,8 +127,7 @@ public struct Form {
                     case .Submitted: return true
                     default: return false
                     }
-                }
-                .debug(),
+                },
             formField
                 .map { $0.contraOutput }
                 .combineLatest { i -> Bool in
@@ -190,7 +190,7 @@ public protocol FormFieldType {
 
 public struct FormField<T: Equatable> : FormFieldType {
     
-    public typealias ValidationRule = T? -> ValidationNEL<T, ValidationError>
+    public typealias ValidationRule = T -> ValidationNEL<T, ValidationError>
     
     public let name: String
     public let required: Bool
@@ -297,7 +297,7 @@ public struct FormField<T: Equatable> : FormFieldType {
         self.touched = touched
     }
     
-    public func onChange(value: T?) -> FormField<T> {
+    public func onChange(value: T) -> FormField<T> {
         return FormField<T>(
             name: name,
             required: self.required,
@@ -355,9 +355,9 @@ public extension FormField {
 
 public enum FieldValue<T: Equatable> {
     case Initial(initial: T?)
-    case Input(initial: T?, current: T?)
+    case Input(initial: T?, current: T)
     
-    public func onChange(newValue: T?) -> FieldValue<T> {
+    public func onChange(newValue: T) -> FieldValue<T> {
         switch self {
         case let .Initial(initial) where initial == newValue:
             return self

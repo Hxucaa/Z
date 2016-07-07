@@ -19,9 +19,9 @@ final class ProfileEditFormViewController : FormViewController {
     private var whatsUp: String?
     
     // MARK: - Outputs
-    let nicknameInput = PublishSubject<String?>()
-    let whatsUpInput = PublishSubject<String?>()
-    let profileImageInput = PublishSubject<UIImage?>()
+    let nicknameInput = PublishSubject<String>()
+    let whatsUpInput = PublishSubject<String>()
+    let profileImageInput = PublishSubject<UIImage>()
     
     
     // MARK: - Setups
@@ -57,7 +57,7 @@ final class ProfileEditFormViewController : FormViewController {
                     cell.height = { 80 }
                 }
                 .onChange { [weak self] row in
-                    self?.profileImageInput.onNext(row.value)
+                    self?.profileImageInput.onNext(row.value ?? UIImage())
             }
             +++ Section()
             <<< TextFloatLabelRow("昵称") {
@@ -69,14 +69,14 @@ final class ProfileEditFormViewController : FormViewController {
                     cell.textField.autocapitalizationType = .None
                 }
                 .onChange { [weak self] row in
-                    self?.nicknameInput.onNext(row.value)
+                    self?.nicknameInput.onNext(row.value ?? "")
             }
             <<< TextFloatLabelRow("What's Up") {
                 $0.title = "What's Up"
                 $0.value = self.whatsUp
                 }
                 .onChange { [weak self] row in
-                    self?.whatsUpInput.onNext(row.value)
+                    self?.whatsUpInput.onNext(row.value ?? "")
         }
     }
 }

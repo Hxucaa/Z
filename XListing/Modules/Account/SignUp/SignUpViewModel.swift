@@ -15,12 +15,12 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
     
     // MARK: - Inputs
     let inputs: (
-        username: PublishSubject<String?>,
-        password: PublishSubject<String?>,
-        nickname: PublishSubject<String?>,
-        birthday: PublishSubject<NSDate?>,
-        gender: PublishSubject<Gender?>,
-        profileImage: PublishSubject<UIImage?>
+        username: PublishSubject<String>,
+        password: PublishSubject<String>,
+        nickname: PublishSubject<String>,
+        birthday: PublishSubject<NSDate>,
+        gender: PublishSubject<Gender>,
+        profileImage: PublishSubject<UIImage>
     )
     
     // MARK: - Outputs
@@ -66,12 +66,12 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
         self.meRepository = dep.meRepository
         
         inputs = (
-            username: PublishSubject<String?>(),
-            password: PublishSubject<String?>(),
-            nickname: PublishSubject<String?>(),
-            birthday: PublishSubject<NSDate?>(),
-            gender: PublishSubject<Gender?>(),
-            profileImage: PublishSubject<UIImage?>()
+            username: PublishSubject<String>(),
+            password: PublishSubject<String>(),
+            nickname: PublishSubject<String>(),
+            birthday: PublishSubject<NSDate>(),
+            gender: PublishSubject<Gender>(),
+            profileImage: PublishSubject<UIImage>()
         )
         
         func 年龄上限() -> NSDate {
@@ -126,14 +126,7 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
             required: true,
             initialValue: UIImage(asset: UIImage.Asset.Profilepicture),
             input: inputs.profileImage.asObservable()
-        ) { value -> ValidationNEL<UIImage, ValidationError> in
-            
-            guard let value = value else {
-                return .Failure([ValidationError.Required])
-            }
-            
-            return .Success(value)
-        }
+        )
         
         let nicknameField = FormFieldFactory(
             name: FieldName.Nickname,
@@ -141,11 +134,6 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
             initialValue: nil,
             input: inputs.nickname.asObservable()
         ) { value -> ValidationNEL<String, ValidationError> in
-            
-            guard let value = value else {
-                return .Failure([ValidationError.Required])
-            }
-            
             let base = ValidationNEL<String -> String, ValidationError>.Success({ a in value })
             let rule1: ValidationNEL<String, ValidationError> = value.characters.count > 1 && value.characters.count <= 10 ?
                 .Success(value) :
@@ -161,10 +149,6 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
             input: inputs.birthday.asObservable()
         ) { value in
             
-            guard let value = value else {
-                return ValidationNEL<NSDate, ValidationError>.Failure([ValidationError.Required])
-            }
-            
             let base = ValidationNEL<NSDate -> NSDate, ValidationError>.Success({ a in value })
             let rule1: ValidationNEL<NSDate, ValidationError> = (value.compare(年龄上限()) == .OrderedAscending) && (value.compare(年龄下限()) == .OrderedDescending) ?
                 .Success(value) :
@@ -178,14 +162,7 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
             required: true,
             initialValue: nil,
             input: inputs.gender.asObservable()
-        ) { value -> ValidationNEL<Gender, ValidationError> in
-            
-            guard let value = value else {
-                return .Failure([ValidationError.Required])
-            }
-            
-            return .Success(value)
-        }
+        )
         
         form = Form(
             submitTrigger: input.submitTrigger.asObservable(),
