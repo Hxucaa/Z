@@ -70,7 +70,7 @@ final class SignUpFormViewController : FormViewController {
             }
             <<< DateInlineRow() {
                 $0.title = "生日"
-                $0.value = minimumDate
+                $0.value = maximumDate
                 $0.minimumDate = minimumDate
                 $0.maximumDate = maximumDate
                 }

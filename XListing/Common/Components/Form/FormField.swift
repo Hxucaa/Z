@@ -27,19 +27,19 @@ public struct FormFieldFactory<T: Equatable> : FormFieldFactoryType {
         return output.map { $0 as FormFieldType }
     }
     
-    public init<S: RawRepresentable where S.RawValue == String>(name: S, initialValue: T? = nil, input: Observable<T?>, validation: ValidationRule? = nil) {
-        self.init(name: name.rawValue, initial: Observable.just(initialValue), input: input, validation: validation)
+    public init<S: RawRepresentable where S.RawValue == String>(name: S, required: Bool = false, initialValue: T? = nil, input: Observable<T?>, validation: ValidationRule? = nil) {
+        self.init(name: name.rawValue, required: required, initial: Observable.just(initialValue), input: input, validation: validation)
     }
     
-    public init(name: String, initialValue: T? = nil, input: Observable<T?>, validation: ValidationRule? = nil) {
-        self.init(name: name, initial: Observable.just(initialValue), input: input, validation: validation)
+    public init(name: String, required: Bool = false, initialValue: T? = nil, input: Observable<T?>, validation: ValidationRule? = nil) {
+        self.init(name: name, required: required, initial: Observable.just(initialValue), input: input, validation: validation)
     }
     
-    public init<S: RawRepresentable where S.RawValue == String>(name: S, initial: Observable<T?> = Observable.just(nil), input: Observable<T?>, validation: ValidationRule? = nil) {
-        self.init(name: name.rawValue, initial: initial, input: input, validation: validation)
+    public init<S: RawRepresentable where S.RawValue == String>(name: S, required: Bool = false, initial: Observable<T?> = Observable.just(nil), input: Observable<T?>, validation: ValidationRule? = nil) {
+        self.init(name: name.rawValue, required: required, initial: initial, input: input, validation: validation)
     }
     
-    public init(name: String, initial: Observable<T?> = Observable.just(nil), input: Observable<T?>, validation: ValidationRule? = nil) {
+    public init(name: String, required: Bool = false, initial: Observable<T?> = Observable.just(nil), input: Observable<T?>, validation: ValidationRule? = nil) {
         
         self.name = name
         
@@ -47,7 +47,7 @@ public struct FormFieldFactory<T: Equatable> : FormFieldFactoryType {
             .concat(input)
             .scan(nil) { acc, current -> FormField<T>? in
                 guard let acc = acc else {
-                    return FormField(name: name, initialValue: current, validation: validation)
+                    return FormField(name: name, required: required, initialValue: current, validation: validation)
                 }
                 
                 return acc.onChange(current)
@@ -128,9 +128,23 @@ public struct Form {
                     }
                 }
                 .debug(),
-            dict.values
-                .combineLatest {
-                    $0.map { $0.valid }.and && $0.map { $0.dirty }.or
+            formField
+                .map { $0.contraOutput }
+                .combineLatest { i -> Bool in
+                    // all required fields have to be valid and dirty.
+                    let r = i
+                        .lazy
+                        .filter { $0.required }
+                        .map { $0.valid && $0.dirty }
+                        .and
+                    
+                    // all optional fields also have to be valid.
+                    let o = i
+                        .lazy
+                        .filter { !$0.required }
+                        .map { $0.valid }
+                        .and
+                    return r && o
                 }
             ]
             .combineLatest {
@@ -173,7 +187,7 @@ public protocol FieldValueConcreteType : Equatable {}
 
 public protocol FormFieldType {
     var name: String { get }
-    
+    var required: Bool { get }
     var errors: [ValidationError]? { get }
     var visited: Bool { get }
     var touched: Bool { get }
@@ -190,6 +204,7 @@ public struct FormField<T: Equatable> : FormFieldType {
     public typealias ValidationRule = T? -> ValidationNEL<T, ValidationError>
     
     public let name: String
+    public let required: Bool
     public let value: FieldValue<T>
     public let validation: ValidationRule?
     public let errors: [ValidationError]?
@@ -258,11 +273,12 @@ public struct FormField<T: Equatable> : FormFieldType {
     }
     
     public init(name: String, initialValue: T?) {
-        self.init(name: name, initialValue: initialValue, validation: nil)
+        self.init(name: name, required: false, initialValue: initialValue, validation: nil)
     }
     
-    public init(name: String, initialValue: T?, validation: ValidationRule?) {
+    public init(name: String, required: Bool, initialValue: T?, validation: ValidationRule?) {
         self.name = name
+        self.required = required
         value = .Initial(initial: initialValue)
         self.validation = validation
         if let value = value.currentValue, validation = validation {
@@ -276,8 +292,9 @@ public struct FormField<T: Equatable> : FormFieldType {
         touched = false
     }
     
-    private init(name: String, value: FieldValue<T>, validation: ValidationRule?, visited: Bool, touched: Bool) {
+    private init(name: String, required: Bool, value: FieldValue<T>, validation: ValidationRule?, visited: Bool, touched: Bool) {
         self.name = name
+        self.required = required
         self.value = value
         self.validation = validation
         if let value = value.currentValue, validation = validation {
@@ -294,6 +311,7 @@ public struct FormField<T: Equatable> : FormFieldType {
     public func onChange(value: T?) -> FormField<T> {
         return FormField<T>(
             name: name,
+            required: self.required,
             value: self.value.onChange(value),
             validation: self.validation,
             visited: self.visited,
@@ -308,6 +326,7 @@ public struct FormField<T: Equatable> : FormFieldType {
         else {
             return FormField<T>(
                 name: name,
+                required: self.required,
                 value: value,
                 validation: self.validation,
                 visited: true,
@@ -323,6 +342,7 @@ public struct FormField<T: Equatable> : FormFieldType {
         else {
             return FormField<T>(
                 name: name,
+                required: self.required,
                 value: value,
                 validation: self.validation,
                 visited: self.visited,

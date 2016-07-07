@@ -1,9 +1,6 @@
 PODS:
   - ActionSheetPicker-3.0 (2.2.0)
   - AMScrollingNavbar (2.1.1)
-  - Argo (3.0.1)
-  - AVOSCloudCrashReportingDynamic (3.3.5):
-    - AVOSCloudDynamic
   - AVOSCloudDynamic (3.3.5)
   - Cartography (0.6.0)
   - Curry (2.3.1)
@@ -54,8 +51,6 @@ PODS:
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.2.0)
   - AMScrollingNavbar (~> 2.1.1)
-  - Argo (~> 3.0.0)
-  - AVOSCloudCrashReportingDynamic (~> 3.3)
   - AVOSCloudDynamic (~> 3.3)
   - Cartography (~> 0.6.0)
   - Curry (~> 2.3.1)
@@ -97,8 +92,6 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: d11a4c12c6aaf704b8a3f56d179198c99f3e41e6
   AMScrollingNavbar: 22848c8c7e4893e239cf32c0b914f672cd334209
-  Argo: 22c5d62b7967020a641468c91dc9488bea9523b8
-  AVOSCloudCrashReportingDynamic: 31c9d0f0aae34a454032f2e68f9842801a83b5a4
   AVOSCloudDynamic: 82df67e1c48c00dfbe7b7d8c61b4634c597b8aba
   Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
   Curry: c8f65c8ade091aad5cb86f7b51dd408d698810ca
@@ -128,6 +121,6 @@ SPEC CHECKSUMS:
   XLActionController: 97ed31237413db4d9401c6a559270f4d2b4de136
   XLPagerTabStrip: 87b8b705f9a7178e76a063ffaa2d70045944a965
 
-PODFILE CHECKSUM: 06a15bb8723559ba0b1b2d64f1a5b2665d5f9cba
+PODFILE CHECKSUM: 013c2fd8f4364073172cdac45fada958b22711da
 
 COCOAPODS: 1.0.1

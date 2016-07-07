@@ -107,6 +107,7 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
         
         let usernameField = FormFieldFactory(
             name: FieldName.Username,
+            required: true,
             initialValue: nil,
             input: inputs.username.asObservable(),
             validation: upvm.validateUsername
@@ -114,6 +115,7 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
         
         let passwordField = FormFieldFactory(
             name: FieldName.Password,
+            required: true,
             initialValue: nil,
             input: inputs.password.asObservable(),
             validation: upvm.validatePassword
@@ -121,6 +123,7 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
         
         let profileImageField = FormFieldFactory(
             name: FieldName.ProfileImage,
+            required: true,
             initialValue: UIImage(asset: UIImage.Asset.Profilepicture),
             input: inputs.profileImage.asObservable()
         ) { value -> ValidationNEL<UIImage, ValidationError> in
@@ -134,6 +137,7 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
         
         let nicknameField = FormFieldFactory(
             name: FieldName.Nickname,
+            required: true,
             initialValue: nil,
             input: inputs.nickname.asObservable()
         ) { value -> ValidationNEL<String, ValidationError> in
@@ -152,6 +156,7 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
         
         let birthdayField = FormFieldFactory<NSDate>(
             name: FieldName.Birthday,
+            required: true,
             initialValue: nil,
             input: inputs.birthday.asObservable()
         ) { value in
@@ -170,6 +175,7 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
         
         let genderField = FormFieldFactory(
             name: FieldName.Gender,
+            required: true,
             initialValue: nil,
             input: inputs.gender.asObservable()
         ) { value -> ValidationNEL<Gender, ValidationError> in
@@ -202,7 +208,7 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
                     .map { _ in .Submitted }
                     .catchErrorJustReturn(.Error)
             },
-            formField: usernameField, passwordField, profileImageField, nicknameField, birthdayField
+            formField: usernameField, passwordField, profileImageField, nicknameField, birthdayField, genderField
         )
         
         self.usernameField = usernameField.output

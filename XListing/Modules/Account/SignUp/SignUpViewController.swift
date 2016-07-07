@@ -75,6 +75,30 @@ final class SignUpViewController : XUIViewController, ViewModelBackedViewControl
                 }
             }
             .addDisposableTo(disposeBag)
+        
+        form.outputs.username
+            .bindTo(viewmodel.inputs.username)
+            .addDisposableTo(disposeBag)
+        
+        form.outputs.password
+            .bindTo(viewmodel.inputs.password)
+            .addDisposableTo(disposeBag)
+        
+        form.outputs.nickname
+            .bindTo(viewmodel.inputs.nickname)
+            .addDisposableTo(disposeBag)
+        
+        form.outputs.birthday
+            .bindTo(viewmodel.inputs.birthday)
+            .addDisposableTo(disposeBag)
+        
+        form.outputs.gender
+            .bindTo(viewmodel.inputs.gender)
+            .addDisposableTo(disposeBag)
+        
+        form.outputs.profileImage
+            .bindTo(viewmodel.inputs.profileImage)
+            .addDisposableTo(disposeBag)
     }
     
     override func viewWillAppear(animated: Bool) {
