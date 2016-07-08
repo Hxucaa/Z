@@ -21,12 +21,12 @@ protocol ISignUpViewModel {
     ) { get }
     
     // MARK: - Outputs
-    var usernameField: Observable<FormField<String>> { get }
-    var passwordField: Observable<FormField<String>> { get }
-    var profileImageField: Observable<FormField<UIImage>> { get }
-    var nicknameField: Observable<FormField<String>> { get }
-    var birthdayField: Observable<FormField<NSDate>> { get }
-    var genderField: Observable<FormField<Gender>> { get }
+    var usernameField: Observable<FieldState<String>> { get }
+    var passwordField: Observable<FieldState<String>> { get }
+    var profileImageField: Observable<FieldState<UIImage>> { get }
+    var nicknameField: Observable<FieldState<String>> { get }
+    var birthdayField: Observable<FieldState<NSDate>> { get }
+    var genderField: Observable<FieldState<Gender>> { get }
     var pickerUpperLimit: NSDate { get }
     var pickerLowerLimit: NSDate { get }
     var formStatus: Observable<FormStatus> { get }

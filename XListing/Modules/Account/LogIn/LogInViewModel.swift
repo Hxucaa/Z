@@ -48,14 +48,14 @@ final class LogInViewModel : _BaseViewModel, ILogInViewModel, ViewModelInjectabl
         
         
         
-        let usernameField = FormFieldFactory(
+        let usernameField = FieldFactory(
             name: FieldName.Username,
             initialValue: nil,
             input: input.username.asObservable(),
             validation: upvm.validateUsername
         )
         
-        let passwordField = FormFieldFactory(
+        let passwordField = FieldFactory(
             name: FieldName.Password,
             initialValue: nil,
             input: input.password.asObservable(),
@@ -66,8 +66,8 @@ final class LogInViewModel : _BaseViewModel, ILogInViewModel, ViewModelInjectabl
             submitTrigger: input.submitTrigger.asObservable(),
             submitHandler: { fields -> Observable<FormStatus> in
                 guard let
-                    username = (fields[FieldName.Username.rawValue] as! FormField<String>).inputValue,
-                    password = (fields[FieldName.Password.rawValue] as! FormField<String>).inputValue else {
+                    username = (fields[FieldName.Username.rawValue] as! FieldState<String>).inputValue,
+                    password = (fields[FieldName.Password.rawValue] as! FieldState<String>).inputValue else {
                         return Observable.just(.Error)
                 }
                 

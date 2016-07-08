@@ -12,17 +12,17 @@ import RxSwift
 import RxOptional
 import RxCocoa
 
-public protocol FormFieldFactoryType {
+public protocol FieldFactoryType {
     var name: String { get }
     var contraOutput: Observable<FormFieldType> { get }
 }
 
-public struct FormFieldFactory<T: Equatable> : FormFieldFactoryType {
+public struct FieldFactory<T: Equatable> : FieldFactoryType {
     
     public typealias ValidationRule = T -> ValidationNEL<T, ValidationError>
     
     public let name: String
-    public let output: Observable<FormField<T>>
+    public let output: Observable<FieldState<T>>
     public var contraOutput: Observable<FormFieldType> {
         return output.map { $0 as FormFieldType }
     }
@@ -46,9 +46,9 @@ public struct FormFieldFactory<T: Equatable> : FormFieldFactoryType {
         output = initial
             .filterNil()
             .concat(input)
-            .scan(nil) { acc, current -> FormField<T>? in
+            .scan(nil) { acc, current -> FieldState<T>? in
                 guard let acc = acc else {
-                    return FormField(name: name, required: required, initialValue: current, validation: validation)
+                    return FieldState(name: name, required: required, initialValue: current, validation: validation)
                 }
                 
                 return acc.onChange(current)
@@ -74,11 +74,21 @@ public struct Form {
     let status: Observable<FormStatus>
     let submissionEnabled: Observable<Bool>
     
-    init(initialLoadTrigger: Observable<Void> = Observable.just(()), submitTrigger: Observable<Void>, submitHandler: [String : FormFieldType] -> Observable<FormStatus>, formField: FormFieldFactoryType...) {
+    init(
+        initialLoadTrigger: Observable<Void> = Observable.just(()),
+        submitTrigger: Observable<Void>,
+        submitHandler: [String : FormFieldType] -> Observable<FormStatus>,
+        formField: FieldFactoryType...
+    ) {
         self.init(initialLoadTrigger: initialLoadTrigger, submitTrigger: submitTrigger, submitHandler: submitHandler, formField: formField)
     }
 
-    init(initialLoadTrigger: Observable<Void> = Observable.just(()), submitTrigger: Observable<Void>, submitHandler: [String : FormFieldType] -> Observable<FormStatus>, formField: [FormFieldFactoryType]) {
+    init(
+        initialLoadTrigger: Observable<Void> = Observable.just(()),
+        submitTrigger: Observable<Void>,
+        submitHandler: [String : FormFieldType] -> Observable<FormStatus>,
+        formField: [FieldFactoryType]
+    ) {
         
         var dict = [String : Observable<FormFieldType>]()
         formField.forEach {
@@ -143,8 +153,13 @@ public struct Form {
             .startWith(false)
     }
     
-    public func formField<T: Equatable>(name: String, type: T.Type) -> Observable<FormFieldType>? {
+    public func fieldOutput<T: Equatable, S: RawRepresentable where S.RawValue == String>(name: S, type: T.Type) -> Observable<FieldState<T>>? {
+        return fieldOutput(name.rawValue, type: type)
+    }
+    
+    public func fieldOutput<T: Equatable>(name: String, type: T.Type) -> Observable<FieldState<T>>? {
         return fields[name]
+            .map { $0.map { $0 as! FieldState<T> } }
     }
     
     public var dirty: Observable<Bool> {
@@ -172,8 +187,6 @@ public struct Form {
     }
 }
 
-public protocol FieldValueConcreteType : Equatable {}
-
 public protocol FormFieldType {
     var name: String { get }
     var required: Bool { get }
@@ -188,7 +201,7 @@ public protocol FormFieldType {
     var isUserInput: Bool { get }
 }
 
-public struct FormField<T: Equatable> : FormFieldType {
+public struct FieldState<T: Equatable> : FormFieldType {
     
     public typealias ValidationRule = T -> ValidationNEL<T, ValidationError>
     
@@ -297,8 +310,8 @@ public struct FormField<T: Equatable> : FormFieldType {
         self.touched = touched
     }
     
-    public func onChange(value: T) -> FormField<T> {
-        return FormField<T>(
+    public func onChange(value: T) -> FieldState<T> {
+        return FieldState<T>(
             name: name,
             required: self.required,
             value: self.value.onChange(value),
@@ -308,12 +321,12 @@ public struct FormField<T: Equatable> : FormFieldType {
         )
     }
     
-    public func onFocus() -> FormField<T> {
+    public func onFocus() -> FieldState<T> {
         if visited {
             return self
         }
         else {
-            return FormField<T>(
+            return FieldState<T>(
                 name: name,
                 required: self.required,
                 value: value,
@@ -324,12 +337,12 @@ public struct FormField<T: Equatable> : FormFieldType {
         }
     }
     
-    public func onBlur() -> FormField<T> {
+    public func onBlur() -> FieldState<T> {
         if touched {
             return self
         }
         else {
-            return FormField<T>(
+            return FieldState<T>(
                 name: name,
                 required: self.required,
                 value: value,
@@ -341,7 +354,7 @@ public struct FormField<T: Equatable> : FormFieldType {
     }
 }
 
-public extension FormField {
+public extension FieldState {
     public func formattedErrors(separator: String = "\n") -> String? {
         guard let e = errors where !e.isEmpty else {
             return nil

@@ -20,9 +20,9 @@ final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
     let profileImageInput: PublishSubject<UIImage>
     
     // MARK: - Outputs
-    let nicknameField: Observable<FormField<String>>
-    let whatsUpField: Observable<FormField<String>>
-    let profileImageField: Observable<FormField<UIImage>>
+    let nicknameField: Observable<FieldState<String>>
+    let whatsUpField: Observable<FieldState<String>>
+    let profileImageField: Observable<FieldState<UIImage>>
     var formStatus: Observable<FormStatus> {
         return form.status
     }
@@ -66,7 +66,7 @@ final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
             .shareReplay(1)
         
         
-        let nicknameField = FormFieldFactory(
+        let nicknameField = FieldFactory(
             name: FieldName.Nickname,
             initial: me
                 .map { $0!.nickname },
@@ -81,7 +81,7 @@ final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
             return base <*> rule
         }
         
-        let whatsUpField = FormFieldFactory(
+        let whatsUpField = FieldFactory(
             name: FieldName.WhatsUp,
             initial: me
                 .map { $0!.whatsUp },
@@ -96,7 +96,7 @@ final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
             return base <*> rule
         }
         
-        let profileImageField = FormFieldFactory(
+        let profileImageField = FieldFactory(
             name: FieldName.ProfileImage,
             initial: me
                 .map { $0?.coverPhoto }
@@ -116,9 +116,9 @@ final class ProfileEditViewModel : _BaseViewModel, ViewModelInjectable {
             initialLoadTrigger: input.loadFormData,
             submitTrigger: input.submit.asObservable(),
             submitHandler: { (fields) -> Observable<FormStatus> in
-                let nickname = fields[FieldName.Nickname.rawValue] as! FormField<String>
-                let whatsUp = fields[FieldName.WhatsUp.rawValue] as! FormField<String>
-                let profileImage = fields[FieldName.ProfileImage.rawValue] as! FormField<UIImage>
+                let nickname = fields[FieldName.Nickname.rawValue] as! FieldState<String>
+                let whatsUp = fields[FieldName.WhatsUp.rawValue] as! FieldState<String>
+                let profileImage = fields[FieldName.ProfileImage.rawValue] as! FieldState<UIImage>
                 return dep.meRepository.updateProfile(nickname.inputValue, whatsUp: whatsUp.inputValue, coverPhoto: profileImage.inputValue)
                     .map { $0 ? .Submitted : .Error }
             },

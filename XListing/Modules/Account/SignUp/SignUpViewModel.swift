@@ -24,12 +24,24 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
     )
     
     // MARK: - Outputs
-    let usernameField: Observable<FormField<String>>
-    let passwordField: Observable<FormField<String>>
-    let profileImageField: Observable<FormField<UIImage>>
-    let nicknameField: Observable<FormField<String>>
-    let birthdayField: Observable<FormField<NSDate>>
-    let genderField: Observable<FormField<Gender>>
+    var usernameField: Observable<FieldState<String>> {
+        return form.fieldOutput(FieldName.Username, type: String.self)!
+    }
+    var passwordField: Observable<FieldState<String>> {
+        return form.fieldOutput(FieldName.Password, type: String.self)!
+    }
+    var profileImageField: Observable<FieldState<UIImage>> {
+        return form.fieldOutput(FieldName.ProfileImage, type: UIImage.self)!
+    }
+    var nicknameField: Observable<FieldState<String>> {
+        return form.fieldOutput(FieldName.Nickname, type: String.self)!
+    }
+    var birthdayField: Observable<FieldState<NSDate>> {
+        return form.fieldOutput(FieldName.Birthday, type: NSDate.self)!
+    }
+    var genderField: Observable<FieldState<Gender>> {
+        return form.fieldOutput(FieldName.Gender, type: Gender.self)!
+    }
     let pickerUpperLimit: NSDate
     let pickerLowerLimit: NSDate
     var formStatus: Observable<FormStatus> {
@@ -105,7 +117,7 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
         usernameAndPasswordValidator = upvm
         
         
-        let usernameField = FormFieldFactory(
+        let usernameField = FieldFactory(
             name: FieldName.Username,
             required: true,
             initialValue: nil,
@@ -113,7 +125,7 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
             validation: upvm.validateUsername
         )
         
-        let passwordField = FormFieldFactory(
+        let passwordField = FieldFactory(
             name: FieldName.Password,
             required: true,
             initialValue: nil,
@@ -121,14 +133,14 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
             validation: upvm.validatePassword
         )
         
-        let profileImageField = FormFieldFactory(
+        let profileImageField = FieldFactory(
             name: FieldName.ProfileImage,
             required: true,
             initialValue: UIImage(asset: UIImage.Asset.Profilepicture),
             input: inputs.profileImage.asObservable()
         )
         
-        let nicknameField = FormFieldFactory(
+        let nicknameField = FieldFactory(
             name: FieldName.Nickname,
             required: true,
             initialValue: nil,
@@ -142,7 +154,7 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
             return base <*> rule1
         }
         
-        let birthdayField = FormFieldFactory<NSDate>(
+        let birthdayField = FieldFactory<NSDate>(
             name: FieldName.Birthday,
             required: true,
             initialValue: nil,
@@ -157,7 +169,7 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
             return base <*> rule1
         }
         
-        let genderField = FormFieldFactory(
+        let genderField = FieldFactory(
             name: FieldName.Gender,
             required: true,
             initialValue: nil,
@@ -168,8 +180,13 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
             submitTrigger: input.submitTrigger.asObservable(),
             submitHandler: { fields -> Observable<FormStatus> in
                 guard let
-                    username = (fields[FieldName.Username.rawValue] as! FormField<String>).inputValue,
-                    password = (fields[FieldName.Password.rawValue] as! FormField<String>).inputValue else {
+                    username = (fields[FieldName.Username.rawValue] as! FieldState<String>).inputValue,
+                    password = (fields[FieldName.Password.rawValue] as! FieldState<String>).inputValue,
+                    nickname = (fields[FieldName.Nickname.rawValue] as! FieldState<String>).inputValue,
+                    birthday = (fields[FieldName.Birthday.rawValue] as! FieldState<NSDate>).inputValue,
+                    gender = (fields[FieldName.Gender.rawValue] as! FieldState<Gender>).inputValue,
+                    profileImage = (fields[FieldName.ProfileImage.rawValue] as! FieldState<UIImage>).inputValue
+                    else {
                         return Observable.just(.Error)
                 }
                 
@@ -177,10 +194,10 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
                 return dep.meRepository.signUp(
                     username,
                     password: password,
-                    nickname: "",
-                    birthday: NSDate(),
-                    gender: Gender.Female,
-                    profileImage: UIImage()
+                    nickname: nickname,
+                    birthday: birthday,
+                    gender: gender,
+                    profileImage: profileImage
                     )
                     .map { _ in .Submitted }
                     .catchErrorJustReturn(.Error)
@@ -188,17 +205,7 @@ final class SignUpViewModel : _BaseViewModel, ISignUpViewModel, ViewModelInjecta
             formField: usernameField, passwordField, profileImageField, nicknameField, birthdayField, genderField
         )
         
-        self.usernameField = usernameField.output
-        self.passwordField = passwordField.output
-        self.profileImageField = profileImageField.output
-        self.nicknameField = nicknameField.output
-        self.birthdayField = birthdayField.output
-        self.genderField = genderField.output
-        
         super.init(router: dep.router)
-        
-
-        
 
     }
     // MARK: Others
